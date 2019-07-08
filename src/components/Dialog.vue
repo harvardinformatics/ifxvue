@@ -3,6 +3,12 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: "Dialog",
+  props: {
+      componentToRender: {
+          default: "None",
+          type: String
+      }
+  },
   methods: {
     ...mapActions([
       'closeDialog'
@@ -13,7 +19,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'open'
+      'isDialogOpen'
     ])
   }
 };
@@ -21,6 +27,8 @@ export default {
 
 <template>
   <div class="text-xs-center">
-      Hello from Message
+    <v-dialog @input="triggerClose()" :value="isDialogOpen" width="700">
+      <component :is="componentToRender"></component>
+    </v-dialog>
   </div>
 </template>

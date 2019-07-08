@@ -1,22 +1,22 @@
 
 const getDefaultState = () => {
   return {
-    open: false
+    isDialogOpen: false
   }
 }
 
 const state = getDefaultState()
 
 const getters = {
-  open: state => {
-    return state.open
+  isDialogOpen: state => {
+    return state.isDialogOpen
   }
 }
 
 const actions = {
-  async openDialog(context, request) {
-    await context.dispatch('loadRequest', request)
-    await context.commit('open')
+  async openDialog(context, data) {
+    if (data) await context.dispatch('loadRequest', data)
+    await context.commit('openDialog')
   },
   closeDialog(context) {
     context.commit('close')
@@ -24,8 +24,8 @@ const actions = {
 }
 
 const mutations = {
-  open(state) {
-    state.open = true
+  openDialog(state) {
+    state.isDialogOpen = true
   },
   close(state) {
     Object.assign(state, getDefaultState())
