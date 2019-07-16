@@ -1,13 +1,13 @@
 {
-  "name": "hinfo-ui",
+  "name": "ifxvue",
   "description": "Harvard FAS Informatics User Interface Library",
-  "version": "0.1.17",
-  "main": "dist/hinfo-ui.umd.js",
+  "version": "0.2.0",
+  "main": "dist/ifxvue.umd.js",
   "license": "GPL-2.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "build-bundle": "vue-cli-service build --target lib --name hinfo-ui ./src/components/index.js"
+    "build-bundle": "vue-cli-service build --target lib --name ifxvue ./src/components/index.js"
   },
   "dependencies": {
     "core-js": "^2.6.5",
