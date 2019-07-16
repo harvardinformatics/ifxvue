@@ -6,16 +6,16 @@ User interface library built and maintained by the Harvard FAS Informatics group
 
 Using NPM:
 ```
-npm i hinfo-ui
+npm i ifxvue
 ```
 
 In main.js (or wherever Vue is instantiated):
 
 ```
 import store from './store'
-import hinfo from 'hinfo-ui'
+import ifxvue from 'ifxvue'
 
-Vue.use(hinfo, {store})
+Vue.use(ifxvue, {store})
 ```
 
 ## Components
