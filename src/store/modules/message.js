@@ -35,6 +35,8 @@ const actions = {
       // Check if error is related to field errors
       } else if (error.response && error.response.hasOwnProperty('non_field_errors')) {
         message = error.response.hasOwnProperty('data') ? error.response.data : error
+      } else if (error.response && error.response.hasOwnProperty('data') && error.response.data.hasOwnProperty('error') {
+        message = error.response.data.error
         // Otherwise generate default error message based on status
       } else if (!message) {
           console.log(error)
