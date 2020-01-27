@@ -1,13 +1,13 @@
 {
   "name": "ifxvue",
   "description": "Harvard FAS Informatics User Interface Library",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "main": "dist/ifxvue.umd.js",
   "license": "GPL-2.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "build-bundle": "vue-cli-service build --target lib --name ifxvue ./src/components/index.js"
+    "build": "vue-cli-service build --target lib --name ifxvue ./src/components/index.js"
   },
   "dependencies": {
     "core-js": "^2.6.5",
@@ -29,7 +29,7 @@
     "stylus-loader": "^3.0.1",
     "vue-cli-plugin-vuetify": "^0.5.0",
     "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.0.5"
+    "vuetify-loader": "^1.4.2"
   },
   "files": [
     "dist/*"

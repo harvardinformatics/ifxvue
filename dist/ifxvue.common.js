@@ -831,7 +831,7 @@ module.exports = function (it) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mapActions; });
 /* unused harmony export createNamespacedHelpers */
 /**
- * vuex v3.1.2
+ * vuex v3.1.1
  * (c) 2019 Evan You
  * @license MIT
  */
@@ -1140,7 +1140,6 @@ var Store = function Store (options) {
   this._modulesNamespaceMap = Object.create(null);
   this._subscribers = [];
   this._watcherVM = new Vue();
-  this._makeLocalGettersCache = Object.create(null);
 
   // bind commit and dispatch to self
   var store = this;
@@ -1348,14 +1347,12 @@ function resetStoreVM (store, state, hot) {
 
   // bind store public getters
   store.getters = {};
-  // reset local getters cache
-  store._makeLocalGettersCache = Object.create(null);
   var wrappedGetters = store._wrappedGetters;
   var computed = {};
   forEachValue(wrappedGetters, function (fn, key) {
     // use computed to leverage its lazy-caching mechanism
     // direct inline function use will lead to closure preserving oldVm.
-    // using partial to return function with only arguments preserved in closure environment.
+    // using partial to return function with only arguments preserved in closure enviroment.
     computed[key] = partial(fn, store);
     Object.defineProperty(store.getters, key, {
       get: function () { return store._vm[key]; },
@@ -1399,9 +1396,6 @@ function installModule (store, rootState, path, module, hot) {
 
   // register in namespace map
   if (module.namespaced) {
-    if (store._modulesNamespaceMap[namespace] && "production" !== 'production') {
-      console.error(("[vuex] duplicate namespace " + namespace + " for the namespaced module " + (path.join('/'))));
-    }
     store._modulesNamespaceMap[namespace] = module;
   }
 
@@ -1410,7 +1404,6 @@ function installModule (store, rootState, path, module, hot) {
     var parentState = getNestedState(rootState, path.slice(0, -1));
     var moduleName = path[path.length - 1];
     store._withCommit(function () {
-      if (false) {}
       Vue.set(parentState, moduleName, module.state);
     });
   }
@@ -1492,28 +1485,26 @@ function makeLocalContext (store, namespace, path) {
 }
 
 function makeLocalGetters (store, namespace) {
-  if (!store._makeLocalGettersCache[namespace]) {
-    var gettersProxy = {};
-    var splitPos = namespace.length;
-    Object.keys(store.getters).forEach(function (type) {
-      // skip if the target getter is not match this namespace
-      if (type.slice(0, splitPos) !== namespace) { return }
+  var gettersProxy = {};
 
-      // extract local getter type
-      var localType = type.slice(splitPos);
+  var splitPos = namespace.length;
+  Object.keys(store.getters).forEach(function (type) {
+    // skip if the target getter is not match this namespace
+    if (type.slice(0, splitPos) !== namespace) { return }
 
-      // Add a port to the getters proxy.
-      // Define as getter property because
-      // we do not want to evaluate the getters in this time.
-      Object.defineProperty(gettersProxy, localType, {
-        get: function () { return store.getters[type]; },
-        enumerable: true
-      });
+    // extract local getter type
+    var localType = type.slice(splitPos);
+
+    // Add a port to the getters proxy.
+    // Define as getter property because
+    // we do not want to evaluate the getters in this time.
+    Object.defineProperty(gettersProxy, localType, {
+      get: function () { return store.getters[type]; },
+      enumerable: true
     });
-    store._makeLocalGettersCache[namespace] = gettersProxy;
-  }
+  });
 
-  return store._makeLocalGettersCache[namespace]
+  return gettersProxy
 }
 
 function registerMutation (store, type, handler, local) {
@@ -1525,7 +1516,7 @@ function registerMutation (store, type, handler, local) {
 
 function registerAction (store, type, handler, local) {
   var entry = store._actions[type] || (store._actions[type] = []);
-  entry.push(function wrappedActionHandler (payload) {
+  entry.push(function wrappedActionHandler (payload, cb) {
     var res = handler.call(store, {
       dispatch: local.dispatch,
       commit: local.commit,
@@ -1533,7 +1524,7 @@ function registerAction (store, type, handler, local) {
       state: local.state,
       rootGetters: store.getters,
       rootState: store.state
-    }, payload);
+    }, payload, cb);
     if (!isPromise(res)) {
       res = Promise.resolve(res);
     }
@@ -1604,7 +1595,6 @@ function install (_Vue) {
  */
 var mapState = normalizeNamespace(function (namespace, states) {
   var res = {};
-  if (false) {}
   normalizeMap(states).forEach(function (ref) {
     var key = ref.key;
     var val = ref.val;
@@ -1638,7 +1628,6 @@ var mapState = normalizeNamespace(function (namespace, states) {
  */
 var mapMutations = normalizeNamespace(function (namespace, mutations) {
   var res = {};
-  if (false) {}
   normalizeMap(mutations).forEach(function (ref) {
     var key = ref.key;
     var val = ref.val;
@@ -1672,7 +1661,6 @@ var mapMutations = normalizeNamespace(function (namespace, mutations) {
  */
 var mapGetters = normalizeNamespace(function (namespace, getters) {
   var res = {};
-  if (false) {}
   normalizeMap(getters).forEach(function (ref) {
     var key = ref.key;
     var val = ref.val;
@@ -1700,7 +1688,6 @@ var mapGetters = normalizeNamespace(function (namespace, getters) {
  */
 var mapActions = normalizeNamespace(function (namespace, actions) {
   var res = {};
-  if (false) {}
   normalizeMap(actions).forEach(function (ref) {
     var key = ref.key;
     var val = ref.val;
@@ -1746,21 +1733,9 @@ var createNamespacedHelpers = function (namespace) { return ({
  * @return {Object}
  */
 function normalizeMap (map) {
-  if (!isValidMap(map)) {
-    return []
-  }
   return Array.isArray(map)
     ? map.map(function (key) { return ({ key: key, val: key }); })
     : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
-}
-
-/**
- * Validate whether given map is valid or not
- * @param {*} map
- * @return {Boolean}
- */
-function isValidMap (map) {
-  return Array.isArray(map) || isObject(map)
 }
 
 /**
@@ -1796,7 +1771,7 @@ function getModuleByNamespace (store, helper, namespace) {
 var index_esm = {
   Store: Store,
   install: install,
-  version: '3.1.2',
+  version: '3.1.1',
   mapState: mapState,
   mapMutations: mapMutations,
   mapGetters: mapGetters,
@@ -2469,7 +2444,7 @@ module.exports = function (key) {
 /***/ "584a":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.6.11' };
+var core = module.exports = { version: '2.6.9' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -3076,7 +3051,7 @@ NAME in FProto || __webpack_require__("9e1e") && dP(FProto, NAME, {
 /***/ "8378":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.6.11' };
+var core = module.exports = { version: '2.6.9' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -5119,108 +5094,110 @@ var actions = {
     var _showMessage = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee(context, payload) {
-      var message, error;
+      var message, err;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              message = payload.message; // console.log(payload.hasOwnProperty('error') && payload.error instanceof Error)
-              // Check if payload has an error object
+              message = payload.message;
+              console.log('0');
+              console.log(payload); // Check if payload has an error object
 
-              if (!(payload.hasOwnProperty('error') && payload.error instanceof Error)) {
-                _context.next = 33;
+              if (!(payload.hasOwnProperty('err') && payload.err instanceof Error)) {
+                _context.next = 34;
                 break;
               }
 
-              error = payload.error;
+              err = payload.err;
 
-              if (error.hasOwnProperty('response')) {
-                _context.next = 7;
+              if (err.hasOwnProperty('response')) {
+                _context.next = 9;
                 break;
               }
 
-              message = error; // Check if error is related to field errors
+              message = err; // Check if error is related to field errors
 
-              _context.next = 31;
+              _context.next = 32;
               break;
 
-            case 7:
-              if (!(error.response && error.response.hasOwnProperty('non_field_errors'))) {
-                _context.next = 11;
+            case 9:
+              if (!(err.response && err.response.hasOwnProperty('non_field_errors'))) {
+                _context.next = 13;
                 break;
               }
 
-              message = error.response.hasOwnProperty('data') ? error.response.data : error;
-              _context.next = 31;
+              message = err.response.hasOwnProperty('data') ? err.response.data : err;
+              _context.next = 32;
               break;
 
-            case 11:
-              if (!(error.response && error.response.hasOwnProperty('data') && error.response.data.hasOwnProperty('error'))) {
-                _context.next = 15;
+            case 13:
+              if (!(err.response && err.response.hasOwnProperty('data') && err.response.data.hasOwnProperty('error'))) {
+                _context.next = 17;
                 break;
               }
 
-              message = error.response.data.error; // Otherwise generate default error message based on status
+              message = err.response.data.error; // Otherwise generate default error message based on status
 
-              _context.next = 31;
+              _context.next = 32;
               break;
 
-            case 15:
+            case 17:
               if (message) {
-                _context.next = 31;
+                _context.next = 32;
                 break;
               }
 
-              console.log(error);
-              _context.t0 = error.response.status;
-              _context.next = _context.t0 === 400 ? 20 : _context.t0 === 401 ? 22 : _context.t0 === 403 ? 24 : _context.t0 === 404 ? 26 : _context.t0 === 500 ? 28 : 30;
+              _context.t0 = err.response.status;
+              _context.next = _context.t0 === 400 ? 21 : _context.t0 === 401 ? 23 : _context.t0 === 403 ? 25 : _context.t0 === 404 ? 27 : _context.t0 === 500 ? 29 : 31;
               break;
 
-            case 20:
-              message = 'Malformed edit: ' + JSON.stringify(error.response.data);
-              return _context.abrupt("break", 31);
+            case 21:
+              message = 'Malformed edit: ' + JSON.stringify(err.response.data);
+              return _context.abrupt("break", 32);
 
-            case 22:
-              if (error.response && error.response.hasOwnProperty('data')) {
-                message = error.response.data.error;
+            case 23:
+              if (err.response && err.response.hasOwnProperty('data')) {
+                message = err.response.data.err;
               } else {
                 message = 'You are not authorized to use this application.';
               }
 
-              return _context.abrupt("break", 31);
+              return _context.abrupt("break", 32);
 
-            case 24:
+            case 25:
               message = 'You are not allowed to modify this record.';
-              return _context.abrupt("break", 31);
+              return _context.abrupt("break", 32);
 
-            case 26:
+            case 27:
               message = 'Unable to find the URL you are looking for.';
-              return _context.abrupt("break", 31);
+              return _context.abrupt("break", 32);
 
-            case 28:
+            case 29:
               message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
-              return _context.abrupt("break", 31);
-
-            case 30:
-              message = 'Error accessing this URL: ' + JSON.stringify(error.response);
+              return _context.abrupt("break", 32);
 
             case 31:
-              _context.next = 34;
+              message = 'Error accessing this URL: ' + JSON.stringify(err.response);
+
+            case 32:
+              _context.next = 35;
               break;
 
-            case 33:
-              if (payload.hasOwnProperty('response') && !message) {// message = payload.response.data
+            case 34:
+              if (payload.hasOwnProperty('response') && !message) {
+                message = payload.response.data;
               }
 
-            case 34:
-              _context.next = 36;
+            case 35:
+              console.log('1');
+              _context.next = 38;
               return context.commit('showMessage', message);
 
-            case 36:
-              _context.next = 38;
+            case 38:
+              _context.next = 40;
               return context.commit('activate');
 
-            case 38:
+            case 40:
             case "end":
               return _context.stop();
           }
@@ -5323,8 +5300,8 @@ var dialog_mutations = {
   actions: dialog_actions,
   mutations: dialog_mutations
 });
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"68146f62-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--18-0!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Message.vue?vue&type=template&id=64028034&
-var Messagevue_type_template_id_64028034_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-snackbar',{attrs:{"vertical":_vm.vertical,"top":_vm.top,"bottom":_vm.bottom,"left":_vm.left,"right":_vm.right,"color":_vm.color,"multi-line":_vm.multiline,"timeout":_vm.timeout},model:{value:(_vm.active),callback:function ($$v) {_vm.active=$$v},expression:"active"}},[_vm._v("\n"+_vm._s(_vm.message)+"\n"),_c('v-btn',{attrs:{"color":"white","flat":""},on:{"click":_vm.deactivate}},[_vm._v("\n    Close\n")])],1)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"7b7520e2-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--18-0!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Message.vue?vue&type=template&id=64028034&
+var Messagevue_type_template_id_64028034_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-snackbar',{attrs:{"vertical":_vm.vertical,"top":_vm.top,"bottom":_vm.bottom,"left":_vm.left,"right":_vm.right,"color":_vm.color,"multi-line":_vm.multiline,"timeout":_vm.timeout},model:{value:(_vm.active),callback:function ($$v) {_vm.active=$$v},expression:"active"}},[_vm._v(" "+_vm._s(_vm.message)+" "),_c('v-btn',{attrs:{"color":"white","flat":""},on:{"click":_vm.deactivate}},[_vm._v(" Close ")])],1)}
 var staticRenderFns = []
 
 
@@ -5367,9 +5344,9 @@ var vuex_esm = __webpack_require__("2f62");
 
 
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 /* harmony default export */ var Messagevue_type_script_lang_js_ = ({
@@ -6898,7 +6875,7 @@ var component = normalizeComponent(
 
 installComponents_default()(component, {VBtn: VBtn,VSnackbar: VSnackbar})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"68146f62-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--18-0!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dialog.vue?vue&type=template&id=0ee65cb9&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"7b7520e2-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--18-0!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dialog.vue?vue&type=template&id=0ee65cb9&
 var Dialogvue_type_template_id_0ee65cb9_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"text-xs-center"},[_c('v-dialog',{attrs:{"value":_vm.isDialogOpen,"width":"700"},on:{"input":function($event){return _vm.triggerClose()}}},[_c(_vm.componentToRender,{tag:"component"})],1)],1)}
 var Dialogvue_type_template_id_0ee65cb9_staticRenderFns = []
 
@@ -6912,9 +6889,9 @@ var Dialogvue_type_template_id_0ee65cb9_staticRenderFns = []
 
 
 
-function Dialogvue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function Dialogvue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
 
-function Dialogvue_type_script_lang_js_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Dialogvue_type_script_lang_js_ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Dialogvue_type_script_lang_js_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function Dialogvue_type_script_lang_js_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Dialogvue_type_script_lang_js_ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Dialogvue_type_script_lang_js_ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 /* harmony default export */ var Dialogvue_type_script_lang_js_ = ({
@@ -7577,6 +7554,7 @@ function VDialog_defineProperty(obj, key, value) { if (key in obj) { Object.defi
                 this.hideScroll();
             } else {
                 this.removeOverlay();
+                this.unbind();
             }
         },
         fullscreen: function fullscreen(val) {
@@ -7603,6 +7581,9 @@ function VDialog_defineProperty(obj, key, value) { if (key in obj) { Object.defi
             consoleError('v-dialog\'s activator slot must be bound, try \'<template #activator="data"><v-btn v-on="data.on>\'', this);
         }
     },
+    beforeDestroy: function beforeDestroy() {
+        if (typeof window !== 'undefined') this.unbind();
+    },
 
     methods: {
         animateClick: function animateClick() {
@@ -7623,7 +7604,7 @@ function VDialog_defineProperty(obj, key, value) { if (key in obj) { Object.defi
             // If the dialog content contains
             // the click event, or if the
             // dialog is not active
-            if (this._isDestroyed || !this.isActive || this.$refs.content.contains(e.target)) return false;
+            if (!this.isActive || this.$refs.content.contains(e.target)) return false;
             // If we made it here, the click is outside
             // and is active. If persistent, and the
             // click is on the overlay, animate
@@ -7645,6 +7626,13 @@ function VDialog_defineProperty(obj, key, value) { if (key in obj) { Object.defi
         show: function show() {
             !this.fullscreen && !this.hideOverlay && this.genOverlay();
             this.$refs.content.focus();
+            this.bind();
+        },
+        bind: function bind() {
+            window.addEventListener('focusin', this.onFocusin);
+        },
+        unbind: function unbind() {
+            window.removeEventListener('focusin', this.onFocusin);
         },
         onKeydown: function onKeydown(e) {
             if (e.keyCode === keyCodes.esc && !this.getOpenDependents().length) {
@@ -7659,6 +7647,27 @@ function VDialog_defineProperty(obj, key, value) { if (key in obj) { Object.defi
                 }
             }
             this.$emit('keydown', e);
+        },
+        onFocusin: function onFocusin(e) {
+            var target = e.target;
+
+            if (
+            // It isn't the document or the dialog body
+            ![document, this.$refs.content].includes(target) &&
+            // It isn't inside the dialog body
+            !this.$refs.content.contains(target) &&
+            // We're the topmost dialog
+            this.activeZIndex >= this.getMaxZIndex() &&
+            // It isn't inside a dependent element (like a menu)
+            !this.getOpenDependentElements().some(function (el) {
+                return el.contains(target);
+            })
+            // So we must have focused something outside the dialog and its children
+            ) {
+                    // Find and focus the first available element inside the dialog
+                    var focusable = this.$refs.content.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    focusable.length && focusable[0].focus();
+                }
         },
         getActivator: function getActivator(e) {
             if (this.$refs.activator) {
