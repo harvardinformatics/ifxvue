@@ -25,8 +25,8 @@ const actions = {
     context.commit('deactivate')
   },
   async showMessage(context, payload) {
+    console.log("messagea")
     let { message } = payload
-    // console.log(payload.hasOwnProperty('error') && payload.error instanceof Error)
     // Check if payload has an error object
     if (payload.hasOwnProperty('error') && payload.error instanceof Error) {
       let { error } = payload
@@ -39,7 +39,6 @@ const actions = {
         message = error.response.data.error
         // Otherwise generate default error message based on status
       } else if (!message) {
-          console.log(error)
           switch (error.response.status) {
             case 400:
               message = 'Malformed edit: ' + JSON.stringify(error.response.data)
