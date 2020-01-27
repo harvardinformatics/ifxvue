@@ -5099,105 +5099,102 @@ var actions = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              message = payload.message;
-              console.log('0');
-              console.log(payload); // Check if payload has an error object
+              message = payload.message; // Check if payload has an error object
 
               if (!(payload.hasOwnProperty('err') && payload.err instanceof Error)) {
-                _context.next = 34;
+                _context.next = 32;
                 break;
               }
 
               err = payload.err;
 
               if (err.hasOwnProperty('response')) {
-                _context.next = 9;
+                _context.next = 7;
                 break;
               }
 
               message = err; // Check if error is related to field errors
 
-              _context.next = 32;
+              _context.next = 30;
               break;
 
-            case 9:
+            case 7:
               if (!(err.response && err.response.hasOwnProperty('non_field_errors'))) {
-                _context.next = 13;
+                _context.next = 11;
                 break;
               }
 
               message = err.response.hasOwnProperty('data') ? err.response.data : err;
-              _context.next = 32;
+              _context.next = 30;
               break;
 
-            case 13:
+            case 11:
               if (!(err.response && err.response.hasOwnProperty('data') && err.response.data.hasOwnProperty('error'))) {
-                _context.next = 17;
+                _context.next = 15;
                 break;
               }
 
               message = err.response.data.error; // Otherwise generate default error message based on status
 
-              _context.next = 32;
+              _context.next = 30;
               break;
 
-            case 17:
+            case 15:
               if (message) {
-                _context.next = 32;
+                _context.next = 30;
                 break;
               }
 
               _context.t0 = err.response.status;
-              _context.next = _context.t0 === 400 ? 21 : _context.t0 === 401 ? 23 : _context.t0 === 403 ? 25 : _context.t0 === 404 ? 27 : _context.t0 === 500 ? 29 : 31;
+              _context.next = _context.t0 === 400 ? 19 : _context.t0 === 401 ? 21 : _context.t0 === 403 ? 23 : _context.t0 === 404 ? 25 : _context.t0 === 500 ? 27 : 29;
               break;
 
-            case 21:
+            case 19:
               message = 'Malformed edit: ' + JSON.stringify(err.response.data);
-              return _context.abrupt("break", 32);
+              return _context.abrupt("break", 30);
 
-            case 23:
+            case 21:
               if (err.response && err.response.hasOwnProperty('data')) {
                 message = err.response.data.err;
               } else {
                 message = 'You are not authorized to use this application.';
               }
 
-              return _context.abrupt("break", 32);
+              return _context.abrupt("break", 30);
+
+            case 23:
+              message = 'You are not allowed to modify this record.';
+              return _context.abrupt("break", 30);
 
             case 25:
-              message = 'You are not allowed to modify this record.';
-              return _context.abrupt("break", 32);
+              message = 'Unable to find the URL you are looking for.';
+              return _context.abrupt("break", 30);
 
             case 27:
-              message = 'Unable to find the URL you are looking for.';
-              return _context.abrupt("break", 32);
+              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
+              return _context.abrupt("break", 30);
 
             case 29:
-              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
-              return _context.abrupt("break", 32);
-
-            case 31:
               message = 'Error accessing this URL: ' + JSON.stringify(err.response);
 
-            case 32:
-              _context.next = 35;
+            case 30:
+              _context.next = 33;
               break;
 
-            case 34:
+            case 32:
               if (payload.hasOwnProperty('response') && !message) {
                 message = payload.response.data;
               }
 
-            case 35:
-              console.log('1');
-              _context.next = 38;
+            case 33:
+              _context.next = 35;
               return context.commit('showMessage', message);
 
-            case 38:
-              _context.next = 40;
+            case 35:
+              _context.next = 37;
               return context.commit('activate');
 
-            case 40:
+            case 37:
             case "end":
               return _context.stop();
           }

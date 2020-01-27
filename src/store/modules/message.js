@@ -26,8 +26,6 @@ const actions = {
   },
   async showMessage(context, payload) {
     let { message } = payload
-    console.log('0')
-    console.log(payload)
     // Check if payload has an error object
     if (payload.hasOwnProperty('err') && payload.err instanceof Error) {
       let { err } = payload
@@ -68,7 +66,6 @@ const actions = {
     } else if (payload.hasOwnProperty('response') && !message) {
       message = payload.response.data
     }
-    console.log('1')
     await context.commit('showMessage', message)
     await context.commit('activate')
   }
