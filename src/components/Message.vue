@@ -66,7 +66,7 @@ export default {
     :right="right"
     :color="color"
     :multi-line="multiline"
-    :timeout="message.length / 30 * 1000"
+    :timeout="message.length / 30 * 1000 + 1000"
   >
     {{message}}
     <v-btn color="white" flat @click="deactivate">Close</v-btn>
