@@ -5113,58 +5113,68 @@ var actions = {
               console.log(payload); // Check if payload has an error object
 
               if (!Object.prototype.hasOwnProperty.call(payload, 'response')) {
-                _context.next = 7;
+                _context.next = 26;
                 break;
               }
 
-              if (Object.prototype.hasOwnProperty.call(payload.response, 'non_field_errors')) {
-                // payload.response.non_field_errors, usually from validation
-                message = payload.response.non_field_errors;
-              } else if (Object.prototype.hasOwnProperty.call(payload.response, 'data') && Object.prototype.hasOwnProperty.call(payload.response.data, 'error')) {
-                // Manually set 'error' in response data
-                message = payload.response.data.error;
+              if (!Object.prototype.hasOwnProperty.call(payload.response, 'non_field_errors')) {
+                _context.next = 8;
+                break;
               }
 
-              _context.next = 21;
+              // payload.response.non_field_errors, usually from validation
+              message = payload.response.non_field_errors;
+              _context.next = 26;
               break;
 
-            case 7:
-              _context.t0 = payload.response.status;
-              _context.next = _context.t0 === 400 ? 10 : _context.t0 === 401 ? 12 : _context.t0 === 403 ? 14 : _context.t0 === 404 ? 16 : _context.t0 === 500 ? 18 : 20;
-              break;
+            case 8:
+              if (!(Object.prototype.hasOwnProperty.call(payload.response, 'data') && Object.prototype.hasOwnProperty.call(payload.response.data, 'error'))) {
+                _context.next = 12;
+                break;
+              }
 
-            case 10:
-              message = 'Malformed edit';
-              return _context.abrupt("break", 21);
+              // Manually set 'error' in response data
+              message = payload.response.data.error;
+              _context.next = 26;
+              break;
 
             case 12:
+              _context.t0 = payload.response.status;
+              _context.next = _context.t0 === 400 ? 15 : _context.t0 === 401 ? 17 : _context.t0 === 403 ? 19 : _context.t0 === 404 ? 21 : _context.t0 === 500 ? 23 : 25;
+              break;
+
+            case 15:
+              message = 'Malformed edit';
+              return _context.abrupt("break", 26);
+
+            case 17:
               message = 'You are not authorized to use this application.';
-              return _context.abrupt("break", 21);
+              return _context.abrupt("break", 26);
 
-            case 14:
+            case 19:
               message = 'You are not allowed to modify this record.';
-              return _context.abrupt("break", 21);
-
-            case 16:
-              message = 'Unable to find the URL you are looking for.';
-              return _context.abrupt("break", 21);
-
-            case 18:
-              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
-              return _context.abrupt("break", 21);
-
-            case 20:
-              message = 'Error accessing this URL: ' + JSON.stringify(payload);
+              return _context.abrupt("break", 26);
 
             case 21:
-              _context.next = 23;
-              return context.commit('showMessage', message);
+              message = 'Unable to find the URL you are looking for.';
+              return _context.abrupt("break", 26);
 
             case 23:
-              _context.next = 25;
-              return context.commit('activate');
+              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
+              return _context.abrupt("break", 26);
 
             case 25:
+              message = 'Error accessing this URL: ' + JSON.stringify(payload);
+
+            case 26:
+              _context.next = 28;
+              return context.commit('showMessage', message);
+
+            case 28:
+              _context.next = 30;
+              return context.commit('activate');
+
+            case 30:
             case "end":
               return _context.stop();
           }

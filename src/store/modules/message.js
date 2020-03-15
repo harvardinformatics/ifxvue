@@ -39,7 +39,6 @@ const actions = {
       ) {
         // Manually set 'error' in response data
         message = payload.response.data.error
-      }
       } else {
         switch (payload.response.status) {
           case 400:
@@ -60,6 +59,7 @@ const actions = {
           default:
             message = 'Error accessing this URL: ' + JSON.stringify(payload)
         }
+      }
     }
     await context.commit('showMessage', message)
     await context.commit('activate')
