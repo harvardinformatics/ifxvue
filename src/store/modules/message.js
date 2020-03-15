@@ -26,14 +26,18 @@ const actions = {
   },
   async showMessage(context, payload) {
     let { message } = payload
+    console.log('payload')
+    console.log(payload)
     // Check if payload has an error object
     if (payload.hasOwnProperty('err') && payload.err instanceof Error) {
-      let { err } = payload
+      console.log('payload has err')
+      console.log(payload.err)
+      let { err } = payload.err
       if (!err.hasOwnProperty('response')) {
         message = err
       // Check if error is related to field errors
       } else if (err.response && err.response.hasOwnProperty('non_field_errors')) {
-        message = err.response.hasOwnProperty('data') ? err.response.data : err
+        message = err.response.non_field_errors
       } else if (err.response && err.response.hasOwnProperty('data') && err.response.data.hasOwnProperty('error')) {
         message = err.response.data.error
         // Otherwise generate default error message based on status
@@ -44,7 +48,7 @@ const actions = {
               break
             case 401:
               if (err.response && err.response.hasOwnProperty('data')){
-                message = err.response.data.err
+                message = err.response.data.error
               } else {
                 message = 'You are not authorized to use this application.'
               }
