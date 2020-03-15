@@ -26,8 +26,6 @@ const actions = {
   },
   async showMessage(context, payload) {
     let { message } = payload
-    console.log('payload')
-    console.log(payload)
     // Check if payload has an error object
     if (Object.prototype.hasOwnProperty.call(payload, 'response')) {
       if (Object.prototype.hasOwnProperty.call(payload.response, 'non_field_errors')) {

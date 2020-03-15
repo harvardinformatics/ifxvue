@@ -5099,73 +5099,71 @@ var actions = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              message = payload.message;
-              console.log('payload');
-              console.log(payload); // Check if payload has an error object
+              message = payload.message; // Check if payload has an error object
 
               if (!Object.prototype.hasOwnProperty.call(payload, 'response')) {
-                _context.next = 26;
+                _context.next = 24;
                 break;
               }
 
               if (!Object.prototype.hasOwnProperty.call(payload.response, 'non_field_errors')) {
-                _context.next = 8;
+                _context.next = 6;
                 break;
               }
 
               // payload.response.non_field_errors, usually from validation
               message = payload.response.non_field_errors;
-              _context.next = 26;
+              _context.next = 24;
               break;
 
-            case 8:
+            case 6:
               if (!(Object.prototype.hasOwnProperty.call(payload.response, 'data') && Object.prototype.hasOwnProperty.call(payload.response.data, 'error'))) {
-                _context.next = 12;
+                _context.next = 10;
                 break;
               }
 
               // Manually set 'error' in response data
               message = payload.response.data.error;
-              _context.next = 26;
+              _context.next = 24;
               break;
 
-            case 12:
+            case 10:
               _context.t0 = payload.response.status;
-              _context.next = _context.t0 === 400 ? 15 : _context.t0 === 401 ? 17 : _context.t0 === 403 ? 19 : _context.t0 === 404 ? 21 : _context.t0 === 500 ? 23 : 25;
+              _context.next = _context.t0 === 400 ? 13 : _context.t0 === 401 ? 15 : _context.t0 === 403 ? 17 : _context.t0 === 404 ? 19 : _context.t0 === 500 ? 21 : 23;
               break;
+
+            case 13:
+              message = 'Malformed edit';
+              return _context.abrupt("break", 24);
 
             case 15:
-              message = 'Malformed edit';
-              return _context.abrupt("break", 26);
+              message = 'You are not authorized to use this application.';
+              return _context.abrupt("break", 24);
 
             case 17:
-              message = 'You are not authorized to use this application.';
-              return _context.abrupt("break", 26);
+              message = 'You are not allowed to modify this record.';
+              return _context.abrupt("break", 24);
 
             case 19:
-              message = 'You are not allowed to modify this record.';
-              return _context.abrupt("break", 26);
+              message = 'Unable to find the URL you are looking for.';
+              return _context.abrupt("break", 24);
 
             case 21:
-              message = 'Unable to find the URL you are looking for.';
-              return _context.abrupt("break", 26);
+              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
+              return _context.abrupt("break", 24);
 
             case 23:
-              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
-              return _context.abrupt("break", 26);
-
-            case 25:
               message = 'Error accessing this URL: ' + JSON.stringify(payload);
+
+            case 24:
+              _context.next = 26;
+              return context.commit('showMessage', message);
 
             case 26:
               _context.next = 28;
-              return context.commit('showMessage', message);
-
-            case 28:
-              _context.next = 30;
               return context.commit('activate');
 
-            case 30:
+            case 28:
             case "end":
               return _context.stop();
           }
@@ -5268,12 +5266,12 @@ var dialog_mutations = {
   actions: dialog_actions,
   mutations: dialog_mutations
 });
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3e509257-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--18-0!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Message.vue?vue&type=template&id=d4c5f2ce&
-var Messagevue_type_template_id_d4c5f2ce_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-snackbar',{attrs:{"vertical":_vm.vertical,"top":_vm.top,"bottom":_vm.bottom,"left":_vm.left,"right":_vm.right,"color":_vm.color,"multi-line":_vm.multiline,"timeout":_vm.message.length / 30 * 1000},model:{value:(_vm.active),callback:function ($$v) {_vm.active=$$v},expression:"active"}},[_vm._v(" "+_vm._s(_vm.message)+" "),_c('v-btn',{attrs:{"color":"white","flat":""},on:{"click":_vm.deactivate}},[_vm._v("Close")])],1)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e239d4c0-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--18-0!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Message.vue?vue&type=template&id=838e61d2&
+var Messagevue_type_template_id_838e61d2_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-snackbar',{attrs:{"vertical":_vm.vertical,"top":_vm.top,"bottom":_vm.bottom,"left":_vm.left,"right":_vm.right,"color":_vm.color,"multi-line":_vm.multiline,"timeout":_vm.message.length / 30 * 1000 + 1000},model:{value:(_vm.active),callback:function ($$v) {_vm.active=$$v},expression:"active"}},[_vm._v(" "+_vm._s(_vm.message)+" "),_c('v-btn',{attrs:{"color":"white","flat":""},on:{"click":_vm.deactivate}},[_vm._v("Close")])],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Message.vue?vue&type=template&id=d4c5f2ce&
+// CONCATENATED MODULE: ./src/components/Message.vue?vue&type=template&id=838e61d2&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js
 var es7_object_get_own_property_descriptors = __webpack_require__("8e6e");
@@ -6826,7 +6824,7 @@ var _snackbars = __webpack_require__("0094");
 
 var component = normalizeComponent(
   components_Messagevue_type_script_lang_js_,
-  Messagevue_type_template_id_d4c5f2ce_render,
+  Messagevue_type_template_id_838e61d2_render,
   staticRenderFns,
   false,
   null,
@@ -6843,7 +6841,7 @@ var component = normalizeComponent(
 
 installComponents_default()(component, {VBtn: VBtn,VSnackbar: VSnackbar})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3e509257-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--18-0!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dialog.vue?vue&type=template&id=7a5b7efe&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e239d4c0-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--18-0!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dialog.vue?vue&type=template&id=7a5b7efe&
 var Dialogvue_type_template_id_7a5b7efe_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"text-xs-center"},[_c('v-dialog',{attrs:{"value":_vm.isDialogOpen,"width":"700"},on:{"input":function($event){return _vm.triggerClose()}}},[_c(_vm.componentToRender,{tag:"component"})],1)],1)}
 var Dialogvue_type_template_id_7a5b7efe_staticRenderFns = []
 

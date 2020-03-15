@@ -10,7 +10,9 @@
     "build": "vue-cli-service build --target lib --name ifxvue ./src/components/index.js"
   },
   "dependencies": {
+    "acorn": ">=6.4.1 <7.0.0",
     "core-js": "^2.6.5",
+    "kind-of": ">=6.0.3",
     "vue": "^2.6.10",
     "vuetify": "^1.5.5",
     "vuex": "^3.0.1"
