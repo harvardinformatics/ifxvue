@@ -5103,7 +5103,7 @@ var actions = {
     var _showMessage = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee(context, payload) {
-      var message, err;
+      var message;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -5112,102 +5112,59 @@ var actions = {
               console.log('payload');
               console.log(payload); // Check if payload has an error object
 
-              if (!(payload.hasOwnProperty('err') && payload.err instanceof Error)) {
-                _context.next = 36;
+              if (!Object.prototype.hasOwnProperty.call(payload, 'response')) {
+                _context.next = 7;
                 break;
               }
 
-              console.log('payload has err');
-              console.log(payload.err);
-              err = payload.err.err;
-
-              if (err.hasOwnProperty('response')) {
-                _context.next = 11;
-                break;
+              if (Object.prototype.hasOwnProperty.call(payload.response, 'non_field_errors')) {
+                // payload.response.non_field_errors, usually from validation
+                message = payload.response.non_field_errors;
+              } else if (Object.prototype.hasOwnProperty.call(payload.response, 'data') && Object.prototype.hasOwnProperty.call(payload.response.data, 'error')) {
+                // Manually set 'error' in response data
+                message = payload.response.data.error;
               }
 
-              message = err; // Check if error is related to field errors
-
-              _context.next = 34;
+              _context.next = 21;
               break;
 
-            case 11:
-              if (!(err.response && err.response.hasOwnProperty('non_field_errors'))) {
-                _context.next = 15;
-                break;
-              }
-
-              message = err.response.non_field_errors;
-              _context.next = 34;
+            case 7:
+              _context.t0 = payload.response.status;
+              _context.next = _context.t0 === 400 ? 10 : _context.t0 === 401 ? 12 : _context.t0 === 403 ? 14 : _context.t0 === 404 ? 16 : _context.t0 === 500 ? 18 : 20;
               break;
 
-            case 15:
-              if (!(err.response && err.response.hasOwnProperty('data') && err.response.data.hasOwnProperty('error'))) {
-                _context.next = 19;
-                break;
-              }
+            case 10:
+              message = 'Malformed edit';
+              return _context.abrupt("break", 21);
 
-              message = err.response.data.error; // Otherwise generate default error message based on status
+            case 12:
+              message = 'You are not authorized to use this application.';
+              return _context.abrupt("break", 21);
 
-              _context.next = 34;
-              break;
-
-            case 19:
-              if (message) {
-                _context.next = 34;
-                break;
-              }
-
-              _context.t0 = err.response.status;
-              _context.next = _context.t0 === 400 ? 23 : _context.t0 === 401 ? 25 : _context.t0 === 403 ? 27 : _context.t0 === 404 ? 29 : _context.t0 === 500 ? 31 : 33;
-              break;
-
-            case 23:
-              message = 'Malformed edit: ' + JSON.stringify(err.response.data);
-              return _context.abrupt("break", 34);
-
-            case 25:
-              if (err.response && err.response.hasOwnProperty('data')) {
-                message = err.response.data.error;
-              } else {
-                message = 'You are not authorized to use this application.';
-              }
-
-              return _context.abrupt("break", 34);
-
-            case 27:
+            case 14:
               message = 'You are not allowed to modify this record.';
-              return _context.abrupt("break", 34);
+              return _context.abrupt("break", 21);
 
-            case 29:
+            case 16:
               message = 'Unable to find the URL you are looking for.';
-              return _context.abrupt("break", 34);
+              return _context.abrupt("break", 21);
 
-            case 31:
+            case 18:
               message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
-              return _context.abrupt("break", 34);
+              return _context.abrupt("break", 21);
 
-            case 33:
-              message = 'Error accessing this URL: ' + JSON.stringify(err.response);
+            case 20:
+              message = 'Error accessing this URL: ' + JSON.stringify(payload);
 
-            case 34:
-              _context.next = 37;
-              break;
-
-            case 36:
-              if (payload.hasOwnProperty('response') && !message) {
-                message = payload.response.data;
-              }
-
-            case 37:
-              _context.next = 39;
+            case 21:
+              _context.next = 23;
               return context.commit('showMessage', message);
 
-            case 39:
-              _context.next = 41;
+            case 23:
+              _context.next = 25;
               return context.commit('activate');
 
-            case 41:
+            case 25:
             case "end":
               return _context.stop();
           }

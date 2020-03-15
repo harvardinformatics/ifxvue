@@ -29,46 +29,37 @@ const actions = {
     console.log('payload')
     console.log(payload)
     // Check if payload has an error object
-    if (payload.hasOwnProperty('err') && payload.err instanceof Error) {
-      console.log('payload has err')
-      console.log(payload.err)
-      let { err } = payload.err
-      if (!err.hasOwnProperty('response')) {
-        message = err
-      // Check if error is related to field errors
-      } else if (err.response && err.response.hasOwnProperty('non_field_errors')) {
-        message = err.response.non_field_errors
-      } else if (err.response && err.response.hasOwnProperty('data') && err.response.data.hasOwnProperty('error')) {
-        message = err.response.data.error
-        // Otherwise generate default error message based on status
-      } else if (!message) {
-          switch (err.response.status) {
-            case 400:
-              message = 'Malformed edit: ' + JSON.stringify(err.response.data)
-              break
-            case 401:
-              if (err.response && err.response.hasOwnProperty('data')){
-                message = err.response.data.error
-              } else {
-                message = 'You are not authorized to use this application.'
-              }
-              break
-            case 403:
-              message = 'You are not allowed to modify this record.'
-              break
-            case 404:
-              message = 'Unable to find the URL you are looking for.'
-              break
-            case 500:
-              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu'
-              break
-            default:
-              message = 'Error accessing this URL: ' + JSON.stringify(err.response)
-          }
+    if (Object.prototype.hasOwnProperty.call(payload, 'response')) {
+      if (Object.prototype.hasOwnProperty.call(payload.response, 'non_field_errors')) {
+        // payload.response.non_field_errors, usually from validation
+        message = payload.response.non_field_errors
+      } else if (
+        Object.prototype.hasOwnProperty.call(payload.response, 'data') &&
+        Object.prototype.hasOwnProperty.call(payload.response.data, 'error')
+      ) {
+        // Manually set 'error' in response data
+        message = payload.response.data.error
       }
-    //   // Check if payload has response object and no message
-    } else if (payload.hasOwnProperty('response') && !message) {
-      message = payload.response.data
+      } else {
+        switch (payload.response.status) {
+          case 400:
+            message = 'Malformed edit'
+            break
+          case 401:
+            message = 'You are not authorized to use this application.'
+            break
+          case 403:
+            message = 'You are not allowed to modify this record.'
+            break
+          case 404:
+            message = 'Unable to find the URL you are looking for.'
+            break
+          case 500:
+            message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu'
+            break
+          default:
+            message = 'Error accessing this URL: ' + JSON.stringify(payload)
+        }
     }
     await context.commit('showMessage', message)
     await context.commit('activate')
