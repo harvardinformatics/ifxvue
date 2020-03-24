@@ -59,6 +59,10 @@ const actions = {
         }
       }
     }
+    if (!message) {
+      message = 'Error'
+      console.log(payload)
+    }
     await context.commit('showMessage', message)
     await context.commit('activate')
   }
