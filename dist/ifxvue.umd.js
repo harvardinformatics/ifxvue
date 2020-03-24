@@ -5165,14 +5165,19 @@ var actions = {
               message = 'Error accessing this URL: ' + JSON.stringify(payload);
 
             case 24:
-              _context.next = 26;
+              if (!message) {
+                message = 'Error';
+                console.log(payload);
+              }
+
+              _context.next = 27;
               return context.commit('showMessage', message);
 
-            case 26:
-              _context.next = 28;
+            case 27:
+              _context.next = 29;
               return context.commit('activate');
 
-            case 28:
+            case 29:
             case "end":
               return _context.stop();
           }
