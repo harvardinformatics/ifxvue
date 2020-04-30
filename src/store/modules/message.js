@@ -25,6 +25,7 @@ const actions = {
     context.commit('deactivate')
   },
   async showMessage(context, payload) {
+    console.log('fuck you')
     console.log('payload')
     console.log(payload)
     let { message } = payload
