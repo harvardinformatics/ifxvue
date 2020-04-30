@@ -29,8 +29,12 @@ const actions = {
     console.log(payload)
     let { message } = payload
     console.log(message)
-    if (payload.hasOwnProperty('message') && payload.message === 'Network Error'){
-      console.log('it is a network error')
+    if (payload.hasOwnProperty('message')){
+      console.log('message from payload')
+      console.log(payload.message)
+      if (payload.message === 'Network Error') {
+        console.log('it is a network error')
+      }
     }
     // Check if payload has an error object
     if (payload.hasOwnProperty('response') && payload.response) {
@@ -46,11 +50,11 @@ const actions = {
         console.log(payload.response.name)
         console.log(payload.response.message)
       }
-      if (payload.response.hasOwnProperty('non_field_errors')) {
+      if (payload.response && payload.response.hasOwnProperty('non_field_errors')) {
         console.log('non field errors')
         // payload.response.non_field_errors, usually from validation
         message = payload.response.non_field_errors
-      } else if (payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error')
+      } else if (payload.response && payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error')
       ) {
         // Manually set 'error' in response data
         console.log('There is a response.data.error property')

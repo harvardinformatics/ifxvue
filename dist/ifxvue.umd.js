@@ -5114,8 +5114,13 @@ var actions = {
               message = payload.message;
               console.log(message);
 
-              if (payload.hasOwnProperty('message') && payload.message === 'Network Error') {
-                console.log('it is a network error');
+              if (payload.hasOwnProperty('message')) {
+                console.log('message from payload');
+                console.log(payload.message);
+
+                if (payload.message === 'Network Error') {
+                  console.log('it is a network error');
+                }
               } // Check if payload has an error object
 
 
@@ -5139,7 +5144,7 @@ var actions = {
                 console.log(payload.response.message);
               }
 
-              if (!payload.response.hasOwnProperty('non_field_errors')) {
+              if (!(payload.response && payload.response.hasOwnProperty('non_field_errors'))) {
                 _context.next = 15;
                 break;
               }
@@ -5151,7 +5156,7 @@ var actions = {
               break;
 
             case 15:
-              if (!(payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error'))) {
+              if (!(payload.response && payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error'))) {
                 _context.next = 20;
                 break;
               }
