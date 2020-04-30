@@ -29,8 +29,11 @@ const actions = {
     console.log(payload)
     let { message } = payload
     console.log(message)
+    if (payload.hasOwnProperty('message') && payload.message === 'Network Error'){
+      console.log('it is a network error')
+    }
     // Check if payload has an error object
-    if (payload.hasOwnProperty('response')) {
+    if (payload.hasOwnProperty('response') && payload.response) {
       console.log('It has a response')
       console.log(payload.response)
       if (payload instanceof Error) {

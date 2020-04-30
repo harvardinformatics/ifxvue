@@ -5103,10 +5103,15 @@ var actions = {
               console.log('payload');
               console.log(payload);
               message = payload.message;
-              console.log(message); // Check if payload has an error object
+              console.log(message);
 
-              if (!payload.hasOwnProperty('response')) {
-                _context.next = 35;
+              if (payload.hasOwnProperty('message') && payload.message === 'Network Error') {
+                console.log('it is a network error');
+              } // Check if payload has an error object
+
+
+              if (!(payload.hasOwnProperty('response') && payload.response)) {
+                _context.next = 36;
                 break;
               }
 
@@ -5126,77 +5131,77 @@ var actions = {
               }
 
               if (!payload.response.hasOwnProperty('non_field_errors')) {
-                _context.next = 14;
+                _context.next = 15;
                 break;
               }
 
               console.log('non field errors'); // payload.response.non_field_errors, usually from validation
 
               message = payload.response.non_field_errors;
-              _context.next = 33;
+              _context.next = 34;
               break;
 
-            case 14:
+            case 15:
               if (!(payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error'))) {
-                _context.next = 19;
+                _context.next = 20;
                 break;
               }
 
               // Manually set 'error' in response data
               console.log('There is a response.data.error property');
               message = payload.response.data.error;
-              _context.next = 33;
+              _context.next = 34;
               break;
 
-            case 19:
+            case 20:
               _context.t0 = payload.response.status;
-              _context.next = _context.t0 === 400 ? 22 : _context.t0 === 401 ? 24 : _context.t0 === 403 ? 26 : _context.t0 === 404 ? 28 : _context.t0 === 500 ? 30 : 32;
+              _context.next = _context.t0 === 400 ? 23 : _context.t0 === 401 ? 25 : _context.t0 === 403 ? 27 : _context.t0 === 404 ? 29 : _context.t0 === 500 ? 31 : 33;
               break;
 
-            case 22:
+            case 23:
               message = 'Malformed edit';
-              return _context.abrupt("break", 33);
+              return _context.abrupt("break", 34);
 
-            case 24:
+            case 25:
               message = 'You are not authorized to use this application.';
-              return _context.abrupt("break", 33);
+              return _context.abrupt("break", 34);
 
-            case 26:
+            case 27:
               message = 'You are not allowed to modify this record.';
-              return _context.abrupt("break", 33);
+              return _context.abrupt("break", 34);
 
-            case 28:
+            case 29:
               message = 'Unable to find the URL you are looking for.';
-              return _context.abrupt("break", 33);
+              return _context.abrupt("break", 34);
 
-            case 30:
+            case 31:
               message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
-              return _context.abrupt("break", 33);
-
-            case 32:
-              message = 'Error accessing this URL: ' + JSON.stringify(payload);
+              return _context.abrupt("break", 34);
 
             case 33:
-              _context.next = 36;
+              message = 'Error accessing this URL: ' + JSON.stringify(payload);
+
+            case 34:
+              _context.next = 37;
               break;
 
-            case 35:
+            case 36:
               console.log('There is no response on the payload');
 
-            case 36:
+            case 37:
               if (!message) {
                 message = 'Error';
                 console.log(payload);
               }
 
-              _context.next = 39;
+              _context.next = 40;
               return context.commit('showMessage', message);
 
-            case 39:
-              _context.next = 41;
+            case 40:
+              _context.next = 42;
               return context.commit('activate');
 
-            case 41:
+            case 42:
             case "end":
               return _context.stop();
           }
