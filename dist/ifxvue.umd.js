@@ -5114,84 +5114,85 @@ var actions = {
               console.log(message); // Check if payload has an error object
 
               if (!payload.hasOwnProperty('response')) {
-                _context.next = 32;
+                _context.next = 33;
                 break;
               }
 
               console.log('It has a response');
+              console.log(payload.response);
 
               if (!payload.response.hasOwnProperty('non_field_errors')) {
-                _context.next = 11;
+                _context.next = 12;
                 break;
               }
 
               console.log('non field errors'); // payload.response.non_field_errors, usually from validation
 
               message = payload.response.non_field_errors;
-              _context.next = 30;
+              _context.next = 31;
               break;
 
-            case 11:
+            case 12:
               if (!(payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error'))) {
-                _context.next = 16;
+                _context.next = 17;
                 break;
               }
 
               // Manually set 'error' in response data
               console.log('There is a response.data.error property');
               message = payload.response.data.error;
-              _context.next = 30;
+              _context.next = 31;
               break;
 
-            case 16:
+            case 17:
               _context.t0 = payload.response.status;
-              _context.next = _context.t0 === 400 ? 19 : _context.t0 === 401 ? 21 : _context.t0 === 403 ? 23 : _context.t0 === 404 ? 25 : _context.t0 === 500 ? 27 : 29;
+              _context.next = _context.t0 === 400 ? 20 : _context.t0 === 401 ? 22 : _context.t0 === 403 ? 24 : _context.t0 === 404 ? 26 : _context.t0 === 500 ? 28 : 30;
               break;
 
-            case 19:
+            case 20:
               message = 'Malformed edit';
-              return _context.abrupt("break", 30);
+              return _context.abrupt("break", 31);
 
-            case 21:
+            case 22:
               message = 'You are not authorized to use this application.';
-              return _context.abrupt("break", 30);
+              return _context.abrupt("break", 31);
 
-            case 23:
+            case 24:
               message = 'You are not allowed to modify this record.';
-              return _context.abrupt("break", 30);
+              return _context.abrupt("break", 31);
 
-            case 25:
+            case 26:
               message = 'Unable to find the URL you are looking for.';
-              return _context.abrupt("break", 30);
+              return _context.abrupt("break", 31);
 
-            case 27:
+            case 28:
               message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
-              return _context.abrupt("break", 30);
-
-            case 29:
-              message = 'Error accessing this URL: ' + JSON.stringify(payload);
+              return _context.abrupt("break", 31);
 
             case 30:
-              _context.next = 33;
+              message = 'Error accessing this URL: ' + JSON.stringify(payload);
+
+            case 31:
+              _context.next = 34;
               break;
 
-            case 32:
+            case 33:
               console.log('There is no response on the payload');
 
-            case 33:
+            case 34:
               if (!message) {
                 message = 'Error';
                 console.log(payload);
               }
 
-              _context.next = 36;
+              _context.next = 37;
               return context.commit('showMessage', message);
 
-            case 36:
-              _context.next = 38;
+            case 37:
+              _context.next = 39;
               return context.commit('activate');
 
-            case 38:
+            case 39:
             case "end":
               return _context.stop();
           }

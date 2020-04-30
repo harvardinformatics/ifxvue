@@ -32,6 +32,7 @@ const actions = {
     // Check if payload has an error object
     if (payload.hasOwnProperty('response')) {
       console.log('It has a response')
+      console.log(payload.response)
       if (payload.response.hasOwnProperty('non_field_errors')) {
         console.log('non field errors')
         // payload.response.non_field_errors, usually from validation
