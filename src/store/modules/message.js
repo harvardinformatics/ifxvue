@@ -25,18 +25,10 @@ const actions = {
     context.commit('deactivate')
   },
   async showMessage(context, payload) {
-    console.log('fuck you')
+    console.log('no, fuck you')
     console.log('payload')
     console.log(payload)
-    let { message } = payload
-    console.log(message)
-    if (payload.hasOwnProperty('message')){
-      console.log('message from payload')
-      console.log(payload.message)
-      if (payload.message === 'Network Error') {
-        console.log('it is a network error')
-      }
-    }
+    let message = ''
     // Check if payload has an error object
     if (payload.hasOwnProperty('response') && payload.response) {
       console.log('It has a response')
@@ -81,7 +73,14 @@ const actions = {
             message = 'Error accessing this URL: ' + JSON.stringify(payload)
         }
       }
-    } else {
+    } else if (payload.hasOwnProperty('message')){
+      if (payload.message === 'Network Error') {
+        message = 'Cannot connect to the application backend.  It is probably down.'
+      } else {
+        message = payload.message
+      }
+    }
+    else {
       console.log('There is no response on the payload')
     }
     if (!message) {
