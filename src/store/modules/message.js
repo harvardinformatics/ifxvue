@@ -25,32 +25,15 @@ const actions = {
     context.commit('deactivate')
   },
   async showMessage(context, payload) {
-    console.log('no, fuck you')
-    console.log('payload')
-    console.log(payload)
     let message = ''
     // Check if payload has an error object
     if (payload.hasOwnProperty('response') && payload.response) {
-      console.log('It has a response')
-      console.log(payload.response)
-      if (payload instanceof Error) {
-        console.log('Its an error')
-        console.log(payload.name)
-        console.log(payload.message)
-      }
-      if (payload.response instanceof Error) {
-        console.log('The response is an error')
-        console.log(payload.response.name)
-        console.log(payload.response.message)
-      }
       if (payload.response && payload.response.hasOwnProperty('non_field_errors')) {
-        console.log('non field errors')
         // payload.response.non_field_errors, usually from validation
         message = payload.response.non_field_errors
       } else if (payload.response && payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error')
       ) {
         // Manually set 'error' in response data
-        console.log('There is a response.data.error property')
         message = payload.response.data.error
       } else {
         switch (payload.response.status) {
@@ -79,9 +62,6 @@ const actions = {
       } else {
         message = payload.message
       }
-    }
-    else {
-      console.log('There is no response on the payload')
     }
     if (!message) {
       message = 'Error'

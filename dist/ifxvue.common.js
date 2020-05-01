@@ -5067,7 +5067,6 @@ function _asyncToGenerator(fn) {
 
 
 
-
 var getDefaultState = function getDefaultState() {
   return {
     active: false,
@@ -5100,111 +5099,89 @@ var actions = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              console.log('no, fuck you');
-              console.log('payload');
-              console.log(payload);
               message = ''; // Check if payload has an error object
 
               if (!(payload.hasOwnProperty('response') && payload.response)) {
-                _context.next = 35;
+                _context.next = 26;
                 break;
-              }
-
-              console.log('It has a response');
-              console.log(payload.response);
-
-              if (payload instanceof Error) {
-                console.log('Its an error');
-                console.log(payload.name);
-                console.log(payload.message);
-              }
-
-              if (payload.response instanceof Error) {
-                console.log('The response is an error');
-                console.log(payload.response.name);
-                console.log(payload.response.message);
               }
 
               if (!(payload.response && payload.response.hasOwnProperty('non_field_errors'))) {
-                _context.next = 14;
+                _context.next = 6;
                 break;
               }
 
-              console.log('non field errors'); // payload.response.non_field_errors, usually from validation
-
+              // payload.response.non_field_errors, usually from validation
               message = payload.response.non_field_errors;
-              _context.next = 33;
+              _context.next = 24;
               break;
 
-            case 14:
+            case 6:
               if (!(payload.response && payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error'))) {
-                _context.next = 19;
+                _context.next = 10;
                 break;
               }
 
               // Manually set 'error' in response data
-              console.log('There is a response.data.error property');
               message = payload.response.data.error;
-              _context.next = 33;
+              _context.next = 24;
               break;
+
+            case 10:
+              _context.t0 = payload.response.status;
+              _context.next = _context.t0 === 400 ? 13 : _context.t0 === 401 ? 15 : _context.t0 === 403 ? 17 : _context.t0 === 404 ? 19 : _context.t0 === 500 ? 21 : 23;
+              break;
+
+            case 13:
+              message = 'Malformed edit';
+              return _context.abrupt("break", 24);
+
+            case 15:
+              message = 'You are not authorized to use this application.';
+              return _context.abrupt("break", 24);
+
+            case 17:
+              message = 'You are not allowed to modify this record.';
+              return _context.abrupt("break", 24);
 
             case 19:
-              _context.t0 = payload.response.status;
-              _context.next = _context.t0 === 400 ? 22 : _context.t0 === 401 ? 24 : _context.t0 === 403 ? 26 : _context.t0 === 404 ? 28 : _context.t0 === 500 ? 30 : 32;
-              break;
-
-            case 22:
-              message = 'Malformed edit';
-              return _context.abrupt("break", 33);
-
-            case 24:
-              message = 'You are not authorized to use this application.';
-              return _context.abrupt("break", 33);
-
-            case 26:
-              message = 'You are not allowed to modify this record.';
-              return _context.abrupt("break", 33);
-
-            case 28:
               message = 'Unable to find the URL you are looking for.';
-              return _context.abrupt("break", 33);
+              return _context.abrupt("break", 24);
 
-            case 30:
+            case 21:
               message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu';
-              return _context.abrupt("break", 33);
+              return _context.abrupt("break", 24);
 
-            case 32:
+            case 23:
               message = 'Error accessing this URL: ' + JSON.stringify(payload);
 
-            case 33:
-              _context.next = 36;
+            case 24:
+              _context.next = 27;
               break;
 
-            case 35:
+            case 26:
               if (payload.hasOwnProperty('message')) {
                 if (payload.message === 'Network Error') {
                   message = 'Cannot connect to the application backend.  It is probably down.';
                 } else {
                   message = payload.message;
                 }
-              } else {
-                console.log('There is no response on the payload');
               }
 
-            case 36:
+            case 27:
               if (!message) {
                 message = 'Error';
                 console.log(payload);
               }
 
-              _context.next = 39;
+              _context.next = 30;
               return context.commit('showMessage', message);
 
-            case 39:
-              _context.next = 41;
+            case 30:
+              _context.next = 32;
               return context.commit('activate');
 
-            case 41:
+            case 32:
             case "end":
               return _context.stop();
           }
