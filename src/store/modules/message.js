@@ -25,26 +25,25 @@ const actions = {
     context.commit('deactivate')
   },
   async showMessage(context, payload) {
-    let { message } = payload
+    let { error, message } = payload
     // Check if payload has an error object
-    if (payload.hasOwnProperty('err') && payload.err instanceof Error) {
-      let { err } = payload
-      if (!err.hasOwnProperty('response')) {
-        message = err
+    if (error && error instanceof Error) {
+      if (!error.hasOwnProperty('response')) {
+        message = error
       // Check if error is related to field errors
-      } else if (err.response && err.response.hasOwnProperty('non_field_errors')) {
-        message = err.response.hasOwnProperty('data') ? err.response.data : err
-      } else if (err.response && err.response.hasOwnProperty('data') && err.response.data.hasOwnProperty('error')) {
-        message = err.response.data.error
+      } else if (error.response && error.response.hasOwnProperty('non_field_errors')) {
+        message = error.response.hasOwnProperty('data') ? error.response.data : error
+      } else if (error.response && error.response.hasOwnProperty('data') && error.response.data.hasOwnProperty('error')) {
+        message = error.response.data.error
         // Otherwise generate default error message based on status
       } else if (!message) {
-          switch (err.response.status) {
+          switch (error.response.status) {
             case 400:
-              message = 'Malformed edit: ' + JSON.stringify(err.response.data)
+              message = 'Malformed edit: ' + JSON.stringify(error.response.data)
               break
             case 401:
-              if (err.response && err.response.hasOwnProperty('data')){
-                message = err.response.data.err
+              if (error.response && error.response.hasOwnProperty('data')){
+                message = error.response.data.error
               } else {
                 message = 'You are not authorized to use this application.'
               }
@@ -59,7 +58,7 @@ const actions = {
               message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu'
               break
             default:
-              message = 'Error accessing this URL: ' + JSON.stringify(err.response)
+              message = 'Error accessing this URL: ' + JSON.stringify(error.response)
           }
       }
     //   // Check if payload has response object and no message
