@@ -25,45 +25,47 @@ const actions = {
     context.commit('deactivate')
   },
   async showMessage(context, payload) {
-    let { error, message } = payload
+    let message = ''
     // Check if payload has an error object
-    if (error && error instanceof Error) {
-      if (!error.hasOwnProperty('response')) {
-        message = error
-      // Check if error is related to field errors
-      } else if (error.response && error.response.hasOwnProperty('non_field_errors')) {
-        message = error.response.hasOwnProperty('data') ? error.response.data : error
-      } else if (error.response && error.response.hasOwnProperty('data') && error.response.data.hasOwnProperty('error')) {
-        message = error.response.data.error
-        // Otherwise generate default error message based on status
-      } else if (!message) {
-          switch (error.response.status) {
-            case 400:
-              message = 'Malformed edit: ' + JSON.stringify(error.response.data)
-              break
-            case 401:
-              if (error.response && error.response.hasOwnProperty('data')){
-                message = error.response.data.error
-              } else {
-                message = 'You are not authorized to use this application.'
-              }
-              break
-            case 403:
-              message = 'You are not allowed to modify this record.'
-              break
-            case 404:
-              message = 'Unable to find the URL you are looking for.'
-              break
-            case 500:
-              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu'
-              break
-            default:
-              message = 'Error accessing this URL: ' + JSON.stringify(error.response)
-          }
+    if (payload.hasOwnProperty('response') && payload.response) {
+      if (payload.response && payload.response.hasOwnProperty('non_field_errors')) {
+        // payload.response.non_field_errors, usually from validation
+        message = payload.response.non_field_errors
+      } else if (payload.response && payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error')
+      ) {
+        // Manually set 'error' in response data
+        message = payload.response.data.error
+      } else {
+        switch (payload.response.status) {
+          case 400:
+            message = 'Malformed edit'
+            break
+          case 401:
+            message = 'You are not authorized to use this application.'
+            break
+          case 403:
+            message = 'You are not allowed to modify this record.'
+            break
+          case 404:
+            message = 'Unable to find the URL you are looking for.'
+            break
+          case 500:
+            message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu'
+            break
+          default:
+            message = 'Error accessing this URL: ' + JSON.stringify(payload)
+        }
       }
-    //   // Check if payload has response object and no message
-    } else if (payload.hasOwnProperty('response') && !message) {
-      message = payload.response.data
+    } else if (payload.hasOwnProperty('message')){
+      if (payload.message === 'Network Error') {
+        message = 'Cannot connect to the application backend.  It is probably down.'
+      } else {
+        message = payload.message
+      }
+    }
+    if (!message) {
+      message = 'Error'
+      console.log(payload)
     }
     await context.commit('showMessage', message)
     await context.commit('activate')
