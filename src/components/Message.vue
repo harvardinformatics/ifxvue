@@ -69,7 +69,7 @@ export default {
     :timeout="message.length / 30 * 1000 + 1000"
   >
     {{message}}
-    <v-btn color="white" flat @click="deactivate">Close</v-btn>
+    <v-btn color="white" text @click="deactivate">Close</v-btn>
   </v-snackbar>
 </template>
 

@@ -1,7 +1,7 @@
-import message from '../store/modules/message'
-import dialog from '../store/modules/dialog'
-import Message from "./Message.vue";
-import Dialog from "./Dialog.vue";
+import message from './modules/message'
+import dialog from './modules/dialog'
+import Message from '@/components/Message.vue';
+import Dialog from "@/components/Dialog.vue";
 
 const Components = {
   Message,
