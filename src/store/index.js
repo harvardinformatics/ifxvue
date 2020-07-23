@@ -2,10 +2,12 @@ import message from './modules/message'
 import dialog from './modules/dialog'
 import IFXMessage from '@/components/IFXMessage.vue';
 import IFXDialog from "@/components/IFXDialog.vue";
+import IFXButton from "@/components/IFXButton.vue";
 
 const Components = {
   IFXMessage,
-  IFXDialog
+  IFXDialog,
+  IFXButton
 };
 
 const Modules = {
