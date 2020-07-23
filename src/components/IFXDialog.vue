@@ -2,7 +2,7 @@
 import { mapGetters, mapActions } from "vuex"
 
 export default {
-  name: "Dialog",
+  name: "IFXDialog",
   props: {
     componentToRender: {
       default: "None",

@@ -2,7 +2,7 @@
 import { mapActions, mapGetters } from "vuex"
 
 export default {
-  name: "Message",
+  name: "IFXMessage",
   props: {
     vertical: {
       default: true,
@@ -25,7 +25,7 @@ export default {
       type: Boolean
     },
     color: {
-      default: undefined,
+      default: 'grey darken-4',
       type: String
     },
     multiline: {
@@ -69,7 +69,15 @@ export default {
     :timeout="message.length / 30 * 1000 + 1000"
   >
     {{message}}
-    <v-btn color="white" text @click="deactivate">Close</v-btn>
+    <template v-slot:action="{ attrs }">
+      <v-btn
+        text
+        v-bind="attrs"
+        @click="deactivate"
+      >
+        Close
+      </v-btn>
+    </template>
   </v-snackbar>
 </template>
 

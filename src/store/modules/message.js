@@ -18,34 +18,27 @@ const getters = {
 }
 
 function getMessage(payload) {
-  console.log('The payload is: ')
-  console.log(payload)
   // If payload is a single string
   if (typeof payload === 'string' || payload instanceof String) {
     return payload
   }
-  // Check if user put message property on payload object
-  if (payload.hasOwnProperty('message')){
-    // Add custom messages here
-    if (payload.message === 'Network Error') {
-      return 'Cannot connect to the application backend. It is probably down.'
-    }
-    return payload.message
-  }
-  // Check if payload is an http error object
-  if (payload.hasOwnProperty('response')) {
+  // Check if payload is an http error response object
+  if (payload.hasOwnProperty('response') && payload.response && payload.hasOwnProperty('stack') && payload.stack) {
     // If error object includes non_field_errors
     if (payload.response.hasOwnProperty('non_field_errors')) {
       return payload.response.non_field_errors
     }
     // Check if error info has been set manually in response data
-    if (payload.response.hasOwnProperty('data') && payload.response.data.hasOwnProperty('error')) {
+    if (payload.response.hasOwnProperty('data') &&
+        payload.response.data &&
+        payload.response.data.hasOwnProperty('error') &&
+        payload.response.data.error)
+    {
       return payload.response.data.error
     }
-    // Else
     switch (payload.response.status) {
       case 400:
-        return 'Malformed edit'
+        return 'Malformed edit.'
       case 401:
         return 'You are not authorized to use this application.'
       case 403:
@@ -59,6 +52,14 @@ function getMessage(payload) {
     }
   }
 
+  // Check if user put message property on payload object
+  if (payload.hasOwnProperty('message') && payload.message){
+    // Add custom messages here
+    if (payload.message === 'Network Error') {
+      return 'Cannot connect to the application backend. It is probably down.'
+    }
+    return payload.message
+  }
 
   // Else
   console.log(payload)

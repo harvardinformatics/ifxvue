@@ -1,11 +1,11 @@
 import message from './modules/message'
 import dialog from './modules/dialog'
-import Message from '@/components/Message.vue';
-import Dialog from "@/components/Dialog.vue";
+import IFXMessage from '@/components/IFXMessage.vue';
+import IFXDialog from "@/components/IFXDialog.vue";
 
 const Components = {
-  Message,
-  Dialog
+  IFXMessage,
+  IFXDialog
 };
 
 const Modules = {
