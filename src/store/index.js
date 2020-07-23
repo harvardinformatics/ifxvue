@@ -3,28 +3,30 @@ import dialog from './modules/dialog'
 import IFXMessage from '@/components/IFXMessage.vue';
 import IFXDialog from "@/components/IFXDialog.vue";
 import IFXButton from "@/components/IFXButton.vue";
+import IFXNotFound from "@/components/IFXNotFound.vue";
+import IFXForbidden from "@/components/IFXForbidden.vue";
+import IFXPageHeader from "@/components/IFXPageHeader.vue";
 
-const Components = {
+export const ifxcomponents = {
   IFXMessage,
   IFXDialog,
-  IFXButton
-};
-
-const Modules = {
-  message,
-  dialog
-};
-
-function install(Vue, options ={}) {
-  Object.keys(Components).forEach(name => {
-    Vue.component(name, Components[name]);
-  });
-
-  Object.keys(Modules).forEach(name => {
-    options.store.registerModule(name, Modules[name])
-  })
+  IFXButton,
+  IFXNotFound,
+  IFXForbidden,
+  IFXPageHeader
 }
 
-export default {
-  install
+export const ifxmodules = {
+  message,
+  dialog
+}
+
+export default function install(Vue, options ={}) {
+  Object.keys(ifxcomponents).forEach(name => {
+    Vue.component(name, ifxcomponents[name]);
+  })
+
+  Object.keys(ifxmodules).forEach(name => {
+    options.store.registerModule(name, ifxmodules[name])
+  })
 }
