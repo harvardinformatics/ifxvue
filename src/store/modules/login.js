@@ -14,21 +14,13 @@ const getters = {
 }
 
 const actions = {
-  login({commit}) {
-    commit('login')
-  },
-  logout({commit}) {
-    commit('logout')
-  }
+  login: ({commit}) => commit('login'),
+  logout: ({commit}) => commit('logout')
 }
 
 const mutations = {
-  login(state) {
-    state.isLoggedIn = true
-  },
-  logout(state) {
-    state.isLoggedIn = false
-  }
+  login: state => state.isLoggedIn = true,
+  logout: state => state.isLoggedIn = false
 }
 
 export default {

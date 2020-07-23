@@ -1,7 +1,7 @@
 <script>
 import axios from "axios"
 import { LOGIN_URL } from "@/urls"
-import { mapActions } from "vuex"
+import { mapActions, mapGetters } from "vuex"
 import auth from "@/auth"
 
 export default {
@@ -26,33 +26,35 @@ export default {
     },
     login() {
       // Get the token, set the value and redirect
-      var me = this
       axios
-        .get(LOGIN_URL)
+        .get(this.LOGIN_URL)
         .then(res => {
           if (!res.data || !res.data.token) {
-            me.failure = true
-            me.message = "You are a known user of this application, but your user data is malformed."
+            this.failure = true
+            this.message = "You are a known user of this application, but your user data is malformed."
           } else {
             // If response has data and token, then it is successful
-            me.success = true
+            this.success = true
             // Initialize user
             auth.initUser(res.data)
             // Check if route query has 'to' query
-            if (me.rt.query.hasOwnProperty("to")) {
-              const path = me.rt.query.to.path
-              me.routeInfo = { path: path }
+            if (this.rt.query.hasOwnProperty("to")) {
+              const path = this.rt.query.to.path
+              this.routeInfo = { path: path }
             }
           }
         })
         .catch(function(error) {
-          me.failure = true
-          me.message = error
+          this.failure = true
+          this.message = error
         })
     },
     sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms))
     }
+  },
+  computed: {
+    ...mapGetters(['LOGIN_URL'])
   },
   mounted() {
     this.execute()

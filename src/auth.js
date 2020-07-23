@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { LOGIN_URL } from '@/urls'
 
 /*
 auth.js
