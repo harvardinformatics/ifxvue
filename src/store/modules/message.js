@@ -62,7 +62,6 @@ function getMessage(payload) {
   }
 
   // Else
-  console.log(payload)
   return 'Error: ' + JSON.stringify(payload)
 }
 
