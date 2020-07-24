@@ -19,28 +19,31 @@ export default {
     <div>{{item.deliveryDate | humanDatetime}}</div>
   </span>
   <span v-else-if="name==='date_created'">
-    <span>{{item.date_created | humanDatetime}}</span>
+    <div>{{item.date_created | humanDatetime}}</div>
   </span>
   <span v-else-if="name==='date_modified'">
-    <span>{{item.date_modified | humanDatetime}}</span>
+    <div>{{item.date_modified | humanDatetime}}</div>
   </span>
   <span v-else-if="name==='reading_date'">
-    <span>{{item.reading_date | humanDatetime}}</span>
+    <div>{{item.reading_date | humanDatetime}}</div>
   </span>
   <span v-else-if="name==='date_valid'">
-    <span>{{item.dateValid | humanDatetime}}</span>
+    <div>{{item.dateValid | humanDatetime}}</div>
   </span>
   <span v-else-if="name==='price_per_liter'">
-    <span>{{item.price_per_liter | centsToDollars}}</span>
+    <div>{{item.price_per_liter | centsToDollars}}</div>
   </span>
   <span v-else-if="name==='credit_per_liter'">
-    <span>{{item.credit_per_liter | centsToDollars}}</span>
+    <div>{{item.credit_per_liter | centsToDollars}}</div>
   </span>
   <span v-else-if="name==='scf_per_liter'">
-    <span>{{item.scf_per_liter | centsToDollars}}</span>
+    <div>{{item.scf_per_liter | centsToDollars}}</div>
   </span>
   <span v-else-if="name==='active'">
-    <span>{{item.active | capitalizeFirstLetter}}</span>
+    <div>{{item.active | capitalizeFirstLetter}}</div>
+  </span>
+  <span v-else>
+    <slot name="custom"></slot>
   </span>
 </template>
 
