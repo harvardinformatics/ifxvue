@@ -19,14 +19,9 @@ export default {
     async execute() {
       await this.sleep(1000)
       this.logout()
-      await this.sleep(100)
-      this.eventHub.$emit('isLoggedIn', false);
+      this.success = true
       await this.sleep(1000)
       this.rtr.push(this.routeInfo)
-    },
-    logout() {
-      this.logout()
-      this.success = true
     }
   },
   mounted () {

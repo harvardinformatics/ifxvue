@@ -7,7 +7,7 @@ const getDefaultState = () => {
     username: '',
     groups: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
   }
 }
 
@@ -15,8 +15,8 @@ const state = getDefaultState()
 
 const getters = {
   authToken: state => state.authToken,
-  authHeaderValue: state => 'Token ' + state.authToken,
-  isAuthenticated: state => state.username && state.authToken,
+  authHeaderValue: state => state.authToken ? 'Token ' + state.authToken : '',
+  isAuthenticated: state => state.username && false,
   isAdmin: state => state.isAdmin,
   isDjangoStaff: state => state.isAdmin,
   firstName: state => state.firstName,

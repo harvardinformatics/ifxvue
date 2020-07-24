@@ -13,16 +13,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["showMessage", "initUser"]),
+    ...mapActions(["showMessage", "initUser", 'login']),
     async execute() {
       await this.sleep(1000)
-      this.login()
+      this.loginLocal()
       await this.sleep(100)
       this.eventHub.$emit("isLoggedIn", this.success)
       await this.sleep(1000)
       this.rtr.push(this.routeInfo)
     },
-    login() {
+    loginLocal() {
       console.log(`loginurl in login is: ${this.LOGIN_URL}`)
       // Get the token, set the value and redirect
       axios
@@ -34,6 +34,7 @@ export default {
           } else {
             // If response has data and token, then it is successful
             this.success = true
+            this.login()
             // Initialize user
             this.initUser(res.data)
             // Check if route query has 'to' query
