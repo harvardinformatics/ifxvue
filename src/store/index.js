@@ -7,6 +7,9 @@ import IFXButton from "@/components/IFXButton.vue"
 import IFXNotFound from "@/components/IFXNotFound.vue"
 import IFXForbidden from "@/components/IFXForbidden.vue"
 import IFXPageHeader from "@/components/IFXPageHeader.vue"
+import IFXDataTableSlot from "@/components/IFXDataTableSlot.vue"
+import IFXPageErrorDisplay from "@/components/IFXPageErrorDisplay.vue"
+
 import createPersistedState from "vuex-persistedstate";
 
 // Create persistent storage for auth vuex module
@@ -21,7 +24,9 @@ export const ifxcomponents = {
   IFXButton,
   IFXNotFound,
   IFXForbidden,
-  IFXPageHeader
+  IFXPageHeader,
+  IFXDataTableSlot,
+  IFXPageErrorDisplay
 }
 
 export const ifxmodules = {
