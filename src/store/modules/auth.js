@@ -15,7 +15,7 @@ const state = getDefaultState()
 
 const getters = {
   authToken: state => state.authToken,
-  authHeaderValue: state => state.authToken ? 'Token ' + state.authToken : '',
+  authHeaderValue: state => state.authToken ? `Token ${state.authToken}` : '',
   isAuthenticated: state => state.username && state.authToken,
   isAdmin: state => state.isAdmin,
   isDjangoStaff: state => state.isAdmin,
@@ -45,9 +45,9 @@ const actions = {
   setAuthHeaderValue({getters}) {
     axios.defaults.headers.common['Authorization'] = getters.authHeaderValue
   },
-  checkAuthentication({getters, commit}) {
+  checkAuthentication({getters, dispatch}) {
     if (getters.isAuthenticated) {
-      commit('setAuthHeaderValue')
+      dispatch('setAuthHeaderValue')
     }
   },
   async login({dispatch, rootGetters}) {
