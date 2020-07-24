@@ -70,9 +70,10 @@ const actions = {
       return error
     }
   },
-  async logout({commit}) {
+  logout({commit, dispatch}) {
     commit('destroyUser')
-    return 'success'
+    const message = 'You have been logged out successfully.'
+    dispatch('showMessage', message)
   }
 }
 
