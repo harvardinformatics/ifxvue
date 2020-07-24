@@ -1,8 +1,5 @@
 <script>
-import axios from 'axios'
-import { LOGIN_URL } from '@/urls'
 import { mapActions } from 'vuex'
-import auth from '@/auth'
 
 export default {
   name: 'IFXLogout',
@@ -16,7 +13,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showMessage'
+      'showMessage',
+      'logout'
     ]),
     async execute() {
       await this.sleep(1000)
@@ -27,7 +25,7 @@ export default {
       this.rtr.push(this.routeInfo)
     },
     logout() {
-      auth.logout()
+      this.logout()
       this.success = true
     }
   },

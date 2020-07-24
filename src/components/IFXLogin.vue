@@ -1,8 +1,6 @@
 <script>
 import axios from "axios"
-import { LOGIN_URL } from "@/urls"
 import { mapActions, mapGetters } from "vuex"
-import auth from "@/auth"
 
 export default {
   name: "IFXLogin",
@@ -15,7 +13,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["showMessage"]),
+    ...mapActions(["showMessage", "initUser"]),
     async execute() {
       await this.sleep(1000)
       this.login()
@@ -25,6 +23,7 @@ export default {
       this.rtr.push(this.routeInfo)
     },
     login() {
+      console.log(`loginurl in login is: ${this.LOGIN_URL}`)
       // Get the token, set the value and redirect
       axios
         .get(this.LOGIN_URL)
@@ -36,7 +35,7 @@ export default {
             // If response has data and token, then it is successful
             this.success = true
             // Initialize user
-            auth.initUser(res.data)
+            this.initUser(res.data)
             // Check if route query has 'to' query
             if (this.rt.query.hasOwnProperty("to")) {
               const path = this.rt.query.to.path

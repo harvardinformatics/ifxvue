@@ -1,5 +1,4 @@
 import axios from 'axios'
-const LOGIN_URL = 'placeholder'
 
 const getDefaultState = () => {
   return {
@@ -19,7 +18,7 @@ const getters = {
   authHeaderValue: state => 'Token ' + state.authToken,
   isAuthenticated: state => state.username && state.authToken,
   isAdmin: state => state.isAdmin,
-  isDjangoStaff: state => state.Admin,
+  isDjangoStaff: state => state.isAdmin,
   firstName: state => state.firstName,
   lastName: state => state.lastName,
   fullName: state => `${state.firstName} ${state.lastName}`,
@@ -39,12 +38,12 @@ const actions = {
     await commit('setAuthToken', payload.token)
   },
   // This is not used anywhere - do we need it?
-  async fetchToken({commit}) {
-    const token = await axios.get(LOGIN_URL).then(response => response.data.token ? response.data.token : '')
-    await commit('setAuthToken', token)
-  },
+  // async fetchToken({commit}) {
+  //   const token = await axios.get(LOGIN_URL).then(response => response.data.token ? response.data.token : '')
+  //   await commit('setAuthToken', token)
+  // },
   setAuthHeaderValue({getters}) {
-    axios.defaults.headers.common['Authorization'] = getters.AuthHeaderValue
+    axios.defaults.headers.common['Authorization'] = getters.authHeaderValue
   },
   checkAuthentication({getters, commit}) {
     if (getters.isAuthenticated) {
@@ -81,7 +80,7 @@ const mutations = {
   }
 }
 
-export {
+export default {
   state,
   getters,
   actions,
