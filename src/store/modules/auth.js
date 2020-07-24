@@ -55,26 +55,29 @@ const actions = {
       const response = await axios.get(rootGetters.LOGIN_URL)
       if (!response.data || !response.data.token) {
         // failure
-        const message = 'Your data is malformed.'
+        const message = 'You are a known user, but your data is malformed. Please contact rchelp@rc.fas.harvard.edu.'
         await dispatch('showMessage', message)
       } else {
         // If response has data and token, then it is successful
         // let success = true
         // Initialize user
         await dispatch('initUser', response.data)
-          // Check if route query has 'to' query
-          // TODO figure out how to route
+        const message = 'Login successful. Now you can do whatever you want.'
+        await dispatch('showMessage', message)
+        // Check if route query has 'to' query
+        // TODO figure out how to route
         return 'success'
       }
     } catch(error) {
       // error
       // let failure = true
       // let message = error
-      return 'failure'
+      return error
     }
   },
-  logout({commit}) {
+  async logout({commit}) {
     commit('destroyUser')
+    return 'success'
   }
 }
 

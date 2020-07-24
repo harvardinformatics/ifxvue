@@ -16,16 +16,14 @@ export default {
   },
   mounted() {
     this.login()
-      .then(res => {
+      .then(() => {
         this.success = true
         if (this.rt.query.hasOwnProperty("to")) {
           const path = this.rt.query.to.path
           this.routeInfo = { path: path }
         }
       })
-      .catch(res => {
-        this.failure = true
-      })
+      .catch(() => this.failure = true)
       .finally(() => this.rtr.push(this.routeInfo))
   }
 }
