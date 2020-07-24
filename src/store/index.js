@@ -1,6 +1,5 @@
 import message from './modules/message'
 import dialog from './modules/dialog'
-import login from './modules/login'
 import auth from './modules/auth'
 import IFXMessage from '@/components/IFXMessage.vue'
 import IFXDialog from "@/components/IFXDialog.vue"
@@ -25,7 +24,6 @@ export const ifxcomponents = {
 export const ifxmodules = {
   message,
   dialog,
-  login,
   auth
 }
 

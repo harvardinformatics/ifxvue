@@ -15,17 +15,12 @@ export default {
     ...mapActions([
       'showMessage',
       'logout'
-    ]),
-    async execute() {
-      await this.sleep(1000)
-      this.logout()
-      this.success = true
-      await this.sleep(1000)
-      this.rtr.push(this.routeInfo)
-    }
+    ])
   },
   mounted () {
-    this.execute()
+    this.logout()
+      .then(() => this.success = true)
+      .catch(() => this.failure = true)
   },
 }
 </script>

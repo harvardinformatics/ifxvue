@@ -7,7 +7,7 @@ const getDefaultState = () => {
     username: '',
     groups: '',
     firstName: '',
-    lastName: '',
+    lastName: ''
   }
 }
 
@@ -16,7 +16,7 @@ const state = getDefaultState()
 const getters = {
   authToken: state => state.authToken,
   authHeaderValue: state => state.authToken ? 'Token ' + state.authToken : '',
-  isAuthenticated: state => state.username && false,
+  isAuthenticated: state => state.username && state.authToken,
   isAdmin: state => state.isAdmin,
   isDjangoStaff: state => state.isAdmin,
   firstName: state => state.firstName,
@@ -48,6 +48,29 @@ const actions = {
   checkAuthentication({getters, commit}) {
     if (getters.isAuthenticated) {
       commit('setAuthHeaderValue')
+    }
+  },
+  async login({dispatch, rootGetters}) {
+    try {
+      const response = await axios.get(rootGetters.LOGIN_URL)
+      if (!response.data || !response.data.token) {
+        // failure
+        const message = 'Your data is malformed.'
+        await dispatch('showMessage', message)
+      } else {
+        // If response has data and token, then it is successful
+        // let success = true
+        // Initialize user
+        await dispatch('initUser', response.data)
+          // Check if route query has 'to' query
+          // TODO figure out how to route
+        return 'success'
+      }
+    } catch(error) {
+      // error
+      // let failure = true
+      // let message = error
+      return 'failure'
     }
   },
   logout({commit}) {

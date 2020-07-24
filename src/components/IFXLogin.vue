@@ -1,6 +1,5 @@
 <script>
-import axios from "axios"
-import { mapActions, mapGetters } from "vuex"
+import { mapActions } from "vuex"
 
 export default {
   name: "IFXLogin",
@@ -13,51 +12,21 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["showMessage", "initUser", 'login']),
-    async execute() {
-      await this.sleep(1000)
-      this.loginLocal()
-      await this.sleep(100)
-      this.eventHub.$emit("isLoggedIn", this.success)
-      await this.sleep(1000)
-      this.rtr.push(this.routeInfo)
-    },
-    loginLocal() {
-      console.log(`loginurl in login is: ${this.LOGIN_URL}`)
-      // Get the token, set the value and redirect
-      axios
-        .get(this.LOGIN_URL)
-        .then(res => {
-          if (!res.data || !res.data.token) {
-            this.failure = true
-            this.message = "You are a known user of this application, but your user data is malformed."
-          } else {
-            // If response has data and token, then it is successful
-            this.success = true
-            this.login()
-            // Initialize user
-            this.initUser(res.data)
-            // Check if route query has 'to' query
-            if (this.rt.query.hasOwnProperty("to")) {
-              const path = this.rt.query.to.path
-              this.routeInfo = { path: path }
-            }
-          }
-        })
-        .catch(function(error) {
-          this.failure = true
-          this.message = error
-        })
-    },
-    sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms))
-    }
-  },
-  computed: {
-    ...mapGetters(['LOGIN_URL'])
+    ...mapActions(["showMessage",'login']),
   },
   mounted() {
-    this.execute()
+    this.login()
+      .then(res => {
+        this.success = true
+        if (this.rt.query.hasOwnProperty("to")) {
+          const path = this.rt.query.to.path
+          this.routeInfo = { path: path }
+        }
+      })
+      .catch(res => {
+        this.failure = true
+      })
+      .finally(() => this.rtr.push(this.routeInfo))
   }
 }
 </script>
