@@ -57,21 +57,16 @@ const actions = {
         // failure
         const message = 'You are a known user, but your data is malformed. Please contact rchelp@rc.fas.harvard.edu.'
         await dispatch('showMessage', message)
+        throw new Error(message)
       } else {
         // If response has data and token, then it is successful
-        // let success = true
-        // Initialize user
         await dispatch('initUser', response.data)
         const message = 'Login successful. Now you can do whatever you want.'
         await dispatch('showMessage', message)
-        // Check if route query has 'to' query
-        // TODO figure out how to route
-        return 'success'
+        return message
       }
     } catch(error) {
-      // error
-      // let failure = true
-      // let message = error
+      await dispatch('showMessage', {error})
       return error
     }
   },

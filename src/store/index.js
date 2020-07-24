@@ -7,8 +7,6 @@ import IFXButton from "@/components/IFXButton.vue"
 import IFXNotFound from "@/components/IFXNotFound.vue"
 import IFXForbidden from "@/components/IFXForbidden.vue"
 import IFXPageHeader from "@/components/IFXPageHeader.vue"
-import IFXLogin from "@/components/IFXLogin.vue"
-import IFXLogout from "@/components/IFXLogout.vue"
 
 export const ifxcomponents = {
   IFXMessage,
@@ -16,9 +14,7 @@ export const ifxcomponents = {
   IFXButton,
   IFXNotFound,
   IFXForbidden,
-  IFXPageHeader,
-  IFXLogin,
-  IFXLogout
+  IFXPageHeader
 }
 
 export const ifxmodules = {
