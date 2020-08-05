@@ -1,6 +1,5 @@
 import {has} from 'lodash'
 
-
 const getDefaultState = () => {
   return {
     active: false,
@@ -21,7 +20,7 @@ const getters = {
 }
 
 const actions = {
-  async showMessage({context}, payload) {
+  async showMessage({commit}, payload) {
     let message = ''
     if (typeof payload === 'string' || payload instanceof String) {
       message = payload
@@ -36,8 +35,7 @@ const actions = {
     } else {
       message = JSON.stringify(payload)
     }
-    await context.commit('setMessage', {message})
-    await context.commit('activate')
+    await commit('activateMessage', {message})
   },
   async showError({commit}, payload) {
     let message = ''
@@ -78,25 +76,25 @@ const actions = {
       } else {
         return 'Error: ' + JSON.stringify(payload)
       }
-      await commit('setMessage', {message, isActionRequired})
-      await commit('activate')
+      await commit('activateMessage', {message, isActionRequired})
     }
+  },
+  deactivateMessage({context}) {
+    context.commit('deactivateMessage')
   }
 }
 
 const mutations = {
-  activate(state) {
-    state.active = true
-  },
-  deactivate(state) {
-    Object.assign(state, getDefaultState())
-  },
-  setMessage(state, payload) {
+  activateMessage(state, payload) {
     const {message, isActionRequired} = payload
     state.message = message
     if (isActionRequired) {
       state.isActionRequired = isActionRequired
     }
+    state.active = true
+  },
+  deactivateMessage(state) {
+    Object.assign(state, getDefaultState())
   }
 }
 

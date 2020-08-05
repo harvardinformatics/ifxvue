@@ -44,7 +44,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["activate", "deactivate"])
+    ...mapActions(["activateMessage", "deactivateMessage"])
   }
 }
 </script>
