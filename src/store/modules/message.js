@@ -2,7 +2,7 @@ import {has} from 'lodash'
 
 const getDefaultState = () => {
   return {
-    active: false,
+    isMessageActive: false,
     isActionRequired: false,
     message: ""
   }
@@ -11,8 +11,8 @@ const getDefaultState = () => {
 const state = getDefaultState()
 
 const getters = {
-  active: state => {
-    return state.active
+  isMessageActive: state => {
+    return state.isMessageActive
   },
   message: state => {
     return state.message
@@ -91,7 +91,7 @@ const mutations = {
     if (isActionRequired) {
       state.isActionRequired = isActionRequired
     }
-    state.active = true
+    state.isMessageActive = true
   },
   deactivateMessage(state) {
     Object.assign(state, getDefaultState())

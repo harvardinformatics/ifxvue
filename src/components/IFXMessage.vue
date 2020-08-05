@@ -38,7 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["message", 'isActionRequired', 'active']),
+    ...mapGetters(["message", 'isActionRequired', 'isMessageActive']),
     messageTimeout() {
       return this.isActionRequired ? 500000 : this.message.length / 30 * 1000 + 1000
     }
@@ -51,7 +51,7 @@ export default {
 
 <template>
   <v-snackbar
-    v-model="active"
+    :value="isMessageActive"
     :vertical="vertical"
     :top="top"
     :bottom="bottom"
@@ -64,7 +64,7 @@ export default {
   >
     {{message}}
     <template #action>
-      <IFXButton btnType='close' small @action="deactivate"/>
+      <IFXButton btnType='close' small @action="deactivateMessage"/>
     </template>
   </v-snackbar>
 </template>
