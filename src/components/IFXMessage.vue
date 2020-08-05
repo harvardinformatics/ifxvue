@@ -38,16 +38,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["message"]),
-    active: {
-      get() {
-        return this.$store.getters.active
-      },
-      set() {
-        this.$store.getters.active
-          ? this.$store.commit("deactivate")
-          : this.$store.commit("activate")
-      }
+    ...mapGetters(["message", 'isActionRequired', 'active']),
+    messageTimeout() {
+      return this.isActionRequired ? 500000 : this.message.length / 30 * 1000 + 1000
     }
   },
   methods: {
@@ -66,17 +59,12 @@ export default {
     :right="right"
     :color="color"
     :multi-line="multiline"
-    :timeout="message.length / 30 * 1000 + 1000"
+    :timeout="messageTimeout"
+    @input="deactivate"
   >
     {{message}}
-    <template v-slot:action="{ attrs }">
-      <v-btn
-        text
-        v-bind="attrs"
-        @click="deactivate"
-      >
-        Close
-      </v-btn>
+    <template #action>
+      <IFXButton btnType='close' small @action="deactivate"/>
     </template>
   </v-snackbar>
 </template>
