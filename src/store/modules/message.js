@@ -79,8 +79,8 @@ const actions = {
       await commit('activateMessage', {message, isActionRequired})
     }
   },
-  deactivateMessage({context}) {
-    context.commit('deactivateMessage')
+  deactivateMessage({commit}) {
+    commit('deactivateMessage')
   }
 }
 
