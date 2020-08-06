@@ -1,20 +1,21 @@
 <script>
 export default {
   name: 'IFXNotFound',
+  methods: {
+    navigateToHome() {
+      this.rtr.push({name: 'Home'})
+    }
+  }
 }
 </script>
 
 <template>
   <v-container fluid>
     <v-row align="center" justify="center">
-      <v-card class="mx-auto">
-        <v-card-title style="border-bottom: 1px solid #aaa">
-          <span class="display-1" style="color: #db564c">Not Found!</span>
-        </v-card-title>
-        <v-card-text>
-          The item you're looking for does not exist.
-        </v-card-text>
-      </v-card>
+      <h1 class="display-1" style="color: #db564c">Not Found!</h1>
+      <h3>The page you are looking for does not exist.</h3>
+      <p>To navigate to the home page, please click on the button below.</p>
+      <IFXButton btnText="Home" @action="navigateToHome"/>
     </v-row>
   </v-container>
 </template>
