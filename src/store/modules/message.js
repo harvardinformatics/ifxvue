@@ -59,7 +59,7 @@ function getMessage(payload) {
           message = 'This method is not allowed. Please try something else.'
           break;
         case 500:
-          message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu'
+          message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu.'
           break;
         default:
           message = 'Error accessing this URL: ' + JSON.stringify(payload)
