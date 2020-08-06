@@ -1,5 +1,6 @@
 <template>
-  <v-app>
+<span></span>
+  <!-- <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
         <span>Development</span>
@@ -9,16 +10,12 @@
     <v-content>
       <Message/>
     </v-content>
-  </v-app>
+  </v-app> -->
 </template>
 
 <script>
 
 export default {
-  name: 'App',
-  data () {
-    return {
-    }
-  }
+  name: 'App'
 }
 </script>

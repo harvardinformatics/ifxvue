@@ -62,18 +62,28 @@ export default {
         return this.btnColor
       }
       let btnColor = ''
-      if (this.btnType === 'edit') {
-        btnColor = 'primary'
-      } else if (this.btnType === 'remove') {
-        btnColor = 'red'
-      } else if (this.btnType === 'add') {
-        btnColor = 'primary'
-      } else if (this.btnType === 'submit') {
-        btnColor = 'secondary'
-      } else if (this.btnType === 'close') {
-        btnColor = 'secondary'
-      } else {
-        btnColor = 'secondary'
+      switch(this.btnType) {
+        case 'edit':
+          btnColor = 'primary'
+          break;
+        case 'add':
+          btnColor = 'primary'
+          break;
+        case 'remove':
+          btnColor = 'red'
+          break;
+        case 'submit':
+          btnColor = 'secondary'
+          break;
+        case 'close':
+          btnColor = 'secondary'
+          break;
+        case 'home':
+          btnColor = 'primary'
+          break;
+        default:
+          btnColor = 'secondary'
+          break;
       }
       return btnColor
     },
@@ -107,18 +117,24 @@ export default {
         return this.iconString
       }
       let iconString = ''
-      if (this.btnType === 'edit') {
-        iconString = 'mdi-pencil'
-      } else if (this.btnType === 'remove') {
-        iconString = 'delete'
-      } else if (this.btnType === 'add') {
-        iconString = 'add'
-      } else if (this.btnType === 'submit') {
-        iconString = ''
-      } else {
-        iconString = 'plus'
-      }
-      return iconString
+      switch(this.btnType) {
+        case 'edit':
+          iconString = 'mdi-pencil'
+          break;
+        case 'remove':
+          iconString = 'delete'
+          break;
+        case 'add':
+          iconString = 'add'
+          break;
+        case 'submit':
+          iconString = ''
+          break;
+        default:
+          iconString = ''
+          break;
+        }
+        return iconString
     },
     btnTextComputed() {
       if (this.btnText) {
@@ -155,7 +171,7 @@ export default {
     @click.prevent="clickHandler"
     rounded
   >
-    <v-icon :color="iconColor">{{iconStringComputed}}</v-icon>
+    <v-icon v-if="iconStringComputed" :color="iconColor">{{iconStringComputed}}</v-icon>
     <span v-if="btnTextComputed">{{btnTextComputed}}</span>
   </v-btn>
 </template>
