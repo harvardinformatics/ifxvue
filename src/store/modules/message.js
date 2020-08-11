@@ -40,6 +40,14 @@ function getMessage(payload) {
       message = payload.response.non_field_errors
       return {message, isActionRequired}
     }
+    // If payload is error object and not non-field error, then action is required
+    isActionRequired = true
+
+    if (has(payload.response, 'data') && has(payload.response.data, 'error')) {
+      message = payload.response.data.error
+      return {message, isActionRequired}
+    }
+
     // Check status values
     if (has(payload.response, 'status')) {
       switch(payload.response.status) {
@@ -68,7 +76,7 @@ function getMessage(payload) {
       return {message, isActionRequired}
     }
     // Fallback error message if axios error object does not have status code
-    message = 'Error: ' + JSON.stringify(payload)
+    message = 'Unknown error: ' + JSON.stringify(payload)
     return {message, isActionRequired}
   }
   message = JSON.stringify(payload)

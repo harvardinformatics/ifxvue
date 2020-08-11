@@ -37,11 +37,6 @@ const actions = {
     await commit('initUser', payload)
     await commit('setAuthToken', payload.token)
   },
-  // This is not used anywhere - do we need it?
-  // async fetchToken({commit}) {
-  //   const token = await axios.get(LOGIN_URL).then(response => response.data.token ? response.data.token : '')
-  //   await commit('setAuthToken', token)
-  // },
   setAuthHeaderValue({getters}) {
     axios.defaults.headers.common['Authorization'] = getters.authHeaderValue
   },
@@ -50,6 +45,9 @@ const actions = {
       dispatch('setAuthHeaderValue')
     }
   },
+  /**
+   * Logs user into the system. Retrieves token and sets user information if successful.
+   */
   async login({dispatch, rootGetters}) {
     try {
       const response = await axios.get(rootGetters.LOGIN_URL)

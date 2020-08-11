@@ -90,7 +90,7 @@ Optional parameters:
 - multiline (makes message taller)
 - timeout (time in milliseconds for message to be displayed - default is 3000)
 
-Example (in App.js):
+Example (in App.js or any other top-level component):
 ```
 <Message :top=true :color="success" :timeout=5000/>
 ```
