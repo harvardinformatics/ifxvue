@@ -24,6 +24,9 @@ export default {
   <span v-else-if="name==='date_modified'">
     <div>{{item.date_modified | humanDatetime}}</div>
   </span>
+  <span v-else-if="name==='date_sent'">
+    <div>{{item.date_sent | humanDatetime}}</div>
+  </span>
   <span v-else-if="name==='reading_date'">
     <div>{{item.reading_date | humanDatetime}}</div>
   </span>
@@ -40,6 +43,9 @@ export default {
     <div>{{item.scf_per_liter | centsToDollars}}</div>
   </span>
   <span v-else-if="name==='active'">
+    <div>{{item.active | capitalizeFirstLetter}}</div>
+  </span>
+  <span v-else-if="name==='recipients'">
     <div>{{item.active | capitalizeFirstLetter}}</div>
   </span>
   <span v-else>
