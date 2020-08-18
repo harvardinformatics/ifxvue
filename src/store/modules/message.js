@@ -1,7 +1,9 @@
+import {has} from 'lodash'
 
 const getDefaultState = () => {
   return {
-    active: false,
+    isMessageActive: false,
+    isActionRequired: false,
     message: ""
   }
 }
@@ -9,77 +11,103 @@ const getDefaultState = () => {
 const state = getDefaultState()
 
 const getters = {
-  active: state => {
-    return state.active
+  isMessageActive: state => {
+    return state.isMessageActive
   },
   message: state => {
     return state.message
+  },
+}
+
+function getMessage(payload) {
+  let message = ''
+  let isActionRequired = false
+
+  if (typeof payload === 'string' || payload instanceof String) {
+    // Add custom string mappings here
+    if (payload === 'Network Error') {
+      message = 'Cannot connect to the application backend. It is probably down.'
+    } else {
+      message = payload
+    }
+    return {message, isActionRequired}
   }
+
+  // If it is an axios error object
+  if (has(payload, 'response') && has(payload, 'config') && has(payload, 'request')) {
+    // If it's a non_field_errors object
+    if (has(payload.response, 'non_field_errors')) {
+      message = payload.response.non_field_errors
+      return {message, isActionRequired}
+    }
+    // If payload is error object and not non-field error, then action is required
+    isActionRequired = true
+
+    if (has(payload.response, 'data') && has(payload.response.data, 'error')) {
+      message = payload.response.data.error
+      return {message, isActionRequired}
+    }
+
+    // Check status values
+    if (has(payload.response, 'status')) {
+      switch(payload.response.status) {
+        case 400:
+          message = 'Malformed edit.'
+          break;
+        case 401:
+          message = 'You are not authorized to use this application.'
+          break;
+        case 403:
+          message = 'You are not allowed to modify this record.'
+          break;
+        case 404:
+          message = 'Unable to find the URL you are looking for.'
+          break;
+        case 405:
+          message = 'This method is not allowed. Please try something else.'
+          break;
+        case 500:
+          message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu.'
+          break;
+        default:
+          message = 'Error accessing this URL: ' + JSON.stringify(payload)
+          break;
+        }
+      return {message, isActionRequired}
+    }
+    // Fallback error message if axios error object does not have status code
+    message = 'Unknown error: ' + JSON.stringify(payload)
+    return {message, isActionRequired}
+  }
+  message = JSON.stringify(payload)
+  return {message, isActionRequired}
 }
 
 const actions = {
-  activate(context) {
-    context.commit('activate')
-  },
-  deactivate(context) {
-    context.commit('deactivate')
-  },
-  async showMessage(context, payload) {
-    let { error, message } = payload
-    // Check if payload has an error object
-    if (error && error instanceof Error) {
-      if (!error.hasOwnProperty('response')) {
-        message = error
-      // Check if error is related to field errors
-      } else if (error.response && error.response.hasOwnProperty('non_field_errors')) {
-        message = error.response.hasOwnProperty('data') ? error.response.data : error
-      } else if (error.response && error.response.hasOwnProperty('data') && error.response.data.hasOwnProperty('error')) {
-        message = error.response.data.error
-        // Otherwise generate default error message based on status
-      } else if (!message) {
-          switch (error.response.status) {
-            case 400:
-              message = 'Malformed edit: ' + JSON.stringify(error.response.data)
-              break
-            case 401:
-              if (error.response && error.response.hasOwnProperty('data')){
-                message = error.response.data.error
-              } else {
-                message = 'You are not authorized to use this application.'
-              }
-              break
-            case 403:
-              message = 'You are not allowed to modify this record.'
-              break
-            case 404:
-              message = 'Unable to find the URL you are looking for.'
-              break
-            case 500:
-              message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu'
-              break
-            default:
-              message = 'Error accessing this URL: ' + JSON.stringify(error.response)
-          }
-      }
-    //   // Check if payload has response object and no message
-    } else if (payload.hasOwnProperty('response') && !message) {
-      message = payload.response.data
+  showMessage({commit}, payload) {
+    if (!payload) {
+      console.error('showMessage must include a string or a payload object.')
+      return
     }
-    await context.commit('showMessage', message)
-    await context.commit('activate')
+    const res = getMessage(payload)
+    commit('activateMessage', res)
+  },
+  deactivateMessage({commit}) {
+    commit('deactivateMessage')
   }
 }
 
-// mutations
 const mutations = {
-  activate(state) {
-    state.active = true
-  },
-  deactivate(state) {
-    Object.assign(state, getDefaultState())
-  },
-  showMessage(state, message) {
+  activateMessage(state, payload) {
+    const {message, isActionRequired} = payload
     state.message = message
+    if (isActionRequired) {
+      state.isActionRequired = isActionRequired
+    }
+    state.isMessageActive = true
+  },
+  deactivateMessage(state) {
+    Object.assign(state, getDefaultState())
   }
 }
 

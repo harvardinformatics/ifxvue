@@ -14,12 +14,12 @@ const getters = {
 }
 
 const actions = {
-  async openDialog(context, data) {
-    if (data) await context.dispatch('loadRequest', data)
-    await context.commit('openDialog')
+  async openDialog({commit, dispatch}, data) {
+    if (data) await dispatch('loadRequest', data)
+    await commit('openDialog')
   },
-  closeDialog(context) {
-    context.commit('close')
+  closeDialog({commit}) {
+    commit('close')
   }
 }
 
