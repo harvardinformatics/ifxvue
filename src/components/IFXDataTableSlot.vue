@@ -53,8 +53,8 @@ export default {
   <span v-else-if="['to', 'cc', 'bcc'].includes(name)">
     <div>{{item.recipients[name].join(", ")}}</div>
   </span>
-  <span v-else-if="name==='body'">
-    <div>{{shortenString(item.body)}}</div>
+  <span v-else-if="name==='message'">
+    <div>{{shortenString(item.message)}}</div>
   </span>
   <span v-else>
     <slot name="custom"></slot>
