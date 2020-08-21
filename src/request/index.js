@@ -2,6 +2,7 @@
   Request API
 */
 import axios from 'axios'
+import store from '@/store/index'
 
 class Request {
   constructor (request) {
@@ -173,15 +174,19 @@ class AccountRequest extends Request {
 
 
 class RequestAPI {
-  constructor (auth, defaultApprover, apiRoot) {
-    this.auth = auth
+  constructor (defaultApprover, apiRoot) {
     this.defaultApprover = defaultApprover
     this.apiRoot = apiRoot
   }
   setState (id, nextState, comment) {
     const url = `${this.apiRoot}/requests/set-request-state/`
     const data = { 'request_id': id, 'state': nextState, 'comment': comment }
-    return axios.post(url, data, { headers: { 'Content-Type': 'application/json', Authorization: `${this.auth.getAuthHeaderValue()}` } })
+    return axios.post(
+      url, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${store.getters.authHeaderValue}` }
+      })
   }
   getRequestTypeDetailComponent (requestType) {
     if (requestType === 'account_request') {
@@ -198,7 +203,12 @@ class RequestAPI {
   async getRequest (id) {
     const url = `${this.apiRoot}/requests/${id}/`
     let result = null
-    let data = await axios.get(url, { headers: { Authorization: `${this.auth.getAuthHeaderValue()}` } }).then((res) => res.data).catch((err) => { throw new Error(err) })
+    let data = await axios.get(
+      url, {
+        headers: {
+          Authorization: `${store.getters.authHeaderValue}`
+        }
+      }).then((res) => res.data).catch((err) => { throw new Error(err) })
     if (data && data.request_type === 'account_request') {
       result = new AccountRequest(data)
     } else {
@@ -228,14 +238,16 @@ class RequestAPI {
     }
     const url = `${this.apiRoot}/requests/get-request-list/`
     return axios.get(url, {
-      headers: { Authorization: `${this.auth.getAuthHeaderValue()}` },
+      headers: {
+        Authorization: `${store.getters.authHeaderValue}`
+      },
       params: params
     })
   }
   updateAccountRequest (accountRequest) {
     // Update both the account request and the onboard request data
     const headers = {
-      'Content-Type': 'application/json', Authorization: `${this.auth.getAuthHeaderValue()}`
+      'Content-Type': 'application/json', Authorization: `${store.getters.authHeaderValue}`
     }
     const id = accountRequest.id
     const url = `${this.apiRoot}/requests/${id}/`
@@ -277,7 +289,7 @@ class RequestAPI {
     }
     return axios.get(url, {
       params: params,
-      headers: { Authorization: `${this.auth.getAuthHeaderValue()}` }
+      headers: { Authorization: `${store.getters.authHeaderValue}` }
     })
   }
 }

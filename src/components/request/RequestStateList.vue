@@ -1,21 +1,15 @@
 <script>
-import auth from '@/auth'
-import { RequestAPI } from '@/request'
-
-const requestApi = new RequestAPI()
-
 export default {
   name: 'RequestStateList',
   props: {
     'request': Object,
-    'validStates': Array
+    'validStates': Array,
+    'requestApi': Object
   },
   data () {
     return {
-      default_approver: requestApi.getDefaultApprover(),
       dialog: false,
       request_state: null,
-      ifxuser: auth.getUsername(),
       headers: [
         { text: 'Status', align: 'left', sortable: false, value: 'name' },
         { text: 'Updated', sortable: false, value: 'created' },
@@ -26,14 +20,14 @@ export default {
   },
   methods: {
     isUserApprover (request) {
-      return requestApi.isUserApprover(request)
+      return this.requestApi.isUserApprover(request)
     },
     updateRequest () {
       let me = this
       if (this.request_state) {
-        requestApi.setState(this.request.id, this.request_state)
+        me.requestApi.setState(this.request.id, this.request_state)
           .then(() => {
-            me.$router.go()
+            window.location.reload()
           })
           .catch((error) => {
             console.log(error)
@@ -81,7 +75,7 @@ export default {
             <tr :class="{'can-be-approved': isUserApprover(request) && props.item.id === request.requestStates[0].id}">
               <td>{{props.item.name | stateDisplay}}</td>
               <td class="date-column">{{props.item.created | humanDatetime}}</td>
-              <td>{{props.item.user.full_name == default_approver ? '' : props.item.user.full_name}}</td>
+              <td>{{props.item.user.full_name == defaultApprover ? '' : props.item.user.full_name}}</td>
               <td>{{props.item.comment ? props.item.comment : "&nbsp;"}}</td>
             </tr>
           </template>
