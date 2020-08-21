@@ -4,6 +4,11 @@ export default {
   props: {
     name: String,
     item: Object
+  },
+  methods: {
+    shortenString(string, length=120) {
+      return `${string.substring(0,length)}...`
+    }
   }
 }
 </script>
@@ -45,8 +50,11 @@ export default {
   <span v-else-if="name==='active'">
     <div>{{item.active | capitalizeFirstLetter}}</div>
   </span>
-  <span v-else-if="name==='recipients'">
-    <div>{{item.active | capitalizeFirstLetter}}</div>
+  <span v-else-if="['to', 'cc', 'bcc'].includes(name)">
+    <div>{{item.recipients[name].join(", ")}}</div>
+  </span>
+  <span v-else-if="name==='message'">
+    <div>{{shortenString(item.message)}}</div>
   </span>
   <span v-else>
     <slot name="custom"></slot>

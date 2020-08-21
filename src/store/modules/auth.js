@@ -64,7 +64,7 @@ const actions = {
         return message
       }
     } catch(error) {
-      await dispatch('showMessage', {error})
+      await dispatch('showMessage', error)
       return error
     }
   },

@@ -22,9 +22,7 @@ export default {
 </script>
 
 <template>
-  <div class="text-xs-center">
-    <v-dialog @input="triggerClose()" :value="isDialogOpen" width="700">
-      <component :is="componentToRender"></component>
-    </v-dialog>
-  </div>
+  <v-dialog @input="triggerClose()" :value="isDialogOpen" width="auto" :fullscreen="$vuetify.breakpoint.xsOnly">
+    <component :is="componentToRender"></component>
+  </v-dialog>
 </template>
