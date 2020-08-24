@@ -102,26 +102,32 @@ class UserAPI {
     })
     return users
   }
-  updateUser(data) {
-    let url = `${this.apiRoot}/update-nanites/`
-    return axios.put(url, data, {headers: {Authorization: `${this.auth.getAuthHeaderValue()}`}})
+  updateUser(user) {
+    // For use by administrators
+    let userData = user.user
+    let url = `${this.apiRoot}/users/${userData.id}/`
+    return axios.put(url, userData, {headers: {Authorization: `${this.auth.getAuthHeaderValue()}`}})
   }
   updateUserAddress(data) {
     let url = `${this.apiRoot}/update-nanites-address/`
     return axios.post(url, data, {headers: {Authorization: `${this.auth.getAuthHeaderValue()}`}})
   }
-  getAllUserGroups() {
+  getGroups() {
     let url = `${this.apiRoot}/groups/`
     return axios.get(url, {headers: {Authorization: `${this.auth.getAuthHeaderValue()}`}})
   }
-  updateUserGroups(username, groups) {
-    let url = `${this.apiRoot}/update-groups/`
-    let data = {
-      username,
-      groups
-    }
-    return axios.post(url, data, {headers: {Authorization: `${this.auth.getAuthHeaderValue()}`}})
+  userStyle(user) {
+    return ''
   }
+  // This should not be needed if we do the user object correctly
+  // updateUserGroups(username, groups) {
+  //   let url = `${this.apiRoot}/update-groups/`
+  //   let data = {
+  //     username,
+  //     groups
+  //   }
+  //   return axios.post(url, data, {headers: {Authorization: `${this.auth.getAuthHeaderValue()}`}})
+  // }
 
 }
 
