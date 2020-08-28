@@ -62,7 +62,7 @@ const actions = {
         }
         message = `Not authorized. ${info}`
       }
-      throw new Error({ data: { error: message}})
+      throw new Error(message)
     }
   },
   logout({commit}) {

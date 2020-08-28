@@ -46744,11 +46744,7 @@ var auth_actions = {
                 _message2 = "Not authorized. ".concat(info);
               }
 
-              throw new Error({
-                data: {
-                  error: _message2
-                }
-              });
+              throw new Error(_message2);
 
             case 26:
             case "end":
