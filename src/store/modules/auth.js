@@ -32,30 +32,36 @@ const actions = {
   /**
    * Logs user into the system. Retrieves token and sets user information if successful.
    */
-  async login({dispatch, rootGetters}) {
+  async login({dispatch}, payload) {
     try {
-      const response = await axios.get(rootGetters.LOGIN_URL)
+      let userClassName = 'User'
+      if (payload.hasOwnProperty('userClassName')) {
+        userClassName = payload.userClassName
+      }
+      const response = await axios.get(payload.LOGIN_URL)
       if (!response.data || !response.data.token) {
         // failure
-        const message = 'You are a known user, but your data is malformed. Please contact rchelp@rc.fas.harvard.edu.'
-        await dispatch('showMessage', message)
+        const message = 'Malformed user data.'
         throw new Error(message)
       } else {
         // If response has data and token, then it is successful
-        await dispatch('initUser', response.data)
-        const message = 'Login successful. Now you can do whatever you want.'
-        await dispatch('showMessage', message)
+        let userObj = (Function(`return new ${userClassName}`))(response.data)
+        await dispatch('initUser', userObj)
+        const message = 'Login successful.'
         return message
       }
     } catch(error) {
-      await dispatch('showMessage', error)
-      return error
+      let message = 'Login failure.'
+      if (error.hasOwnProperty('response') && error.response && error.response.status == 401) {
+        message = 'Not authorized.'
+      }
+      throw new Error(message)
     }
   },
   logout({commit, dispatch}) {
     commit('destroyUser')
-    const message = 'You have been logged out successfully.'
-    dispatch('showMessage', message)
+    const message = 'Logout successful.'
+    return message
   }
 }
 

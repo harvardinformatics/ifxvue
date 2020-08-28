@@ -46682,19 +46682,25 @@ var auth_actions = {
    * Logs user into the system. Retrieves token and sets user information if successful.
    */
   login: function () {
-    var _login = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref4) {
-      var dispatch, rootGetters, response, message, _message;
+    var _login = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref4, payload) {
+      var dispatch, userClassName, response, message, userObj, _message, _message2;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              dispatch = _ref4.dispatch, rootGetters = _ref4.rootGetters;
+              dispatch = _ref4.dispatch;
               _context2.prev = 1;
-              _context2.next = 4;
-              return axios_default.a.get(rootGetters.LOGIN_URL);
+              userClassName = 'User';
 
-            case 4:
+              if (payload.hasOwnProperty('userClassName')) {
+                userClassName = payload.userClassName;
+              }
+
+              _context2.next = 6;
+              return axios_default.a.get(payload.LOGIN_URL);
+
+            case 6:
               response = _context2.sent;
 
               if (!(!response.data || !response.data.token)) {
@@ -46703,47 +46709,43 @@ var auth_actions = {
               }
 
               // failure
-              message = 'You are a known user, but your data is malformed. Please contact rchelp@rc.fas.harvard.edu.';
-              _context2.next = 9;
-              return dispatch('showMessage', message);
-
-            case 9:
+              message = 'Malformed user data.';
               throw new Error(message);
 
             case 12:
-              _context2.next = 14;
-              return dispatch('initUser', response.data);
+              // If response has data and token, then it is successful
+              userObj = Function("return new ".concat(userClassName))(response.data);
+              _context2.next = 15;
+              return dispatch('initUser', userObj);
 
-            case 14:
-              _message = 'Login successful. Now you can do whatever you want.';
-              _context2.next = 17;
-              return dispatch('showMessage', _message);
-
-            case 17:
+            case 15:
+              _message = 'Login successful.';
               return _context2.abrupt("return", _message);
 
-            case 18:
-              _context2.next = 25;
+            case 17:
+              _context2.next = 24;
               break;
 
-            case 20:
-              _context2.prev = 20;
+            case 19:
+              _context2.prev = 19;
               _context2.t0 = _context2["catch"](1);
-              _context2.next = 24;
-              return dispatch('showMessage', _context2.t0);
+              _message2 = 'Login failure.';
+
+              if (_context2.t0.hasOwnProperty('response') && _context2.t0.response && _context2.t0.response.status == 401) {
+                _message2 = 'Not authorized.';
+              }
+
+              throw new Error(_message2);
 
             case 24:
-              return _context2.abrupt("return", _context2.t0);
-
-            case 25:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[1, 20]]);
+      }, _callee2, null, [[1, 19]]);
     }));
 
-    function login(_x3) {
+    function login(_x3, _x4) {
       return _login.apply(this, arguments);
     }
 
@@ -46753,8 +46755,8 @@ var auth_actions = {
     var commit = _ref5.commit,
         dispatch = _ref5.dispatch;
     commit('destroyUser');
-    var message = 'You have been logged out successfully.';
-    dispatch('showMessage', message);
+    var message = 'Logout successful.';
+    return message;
   }
 };
 var auth_mutations = {
