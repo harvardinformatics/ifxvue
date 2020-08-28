@@ -53,6 +53,7 @@ const actions = {
         return message
       }
     } catch(error) {
+      console.log(error)
       let message = 'Login failure.'
       if (error.hasOwnProperty('response') && error.response && error.response.status == 401) {
         console.log(error.response)

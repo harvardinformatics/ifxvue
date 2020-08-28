@@ -46725,12 +46725,13 @@ var auth_actions = {
               return _context2.abrupt("return", _message);
 
             case 19:
-              _context2.next = 26;
+              _context2.next = 27;
               break;
 
             case 21:
               _context2.prev = 21;
               _context2.t0 = _context2["catch"](1);
+              console.log(_context2.t0);
               _message2 = 'Login failure.';
 
               if (_context2.t0.hasOwnProperty('response') && _context2.t0.response && _context2.t0.response.status == 401) {
@@ -46746,7 +46747,7 @@ var auth_actions = {
 
               throw new Error(_message2);
 
-            case 26:
+            case 27:
             case "end":
               return _context2.stop();
           }
