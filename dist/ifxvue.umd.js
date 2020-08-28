@@ -46691,20 +46691,22 @@ var auth_actions = {
             case 0:
               dispatch = _ref4.dispatch;
               _context2.prev = 1;
+              console.log('login payload ');
+              console.log(payload);
               userClassName = 'User';
 
               if (payload.hasOwnProperty('userClassName')) {
                 userClassName = payload.userClassName;
               }
 
-              _context2.next = 6;
+              _context2.next = 8;
               return axios_default.a.get(payload.LOGIN_URL);
 
-            case 6:
+            case 8:
               response = _context2.sent;
 
               if (!(!response.data || !response.data.token)) {
-                _context2.next = 12;
+                _context2.next = 14;
                 break;
               }
 
@@ -46712,22 +46714,22 @@ var auth_actions = {
               message = 'Malformed user data.';
               throw new Error(message);
 
-            case 12:
+            case 14:
               // If response has data and token, then it is successful
               userObj = Function("return new ".concat(userClassName))(response.data);
-              _context2.next = 15;
+              _context2.next = 17;
               return dispatch('initUser', userObj);
 
-            case 15:
+            case 17:
               _message = 'Login successful.';
               return _context2.abrupt("return", _message);
 
-            case 17:
-              _context2.next = 24;
+            case 19:
+              _context2.next = 26;
               break;
 
-            case 19:
-              _context2.prev = 19;
+            case 21:
+              _context2.prev = 21;
               _context2.t0 = _context2["catch"](1);
               _message2 = 'Login failure.';
 
@@ -46737,12 +46739,12 @@ var auth_actions = {
 
               throw new Error(_message2);
 
-            case 24:
+            case 26:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[1, 19]]);
+      }, _callee2, null, [[1, 21]]);
     }));
 
     function login(_x3, _x4) {
@@ -46752,8 +46754,7 @@ var auth_actions = {
     return login;
   }(),
   logout: function logout(_ref5) {
-    var commit = _ref5.commit,
-        dispatch = _ref5.dispatch;
+    var commit = _ref5.commit;
     commit('destroyUser');
     var message = 'Logout successful.';
     return message;

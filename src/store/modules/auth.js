@@ -34,6 +34,8 @@ const actions = {
    */
   async login({dispatch}, payload) {
     try {
+      console.log('login payload ')
+      console.log(payload)
       let userClassName = 'User'
       if (payload.hasOwnProperty('userClassName')) {
         userClassName = payload.userClassName
@@ -58,7 +60,7 @@ const actions = {
       throw new Error(message)
     }
   },
-  logout({commit, dispatch}) {
+  logout({commit}) {
     commit('destroyUser')
     const message = 'Logout successful.'
     return message
