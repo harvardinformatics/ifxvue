@@ -46674,7 +46674,7 @@ var auth_actions = {
    */
   login: function () {
     var _login = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref4, payload) {
-      var dispatch, userClassName, response, message, userObj, _message, _message2;
+      var dispatch, userClassName, response, message, userObj, _message, _message2, info;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
@@ -46725,10 +46725,21 @@ var auth_actions = {
               _message2 = 'Login failure.';
 
               if (_context2.t0.hasOwnProperty('response') && _context2.t0.response && _context2.t0.response.status == 401) {
-                _message2 = 'Not authorized.';
+                console.log(_context2.t0.response);
+                info = '';
+
+                if (_context2.t0.response.hasOwnProperty('data') && _context2.t0.response.data && _context2.t0.response.data.hasOwnProperty('error')) {
+                  info = _context2.t0.response.data.error;
+                }
+
+                _message2 = "Not authorized. ".concat(info);
               }
 
-              throw new Error(_message2);
+              throw new Error({
+                data: {
+                  error: _message2
+                }
+              });
 
             case 26:
             case "end":

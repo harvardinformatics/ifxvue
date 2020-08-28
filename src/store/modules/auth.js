@@ -55,9 +55,14 @@ const actions = {
     } catch(error) {
       let message = 'Login failure.'
       if (error.hasOwnProperty('response') && error.response && error.response.status == 401) {
-        message = 'Not authorized.'
+        console.log(error.response)
+        let info = ''
+        if (error.response.hasOwnProperty('data') && error.response.data && error.response.data.hasOwnProperty('error')) {
+          info = error.response.data.error
+        }
+        message = `Not authorized. ${info}`
       }
-      throw new Error(message)
+      throw new Error({ data: { error: message}})
     }
   },
   logout({commit}) {
