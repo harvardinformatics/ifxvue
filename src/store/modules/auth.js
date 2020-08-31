@@ -47,7 +47,12 @@ const actions = {
         throw new Error(message)
       } else {
         // If response has data and token, then it is successful
-        let userObj = (Function(`return new ${userClassName}`))(response.data)
+        let userObj
+        if (payload.hasOwnProperty('createUser')) {
+          userObj = payload['createUser'](response.data)
+        } else {
+          userObj = (Function(`return new ${userClassName}`))(response.data)
+        }
         console.log('User obj')
         console.log(userObj)
         await dispatch('initUser', userObj)

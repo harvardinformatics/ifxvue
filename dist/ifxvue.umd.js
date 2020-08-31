@@ -46716,7 +46716,12 @@ var auth_actions = {
 
             case 14:
               // If response has data and token, then it is successful
-              userObj = Function("return new ".concat(userClassName))(response.data);
+              if (payload.hasOwnProperty('createUser')) {
+                userObj = payload['createUser'](response.data);
+              } else {
+                userObj = Function("return new ".concat(userClassName))(response.data);
+              }
+
               console.log('User obj');
               console.log(userObj);
               _context2.next = 19;
