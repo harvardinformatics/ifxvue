@@ -46706,19 +46706,22 @@ var auth_actions = {
                 userObj.userData = response.data;
               }
 
-              _context2.next = 14;
-              return dispatch('initUser', userObj);
+              console.log(userObj);
+              _context2.next = 15;
+              return dispatch('initUser', {
+                userObj: userObj
+              });
 
-            case 14:
+            case 15:
               _message = 'Login successful.';
               return _context2.abrupt("return", _message);
 
-            case 16:
-              _context2.next = 24;
+            case 17:
+              _context2.next = 25;
               break;
 
-            case 18:
-              _context2.prev = 18;
+            case 19:
+              _context2.prev = 19;
               _context2.t0 = _context2["catch"](1);
               console.log(_context2.t0);
               _message2 = 'Login failure.';
@@ -46736,12 +46739,12 @@ var auth_actions = {
 
               throw new Error(_message2);
 
-            case 24:
+            case 25:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[1, 18]]);
+      }, _callee2, null, [[1, 19]]);
     }));
 
     function login(_x3, _x4) {

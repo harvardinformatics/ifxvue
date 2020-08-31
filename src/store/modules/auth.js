@@ -46,7 +46,8 @@ const actions = {
           userObj = payload.userObj
           userObj.userData = response.data
         }
-        await dispatch('initUser', userObj)
+        console.log(userObj)
+        await dispatch('initUser', {userObj})
         const message = 'Login successful.'
         return message
       }
