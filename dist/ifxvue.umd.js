@@ -46711,7 +46711,8 @@ var auth_actions = {
               userObj = response.data;
 
               if (payload.hasOwnProperty('userObj')) {
-                userObj = payload.userObj.userData = response.data;
+                userObj = payload.userObj;
+                userObj.userData = response.data;
               }
 
               _context2.next = 14;

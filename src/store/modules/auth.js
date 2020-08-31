@@ -43,7 +43,8 @@ const actions = {
         // If response has data and token, then it is successful
         let userObj = response.data
         if (payload.hasOwnProperty('userObj')) {
-          userObj = payload.userObj.userData = response.data
+          userObj = payload.userObj
+          userObj.userData = response.data
         }
         await dispatch('initUser', userObj)
         const message = 'Login successful.'
