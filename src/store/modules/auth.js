@@ -48,6 +48,8 @@ const actions = {
       } else {
         // If response has data and token, then it is successful
         let userObj = (Function(`return new ${userClassName}`))(response.data)
+        console.log('User obj')
+        console.log(userObj)
         await dispatch('initUser', userObj)
         const message = 'Login successful.'
         return message

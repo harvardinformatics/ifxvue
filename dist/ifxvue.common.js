@@ -46708,19 +46708,21 @@ var auth_actions = {
             case 14:
               // If response has data and token, then it is successful
               userObj = Function("return new ".concat(userClassName))(response.data);
-              _context2.next = 17;
+              console.log('User obj');
+              console.log(userObj);
+              _context2.next = 19;
               return dispatch('initUser', userObj);
 
-            case 17:
+            case 19:
               _message = 'Login successful.';
               return _context2.abrupt("return", _message);
 
-            case 19:
-              _context2.next = 27;
+            case 21:
+              _context2.next = 29;
               break;
 
-            case 21:
-              _context2.prev = 21;
+            case 23:
+              _context2.prev = 23;
               _context2.t0 = _context2["catch"](1);
               console.log(_context2.t0);
               _message2 = 'Login failure.';
@@ -46738,12 +46740,12 @@ var auth_actions = {
 
               throw new Error(_message2);
 
-            case 27:
+            case 29:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[1, 21]]);
+      }, _callee2, null, [[1, 23]]);
     }));
 
     function login(_x3, _x4) {
