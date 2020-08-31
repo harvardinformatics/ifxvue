@@ -44,10 +44,10 @@ const actions = {
         let userObj = response.data
         if (payload.hasOwnProperty('userObj')) {
           userObj = payload.userObj
-          userObj.userData = response.data
+          userObj.user = response.data
         }
         console.log(userObj)
-        await dispatch('initUser', {userObj})
+        await dispatch('initUser', { user: userObj })
         const message = 'Login successful.'
         return message
       }

@@ -46712,13 +46712,13 @@ var auth_actions = {
 
               if (payload.hasOwnProperty('userObj')) {
                 userObj = payload.userObj;
-                userObj.userData = response.data;
+                userObj.user = response.data;
               }
 
               console.log(userObj);
               _context2.next = 15;
               return dispatch('initUser', {
-                userObj: userObj
+                user: userObj
               });
 
             case 15:
