@@ -34,12 +34,6 @@ const actions = {
    */
   async login({dispatch}, payload) {
     try {
-      console.log('login payload ')
-      console.log(payload)
-      let userClassName = 'User'
-      if (payload.hasOwnProperty('userClassName')) {
-        userClassName = payload.userClassName
-      }
       const response = await axios.get(payload.LOGIN_URL)
       if (!response.data || !response.data.token) {
         // failure
@@ -47,14 +41,10 @@ const actions = {
         throw new Error(message)
       } else {
         // If response has data and token, then it is successful
-        let userObj
-        if (payload.hasOwnProperty('createUser')) {
-          userObj = payload['createUser'](response.data)
-        } else {
-          userObj = (Function(`return new ${userClassName}`))(response.data)
+        let userObj = response.data
+        if (payload.hasOwnProperty('userObj')) {
+          userObj = payload.userObj.userData = response.data
         }
-        console.log('User obj')
-        console.log(userObj)
         await dispatch('initUser', userObj)
         const message = 'Login successful.'
         return message

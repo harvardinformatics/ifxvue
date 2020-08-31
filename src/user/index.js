@@ -16,7 +16,15 @@ class User {
       this.user.groups = []
     }
   }
-
+  get user () {
+    return this.user
+  }
+  set user (user) {
+    this.user = user
+    if (!user.groups) {
+      this.user.groups = []
+    }
+  }
   get id () {
     return this.user.id
   }

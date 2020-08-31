@@ -46683,7 +46683,7 @@ var auth_actions = {
    */
   login: function () {
     var _login = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref4, payload) {
-      var dispatch, userClassName, response, message, userObj, _message, _message2, info;
+      var dispatch, response, message, userObj, _message, _message2, info;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
@@ -46691,22 +46691,14 @@ var auth_actions = {
             case 0:
               dispatch = _ref4.dispatch;
               _context2.prev = 1;
-              console.log('login payload ');
-              console.log(payload);
-              userClassName = 'User';
-
-              if (payload.hasOwnProperty('userClassName')) {
-                userClassName = payload.userClassName;
-              }
-
-              _context2.next = 8;
+              _context2.next = 4;
               return axios_default.a.get(payload.LOGIN_URL);
 
-            case 8:
+            case 4:
               response = _context2.sent;
 
               if (!(!response.data || !response.data.token)) {
-                _context2.next = 14;
+                _context2.next = 10;
                 break;
               }
 
@@ -46714,29 +46706,27 @@ var auth_actions = {
               message = 'Malformed user data.';
               throw new Error(message);
 
-            case 14:
+            case 10:
               // If response has data and token, then it is successful
-              if (payload.hasOwnProperty('createUser')) {
-                userObj = payload['createUser'](response.data);
-              } else {
-                userObj = Function("return new ".concat(userClassName))(response.data);
+              userObj = response.data;
+
+              if (payload.hasOwnProperty('userObj')) {
+                userObj = payload.userObj.userData = response.data;
               }
 
-              console.log('User obj');
-              console.log(userObj);
-              _context2.next = 19;
+              _context2.next = 14;
               return dispatch('initUser', userObj);
 
-            case 19:
+            case 14:
               _message = 'Login successful.';
               return _context2.abrupt("return", _message);
 
-            case 21:
-              _context2.next = 29;
+            case 16:
+              _context2.next = 24;
               break;
 
-            case 23:
-              _context2.prev = 23;
+            case 18:
+              _context2.prev = 18;
               _context2.t0 = _context2["catch"](1);
               console.log(_context2.t0);
               _message2 = 'Login failure.';
@@ -46754,12 +46744,12 @@ var auth_actions = {
 
               throw new Error(_message2);
 
-            case 29:
+            case 24:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[1, 23]]);
+      }, _callee2, null, [[1, 18]]);
     }));
 
     function login(_x3, _x4) {
