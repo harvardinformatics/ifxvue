@@ -18,20 +18,6 @@ const getDefaultState = () => {
         Pellentesque quam elit, vehicula at commodo in, sodales sit amet purus. Praesent pellentesque
         elit vitae nisl blandit tincidunt. Donec eget risus lacinia, mollis libero vestibulum, porta massa.`
       },
-
-      // tostr = models.TextField(blank=False, null=False, default=None)
-      // fromstr = models.CharField(max_length=100, blank=False, null=False, default=None)
-      // ccstr = models.TextField(null=True, blank=True)
-      // bccstr = models.TextField(null=True, blank=True)
-      // replyto = models.CharField(max_length=100, blank=True, null=True)
-      // subject = models.CharField(max_length=1000, blank=False, null=False, default=None)
-      // message = models.TextField(blank=False, null=False, default=None)
-      // created = models.DateTimeField(auto_now_add=True)
-      // updated = models.DateTimeField(auto_now=True)
-      // sent = models.DateTimeField(blank=True, null=True, default=None)
-      // status = models.CharField(max_length=20, blank=False, default='READY')
-      // ifxmessage = models.ForeignKey(IfxMessage, blank=True, null=True, default=None, on_delete=models.CASCADE)
-      // application = models.CharField(max_length=20, blank=False, null=False, default='nice')
       {
         id: '54321',
         date_sent: new Date('2015-02-19').toISOString(),

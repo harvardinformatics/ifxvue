@@ -11,9 +11,14 @@ import IFXPageHeader from "@/components/IFXPageHeader.vue"
 import IFXDataTableSlot from "@/components/IFXDataTableSlot.vue"
 import IFXPageErrorDisplay from "@/components/IFXPageErrorDisplay.vue"
 import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } from './modules/filters'
+import { IFXUserAPIService } from '@/classes/IFXUserApi'
 import ifxmixins from './modules/mixins'
 import createPersistedState from "vuex-persistedstate"
 import VCurrencyField from 'v-currency-field'
+
+export const ifxclasses = {
+  IFXUserAPIService
+}
 
 export const ifxfilters = {
   humanDatetime,
@@ -50,7 +55,7 @@ export const ifxmodules = {
  * Dynamically adds components to Vue instance calling this function,
  * registers Vuex modules in its store, and makes auth module persistent.
  */
-export default function install(Vue, options ={}) {
+export default function install(Vue, options={}) {
   Object.keys(ifxcomponents).forEach(name => {
     Vue.component(name, ifxcomponents[name]);
   })
@@ -58,6 +63,7 @@ export default function install(Vue, options ={}) {
   Object.keys(ifxmodules).forEach(name => {
     options.store.registerModule(name, ifxmodules[name])
   })
+
   persist(options.store)
 
   Object.keys(ifxfilters).forEach(name => {
