@@ -1,32 +1,50 @@
+import {IFXStoreAPIService} from './IFXStoreApi'
+
 /**
  * Base User class for use on the frontend of IFX applications
  * @param  {object} urls all of the static urls used by the installing ifx application
  */
-export class IFXUserAPIService {
-  constructor(urls) {
-    this.urls = urls
+export class IFXUserAPIService extends IFXStoreAPIService {
+  constructor(store) {
+    super(store)
   }
-  // getUsers(username) {
-  //   let url = `${API_ROOT}/users/`
-  //   if (!username) {
-  //     // return axios.get(url, {headers: {Authorization: `${store.getters.authHeaderValue}`}})
-  //     return new Promise(resolve => resolve(this.users))
-  //   }
-  //   url = url + `${username}/`
-  //   // return axios.get(url, {headers: {Authorization: `${store.getters.authHeaderValue}`}})
-  // }
 
-  // getGroups(name) {
-  //   let url = `${API_ROOT}/groups/`
-  //   if (!name) {
-  //     // return axios.get(url, {headers: {Authorization: `${store.getters.authHeaderValue}`}})
-  //     return new Promise(resolve => resolve(this.groups))
-  //   }
-  //   url = url + `${name}/`
-  //   // return axios.get(url, {headers: {Authorization: `${store.getters.authHeaderValue}`}})
-  // }
-
-  async testIfxUser(username) {
-    return `Called from IFXUserApi in IFXVue. API_ROOT is: ${this.urls.API_ROOT} and username is: ${username}!`
+  get userObj() {
+    return this.getters.userObj
+  }
+  get firstName() {
+    return this.userObj.firstName
+  }
+  get lastName() {
+    return this.userObj.lastName
+  }
+  get username() {
+    return this.userObj.username
+  }
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`
+  }
+  get groups() {
+    return this.userObj.groups
+  }
+  get isActive() {
+    return this.userObj.isActive
+  }
+  get isStaff() {
+    return this.userObj.isStaff
+  }
+  get isAdmin() {
+    return this.isStaff
+  }
+  get isDjangoStaff() {
+    return this.isStaff
+  }
+  hasGroup (group) {
+    return group in this.groups
+  }
+  addToGroup (group) {
+    if (!(group in this.groups)) {
+      this.state.userObj.groups.push(group)
+    }
   }
 }

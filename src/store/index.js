@@ -12,12 +12,14 @@ import IFXDataTableSlot from "@/components/IFXDataTableSlot.vue"
 import IFXPageErrorDisplay from "@/components/IFXPageErrorDisplay.vue"
 import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } from './modules/filters'
 import { IFXUserAPIService } from '@/classes/IFXUserApi'
+import { IFXStoreAPIService } from '@/classes/IFXStoreApi'
 import ifxmixins from './modules/mixins'
 import createPersistedState from "vuex-persistedstate"
 import VCurrencyField from 'v-currency-field'
 
 export const ifxclasses = {
-  IFXUserAPIService
+  IFXUserAPIService,
+  IFXStoreAPIService
 }
 
 export const ifxfilters = {

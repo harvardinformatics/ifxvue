@@ -2,18 +2,25 @@ import axios from 'axios'
 
 const getDefaultState = () => {
   return {
+    userObj: {
+      isStaff: null,
+      isActive: null,
+      firstName: '',
+      lastName: '',
+      username: '',
+      groups: [],
+    },
     authToken: null,
-    user: null
   }
 }
 
 const state = getDefaultState()
 
 const getters = {
+  userObj: state => state.userObj,
   authToken: state => state.authToken,
   authHeaderValue: state => state.authToken ? `Token ${state.authToken}` : '',
-  user: state => state.user,
-  isAuthenticated: state => state.username && state.authToken,
+  isAuthenticated: state => state.userObj.username && state.authToken
 }
 
 const actions = {
@@ -38,17 +45,14 @@ const actions = {
       if (!response.data || !response.data.token) {
         // failure
         const message = 'You are a known user, but your data is malformed. Please contact rchelp@rc.fas.harvard.edu.'
-        // await dispatch('showMessage', message)
         throw new Error(message)
       } else {
         // If response has data and token, then it is successful
         await dispatch('initUser', response.data)
         const message = 'Login successful.'
-        // await dispatch('showMessage', message)
         return message
       }
     } catch(error) {
-      console.log(error)
       let message = 'Login failure.'
       if (error.hasOwnProperty('response') && error.response && error.response.status == 401) {
         console.log(error.response)
@@ -65,18 +69,17 @@ const actions = {
     commit('destroyUser')
     const message = 'You have been logged out successfully.'
     return message
-    // dispatch('showMessage', message)
   }
 }
 
 const mutations = {
   initUser(state, payload) {
-    const {user} = payload
-    if (!user) {
-      console.error('Payload for initUser missing required attributes.')
-      return
-    }
-    state.user = user
+    state.userObj.isStaff = payload.is_staff
+    state.userObj.username = payload.username
+    state.userObj.groups = payload.groups
+    state.userObj.firstName = payload.first_name
+    state.userObj.lastName = payload.last_name
+    state.userObj.lastName = payload.is_active
   },
   destroyUser(state) {
     Object.assign(state, getDefaultState())
