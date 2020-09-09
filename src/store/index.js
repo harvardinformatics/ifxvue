@@ -1,6 +1,5 @@
 import message from './modules/message'
 import dialog from './modules/dialog'
-import auth from './modules/auth'
 import mailing from './modules/mailing'
 import IFXMessage from '@/components/IFXMessage.vue'
 import IFXDialog from "@/components/IFXDialog.vue"
@@ -14,7 +13,6 @@ import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } fr
 import { IFXUserAPIService } from '@/classes/IFXUserApi'
 import { IFXStoreAPIService } from '@/classes/IFXStoreApi'
 import ifxmixins from './modules/mixins'
-import createPersistedState from "vuex-persistedstate"
 import VCurrencyField from 'v-currency-field'
 
 export const ifxclasses = {
@@ -29,11 +27,6 @@ export const ifxfilters = {
   emailDisplay
 }
 
-// Create persistent storage for auth vuex module
-const persist = createPersistedState({
-  storage: window.sessionStorage,
-  paths: ['auth']
-})
 
 export const ifxcomponents = {
   IFXMessage,
@@ -49,7 +42,6 @@ export const ifxcomponents = {
 export const ifxmodules = {
   message,
   dialog,
-  auth,
   mailing
 }
 
@@ -65,8 +57,6 @@ export default function install(Vue, options={}) {
   Object.keys(ifxmodules).forEach(name => {
     options.store.registerModule(name, ifxmodules[name])
   })
-
-  persist(options.store)
 
   Object.keys(ifxfilters).forEach(name => {
     Vue.filter(name, ifxfilters[name])
