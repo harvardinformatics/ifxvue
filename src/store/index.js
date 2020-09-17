@@ -1,6 +1,5 @@
 import message from './modules/message'
 import dialog from './modules/dialog'
-import mailing from './modules/mailing'
 import IFXMessage from '@/components/IFXMessage.vue'
 import IFXDialog from "@/components/IFXDialog.vue"
 import IFXButton from "@/components/IFXButton.vue"
@@ -41,8 +40,7 @@ export const ifxcomponents = {
 
 export const ifxmodules = {
   message,
-  dialog,
-  mailing
+  dialog
 }
 
 /**
