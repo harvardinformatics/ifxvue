@@ -75,11 +75,12 @@ function getMessage(payload) {
         }
       return {message, isActionRequired}
     }
-    // Fallback error message if axios error object does not have status code
-    message = 'Unknown error: ' + JSON.stringify(payload)
-    return {message, isActionRequired}
   }
-  message = JSON.stringify(payload)
+  if (has(payload, 'message')) {
+    message = payload.message
+  } else {
+    message = 'Unknown error' + payload
+  }
   return {message, isActionRequired}
 }
 
