@@ -3,7 +3,7 @@ export default {
   name: 'IFXNotFound',
   methods: {
     navigateToHome() {
-      this.rtr.push({name: 'Home'})
+      this.rtr.push({ name: 'Home' })
     }
   }
 }

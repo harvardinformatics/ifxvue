@@ -1,13 +1,13 @@
 <script>
 export default {
-  name: "IFXDataTableSlot",
+  name: 'IFXDataTableSlot',
   props: {
     name: String,
     item: Object
   },
   methods: {
-    shortenString(string, length=120) {
-      return `${string.substring(0,length)}...`
+    shortenString(string, length = 120) {
+      return `${string.substring(0, length)}...`
     }
   }
 }

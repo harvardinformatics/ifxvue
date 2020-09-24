@@ -1,50 +1,109 @@
-import {IFXStoreAPIService} from './IFXStoreApi'
+import IFXStoreAPIService from '@/classes/IFXStoreAPI'
 
-/**
- * Base User class for use on the frontend of IFX applications
- * @param  {object} urls all of the static urls used by the installing ifx application
- */
-export class IFXUserAPIService extends IFXStoreAPIService {
-  constructor(store) {
-    super(store)
-  }
-
-  get userObj() {
-    return this.getters.userObj
-  }
+export default class IFXUserAPIService extends IFXStoreAPIService {
   get firstName() {
-    return this.userObj.firstName
+    return this.user.first_name
   }
+
   get lastName() {
-    return this.userObj.lastName
+    return this.user.last_name
   }
+
   get username() {
-    return this.userObj.username
+    return this.user.username
   }
+
   get fullName() {
     return `${this.firstName} ${this.lastName}`
   }
+
   get groups() {
-    return this.userObj.groups
+    return this.user.groups
   }
+
   get isActive() {
-    return this.userObj.isActive
+    return this.user.is_active
   }
+
   get isStaff() {
-    return this.userObj.isStaff
+    return this.user.is_staff
   }
+
   get isAdmin() {
-    return this.isStaff
+    return this.user.is_staff
   }
+
   get isDjangoStaff() {
-    return this.isStaff
+    return this.user.is_staff
   }
-  hasGroup (group) {
+
+  get isAuthenticated() {
+    return this.username && this.authToken
+  }
+
+  hasGroup(group) {
     return group in this.groups
   }
-  addToGroup (group) {
+
+  addToGroup(group) {
     if (!(group in this.groups)) {
-      this.state.userObj.groups.push(group)
+      this.user.groups.push(group)
     }
+  }
+
+  get authToken() {
+    return this.user.token
+  }
+
+  get authHeaderValue() {
+    return `Token ${this.authToken}`
+  }
+
+  get axios() {
+    this._axios.interceptors.request.use(c => {
+      const config = c
+      config.baseURL = this.urls.API_ROOT
+      config.headers.Authorization = this.authHeaderValue
+      return config;
+    })
+    return this._axios
+  }
+
+  /**
+   * Logs user into the system. Retrieves token and sets user information if successful.
+   */
+  async login() {
+    try {
+      const response = await this.axios.get(this.store.urls.LOGIN_URL)
+      if (!response.data || !response.data.token) {
+        // failure
+        const message = 'You are a known user, but your data is malformed. Please contact rchelp@rc.fas.harvard.edu.'
+        throw Error(message)
+      } else {
+        // If response has data and token, then it is successful
+        this.user = response.data
+        const message = 'Login successful.'
+        return message
+      }
+    } catch (error) {
+      let message = ''
+      if (error.hasOwnProperty('response') && error.response && error.response.status == 401) {
+        let info = ''
+        if (error.response.hasOwnProperty('data') && error.response.data && error.response.data.hasOwnProperty('error')) {
+          info = error.response.data.error
+        }
+        message = `Not authorized: ${info}`
+      } else {
+        message = `Login failed: ${error}`
+      }
+      throw Error(message)
+    }
+  }
+
+  async logout() {
+    this.user = this._store.templates.user
+    sessionStorage.removeItem(`ifx_${this.vars.app_name}_user`)
+    const message = 'You have been logged out successfully.'
+    return message
   }
 }

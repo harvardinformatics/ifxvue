@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "IFXPageHeader",
+  name: 'IFXPageHeader',
   computed: {
     /**
      * Determines if title slot is filled
@@ -29,10 +29,10 @@ export default {
      */
     headerClass() {
       return {
-          'header-font-lg': this.$vuetify.breakpoint.mdAndUp,
-          'header-font-sm': this.$vuetify.breakpoint.sm,
-          'header-font-xs': this.$vuetify.breakpoint.xs
-        }
+        'header-font-lg': this.$vuetify.breakpoint.mdAndUp,
+        'header-font-sm': this.$vuetify.breakpoint.sm,
+        'header-font-xs': this.$vuetify.breakpoint.xs
+      }
     },
     /**
      * Returns classes for actions container based on active breakpoints
@@ -40,10 +40,10 @@ export default {
      */
     actionsContainerClass() {
       return {
-          'actions-ctr': true,
-          'actions-ctr-lg': this.$vuetify.breakpoint.mdAndUp,
-          'actions-ctr-sm': this.$vuetify.breakpoint.smAndDown
-        }
+        'actions-ctr': true,
+        'actions-ctr-lg': this.$vuetify.breakpoint.mdAndUp,
+        'actions-ctr-sm': this.$vuetify.breakpoint.smAndDown
+      }
     }
   }
 }

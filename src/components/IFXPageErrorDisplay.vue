@@ -8,14 +8,14 @@
 
 <script>
 export default {
-  name: "IFXPageErrorDisplay",
+  name: 'IFXPageErrorDisplay',
   props: {
     errors: {
       type: Object,
       required: false
     },
   },
-  data: function() {
+  data() {
     return {
       show: true
     }

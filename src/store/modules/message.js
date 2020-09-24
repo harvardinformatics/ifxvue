@@ -76,6 +76,7 @@ function getMessage(payload) {
       return {message, isActionRequired}
     }
   }
+  // If all else fails, check for a message property
   if (has(payload, 'message')) {
     message = payload.message
   } else {

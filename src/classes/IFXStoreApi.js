@@ -1,25 +1,29 @@
-/**
- * Exposes the vuex store from the installing IFX application to all extending classes
- * @param  {object} store the vuex store of the installing IFX application
- */
-export class IFXStoreAPIService {
+import axios from 'axios'
+
+export default class IFXStoreAPIService {
   constructor(store) {
     this._store = store
+    this._axios = axios.create()
   }
 
   get store() {
     return this._store
   }
-  get state() {
-    return this.store.state
+
+  get urls() {
+    return this._store.urls
   }
-  get getters() {
-    return this.store.getters
+
+  get vars() {
+    return this._store.vars
   }
-  get actions() {
-    return this.store.actions
+
+  get user() {
+    return this._store.user
   }
-  get constants() {
-    return this.state.constants
+
+  set user(userObj) {
+    sessionStorage.setItem('ifx_hers_user', JSON.stringify(userObj))
+    this._store.user = userObj
   }
 }
