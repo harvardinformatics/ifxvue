@@ -39,14 +39,8 @@ export default {
   },
   computed: {
     ...mapGetters(['message', 'isActionRequired', 'isMessageActive']),
-    calcTime() {
-      if (this.message) {
-        return (this.message.length / 30) * 1000 + 1000
-      }
-      return 30000
-    },
     messageTimeout() {
-      return this.isActionRequired ? 500000 : this.calcTime
+      return this.isActionRequired ? 500000 : (this.message.length / 30) * 1000 + 1000
     }
   },
   methods: {
