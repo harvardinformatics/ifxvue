@@ -5,21 +5,6 @@ const ifxmixins = {
     }
   },
   computed: {
-    /**
-     * Gets first param from route
-     * @returns {string}
-     */
-    firstRouteParam() {
-      return this.$route.params[Object.keys(this.rt.params)[0]]
-    },
-    /**
-     * If there is a route param, then the user is trying to edit a dewar request
-     * Otherwise, user is trying to create a dewar request
-     * @returns {boolean}
-     */
-    isEditing() {
-      return this.firstRouteParam
-    },
     rtr() {
       return this.$router
     },
