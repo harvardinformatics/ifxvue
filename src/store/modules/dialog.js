@@ -1,29 +1,24 @@
+const getDefaultState = () => ({
+  isDialogOpen: false
+})
 
-const getDefaultState = () => {
-  return {
-    isDialogOpen: false
-  }
+const _state = getDefaultState()
+
+const _getters = {
+  isDialogOpen: state => state.isDialogOpen
 }
 
-const state = getDefaultState()
-
-const getters = {
-  isDialogOpen: state => {
-    return state.isDialogOpen
-  }
-}
-
-const actions = {
-  async openDialog({commit, dispatch}, data) {
+const _actions = {
+  async openDialog({ commit, dispatch }, data) {
     if (data) await dispatch('loadRequest', data)
     await commit('openDialog')
   },
-  closeDialog({commit}) {
+  closeDialog({ commit }) {
     commit('close')
   }
 }
 
-const mutations = {
+const _mutations = {
   openDialog(state) {
     state.isDialogOpen = true
   },
@@ -33,8 +28,8 @@ const mutations = {
 }
 
 export default {
-  state,
-  getters,
-  actions,
-  mutations
+  _state,
+  _getters,
+  _actions,
+  _mutations
 }

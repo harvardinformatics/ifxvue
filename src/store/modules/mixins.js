@@ -18,7 +18,7 @@ const ifxmixins = {
      * @returns {boolean}
      */
     isEditing() {
-      return this.firstRouteParam ? true : false
+      return this.firstRouteParam
     },
     rtr() {
       return this.$router
@@ -32,10 +32,10 @@ const ifxmixins = {
      */
     formRules() {
       return {
-        generic: [v => !!v || "Required field"],
+        generic: [v => !!v || 'Required field'],
         currency: [
-          v => !!v || "Required field",
-          v => (parseFloat(v) * 100) !== 0 || "Value cannot be 0"
+          v => !!v || 'Required field',
+          v => (parseFloat(v) * 100) !== 0 || 'Value cannot be 0'
         ]
       }
     },
