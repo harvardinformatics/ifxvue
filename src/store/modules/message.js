@@ -6,10 +6,11 @@ const getDefaultState = () => ({
   message: ''
 })
 
-const _state = getDefaultState()
+const state = getDefaultState()
 
-const _getters = {
+const getters = {
   isMessageActive: state => state.isMessageActive,
+  isActionRequired: state => state.isActionRequired,
   message: state => state.message,
 }
 
@@ -79,7 +80,7 @@ function getMessage(payload) {
   return { message, isActionRequired }
 }
 
-const _actions = {
+const actions = {
   showMessage({ commit }, payload) {
     if (!payload) {
       console.error('showMessage must include a string or a payload object.')
@@ -93,7 +94,7 @@ const _actions = {
   }
 }
 
-const _mutations = {
+const mutations = {
   activateMessage(state, payload) {
     const { message, isActionRequired } = payload
     state.message = message
@@ -108,8 +109,8 @@ const _mutations = {
 }
 
 export default {
-  _state,
-  _getters,
-  _actions,
-  _mutations
+  state,
+  getters,
+  actions,
+  mutations
 }

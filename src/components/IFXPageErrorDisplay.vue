@@ -24,17 +24,17 @@ export default {
 </script>
 
 <style>
-.non-field-container {
-  height: .8rem;
-}
-.non-field-text {
-  color: red;
-  font-size: .8rem;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
+  .non-field-container {
+    height: .8rem;
+  }
+  .non-field-text {
+    color: red;
+    font-size: .8rem;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
 </style>

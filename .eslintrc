@@ -34,6 +34,12 @@
     "func-names": 0,
     "camelcase": "off",
     "no-console": "off",
+    "no-shadow": [
+      "error",
+      {
+        "allow": ["state"]
+      }
+    ],
     "import/no-unresolved": [
       2,
       {

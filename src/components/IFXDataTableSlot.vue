@@ -60,7 +60,3 @@ export default {
     <slot name="custom"></slot>
   </span>
 </template>
-
-<style>
-
-</style>
