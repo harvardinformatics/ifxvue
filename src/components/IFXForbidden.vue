@@ -3,7 +3,7 @@ export default {
   name: 'IFXForbidden',
   methods: {
     navigateToHome() {
-      this.rtr.push({name: 'Home'})
+      this.rtr.push({ name: 'Home' })
     }
   }
 }

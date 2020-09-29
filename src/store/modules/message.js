@@ -1,22 +1,17 @@
-import {has} from 'lodash'
+import { has } from 'lodash'
 
-const getDefaultState = () => {
-  return {
-    isMessageActive: false,
-    isActionRequired: false,
-    message: ""
-  }
-}
+const getDefaultState = () => ({
+  isMessageActive: false,
+  isActionRequired: false,
+  message: ''
+})
 
 const state = getDefaultState()
 
 const getters = {
-  isMessageActive: state => {
-    return state.isMessageActive
-  },
-  message: state => {
-    return state.message
-  },
+  isMessageActive: state => state.isMessageActive,
+  isActionRequired: state => state.isActionRequired,
+  message: state => state.message,
 }
 
 function getMessage(payload) {
@@ -30,7 +25,7 @@ function getMessage(payload) {
     } else {
       message = payload
     }
-    return {message, isActionRequired}
+    return { message, isActionRequired }
   }
 
   // If it is an axios error object
@@ -38,19 +33,19 @@ function getMessage(payload) {
     // If it's a non_field_errors object
     if (has(payload.response, 'non_field_errors')) {
       message = payload.response.non_field_errors
-      return {message, isActionRequired}
+      return { message, isActionRequired }
     }
     // If payload is error object and not non-field error, then action is required
     isActionRequired = true
 
     if (has(payload.response, 'data') && has(payload.response.data, 'error')) {
       message = payload.response.data.error
-      return {message, isActionRequired}
+      return { message, isActionRequired }
     }
 
     // Check status values
     if (has(payload.response, 'status')) {
-      switch(payload.response.status) {
+      switch (payload.response.status) {
         case 400:
           message = 'Malformed edit.'
           break;
@@ -70,21 +65,23 @@ function getMessage(payload) {
           message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu.'
           break;
         default:
-          message = 'Error accessing this URL: ' + JSON.stringify(payload)
+          message = `Error accessing this URL: ${JSON.stringify(payload)}`
           break;
-        }
-      return {message, isActionRequired}
+      }
+      return { message, isActionRequired }
     }
-    // Fallback error message if axios error object does not have status code
-    message = 'Unknown error: ' + JSON.stringify(payload)
-    return {message, isActionRequired}
   }
-  message = JSON.stringify(payload)
-  return {message, isActionRequired}
+  // If all else fails, check for a message property
+  if (has(payload, 'message')) {
+    message = payload.message
+  } else {
+    message = `Unknown error${payload}`
+  }
+  return { message, isActionRequired }
 }
 
 const actions = {
-  showMessage({commit}, payload) {
+  showMessage({ commit }, payload) {
     if (!payload) {
       console.error('showMessage must include a string or a payload object.')
       return
@@ -92,14 +89,14 @@ const actions = {
     const res = getMessage(payload)
     commit('activateMessage', res)
   },
-  deactivateMessage({commit}) {
+  deactivateMessage({ commit }) {
     commit('deactivateMessage')
   }
 }
 
 const mutations = {
   activateMessage(state, payload) {
-    const {message, isActionRequired} = payload
+    const { message, isActionRequired } = payload
     state.message = message
     if (isActionRequired) {
       state.isActionRequired = isActionRequired

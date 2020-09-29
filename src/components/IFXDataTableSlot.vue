@@ -1,13 +1,13 @@
 <script>
 export default {
-  name: "IFXDataTableSlot",
+  name: 'IFXDataTableSlot',
   props: {
     name: String,
     item: Object
   },
   methods: {
-    shortenString(string, length=120) {
-      return `${string.substring(0,length)}...`
+    shortenString(string, length = 120) {
+      return `${string.substring(0, length)}...`
     }
   }
 }
@@ -29,8 +29,8 @@ export default {
   <span v-else-if="name==='date_modified'">
     <div>{{item.date_modified | humanDatetime}}</div>
   </span>
-  <span v-else-if="name==='date_sent'">
-    <div>{{item.date_sent | humanDatetime}}</div>
+  <span v-else-if="name==='sent'">
+    <div>{{item.sent | humanDatetime}}</div>
   </span>
   <span v-else-if="name==='reading_date'">
     <div>{{item.reading_date | humanDatetime}}</div>
@@ -60,7 +60,3 @@ export default {
     <slot name="custom"></slot>
   </span>
 </template>
-
-<style>
-
-</style>

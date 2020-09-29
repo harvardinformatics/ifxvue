@@ -1,22 +1,22 @@
 <script>
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: "IFXDialog",
+  name: 'IFXDialog',
   props: {
     componentToRender: {
-      default: "None",
+      default: 'None',
       type: String
     }
   },
   methods: {
-    ...mapActions(["closeDialog"]),
+    ...mapActions(['closeDialog']),
     triggerClose() {
       this.closeDialog()
     }
   },
   computed: {
-    ...mapGetters(["isDialogOpen"])
+    ...mapGetters(['isDialogOpen'])
   }
 }
 </script>

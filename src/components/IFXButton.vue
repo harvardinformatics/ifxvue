@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "IFXButton",
+  name: 'IFXButton',
   props: {
     // The type of button, determines default icon and color
     // Options: add, edit, delete, close
@@ -34,7 +34,7 @@ export default {
     // The color of the icon
     iconColor: {
       type: String,
-      default: "white",
+      default: 'white',
       required: false
     },
     // String for icon, overrides default determined buy btnType
@@ -62,7 +62,7 @@ export default {
         return this.btnColor
       }
       let btnColor = ''
-      switch(this.btnType) {
+      switch (this.btnType) {
         case 'edit':
           btnColor = 'primary'
           break;
@@ -117,7 +117,7 @@ export default {
         return this.iconString
       }
       let iconString = ''
-      switch(this.btnType) {
+      switch (this.btnType) {
         case 'edit':
           iconString = 'mdi-pencil'
           break;
@@ -133,8 +133,8 @@ export default {
         default:
           iconString = ''
           break;
-        }
-        return iconString
+      }
+      return iconString
     },
     btnTextComputed() {
       if (this.btnText) {

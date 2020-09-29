@@ -1,24 +1,19 @@
-
-const getDefaultState = () => {
-  return {
-    isDialogOpen: false
-  }
-}
+const getDefaultState = () => ({
+  isDialogOpen: false
+})
 
 const state = getDefaultState()
 
 const getters = {
-  isDialogOpen: state => {
-    return state.isDialogOpen
-  }
+  isDialogOpen: state => state.isDialogOpen
 }
 
 const actions = {
-  async openDialog({commit, dispatch}, data) {
+  async openDialog({ commit, dispatch }, data) {
     if (data) await dispatch('loadRequest', data)
     await commit('openDialog')
   },
-  closeDialog({commit}) {
+  closeDialog({ commit }) {
     commit('close')
   }
 }

@@ -1,8 +1,8 @@
 <script>
-import { mapActions, mapGetters } from "vuex"
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: "IFXMessage",
+  name: 'IFXMessage',
   props: {
     vertical: {
       default: true,
@@ -38,13 +38,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["message", 'isActionRequired', 'isMessageActive']),
+    ...mapGetters(['message', 'isActionRequired', 'isMessageActive']),
     messageTimeout() {
-      return this.isActionRequired ? 500000 : this.message.length / 30 * 1000 + 1000
+      return this.isActionRequired ? 500000 : (this.message.length / 30) * 1000 + 1000
     }
   },
   methods: {
-    ...mapActions(["deactivateMessage"]),
+    ...mapActions(['deactivateMessage']),
     deactivate() {
       this.deactivateMessage()
     }
@@ -71,6 +71,3 @@ export default {
     </template>
   </v-snackbar>
 </template>
-
-<style>
-</style>

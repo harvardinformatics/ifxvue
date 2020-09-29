@@ -1,19 +1,25 @@
-import message from './modules/message'
-import dialog from './modules/dialog'
-import auth from './modules/auth'
-import mailing from './modules/mailing'
 import IFXMessage from '@/components/IFXMessage.vue'
-import IFXDialog from "@/components/IFXDialog.vue"
-import IFXButton from "@/components/IFXButton.vue"
-import IFXNotFound from "@/components/IFXNotFound.vue"
-import IFXForbidden from "@/components/IFXForbidden.vue"
-import IFXPageHeader from "@/components/IFXPageHeader.vue"
-import IFXDataTableSlot from "@/components/IFXDataTableSlot.vue"
-import IFXPageErrorDisplay from "@/components/IFXPageErrorDisplay.vue"
-import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } from './modules/filters'
-import ifxmixins from './modules/mixins'
-import createPersistedState from "vuex-persistedstate"
+import IFXDialog from '@/components/IFXDialog.vue'
+import IFXButton from '@/components/IFXButton.vue'
+import IFXNotFound from '@/components/IFXNotFound.vue'
+import IFXForbidden from '@/components/IFXForbidden.vue'
+import IFXPageHeader from '@/components/IFXPageHeader.vue'
+import IFXDataTableSlot from '@/components/IFXDataTableSlot.vue'
+import IFXPageErrorDisplay from '@/components/IFXPageErrorDisplay.vue'
+import IFXUserAPIService from '@/classes/IFXUserAPI'
+import IFXStoreAPIService from '@/classes/IFXStoreAPI'
+import IFXRequestAPIService from '@/classes/IFXRequestAPI'
 import VCurrencyField from 'v-currency-field'
+import ifxmixins from './modules/mixins'
+import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } from './modules/filters'
+import dialog from './modules/dialog'
+import message from './modules/message'
+
+export const ifxclasses = {
+  IFXUserAPIService,
+  IFXStoreAPIService,
+  IFXRequestAPIService
+}
 
 export const ifxfilters = {
   humanDatetime,
@@ -21,12 +27,6 @@ export const ifxfilters = {
   capitalizeFirstLetter,
   emailDisplay
 }
-
-// Create persistent storage for auth vuex module
-const persist = createPersistedState({
-  storage: window.sessionStorage,
-  paths: ['auth']
-})
 
 export const ifxcomponents = {
   IFXMessage,
@@ -41,16 +41,14 @@ export const ifxcomponents = {
 
 export const ifxmodules = {
   message,
-  dialog,
-  auth,
-  mailing
+  dialog
 }
 
 /**
  * Dynamically adds components to Vue instance calling this function,
  * registers Vuex modules in its store, and makes auth module persistent.
  */
-export default function install(Vue, options ={}) {
+export default function install(Vue, options = {}) {
   Object.keys(ifxcomponents).forEach(name => {
     Vue.component(name, ifxcomponents[name]);
   })
@@ -58,7 +56,6 @@ export default function install(Vue, options ={}) {
   Object.keys(ifxmodules).forEach(name => {
     options.store.registerModule(name, ifxmodules[name])
   })
-  persist(options.store)
 
   Object.keys(ifxfilters).forEach(name => {
     Vue.filter(name, ifxfilters[name])
@@ -77,5 +74,4 @@ export default function install(Vue, options ={}) {
     allowNegative: false,
     prefix: '$'
   })
-
 }
