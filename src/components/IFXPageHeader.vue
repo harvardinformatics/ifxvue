@@ -40,7 +40,6 @@ export default {
      */
     actionsContainerClass() {
       return {
-        'actions-ctr': true,
         'actions-ctr-lg': this.$vuetify.breakpoint.mdAndUp,
         'actions-ctr-sm': this.$vuetify.breakpoint.smAndDown
       }
@@ -54,8 +53,10 @@ export default {
     <v-col>
       <v-row v-if="hasTitle" class="title-ctr" justify="space-between" align="center">
         <h1 :class="headerClass"><slot name="title"></slot></h1>
-        <div :class="actionsContainerClass">
-          <slot name="actions"></slot>
+        <div class="actions-ctr" :class="actionsContainerClass">
+          <slot name="actions">
+            <div class="actions-wrapper"></div>
+          </slot>
         </div>
       </v-row>
       <v-row v-if="hasSubtitle" class="subtitle-ctr">
@@ -69,36 +70,24 @@ export default {
   </v-container>
 </template>
 
-<style>
+<style scoped>
   .content-ctr {
     width: 70%;
   }
-
-  .header-font-lg {
-    font-size: 2rem;
-  }
-
   .header-font-sm {
     font-size: 1.75rem;
   }
-
   .header-font-xs {
     font-size: 1.5rem;
   }
-
   .actions-ctr {
     position: relative;
   }
-
-  .actions-ctr-lg > * {
-    margin-left: 1rem;
+  .actions-ctr > *:not(:last-child) {
+    display: inline-block !important;
+    margin-right: 1rem !important;
   }
-
   .actions-ctr-sm > * {
     margin-left: .5rem;
-  }
-
-  .note {
-    font-style: italic;
   }
 </style>
