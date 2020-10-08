@@ -87,7 +87,7 @@ export default class IFXUserAPIService extends IFXStoreAPIService {
       }
     } catch (error) {
       let message = ''
-      if (error.hasOwnProperty('response') && error.response && error.response.status == 401) {
+      if (error.hasOwnProperty('response') && error.response && error.response.status === 401) {
         let info = ''
         if (error.response.hasOwnProperty('data') && error.response.data && error.response.data.hasOwnProperty('error')) {
           info = error.response.data.error
