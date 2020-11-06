@@ -10,10 +10,24 @@ import IFXUserAPIService from '@/classes/IFXUserAPI'
 import IFXStoreAPIService from '@/classes/IFXStoreAPI'
 import IFXRequestAPIService from '@/classes/IFXRequestAPI'
 import VCurrencyField from 'v-currency-field'
+import createPersistedState from 'vuex-persistedstate';
 import ifxmixins from './modules/mixins'
 import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } from './modules/filters'
 import dialog from './modules/dialog'
 import message from './modules/message'
+import ifxmailing from './modules/ifxmailing'
+
+const mailingKey = 'ifx_hers_mailing'
+const mailingConfig = {
+  storage: {
+    getItem: () => sessionStorage.getItem(mailingKey),
+    setItem: (_, value) => sessionStorage.setItem(mailingKey, value),
+    removeItem: () => sessionStorage.removeItem(mailingKey)
+  },
+  paths: ['ifxmailing']
+}
+
+const mailingPersist = createPersistedState(mailingConfig)
 
 export const ifxclasses = {
   IFXUserAPIService,
@@ -41,7 +55,8 @@ export const ifxcomponents = {
 
 export const ifxmodules = {
   message,
-  dialog
+  dialog,
+  ifxmailing
 }
 
 /**
@@ -56,6 +71,8 @@ export default function install(Vue, options = {}) {
   Object.keys(ifxmodules).forEach(name => {
     options.store.registerModule(name, ifxmodules[name])
   })
+
+  mailingPersist(options.store)
 
   Object.keys(ifxfilters).forEach(name => {
     Vue.filter(name, ifxfilters[name])
