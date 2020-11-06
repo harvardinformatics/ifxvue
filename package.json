@@ -1,7 +1,7 @@
 {
   "name": "ifxvue",
   "description": "Harvard FAS Informatics User Interface Library",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "dist/ifxvue.umd.js",
   "license": "GPL-2.0",
   "scripts": {
