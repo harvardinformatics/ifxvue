@@ -1,4 +1,4 @@
-const { VuetifyLoaderPlugin } = require('vuetify-loader')
+// const { VuetifyLoaderPlugin } = require('vuetify-loader')
 
 module.exports = {
   module: {
@@ -6,7 +6,11 @@ module.exports = {
       { test: /\.css$/, loader: 'css-loader' }
     ]
   },
-  plugins: [
-    new VuetifyLoaderPlugin()
-  ]
+  // plugins: [
+  //   new VuetifyLoaderPlugin()
+  // ]
 }
+
+// exports.plugins.push(
+//   new VuetifyLoaderPlugin()
+// )
