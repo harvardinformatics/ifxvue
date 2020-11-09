@@ -1,5 +1,5 @@
 const getDefaultState = () => ({
-  ifxmailing: null,
+  ifxmailingObj: null,
   // If user selects previous mailing or message, their content will be loaded
   to: [],
   from: [],

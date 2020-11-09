@@ -19,11 +19,8 @@ import ifxmailing from './modules/ifxmailing'
 
 const mailingKey = 'ifx_hers_mailing'
 const mailingConfig = {
-  storage: {
-    getItem: () => sessionStorage.getItem(mailingKey),
-    setItem: (_, value) => sessionStorage.setItem(mailingKey, value),
-    removeItem: () => sessionStorage.removeItem(mailingKey)
-  },
+  storage: window.sessionStorage,
+  key: mailingKey,
   paths: ['ifxmailing']
 }
 
@@ -68,11 +65,13 @@ export default function install(Vue, options = {}) {
     Vue.component(name, ifxcomponents[name]);
   })
 
-  Object.keys(ifxmodules).forEach(name => {
-    options.store.registerModule(name, ifxmodules[name])
-  })
-
+  // Add plugin before module is registered
   mailingPersist(options.store)
+  Object.keys(ifxmodules).forEach(name => {
+    // Check if module state has been initialized. If not, do not preserve it.
+    const preserveState = !!options.store[name]
+    options.store.registerModule(name, ifxmodules[name], { preserveState })
+  })
 
   Object.keys(ifxfilters).forEach(name => {
     Vue.filter(name, ifxfilters[name])
