@@ -71,7 +71,7 @@ const actions = {
 const mutations = {
   loadMailing(state, payload) {
     const { tostr, fromstr, ccstr, bccstr, subject, message, ifxmessage } = payload
-    state.ifxmailing = payload
+    state.ifxmailingObj = payload
     if (tostr) state.to = tostr.split(',')
     if (fromstr) state.from = fromstr.split(',')
     if (ccstr) state.cc = ccstr.split(',')

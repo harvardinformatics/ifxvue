@@ -15,16 +15,7 @@ import ifxmixins from './modules/mixins'
 import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } from './modules/filters'
 import dialog from './modules/dialog'
 import message from './modules/message'
-import ifxmailing from './modules/ifxmailing'
-
-const mailingKey = 'ifx_hers_mailing'
-const mailingConfig = {
-  storage: window.sessionStorage,
-  key: mailingKey,
-  paths: ['ifxmailing']
-}
-
-const mailingPersist = createPersistedState(mailingConfig)
+import mailing from './modules/mailing'
 
 export const ifxclasses = {
   IFXUserAPIService,
@@ -53,7 +44,7 @@ export const ifxcomponents = {
 export const ifxmodules = {
   message,
   dialog,
-  ifxmailing
+  mailing
 }
 
 /**
@@ -65,12 +56,20 @@ export default function install(Vue, options = {}) {
     Vue.component(name, ifxcomponents[name]);
   })
 
+  const sessionConfig = {
+    storage: window.sessionStorage,
+    key: options.APIStore.vars.appKey,
+    paths: ['mailing']
+  }
+  const sessionPersist = createPersistedState(sessionConfig)
+
   // Add plugin before module is registered
-  mailingPersist(options.store)
+  sessionPersist(options.vuexStore)
+
   Object.keys(ifxmodules).forEach(name => {
     // Check if module state has been initialized. If not, do not preserve it.
-    const preserveState = !!options.store[name]
-    options.store.registerModule(name, ifxmodules[name], { preserveState })
+    const preserveState = !!options.vuexStore[name]
+    options.vuexStore.registerModule(name, ifxmodules[name], { preserveState })
   })
 
   Object.keys(ifxfilters).forEach(name => {
