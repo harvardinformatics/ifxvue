@@ -15,7 +15,8 @@ import ifxmixins from './modules/mixins'
 import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } from './modules/filters'
 import dialog from './modules/dialog'
 import message from './modules/message'
-import mailing from './modules/mailing'
+import ifxmailing from './modules/ifxmailing'
+import ifxtemplates from './modules/templates'
 
 export const ifxclasses = {
   IFXUserAPIService,
@@ -44,7 +45,7 @@ export const ifxcomponents = {
 export const ifxmodules = {
   message,
   dialog,
-  mailing
+  ifxmailing
 }
 
 /**
@@ -58,8 +59,8 @@ export default function install(Vue, options = {}) {
 
   const sessionConfig = {
     storage: window.sessionStorage,
-    key: options.APIStore.vars.appKey,
-    paths: ['mailing']
+    key: `${options.APIStore.vars.appKey}_ifxmailing`,
+    paths: ['ifxmailing']
   }
   const sessionPersist = createPersistedState(sessionConfig)
 
@@ -89,4 +90,7 @@ export default function install(Vue, options = {}) {
     allowNegative: false,
     prefix: '$'
   })
+
+  options.APIStore.templates.IFXMESSAGE = ifxtemplates.IFXMESSAGE
+  options.APIStore.templates.IFXMAILING = ifxtemplates.IFXMAILING
 }
