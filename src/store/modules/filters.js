@@ -44,3 +44,20 @@ export function stateDisplay(value) {
   }
   return ''
 }
+
+export function columnDate(value) {
+  let datestr = ''
+  if (value) {
+    datestr = moment(String(value)).format('M/DD/YYYY')
+  }
+  return datestr
+}
+
+export default {
+  humanDatetime,
+  centsToDollars,
+  capitalizeFirstLetter,
+  emailDisplay,
+  stateDisplay,
+  columnDate
+}

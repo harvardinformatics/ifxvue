@@ -5,6 +5,7 @@ const getDefaultState = () => ({
   from: [],
   cc: [],
   bcc: [],
+  organizations: [],
   subject: '',
   message: '',
   ifxmessage: null,
@@ -26,7 +27,9 @@ const getters = {
   subject: (state) => state.subject,
   message: (state) => state.message,
   ifxmessage: (state) => state.ifxmessage,
+  organizations: (state) => state.organizations,
   serializedMailing: (state, gtrs) => {
+    // Serialize any organizations
     const mailing = {
       tostr: gtrs.tostr,
       fromstr: gtrs.fromstr,

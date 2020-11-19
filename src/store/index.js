@@ -12,23 +12,16 @@ import IFXRequestAPIService from '@/classes/IFXRequestAPI'
 import VCurrencyField from 'v-currency-field'
 import createPersistedState from 'vuex-persistedstate';
 import ifxmixins from './modules/mixins'
-import { humanDatetime, centsToDollars, capitalizeFirstLetter, emailDisplay } from './modules/filters'
+import ifxfilters from './modules/filters'
 import dialog from './modules/dialog'
 import message from './modules/message'
-import ifxmailing from './modules/ifxmailing'
+import mailing from './modules/mailing'
 import ifxtemplates from './modules/templates'
 
 export const ifxclasses = {
   IFXUserAPIService,
   IFXStoreAPIService,
   IFXRequestAPIService
-}
-
-export const ifxfilters = {
-  humanDatetime,
-  centsToDollars,
-  capitalizeFirstLetter,
-  emailDisplay
 }
 
 export const ifxcomponents = {
@@ -45,7 +38,7 @@ export const ifxcomponents = {
 export const ifxmodules = {
   message,
   dialog,
-  ifxmailing
+  mailing
 }
 
 /**
@@ -59,8 +52,8 @@ export default function install(Vue, options = {}) {
 
   const sessionConfig = {
     storage: window.sessionStorage,
-    key: `${options.APIStore.vars.appKey}_ifxmailing`,
-    paths: ['ifxmailing']
+    key: `${options.APIStore.vars.appKey}_mailing`,
+    paths: ['mailing']
   }
   const sessionPersist = createPersistedState(sessionConfig)
 
@@ -91,6 +84,7 @@ export default function install(Vue, options = {}) {
     prefix: '$'
   })
 
+  // Add item templates
   options.APIStore.templates.IFXMESSAGE = ifxtemplates.IFXMESSAGE
   options.APIStore.templates.IFXMAILING = ifxtemplates.IFXMAILING
 }
