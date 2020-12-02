@@ -11,11 +11,9 @@ module.exports = {
     'plugin:vue/essential',
     'eslint:recommended',
     '@vue/airbnb',
-    '@vue/typescript'
   ],
 
   parserOptions: {
-    parser: '@typescript-eslint/parser',
     sourceType: 'module'
   },
 
