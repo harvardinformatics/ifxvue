@@ -1,18 +1,24 @@
 const path = require('path')
+
 module.exports = {
   root: true,
+
   env: {
     node: true
   },
+
   extends: [
     'plugin:vue/essential',
     'eslint:recommended',
-    '@vue/airbnb'
+    '@vue/airbnb',
+    '@vue/typescript'
   ],
+
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@typescript-eslint/parser',
     sourceType: 'module'
   },
+
   settings: {
     'import/resolver': {
       node: {
@@ -21,6 +27,7 @@ module.exports = {
       },
     },
   },
+
   rules: {
     'max-classes-per-file': 0,
     semi: 0,
@@ -56,6 +63,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 1 : 0,
     'no-shadow': [2, { allow: ['state'] }]
   },
+
   overrides: [
     {
       files: [
@@ -66,5 +74,5 @@ module.exports = {
         jest: true
       }
     }
-  ]
+  ],
 }

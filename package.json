@@ -1,14 +1,17 @@
 {
   "name": "ifxvue",
-  "description": "Harvard FAS Informatics User Interface Library",
   "version": "1.1.2",
-  "main": "dist/ifxvue.umd.js",
-  "license": "GPL-2.0",
+  "description": "Harvard FAS Informatics User Interface Library",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "lint": "vue-cli-service lint",
-    "build": "vue-cli-service build --target lib --name ifxvue ./src/store/index.js"
+    "build": "vue-cli-service build --target lib --name ifxvue ./src/store/index.js",
+    "lint": "vue-cli-service lint"
   },
+  "main": "dist/ifxvue.umd.js",
+  "files": [
+    "dist/*",
+    "package.json"
+  ],
   "dependencies": {
     "axios": "0.21.0",
     "core-js": "3.6.5",
@@ -22,13 +25,18 @@
   },
   "devDependencies": {
     "@babel/core": "7.12.3",
+    "@types/jest": "^24.0.19",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli": "4.5.8",
     "@vue/cli-plugin-babel": "4.5.8",
     "@vue/cli-plugin-eslint": "4.5.8",
+    "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "4.5.8",
     "@vue/cli-service": "4.5.8",
     "@vue/compiler-sfc": "3.0.2",
     "@vue/eslint-config-airbnb": "5.1.0",
+    "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "1.1.1",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.9.0",
@@ -42,15 +50,12 @@
     "raw-loader": "4.0.2",
     "sass": "1.27.1",
     "sass-loader": "10.0.4",
+    "typescript": "~3.9.3",
     "vue-cli-plugin-vuetify": "2.0.6",
     "vue-loader": "15.9.4",
     "vue-template-compiler": "2.6.12",
     "vuetify-loader": "1.6.0"
   },
-  "files": [
-    "dist/*",
-    "package.json"
-  ],
   "postcss": {
     "plugins": {
       "autoprefixer": {}
@@ -60,5 +65,6 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "license": "GPL-2.0"
 }
