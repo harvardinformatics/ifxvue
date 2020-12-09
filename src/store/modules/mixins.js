@@ -87,16 +87,23 @@ const ifxmixins = {
      */
     formRules() {
       return {
+        requiredFieldString: 'Required field',
+        base: v => !!v || this.requiredFieldString,
         generic: [v => {
           // If input is array, check if empty
           if (Array.isArray(v)) {
-            return !!v.length || requiredFieldString
+            return !!v.length || this.requiredFieldString
           }
           // Check if input is falsey
-          return !!v || requiredFieldString
+          return !!v || this.requiredFieldString
         }],
+        email: [
+          this.base,
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)
+            || 'E-mail must be valid'
+        ],
         currency: [
-          v => !!v || requiredFieldString,
+          this.base,
           v => (parseFloat(v) * 100) !== 0 || 'Value cannot be 0'
         ]
       }
