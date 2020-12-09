@@ -1,6 +1,7 @@
 import moment from 'moment'
 
 const requiredFieldString = 'Required field'
+const baseRule = (v) => !!v || requiredFieldString
 
 const ifxmixins = {
   methods: {
@@ -87,23 +88,21 @@ const ifxmixins = {
      */
     formRules() {
       return {
-        requiredFieldString: 'Required field',
-        base: v => !!v || this.requiredFieldString,
         generic: [v => {
           // If input is array, check if empty
           if (Array.isArray(v)) {
-            return !!v.length || this.requiredFieldString
+            return !!v.length || requiredFieldString
           }
           // Check if input is falsey
-          return !!v || this.requiredFieldString
+          return !!v || requiredFieldString
         }],
         email: [
-          this.base,
+          baseRule,
           v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)
             || 'E-mail must be valid'
         ],
         currency: [
-          this.base,
+          baseRule,
           v => (parseFloat(v) * 100) !== 0 || 'Value cannot be 0'
         ]
       }
