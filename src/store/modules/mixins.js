@@ -73,6 +73,12 @@ const ifxmixins = {
         return now
       }
       return deliveryDay.toISOString()
+    },
+    truncateString(string, length = 120) {
+      if (string.length <= length) {
+        return string
+      }
+      return `${string.substring(0, length)}...`
     }
   },
   computed: {

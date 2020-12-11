@@ -5,11 +5,6 @@ export default {
     name: String,
     item: Object
   },
-  methods: {
-    shortenString(string, length = 120) {
-      return `${string.substring(0, length)}...`
-    }
-  }
 }
 </script>
 
@@ -54,7 +49,10 @@ export default {
     <div>{{item.recipients[name].join(", ")}}</div>
   </span>
   <span v-else-if="name==='message'">
-    <div>{{shortenString(item.message)}}</div>
+    <div>{{truncateString(item.message)}}</div>
+  </span>
+  <span v-else-if="name==='detail'">
+    <div>{{truncateString(item.detail, 30)}}</div>
   </span>
   <span v-else>
     <slot name="custom"></slot>
