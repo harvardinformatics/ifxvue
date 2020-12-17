@@ -79,6 +79,10 @@ const ifxmixins = {
         return string
       }
       return `${string.substring(0, length)}...`
+    },
+    getGroupsString(item) {
+      const groups = item.groups.join(', ')
+      return groups || 'None'
     }
   },
   computed: {
@@ -95,6 +99,10 @@ const ifxmixins = {
     formRules() {
       return {
         generic: [v => {
+          // If input is object, like an autocomplete, check if empty
+          if (typeof v === 'object' && v !== null) {
+            return (Object.keys(v).length) || requiredFieldString
+          }
           // If input is array, check if empty
           if (Array.isArray(v)) {
             return !!v.length || requiredFieldString
@@ -110,7 +118,8 @@ const ifxmixins = {
         currency: [
           baseRule,
           v => (parseFloat(v) * 100) !== 0 || 'Value cannot be 0'
-        ]
+        ],
+
       }
     },
     routeDelay() {

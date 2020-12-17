@@ -4,7 +4,7 @@ export default {
   props: {
     name: String,
     item: Object
-  },
+  }
 }
 </script>
 
@@ -20,6 +20,15 @@ export default {
   </span>
   <span v-else-if="name==='date_created'">
     <div>{{item.date_created | humanDatetime}}</div>
+  </span>
+  <span v-else-if="name==='dateJoined'">
+    <div>{{item.dateJoined | humanDatetime}}</div>
+  </span>
+  <span v-else-if="name==='groups'">
+    <div>{{getGroupsString(item)}}</div>
+  </span>
+  <span v-else-if="name==='email'">
+    <a :href="`mailto:${item.email}`">{{ item.email }}</a>
   </span>
   <span v-else-if="name==='date_modified'">
     <div>{{item.date_modified | humanDatetime}}</div>
