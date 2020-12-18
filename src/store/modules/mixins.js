@@ -101,7 +101,7 @@ const ifxmixins = {
         generic: [v => {
           // If input is object, like an autocomplete, check if empty
           if (typeof v === 'object' && v !== null) {
-            return (Object.keys(v).length) || requiredFieldString
+            return !!Object.keys(v).length || requiredFieldString
           }
           // If input is array, check if empty
           if (Array.isArray(v)) {
@@ -119,7 +119,22 @@ const ifxmixins = {
           baseRule,
           v => (parseFloat(v) * 100) !== 0 || 'Value cannot be 0'
         ],
-
+        user: [
+          baseRule,
+          v => !!v.userData.id || requiredFieldString
+        ],
+        contact: [
+          baseRule,
+          v => !!v.contactData.id || requiredFieldString
+        ],
+        organizationUser: [
+          baseRule,
+          v => !!v.organizationUserData.id || requiredFieldString
+        ],
+        organizationContact: [
+          baseRule,
+          v => !!v.organizationContactData.id || requiredFieldString
+        ]
       }
     },
     routeDelay() {
