@@ -2,8 +2,18 @@
 export default {
   name: 'IFXDataTableSlot',
   props: {
-    name: String,
-    item: Object
+    name: {
+      type: String,
+      required: true
+    },
+    item: {
+      type: Object,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>
@@ -14,6 +24,12 @@ export default {
   </span>
   <span v-else-if="name==='expense_code'">
     <div>{{item.expense_code ? item.expense_code : 'N/A'}}</div>
+  </span>
+  <span v-else-if="name==='id'" @click.prevent="() => navigateToDetail(type, item.id)">
+    <a class='data-table-id'>{{item.id}}</a>
+  </span>
+  <span v-else-if="name==='rowActionEdit'">
+    <IFXButton btnType='edit' x-small @action='navigateToEdit(type, item.id)'></IFXButton>
   </span>
   <span v-else-if="name==='delivery_date'">
     <div>{{item.deliveryDate | humanDatetime}}</div>
@@ -67,3 +83,9 @@ export default {
     <slot name="custom"></slot>
   </span>
 </template>
+
+<style scoped>
+  .data-table-id {
+    margin-right: 1rem;
+  }
+</style>

@@ -83,6 +83,16 @@ const ifxmixins = {
     getGroupsString(item) {
       const groups = item.groups.join(', ')
       return groups || 'None'
+    },
+    navigateToEdit(type, id) {
+      console.log(this.rtr)
+      this.rtr.push({ name: `${type}Edit`, params: { id } })
+    },
+    navigateToDetail(type, id) {
+      this.rtr.push({ name: `${type}Detail`, params: { id } })
+    },
+    navigateToCreate(type) {
+      this.rtr.push({ name: `${type}Create` })
     }
   },
   computed: {
