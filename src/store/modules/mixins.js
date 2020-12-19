@@ -85,7 +85,6 @@ const ifxmixins = {
       return groups || 'None'
     },
     navigateToEdit(type, id) {
-      console.log(this.rtr)
       this.rtr.push({ name: `${type}Edit`, params: { id } })
     },
     navigateToDetail(type, id) {
