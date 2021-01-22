@@ -1,7 +1,14 @@
 module.exports = {
   module: {
-    loaders: [
-      { test: /\.css$/, loader: 'css-loader' }
-    ]
-  }
-}
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['cache-loader', 'style-loader', 'css-loader'],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ['cache-loader', 'style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+};

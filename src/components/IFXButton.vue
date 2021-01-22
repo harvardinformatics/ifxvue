@@ -147,6 +147,9 @@ export default {
         btnText = 'Close'
       }
       return btnText
+    },
+    dataCyString() {
+      return `${this.btnType}-btn`
     }
   },
   methods: {
@@ -170,6 +173,7 @@ export default {
     :color="btnColorComputed"
     @click.prevent="clickHandler"
     rounded
+    :data-cy='dataCyString'
   >
     <v-icon v-if="iconStringComputed" :color="iconColor">{{iconStringComputed}}</v-icon>
     <span v-if="btnTextComputed">{{btnTextComputed}}</span>

@@ -25,11 +25,11 @@ export default {
   <span v-else-if="name==='expense_code'">
     <div>{{item.expense_code ? item.expense_code : 'N/A'}}</div>
   </span>
-  <span v-else-if="name==='id'" @click.prevent="() => navigateToDetail(type, item.id)">
+  <span v-else-if="name==='id'" data-cy='navigate-to-detail' @click.prevent="() => navigateToDetail(type, item.id)">
     <a class='data-table-id'>{{item.id}}</a>
   </span>
   <span v-else-if="name==='rowActionEdit'">
-    <IFXButton btnType='edit' x-small @action='navigateToEdit(type, item.id)'></IFXButton>
+    <IFXButton btnType='edit' x-small data-cy='navigate-to-edit' @action='navigateToEdit(type, item.id)'></IFXButton>
   </span>
   <span v-else-if="name==='delivery_date'">
     <div>{{item.deliveryDate | humanDatetime}}</div>
