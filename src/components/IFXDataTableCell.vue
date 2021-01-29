@@ -1,9 +1,9 @@
 <script>
 export default {
-  name: 'IFXDataTableSlot',
+  name: 'IFXDataTableCell',
   props: {
-    name: {
-      type: String,
+    header: {
+      type: Object,
       required: true
     },
     item: {
@@ -13,13 +13,26 @@ export default {
     type: {
       type: String,
       required: true
+    },
+    custom: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  computed: {
+    name() {
+      return this.header.value
     }
   }
 }
 </script>
 
 <template>
-  <span v-if="name==='expenses'">
+  <span v-if="custom">
+    <slot name="custom"></slot>
+  </span>
+  <span v-else-if="name==='expenses'">
     <div v-for="expense in item.expenses" :key="expense.code">{{expense.code}}</div>
   </span>
   <span v-else-if="name==='expense_code'">
@@ -77,10 +90,20 @@ export default {
     <div>{{truncateString(item.message)}}</div>
   </span>
   <span v-else-if="name==='detail'">
-    <div>{{truncateString(item.detail, 30)}}</div>
+    <a v-if='item.type === "email"' class='no-select' :href="`mailto:${item.detail}`">{{truncateString(item.detail, 30)}}</a>
+    <span v-else>{{truncateString(item.detail, 30)}}</span>
+  </span>
+  <span v-else-if="name==='parents'">
+    <div>{{formatOrganizationParents(item.parents)}}</div>
+  </span>
+  <span v-else-if="name==='rank'">
+    <div>{{formatOrganizationRank(item.rank)}}</div>
+  </span>
+  <span v-else-if="name ==='isLoginActive'">
+    <IFXLoginIcon :item='item' iconOnly />
   </span>
   <span v-else>
-    <slot name="custom"></slot>
+    <span>{{this.item[this.name]}}</span>
   </span>
 </template>
 
