@@ -4,7 +4,8 @@ import IFXButton from '@/components/IFXButton'
 import IFXNotFound from '@/components/IFXNotFound'
 import IFXForbidden from '@/components/IFXForbidden'
 import IFXPageHeader from '@/components/IFXPageHeader'
-import IFXDataTableSlot from '@/components/IFXDataTableSlot'
+import IFXLoginIcon from '@/components/IFXLoginIcon'
+import IFXDataTableCell from '@/components/IFXDataTableCell'
 import IFXPageErrorDisplay from '@/components/IFXPageErrorDisplay'
 import IFXUserAPIService from '@/classes/IFXUserAPI'
 import IFXStoreAPIService from '@/classes/IFXStoreAPI'
@@ -31,8 +32,9 @@ export const ifxcomponents = {
   IFXNotFound,
   IFXForbidden,
   IFXPageHeader,
-  IFXDataTableSlot,
-  IFXPageErrorDisplay
+  IFXDataTableCell,
+  IFXPageErrorDisplay,
+  IFXLoginIcon
 }
 
 export const ifxmodules = {

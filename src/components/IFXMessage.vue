@@ -64,6 +64,7 @@ export default {
     :multi-line="multiline"
     :timeout="messageTimeout"
     @input="deactivate"
+    data-cy='ifx-message'
   >
     {{message}}
     <template #action>

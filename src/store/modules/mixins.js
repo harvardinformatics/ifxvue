@@ -80,6 +80,15 @@ const ifxmixins = {
       }
       return `${string.substring(0, length)}...`
     },
+    formatOrganizationParents(parents) {
+      return parents.join(', ') || 'None'
+    },
+    formatOrganizationRank(rank) {
+      return this.$api.organization.getValidRankByValue(rank).text
+    },
+    lowerCaseFirstChar(string) {
+      return string.charAt(0).toLowerCase() + string.slice(1)
+    },
     getGroupsString(item) {
       const groups = item.groups.join(', ')
       return groups || 'None'
@@ -100,6 +109,12 @@ const ifxmixins = {
     },
     rt() {
       return this.$route
+    },
+    defaultItemsPerPage() {
+      return 10
+    },
+    defaultItemsPerPageOptions() {
+      return [10, 20, { text: 'All', value: -1 }]
     },
     /**
      * Collection of rules for v-form fields.

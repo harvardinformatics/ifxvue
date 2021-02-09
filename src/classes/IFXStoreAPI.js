@@ -1,9 +1,6 @@
-import axios from 'axios'
-
 export default class IFXStoreAPIService {
   constructor(store) {
     this._store = store
-    this._axios = axios.create()
   }
 
   get store() {

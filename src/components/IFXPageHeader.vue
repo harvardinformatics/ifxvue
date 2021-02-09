@@ -29,6 +29,7 @@ export default {
      */
     headerClass() {
       return {
+        'header-base': true,
         'header-font-lg': this.$vuetify.breakpoint.mdAndUp,
         'header-font-sm': this.$vuetify.breakpoint.sm,
         'header-font-xs': this.$vuetify.breakpoint.xs
@@ -51,8 +52,11 @@ export default {
 <template>
   <v-container>
     <v-col>
-      <v-row v-if="hasTitle" class="title-ctr" justify="space-between" align="center">
-        <h1 :class="headerClass"><slot name="title"></slot></h1>
+      <v-row v-if="hasTitle" justify="space-between" align="center">
+        <div class='title-ctr'>
+          <h1 data-cy='header-title' :class="headerClass"><slot name="title"></slot></h1>
+          <h1 data-cy='header-id' :class='headerClass'><slot name='id'></slot></h1>
+        </div>
         <div class="actions-ctr" :class="actionsContainerClass">
           <slot name="actions">
             <div class="actions-wrapper"></div>
@@ -73,6 +77,9 @@ export default {
 <style scoped>
   .content-ctr {
     width: 70%;
+  }
+  .header-base {
+    display: inline;
   }
   .header-font-sm {
     font-size: 1.75rem;
