@@ -1,4 +1,4 @@
-const path = require('path');
+// const path = require('path');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
 // function getProdExternals() {
@@ -24,10 +24,10 @@ module.exports = {
   configureWebpack: {
     resolve: {
       extensions: ['*', '.js', '.vue', '.json'],
-      alias: {
-        /* Use vuetify from the app, not from fence-vue */
-        vuetify: path.resolve(__dirname, 'node_modules/vuetify'),
-      },
+      // alias: {
+      //   /* Use vuetify from the app, not from fence-vue */
+      //   vuetify: path.resolve(__dirname, 'node_modules/vuetify'),
+      // },
     },
     // externals: process.env.NODE_ENV === 'production' ? getProdExternals() : {}
   }
