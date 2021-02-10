@@ -7,7 +7,6 @@ import 'vuetify/dist/vuetify.min.css'
 new Vue({
   vuetify,
   el: '#app',
-  // router,
   components: { App },
   render: h => h(App)
 })
