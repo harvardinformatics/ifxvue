@@ -12,8 +12,8 @@ const IFXMAILING = {
 const IFXMESSAGE = {
   id: null,
   message: '',
-  date_created: null,
-  date_modified: null
+  dateCreated: null,
+  dateModified: null
 }
 
 export default {
