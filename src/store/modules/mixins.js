@@ -163,6 +163,9 @@ const ifxmixins = {
     },
     routeDelay() {
       return 2000
+    },
+    getStatusHint(val) {
+      return val ? 'Active' : 'Inactive'
     }
   }
 }

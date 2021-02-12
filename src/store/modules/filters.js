@@ -7,14 +7,9 @@ export function humanDatetime(value) {
   }
   return datestr
 }
-export function centsToDollars(value) {
-  let num = 0
-  if (value) {
-    num = `$${value / 100}`
-  } else {
-    num = `$${num}.00`
-  }
-  return num
+export function centsToDollars(cents) {
+  const dollars = cents / 100;
+  return dollars.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 }
 export function capitalizeFirstLetter(rawValue) {
   const value = rawValue.toString()
