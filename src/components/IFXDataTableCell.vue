@@ -41,6 +41,9 @@ export default {
   <span v-else-if="name==='id'" data-cy='navigate-to-detail' @click.prevent="() => navigateToDetail(type, item.id)">
     <a class='data-table-id'>{{item.id}}</a>
   </span>
+  <span v-else-if="name==='loggedBy'" data-cy='navigate-to-detail' @click.prevent="() => navigateToDetail('User', item.user.id)">
+    <a class='data-table-id'>{{item.user.fullName}}</a>
+  </span>
   <span v-else-if="name==='rowActionEdit'">
     <IFXButton btnType='edit' x-small data-cy='navigate-to-edit' @action='navigateToEdit(type, item.id)'></IFXButton>
   </span>
