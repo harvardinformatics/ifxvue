@@ -47,6 +47,9 @@ export default {
   <span v-else-if="name==='rowActionEdit'">
     <IFXButton btnType='edit' x-small data-cy='navigate-to-edit' @action='navigateToEdit(type, item.id)'></IFXButton>
   </span>
+  <span v-else-if="name==='withdrawlDate'">
+    <div>{{item.withdrawalDate | humanDatetime}}</div>
+  </span>
   <span v-else-if="name==='deliveryDate'">
     <div>{{item.deliveryDate | humanDatetime}}</div>
   </span>

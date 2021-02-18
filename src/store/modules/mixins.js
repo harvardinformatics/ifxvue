@@ -1,7 +1,13 @@
 import moment from 'moment'
 
 const requiredFieldString = 'Required field'
-const baseRule = (v) => !!v || requiredFieldString
+const baseRule = (v) => {
+  // Allow 0
+  if (Number.parseFloat(v) === 0) return true
+  return !!v || requiredFieldString
+}
+const numericRule = (v) => !Number.isNaN(v) || 'Value must be numeric'
+const nonZeroRule = (v) => parseFloat(v) !== 0 || 'Value cannot be zero'
 
 const ifxmixins = {
   methods: {
@@ -101,6 +107,9 @@ const ifxmixins = {
     },
     navigateToCreate(type) {
       this.rtr.push({ name: `${type}Create` })
+    },
+    getFormattedActive(activeBool) {
+      return activeBool ? 'Active' : 'Inactive'
     }
   },
   computed: {
@@ -132,8 +141,13 @@ const ifxmixins = {
             return !!v.length || requiredFieldString
           }
           // Check if input is falsey
-          return !!v || requiredFieldString
+          return baseRule(v)
         }],
+        positiveNumber: [
+          baseRule,
+          numericRule,
+          nonZeroRule
+        ],
         email: [
           baseRule,
           v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)
@@ -143,29 +157,14 @@ const ifxmixins = {
           baseRule,
           v => (parseFloat(v) * 100) !== 0 || 'Value cannot be 0'
         ],
-        user: [
+        contactable: [
           baseRule,
-          v => !!v.userData.id || requiredFieldString
-        ],
-        contact: [
-          baseRule,
-          v => !!v.contactData.id || requiredFieldString
-        ],
-        organizationUser: [
-          baseRule,
-          v => !!v.organizationUserData.id || requiredFieldString
-        ],
-        organizationContact: [
-          baseRule,
-          v => !!v.organizationContactData.id || requiredFieldString
+          v => (!!v.firstName && !!v.lastName) || requiredFieldString
         ]
       }
     },
     routeDelay() {
       return 2000
-    },
-    getStatusHint(val) {
-      return val ? 'Active' : 'Inactive'
     }
   }
 }
