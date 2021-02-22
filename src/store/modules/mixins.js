@@ -110,6 +110,9 @@ const ifxmixins = {
     },
     getFormattedActive(activeBool) {
       return activeBool ? 'Active' : 'Inactive'
+    },
+    splitOnCapitals(word) {
+      return word.split(/(?=[A-Z])/)
     }
   },
   computed: {

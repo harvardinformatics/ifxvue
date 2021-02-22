@@ -65,6 +65,12 @@ export default {
   <span v-else-if="name==='groups'">
     <div>{{getGroupsString(item)}}</div>
   </span>
+  <span v-else-if="name==='organization'">
+    <div>{{truncateString(item.organization, 30)}}</div>
+  </span>
+  <span v-else-if="name==='comment'">
+    <div>{{truncateString(item.comment, 30)}}</div>
+  </span>
   <span v-else-if="name==='email'">
     <a :href="`mailto:${item.email}`">{{ item.email }}</a>
   </span>
