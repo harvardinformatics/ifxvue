@@ -41,7 +41,10 @@ export default {
   <span v-else-if="name==='id'" data-cy='navigate-to-detail' @click.prevent="() => navigateToDetail(type, item.id)">
     <a class='data-table-id'>{{item.id}}</a>
   </span>
-  <span v-else-if="name==='loggedBy'" data-cy='navigate-to-detail' @click.prevent="() => navigateToDetail('User', item.user.id)">
+  <span v-else-if="name==='loggedBy'" data-cy='navigate-to-detail' @click.prevent="() => navigateToDetail('User', item.loggedBy.id)">
+    <a class='data-table-id'>{{item.loggedBy.fullName}}</a>
+  </span>
+  <span v-else-if="name==='user'" data-cy='navigate-to-detail' @click.prevent="() => navigateToDetail('User', item.user.id)">
     <a class='data-table-id'>{{item.user.fullName}}</a>
   </span>
   <span v-else-if="name==='rowActionEdit'">

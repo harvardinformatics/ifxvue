@@ -3,7 +3,7 @@ export default {
   name: 'IFXButton',
   props: {
     // The type of button, determines default icon and color
-    // Options: add, edit, delete, close
+    // Options: add, edit, delete, close, download
     btnType: {
       type: String,
       required: true
@@ -69,6 +69,9 @@ export default {
         case 'add':
           btnColor = 'primary'
           break;
+        case 'download':
+          btnColor = 'primary'
+          break;
         case 'remove':
           btnColor = 'red'
           break;
@@ -130,6 +133,9 @@ export default {
         case 'submit':
           iconString = ''
           break;
+        case 'download':
+          iconString = 'mdi-cloud-download'
+          break;
         default:
           iconString = ''
           break;
@@ -145,6 +151,8 @@ export default {
         btnText = 'Submit'
       } else if (this.btnType === 'close') {
         btnText = 'Close'
+      } else if (this.btnType === 'download') {
+        btnText = 'Download'
       }
       return btnText
     },
