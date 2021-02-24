@@ -1,0 +1,36 @@
+export default {
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+    allItems: {
+      type: Array,
+      required: false,
+      default: () => []
+    },
+    errors: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      isLoading: false,
+    }
+  },
+  computed: {
+    itemLocal: {
+      get() {
+        return this.item
+      },
+      set(item) {
+        this.$emit('update:item', item)
+      }
+    },
+  },
+  mounted() {
+    this.isLoading = true
+    this.$nextTick(() => this.isLoading = false)
+  }
+}

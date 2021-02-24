@@ -2,7 +2,7 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'IFXMessage',
+  name: 'IFXMessageDisplay',
   props: {
     vertical: {
       default: true,

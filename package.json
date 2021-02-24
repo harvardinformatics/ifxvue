@@ -4,7 +4,7 @@
   "description": "Harvard FAS Informatics User Interface Library",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --target lib --name ifxvue ./src/store/index.js",
+    "build": "vue-cli-service build --target lib --name ifxvue ./src/entrypoint.js",
     "lint": "vue-cli-service lint"
   },
   "main": "dist/ifxvue.umd.js",
@@ -21,7 +21,8 @@
     "vue": "2.6.12",
     "vuetify": "2.3.16",
     "vuex": "3.5.1",
-    "vuex-persistedstate": "3.1.0"
+    "vuex-persistedstate": "3.1.0",
+    "@tinymce/tinymce-vue": "3.2.5"
   },
   "devDependencies": {
     "@babel/core": "7.12.3",
