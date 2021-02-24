@@ -16,7 +16,6 @@ import ifxmixins from './modules/mixins'
 import ifxfilters from './modules/filters'
 import message from './modules/message'
 import mailing from './modules/mailing'
-import ifxtemplates from './modules/templates'
 
 export const ifxclasses = {
   IFXUserAPIService,
@@ -83,8 +82,4 @@ export default function install(Vue, options = {}) {
     allowNegative: false,
     prefix: '$'
   })
-
-  // Add item templates
-  options.APIStore.templates.IFXMESSAGE = ifxtemplates.IFXMESSAGE
-  options.APIStore.templates.IFXMAILING = ifxtemplates.IFXMAILING
 }

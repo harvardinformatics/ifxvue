@@ -101,7 +101,6 @@ export default class IFXUserAPIService extends IFXStoreAPIService {
   }
 
   async logout() {
-    this.user = this._store.templates.user
     sessionStorage.removeItem(`ifx_${this.vars.app_name}_user`)
     const message = 'You have been logged out successfully.'
     return message
