@@ -14,7 +14,6 @@ import VCurrencyField from 'v-currency-field'
 import createPersistedState from 'vuex-persistedstate';
 import ifxmixins from './modules/mixins'
 import ifxfilters from './modules/filters'
-import dialog from './modules/dialog'
 import message from './modules/message'
 import mailing from './modules/mailing'
 import ifxtemplates from './modules/templates'
@@ -39,7 +38,6 @@ export const ifxcomponents = {
 
 export const ifxmodules = {
   message,
-  dialog,
   mailing
 }
 

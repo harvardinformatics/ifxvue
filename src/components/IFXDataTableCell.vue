@@ -115,7 +115,7 @@ export default {
     <div>{{formatOrganizationRank(item.rank)}}</div>
   </span>
   <span v-else-if="name ==='isLoginActive'">
-    <IFXLoginIcon :item='item' iconOnly />
+    <IFXLoginIcon :isActive='item.isActive' iconOnly />
   </span>
   <span v-else>
     <span>{{this.item[this.name]}}</span>

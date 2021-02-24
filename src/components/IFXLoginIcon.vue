@@ -1,18 +1,17 @@
 <template>
-  <div class="action-item">
+  <div class='action-item'>
     <span v-if="!disabled && $api.user.canEditField('User.isActive')">
       <v-checkbox
         v-model="isActiveLocal"
-        :label="`${$api.vars.appNameFormatted} Login`"
-        color="green"
-        on-icon="vpn_key"
-        off-icon="close"
+        :label="label"
+        :color="color"
+        :on-icon="onIcon"
+        :off-icon="offIcon"
       ></v-checkbox>
     </span>
     <span v-else>
-      <v-icon v-if="item.isActive" color="green">vpn_key</v-icon>
-      <v-icon v-else color="green">close</v-icon>
-      <span v-if='!iconOnly' class="v-label theme--light spaced-span">{{`${this.$api.vars.appNameFormatted} Login`}}</span>
+      <v-icon :color='color'>{{displayIcon}}</v-icon>
+      <span v-if='!iconOnly'>{{label}}</span>
     </span>
   </div>
 </template>
@@ -21,30 +20,41 @@
 export default {
   name: 'IFXLoginIcon',
   props: {
-    value: {
+    isActive: {
       type: Boolean,
-      required: false
-    },
-    item: {
-      type: Object,
       required: true
     },
     iconOnly: {
       type: Boolean,
       required: false,
       default: false
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  data() {
+    return {
+      color: 'green',
+      offIcon: 'close',
+      onIcon: 'vpn_key'
     }
   },
   computed: {
-    disabled() {
-      return !this.value
+    label() {
+      return `${this.$api.vars.appNameFormatted} Login`
+    },
+    displayIcon() {
+      return this.isActiveLocal ? this.onIcon : this.offIcon
     },
     isActiveLocal: {
       get() {
-        return this.value
+        return this.isActive
       },
-      set(val) {
-        this.$emit('input', val)
+      set(bool) {
+        this.$emit('update:isActive', bool)
       }
     }
   }
@@ -55,8 +65,5 @@ export default {
   .action-item {
     display: inline-block !important;
     margin-right: 2rem;
-  }
-  .spaced-span {
-    margin: 0.5em;
   }
 </style>
