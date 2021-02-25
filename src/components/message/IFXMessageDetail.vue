@@ -1,8 +1,10 @@
 <script>
-import { mapActions } from 'vuex'
+import IFXMessageMixin from '@/components/message/IFXMessageMixin'
+import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
 
 export default {
   name: 'IFXMessageDetail',
+  mixins: [IFXMessageMixin, IFXItemDetailMixin],
   props: {
     selectedMessage: Object
   },
@@ -13,17 +15,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['showMessage']),
-    navigateToItemEdit() {
-      this.rtr.push({ name: 'MessageEdit', params: { id: this.item.id, selectedMessage: this.item } })
+    async init() {
+      const item = await this.getItem()
+      this.loadMessage(item)
     },
     async getItem() {
       // If message is passed as prop by router
       if (this.selectedMessage) {
         return this.selectedMessage
       }
-      return this.$api.ifxMessage.getByID(this.id)
+      return this.apiRef.getByID(this.id)
     },
+    // Use this to ensure component reacts to data change
     loadMessage(selectedMessage) {
       const { id, name, message } = selectedMessage
       this.item = { id, name, message }
@@ -33,9 +36,8 @@ export default {
     this.loading = true
   },
   mounted() {
-    this.getItem()
-      .then(item => this.loadMessage(item))
-      .then(() => this.$nextTick(() => this.loading = false))
+    this.init()
+      .then(() => () => this.loading = false)
       .catch(error => {
         this.showMessage(error)
         this.rtr.replace({ name: 'MailingList' })

@@ -1,4 +1,6 @@
 <script>
+// Library of data table cell types
+// Assumes use with IFXDataTable component
 export default {
   name: 'IFXDataTableCell',
   props: {
@@ -14,6 +16,7 @@ export default {
       type: String,
       required: true
     },
+    // User can define their own custom display
     custom: {
       type: Boolean,
       required: false,

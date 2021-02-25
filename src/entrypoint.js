@@ -47,7 +47,7 @@ import VCurrencyField from 'v-currency-field'
 import createPersistedState from 'vuex-persistedstate';
 import IFXTextEditor from '@/components/IFXTextEditor'
 import IFXSearchField from '@/components/IFXSearchField'
-import IFXMixins from '@/mixins/IFXMixins'
+import IFXMixin from '@/mixins/IFXMixin'
 import IFXFilters from '@/filters/IFXFilters'
 import message from '@/vuex/message'
 import mailing from '@/vuex/mailing'
@@ -126,7 +126,7 @@ export default function install(Vue, options = {}) {
     Vue.filter(name, IFXFilters[name])
   })
 
-  Vue.mixin(IFXMixins)
+  Vue.mixin(IFXMixin)
 
   Vue.use(VCurrencyField, {
     locale: 'usd',

@@ -23,6 +23,7 @@
     no-data-text="No new results match that query."
     :class="{'required': required}"
   >
+  <!-- Display the chips in different colors, based on their contactable type -->
     <template #item="{item}">
       <v-icon :color="item.color">{{item.icon}}</v-icon>
       <v-list-item v-text='item.text'></v-list-item>
@@ -33,7 +34,10 @@
     </template>
   </v-combobox>
 </template>
+
 <script>
+// Primarily used in mailingCompose component for searching through multiple types of objects
+// (i.e. contactables: organization, user, contact)
 import debounce from 'lodash/debounce'
 import { mapActions } from 'vuex'
 
@@ -77,6 +81,7 @@ export default {
     getItemValue(item) {
       return item
     },
+    // Debounce so the query doesn't fire on every keydown
     querySelections: debounce(async function (val) {
       this.isSearching = true
       this.items = await this.$api.contactables.getList(val).then(res => res)
@@ -84,15 +89,12 @@ export default {
     }, 750),
     clearSearch() {
       this.search = null
-      // this.$refs[this.ref].blur()
     },
     removeRecipient(item) {
       const payload = { key: this.label, value: item }
       this.$store.dispatch('mailing/deleteValue', payload)
     },
-    isEmailValid(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    },
+    // TODO: make this more specific, this way of checking the shape of a contactable is brittle
     isContactableObj({ slug, color }) {
       return !!slug && !!color
     }
@@ -106,7 +108,6 @@ export default {
     },
     selected: {
       get() {
-        // console.log(this.$store.getters[`mailing/${this.label}`])
         return this.$store.getters[`mailing/${this.label}`]
       },
       set(valuesArray) {

@@ -1,5 +1,10 @@
 import moment from 'moment'
 
+/**
+ * Converts date value to a human-readable datetime
+ * @param {date} value datetime
+ * @returns {string} a date string
+ */
 export function humanDatetime(value) {
   let datestr = ''
   if (value) {
@@ -7,10 +12,22 @@ export function humanDatetime(value) {
   }
   return datestr
 }
+
+/**
+ * Converts cents to dollars
+ * @param {integer} cents
+ * @returns {number} value in dollars
+ */
 export function centsToDollars(cents) {
   const dollars = cents / 100;
   return dollars.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 }
+
+/**
+ * Capitalizes the first letter
+ * @param {any} rawValue
+ * @returns {string} a converted string
+ */
 export function capitalizeFirstLetter(rawValue) {
   const value = rawValue.toString()
   let str = ''
@@ -20,6 +37,11 @@ export function capitalizeFirstLetter(rawValue) {
   return str
 }
 
+/**
+ * Generates a friendly display value from an email
+ * @param {string} value
+ * @returns {string} convereted value
+ */
 export function emailDisplay(value) {
   let emailstr = ''
   if (value) {
@@ -28,6 +50,11 @@ export function emailDisplay(value) {
   return emailstr
 }
 
+/**
+ * Displays the state in a human-readable way
+ * @param {string} value
+ * @returns {string} converted value
+ */
 export function stateDisplay(value) {
   if (value) {
     const result = value
@@ -40,6 +67,11 @@ export function stateDisplay(value) {
   return ''
 }
 
+/**
+ * Converts value to a date displayed as a column, using Moment
+ * @param {date} value
+ * @returns {string} datestring
+ */
 export function columnDate(value) {
   let datestr = ''
   if (value) {

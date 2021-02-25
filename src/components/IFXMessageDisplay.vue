@@ -1,4 +1,6 @@
 <script>
+// Used in conjunction with the message vuex module
+// Can be used at the top level of the application or added to a component to override any top-level instances
 import { mapActions, mapGetters } from 'vuex'
 
 export default {

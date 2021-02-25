@@ -40,6 +40,8 @@ export default {
       required: false,
       default: () => []
     },
+    // Allows user to indicate which of the default actions should be allowed
+    // The key corresponds to the key of action in the library
     actionKeys: {
       type: Array,
       required: false,
@@ -81,22 +83,25 @@ export default {
       this.selectedItemsLocal = []
       this.selectedAction = {}
     },
-    completeAction() {
-      // Store reference of field to blur
-      const field = this.$refs.actionSelectField
-      setTimeout(() => field.blur(), 100)
-      this.selectedAction.execute(this.selectedItemsLocal)
-        .then((res) => {
-          if (has(this.selectedAction, 'onSuccess')) {
-            this.selectedAction.onSuccess(res)
-          }
-        })
-        .catch((error) => {
-          if (has(this.selectedAction, 'onError')) {
-            this.selectedAction.onError(error)
-          }
-        })
-        .finally(() => this.resetSelect())
+    async completeAction() {
+      await this.sleep(100)
+      // Store reference of field to blur on completion
+      this.$refs.actionSelectField.blur()
+      try {
+        const res = await this.selectedAction.execute(this.selectedItemsLocal)
+        if (has(this.selectedAction, 'onSuccess')) {
+          this.selectedAction.onSuccess(res)
+        }
+      } catch (error) {
+        if (has(this.selectedAction, 'onError')) {
+          this.selectedAction.onError(error)
+        } else {
+          this.showMessage(error)
+        }
+        throw error
+      } finally {
+        this.resetSelect()
+      }
     }
   },
   computed: {
@@ -108,6 +113,15 @@ export default {
         this.$emit('update:selectedItems', selectedItems)
       }
     },
+    // Library of default actions
+    // key: used to reference the action
+    // name: display name
+    // description: display description
+    // condition: condition for this action to be available, must pass for every item in list otherwise action is not available
+    // execute: function to be executed, i.e. the action to be taken
+    // onSuccess: callback if execution is successful
+    // onError: callback if execution is unsuccessful
+    // allowMultiple: if action allows for multiple items to be selected
     defaultActions() {
       const actions = [
         {

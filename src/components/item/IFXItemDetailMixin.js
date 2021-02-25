@@ -19,12 +19,7 @@ export default {
       this.rtr.push({ name: `${this.itemType}Edit`, params: { id } })
     },
     async init() {
-      try {
-        this.item = await this.apiRef.getByID(this.id)
-      } catch (error) {
-        this.showMessage(error)
-        this.rtr.replace({ name: `${this.itemType}List` })
-      }
+      this.item = await this.apiRef.getByID(this.id)
     }
   },
   computed: {
@@ -34,6 +29,11 @@ export default {
   },
   mounted() {
     this.isLoading = true
-    this.init().then(() => this.$nextTick(() => this.isLoading = false))
+    this.init()
+      .then(() => this.isLoading = false)
+      .catch(err => {
+        this.showMessage(err)
+        this.rtr.replace({ name: `${this.itemType}List` })
+      })
   }
 }

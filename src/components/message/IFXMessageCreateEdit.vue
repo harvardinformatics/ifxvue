@@ -12,7 +12,8 @@ export default {
     async getItem() {
       if (this.selectedMessage) {
         return this.selectedMessage
-      } if (this.isEditing) {
+      }
+      if (this.isEditing) {
         return this.apiRef.getByID(this.id)
       }
       return this.apiRef.create()

@@ -12,6 +12,7 @@ export default {
       required: false,
       default: () => []
     },
+    // Function for creating an empty item, usually an empty version of the item type itself
     getEmptyItem: {
       type: Function,
       required: false,
@@ -29,6 +30,7 @@ export default {
     }
   },
   methods: {
+    // If user adds an item, an empty version of that item should be added to the display for data entry
     async addItem() {
       const emptyItem = await this.getEmptyItem()
       this.itemsLocal.push(emptyItem)
@@ -66,6 +68,7 @@ export default {
     <v-card :key="item.id" v-for="(item, index) in itemsLocal" class="data-card">
       <IFXButton class='delete-btn' v-if='!disabled' :disabled='!canEdit' x-small @action='removeItem(index)' btnType='remove'></IFXButton>
       <!-- TODO: Notice that there is no updateItem handler passed in - this means the item prop is being mutated directly in child -->
+      <!-- NOTE: this slot occurs in a for loop, i.e. a new slot is being generated for each item instance -->
       <slot :item="item"></slot>
     </v-card>
   </div>

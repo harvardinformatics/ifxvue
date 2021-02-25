@@ -1,3 +1,5 @@
+// Mixin for all create/edit components for items in IFX library
+//
 import { mapActions } from 'vuex'
 
 export default {
@@ -23,16 +25,18 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     async init() {
-      // Add try catch, error handling
-      this.item = await this.getItem()
-      console.log(this.item)
-      this.cacheItem()
+      try {
+        this.item = await this.getItem()
+        this.cacheItem()
+      } catch (error) {
+        this.showMessage(error)
+        throw error
+      }
     },
+    // Used for comparison before submission and resetting form
     cacheItem() {
-      // console.log(this.apiRef.decompose(this.item))
-      // console.log(this.apiRef.decompose(this.item))
-      this.cachedItem = JSON.parse(JSON.stringify(this.item))
       // TODO: decompose item first
+      this.cachedItem = JSON.parse(JSON.stringify(this.item))
       // this.cachedItem = JSON.parse(JSON.stringify(this.apiRef.decompose(this.item)))
     },
     can(ability, user) {
@@ -45,6 +49,7 @@ export default {
     clearAllErrors() {
       this.errors = {}
     },
+    // Used by individual form fields to clear their own errors
     clearError(key) {
       if (this.errors.hasOwnProperty(key)) {
         delete this.errors[key]
@@ -84,13 +89,15 @@ export default {
     },
     getItem() {
       if (this.isEditing) {
+        // If editing, id should be available to get specific item from server
         return this.apiRef.getByID(this.id)
       }
+      // Otherwise, create a new item
       return this.apiRef.create({ })
     },
     hasItemChanged() {
+      // TODO: add decomposition by default
       return JSON.stringify(this.cachedItem) !== JSON.stringify(this.item)
-      // return JSON.stringify(this.apiRef.decompose(this.cachedItem)) !== JSON.stringify(this.apiRef.decompose(this.item))
     },
   },
   computed: {

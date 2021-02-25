@@ -10,6 +10,7 @@
 </template>
 
 <script>
+// Shows the created and modified dates for most IFX item types
 export default {
   name: 'IFXItemHistoryDisplay',
   props: {

@@ -17,6 +17,8 @@
 </template>
 
 <script>
+// Icon for displaying the login state of a user
+// TODO: can be merged with IFXEnabledIcon
 export default {
   name: 'IFXLoginIcon',
   props: {
@@ -24,6 +26,7 @@ export default {
       type: Boolean,
       required: true
     },
+    // Removes text label, for use in data table cells and other small-footprint spaces
     iconOnly: {
       type: Boolean,
       required: false,

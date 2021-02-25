@@ -6,6 +6,7 @@
 </template>
 
 <script>
+// https://www.tiny.cloud/docs/integrations/vue/
 // TODO: extend vuetify input to make this component swork better with forms
 // import VInput from 'vuetify/lib/components/VInput/VInput'
 import Editor from '@tinymce/tinymce-vue'
@@ -45,6 +46,7 @@ export default {
         this.setText(value)
       }
     },
+
     init() {
       return {
         height: 300,

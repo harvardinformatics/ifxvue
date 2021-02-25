@@ -8,10 +8,6 @@ export default {
       type: Array,
       required: true
     },
-    // search: {
-    //   type: String,
-    //   required: false
-    // },
     itemType: {
       type: String,
       required: true
@@ -31,20 +27,24 @@ export default {
     }
   },
   methods: {
+    // Method for handling click events on rows
+    // Only active if user has specified a click-row event
     clickRow(item) {
-      if (this.$listeners['click-row']) {
+      if (this.hasRowClickEvent) {
         this.$emit('click-row', item)
       }
       return null
     }
   },
   computed: {
+    // Checks if user has specified a click event for the row
     hasRowClickEvent() {
-      return this.$listeners['click-row']
+      return !!this.$listeners['click-row']
     },
+    // If the row has a click event, make the cursor into a pointer on hover
     rowClass() {
       return {
-        'row-pointer': !!this.hasRowClickEvent
+        'row-pointer': this.hasRowClickEvent
       }
     },
     selectedLocal: {
@@ -58,6 +58,7 @@ export default {
     options: {
       get() {
         return {
+          // Gets items per page from storage or sets default items per page
           itemsPerPage: this.$api.storage.getItem(this.itemsPerPageStorageKey, 'local') || this.defaultItemsPerPage
         }
       },
@@ -78,6 +79,7 @@ export default {
 </script>
 
 <template>
+<!-- NOTE: default search is not used. Items should be filtered by search and any other params before they are passed in -->
   <v-data-table
     :headers="headers"
     v-model='selectedLocal'
@@ -91,6 +93,7 @@ export default {
     @click:row="clickRow"
     :show-select='showSelect'
   >
+  <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
     <template v-for="header in headers" #[`item.${header.value}`]="{item}">
       <span v-if="header.namedSlot" v-bind:key="header.value">
         <slot :name="header.value" :item="item"></slot>
@@ -102,6 +105,7 @@ export default {
 </template>
 
 <style scoped>
+/* Deep selector for Vue/Vuetify to make row update on hover */
   .row-pointer >>> tbody tr :hover {
     cursor: pointer;
   }

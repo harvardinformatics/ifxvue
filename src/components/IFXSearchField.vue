@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// Mostly used as search field in IFXPage header for list components
 export default {
   name: 'IFXSearchField',
   props: {

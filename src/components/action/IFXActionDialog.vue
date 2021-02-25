@@ -32,6 +32,8 @@
 </template>
 
 <script>
+// Dialog for confirming the execution of an action on a list of selected Items
+// Assumes item are homogenous
 export default {
   name: 'ActionDialog',
   props: {
@@ -54,7 +56,8 @@ export default {
       return 'Item'
     },
     selectedItemsFormatted() {
-      // Selected items should be homogenous, so check first item for shape
+      // Selected items should be homogeneous, so check first item for shape
+      // TODO: improve check for item shape
       const firstItem = this.selectedItems[0]
       const { id, fullName, email, name } = firstItem
       if (fullName) {

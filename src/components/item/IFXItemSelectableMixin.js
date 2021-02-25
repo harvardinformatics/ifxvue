@@ -1,3 +1,4 @@
+// If an item is selectable (i.e. can be used in IFXItemSelectList) then it must have this shape
 export default {
   props: {
     item: {

@@ -48,7 +48,9 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    // TODO: this endpoint is not functional
     sendMailing() {
+      // Get mailing from vuex - this is where the mailing is stored throughout the composition process
       const mailing = this.$store.getters['mailing/subject']
       this.$api.sendIfxMailing(mailing)
         .then(res => this.showMessage(res))
@@ -86,10 +88,8 @@ export default {
       }
     }
   },
-  created() {
-    this.isLoading = true
-  },
   mounted() {
+    this.isLoading = true
     this.$nextTick(() => this.isLoading = false)
   }
 }

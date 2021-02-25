@@ -54,8 +54,17 @@ export default {
     }
   },
   computed: {
+    // Has the same shape as actions in IFXActionSelect.vue
+    // key: used to reference the action
+    // name: display name
+    // description: display description
+    // condition: condition for this action to be available, must pass for every item in list otherwise action is not available
+    // execute: function to be executed, i.e. the action to be taken
+    // onSuccess: callback if execution is successful
+    // onError: callback if execution is unsuccessful
+    // allowMultiple: if action allows for multiple items to be selected
     action() {
-      const action = {
+      return {
         key: 'deleteItem',
         name: 'Delete Item',
         description: 'This action will delete the selected item.',
@@ -71,7 +80,6 @@ export default {
         },
         condition: (item) => item,
       }
-      return action
     }
   }
 
