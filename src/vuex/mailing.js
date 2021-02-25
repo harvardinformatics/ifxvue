@@ -1,3 +1,8 @@
+// Vuex module for Mailing
+// This is where data for mailing is stored during the composition process
+// Namespaced to prevent collisions
+// Should be combined with persistentState package to ensure this data is stored in localstorage
+
 const getDefaultState = () => ({
   ifxmailingObj: null,
   // If user selects previous mailing or message, their content will be loaded

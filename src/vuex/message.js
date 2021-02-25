@@ -1,3 +1,5 @@
+// Vuex module for IFXMessageDisplay component
+
 import { has } from 'lodash'
 
 const getDefaultState = () => ({
@@ -14,6 +16,12 @@ const getters = {
   message: state => state.message,
 }
 
+/**
+ * Helper function for generating a message and action object from user payload
+ * @param {any} payload usually a string or an error object
+ * @returns {object} message and isActionRequired bool, which indicates whether the message display should be persistent
+ * until user action
+ */
 function getMessage(payload) {
   let message = ''
   let isActionRequired = false

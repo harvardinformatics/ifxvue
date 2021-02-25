@@ -1,3 +1,6 @@
+// This is the entrypoint file when ifxvue is imported into the host application, i.e. all imports should be done from this dir
+// All exports must be done explicitly
+
 import IFXMessageDisplay from '@/components/IFXMessageDisplay'
 import IFXButton from '@/components/IFXButton'
 // Page
@@ -91,7 +94,6 @@ export const ifxcomponents = {
   IFXPageErrorDisplay,
   IFXLoginIcon,
 }
-
 export const ifxmodules = {
   message,
   mailing
@@ -100,12 +102,16 @@ export const ifxmodules = {
 /**
  * Dynamically adds components to Vue instance calling this function,
  * registers Vuex modules in its store, and makes auth module persistent.
+ * @param {object} Vue the vue instance of the host application
+ * @param {object} options the options for installation
  */
 export default function install(Vue, options = {}) {
+  // Loop through all components to be registered globally and registers them
   Object.keys(ifxcomponents).forEach(name => {
     Vue.component(name, ifxcomponents[name]);
   })
 
+  // Making Vuex mailing module persistent
   const sessionConfig = {
     storage: window.sessionStorage,
     key: `${options.APIStore.vars.appKey}_mailing`,
@@ -116,18 +122,22 @@ export default function install(Vue, options = {}) {
   // Add plugin before module is registered
   sessionPersist(options.vuexStore)
 
+  // Loop through all Vuex modules and register them
   Object.keys(ifxmodules).forEach(name => {
     // Check if module state has been initialized. If not, do not preserve it.
     const preserveState = !!options.vuexStore[name]
     options.vuexStore.registerModule(name, ifxmodules[name], { preserveState })
   })
 
+  // Add filters
   Object.keys(IFXFilters).forEach(name => {
     Vue.filter(name, IFXFilters[name])
   })
 
+  // Add top-level mixin
   Vue.mixin(IFXMixin)
 
+  // Add currencyField package
   Vue.use(VCurrencyField, {
     locale: 'usd',
     decimalLength: 2,
