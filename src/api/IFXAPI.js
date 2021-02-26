@@ -12,8 +12,6 @@ import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 import IFXContactable from '@/components/contactable/IFXContactable'
 
-// console.log(User)
-
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val);
 }
@@ -256,7 +254,6 @@ export default class IFXAPIService {
         })
         newUserData.affiliations = affiliationDataObjs
       }
-      console.log(newUserData)
       return decompose ? newUserData : new User(newUserData)
     }
     const decomposeFunc = (userData) => createFunc(userData, true)
@@ -429,7 +426,6 @@ export default class IFXAPIService {
           .catch(err => this.showMessage(err))
 
         const users = await this.user.getByParams(search)
-          // .then(res => res.map(ud => console.log(ud)))
           .then(res => res.map(ud => this.user.create(ud)))
           .catch(err => this.showMessage(err))
 

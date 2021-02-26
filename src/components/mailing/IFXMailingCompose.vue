@@ -57,7 +57,6 @@ export default {
         .catch(err => {
           if (has(err, 'response') && has(err.response, 'data') && has(err.response.data, 'field_errors')) {
             this.fieldErrors = err.response.data.field_errors
-            console.log(err.response.data.field_errors)
           } else {
             this.showMessage(err)
           }

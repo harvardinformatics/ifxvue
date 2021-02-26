@@ -27,7 +27,6 @@ export default {
       }
     },
     contactData() {
-      console.log(this.contact)
       return this.contact || {}
     },
     contactID() {

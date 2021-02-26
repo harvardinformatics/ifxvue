@@ -127,7 +127,6 @@ export default {
       handler(n) {
         if (n) {
           this.errorMessage = n
-          console.log(n)
         }
       }
     }
