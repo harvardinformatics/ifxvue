@@ -3,6 +3,7 @@ import IFXUserMixin from '@/components/user/IFXUserMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
+import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXItemHistoryDisplay from '@/components/item/IFXItemHistoryDisplay'
 
@@ -13,7 +14,8 @@ export default {
     IFXLoginIcon,
     IFXItemHistoryDisplay,
     IFXItemSelectList,
-    IFXSelectableContact
+    IFXSelectableContact,
+    IFXSelectableAffiliation
   },
   data() {
     return {
@@ -97,7 +99,7 @@ export default {
             :items='item.contacts'
             >
             <template v-slot='{item}'>
-              <IFXSelectableContact disabled :item='item'/>
+              <IFXSelectableContact :disabled='true' :item='item'/>
             </template>
           </IFXItemSelectList>
         </v-col>
@@ -105,12 +107,12 @@ export default {
       <v-row>
         <v-col>
           <IFXItemSelectList
-            title='Addresses'
-            :items.sync='item.addresses'
+            title='Affiliations'
             disabled
+            :items='item.affiliations'
             >
             <template v-slot='{item}'>
-              <IFXSelectableAddress disabled :item='item'/>
+              <IFXSelectableAffiliation :disabled='true' :item='item'/>
             </template>
           </IFXItemSelectList>
         </v-col>
