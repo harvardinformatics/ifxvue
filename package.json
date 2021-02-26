@@ -1,6 +1,6 @@
 {
   "name": "ifxvue",
-  "version": "1.1.2",
+  "version": "1.2.1",
   "description": "Harvard FAS Informatics User Interface Library",
   "scripts": {
     "serve": "vue-cli-service serve",
