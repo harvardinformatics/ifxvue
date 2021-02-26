@@ -1,6 +1,8 @@
 // This is the entrypoint file when ifxvue is imported into the host application, i.e. all imports should be done from this dir
 // All exports must be done explicitly
 
+import IFXAPIService from '@/api/IFXAPI'
+
 import IFXMessageDisplay from '@/components/IFXMessageDisplay'
 import IFXButton from '@/components/IFXButton'
 // Page
@@ -43,10 +45,41 @@ import IFXActionSelect from '@/components/action/IFXActionSelect'
 // AuthUser
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 
+// Organization
+import IFXOrganizationCreateEdit from '@/components/organization/IFXOrganizationCreateEdit'
+import IFXOrganizationDetail from '@/components/organization/IFXOrganizationDetail'
+import IFXOrganizationList from '@/components/organization/IFXOrganizationList'
+import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
+import IFXOrganization from '@/components/organization/IFXOrganization'
+
+// Contact
+import IFXContactCreateEdit from '@/components/contact/IFXContactCreateEdit'
+import IFXContactDetail from '@/components/contact/IFXContactDetail'
+import IFXContactList from '@/components/contact/IFXContactList'
+import IFXContactMixin from '@/components/contact/IFXContactMixin'
+import IFXContact from '@/components/contact/IFXContact'
+import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
+import IFXContactCard from '@/components/contact/IFXContactCard'
+
+// User
+import IFXUserEdit from '@/components/user/IFXUserEdit'
+import IFXUserDetail from '@/components/user/IFXUserDetail'
+import IFXUserList from '@/components/user/IFXUserList'
+import IFXUserMixin from '@/components/user/IFXUserMixin'
+import IFXUser from '@/components/user/IFXUser'
+import IFXSelectableUser from '@/components/user/IFXSelectableUser'
+
+// Affiliation
+import IFXAffiliation from '@/components/affiliation/IFXAffiliation'
+import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
+
+// Affiliation
+import IFXAddress from '@/components/address/IFXAddress'
+import IFXSelectableAddress from '@/components/address/IFXSelectableAddress'
+
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
-
 import VCurrencyField from 'v-currency-field'
 import createPersistedState from 'vuex-persistedstate';
 import IFXTextEditor from '@/components/IFXTextEditor'
@@ -58,6 +91,7 @@ import mailing from '@/vuex/mailing'
 
 // These components/mixins must be import individually in host application
 export {
+  IFXAPIService,
   IFXTextEditor,
   IFXSearchField,
   IFXItemSelectList,
@@ -84,7 +118,29 @@ export {
   IFXAuthUser,
   IFXContactable,
   IFXLoginIcon,
-  IFXEnabledIcon
+  IFXEnabledIcon,
+  IFXOrganization,
+  IFXOrganizationCreateEdit,
+  IFXOrganizationDetail,
+  IFXOrganizationList,
+  IFXOrganizationMixin,
+  IFXContact,
+  IFXContactCreateEdit,
+  IFXContactDetail,
+  IFXContactList,
+  IFXContactMixin,
+  IFXSelectableContact,
+  IFXContactCard,
+  IFXUser,
+  IFXUserEdit,
+  IFXUserDetail,
+  IFXUserList,
+  IFXUserMixin,
+  IFXSelectableUser,
+  IFXAffiliation,
+  IFXSelectableAffiliation,
+  IFXAddress,
+  IFXSelectableAddress
 }
 
 // Registered globally
