@@ -12,7 +12,16 @@ export default {
     },
     errors: {
       type: Object,
-      required: true
+      required: false,
+      default: () => ({
+        contacts: {},
+        users: {}
+      })
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {

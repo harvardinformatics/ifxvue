@@ -1,8 +1,13 @@
 <script>
 // Library of data table cell types
 // Assumes use with IFXDataTable component
+import IFXLoginIcon from '@/components/IFXLoginIcon'
+
 export default {
   name: 'IFXDataTableCell',
+  components: {
+    IFXLoginIcon
+  },
   props: {
     header: {
       type: Object,
@@ -118,7 +123,7 @@ export default {
     <div>{{formatOrganizationRank(item.rank)}}</div>
   </span>
   <span v-else-if="name ==='isLoginActive'">
-    <IFXLoginIcon :isActive='item.isActive' iconOnly />
+    <IFXLoginIcon :isActive='item.isActive' :disabled='true' :iconOnly='true' />
   </span>
   <span v-else>
     <span>{{this.item[this.name]}}</span>

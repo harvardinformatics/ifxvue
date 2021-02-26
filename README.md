@@ -1,6 +1,6 @@
 # Harvard FAS Informatics User Interface Library
 
-User interface library built and maintained by the Harvard FAS Informatics group. **This package will only work in applications with Vue CLI (Vue 2), Vuex, and Vuetify 2 installed.**
+This user interface library is built and maintained by the Harvard FAS Informatics group. It includes many reusable components, mixins, and filters, as well as an API for use throughout any host application built with Vue CLI (Vue 2), Vuex, and Vuetify 2 installed.
 
 ## Installation
 
@@ -33,7 +33,6 @@ const vars = {
   appKey: `ifx_${appName}`
 }
 
-// Initialize with empty user template before authentication occurs
 const APIStore = {
   urls,
   vars,

@@ -44,6 +44,7 @@ import IFXActionSelect from '@/components/action/IFXActionSelect'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 
 import IFXLoginIcon from '@/components/IFXLoginIcon'
+import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
 
 import VCurrencyField from 'v-currency-field'
@@ -81,7 +82,9 @@ export {
   IFXMessageMixin,
   IFXItemBase,
   IFXAuthUser,
-  IFXContactable
+  IFXContactable,
+  IFXLoginIcon,
+  IFXEnabledIcon
 }
 
 // Registered globally
@@ -92,7 +95,6 @@ export const ifxcomponents = {
   IFXPageHeader,
   IFXDataTableCell,
   IFXPageErrorDisplay,
-  IFXLoginIcon,
 }
 export const ifxmodules = {
   message,

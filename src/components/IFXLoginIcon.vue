@@ -11,7 +11,7 @@
     </span>
     <span v-else>
       <v-icon :color='color'>{{displayIcon}}</v-icon>
-      <span v-if='!iconOnly'>{{label}}</span>
+      <span>{{label}}</span>
     </span>
   </div>
 </template>
@@ -47,6 +47,9 @@ export default {
   },
   computed: {
     label() {
+      if (this.iconOnly) {
+        return ''
+      }
       return `${this.$api.vars.appNameFormatted} Login`
     },
     displayIcon() {
@@ -60,7 +63,7 @@ export default {
         this.$emit('update:isActive', bool)
       }
     }
-  }
+  },
 }
 </script>
 
