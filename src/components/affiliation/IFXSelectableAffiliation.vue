@@ -18,11 +18,11 @@ export default {
       <v-row>
         <v-col>
           <h5>Organization</h5>
-          <p>{{itemLocal.affiliation.organization}}</p>
+          <p>{{itemLocal.organization}}</p>
         </v-col>
         <v-col>
           <h5>Role</h5>
-          <p>{{itemLocal.affiliation.role}}</p>
+          <p>{{itemLocal.role}}</p>
         </v-col>
       </v-row>
     </span>

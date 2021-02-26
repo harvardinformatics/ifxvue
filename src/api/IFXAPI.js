@@ -236,7 +236,7 @@ export default class IFXAPIService {
           const newContactData = {
             id,
             role,
-            contact: decompose ? contact.data : this.contact.create(contact.data)
+            contact: decompose ? contact : this.contact.create(contact)
           }
           return newContactData
         })
@@ -441,17 +441,6 @@ export default class IFXAPIService {
 
   get address() {
     return {
-      // create: (street1, street2, city, state, country, postalCode) => {
-      //   const address = {
-      //     street1: street1 || '',
-      //     street2: street2 || '',
-      //     city: city || '',
-      //     state: state || '',
-      //     country: country || '',
-      //     postalCode: postalCode || ''
-      //   }
-      //   return address
-      // },
       create: (data = {}) => new Address(data),
       types: ['Work', 'Home', 'Additional']
     }
