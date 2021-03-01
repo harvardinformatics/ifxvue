@@ -11,7 +11,7 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
-yarn.lock
+# yarn.lock
 
 # Editor directories and files
 .idea
@@ -22,4 +22,4 @@ yarn.lock
 *.sln
 *.sw?
 
-dist
+# dist
