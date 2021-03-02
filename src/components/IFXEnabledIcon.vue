@@ -1,8 +1,8 @@
 <template>
-  <div class='action-item'>
-    <span v-if="!disabled && $api.user.canEditField('User.isActive')">
+  <div class="action-item">
+    <span v-if="!disabled && $api.user.canEditField('User.isEnabled')">
       <v-checkbox
-        v-model="isActiveLocal"
+        v-model="isEnabledLocal"
         :label="label"
         :color="color"
         :on-icon="onIcon"
@@ -10,19 +10,19 @@
       ></v-checkbox>
     </span>
     <span v-else>
-      <v-icon :color='color'>{{displayIcon}}</v-icon>
-      <span>{{label}}</span>
+      <v-icon :color="color">{{displayIcon}}</v-icon>
+      <span v-if='!iconOnly'>{{label}}</span>
     </span>
   </div>
 </template>
 
 <script>
-// Icon for displaying the login state of a user
-// TODO: can be merged with IFXEnabledIcon
+// Icon for displaying the enabled state of a user
+// TODO: can be merged with IFXLoginIcon
 export default {
-  name: 'IFXLoginIcon',
+  name: 'IFXEnabledIcon',
   props: {
-    isActive: {
+    isEnabled: {
       type: Boolean,
       required: true
     },
@@ -40,30 +40,27 @@ export default {
   },
   data() {
     return {
-      color: 'green',
+      color: 'green darken-3',
       offIcon: 'close',
-      onIcon: 'vpn_key'
+      onIcon: 'mood'
     }
   },
   computed: {
-    label() {
-      if (this.iconOnly) {
-        return ''
-      }
-      return `${this.$api.vars.appNameFormatted} Login`
-    },
     displayIcon() {
-      return this.isActiveLocal ? this.onIcon : this.offIcon
+      return this.isEnabledLocal ? this.onIcon : this.offIcon
     },
-    isActiveLocal: {
+    label() {
+      return 'FAS User'
+    },
+    isEnabledLocal: {
       get() {
-        return this.isActive
+        return this.isEnabled
       },
       set(bool) {
-        this.$emit('update:isActive', bool)
+        this.$emit('update:isEnabled', bool)
       }
     }
-  },
+  }
 }
 </script>
 
