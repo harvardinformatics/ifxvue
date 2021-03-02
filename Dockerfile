@@ -4,6 +4,6 @@ EXPOSE 8080
 
 WORKDIR /app/frontend
 
-RUN npm install -g @vue/cli-service@^4.4.6 @vue/eslint-config-airbnb@^5.1.0 @vue/cli-plugin-unit-jest
+RUN npm install -g @vue/cli@4.5.9 @vue/cli-service@4.5.9 eslint@7.9.0 n@7.0.0 node-gyp@7.1.2 npm@6.14.10
 
 CMD /bin/bash
