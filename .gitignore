@@ -22,4 +22,4 @@ package-lock.json
 *.sln
 *.sw?
 
-# dist
+dist
