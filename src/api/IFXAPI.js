@@ -230,6 +230,7 @@ export default class IFXAPIService {
       const newUserData = cloneDeep(userData) || {}
       newUserData.contacts = []
       newUserData.affiliations = []
+
       if (userData.contacts && userData.contacts.length) {
         const contactDataObjs = userData.contacts.map(({ id, role, contact }) => {
           // contact.data.id = 1
