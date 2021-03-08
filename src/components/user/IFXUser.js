@@ -151,6 +151,14 @@ export default class User extends IFXItemBase {
     this.data.affiliations = affiliations
   }
 
+  get accounts() {
+    return this.data.accounts
+  }
+
+  set accounts(accounts) {
+    this.data.accounts = accounts
+  }
+
   get logins() {
     return this.data.logins
   }
