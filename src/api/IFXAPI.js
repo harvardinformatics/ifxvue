@@ -11,6 +11,7 @@ import IFXMailing from '@/components/mailing/IFXMailing'
 import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 import IFXContactable from '@/components/contactable/IFXContactable'
+import Account from '@/components/account/IFXAccount'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val);
@@ -230,6 +231,7 @@ export default class IFXAPIService {
       const newUserData = cloneDeep(userData) || {}
       newUserData.contacts = []
       newUserData.affiliations = []
+      newUserData.accounts = []
 
       if (userData.contacts && userData.contacts.length) {
         const contactDataObjs = userData.contacts.map(({ id, role, contact }) => {
@@ -255,6 +257,18 @@ export default class IFXAPIService {
         })
         newUserData.affiliations = affiliationDataObjs
       }
+
+      if (userData.accounts && userData.accounts.length) {
+        const accountDataObjs = userData.accounts.map(({ id, account }) => {
+          const newAccountData = {
+            id,
+            account: decompose ? account : this.account.create(account)
+          }
+          return newAccountData
+        })
+        newUserData.accounts = accountDataObjs
+      }
+
       return decompose ? newUserData : new User(newUserData)
     }
     const decomposeFunc = (userData) => createFunc(userData, true)
@@ -525,6 +539,11 @@ export default class IFXAPIService {
   get message() {
     const baseURL = this.urls.MESSAGES
     return this.genericAPI(baseURL, IFXMessage)
+  }
+
+  get account() {
+    const baseURL = this.urls.ACCOUNTS
+    return this.genericAPI(baseURL, Account)
   }
 
   mockError(code) {
