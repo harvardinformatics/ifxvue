@@ -1,4 +1,4 @@
-import { IFXItemBase } from 'ifxvue'
+import IFXItemBase from '@/components/item/IFXItemBase'
 
 export default class Account extends IFXItemBase {
   constructor(data = {}) {

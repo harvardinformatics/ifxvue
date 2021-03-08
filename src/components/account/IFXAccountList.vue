@@ -1,5 +1,8 @@
 <script>
-import { IFXItemDataTable, IFXSearchField, IFXActionSelect, IFXItemListMixin } from 'ifxvue'
+import IFXActionSelect from '@/components/action/IFXActionSelect'
+import IFXSearchField from '@/components/IFXSearchField'
+import IFXItemDataTable from '@/components/item/IFXItemDataTable'
+import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 import accountMixin from '@/components/account/IFXAccountMixin'
 
 export default {

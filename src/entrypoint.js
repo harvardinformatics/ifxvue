@@ -77,6 +77,11 @@ import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffi
 import IFXAddress from '@/components/address/IFXAddress'
 import IFXSelectableAddress from '@/components/address/IFXSelectableAddress'
 
+// Account
+import IFXAccount from '@/components/account/IFXAccount'
+import IFXAccountList from '@/components/account/IFXAccountList'
+import IFXAccountMixin from '@/components/account/IFXAccountMixin'
+
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
@@ -88,6 +93,7 @@ import IFXMixin from '@/mixins/IFXMixin'
 import IFXFilters from '@/filters/IFXFilters'
 import message from '@/vuex/message'
 import mailing from '@/vuex/mailing'
+
 
 // These components/mixins must be import individually in host application
 export {
@@ -140,7 +146,10 @@ export {
   IFXAffiliation,
   IFXSelectableAffiliation,
   IFXAddress,
-  IFXSelectableAddress
+  IFXSelectableAddress,
+  IFXAccount,
+  IFXAccountList,
+  IFXAccountMixin
 }
 
 // Registered globally

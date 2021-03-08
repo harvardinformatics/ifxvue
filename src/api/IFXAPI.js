@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios'
 import has from 'lodash/has'
+import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import Contact from '@/components/contact/IFXContact'
 import User from '@/components/user/IFXUser'
@@ -144,10 +145,10 @@ export default class IFXAPIService {
       isAuthenticated: this.authUser ? this.authUser.isAuthenticated : false,
       isAdmin: this.authUser ? this.authUser.isAdmin : false,
       isStaff: this.authUser ? this.authUser.isStaff : false,
-      // Returns the record for the user that is current authenticated
+      // Returns the record for the user that is currently authenticated
       getCurrentUserRecord: async () => {
-        const { firstName, lastName, username } = this.authUser
-        const users = await this.user.getList({ firstName, lastName, username })
+        const username = this.authUser.username
+        const users = await this.user.getList({ username })
         // TODO switch from console errors to returned errors
         if (users.length > 1) {
           console.error('Cannot have more than one returned user')
@@ -403,6 +404,26 @@ export default class IFXAPIService {
           return objs
         })
       return orgNames
+    }
+    api.parseSlug = (slug) => {
+      /* Splits an organization slug into name, org_tree, and rank */
+      const result = {
+        slug: slug
+      }
+      if (slug) {
+        const match = slug.match(/(.+?) \(a (.+?) (\S+)\)$/)
+        if (match) {
+          result.name = match[1]
+          result.org_tree = match[2]
+          let rank = match[3]
+          forEach(api.validRanks, (e) => {
+            if (e.text === rank) {
+              result.rank = e.value
+            }
+          })
+        }
+      }
+      return result
     }
     return api
   }
