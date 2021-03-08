@@ -2487,6 +2487,27 @@ module.exports = Object.is || function is(x, y) {
 
 /***/ }),
 
+/***/ "1304":
+/***/ (function(module, exports, __webpack_require__) {
+
+var identity = __webpack_require__("cd9d");
+
+/**
+ * Casts `value` to `identity` if it's not a function.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {Function} Returns cast function.
+ */
+function castFunction(value) {
+  return typeof value == 'function' ? value : identity;
+}
+
+module.exports = castFunction;
+
+
+/***/ }),
+
 /***/ "1310":
 /***/ (function(module, exports) {
 
@@ -4191,6 +4212,29 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
     return ku;
 
 })));
+
+
+/***/ }),
+
+/***/ "242e":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseFor = __webpack_require__("72af"),
+    keys = __webpack_require__("ec69");
+
+/**
+ * The base implementation of `_.forOwn` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return object && baseFor(object, iteratee, keys);
+}
+
+module.exports = baseForOwn;
 
 
 /***/ }),
@@ -26523,6 +26567,58 @@ $({ target: 'Array', proto: true, forced: !STRICT_METHOD || !USES_TO_LENGTH }, {
 
 /***/ }),
 
+/***/ "466d":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __webpack_require__("d784");
+var anObject = __webpack_require__("825a");
+var toLength = __webpack_require__("50c4");
+var requireObjectCoercible = __webpack_require__("1d80");
+var advanceStringIndex = __webpack_require__("8aa5");
+var regExpExec = __webpack_require__("14c3");
+
+// @@match logic
+fixRegExpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
+  return [
+    // `String.prototype.match` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.match
+    function match(regexp) {
+      var O = requireObjectCoercible(this);
+      var matcher = regexp == undefined ? undefined : regexp[MATCH];
+      return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
+    },
+    // `RegExp.prototype[@@match]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@match
+    function (regexp) {
+      var res = maybeCallNative(nativeMatch, regexp, this);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+
+      if (!rx.global) return regExpExec(rx, S);
+
+      var fullUnicode = rx.unicode;
+      rx.lastIndex = 0;
+      var A = [];
+      var n = 0;
+      var result;
+      while ((result = regExpExec(rx, S)) !== null) {
+        var matchStr = String(result[0]);
+        A[n] = matchStr;
+        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+        n++;
+      }
+      return n === 0 ? null : A;
+    }
+  ];
+});
+
+
+/***/ }),
+
 /***/ "4678":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27012,6 +27108,27 @@ module.exports = function (O, defaultConstructor) {
     return az;
 
 })));
+
+
+/***/ }),
+
+/***/ "48a0":
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseForOwn = __webpack_require__("242e"),
+    createBaseEach = __webpack_require__("950a");
+
+/**
+ * The base implementation of `_.forEach` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ */
+var baseEach = createBaseEach(baseForOwn);
+
+module.exports = baseEach;
 
 
 /***/ }),
@@ -30672,6 +30789,54 @@ module.exports = {
 
 /***/ }),
 
+/***/ "6cd4":
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayEach = __webpack_require__("8057"),
+    baseEach = __webpack_require__("48a0"),
+    castFunction = __webpack_require__("1304"),
+    isArray = __webpack_require__("6747");
+
+/**
+ * Iterates over elements of `collection` and invokes `iteratee` for each element.
+ * The iteratee is invoked with three arguments: (value, index|key, collection).
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * **Note:** As with other "Collections" methods, objects with a "length"
+ * property are iterated like arrays. To avoid this behavior use `_.forIn`
+ * or `_.forOwn` for object iteration.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @alias each
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ * @see _.forEachRight
+ * @example
+ *
+ * _.forEach([1, 2], function(value) {
+ *   console.log(value);
+ * });
+ * // => Logs `1` then `2`.
+ *
+ * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
+ *   console.log(key);
+ * });
+ * // => Logs 'a' then 'b' (iteration order is not guaranteed).
+ */
+function forEach(collection, iteratee) {
+  var func = isArray(collection) ? arrayEach : baseEach;
+  return func(collection, castFunction(iteratee));
+}
+
+module.exports = forEach;
+
+
+/***/ }),
+
 /***/ "6ce3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31455,6 +31620,29 @@ module.exports = function ($this, dummy, Wrapper) {
   ) setPrototypeOf($this, NewTargetPrototype);
   return $this;
 };
+
+
+/***/ }),
+
+/***/ "72af":
+/***/ (function(module, exports, __webpack_require__) {
+
+var createBaseFor = __webpack_require__("99cd");
+
+/**
+ * The base implementation of `baseForOwn` which iterates over `object`
+ * properties returned by `keysFunc` and invokes `iteratee` for each property.
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+module.exports = baseFor;
 
 
 /***/ }),
@@ -35106,6 +35294,45 @@ module.exports = isForced;
 
 /***/ }),
 
+/***/ "950a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isArrayLike = __webpack_require__("30c9");
+
+/**
+ * Creates a `baseEach` or `baseEachRight` function.
+ *
+ * @private
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseEach(eachFunc, fromRight) {
+  return function(collection, iteratee) {
+    if (collection == null) {
+      return collection;
+    }
+    if (!isArrayLike(collection)) {
+      return eachFunc(collection, iteratee);
+    }
+    var length = collection.length,
+        index = fromRight ? length : -1,
+        iterable = Object(collection);
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (iteratee(iterable[index], index, iterable) === false) {
+        break;
+      }
+    }
+    return collection;
+  };
+}
+
+module.exports = createBaseEach;
+
+
+/***/ }),
+
 /***/ "9520":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36881,6 +37108,38 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
     return A;
   }
 });
+
+
+/***/ }),
+
+/***/ "99cd":
+/***/ (function(module, exports) {
+
+/**
+ * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+module.exports = createBaseFor;
 
 
 /***/ }),
@@ -47469,6 +47728,34 @@ $({ target: 'Object', stat: true, forced: Object.assign !== assign }, {
 
 /***/ }),
 
+/***/ "cd9d":
+/***/ (function(module, exports) {
+
+/**
+ * This method returns the first argument it receives.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
+
+
+/***/ }),
+
 /***/ "cdf9":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -52379,6 +52666,9 @@ __webpack_require__.d(__webpack_exports__, "IFXAffiliation", function() { return
 __webpack_require__.d(__webpack_exports__, "IFXSelectableAffiliation", function() { return /* reexport */ IFXSelectableAffiliation; });
 __webpack_require__.d(__webpack_exports__, "IFXAddress", function() { return /* reexport */ IFXAddress_Address; });
 __webpack_require__.d(__webpack_exports__, "IFXSelectableAddress", function() { return /* reexport */ IFXSelectableAddress; });
+__webpack_require__.d(__webpack_exports__, "IFXAccount", function() { return /* reexport */ IFXAccount_Account; });
+__webpack_require__.d(__webpack_exports__, "IFXAccountList", function() { return /* reexport */ IFXAccountList; });
+__webpack_require__.d(__webpack_exports__, "IFXAccountMixin", function() { return /* reexport */ IFXAccountMixin; });
 __webpack_require__.d(__webpack_exports__, "ifxcomponents", function() { return /* reexport */ ifxcomponents; });
 __webpack_require__.d(__webpack_exports__, "ifxmodules", function() { return /* reexport */ ifxmodules; });
 
@@ -52479,6 +52769,9 @@ var es_regexp_exec = __webpack_require__("ac1f");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
 var es_string_iterator = __webpack_require__("3ca3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
+var es_string_match = __webpack_require__("466d");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
 var es_string_split = __webpack_require__("1276");
@@ -52651,6 +52944,10 @@ var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
 // EXTERNAL MODULE: ./node_modules/lodash/has.js
 var has = __webpack_require__("3852");
 var has_default = /*#__PURE__*/__webpack_require__.n(has);
+
+// EXTERNAL MODULE: ./node_modules/lodash/forEach.js
+var forEach = __webpack_require__("6cd4");
+var forEach_default = /*#__PURE__*/__webpack_require__.n(forEach);
 
 // EXTERNAL MODULE: ./node_modules/lodash/cloneDeep.js
 var cloneDeep = __webpack_require__("0644");
@@ -53150,6 +53447,14 @@ var IFXUser_User = /*#__PURE__*/function (_IFXItemBase) {
     },
     set: function set(affiliations) {
       this.data.affiliations = affiliations;
+    }
+  }, {
+    key: "accounts",
+    get: function get() {
+      return this.data.accounts;
+    },
+    set: function set(accounts) {
+      this.data.accounts = accounts;
     }
   }, {
     key: "logins",
@@ -53871,6 +54176,110 @@ var IFXContactable_Contactable = /*#__PURE__*/function (_IFXItemBase) {
 }(IFXItemBase_ItemBase);
 
 
+// CONCATENATED MODULE: ./src/components/account/IFXAccount.js
+
+
+
+
+
+
+
+var IFXAccount_Account = /*#__PURE__*/function (_IFXItemBase) {
+  _inherits(Account, _IFXItemBase);
+
+  var _super = _createSuper(Account);
+
+  function Account() {
+    var _this;
+
+    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Account);
+
+    _this = _super.call(this, data); // Set default template values here
+
+    if (!data) {
+      _this.data.active = false;
+    }
+
+    return _this;
+  }
+
+  _createClass(Account, [{
+    key: "code",
+    get: function get() {
+      return this.data.code;
+    },
+    set: function set(val) {
+      this.data.code = val;
+    }
+  }, {
+    key: "name",
+    get: function get() {
+      return this.data.name;
+    },
+    set: function set(val) {
+      this.data.name = val;
+    }
+  }, {
+    key: "organization",
+    get: function get() {
+      return this.data.organization;
+    },
+    set: function set(val) {
+      this.data.organization = val;
+    }
+  }, {
+    key: "accountType",
+    get: function get() {
+      return this.data.account_type;
+    },
+    set: function set(val) {
+      this.data.account_type = val;
+    }
+  }, {
+    key: "root",
+    get: function get() {
+      return this.data.root;
+    },
+    set: function set(val) {
+      this.data.root = val;
+    }
+  }, {
+    key: "active",
+    get: function get() {
+      return this.data.active;
+    },
+    set: function set(val) {
+      this.data.active = val;
+    }
+  }, {
+    key: "validFrom",
+    get: function get() {
+      return this.data.valid_from;
+    },
+    set: function set(val) {
+      this.data.valid_from = val;
+    }
+  }, {
+    key: "expirationDate",
+    get: function get() {
+      return this.data.expiration_date;
+    },
+    set: function set(val) {
+      this.data.expiration_date = val;
+    }
+  }, {
+    key: "slug",
+    get: function get() {
+      return this.data.slug;
+    }
+  }]);
+
+  return Account;
+}(IFXItemBase_ItemBase);
+
+
 // CONCATENATED MODULE: ./src/api/IFXAPI.js
 
 
@@ -53895,7 +54304,10 @@ var IFXContactable_Contactable = /*#__PURE__*/function (_IFXItemBase) {
 
 
 
+
 /* eslint-disable no-param-reassign */
+
+
 
 
 
@@ -54214,20 +54626,17 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         isAuthenticated: this.authUser ? this.authUser.isAuthenticated : false,
         isAdmin: this.authUser ? this.authUser.isAdmin : false,
         isStaff: this.authUser ? this.authUser.isStaff : false,
-        // Returns the record for the user that is current authenticated
+        // Returns the record for the user that is currently authenticated
         getCurrentUserRecord: function () {
           var _getCurrentUserRecord = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-            var _this4$authUser, firstName, lastName, username, users;
-
+            var username, users;
             return regeneratorRuntime.wrap(function _callee6$(_context6) {
               while (1) {
                 switch (_context6.prev = _context6.next) {
                   case 0:
-                    _this4$authUser = _this4.authUser, firstName = _this4$authUser.firstName, lastName = _this4$authUser.lastName, username = _this4$authUser.username;
+                    username = _this4.authUser.username;
                     _context6.next = 3;
                     return _this4.user.getList({
-                      firstName: firstName,
-                      lastName: lastName,
                       username: username
                     });
 
@@ -54439,6 +54848,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         var newUserData = cloneDeep_default()(userData) || {};
         newUserData.contacts = [];
         newUserData.affiliations = [];
+        newUserData.accounts = [];
 
         if (userData.contacts && userData.contacts.length) {
           var contactDataObjs = userData.contacts.map(function (_ref2) {
@@ -54469,6 +54879,19 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
             return newAffiliationData;
           });
           newUserData.affiliations = affiliationDataObjs;
+        }
+
+        if (userData.accounts && userData.accounts.length) {
+          var accountDataObjs = userData.accounts.map(function (_ref4) {
+            var id = _ref4.id,
+                account = _ref4.account;
+            var newAccountData = {
+              id: id,
+              account: decompose ? account : _this6.account.create(account)
+            };
+            return newAccountData;
+          });
+          newUserData.accounts = accountDataObjs;
         }
 
         return decompose ? newUserData : new IFXUser_User(newUserData);
@@ -54517,9 +54940,9 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         newOrgData.users = []; // Check if incoming orgData has contacts
 
         if (orgData.contacts && orgData.contacts.length) {
-          var organizationContactDataObjs = orgData.contacts.map(function (_ref4) {
-            var role = _ref4.role,
-                contact = _ref4.contact;
+          var organizationContactDataObjs = orgData.contacts.map(function (_ref5) {
+            var role = _ref5.role,
+                contact = _ref5.contact;
             var newContactData = {
               id: contact.id,
               role: role,
@@ -54535,9 +54958,9 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
 
         if (orgData.users && orgData.users.length) {
-          var organizationUserDataObjs = orgData.users.map(function (_ref5) {
-            var role = _ref5.role,
-                user = _ref5.user;
+          var organizationUserDataObjs = orgData.users.map(function (_ref6) {
+            var role = _ref6.role,
+                user = _ref6.user;
             var newUserData = {
               id: user.id,
               role: role,
@@ -54684,6 +55107,31 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           }
         }, _callee11);
       }));
+
+      api.parseSlug = function (slug) {
+        /* Splits an organization slug into name, org_tree, and rank */
+        var result = {
+          slug: slug
+        };
+
+        if (slug) {
+          var match = slug.match(/(.+?) \(a (.+?) (\S+)\)$/);
+
+          if (match) {
+            result.name = match[1];
+            result.org_tree = match[2];
+            var rank = match[3];
+            forEach_default()(api.validRanks, function (e) {
+              if (e.text === rank) {
+                result.rank = e.value;
+              }
+            });
+          }
+        }
+
+        return result;
+      };
+
       return api;
     }
   }, {
@@ -55029,6 +55477,12 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
     get: function get() {
       var baseURL = this.urls.MESSAGES;
       return this.genericAPI(baseURL, IFXMessage_Message);
+    }
+  }, {
+    key: "account",
+    get: function get() {
+      var baseURL = this.urls.ACCOUNTS;
+      return this.genericAPI(baseURL, IFXAccount_Account);
     }
   }]);
 
@@ -75382,6 +75836,104 @@ var IFXSelectableAddress_component = normalizeComponent(
 
 installComponents_default()(IFXSelectableAddress_component, {VAutocomplete: VAutocomplete_VAutocomplete,VCol: VCol,VCombobox: VCombobox,VContainer: VContainer,VForm: VForm,VRow: VRow,VSelect: VSelect_VSelect,VTextField: VTextField_VTextField})
 
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0c092284-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/account/IFXAccountList.vue?vue&type=template&id=c3fdf9e2&
+var IFXAccountListvue_type_template_id_c3fdf9e2_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}}),_c('IFXActionSelect',{attrs:{"actionKeys":['deleteItems'],"apiRef":_vm.apiRef,"selectedItems":_vm.selected},on:{"get-set-items":_vm.getSetItems,"update:selectedItems":function($event){_vm.selected=$event},"update:selected-items":function($event){_vm.selected=$event}}}),_c('IFXButton',{attrs:{"btnType":"add"},on:{"action":_vm.navigateToItemCreate}})]},proxy:true}],null,false,2772667883)}),_c('IFXItemDataTable',{attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"selected":_vm.selected,"itemType":_vm.itemType},on:{"update:selected":function($event){_vm.selected=$event}}})],1):_vm._e()}
+var IFXAccountListvue_type_template_id_c3fdf9e2_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/components/account/IFXAccountList.vue?vue&type=template&id=c3fdf9e2&
+
+// CONCATENATED MODULE: ./src/components/account/IFXAccountMixin.js
+/* harmony default export */ var IFXAccountMixin = ({
+  data: function data() {
+    return {
+      itemType: 'Account',
+      apiRef: this.$api.account
+    };
+  }
+});
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/account/IFXAccountList.vue?vue&type=script&lang=js&
+
+
+
+
+
+
+/* harmony default export */ var IFXAccountListvue_type_script_lang_js_ = ({
+  name: 'IFXAccountList',
+  mixins: [IFXAccountMixin, IFXItemListMixin],
+  components: {
+    IFXSearchField: IFXSearchField,
+    IFXItemDataTable: IFXItemDataTable,
+    IFXActionSelect: IFXActionSelect
+  },
+  computed: {
+    headers: function headers() {
+      var _this = this;
+
+      var headers = [{
+        text: 'ID',
+        value: 'id',
+        sortable: true
+      }, {
+        text: 'Name',
+        value: 'name',
+        sortable: true
+      }, {
+        text: 'Code',
+        value: 'code',
+        sortable: true
+      }, {
+        text: 'Account Type',
+        value: 'account_type',
+        sortable: true
+      }, {
+        text: 'Active',
+        value: 'active',
+        sortable: true
+      }, {
+        text: 'Expiration Date',
+        value: 'expiration_date',
+        sortable: true
+      }, {
+        text: '',
+        value: 'rowActionEdit',
+        sortable: false
+      }];
+      return headers.filter(function (h) {
+        return !h.hide || !_this.$vuetify.breakpoint[h.hide];
+      });
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/components/account/IFXAccountList.vue?vue&type=script&lang=js&
+ /* harmony default export */ var account_IFXAccountListvue_type_script_lang_js_ = (IFXAccountListvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./src/components/account/IFXAccountList.vue
+
+
+
+
+
+/* normalize component */
+
+var IFXAccountList_component = normalizeComponent(
+  account_IFXAccountListvue_type_script_lang_js_,
+  IFXAccountListvue_type_template_id_c3fdf9e2_render,
+  IFXAccountListvue_type_template_id_c3fdf9e2_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var IFXAccountList = (IFXAccountList_component.exports);
+
+/* vuetify-loader */
+
+
+installComponents_default()(IFXAccountList_component, {VContainer: VContainer})
+
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0c092284-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXEnabledIcon.vue?vue&type=template&id=11141dae&scoped=true&
 var IFXEnabledIconvue_type_template_id_11141dae_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"action-item"},[(!_vm.disabled && _vm.$api.user.canEditField('User.isEnabled'))?_c('span',[_c('v-checkbox',{attrs:{"label":_vm.label,"color":_vm.color,"on-icon":_vm.onIcon,"off-icon":_vm.offIcon},model:{value:(_vm.isEnabledLocal),callback:function ($$v) {_vm.isEnabledLocal=$$v},expression:"isEnabledLocal"}})],1):_c('span',[_c('v-icon',{attrs:{"color":_vm.color}},[_vm._v(_vm._s(_vm.displayIcon))]),(!_vm.iconOnly)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._e()],1)])}
 var IFXEnabledIconvue_type_template_id_11141dae_scoped_true_staticRenderFns = []
@@ -77589,6 +78141,10 @@ var mailing_mutations = {
 
 
  // Affiliation
+
+
+ // Account
+
 
 
 

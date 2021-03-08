@@ -94,7 +94,6 @@ import IFXFilters from '@/filters/IFXFilters'
 import message from '@/vuex/message'
 import mailing from '@/vuex/mailing'
 
-
 // These components/mixins must be import individually in host application
 export {
   IFXAPIService,
