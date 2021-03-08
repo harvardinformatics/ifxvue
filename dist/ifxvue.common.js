@@ -58557,12 +58557,12 @@ var component = normalizeComponent(
 
 installComponents_default()(component, {VSnackbar: VSnackbar_VSnackbar})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0c092284-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXButton.vue?vue&type=template&id=1b965e24&
-var IFXButtonvue_type_template_id_1b965e24_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-btn',{attrs:{"fab":!_vm.btnTextComputed,"disabled":_vm.disabled,"x-small":_vm.xSmallComputed,"small":_vm.smallComputed,"large":_vm.largeComputed,"color":_vm.btnColorComputed,"rounded":"","data-cy":_vm.dataCyString},on:{"click":function($event){$event.preventDefault();return _vm.clickHandler($event)}}},[(_vm.iconStringComputed)?_c('v-icon',{attrs:{"color":_vm.iconColor}},[_vm._v(_vm._s(_vm.iconStringComputed))]):_vm._e(),(_vm.btnTextComputed)?_c('span',[_vm._v(_vm._s(_vm.btnTextComputed))]):_vm._e()],1)}
-var IFXButtonvue_type_template_id_1b965e24_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"0c092284-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXButton.vue?vue&type=template&id=b98ba1b0&
+var IFXButtonvue_type_template_id_b98ba1b0_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-btn',{attrs:{"fab":!_vm.btnTextComputed,"disabled":_vm.disabled,"x-small":_vm.xSmallComputed,"small":_vm.smallComputed,"large":_vm.largeComputed,"color":_vm.btnColorComputed,"rounded":"","data-cy":_vm.dataCyString},on:{"click":function($event){$event.preventDefault();return _vm.clickHandler($event)}}},[(_vm.iconStringComputed)?_c('v-icon',{attrs:{"color":_vm.iconColor}},[_vm._v(_vm._s(_vm.iconStringComputed))]):_vm._e(),(_vm.btnTextComputed)?_c('span',[_vm._v(_vm._s(_vm.btnTextComputed))]):_vm._e()],1)}
+var IFXButtonvue_type_template_id_b98ba1b0_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/IFXButton.vue?vue&type=template&id=1b965e24&
+// CONCATENATED MODULE: ./src/components/IFXButton.vue?vue&type=template&id=b98ba1b0&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.small.js
 var es_string_small = __webpack_require__("c96a");
@@ -58745,8 +58745,6 @@ var es_string_small = __webpack_require__("c96a");
         btnText = 'Submit';
       } else if (this.btnType === 'close') {
         btnText = 'Close';
-      } else if (this.btnType === 'download') {
-        btnText = 'Download';
       }
 
       return btnText;
@@ -59934,8 +59932,8 @@ const VIcon_VIcon = mixins(binds_attrs, colorable, sizeable, themeable
 
 var IFXButton_component = normalizeComponent(
   components_IFXButtonvue_type_script_lang_js_,
-  IFXButtonvue_type_template_id_1b965e24_render,
-  IFXButtonvue_type_template_id_1b965e24_staticRenderFns,
+  IFXButtonvue_type_template_id_b98ba1b0_render,
+  IFXButtonvue_type_template_id_b98ba1b0_staticRenderFns,
   false,
   null,
   null,

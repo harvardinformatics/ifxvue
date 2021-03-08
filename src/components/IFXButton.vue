@@ -151,8 +151,6 @@ export default {
         btnText = 'Submit'
       } else if (this.btnType === 'close') {
         btnText = 'Close'
-      } else if (this.btnType === 'download') {
-        btnText = 'Download'
       }
       return btnText
     },
