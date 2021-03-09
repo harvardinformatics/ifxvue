@@ -50,7 +50,10 @@ export default class IFXAPIService {
     this._axios.interceptors.request.use(c => {
       const config = c
       config.baseURL = this.urls.API_ROOT
-      config.headers.Authorization = this.auth.headerValue
+      if (this.auth.headerValue.trim().split(' ').length === 2) {
+        // Token is of the form "Token XXXXX" if the user has been authenticated
+        config.headers.Authorization = this.auth.headerValue
+      }
       return config;
     })
     return this._axios
