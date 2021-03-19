@@ -3,7 +3,7 @@ import { mapActions } from 'vuex'
 export default {
   props: {
     id: {
-      type: String,
+      type: [String, Number],
       required: true
     }
   },
