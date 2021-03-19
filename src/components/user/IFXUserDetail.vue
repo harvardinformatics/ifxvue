@@ -35,7 +35,7 @@ export default {
     <IFXPageHeader>
       <template #title>{{detailTitle}}: {{item.username || id}}</template>
       <template #actions>
-        <IFXLoginIcon disabled v-if='item.isActive !== undefined' :isActive='item.isActive'/>
+        <IFXLoginIcon disabled v-if='item.isActive !== undefined' :isActive='item.isActive' class="mr-1"/>
         <IFXButton btnType="edit" @action="navigateToItemEdit(id)"/>
       </template>
       <template #content>
