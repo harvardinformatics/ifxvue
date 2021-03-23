@@ -8,7 +8,8 @@ export default class AuthUser {
   }
 
   get id() {
-    return this.data.id
+    // Always return a string
+    return `${this.data.id}`
   }
 
   get firstName() {
