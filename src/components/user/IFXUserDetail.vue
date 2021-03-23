@@ -66,6 +66,7 @@ export default {
           <h3>Primary Email</h3>
           <p>{{item.primaryEmail}}</p>
         </v-col>
+        <v-spacer></v-spacer>
       </v-row>
       <v-row>
         <v-col>
