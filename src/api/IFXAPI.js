@@ -243,7 +243,7 @@ export default class IFXAPIService {
           const newContactData = {
             id,
             role,
-            contact: decompose ? contact : this.contact.create(contact)
+            contact: decompose ? contact.data : this.contact.create(contact)
           }
           return newContactData
         })
