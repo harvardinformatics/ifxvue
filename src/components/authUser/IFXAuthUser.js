@@ -7,6 +7,11 @@ export default class AuthUser {
     return this._data
   }
 
+  get id() {
+    // Always return a string
+    return `${this.data.id}`
+  }
+
   get firstName() {
     return this.data.first_name
   }
