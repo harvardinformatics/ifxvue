@@ -10,7 +10,7 @@
       ></v-checkbox>
     </span>
     <span v-else>
-      <v-icon :color='color'>{{displayIcon}}</v-icon>
+      <v-icon :color='color' class="mr-1">{{displayIcon}}</v-icon>
       <span>{{label}}</span>
     </span>
   </div>
