@@ -144,7 +144,7 @@ export default class IFXAPIService {
 
   get auth() {
     return {
-      headerValue: this.authUser ? `Token ${this.authUser.token}` : '',
+      headerValue: this.authUser && this.authUser.token ? `Token ${this.authUser.token}` : '',
       isAuthenticated: this.authUser ? this.authUser.isAuthenticated : false,
       isAdmin: this.authUser ? this.authUser.isAdmin : false,
       isStaff: this.authUser ? this.authUser.isStaff : false,
