@@ -8,7 +8,7 @@ import moment from 'moment'
 export function humanDatetime(value) {
   let datestr = ''
   if (value) {
-    datestr = moment(String(value)).format('M/DD/YYYY')
+    datestr = moment(String(value)).format('M/DD/YYYY h:mm A')
   }
   return datestr
 }
