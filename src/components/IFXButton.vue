@@ -1,9 +1,9 @@
 <script>
 export default {
-  name: "IFXButton",
+  name: 'IFXButton',
   props: {
     // The type of button, determines default icon and color
-    // Options: add, edit, delete
+    // Options: add, edit, delete, close, download
     btnType: {
       type: String,
       required: true
@@ -34,7 +34,7 @@ export default {
     // The color of the icon
     iconColor: {
       type: String,
-      default: "white",
+      default: 'white',
       required: false
     },
     // String for icon, overrides default determined buy btnType
@@ -62,16 +62,31 @@ export default {
         return this.btnColor
       }
       let btnColor = ''
-      if (this.btnType === 'edit') {
-        btnColor = 'primary'
-      } else if (this.btnType === 'remove') {
-        btnColor = 'red'
-      } else if (this.btnType === 'add') {
-        btnColor = 'primary'
-      } else if (this.btnType === 'submit') {
-        btnColor = 'secondary'
-      } else {
-        btnColor = 'secondary'
+      switch (this.btnType) {
+        case 'edit':
+          btnColor = 'primary'
+          break;
+        case 'add':
+          btnColor = 'primary'
+          break;
+        case 'download':
+          btnColor = 'primary'
+          break;
+        case 'remove':
+          btnColor = 'red'
+          break;
+        case 'submit':
+          btnColor = 'secondary'
+          break;
+        case 'close':
+          btnColor = 'secondary'
+          break;
+        case 'home':
+          btnColor = 'primary'
+          break;
+        default:
+          btnColor = 'secondary'
+          break;
       }
       return btnColor
     },
@@ -105,16 +120,25 @@ export default {
         return this.iconString
       }
       let iconString = ''
-      if (this.btnType === 'edit') {
-        iconString = 'mdi-pencil'
-      } else if (this.btnType === 'remove') {
-        iconString = 'delete'
-      } else if (this.btnType === 'add') {
-        iconString = 'add'
-      } else if (this.btnType === 'submit') {
-        iconString = ''
-      } else {
-        iconString = 'plus'
+      switch (this.btnType) {
+        case 'edit':
+          iconString = 'mdi-pencil'
+          break;
+        case 'remove':
+          iconString = 'delete'
+          break;
+        case 'add':
+          iconString = 'add'
+          break;
+        case 'submit':
+          iconString = ''
+          break;
+        case 'download':
+          iconString = 'mdi-cloud-download'
+          break;
+        default:
+          iconString = ''
+          break;
       }
       return iconString
     },
@@ -125,8 +149,13 @@ export default {
       let btnText = ''
       if (this.btnType === 'submit') {
         btnText = 'Submit'
+      } else if (this.btnType === 'close') {
+        btnText = 'Close'
       }
       return btnText
+    },
+    dataCyString() {
+      return `${this.btnType}-btn`
     }
   },
   methods: {
@@ -150,8 +179,9 @@ export default {
     :color="btnColorComputed"
     @click.prevent="clickHandler"
     rounded
+    :data-cy='dataCyString'
   >
-    <v-icon :color="iconColor">{{iconStringComputed}}</v-icon>
+    <v-icon v-if="iconStringComputed" :color="iconColor">{{iconStringComputed}}</v-icon>
     <span v-if="btnTextComputed">{{btnTextComputed}}</span>
   </v-btn>
 </template>

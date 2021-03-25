@@ -1,6 +1,6 @@
 # Harvard FAS Informatics User Interface Library
 
-User interface library built and maintained by the Harvard FAS Informatics group. **This package will only work in applications with Vue CLI, Vuex, and Vuetify installed.**
+This user interface library is built and maintained by the Harvard FAS Informatics group. It includes many reusable components, mixins, and filters, as well as an API for use throughout any host application built with Vue CLI (Vue 2), Vuex, and Vuetify 2 installed.
 
 ## Installation
 
@@ -12,45 +12,49 @@ npm i ifxvue
 In main.js (or wherever Vue is instantiated):
 
 ```
-import store from './store'
+import vuexStore from './store'
+import APIStore from '@/API/APIStore'
 import ifxvue from 'ifxvue'
 
-Vue.use(ifxvue, {store})
+Vue.use(ifxvue, { vuexStore, APIStore })
 ```
+
+In the above code, the vuexStore can be empty, but it must be instantated by the host applcation.
+
+The APIStore is an object with the following attributes (i.e. any urls and vars to be used by the API).
+
+```
+const appName = 'hers'
+const appNameFormatted = 'HeRS'
+
+const vars = {
+  appName,
+  appNameFormatted,
+  appKey: `ifx_${appName}`
+}
+
+const APIStore = {
+  urls,
+  vars,
+  ui: {}
+}
+```
+
+To make use of the API throughout the application, it must be made reactive, like so:
+
+```
+const api = new APIService(APIStore)
+Vue.prototype.$api = Vue.observable(api)
+api.auth.initAuthUser()
+```
+
+This API can then be used to inialize the authUser (for authentication purposes, e.g. logging in and out).
 
 ## Components
-All components in this library can be used by name without importing them locally. However, the related Vuex actions and getters must be imported.
+Some components in this library are installed by default. This can be configured by adding to the ifxcomponents variable in the entrypoint file, as can the specifics of any default import/export. This is true of Vuex modules, mixins, classes, etc.
 
-#### Dialog `<Dialog/>`
-This is a wrapper that uses the v-dialog component from Vuetify to display any globally registered component on top of the current page. To use, pass in any named component as a string. If Dialog component is added to the top level (App.vue), it can be opened by any registered component. If added to a child of App.vue, it must be activated within that component.
-
-First, in main.js (or wherever Vue is instantiated) globally register the component to be displayed:
-```
-import NamedComponent from 'components/NamedComponent'
-
-Vue.component('NamedComponent', NamedComponent)
-```
-
-Second, in App.vue or local component:
-```
-import {mapActions} from 'vuex'
-
-<script>
-    methods: {
-        ...mapActions([
-            'openDialog',
-        ]),
-    }
-</script>
-
-<template>
-    <Dialog :componentToRender="'NamedComponent'"/>
-    <v-btn @click.prevent="openDialog()">
-</template>
-```
-
-#### Message `<Message/>`
-This is a simple component that renders a message on top of the current page. If can interpret and display response and error objects, as well as show text of your choioce.
+#### IFXMessageDisplay `<IFXDisplayMessage/>`
+This is a simple component that renders a message on top of the current page, using the Snackbar component from Vuetify. To use, place Message component at the top level of the application and activate using the showMessage action. This accepts strings or error objects. If an error object is passed, the Message component requires action from the user to be dismissed. Otherwise, the component persists for a period of time that is proportional to the length of the message being passed.
 
 ```
 import {mapActions} from 'vuex'
@@ -60,16 +64,16 @@ import {mapActions} from 'vuex'
         getData () {
             api.getUserData()
                 .then(response => {
-                    let message = response.data
-                    this.showMessage({response, message})
+                    const message = 'This action was successful.'
+                    this.showMessage(message)
                 })
                 .catch(error => {
-                    this.showMessage({error})
+                    this.showMessage(error)
                 })
             },
         testMessage () {
           const message = "This is a test message."
-          this.showMessage({message})
+          this.showMessage(message)
         },
         ...mapActions([
             'showMessage',
@@ -79,7 +83,7 @@ import {mapActions} from 'vuex'
 
 <template>
     <Message/>
-    <v-btn @click.prevent="this.testMessage()>
+    <v-btn @click.prevent="testMessage">
 </template>
 
 ```
@@ -87,9 +91,10 @@ Optional parameters:
 - vertical (stacks message content vertically for mobile)
 - top, bottom, left, right (message will be fixed to the top, bottom, left, or right of screen)
 - color (applies specified color to the message window - works with standard material color scheme, such as 'success' or 'primary', as well as standard css colors)
-- multiline (makes message higher)
+- multiline (makes message taller)
 - timeout (time in milliseconds for message to be displayed - default is 3000)
 
+Example (in App.js or any other top-level component):
 ```
-<Message :top=true :color="success" :timeout=5000/>
+<IFXDisplayMessage :top=true :color="success" :timeout=5000/>
 ```
