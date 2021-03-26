@@ -418,7 +418,7 @@ export default class IFXAPIService {
         if (match) {
           result.name = match[1]
           result.org_tree = match[2]
-          let rank = match[3]
+          const rank = match[3]
           forEach(api.validRanks, (e) => {
             if (e.text === rank) {
               result.rank = e.value
