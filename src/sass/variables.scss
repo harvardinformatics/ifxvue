@@ -24,6 +24,10 @@ $list-item-title-font-size: 0.929rem;
 $list-item-dense-title-font-size: 0.929rem;
 $list-item-dense-title-font-weight: initial;
 
+// Shrink list item icons
+$list-item-action-icon-margin: 16px;
+$list-item-icon-margin: 8px;
+
 //Rewrite all the headings
 $headings: (
   "h1": (
