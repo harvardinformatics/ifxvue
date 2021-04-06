@@ -57,7 +57,7 @@ export default {
         <v-col sm="7">
           <h3>Groups to which this user belongs</h3>
           <span v-if="item.groups" class="d-flex flex-column">
-            <div v-for="group in item.groups" :key="group" class="d-flex align-center">
+            <div v-for="group in item.groups" :key="group" class="d-flex align-center mt-1">
               <v-icon class="mr-1">{{$api.group.iconForGroup(group)}}</v-icon>
               <span>{{group}}</span>
             </div>
