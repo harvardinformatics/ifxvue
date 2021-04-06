@@ -33,7 +33,7 @@ export default {
 <template>
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{detailTitle}} {{item.fullName || id}}</template>
+      <template #title>{{item.fullName || id}}<v-icon color="yellow darken-1" class="ml-2 mb-1 key-background" v-if="item.isAdmin">mdi-key</v-icon></template>
       <template #actions>
         <IFXLoginIcon disabled v-if='item.isActive !== undefined' :isActive='item.isActive'/>
         <IFXButton btnType="edit" @action="navigateToItemEdit(id)"/>
@@ -55,26 +55,14 @@ export default {
           <div class="data-item">{{item.primaryEmail}}</div>
         </v-col>
         <v-col sm="7">
-          <v-combobox
-            v-model="item.groups"
-            :items="allGroupNames"
-            disabled
-            multiple
-            solo
-            label='Groups'
-            hint='Groups to which this user belongs.'
-            persistent-hint
-          >
-            <template #selection="{item}">
-              <v-chip
-                :color="$api.group.colorForGroup(item)"
-                close
-                @click:close="removeGroup(item)"
-              >
-                <strong>{{ item }}</strong>
-              </v-chip>
-            </template>
-          </v-combobox>
+          <h3>Groups to which this user belongs</h3>
+          <span v-if="item.groups" class="d-flex flex-column">
+            <div v-for="group in item.groups" :key="group" class="d-flex align-center">
+              <v-icon class="mr-1">{{$api.group.iconForGroup(group)}}</v-icon>
+              <span>{{group}}</span>
+            </div>
+          </span>
+          <span v-else>None</span>
         </v-col>
       </v-row>
       <v-row>
@@ -118,5 +106,11 @@ export default {
   .data-item {
     padding-top: 1px;
     padding-bottom: 1px;
+  }
+
+  .key-background {
+    background-color: #90A4AE;
+    border-radius: 50%;
+    padding: 5px;
   }
 </style>
