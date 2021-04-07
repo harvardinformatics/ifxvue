@@ -128,7 +128,8 @@ export default {
       this.closeDialog();
     },
     restore() {
-      this.item.data = clone(this.cachedItem.data)
+      // cachedItem isn't a User object so can't use .data
+      this.item.data = clone(this.cachedItem._data)
       this.clearAllErrors()
     },
     canEdit(field) {
@@ -172,7 +173,7 @@ export default {
         </template>
         </IFXPageHeader>
         <v-container v-if='hasIFXID'>
-          <v-row>
+          <v-row no-gutters>
             <v-col>
               <p>Use this form to view and edit user information.
                 Changes to most fields (except for application Groups) will update
@@ -182,7 +183,7 @@ export default {
           </v-row>
           <v-form @submit.prevent v-model="isValid" autocomplete="off" :ref="formName">
             <v-row>
-              <v-col>
+              <v-col sm="6">
                 <v-text-field
                   v-model.trim="item.firstName"
                   label="First name"
@@ -193,8 +194,8 @@ export default {
                   :rules="formRules.generic"
                   required
                 ></v-text-field>
-              </v-col>
-              <v-col>
+              <!-- </v-col>
+              <v-col sm="12"> -->
                 <v-text-field
                   v-model.trim="item.lastName"
                   label="Last name"
@@ -205,8 +206,8 @@ export default {
                   :rules="formRules.generic"
                   required
                 ></v-text-field>
-              </v-col>
-              <v-col>
+              <!-- </v-col>
+              <v-col sm="12"> -->
                 <v-text-field
                   v-model.trim="item.fullName"
                   label="Full name"
@@ -218,21 +219,7 @@ export default {
                   required
                 ></v-text-field>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field
-                  v-model.trim="item.primaryEmail"
-                  label="Primary Email"
-                  autocomplete="new-password"
-                  :error-messages="errors.primary_email"
-                  @focus="clearError('primary_email')"
-                  :disabled="!canEdit('User.primaryEmail')"
-                  :rules="formRules.email"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col>
+              <v-col sm="6">
                 <v-combobox
                   v-if="canEdit('User.groups')"
                   v-model="item.groups"
@@ -260,7 +247,21 @@ export default {
               </v-col>
             </v-row>
             <v-row>
-              <v-col>
+              <v-col sm="6">
+                <v-text-field
+                  v-model.trim="item.primaryEmail"
+                  label="Primary Email"
+                  autocomplete="new-password"
+                  :error-messages="errors.primary_email"
+                  @focus="clearError('primary_email')"
+                  :disabled="!canEdit('User.primaryEmail')"
+                  :rules="formRules.email"
+                  required
+                ></v-text-field>
+              </v-col>
+            <!-- </v-row>
+            <v-row> -->
+              <v-col sm="6">
                 <v-text-field
                   label='Primary Affiliation'
                   :value='item.primaryAffiliation'
@@ -295,16 +296,17 @@ export default {
               </v-col>
             </v-row>
             <v-row>
-              <v-col>
+              <!-- <v-spacer></v-spacer> -->
+              <v-col class="d-flex justify-end">
                 <IFXButton
-                  btnType='submit'
-                  color='yellow'
+                  btnType='reset'
                   btnText='Reset'
                   @action='restore'
+                  class="mr-3"
                   :disabled='!hasItemChanged()'
                 ></IFXButton>
-              </v-col>
-              <v-col>
+              <!-- </v-col>
+              <v-col> -->
                 <IFXButton
                   btnType='submit'
                   @action='openDialog'
