@@ -290,7 +290,6 @@ export default {
               </v-col>
             </v-row>
             <v-row>
-              <!-- <v-spacer></v-spacer> -->
               <v-col class="d-flex justify-end">
                 <IFXButton
                   btnType='reset'
@@ -299,8 +298,6 @@ export default {
                   class="mr-3"
                   :disabled='!hasItemChanged()'
                 ></IFXButton>
-              <!-- </v-col>
-              <v-col> -->
                 <IFXButton
                   btnType='submit'
                   @action='openDialog'
