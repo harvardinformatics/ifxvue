@@ -194,8 +194,6 @@ export default {
                   :rules="formRules.generic"
                   required
                 ></v-text-field>
-              <!-- </v-col>
-              <v-col sm="12"> -->
                 <v-text-field
                   v-model.trim="item.lastName"
                   label="Last name"
@@ -206,8 +204,6 @@ export default {
                   :rules="formRules.generic"
                   required
                 ></v-text-field>
-              <!-- </v-col>
-              <v-col sm="12"> -->
                 <v-text-field
                   v-model.trim="item.fullName"
                   label="Full name"
@@ -259,8 +255,6 @@ export default {
                   required
                 ></v-text-field>
               </v-col>
-            <!-- </v-row>
-            <v-row> -->
               <v-col sm="6">
                 <v-text-field
                   label='Primary Affiliation'
