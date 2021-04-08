@@ -87,7 +87,6 @@ export default {
           <v-text-field
             v-model.trim="itemLocal.contact.detail"
             autocomplete="new-password"
-            return-masked-value
             :error-messages="errors['contacts.detail']"
             :rules="formRules.email"
             label="Email"
@@ -98,7 +97,6 @@ export default {
           <v-text-field
             v-model.trim="itemLocal.contact.phone"
             autocomplete="new-password"
-            return-masked-value
             :error-messages="errors['contacts.phone']"
             label="Phone"
           ></v-text-field>

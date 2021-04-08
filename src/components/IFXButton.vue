@@ -75,8 +75,11 @@ export default {
         case 'remove':
           btnColor = 'red'
           break;
+        case 'reset':
+          btnColor = 'yellow'
+          break;
         case 'submit':
-          btnColor = 'secondary'
+          btnColor = 'primary'
           break;
         case 'close':
           btnColor = 'secondary'
