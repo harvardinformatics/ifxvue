@@ -1,14 +1,14 @@
 <script>
 import { mapActions } from 'vuex'
 import * as has from 'lodash/has'
-import IFXCombobox from '@/components/IFXCombobox'
+import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXTextEditor from '@/components/IFXTextEditor'
 
 export default {
   name: 'IFXMailingCompose',
   components: {
     IFXTextEditor,
-    IFXCombobox
+    IFXContactablesCombobox
   },
   data() {
     return {
@@ -105,7 +105,7 @@ export default {
     </IFXPageHeader>
     <v-container>
     <v-form v-model='isValid' id="mailing-compose-form" ref="mailingComposeForm">
-      <IFXCombobox
+      <IFXContactablesCombobox
         v-for='r in recipients'
         :label='r.label'
         :key='r.label'
