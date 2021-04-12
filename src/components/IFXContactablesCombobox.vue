@@ -29,7 +29,7 @@
       <v-list-item v-text='item.text'></v-list-item>
     </template>
     <template #selection="{item}">
-      <v-chip v-if='isContactableObj(item)' :color='item.color' close @click:close ="removeRecipient(item)">{{item.slug}}</v-chip>
+      <v-chip v-if='isContactableObj(item)' :color='item.color' close @click:close ="removeRecipient(item)">{{getChipText(item)}}</v-chip>
       <v-chip v-else close @click:close ="removeRecipient(item)">{{item}}</v-chip>
     </template>
   </v-combobox>
@@ -42,7 +42,7 @@ import debounce from 'lodash/debounce'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'IFXCombobox',
+  name: 'IFXContactablesCombobox',
   props: {
     label: {
       type: String,
@@ -62,6 +62,13 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    orgTree: {
+      type: Array,
+      required: false,
+      default() {
+        return ['Harvard']
+      }
     }
   },
   data() {
@@ -81,10 +88,22 @@ export default {
     getItemValue(item) {
       return item
     },
+    getChipText(item) {
+      switch (item.constructor.name) {
+        case 'User':
+          return item.fullName;
+        case 'Contact':
+          return item.name;
+        case 'Organization':
+          return item.name;
+        default:
+          return item.slug;
+      }
+    },
     // Debounce so the query doesn't fire on every keydown
     querySelections: debounce(async function (val) {
       this.isSearching = true
-      this.items = await this.$api.contactables.getList(val).then(res => res)
+      this.items = await this.$api.contactables.getList(val, this.orgTree).then(res => res)
       this.isSearching = false
     }, 750),
     clearSearch() {
