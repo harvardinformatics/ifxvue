@@ -129,7 +129,9 @@ export default {
         <IFXTextEditor :getText="getMailingBody" :setText="setMailingBody"/>
       </span>
     </v-form>
+    <div  class="d-flex justify-end">
       <IFXButton :disabled='false' btnType='submit' btnText='Send' class="mt-5" @action="sendMailing"/>
+    </div>
     </v-container>
   </v-container>
 </template>
