@@ -29,7 +29,8 @@
       <v-list-item v-text='item.text'></v-list-item>
     </template>
     <template #selection="{item}">
-      <v-chip v-if='isContactableObj(item)' :color='item.color' close @click:close ="removeRecipient(item)">{{getChipText(item)}}</v-chip>
+      <v-chip v-if='isContactableObj(item)' color="transparent" close @click:close ="removeRecipient(item)">
+        <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{getChipText(item)}}</v-chip>
       <v-chip v-else close @click:close ="removeRecipient(item)">{{item}}</v-chip>
     </template>
   </v-combobox>
