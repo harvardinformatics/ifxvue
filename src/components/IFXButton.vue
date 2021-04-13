@@ -181,7 +181,6 @@ export default {
     :large='largeComputed'
     :color="btnColorComputed"
     @click.prevent="clickHandler"
-    rounded
     :data-cy='dataCyString'
   >
     <v-icon v-if="iconStringComputed" :color="iconColor">{{iconStringComputed}}</v-icon>
