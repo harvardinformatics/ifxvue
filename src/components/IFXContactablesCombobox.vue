@@ -30,10 +30,11 @@
     </template>
     <template #selection="{item}">
       <v-chip v-if='isContactableObj(item)' color="transparent" close @click:close ="removeRecipient(item)">
-        <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{getChipText(item)}}</v-chip>
+        <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{item.name}}</v-chip>
       <v-chip v-else close @click:close ="removeRecipient(item)">{{item}}</v-chip>
     </template>
   </v-combobox>
+  </div>
 </template>
 
 <script>
@@ -88,18 +89,6 @@ export default {
     },
     getItemValue(item) {
       return item
-    },
-    getChipText(item) {
-      switch (item.constructor.name) {
-        case 'User':
-          return item.fullName;
-        case 'Contact':
-          return item.name;
-        case 'Organization':
-          return item.name;
-        default:
-          return item.slug;
-      }
     },
     // Debounce so the query doesn't fire on every keydown
     querySelections: debounce(async function (val) {
