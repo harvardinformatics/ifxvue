@@ -1,4 +1,5 @@
 <template>
+<div class="dropdown">
   <v-combobox
     v-if='!isLoading'
     :ref='ref'
@@ -11,7 +12,6 @@
     chips
     clearable
     multiple
-    :cache-items='true'
     hide-selected
     :item-text='getItemText'
     :item-value='getItemValue'
@@ -148,3 +148,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .dropdown {
+    max-height: 10rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+</style>
