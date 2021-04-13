@@ -214,7 +214,7 @@ export default class User extends IFXItemBase {
   }
 
   get text() {
-    return `${this.data.fullName} - ${this.email}`
+    return `${this.fullName} - ${this.email}`
   }
 
   get recipients() {
