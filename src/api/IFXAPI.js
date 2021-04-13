@@ -144,7 +144,7 @@ export default class IFXAPIService {
 
   get auth() {
     return {
-      headerValue: this.authUser ? `Token ${this.authUser.token}` : '',
+      headerValue: this.authUser && this.authUser.token ? `Token ${this.authUser.token}` : '',
       isAuthenticated: this.authUser ? this.authUser.isAuthenticated : false,
       isAdmin: this.authUser ? this.authUser.isAdmin : false,
       isStaff: this.authUser ? this.authUser.isStaff : false,
@@ -243,7 +243,7 @@ export default class IFXAPIService {
           const newContactData = {
             id,
             role,
-            contact: decompose ? contact : this.contact.create(contact)
+            contact: decompose ? contact.data : this.contact.create(contact)
           }
           return newContactData
         })
@@ -418,7 +418,7 @@ export default class IFXAPIService {
         if (match) {
           result.name = match[1]
           result.org_tree = match[2]
-          let rank = match[3]
+          const rank = match[3]
           forEach(api.validRanks, (e) => {
             if (e.text === rank) {
               result.rank = e.value
@@ -506,7 +506,12 @@ export default class IFXAPIService {
       // TODO: better way to handle this
       COLOR_FOR_GROUP: { Admin: '#fafad2' },
       colorForGroup(group) {
-        return group in this.COLOR_FOR_GROUP ? this.COLOR_FOR_GROUP[group] : 'efefef'
+        return group in this.COLOR_FOR_GROUP ? this.COLOR_FOR_GROUP[group] : '#efefef'
+      },
+      // TODO: better way to handle this
+      ICON_FOR_GROUP: { Admin: 'mdi-key' },
+      iconForGroup(group) {
+        return group in this.ICON_FOR_GROUP ? this.ICON_FOR_GROUP[group] : 'mdi-check-decagram'
       }
     }
   }

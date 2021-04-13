@@ -75,8 +75,11 @@ export default {
         case 'remove':
           btnColor = 'red'
           break;
+        case 'reset':
+          btnColor = 'yellow'
+          break;
         case 'submit':
-          btnColor = 'secondary'
+          btnColor = 'primary'
           break;
         case 'close':
           btnColor = 'secondary'
@@ -178,7 +181,6 @@ export default {
     :large='largeComputed'
     :color="btnColorComputed"
     @click.prevent="clickHandler"
-    rounded
     :data-cy='dataCyString'
   >
     <v-icon v-if="iconStringComputed" :color="iconColor">{{iconStringComputed}}</v-icon>

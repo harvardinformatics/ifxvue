@@ -1,0 +1,74 @@
+// src/sass/variables.scss
+
+// Globals
+$border-radius-root: 6px;
+$font-size-root: 14px;
+
+// Variables must come before the import
+$btn-letter-spacing: 0;
+$btn-font-weight: 400;
+$btn-sizes: (
+  "default": 38,
+  "large": 51,
+);
+$fab-sizes: (
+  "default": 54,
+  "large": 62,
+);
+$fab-icon-sizes: (
+  "small": 20,
+  "default": 22,
+);
+
+$list-item-title-font-size: 0.929rem;
+$list-item-dense-title-font-size: 0.929rem;
+$list-item-dense-title-font-weight: initial;
+
+// Shrink list item icons
+$list-item-action-icon-margin: 16px;
+$list-item-icon-margin: 8px;
+
+//Rewrite all the headings
+$headings: (
+  "h1": (
+    "size": 3.3125rem,
+    "line-height": 1.15em,
+  ),
+  "h2": (
+    "size": 2.25rem,
+    "line-height": 1.5em,
+  ),
+  "h3": (
+    "size": 1.9rem,
+    "line-height": 1.2em,
+  ),
+);
+
+$icon-sizes: (
+  "x-small": (
+    "font-size": 8,
+    "height": 14,
+  ),
+  "small": (
+    "font-size": 10,
+    "height": 22,
+  ),
+  "default": (
+    "font-size": 12,
+    "height": 30,
+  ),
+  "large": (
+    "font-size": 14,
+    "height": 52,
+  ),
+  "x-large": (
+    "font-size": 16,
+    "height": 64,
+  ),
+);
+
+.v-input .v-label {
+  font-size: 14px;
+}
+
+@import "~vuetify/src/styles/styles.sass";

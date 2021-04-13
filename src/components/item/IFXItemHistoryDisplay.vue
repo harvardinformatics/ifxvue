@@ -1,10 +1,8 @@
 <template>
-  <v-row>
-    <v-col>
-      <span class='history-subtitle'>Updated: </span><span>{{updatedDate}}</span>
-    </v-col>
-    <v-col>
-      <span class='history-subtitle'>Created: </span><span>{{createdDate}}</span>
+  <v-row no-gutters>
+    <v-col class="d-flex flex-column">
+      <div><span class='text-subtitle font-weight-medium'>Updated on&nbsp;</span><span class="text-body-2">{{updatedDate}}</span></div>
+      <div><span class='text-subtitle font-weight-medium'>Created on&nbsp;</span><span class="text-body-2">{{createdDate}}</span></div>
     </v-col>
   </v-row>
 </template>
