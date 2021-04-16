@@ -23,7 +23,7 @@
     no-data-text="No new results match that query."
     :class="{'required': required}"
   >
-  <!-- Display the chips in different colors, based on their contactable type -->
+  <!-- Display the icons in different colors, based on their contactable type -->
     <template #item="{item}">
       <v-icon :color="item.color">{{item.icon}}</v-icon>
       <v-list-item v-text='item.text'></v-list-item>
