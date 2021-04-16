@@ -24,7 +24,7 @@ export default {
         { text: 'BCC', hide: 'mdAndDown', value: 'bccstr' },
         { text: 'Message', value: 'message' },
         { text: 'Status', hide: 'mdAndDown', value: 'status' },
-        { text: '', value: 'rowActionEdit', sortable: false }
+        { text: '', value: 'rowActionCopy', sortable: false }
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     }
