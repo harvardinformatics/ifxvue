@@ -22,13 +22,14 @@ const getters = {
   mailingData: (state) => state.mailingData,
   messageData: (state) => state.messageData,
   to: (state) => state.to,
-  tostr: (state) => state.to.join(', '),
+  tostr: (state) => state.to.map(item => item.name).join(', '),
   from: (state) => state.from,
-  fromstr: (state) => state.from.join(', '),
+  // fromstr: (state) => state.from.join(', '),
+  fromstr: (state) => state.from,
   cc: (state) => state.cc,
-  ccstr: (state) => state.cc.join(', '),
+  ccstr: (state) => state.cc.map(item => item.name).join(', '),
   bcc: (state) => state.bcc,
-  bccstr: (state) => state.bcc.join(', '),
+  bccstr: (state) => state.bcc.map(item => item.name).join(', '),
   subject: (state) => state.subject,
   message: (state) => state.message,
   ifxmessage: (state) => state.ifxmessage,
@@ -81,7 +82,8 @@ const mutations = {
     const { tostr, fromstr, ccstr, bccstr, subject, message, ifxmessage } = payload
     state.ifxmailingObj = payload
     if (tostr) state.to = tostr.split(',')
-    if (fromstr) state.from = fromstr.split(',')
+    // if (fromstr) state.from = fromstr.split(',')
+    if (fromstr) state.from = fromstr
     if (ccstr) state.cc = ccstr.split(',')
     if (bccstr) state.bcc = bccstr.split(',')
     if (subject) state.subject = subject

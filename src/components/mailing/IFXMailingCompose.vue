@@ -24,11 +24,6 @@ export default {
       },
       recipients: [
         {
-          label: 'from',
-          required: true,
-          isSearchDisabled: true
-        },
-        {
           label: 'to',
           required: true,
           isSearchDisabled: false
@@ -51,8 +46,8 @@ export default {
     // TODO: this endpoint is not functional
     sendMailing() {
       // Get mailing from vuex - this is where the mailing is stored throughout the composition process
-      const mailing = this.$store.getters['mailing/subject']
-      this.$api.sendIfxMailing(mailing)
+      const mailing = this.$store.getters['mailing/serializedMailing']
+      this.$api.mailing.sendIfxMailing(mailing)
         .then(res => this.showMessage(res))
         .catch(err => {
           if (has(err, 'response') && has(err.response, 'data') && has(err.response.data, 'field_errors')) {
@@ -85,10 +80,20 @@ export default {
         const payload = { key: 'subject', value }
         this.$store.dispatch('mailing/setValue', payload)
       }
+    },
+    from: {
+      get() {
+        return this.$store.getters['mailing/from']
+      },
+      set(value) {
+        const payload = { key: 'from', value }
+        this.$store.dispatch('mailing/setValue', payload)
+      }
     }
   },
   mounted() {
     this.isLoading = true
+    this.from = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail
     this.$nextTick(() => this.isLoading = false)
   }
 }
@@ -105,6 +110,12 @@ export default {
     </IFXPageHeader>
     <v-container>
     <v-form v-model='isValid' id="mailing-compose-form" ref="mailingComposeForm">
+      <v-text-field
+        v-model="from"
+        :rules='formRules.generic'
+        :error-messages="fieldErrors.from"
+        class="required"
+      ></v-text-field>
       <IFXContactablesCombobox
         v-for='r in recipients'
         :label='r.label'
@@ -129,7 +140,7 @@ export default {
         <IFXTextEditor :getText="getMailingBody" :setText="setMailingBody"/>
       </span>
     </v-form>
-    <div  class="d-flex justify-end">
+    <div class="text-right">
       <IFXButton :disabled='false' btnType='submit' btnText='Send' class="mt-5" @action="sendMailing"/>
     </div>
     </v-container>

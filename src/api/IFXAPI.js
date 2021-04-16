@@ -559,7 +559,7 @@ export default class IFXAPIService {
     const baseURL = this.urls.MAILINGS
     const api = this.genericAPI(baseURL, IFXMailing)
     // TODO: extend api for sending
-    // api.send = (mailing) => this.axios.post(this.urls.SEND_IFXMAILING, mailing).then(res => res.data)
+    api.sendIfxMailing = (mailing) => this.axios.post(this.urls.SEND_IFXMAILING, mailing).then(res => res.data)
     return api
   }
 
