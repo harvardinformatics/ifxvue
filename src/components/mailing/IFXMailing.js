@@ -64,4 +64,8 @@ export default class Mailing extends ItemBase {
   set bccstr(bccstr) {
     this.data.bccstr = bccstr
   }
+
+  get status() {
+    return this.data.status
+  }
 }
