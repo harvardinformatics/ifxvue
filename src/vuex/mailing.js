@@ -24,7 +24,6 @@ const getters = {
   to: (state) => state.to,
   tostr: (state) => state.to.map(item => item.name).join(', '),
   from: (state) => state.from,
-  // fromstr: (state) => state.from.join(', '),
   fromstr: (state) => state.from,
   cc: (state) => state.cc,
   ccstr: (state) => state.cc.map(item => item.name).join(', '),
