@@ -10,6 +10,13 @@ export default {
     IFXTextEditor,
     IFXContactablesCombobox
   },
+  props: {
+    item: {
+      type: Object,
+      required: false,
+      default: null
+    }
+  },
   data() {
     return {
       isValid: false,
@@ -43,7 +50,6 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
-    // TODO: this endpoint is not functional
     sendMailing() {
       // Get mailing from vuex - this is where the mailing is stored throughout the composition process
       const mailing = this.$store.getters['mailing/serializedMailing']
@@ -56,6 +62,10 @@ export default {
             this.showMessage(err)
           }
         })
+    },
+    loadPreviousMailing(item) {
+      console.log(item);
+      return this.$store.dispatch('mailing/loadMailing', item)
     },
     getMailingBody() {
       return this.$store.getters['mailing/message']
@@ -94,6 +104,9 @@ export default {
   mounted() {
     this.isLoading = true
     this.from = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail
+    if (this.item) {
+      this.loadPreviousMailing(this.item)
+    }
     this.$nextTick(() => this.isLoading = false)
   }
 }
@@ -111,6 +124,7 @@ export default {
     <v-container>
     <v-form v-model='isValid' id="mailing-compose-form" ref="mailingComposeForm">
       <v-text-field
+        label="From"
         v-model="from"
         :rules='formRules.generic'
         :error-messages="fieldErrors.from"
