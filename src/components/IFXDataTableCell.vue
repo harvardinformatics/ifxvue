@@ -59,7 +59,7 @@ export default {
     <IFXButton btnType='edit' x-small data-cy='navigate-to-edit' @action='navigateToEdit(type, item.id)'></IFXButton>
   </span>
   <span v-else-if="name==='rowActionCopy'">
-    <IFXButton btnType='copy' x-small data-cy='navigate-to-edit' @action='navigateToEdit(type, item.id)'></IFXButton>
+    <IFXButton btnType='copy' x-small data-cy='navigate-to-copy' @action='navigateToCopy(type, item)'></IFXButton>
   </span>
   <span v-else-if="name==='withdrawlDate'">
     <div>{{item.withdrawalDate | humanDatetime}}</div>

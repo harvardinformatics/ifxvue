@@ -184,6 +184,14 @@ export default {
       this.rtr.push({ name: `${type}Edit`, params: { id } })
     },
     /**
+    * Helper function for navigating to edit page of item type
+    * @param {string} type of item
+    * @param {string} item
+    */
+    navigateToCopy(type, item) {
+      this.rtr.push({ name: `${type}Copy`, params: { item } })
+    },
+    /**
     * Helper function for navigating to detail page of item type
     * @param {string} type of item
     * @param {string} id of item
