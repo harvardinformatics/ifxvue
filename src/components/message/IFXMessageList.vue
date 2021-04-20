@@ -18,8 +18,10 @@ export default {
     headers() {
       const headers = [
         { text: 'ID', value: 'id', sortable: true },
+        { text: 'Subject', value: 'subject' },
         { text: 'Message', value: 'message' },
-        { text: '', value: 'rowActionEdit' }
+        { text: '', value: 'rowActionEdit' },
+        { text: '', value: 'rowActionCopy' }
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
