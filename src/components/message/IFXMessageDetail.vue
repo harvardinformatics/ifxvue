@@ -8,17 +8,7 @@ export default {
   props: {
     selectedMessage: Object
   },
-  data() {
-    return {
-      loading: false,
-      item: {}
-    }
-  },
   methods: {
-    async init() {
-      const item = await this.getItem()
-      this.loadMessage(item)
-    },
     async getItem() {
       // If message is passed as prop by router
       if (this.selectedMessage) {
@@ -26,23 +16,7 @@ export default {
       }
       return this.apiRef.getByID(this.id)
     },
-    // Use this to ensure component reacts to data change
-    loadMessage(selectedMessage) {
-      const { id, name, message } = selectedMessage
-      this.item = { id, name, message }
-    }
   },
-  created() {
-    this.loading = true
-  },
-  mounted() {
-    this.init()
-      .then(() => () => this.loading = false)
-      .catch(error => {
-        this.showMessage(error)
-        this.rtr.replace({ name: 'MailingList' })
-      })
-  }
 }
 </script>
 
@@ -51,7 +25,7 @@ export default {
     <IFXPageHeader>
       <template #title>Message: {{id}}</template>
       <template #actions>
-        <IFXButton btnType="edit" @action="navigateToItemEdit"/>
+        <IFXButton btnType="edit" @action="navigateToItemEdit(id)"/>
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
@@ -59,6 +33,12 @@ export default {
         <v-col>
           <h3>Name</h3>
           <p>{{item.name}}</p>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <h3>Subject</h3>
+          <p>{{item.subject}}</p>
         </v-col>
       </v-row>
       <v-row>
