@@ -154,7 +154,7 @@ export default {
         <IFXTextEditor :getText="getMailingBody" :setText="setMailingBody"/>
       </span>
     </v-form>
-    <div class="text-right">
+    <div>
       <IFXButton :disabled='false' btnType='submit' btnText='Send' class="mt-5" @action="sendMailing"/>
     </div>
     </v-container>
