@@ -23,7 +23,7 @@ export default {
 <template>
   <v-container v-if="!loading">
     <IFXPageHeader>
-      <template #title>Message: {{id}}</template>
+      <template #title>Message {{item.name}}</template>
       <template #actions>
         <IFXButton btnType="edit" @action="navigateToItemEdit(id)"/>
       </template>
