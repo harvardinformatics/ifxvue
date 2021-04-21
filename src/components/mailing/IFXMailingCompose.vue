@@ -1,14 +1,21 @@
 <script>
 import { mapActions } from 'vuex'
 import * as has from 'lodash/has'
-import IFXCombobox from '@/components/IFXCombobox'
+import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXTextEditor from '@/components/IFXTextEditor'
 
 export default {
   name: 'IFXMailingCompose',
   components: {
     IFXTextEditor,
-    IFXCombobox
+    IFXContactablesCombobox
+  },
+  props: {
+    item: {
+      type: Object,
+      required: false,
+      default: null
+    }
   },
   data() {
     return {
@@ -23,11 +30,6 @@ export default {
         message: null
       },
       recipients: [
-        {
-          label: 'from',
-          required: true,
-          isSearchDisabled: true
-        },
         {
           label: 'to',
           required: true,
@@ -48,11 +50,10 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
-    // TODO: this endpoint is not functional
     sendMailing() {
       // Get mailing from vuex - this is where the mailing is stored throughout the composition process
-      const mailing = this.$store.getters['mailing/subject']
-      this.$api.sendIfxMailing(mailing)
+      const mailing = this.$store.getters['mailing/serializedMailing']
+      this.$api.mailing.sendIfxMailing(mailing)
         .then(res => this.showMessage(res))
         .catch(err => {
           if (has(err, 'response') && has(err.response, 'data') && has(err.response.data, 'field_errors')) {
@@ -61,6 +62,10 @@ export default {
             this.showMessage(err)
           }
         })
+    },
+    loadPreviousMailing(item) {
+      console.log(item);
+      return this.$store.dispatch('mailing/loadMailing', item)
     },
     getMailingBody() {
       return this.$store.getters['mailing/message']
@@ -85,10 +90,23 @@ export default {
         const payload = { key: 'subject', value }
         this.$store.dispatch('mailing/setValue', payload)
       }
+    },
+    from: {
+      get() {
+        return this.$store.getters['mailing/from']
+      },
+      set(value) {
+        const payload = { key: 'from', value }
+        this.$store.dispatch('mailing/setValue', payload)
+      }
     }
   },
   mounted() {
     this.isLoading = true
+    this.from = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail
+    if (this.item) {
+      this.loadPreviousMailing(this.item)
+    }
     this.$nextTick(() => this.isLoading = false)
   }
 }
@@ -105,7 +123,14 @@ export default {
     </IFXPageHeader>
     <v-container>
     <v-form v-model='isValid' id="mailing-compose-form" ref="mailingComposeForm">
-      <IFXCombobox
+      <v-text-field
+        label="From"
+        v-model="from"
+        :rules='formRules.generic'
+        :error-messages="fieldErrors.from"
+        class="required"
+      ></v-text-field>
+      <IFXContactablesCombobox
         v-for='r in recipients'
         :label='r.label'
         :key='r.label'
@@ -129,7 +154,9 @@ export default {
         <IFXTextEditor :getText="getMailingBody" :setText="setMailingBody"/>
       </span>
     </v-form>
+    <div>
       <IFXButton :disabled='false' btnType='submit' btnText='Send' class="mt-5" @action="sendMailing"/>
+    </div>
     </v-container>
   </v-container>
 </template>

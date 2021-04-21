@@ -87,6 +87,9 @@ export default {
         case 'home':
           btnColor = 'primary'
           break;
+        case 'copy':
+          btnColor = 'primary'
+          break;
         default:
           btnColor = 'secondary'
           break;
@@ -138,6 +141,9 @@ export default {
           break;
         case 'download':
           iconString = 'mdi-cloud-download'
+          break;
+        case 'copy':
+          iconString = 'mdi-content-duplicate'
           break;
         default:
           iconString = ''

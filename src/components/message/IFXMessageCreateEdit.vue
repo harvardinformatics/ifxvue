@@ -43,6 +43,17 @@ export default {
         </v-row>
         <v-row>
           <v-col>
+            <v-text-field
+              v-model="item.subject"
+              label="Subject"
+              :rules="formRules.generic"
+              :error-messages="errors.subject"
+              required
+              ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
             <v-textarea
               v-model="item.message"
               label="Message"

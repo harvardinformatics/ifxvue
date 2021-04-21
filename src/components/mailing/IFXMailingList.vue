@@ -22,9 +22,9 @@ export default {
         { text: 'To', value: 'tostr' },
         { text: 'CC', hide: 'mdAndDown', value: 'ccstr' },
         { text: 'BCC', hide: 'mdAndDown', value: 'bccstr' },
-        { text: 'Message', value: 'message' },
+        { text: 'Message', value: 'message', namedSlot: true },
         { text: 'Status', hide: 'mdAndDown', value: 'status' },
-        { text: '', value: 'rowActionEdit', sortable: false }
+        { text: '', value: 'rowActionCopy', sortable: false }
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     }
@@ -52,12 +52,33 @@ export default {
       :headers='headers'
       :selected.sync='selected'
       :itemType='itemType'
-    />
+    >
+    <template #message="{ item }">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <span class="ellipse"
+            v-bind="attrs"
+            v-on="on"
+          >
+          {{item.message}}
+          </span>
+        </template>
+        <span>{{item.message}}</span>
+      </v-tooltip>
+    </template>
+    </IFXItemDataTable>
   </v-container>
 </template>
 
 <style scoped>
 .mailing-list-table {
   padding: 1rem;
+}
+.ellipse {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
 }
 </style>

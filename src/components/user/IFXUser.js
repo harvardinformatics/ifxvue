@@ -55,6 +55,14 @@ export default class User extends IFXItemBase {
     this.data.full_name = fullName
   }
 
+  get name() {
+    return this.fullName
+  }
+
+  set name(name) {
+    this.fullName = name
+  }
+
   get email() {
     return this.data.primary_email
   }
@@ -214,7 +222,7 @@ export default class User extends IFXItemBase {
   }
 
   get text() {
-    return `${this.data.fullName} - ${this.email}`
+    return `${this.fullName} - ${this.email}`
   }
 
   get recipients() {
