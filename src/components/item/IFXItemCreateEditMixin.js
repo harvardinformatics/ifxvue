@@ -110,7 +110,7 @@ export default {
     title() {
       const itemTitle = this.splitOnCapitals(this.itemType).join(' ')
       if (this.isEditing) {
-        return `Edit ${itemTitle}: ${this.id}`
+        return `Edit ${itemTitle} ${this.id}`
       }
       return `Create ${itemTitle}`
     },

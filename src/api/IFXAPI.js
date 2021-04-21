@@ -388,6 +388,7 @@ export default class IFXAPIService {
       const { orgTrees } = params
       if (orgTrees) {
         params.org_tree = orgTrees.join(',')
+        delete params.orgTrees;
       }
       const organizations = await this.axios.get(baseUrl, { params })
         .then((res) => Promise.all(res.data.map(orgData => this.organization.create(orgData))))
@@ -459,18 +460,15 @@ export default class IFXAPIService {
         console.error('Still need to implement contactable object')
         return new IFXContactable(data)
       },
-      getList: async (search) => {
-        const contacts = await this.contact.getByParams(search)
-          .then(res => res.map(cd => this.contact.create(cd)))
-          .catch(err => this.showMessage(err))
+      getList: async (search, orgTrees) => {
+        const contacts = await this.contact.getList(search)
+          .catch(err => { throw new Error(err) })
 
-        const users = await this.user.getByParams(search)
-          .then(res => res.map(ud => this.user.create(ud)))
-          .catch(err => this.showMessage(err))
+        const users = await this.user.getList(search)
+          .catch(err => { throw new Error(err) })
 
-        const organizations = await this.organization.getList(null, null, search)
-          .then(res => res.map(od => this.organization.create(od)))
-          .catch(err => this.showMessage(err))
+        const organizations = await this.organization.getList({ search, orgTrees })
+          .catch(err => { throw new Error(err) })
 
         const contactables = [contacts, organizations, users].flat()
         return contactables
@@ -561,7 +559,7 @@ export default class IFXAPIService {
     const baseURL = this.urls.MAILINGS
     const api = this.genericAPI(baseURL, IFXMailing)
     // TODO: extend api for sending
-    // api.send = (mailing) => this.axios.post(this.urls.SEND_IFXMAILING, mailing).then(res => res.data)
+    api.sendIfxMailing = (mailing) => this.axios.post(this.urls.SEND_IFXMAILING, mailing).then(res => res.data)
     return api
   }
 
