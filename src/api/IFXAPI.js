@@ -380,6 +380,10 @@ export default class IFXAPIService {
         value: 'group',
         text: 'Group'
       },
+      {
+        value: 'office',
+        text: 'Office'
+      },
     ]
     api.getValidRankByValue = (value) => api.validRanks.find(r => r.value === value)
     api.getValidRankByText = (text) => api.validRanks.find(r => r.text === text)
