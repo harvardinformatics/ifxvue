@@ -54976,6 +54976,9 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
       }, {
         value: 'group',
         text: 'Group'
+      }, {
+        value: 'office',
+        text: 'Office'
       }];
 
       api.getValidRankByValue = function (value) {
