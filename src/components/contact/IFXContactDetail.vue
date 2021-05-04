@@ -1,7 +1,8 @@
 <template>
   <v-container v-if='!isLoading'>
     <IFXPageHeader>
-      <template #title>{{itemType}}: {{id}}</template>
+      <template #title>{{itemType}} </template>
+      <template #id>{{id}}</template>
       <template #actions>
         <IFXButton btnType="edit" @action="navigateToItemEdit(id)"/>
       </template>
