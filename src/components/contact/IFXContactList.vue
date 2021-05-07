@@ -52,6 +52,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.full-width {
+  width: 100%;
+}
+</style>
 <template>
   <v-container v-if="!isLoading" fluid  grid-list-md>
     <IFXPageHeader>
@@ -70,6 +75,7 @@ export default {
     <div :style='contactContentStyle'>
       <IFXContactCard v-if='!isContactContentLarge' dense :contact='focusedContact'/>
       <IFXItemDataTable
+        class="full-width"
         :items='filteredItems'
         :headers='headers'
         :selected.sync='selected'

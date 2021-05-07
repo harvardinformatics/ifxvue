@@ -215,7 +215,7 @@ export default class IFXAPIService {
   }
 
   get contact() {
-    const baseUrl = this.urls.contact
+    const baseUrl = this.urls.CONTACTS
     const api = this.genericAPI(baseUrl, Contact)
     // TODO: this getList method is defined here because the url is different than the baseurl
     api.getList = async (params) => {

@@ -1,6 +1,7 @@
 <script>
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
+import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
 import IFXSelectableUser from '@/components/user/IFXSelectableUser'
@@ -11,7 +12,8 @@ export default {
   components: {
     IFXItemSelectList,
     IFXSelectableContact,
-    IFXSelectableUser
+    IFXSelectableUser,
+    IFXDeleteItemButton
   },
   methods: {
     displayRank() {
@@ -43,9 +45,11 @@ export default {
   <v-container v-if="!isLoading">
     <IFXPageHeader>
       <template #title>{{ item.slug }}</template>
+      <template #cypress>{{ item.id }}</template>
       <template #actions>
         <!-- TODO: check why this cannot be edited -->
         <IFXButton v-if="!item.ifxOrg" btnType="edit" @action="navigateToItemEdit(id)"/>
+        <IFXDeleteItemButton v-if="!item.ifxOrg" :item='item' :apiRef='apiRef' :itemType='itemType'/>
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>

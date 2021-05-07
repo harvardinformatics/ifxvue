@@ -67,6 +67,7 @@ export default {
             <v-text-field
               v-model='item.name'
               label='Name'
+              data-cy='name'
               :rules='formRules.generic'
               :error-messages='errors.name'
               required
@@ -76,6 +77,7 @@ export default {
             <v-select
               v-model='item.rank'
               label='Rank'
+              data-cy='rank'
               :rules='formRules.generic'
               :error-messages='errors.rank'
               :items="apiRef.validRanks"
@@ -88,6 +90,7 @@ export default {
             <v-text-field
               v-model='item.orgTree'
               label='Org tree'
+              data-cy='org-tree'
               :rules='orgTreeRules'
               :error-messages='errors.org_tree'
               required
