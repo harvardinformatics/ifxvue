@@ -35,6 +35,7 @@ export default {
             <v-text-field
               v-model="item.name"
               label="Name"
+              data-cy='name'
               :rules="formRules.generic"
               :error-messages="errors.name"
               required
@@ -46,6 +47,7 @@ export default {
             <v-text-field
               v-model="item.subject"
               label="Subject"
+              data-cy='subject'
               :rules="formRules.generic"
               :error-messages="errors.subject"
               required
@@ -57,6 +59,7 @@ export default {
             <v-textarea
               v-model="item.message"
               label="Message"
+              data-cy='message'
               :rules="formRules.generic"
               :error-messages="errors.message"
               required
