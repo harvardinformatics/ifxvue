@@ -22,6 +22,7 @@ export default {
             console.error('getList should return a list of formatted objects')
           }
           this.items = items
+          this.isLoading = false
         })
         // TODO: work on handling this error
         .catch(error => {
@@ -127,6 +128,5 @@ export default {
   mounted() {
     this.isLoading = true
     this.getSetItems()
-      .then(() => this.isLoading = false)
   }
 }
