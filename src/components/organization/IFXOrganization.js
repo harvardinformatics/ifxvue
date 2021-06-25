@@ -99,6 +99,14 @@ export class OrganizationUser {
     this.data.role = role
   }
 
+  get active() {
+    return this.data.active
+  }
+
+  set active(active) {
+    this.data.active = active
+  }
+
   get user() {
     return this.data.user
   }
