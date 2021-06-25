@@ -29,6 +29,11 @@ export default {
       type: String,
       required: false,
       default: 'id'
+    },
+    hideDefaultFooter: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   methods: {
@@ -93,11 +98,11 @@ export default {
     :sort-desc="true"
     :options.sync='options'
     :footer-props="footerProps"
-    :hide-default-footer="false"
     :class='rowClass'
     @click:row="clickRow"
     :show-select='showSelect'
     :item-key='itemKey'
+    :hide-default-footer="hideDefaultFooter"
   >
   <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
     <template v-for="header in headers" #[`item.${header.value}`]="{item}">
