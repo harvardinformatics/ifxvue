@@ -215,7 +215,7 @@ export default class IFXAPIService {
   }
 
   get contact() {
-    const baseUrl = this.urls.contact
+    const baseUrl = this.urls.CONTACTS
     const api = this.genericAPI(baseUrl, Contact)
     // TODO: this getList method is defined here because the url is different than the baseurl
     api.getList = async (params) => {
@@ -251,11 +251,12 @@ export default class IFXAPIService {
       }
 
       if (userData.affiliations && userData.affiliations.length) {
-        const affiliationDataObjs = userData.affiliations.map(({ id, organization, role }) => {
+        const affiliationDataObjs = userData.affiliations.map(({ id, organization, role, active }) => {
           const newAffiliationData = {
             id,
             role,
             organization,
+            active
           }
           return newAffiliationData
         })

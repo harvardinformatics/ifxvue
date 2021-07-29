@@ -45,7 +45,7 @@ export default {
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
-      :items='items'
+      :items='filteredItems'
       :headers='headers'
       :selected.sync='selected'
       :itemType='itemType'

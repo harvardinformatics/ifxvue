@@ -43,6 +43,7 @@ export default {
             <v-text-field
               v-model='item.name'
               label='Name'
+              data-cy='name'
               :rules='formRules.generic'
               :error-messages='errors.name'
               required
@@ -52,6 +53,7 @@ export default {
             <v-text-field
               v-model='item.detail'
               label='Email'
+              data-cy='email'
               :rules='formRules.email'
               :error-messages='errors.detail'
               required
@@ -63,6 +65,7 @@ export default {
             <v-select
               v-model='item.type'
               label='Type'
+              data-cy='type'
               :items='apiRef.types'
               :rules='formRules.generic'
               :error-messages='errors.type'
@@ -74,6 +77,7 @@ export default {
               v-model='item.phone'
               label='Phone'
               type='number'
+              data-cy='phone'
               :rules='formRules.phone'
             >
             </v-text-field>
@@ -84,6 +88,7 @@ export default {
             <v-text-field
               v-model='item.address'
               label='Address'
+              data-cy='address'
             ></v-text-field>
           </v-col>
         </v-row>

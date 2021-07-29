@@ -22,3 +22,4 @@ package-lock.json
 *.sln
 *.sw?
 *.code-workspace
+yarn.lock

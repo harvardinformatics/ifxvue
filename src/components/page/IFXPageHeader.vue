@@ -56,6 +56,7 @@ export default {
         <div class='title-ctr'>
           <h1 data-cy='header-title' :class="headerClass"><slot name="title"></slot></h1>
           <h1 data-cy='header-id' :class='headerClass'><slot name='id'></slot></h1>
+          <span data-cy='header-id' class='d-none'><slot name='cypress'></slot></span>
         </div>
         <div class="actions-ctr" :class="actionsContainerClass">
           <slot name="actions">
