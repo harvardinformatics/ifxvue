@@ -24,6 +24,7 @@ export default {
   <v-container v-if="!loading">
     <IFXPageHeader>
       <template #title>Message {{item.name}}</template>
+      <template #cypress>{{ id }}</template>
       <template #actions>
         <IFXButton btnType="edit" @action="navigateToItemEdit(id)"/>
       </template>
