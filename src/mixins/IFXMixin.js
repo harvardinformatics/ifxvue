@@ -137,7 +137,7 @@ export default {
       * @returns {date} deliveryDay
       */
     truncateString(string, length = 120) {
-      if (string.length <= length) {
+      if (!string || string.length <= length) {
         return string
       }
       return `${string.substring(0, length)}...`
@@ -181,7 +181,7 @@ export default {
     * @param {string} id of item
     */
     navigateToEdit(type, id) {
-      this.rtr.push({ name: `${type}Edit`, params: { id } })
+      this.rtr.push({ name: `${type}Edit`, params: { id }, query: { next: this.$route.path } })
     },
     /**
     * Helper function for navigating to edit page of item type
@@ -197,7 +197,7 @@ export default {
     * @param {string} id of item
     */
     navigateToDetail(type, id) {
-      this.rtr.push({ name: `${type}Detail`, params: { id } })
+      this.rtr.push({ name: `${type}Detail`, params: { id }, query: { next: this.$route.path } })
     },
     /**
     * Helper function for navigating to create page of item type

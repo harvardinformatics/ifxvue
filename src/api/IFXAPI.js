@@ -251,11 +251,12 @@ export default class IFXAPIService {
       }
 
       if (userData.affiliations && userData.affiliations.length) {
-        const affiliationDataObjs = userData.affiliations.map(({ id, organization, role }) => {
+        const affiliationDataObjs = userData.affiliations.map(({ id, organization, role, active }) => {
           const newAffiliationData = {
             id,
             role,
             organization,
+            active
           }
           return newAffiliationData
         })

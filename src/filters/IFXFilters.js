@@ -29,10 +29,12 @@ export function centsToDollars(cents) {
  * @returns {string} a converted string
  */
 export function capitalizeFirstLetter(rawValue) {
-  const value = rawValue.toString()
   let str = ''
-  if (value) {
-    str = value.charAt(0).toUpperCase() + value.slice(1);
+  if (rawValue) {
+    const value = rawValue.toString()
+    if (value) {
+      str = value.charAt(0).toUpperCase() + value.slice(1);
+    }
   }
   return str
 }

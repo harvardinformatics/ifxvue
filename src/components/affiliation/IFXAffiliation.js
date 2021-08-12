@@ -16,4 +16,12 @@ export default class Affiliation extends IFXItemBase {
   set role(role) {
     this.data.role = role
   }
+
+  get active() {
+    return this.data.active
+  }
+
+  set active(active) {
+    this.data.active = active
+  }
 }
