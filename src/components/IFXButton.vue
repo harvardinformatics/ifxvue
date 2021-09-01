@@ -189,7 +189,7 @@ export default {
     @click.prevent="clickHandler"
     :data-cy='dataCyString'
   >
-    <v-icon v-if="iconStringComputed" :color="iconColor">{{iconStringComputed}}</v-icon>
+    <v-icon v-if="iconStringComputed" :color="iconColor" :class="{'mr-2' : btnTextComputed}">{{iconStringComputed}}</v-icon>
     <span v-if="btnTextComputed">{{btnTextComputed}}</span>
   </v-btn>
 </template>
