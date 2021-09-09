@@ -3,54 +3,54 @@ export default {
   name: 'IFXButton',
   props: {
     // The type of button, determines default icon and color
-    // Options: add, edit, delete, close, download
+    // Options: add, edit, delete, close, download, other
     btnType: {
       type: String,
-      required: true
+      required: true,
     },
     // Color of the button, overrides default color determined by btnType
     btnColor: {
       type: String,
-      required: false
+      required: false,
     },
     // Size of the button
     xSmall: {
       type: Boolean,
       default: false,
-      required: false
+      required: false,
     },
     // Size of the button
     small: {
       type: Boolean,
       default: false,
-      required: false
+      required: false,
     },
     // Size of the button
     large: {
       type: Boolean,
       default: false,
-      required: false
+      required: false,
     },
     // The color of the icon
     iconColor: {
       type: String,
       default: 'white',
-      required: false
+      required: false,
     },
     // String for icon, overrides default determined buy btnType
     iconString: {
       type: String,
-      required: false
+      required: false,
     },
     disabled: {
       type: Boolean,
-      required: false
+      required: false,
     },
     // Button text, determines if icon is FAB or not
     btnText: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
     /**
@@ -65,34 +65,37 @@ export default {
       switch (this.btnType) {
         case 'edit':
           btnColor = 'primary'
-          break;
+          break
         case 'add':
           btnColor = 'primary'
-          break;
+          break
         case 'download':
           btnColor = 'primary'
-          break;
+          break
         case 'remove':
           btnColor = 'red'
-          break;
+          break
         case 'reset':
           btnColor = 'yellow'
-          break;
+          break
         case 'submit':
           btnColor = 'primary'
-          break;
+          break
         case 'close':
           btnColor = 'secondary'
-          break;
+          break
         case 'home':
           btnColor = 'primary'
-          break;
+          break
         case 'copy':
           btnColor = 'primary'
-          break;
+          break
+        case 'other':
+          btnColor = 'secondary'
+          break
         default:
           btnColor = 'secondary'
-          break;
+          break
       }
       return btnColor
     },
@@ -129,25 +132,25 @@ export default {
       switch (this.btnType) {
         case 'edit':
           iconString = 'mdi-pencil'
-          break;
+          break
         case 'remove':
           iconString = 'delete'
-          break;
+          break
         case 'add':
           iconString = 'add'
-          break;
+          break
         case 'submit':
           iconString = ''
-          break;
+          break
         case 'download':
           iconString = 'mdi-cloud-download'
-          break;
+          break
         case 'copy':
           iconString = 'mdi-content-duplicate'
-          break;
+          break
         default:
           iconString = ''
-          break;
+          break
       }
       return iconString
     },
@@ -165,7 +168,7 @@ export default {
     },
     dataCyString() {
       return `${this.btnType}-btn`
-    }
+    },
   },
   methods: {
     /**
@@ -173,8 +176,8 @@ export default {
      */
     clickHandler() {
       this.$emit('action')
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -182,14 +185,16 @@ export default {
   <v-btn
     :fab="!btnTextComputed"
     :disabled="disabled"
-    :x-small='xSmallComputed'
-    :small='smallComputed'
-    :large='largeComputed'
+    :x-small="xSmallComputed"
+    :small="smallComputed"
+    :large="largeComputed"
     :color="btnColorComputed"
     @click.prevent="clickHandler"
-    :data-cy='dataCyString'
+    :data-cy="dataCyString"
   >
-    <v-icon v-if="iconStringComputed" :color="iconColor" :class="{'mr-2' : btnTextComputed}">{{iconStringComputed}}</v-icon>
-    <span v-if="btnTextComputed">{{btnTextComputed}}</span>
+    <v-icon v-if="iconStringComputed" :color="iconColor" :class="{ 'mr-2': btnTextComputed }">
+      {{ iconStringComputed }}
+    </v-icon>
+    <span v-if="btnTextComputed">{{ btnTextComputed }}</span>
   </v-btn>
 </template>
