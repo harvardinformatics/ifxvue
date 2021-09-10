@@ -3,11 +3,11 @@
     <v-card>
       <v-card-title class="headline">Request Expense Code</v-card-title>
       <v-card-subtitle class="text-subtitle-1">
-        {{ `Request an Expense Code via email from the lab manager(s) for ${organization.name}` }}
+        {{ `Request an Expense Code from the lab manager(s) for ${organization.name}` }}
       </v-card-subtitle>
       <v-card-text>
         <v-combobox
-          v-model="selected"
+          v-model="emailAddresses"
           :items="items"
           item-text="name"
           item-value="detail"
@@ -19,7 +19,6 @@
           multiple
           hide-selected
           item-disabled="false"
-          return-object
           :menu-props="{ closeOnContentClick: true }"
           :required="true"
           :error-messages="errorMessage"
@@ -32,17 +31,25 @@
             <v-list-item v-text="item.name"></v-list-item>
           </template>
           <template #selection="{item}">
-            <v-chip color="transparent" close @click:close="removeRecipient(item)">
-              <v-icon :color="item.contact.color" class="mr-2">{{ item.contact.icon }}</v-icon>
+            <v-chip v-if="isContactableObj(item)" color="transparent" close @click:close="removeRecipient(item)">
+              <v-icon :color="item.contact.color" class="mr-2">
+                {{ item.contact.icon }}
+              </v-icon>
               {{ item.name }}
             </v-chip>
+            <v-chip v-else close @click:close="removeRecipient(item)">{{ item }}</v-chip>
           </template>
         </v-combobox>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <IFXButton @action="cancel" btnType="close" btnText="Cancel"></IFXButton>
-        <IFXButton @action="confirm" btnType="submit" btnText="Send Request"></IFXButton>
+        <IFXButton
+          @action="confirm"
+          btnType="submit"
+          btnText="Send Request"
+          :disabled="!emailAddresses.length"
+        ></IFXButton>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -82,7 +89,7 @@ export default {
   },
   data() {
     return {
-      selected: [],
+      emailAddresses: [],
       items: [],
       search: '',
     }
@@ -94,7 +101,6 @@ export default {
 
       if (theOrg && theOrg.contacts) {
         this.items = theOrg.contacts.filter((contact) => contact.role === 'lab_manager' && contact.type === 'Email')
-        console.log(this.items)
       }
     }
   },
@@ -110,13 +116,29 @@ export default {
   },
   methods: {
     cancel() {
-      this.selected = ''
+      this.emailAddresses = []
       this.$emit('cancel')
       this.isActiveLocal = false
     },
-    confirm() {
-      this.$emit('close')
-      this.isActiveLocal = false
+    async confirm() {
+      // Handle both objects and strings since v-combobox always returns the full object
+      const emails = this.emailAddresses.map((item) => (typeof item === 'object' ? item.detail : item))
+      const params = {
+        organization: this.organization.name,
+        facility: this.facilityName,
+        product: this.product,
+        emails,
+      }
+      // Send off the email addresses and then close ourselves
+      await this.$api.expenseCodeRequest
+        .create(params)
+        .then(() => {
+          this.$emit('close')
+          this.isActiveLocal = false
+        })
+        .catch((error) => {
+          this.$emit('error', error)
+        })
     },
     maxWidth() {
       switch (this.$vuetify.breakpoint.name) {
@@ -138,10 +160,17 @@ export default {
       this.search = null
     },
     removeRecipient(item) {
-      const index = this.selected.findIndex((address) => address.detail === item.detail)
+      const index = this.emailAddresses.findIndex((address) => address.detail === item.detail)
       if (index !== -1) {
-        this.selected.splice(index, 1)
+        this.emailAddresses.splice(index, 1)
       }
+    },
+    isContactableObj(item) {
+      if (typeof item === 'object' && typeof item.contact === 'object') {
+        // If an object, make sure it a contact object with slug and color
+        return !!item.contact.slug && !!item.contact.color
+      }
+      return false
     },
   },
 }
