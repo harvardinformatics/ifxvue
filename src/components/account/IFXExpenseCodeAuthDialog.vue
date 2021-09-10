@@ -122,9 +122,9 @@ export default {
     },
     async confirm() {
       // Handle both objects and strings since v-combobox always returns the full object
-      const emails = this.emailAddresses.map((item) => (typeof item === 'object' ? item.detail : item))
+      const emails = this.emailAddresses.map((item) => (typeof item === 'object' ? item.detail : item)).join(',')
       const params = {
-        organization: this.organization.name,
+        organization: this.organization.slug,
         facility: this.facilityName,
         product: this.product,
         emails,
