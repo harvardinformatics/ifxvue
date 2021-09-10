@@ -132,8 +132,8 @@ export default {
       // Send off the email addresses and then close ourselves
       await this.$api.expenseCodeRequest
         .create(params)
-        .then(() => {
-          this.$emit('close')
+        .then((response) => {
+          this.$emit('close', response)
           this.isActiveLocal = false
         })
         .catch((error) => {
