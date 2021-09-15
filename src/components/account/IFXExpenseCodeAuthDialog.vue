@@ -1,60 +1,3 @@
-<template>
-  <v-dialog v-model="isActiveLocal" :max-width="maxWidth()" persistent>
-    <v-card>
-      <v-card-title class="headline">Request Expense Code</v-card-title>
-      <v-card-subtitle class="text-subtitle-1">
-        {{ `Request an Expense Code from the lab manager(s) for ${organization.name}` }}
-      </v-card-subtitle>
-      <v-card-text>
-        <v-combobox
-          v-model="emailAddresses"
-          :items="items"
-          item-text="name"
-          item-value="detail"
-          :search-input.sync="search"
-          @change="clearSearch"
-          :label="label | capitalizeFirstLetter"
-          chips
-          clearable
-          multiple
-          hide-selected
-          item-disabled="false"
-          :menu-props="{ closeOnContentClick: true }"
-          :required="true"
-          :error-messages="errorMessage"
-          no-data-text="No new results match that query."
-          :class="{ required: required }"
-        >
-          <!-- Display the icons in different colors, based on their contactable type -->
-          <template #item="{item}">
-            <v-icon :color="item.contact.color">{{ item.contact.icon }}</v-icon>
-            <v-list-item v-text="item.name"></v-list-item>
-          </template>
-          <template #selection="{item}">
-            <v-chip v-if="isContactableObj(item)" color="transparent" close @click:close="removeRecipient(item)">
-              <v-icon :color="item.contact.color" class="mr-2">
-                {{ item.contact.icon }}
-              </v-icon>
-              {{ item.name }}
-            </v-chip>
-            <v-chip v-else close @click:close="removeRecipient(item)">{{ item }}</v-chip>
-          </template>
-        </v-combobox>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <IFXButton @action="cancel" btnType="close" btnText="Cancel"></IFXButton>
-        <IFXButton
-          @action="confirm"
-          btnType="submit"
-          btnText="Send Request"
-          :disabled="!emailAddresses.length"
-        ></IFXButton>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-</template>
-
 <script>
 // import IFXOrganization from './organization/IFXOrganization'
 // import IFXContact from './contact/IFXContact'
@@ -176,5 +119,62 @@ export default {
   },
 }
 </script>
+
+<template>
+  <v-dialog v-model="isActiveLocal" :max-width="maxWidth()" persistent>
+    <v-card>
+      <v-card-title class="headline">Request Expense Code</v-card-title>
+      <v-card-subtitle class="text-subtitle-1">
+        {{ `Request an Expense Code from the lab manager(s) for ${organization.name}` }}
+      </v-card-subtitle>
+      <v-card-text>
+        <v-combobox
+          v-model="emailAddresses"
+          :items="items"
+          item-text="name"
+          item-value="detail"
+          :search-input.sync="search"
+          @change="clearSearch"
+          :label="label | capitalizeFirstLetter"
+          chips
+          clearable
+          multiple
+          hide-selected
+          item-disabled="false"
+          :menu-props="{ closeOnContentClick: true }"
+          :required="true"
+          :error-messages="errorMessage"
+          no-data-text="No new results match that query."
+          :class="{ required: required }"
+        >
+          <!-- Display the icons in different colors, based on their contactable type -->
+          <template #item="{item}">
+            <v-icon :color="item.contact.color">{{ item.contact.icon }}</v-icon>
+            <v-list-item v-text="item.name"></v-list-item>
+          </template>
+          <template #selection="{item}">
+            <v-chip v-if="isContactableObj(item)" color="transparent" close @click:close="removeRecipient(item)">
+              <v-icon :color="item.contact.color" class="mr-2">
+                {{ item.contact.icon }}
+              </v-icon>
+              {{ item.name }}
+            </v-chip>
+            <v-chip v-else close @click:close="removeRecipient(item)">{{ item }}</v-chip>
+          </template>
+        </v-combobox>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <IFXButton @action="cancel" btnType="close" btnText="Cancel"></IFXButton>
+        <IFXButton
+          @action="confirm"
+          btnType="submit"
+          btnText="Send Request"
+          :disabled="!emailAddresses.length"
+        ></IFXButton>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
 
 <style scoped lang="scss"></style>
