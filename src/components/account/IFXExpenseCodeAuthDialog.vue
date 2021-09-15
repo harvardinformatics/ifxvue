@@ -96,8 +96,9 @@ export default {
   },
   async mounted() {
     if (this.organization) {
-      const allOrgs = await this.$api.organization.getList()
-      const theOrg = allOrgs.find((org) => org.name === this.organization.name)
+      const orgTrees = this.organization.org_tree ? [this.organization.org_tree] : ['Harvard']
+      const params = { orgTrees, rank: this.organization.rank }
+      const theOrg = await this.$api.organization.getList(params)
 
       if (theOrg && theOrg.contacts) {
         this.items = theOrg.contacts.filter((contact) => contact.role === 'lab_manager' && contact.type === 'Email')
