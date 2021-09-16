@@ -1,13 +1,10 @@
 <script>
-// import IFXOrganization from './organization/IFXOrganization'
-// import IFXContact from './contact/IFXContact'
-
 // Dialog that prompts for the email addresses of people who can
 // Get/approve an expense code. The user can select from the list of
 // lab manager(s) for the user's primary affiliation organization
 // and/or add additional emails
 export default {
-  name: 'IFXExpenseCodeAuthDialog',
+  name: 'IFXExpenseCodeRequest',
   props: {
     facilityName: {
       type: String,
@@ -144,10 +141,8 @@ export default {
           :menu-props="{ closeOnContentClick: true }"
           :required="true"
           :error-messages="errorMessage"
-          no-data-text="No new results match that query."
           :class="{ required: required }"
         >
-          <!-- Display the icons in different colors, based on their contactable type -->
           <template #item="{item}">
             <v-icon :color="item.contact.color">{{ item.contact.icon }}</v-icon>
             <v-list-item v-text="item.name"></v-list-item>
@@ -161,11 +156,24 @@ export default {
             </v-chip>
             <v-chip v-else close @click:close="removeRecipient(item)">{{ item }}</v-chip>
           </template>
+          <!-- <template v-slot:no-data>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  <p>
+                    Press
+                    <kbd>enter</kbd>
+                    to add this email address
+                  </p>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template> -->
         </v-combobox>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <IFXButton @action="cancel" btnType="close" btnText="Cancel"></IFXButton>
+        <IFXButton @action="cancel" btnType="cancel"></IFXButton>
         <IFXButton
           @action="confirm"
           btnType="submit"
