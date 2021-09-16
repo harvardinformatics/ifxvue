@@ -38,10 +38,13 @@ export default {
     if (this.organization) {
       const orgTrees = this.organization.org_tree ? [this.organization.org_tree] : ['Harvard']
       const params = { orgTrees, rank: this.organization.rank }
-      const theOrg = await this.$api.organization.getList(params)
+      const orgs = await this.$api.organization.getList(params)
 
-      if (theOrg && theOrg.contacts) {
-        this.items = theOrg.contacts.filter((contact) => contact.role === 'lab_manager' && contact.type === 'Email')
+      if (orgs.length) {
+        const theOrg = orgs[0]
+        if (theOrg && theOrg.contacts) {
+          this.items = theOrg.contacts.filter((contact) => contact.role === 'lab_manager' && contact.type === 'Email')
+        }
       }
     }
   },
@@ -156,19 +159,18 @@ export default {
             </v-chip>
             <v-chip v-else close @click:close="removeRecipient(item)">{{ item }}</v-chip>
           </template>
-          <!-- <template v-slot:no-data>
+          <template v-slot:no-data>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>
                   <p>
-                    Press
-                    <kbd>enter</kbd>
-                    to add this email address
+                    Enter an email address and press
+                    <kbd>return</kbd>
                   </p>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-          </template> -->
+          </template>
         </v-combobox>
       </v-card-text>
       <v-card-actions>
