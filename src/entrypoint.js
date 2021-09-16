@@ -81,7 +81,7 @@ import IFXSelectableAddress from '@/components/address/IFXSelectableAddress'
 import IFXAccount from '@/components/account/IFXAccount'
 import IFXAccountList from '@/components/account/IFXAccountList'
 import IFXAccountMixin from '@/components/account/IFXAccountMixin'
-import IFXExpenseCodeAuthDialog from '@/components/account/IFXExpenseCodeAuthDialog'
+import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
@@ -150,7 +150,7 @@ export {
   IFXAccount,
   IFXAccountList,
   IFXAccountMixin,
-  IFXExpenseCodeAuthDialog,
+  IFXExpenseCodeRequest,
 }
 
 // Registered globally
