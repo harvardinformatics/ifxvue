@@ -3,7 +3,7 @@ export default {
   name: 'IFXButton',
   props: {
     // The type of button, determines default icon and color
-    // Options: add, edit, delete, close, download, other
+    // Options: add, edit, delete, close, cancel, download, other
     btnType: {
       type: String,
       required: true,
@@ -82,6 +82,9 @@ export default {
           btnColor = 'primary'
           break
         case 'close':
+          btnColor = 'secondary'
+          break
+        case 'cancel':
           btnColor = 'secondary'
           break
         case 'home':
@@ -163,6 +166,8 @@ export default {
         btnText = 'Submit'
       } else if (this.btnType === 'close') {
         btnText = 'Close'
+      } else if (this.btnType === 'cancel') {
+        btnText = 'Cancel'
       }
       return btnText
     },
