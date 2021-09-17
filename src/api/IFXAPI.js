@@ -603,7 +603,7 @@ export default class IFXAPIService {
   }
 
   get product() {
-    const baseUrl = this.urls.PRODUCT
+    const baseUrl = this.urls.PRODUCTS
     const createFunc = (productData, decompose = false) => {
       const newProductData = cloneDeep(productData) || {}
       // Initialize product rates empty arrays - will be filled in if incoming productData has rates
