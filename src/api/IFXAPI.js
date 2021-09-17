@@ -13,7 +13,7 @@ import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 import IFXContactable from '@/components/contactable/IFXContactable'
 import Account from '@/components/account/IFXAccount'
-// import IFXExpenseCodeRequest from '@/components/IFXExpenseCodeRequest'
+import { Product, ProductRate } from '@/components/product/IFXProduct'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -600,6 +600,46 @@ export default class IFXAPIService {
     return {
       create: (params = {}) => this.axios.post(this.urls.EXPENSE_CODE_REQUEST, params).then((res) => res.data),
     }
+  }
+
+  get product() {
+    const baseUrl = this.urls.PRODUCT
+    const createFunc = (productData, decompose = false) => {
+      const newProductData = cloneDeep(productData) || {}
+      // Initialize product rates empty arrays - will be filled in if incoming productData has rates
+      newProductData.rates = []
+
+      // Check if incoming productData has rates
+      if (productData.rates && productData.rates.length) {
+        const productRateDataObjs = productData.rates.map(({ id, rate }) => {
+          const newRateData = {
+            id,
+            rate,
+            // If decomposing, do not create dynamic rate object
+            contact: decompose ? rate.data : this.rate.create(rate),
+          }
+          // If decomposing, do not create dynamic organization rate object
+          return decompose ? newRateData : this.productRate.create(newRateData)
+        })
+        productData.rates = productRateDataObjs
+      }
+
+      // If decomposing, do not create a dynamic product object
+      return decompose ? newProductData : new Product(newProductData)
+    }
+    const decomposeFunc = (newProductData) => createFunc(newProductData, true)
+    const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
+    return api
+  }
+
+  get productRate() {
+    const createFunc = (data = {}) => {
+      if (!data.rates) {
+        data.rates = this.rates.create()
+      }
+      return new ProductRate(data)
+    }
+    return this.genericAPI(null, ProductRate, createFunc, null)
   }
 
   mockError(code) {
