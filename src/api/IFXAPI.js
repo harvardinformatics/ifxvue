@@ -611,17 +611,9 @@ export default class IFXAPIService {
 
       // Check if incoming productData has rates
       if (productData.rates && productData.rates.length) {
-        const productRateDataObjs = productData.rates.map(({ id, rate }) => {
-          const newRateData = {
-            id,
-            rate,
-            // If decomposing, do not create dynamic rate object
-            contact: decompose ? rate.data : this.rate.create(rate),
-          }
-          // If decomposing, do not create dynamic organization rate object
-          return decompose ? newRateData : this.productRate.create(newRateData)
-        })
-        productData.rates = productRateDataObjs
+        // If decomposing, do not create dynamic rate object
+        const productRateDataObjs = productData.rates.map((rate) => (decompose ? rate : this.productRate.create(rate)))
+        newProductData.rates = productRateDataObjs
       }
 
       // If decomposing, do not create a dynamic product object
@@ -633,13 +625,7 @@ export default class IFXAPIService {
   }
 
   get productRate() {
-    const createFunc = (data = {}) => {
-      if (!data.rates) {
-        data.rates = this.rates.create()
-      }
-      return new ProductRate(data)
-    }
-    return this.genericAPI(null, ProductRate, createFunc, null)
+    return this.genericAPI(null, ProductRate)
   }
 
   mockError(code) {
