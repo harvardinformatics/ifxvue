@@ -17,8 +17,8 @@ export default {
     headers() {
       const headers = [
         { text: 'ID', value: 'id', sortable: true, slot: true, click: true },
-        { text: 'Name', value: 'name', sortable: true },
         { text: 'Product Number', value: 'productNumber', sortable: true, slot: true },
+        { text: 'Name', value: 'name', sortable: true },
         { text: 'Description', value: 'description', sortable: true },
         { text: 'Facility', value: 'facility', sortable: true, slot: true },
         { text: 'Rates', value: 'rates', sortable: false, namedSlot: true },
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     rateNames(item) {
-      return item.rates.map((rate) => rate.name).join(', ')
+      return item.rates.length ? item.rates.map((rate) => rate.name).join(', ') : 'None'
     },
   },
 }
@@ -54,7 +54,7 @@ export default {
     </IFXPageHeader>
     <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
       <template #rates="{ item }">
-        {{ item.rates.map((rate) => rate.name).join(', ') }}
+        {{ rateNames(item) }}
       </template>
     </IFXItemDataTable>
   </v-container>
