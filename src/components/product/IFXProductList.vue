@@ -21,11 +21,16 @@ export default {
         { text: 'Product Number', value: 'productNumber', sortable: true, slot: true },
         { text: 'Description', value: 'description', sortable: true },
         { text: 'Facility', value: 'facility', sortable: true, slot: true },
-        { text: 'Billing Calculator', value: 'billingCalculator', sortable: false, slot: true },
+        { text: 'Rates', value: 'rates', sortable: false, namedSlot: true },
         { text: 'Reporting Group', value: 'reportingGroup', sortable: false, slot: true },
         { text: '', value: 'rowActionEdit', slot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+    },
+  },
+  methods: {
+    rateNames(item) {
+      return item.rates.map((rate) => rate.name).join(', ')
     },
   },
 }
@@ -47,6 +52,10 @@ export default {
         <IFXButton btnType="add" @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType" />
+    <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
+      <template #rates="{ item }">
+        {{ item.rates.map((rate) => rate.name).join(', ') }}
+      </template>
+    </IFXItemDataTable>
   </v-container>
 </template>
