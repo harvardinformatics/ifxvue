@@ -85,6 +85,7 @@ import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 
 // Product
 import IFXProductList from '@/components/product/IFXProductList'
+import IFXProductDetail from '@/components/product/IFXProductDetail'
 import IFXProductMixin from '@/components/product/IFXProductMixin'
 
 import IFXLoginIcon from '@/components/IFXLoginIcon'
@@ -155,6 +156,7 @@ export {
   IFXAccountList,
   IFXAccountMixin,
   IFXExpenseCodeRequest,
+  IFXProductDetail,
   IFXProductList,
   IFXProductMixin,
 }
