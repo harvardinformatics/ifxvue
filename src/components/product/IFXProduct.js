@@ -45,12 +45,12 @@ export class ProductRate {
     this.data.max_qty = maxQty
   }
 
-  get isActive() {
+  get active() {
     return this.data.is_active
   }
 
-  set isActive(isActive) {
-    this.data.is_active = isActive
+  set active(active) {
+    this.data.is_active = active
   }
 }
 
