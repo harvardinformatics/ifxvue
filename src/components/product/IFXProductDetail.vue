@@ -24,7 +24,7 @@ export default {
         { text: 'Price', value: 'price', sortable: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, slot: true },
-        { text: 'Active', value: 'active', sortable: true, slot: true },
+        { text: 'Active', value: 'active', sortable: true, namedSlot: true },
         { text: '', value: 'rowActionEdit', slot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
@@ -69,7 +69,12 @@ export default {
             :headers="headers"
             :selected.sync="selected"
             itemType="ProductRate"
-          ></IFXItemDataTable>
+            :showSelect="false"
+          >
+            <template #active="{ item }">
+              {{ item.active ? 'Yes' : 'No' }}
+            </template>
+          </IFXItemDataTable>
           <span v-else>None</span>
         </v-col>
       </v-row>
