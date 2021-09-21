@@ -29,7 +29,7 @@ export default {
     },
   },
   methods: {
-    rateNames(item) {
+    displayRateNames(item) {
       return item.rates.length ? item.rates.map((rate) => rate.name).join(', ') : 'None'
     },
   },
@@ -54,7 +54,7 @@ export default {
     </IFXPageHeader>
     <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
       <template #rates="{ item }">
-        {{ rateNames(item) }}
+        {{ displayRateNames(item) }}
       </template>
     </IFXItemDataTable>
   </v-container>
