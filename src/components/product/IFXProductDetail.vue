@@ -25,7 +25,6 @@ export default {
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, slot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
-        { text: '', value: 'rowActionEdit', slot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
