@@ -42,7 +42,6 @@ export default {
       <template #title>{{ listTitle }}</template>
       <template #actions>
         <IFXSearchField :search.sync="search" />
-        <!-- TODO: put condition check for nanites org_tree and then add deleteItems action key-->
         <IFXActionSelect
           :actionKeys="['deleteProduct']"
           :apiRef="apiRef"
