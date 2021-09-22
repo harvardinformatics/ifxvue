@@ -13,6 +13,7 @@ import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 import IFXContactable from '@/components/contactable/IFXContactable'
 import Account from '@/components/account/IFXAccount'
+import Facility from '@/components/facility/IFXFacility'
 import { Product, ProductRate } from '@/components/product/IFXProduct'
 
 function isNumeric(val) {
@@ -626,6 +627,11 @@ export default class IFXAPIService {
 
   get productRate() {
     return this.genericAPI(null, ProductRate)
+  }
+
+  get facility() {
+    const baseUrl = this.urls.FACILITIES
+    return this.genericAPI(baseUrl, Facility)
   }
 
   mockError(code) {
