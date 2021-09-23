@@ -31,6 +31,9 @@ export default {
       // cachedProduct should already be decomposed and stringified
       return initial !== this.cachedItem
     },
+    priceHint(item) {
+      return `Price per ${item.units ? `${item.units}` : 'unit'} in dollars`
+    },
   },
   computed: {
     title() {
@@ -107,7 +110,7 @@ export default {
                       <v-text-field
                         v-model="item.dollarValue"
                         label="Price *"
-                        hint="Price per unit in dollars"
+                        :hint="priceHint(item)"
                         :rules="formRules.currency"
                         type="number"
                         data-cy="rate-price"
