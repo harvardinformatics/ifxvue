@@ -106,6 +106,9 @@ export default {
   <span v-else-if="name==='scfPerLiter'">
     <div>{{item.scfPerLiter | centsToDollars}}</div>
   </span>
+  <span v-else-if="name==='price'">
+    <div>{{item.price | centsToDollars}}</div>
+  </span>
   <span v-else-if="name==='active'">
     <div>{{item.active | capitalizeFirstLetter}}</div>
   </span>

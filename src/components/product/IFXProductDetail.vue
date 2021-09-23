@@ -19,17 +19,20 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true, slot: true },
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Price', value: 'price', sortable: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
-        { text: 'Max Quantity', value: 'maxQty', sortable: false, slot: true },
+        { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
   },
-  methods: {},
+  methods: {
+    pluralize(count, string) {
+      return `${count} ${string}${count === 1 ? '' : 's'}`
+    },
+  },
 }
 </script>
 
@@ -39,9 +42,8 @@ export default {
       <template #title>{{ item.name }}</template>
       <template #cypress>{{ item.id }}</template>
       <template #actions>
-        <!-- TODO: check why this cannot be edited -->
-        <IFXButton v-if="!item.productNumber" btnType="edit" @action="navigateToItemEdit(id)" />
-        <IFXDeleteItemButton v-if="!item.productNumber" :item="item" :apiRef="apiRef" :itemType="itemType" />
+        <IFXButton btnType="edit" @action="navigateToItemEdit(id)" />
+        <IFXDeleteItemButton :item="item" :apiRef="apiRef" :itemType="itemType" />
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
@@ -72,6 +74,9 @@ export default {
           >
             <template #active="{ item }">
               {{ item.active ? 'Yes' : 'No' }}
+            </template>
+            <template #maxQty="{ item }">
+              {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
             </template>
           </IFXItemDataTable>
           <span v-else>None</span>
