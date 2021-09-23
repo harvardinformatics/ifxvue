@@ -1,6 +1,10 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
 export default class Facility extends IFXItemBase {
+  constructor(data = {}) {
+    super(data)
+  }
+
   get name() {
     return this.data.name
   }

@@ -1,8 +1,12 @@
-// TODO: extend ItemBase
-// import IFXItemBase from '@/components/item/IFXItemBase'
-export class ProductRate {
-  constructor(data) {
-    this.data = data
+import IFXItemBase from '@/components/item/IFXItemBase'
+
+export class ProductRate extends IFXItemBase {
+  constructor(data = {}) {
+    super(data)
+    // Set default template values here
+    if (!data) {
+      this.data.active = false
+    }
   }
 
   get name() {
@@ -54,8 +58,9 @@ export class ProductRate {
   }
 }
 
-export class Product {
-  constructor(data) {
+export class Product extends IFXItemBase {
+  constructor(data = {}) {
+    super(data)
     this.data = data
     this.rates = data.rates || []
   }
@@ -67,10 +72,6 @@ export class Product {
   get productNumber() {
     return this.data.product_number
   }
-
-  // set productNumber(productNumber) {
-  //   return this.data.product_number = productNumber
-  // }
 
   get name() {
     return this.data.product_name
