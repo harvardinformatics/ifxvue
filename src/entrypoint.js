@@ -83,6 +83,15 @@ import IFXAccountList from '@/components/account/IFXAccountList'
 import IFXAccountMixin from '@/components/account/IFXAccountMixin'
 import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 
+// Facility
+import IFXFacility from '@/components/facility/IFXFacility'
+
+// Product
+import IFXProductList from '@/components/product/IFXProductList'
+import IFXProductDetail from '@/components/product/IFXProductDetail'
+import IFXProductCreateEdit from '@/components/product/IFXProductCreateEdit'
+import IFXProductMixin from '@/components/product/IFXProductMixin'
+
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
@@ -151,6 +160,11 @@ export {
   IFXAccountList,
   IFXAccountMixin,
   IFXExpenseCodeRequest,
+  IFXFacility,
+  IFXProductDetail,
+  IFXProductList,
+  IFXProductMixin,
+  IFXProductCreateEdit,
 }
 
 // Registered globally

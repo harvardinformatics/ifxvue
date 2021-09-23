@@ -13,7 +13,8 @@ import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 import IFXContactable from '@/components/contactable/IFXContactable'
 import Account from '@/components/account/IFXAccount'
-// import IFXExpenseCodeRequest from '@/components/IFXExpenseCodeRequest'
+import Facility from '@/components/facility/IFXFacility'
+import { Product, ProductRate } from '@/components/product/IFXProduct'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -600,6 +601,37 @@ export default class IFXAPIService {
     return {
       create: (params = {}) => this.axios.post(this.urls.EXPENSE_CODE_REQUEST, params).then((res) => res.data),
     }
+  }
+
+  get product() {
+    const baseUrl = this.urls.PRODUCTS
+    const createFunc = (productData, decompose = false) => {
+      const newProductData = cloneDeep(productData) || {}
+      // Initialize product rates empty arrays - will be filled in if incoming productData has rates
+      newProductData.rates = []
+
+      // Check if incoming productData has rates
+      if (productData.rates && productData.rates.length) {
+        // If decomposing, do not create dynamic rate object
+        const productRateDataObjs = productData.rates.map((rate) => (decompose ? rate.data : this.productRate.create(rate)))
+        newProductData.rates = productRateDataObjs
+      }
+
+      // If decomposing, do not create a dynamic product object
+      return decompose ? newProductData : new Product(newProductData)
+    }
+    const decomposeFunc = (newProductData) => createFunc(newProductData, true)
+    const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
+    return api
+  }
+
+  get productRate() {
+    return this.genericAPI(null, ProductRate)
+  }
+
+  get facility() {
+    const baseUrl = this.urls.FACILITIES
+    return this.genericAPI(baseUrl, Facility)
   }
 
   mockError(code) {
