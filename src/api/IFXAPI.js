@@ -613,7 +613,7 @@ export default class IFXAPIService {
       // Check if incoming productData has rates
       if (productData.rates && productData.rates.length) {
         // If decomposing, do not create dynamic rate object
-        const productRateDataObjs = productData.rates.map((rate) => (decompose ? rate : this.productRate.create(rate)))
+        const productRateDataObjs = productData.rates.map((rate) => (decompose ? rate.data : this.productRate.create(rate)))
         newProductData.rates = productRateDataObjs
       }
 
