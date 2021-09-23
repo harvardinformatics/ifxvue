@@ -63,6 +63,7 @@ export class Product extends IFXItemBase {
     super(data)
     this.data = data
     this.rates = data.rates || []
+    this.data.billing_calculator = data.billing_calculator || 'ifxbilling.calculator.BasicBillingCalculator'
   }
 
   get id() {
