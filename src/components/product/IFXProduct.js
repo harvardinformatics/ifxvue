@@ -25,6 +25,14 @@ export class ProductRate extends IFXItemBase {
     this.data.price = price
   }
 
+  get dollarValue() {
+    return this.data.price / 100
+  }
+
+  set dollarValue(price) {
+    this.data.price = Math.round(price * 100)
+  }
+
   get id() {
     return this.data.id
   }

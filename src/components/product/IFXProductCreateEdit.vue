@@ -105,14 +105,15 @@ export default {
                     </v-col>
                     <v-col>
                       <v-text-field
-                        v-model="item.price"
+                        v-model="item.dollarValue"
                         label="Price *"
-                        hint="Price per unit"
-                        :rules="formRules.positiveNumber"
+                        hint="Price per unit in dollars"
+                        :rules="formRules.currency"
                         type="number"
                         data-cy="rate-price"
                         :error-messages="errors.name"
                         required
+                        prefix="$"
                       ></v-text-field>
                     </v-col>
                     <v-col>
