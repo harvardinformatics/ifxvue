@@ -1,6 +1,5 @@
 <script>
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
-import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXProductMixin from '@/components/product/IFXProductMixin'
 
@@ -8,7 +7,6 @@ export default {
   name: 'IFXProductDetail',
   mixins: [IFXProductMixin, IFXItemDetailMixin],
   components: {
-    IFXDeleteItemButton,
     IFXItemDataTable,
   },
   data() {
@@ -43,7 +41,6 @@ export default {
       <template #cypress>{{ item.id }}</template>
       <template #actions>
         <IFXButton btnType="edit" @action="navigateToItemEdit(id)" />
-        <IFXDeleteItemButton :item="item" :apiRef="apiRef" :itemType="itemType" />
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
