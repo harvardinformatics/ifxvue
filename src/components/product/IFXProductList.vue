@@ -43,7 +43,7 @@ export default {
       <template #actions>
         <IFXSearchField :search.sync="search" />
         <IFXActionSelect
-          :actionKeys="['deleteProduct']"
+          :actionKeys="['deleteItems']"
           :apiRef="apiRef"
           @get-set-items="getSetItems"
           :selectedItems.sync="selected"
