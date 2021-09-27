@@ -18,6 +18,13 @@ export default {
     navigateToItemEdit(id) {
       this.rtr.push({ name: `${this.itemType}Edit`, params: { id } })
     },
+    can(ability, user) {
+      if (!user) {
+        // eslint-disable-next-line no-param-reassign
+        user = this.$api.authUser
+      }
+      return this.$api.auth.can(ability, user)
+    },
     async init() {
       this.item = await this.apiRef.getByID(this.id)
     }
@@ -25,6 +32,12 @@ export default {
   computed: {
     detailTitle() {
       return this.splitOnCapitals(this.itemType).join(' ')
+    },
+    djangoAdminUrl() {
+      if (this.adminPath && this.item.id) {
+        return `${this.adminPath}/${this.item.id}`
+      }
+      return ''
     }
   },
   mounted() {

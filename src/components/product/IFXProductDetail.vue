@@ -40,22 +40,32 @@ export default {
       <template #title>{{ item.name }}</template>
       <template #cypress>{{ item.id }}</template>
       <template #actions>
-        <IFXButton btnType="edit" @action="navigateToItemEdit(id)" />
+        <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)" />
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
-      <v-row>
-        <v-col>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Product Number</h3>
-          <p>{{ item.productNumber }}</p>
         </v-col>
         <v-col>
+          {{ item.productNumber }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Facility</h3>
-          <p>{{ item.facility }}</p>
         </v-col>
         <v-col>
+          {{ item.facility }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Description</h3>
-          <p>{{ item.description }}</p>
+        </v-col>
+        <v-col>
+          {{ item.description }}
         </v-col>
       </v-row>
       <v-row>
