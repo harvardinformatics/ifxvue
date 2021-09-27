@@ -13,18 +13,20 @@ import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 import IFXContactable from '@/components/contactable/IFXContactable'
 import Account from '@/components/account/IFXAccount'
+import Facility from '@/components/facility/IFXFacility'
+import { Product, ProductRate } from '@/components/product/IFXProduct'
 
 function isNumeric(val) {
-  return !Number.isNaN(parseFloat(val)) && Number.isFinite(val);
+  return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
 }
 
 function isJSONString(str) {
   try {
-    JSON.parse(str);
+    JSON.parse(str)
   } catch (e) {
-    return false;
+    return false
   }
-  return true;
+  return true
 }
 
 export default class IFXAPIService {
@@ -47,14 +49,14 @@ export default class IFXAPIService {
   }
 
   get axios() {
-    this._axios.interceptors.request.use(c => {
+    this._axios.interceptors.request.use((c) => {
       const config = c
       config.baseURL = this.urls.API_ROOT
       if (this.auth.headerValue.trim().split(' ').length === 2) {
         // Token is of the form "Token XXXXX" if the user has been authenticated
         config.headers.Authorization = this.auth.headerValue
       }
-      return config;
+      return config
     })
     return this._axios
   }
@@ -87,7 +89,7 @@ export default class IFXAPIService {
       clear: (type = defaultType) => {
         const storage = type === 'session' ? window.sessionStorage : window.localStorage
         storage.clear()
-      }
+      },
     }
   }
 
@@ -109,11 +111,10 @@ export default class IFXAPIService {
       // As organization creation is assumed to be sync, so if users, contacts creation is async, things break
       create: (data) => createFunc(data),
       decompose: (item) => decomposeFunc(item),
-      getList: async (params = {}) => this.axios.get(baseURL, { params })
-        .then(res => res.data.map(item => createFunc(item))),
+      getList: async (params = {}) => this.axios.get(baseURL, { params }).then((res) => res.data.map((item) => createFunc(item))),
       getByID: async (id) => {
         const url = `${baseURL}${id}/`
-        return this.axios.get(url).then(res => createFunc(res.data))
+        return this.axios.get(url).then((res) => createFunc(res.data))
       },
       update: async (item) => {
         const url = `${baseURL}${item.id}/`
@@ -127,7 +128,7 @@ export default class IFXAPIService {
       delete: async (item) => {
         const url = `${baseURL}${item.id}/`
         return this.axios.delete(url)
-      }
+      },
     }
   }
 
@@ -195,7 +196,11 @@ export default class IFXAPIService {
           let message = 'Login failure.'
           if (has(error, 'response') && has(error.response, 'status') && error.response.status === 401) {
             let info = ''
-            if (error.response.hasOwnProperty('data') && error.response.data && error.response.data.hasOwnProperty('error')) {
+            if (
+              error.response.hasOwnProperty('data')
+              && error.response.data
+              && error.response.data.hasOwnProperty('error')
+            ) {
               info = error.response.data.error
             }
             message = `Not authorized: ${info}`
@@ -210,7 +215,7 @@ export default class IFXAPIService {
         this.authUser = new IFXAuthUser(userData)
         this.storage.removeItem('user')
         return 'You have been logged out successfully.'
-      }
+      },
     }
   }
 
@@ -220,9 +225,12 @@ export default class IFXAPIService {
     // TODO: this getList method is defined here because the url is different than the baseurl
     api.getList = async (params) => {
       const url = this.urls.GET_CONTACT_LIST
-      const contacts = await this.axios.get(url, { params })
-        .then((res) => Promise.all(res.data.map(contactData => api.create(contactData))))
-        .catch((err) => { throw new Error(err) })
+      const contacts = await this.axios
+        .get(url, { params })
+        .then((res) => Promise.all(res.data.map((contactData) => api.create(contactData))))
+        .catch((err) => {
+          throw new Error(err)
+        })
       return contacts || []
     }
     api.types = ['Email', 'Phone']
@@ -243,7 +251,7 @@ export default class IFXAPIService {
           const newContactData = {
             id,
             role,
-            contact: decompose ? contact.data : this.contact.create(contact)
+            contact: decompose ? contact.data : this.contact.create(contact),
           }
           return newContactData
         })
@@ -256,7 +264,7 @@ export default class IFXAPIService {
             id,
             role,
             organization,
-            active
+            active,
           }
           return newAffiliationData
         })
@@ -267,7 +275,7 @@ export default class IFXAPIService {
         const accountDataObjs = userData.accounts.map(({ id, account }) => {
           const newAccountData = {
             id,
-            account: decompose ? account : this.account.create(account)
+            account: decompose ? account : this.account.create(account),
           }
           return newAccountData
         })
@@ -309,7 +317,7 @@ export default class IFXAPIService {
             role,
             // If decomposing, do not create dynamic contact object
             // TODO: why isn't type defined here? Role is not type
-            contact: decompose ? contact.data : this.contact.create(contact)
+            contact: decompose ? contact.data : this.contact.create(contact),
           }
           // If decomposing, do not create dynamic organization contact object
           return decompose ? newContactData : this.organizationContact.create(newContactData)
@@ -324,7 +332,7 @@ export default class IFXAPIService {
             id: user.id,
             role,
             // If decomposing, do not create a dynamic user object
-            user: decompose ? user.data : this.user.create(user)
+            user: decompose ? user.data : this.user.create(user),
           }
           // If decomposing, do not create a dynamic organization user object
           return decompose ? newUserData : this.organizationUser.create(newUserData)
@@ -379,36 +387,44 @@ export default class IFXAPIService {
       },
       {
         value: 'group',
-        text: 'Group'
+        text: 'Group',
       },
       {
         value: 'office',
-        text: 'Office'
+        text: 'Office',
+      },
+      {
+        value: 'company',
+        text: 'Company',
       },
     ]
-    api.getValidRankByValue = (value) => api.validRanks.find(r => r.value === value)
-    api.getValidRankByText = (text) => api.validRanks.find(r => r.text === text)
+    api.getValidRankByValue = (value) => api.validRanks.find((r) => r.value === value)
+    api.getValidRankByText = (text) => api.validRanks.find((r) => r.text === text)
 
     api.getList = async (params = {}) => {
       const { orgTrees } = params
       if (orgTrees) {
         params.org_tree = orgTrees.join(',')
-        delete params.orgTrees;
+        delete params.orgTrees
       }
-      const organizations = await this.axios.get(baseUrl, { params })
-        .then((res) => Promise.all(res.data.map(orgData => this.organization.create(orgData))))
-        .catch((err) => { throw new Error(err) })
+      const organizations = await this.axios
+        .get(baseUrl, { params })
+        .then((res) => Promise.all(res.data.map((orgData) => this.organization.create(orgData))))
+        .catch((err) => {
+          throw new Error(err)
+        })
       return organizations || []
     }
     // this has been added to the object itelf
     api.canEdit = (organization) => !organization.ifxOrg
     api.getNames = async (selector = null) => {
       const url = this.urls.ORGANIZATION_NAMES
-      const orgNames = await this.axios.get(url)
-        .then(res => res.data)
-        .then(objs => {
+      const orgNames = await this.axios
+        .get(url)
+        .then((res) => res.data)
+        .then((objs) => {
           if (selector) {
-            return objs.map(o => o[selector])
+            return objs.map((o) => o[selector])
           }
           return objs
         })
@@ -417,7 +433,7 @@ export default class IFXAPIService {
     api.parseSlug = (slug) => {
       /* Splits an organization slug into name, org_tree, and rank */
       const result = {
-        slug: slug
+        slug: slug,
       }
       if (slug) {
         const match = slug.match(/(.+?) \(a (.+?) (\S+)\)$/)
@@ -466,25 +482,28 @@ export default class IFXAPIService {
         return new IFXContactable(data)
       },
       getList: async (search, orgTrees) => {
-        const contacts = await this.contact.getList(search)
-          .catch(err => { throw new Error(err) })
+        const contacts = await this.contact.getList(search).catch((err) => {
+          throw new Error(err)
+        })
 
-        const users = await this.user.getList(search)
-          .catch(err => { throw new Error(err) })
+        const users = await this.user.getList(search).catch((err) => {
+          throw new Error(err)
+        })
 
-        const organizations = await this.organization.getList({ search, orgTrees })
-          .catch(err => { throw new Error(err) })
+        const organizations = await this.organization.getList({ search, orgTrees }).catch((err) => {
+          throw new Error(err)
+        })
 
         const contactables = [contacts, organizations, users].flat()
         return contactables
-      }
+      },
     }
   }
 
   get address() {
     return {
       create: (data = {}) => new Address(data),
-      types: ['Work', 'Home', 'Additional']
+      types: ['Work', 'Home', 'Additional'],
     }
   }
 
@@ -504,7 +523,7 @@ export default class IFXAPIService {
       },
       getNames: async () => {
         const response = await this.group.getList()
-        return response.map(g => g.name)
+        return response.map((g) => g.name)
       },
       // TODO: better way to handle this
       COLOR_FOR_GROUP: { Admin: '#fafad2' },
@@ -515,7 +534,7 @@ export default class IFXAPIService {
       ICON_FOR_GROUP: { Admin: 'mdi-key' },
       iconForGroup(group) {
         return group in this.ICON_FOR_GROUP ? this.ICON_FOR_GROUP[group] : 'mdi-check-decagram'
-      }
+      },
     }
   }
 
@@ -525,24 +544,24 @@ export default class IFXAPIService {
       getInfo: (params) => this.axios.get(this.urls.GET_LOCATION_INFO, { params }),
       getCountryList: async () => {
         const params = {
-          target: 'country'
+          target: 'country',
         }
-        return this.location.getInfo(params).then(res => res.data.location_info)
+        return this.location.getInfo(params).then((res) => res.data.location_info)
       },
 
       getStateList: async (country = null) => {
         const params = {
-          target: 'state'
+          target: 'state',
         }
         if (country) {
           params.country = country
         }
-        return this.location.getInfo(params).then(res => res.data.location_info)
+        return this.location.getInfo(params).then((res) => res.data.location_info)
       },
 
       getCityList: async (country = null, state = null) => {
         const params = {
-          target: 'city'
+          target: 'city',
         }
         if (country) {
           params.country = country
@@ -550,8 +569,8 @@ export default class IFXAPIService {
         if (state) {
           params.state = state
         }
-        return this.location.getInfo(params).then(res => res.data.location_info)
-      }
+        return this.location.getInfo(params).then((res) => res.data.location_info)
+      },
     }
   }
 
@@ -564,7 +583,7 @@ export default class IFXAPIService {
     const baseURL = this.urls.MAILINGS
     const api = this.genericAPI(baseURL, IFXMailing)
     // TODO: extend api for sending
-    api.sendIfxMailing = (mailing) => this.axios.post(this.urls.SEND_IFXMAILING, mailing).then(res => res.data)
+    api.sendIfxMailing = (mailing) => this.axios.post(this.urls.SEND_IFXMAILING, mailing).then((res) => res.data)
     return api
   }
 
@@ -576,6 +595,43 @@ export default class IFXAPIService {
   get account() {
     const baseURL = this.urls.ACCOUNTS
     return this.genericAPI(baseURL, Account)
+  }
+
+  get expenseCodeRequest() {
+    return {
+      create: (params = {}) => this.axios.post(this.urls.EXPENSE_CODE_REQUEST, params).then((res) => res.data),
+    }
+  }
+
+  get product() {
+    const baseUrl = this.urls.PRODUCTS
+    const createFunc = (productData, decompose = false) => {
+      const newProductData = cloneDeep(productData) || {}
+      // Initialize product rates empty arrays - will be filled in if incoming productData has rates
+      newProductData.rates = []
+
+      // Check if incoming productData has rates
+      if (productData.rates && productData.rates.length) {
+        // If decomposing, do not create dynamic rate object
+        const productRateDataObjs = productData.rates.map((rate) => (decompose ? rate.data : this.productRate.create(rate)))
+        newProductData.rates = productRateDataObjs
+      }
+
+      // If decomposing, do not create a dynamic product object
+      return decompose ? newProductData : new Product(newProductData)
+    }
+    const decomposeFunc = (newProductData) => createFunc(newProductData, true)
+    const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
+    return api
+  }
+
+  get productRate() {
+    return this.genericAPI(null, ProductRate)
+  }
+
+  get facility() {
+    const baseUrl = this.urls.FACILITIES
+    return this.genericAPI(baseUrl, Facility)
   }
 
   mockError(code) {

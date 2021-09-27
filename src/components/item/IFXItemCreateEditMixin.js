@@ -40,6 +40,10 @@ export default {
       // this.cachedItem = JSON.parse(JSON.stringify(this.apiRef.decompose(this.item)))
     },
     can(ability, user) {
+      if (!user) {
+        // eslint-disable-next-line no-param-reassign
+        user = this.$api.authUser
+      }
       return this.$api.auth.can(ability, user)
     },
     submit() {
@@ -58,10 +62,14 @@ export default {
     submitUpdate() {
       this.apiRef.update(this.item)
         .then(async res => {
-          const message = `${this.itemType} updated successfully. You will be routed to the details page.`
+          const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
-          this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
+          if (this.$route.query.next) {
+            this.$router.push({ path: this.$route.query.next })
+          } else {
+            this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
+          }
         })
         .catch(error => {
           const { response } = error
@@ -77,7 +85,11 @@ export default {
           const message = `${this.itemType} created with ID: ${res.data.id}. You will be routed to the details page.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
-          this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
+          if (this.$route.query.next) {
+            this.$router.push({ path: this.$route.query.next })
+          } else {
+            this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
+          }
         })
         .catch(error => {
           const { response } = error
@@ -119,10 +131,7 @@ export default {
      * @returns {string}
      */
     description() {
-      if (this.isEditing) {
-        return `Use this form to edit this ${this.itemType}`
-      }
-      return `Use this form to create a new ${this.itemType}.`
+      return ''
     },
     itemDetail() {
       return `${this.itemType}Detail`

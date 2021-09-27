@@ -81,12 +81,22 @@ import IFXSelectableAddress from '@/components/address/IFXSelectableAddress'
 import IFXAccount from '@/components/account/IFXAccount'
 import IFXAccountList from '@/components/account/IFXAccountList'
 import IFXAccountMixin from '@/components/account/IFXAccountMixin'
+import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
+
+// Facility
+import IFXFacility from '@/components/facility/IFXFacility'
+
+// Product
+import IFXProductList from '@/components/product/IFXProductList'
+import IFXProductDetail from '@/components/product/IFXProductDetail'
+import IFXProductCreateEdit from '@/components/product/IFXProductCreateEdit'
+import IFXProductMixin from '@/components/product/IFXProductMixin'
 
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
 import VCurrencyField from 'v-currency-field'
-import createPersistedState from 'vuex-persistedstate';
+import createPersistedState from 'vuex-persistedstate'
 import IFXTextEditor from '@/components/IFXTextEditor'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMixin from '@/mixins/IFXMixin'
@@ -148,7 +158,13 @@ export {
   IFXSelectableAddress,
   IFXAccount,
   IFXAccountList,
-  IFXAccountMixin
+  IFXAccountMixin,
+  IFXExpenseCodeRequest,
+  IFXFacility,
+  IFXProductDetail,
+  IFXProductList,
+  IFXProductMixin,
+  IFXProductCreateEdit,
 }
 
 // Registered globally
@@ -162,7 +178,7 @@ export const ifxcomponents = {
 }
 export const ifxmodules = {
   message,
-  mailing
+  mailing,
 }
 
 /**
@@ -173,15 +189,15 @@ export const ifxmodules = {
  */
 export default function install(Vue, options = {}) {
   // Loop through all components to be registered globally and registers them
-  Object.keys(ifxcomponents).forEach(name => {
-    Vue.component(name, ifxcomponents[name]);
+  Object.keys(ifxcomponents).forEach((name) => {
+    Vue.component(name, ifxcomponents[name])
   })
 
   // Making Vuex mailing module persistent
   const sessionConfig = {
     storage: window.sessionStorage,
     key: `${options.APIStore.vars.appKey}_mailing`,
-    paths: ['mailing']
+    paths: ['mailing'],
   }
   const sessionPersist = createPersistedState(sessionConfig)
 
@@ -189,14 +205,14 @@ export default function install(Vue, options = {}) {
   sessionPersist(options.vuexStore)
 
   // Loop through all Vuex modules and register them
-  Object.keys(ifxmodules).forEach(name => {
+  Object.keys(ifxmodules).forEach((name) => {
     // Check if module state has been initialized. If not, do not preserve it.
     const preserveState = !!options.vuexStore[name]
     options.vuexStore.registerModule(name, ifxmodules[name], { preserveState })
   })
 
   // Add filters
-  Object.keys(IFXFilters).forEach(name => {
+  Object.keys(IFXFilters).forEach((name) => {
     Vue.filter(name, IFXFilters[name])
   })
 
@@ -213,6 +229,6 @@ export default function install(Vue, options = {}) {
     defaultValue: null,
     valueAsInteger: true,
     allowNegative: false,
-    prefix: '$'
+    prefix: '$',
   })
 }

@@ -60,13 +60,13 @@ export default {
   <div class="data-ctr">
     <div class="data-header-active">
       <div class="data-title">{{title}}</div>
-      <IFXButton class='add-btn' x-small v-if='!disabled' :disabled='!canEdit' @action='addItem' btnType='add'></IFXButton>
+      <IFXButton class='add-btn' xSmall v-if='!disabled' :disabled='!canEdit' @action='addItem' btnType='add'></IFXButton>
     </div>
     <div v-if="!itemsLocal.length" class="items-warning">
       There are no {{title.toLowerCase()}}.
     </div>
     <v-card :key="item.id" v-for="(item, index) in itemsLocal" class="data-card">
-      <IFXButton class='delete-btn' v-if='!disabled' :disabled='!canEdit' x-small @action='removeItem(index)' btnType='remove'></IFXButton>
+      <IFXButton class='delete-btn' v-if='!disabled' :disabled='!canEdit' xSmall @action='removeItem(index)' btnType='remove'></IFXButton>
       <!-- TODO: Notice that there is no updateItem handler passed in - this means the item prop is being mutated directly in child -->
       <!-- NOTE: this slot occurs in a for loop, i.e. a new slot is being generated for each item instance -->
       <slot :item="item"></slot>
