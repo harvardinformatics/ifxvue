@@ -69,7 +69,7 @@ export default {
           @get-set-items='getSetItems'
           :selectedItems.sync='selected'
         />
-        <IFXButton btnType="add" small @action="navigateToItemCreate"/>
+        <IFXButton btnType="add" xSmall @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <div :style='contactContentStyle'>
