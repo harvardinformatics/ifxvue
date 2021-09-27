@@ -31,6 +31,7 @@ export default {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Detail', value: 'detail', slot: true, sortable: true },
+        { text: 'Created', value: 'created', namedSlot: true, sortable: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
@@ -81,7 +82,11 @@ export default {
         :selected.sync='selected'
         :itemType='itemType'
         @click-row='setFocusedContact'
-      />
+      >
+        <template v-slot:created="{ item }">
+          <span style="white-space: nowrap;">{{ item.created|humanDatetime }}</span>
+        </template>
+      </IFXItemDataTable>
       <IFXContactCard v-if='isContactContentLarge' :contact='focusedContact'/>
     </div>
   </v-container>

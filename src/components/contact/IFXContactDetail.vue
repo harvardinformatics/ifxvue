@@ -1,17 +1,3 @@
-<template>
-  <v-container v-if='!isLoading'>
-    <IFXPageHeader>
-      <template #title>{{itemType}} Card for {{item.name}}</template>
-      <template #cypress>{{id}}</template>
-      <template #actions>
-        <IFXButton btnType="edit" @action="navigateToItemEdit(id)"/>
-        <IFXDeleteItemButton :item='item' :apiRef='apiRef' :itemType='itemType'/>
-      </template>
-    </IFXPageHeader>
-  <IFXContactCard :contact='item' :editBtn='false'/>
-  </v-container>
-</template>
-
 <script>
 import IFXContactCard from '@/components/contact/IFXContactCard'
 import IFXContactMixin from '@/components/contact/IFXContactMixin'
@@ -24,6 +10,27 @@ export default {
   components: {
     IFXContactCard,
     IFXDeleteItemButton
+  },
+  computed: {
+    title() {
+      if (this.item.name) {
+        return `Contact Card for ${this.item.name}`
+      }
+      return `${this.item.type} Contact ${this.item.id}`
+    }
   }
 }
 </script>
+<template>
+  <v-container v-if='!isLoading'>
+    <IFXPageHeader>
+      <template #title>{{title}}</template>
+      <template #cypress>{{id}}</template>
+      <template #actions>
+        <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)"/>
+        <IFXDeleteItemButton :item='item' :apiRef='apiRef' :itemType='itemType'/>
+      </template>
+    </IFXPageHeader>
+  <IFXContactCard :contact='item' :editBtn='false'/>
+  </v-container>
+</template>

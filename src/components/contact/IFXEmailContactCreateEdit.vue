@@ -4,7 +4,7 @@ import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXContactMixin from '@/components/contact/IFXContactMixin'
 
 export default {
-  name: 'IFXEmailContact',
+  name: 'IFXEmailContactCreateEdit',
   mixins: [IFXContactMixin, IFXItemCreateEditMixin],
   data() {
     return {}
@@ -13,17 +13,29 @@ export default {
     ...mapActions(['showMessage']),
     async init() {
       this.item = await this.getItem()
+      if (!this.isEditing) {
+        this.item.type = 'Email'
+      }
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
     },
   },
-  mounted() {
-    this.item.type = 'Email'
-  }
 }
 </script>
 <template>
   <v-container>
     <v-form v-if='!isLoading' v-model='isValid'>
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model='item.name'
+            label='Name'
+            data-cy='name'
+            :rules='formRules.name'
+            :error-messages='errors.name'
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col>
           <v-text-field
@@ -36,8 +48,10 @@ export default {
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
+      <v-row justify="end">
+        <v-col class="flex flex-grow-1 flex-shrink-0">
+        </v-col>
+        <v-col md="2">
           <IFXButton :disabled='!isSubmittable' btnType='submit' @action='submit' />
         </v-col>
       </v-row>

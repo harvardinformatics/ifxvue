@@ -4,7 +4,7 @@ import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXContactMixin from '@/components/contact/IFXContactMixin'
 
 export default {
-  name: 'IFXPhoneContact',
+  name: 'IFXPhoneContactCreateEdit',
   mixins: [IFXContactMixin, IFXItemCreateEditMixin],
   data() {
     return {}
@@ -27,6 +27,18 @@ export default {
       <v-row>
         <v-col>
           <v-text-field
+            v-model='item.name'
+            label='Name'
+            data-cy='name'
+            :rules='formRules.name'
+            :error-messages='errors.name'
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
             v-model='item.detail'
             label='Phone'
             data-cy='phone'
@@ -36,8 +48,10 @@ export default {
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
+      <v-row justify="end">
+        <v-col class="flex flex-grow-1 flex-shrink-0">
+        </v-col>
+        <v-col md="2">
           <IFXButton :disabled='!isSubmittable' btnType='submit' @action='submit' />
         </v-col>
       </v-row>

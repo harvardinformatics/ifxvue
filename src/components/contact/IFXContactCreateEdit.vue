@@ -1,6 +1,16 @@
 <script>
+import { mapActions } from 'vuex'
+import IFXEmailContactCreateEdit from '@/components/contact/IFXEmailContactCreateEdit'
+import IFXPhoneContactCreateEdit from '@/components/contact/IFXPhoneContactCreateEdit'
+import IFXFullContactCreateEdit from '@/components/contact/IFXFullContactCreateEdit'
+
 export default {
   name: 'IFXContactCreateEdit',
+  components: {
+    IFXEmailContactCreateEdit,
+    IFXPhoneContactCreateEdit,
+    IFXFullContactCreateEdit,
+  },
   props: {
     contactType: {
       required: false,
@@ -8,21 +18,58 @@ export default {
     },
     id: {
       required: false,
+      default: null
     }
   },
   data() {
     return {
       allUsers: [],
-      localContactType: this.contactType
+      localContactType: this.contactType,
+      item: null
     }
   },
   methods: {
+    ...mapActions(['showMessage']),
     updateContactUsers(users) {
       this.$set(this.item.users, ...users)
     },
     updateContactOrganizations(organizations) {
       this.$set(this.item.organizations, ...organizations)
     },
+  },
+  computed: {
+    title() {
+      const createOrEdit = this.id ? 'Edit' : 'Create'
+      const type = this.localContactType ? `${this.localContactType} Contact` : ' Contact'
+      const id = this.item && this.item.name ? `for ${this.item.name}` : this.id || ''
+      return `${createOrEdit} ${type} ${id}`
+    },
+    isEditing() {
+      return this.id !== null && this.id !== ''
+    }
+  },
+  mounted() {
+    if (this.id) {
+      this.$api.contact.getByID(this.id)
+        .then((contact) => {
+          console.log('Contact ', contact)
+          this.item = contact
+          if (contact.type === 'Phone') {
+            this.localContactType = 'Phone'
+          } else if (contact.type === 'Email') {
+            if (contact.name || contact.address || contact.phone) {
+              this.localContactType = 'Full'
+            } else {
+              this.localContactType = 'Email'
+            }
+          } else {
+            this.showMessage('This contact has an unusual contact type')
+          }
+        })
+        .catch((error) => {
+          this.showMessage(error)
+        })
+    }
   }
 }
 </script>
@@ -36,7 +83,7 @@ export default {
     <v-container>
       <v-row>
         <v-col>
-          Select a Contact type
+          <span v-if="!id">Select a </span>Contact type
           <v-radio-group
             v-model="localContactType"
             row
@@ -61,13 +108,15 @@ export default {
       </v-row>
       <v-row>
         <v-col v-if="localContactType === 'Email'">
-          <IFXEmailContact :id="id"/>
+          <IFXEmailContactCreateEdit :isEditing="isEditing" :id="id"/>
         </v-col>
         <v-col v-else-if="localContactType === 'Phone'">
-          <IFXPhoneContact :id="id"/>
+          <IFXPhoneContactCreateEdit :isEditing="isEditing" :id="id"/>
+        </v-col>
+        <v-col v-else-if="localContactType === 'Full'">
+          <IFXFullContactCreateEdit :isEditing="isEditing" :id="id"/>
         </v-col>
         <v-col v-else>
-          <IFXFullContact :id="id"/>
         </v-col>
       </v-row>
     </v-container>

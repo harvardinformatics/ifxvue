@@ -74,7 +74,7 @@ export default {
       return formattedItems
     },
     navigateToItemCreate() {
-      this.rtr.push({ name: `${this.itemType}Create` })
+      this.rtr.push({ name: `${this.itemType}Create`, query: { next: this.$route.path } })
     },
     getItemsFilteredBySearch() {
       let items = this.items

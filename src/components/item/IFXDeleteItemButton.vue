@@ -1,16 +1,3 @@
-<template>
-<span>
-  <IFXButton data-cy='item-delete' btnType='remove' @action='toggleDialog'></IFXButton>
-  <IFXActionDialog
-    :selectedAction='action'
-    :selectedItems='[item]'
-    :isActive.sync='isDialogActive'
-    @cancel-action='cancelAction'
-    @complete-action='completeAction'
-  ></IFXActionDialog>
-</span>
-</template>
-
 <script>
 import { mapActions } from 'vuex'
 import IFXActionDialog from '@/components/action/IFXActionDialog'
@@ -85,3 +72,15 @@ export default {
 
 }
 </script>
+<template>
+<span>
+  <IFXButton data-cy='item-delete' xSmall btnType='remove' @action='toggleDialog'></IFXButton>
+  <IFXActionDialog
+    :selectedAction='action'
+    :selectedItems='[item]'
+    :isActive.sync='isDialogActive'
+    @cancel-action='cancelAction'
+    @complete-action='completeAction'
+  ></IFXActionDialog>
+</span>
+</template>

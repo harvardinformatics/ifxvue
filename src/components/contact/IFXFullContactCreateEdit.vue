@@ -4,7 +4,7 @@ import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXContactMixin from '@/components/contact/IFXContactMixin'
 
 export default {
-  name: 'IFXFullContact',
+  name: 'IFXFullContactCreateEdit',
   mixins: [IFXContactMixin, IFXItemCreateEditMixin],
   data() {
     return {}
@@ -13,6 +13,9 @@ export default {
     ...mapActions(['showMessage']),
     async init() {
       this.item = await this.getItem()
+      if (!this.item.type) {
+        this.item.type = 'Email'
+      }
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
       // TODO: only get chunks
       this.allUsers = await this.$api.user.getList()
@@ -48,21 +51,9 @@ export default {
       </v-row>
       <v-row>
         <v-col>
-          <v-select
-            v-model='item.type'
-            label='Type'
-            data-cy='type'
-            :items='apiRef.types'
-            :rules='formRules.generic'
-            :error-messages='errors.type'
-            required
-          ></v-select>
-        </v-col>
-        <v-col>
           <v-text-field
             v-model='item.phone'
             label='Phone'
-            type='number'
             data-cy='phone'
             :rules='formRules.phone'
           >
@@ -71,15 +62,19 @@ export default {
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field
+          <v-textarea
             v-model='item.address'
             label='Address'
             data-cy='address'
-          ></v-text-field>
+            auto-grow
+            :rows="3"
+          ></v-textarea>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
+      <v-row justify="end">
+        <v-col class="flex flex-grow-1 flex-shrink-0">
+        </v-col>
+        <v-col md="2">
           <IFXButton :disabled='!isSubmittable' btnType='submit' @action='submit' />
         </v-col>
       </v-row>
