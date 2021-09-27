@@ -5,7 +5,7 @@ export class ProductRate extends IFXItemBase {
     super(data)
     // Set default template values here
     if (!data) {
-      this.data.active = false
+      this.data.is_active = true
     }
   }
 
@@ -26,7 +26,7 @@ export class ProductRate extends IFXItemBase {
   }
 
   get dollarValue() {
-    return this.data.price / 100
+    return (this.data.price / 100).toFixed(2)
   }
 
   set dollarValue(price) {
@@ -72,10 +72,6 @@ export class Product extends IFXItemBase {
     this.data = data
     this.rates = data.rates || []
     this.data.billing_calculator = data.billing_calculator || 'ifxbilling.calculator.BasicBillingCalculator'
-  }
-
-  get id() {
-    return this.data.id
   }
 
   get productNumber() {
