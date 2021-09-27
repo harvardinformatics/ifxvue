@@ -1,5 +1,4 @@
 <script>
-import IFXActionSelect from '@/components/action/IFXActionSelect'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
@@ -11,7 +10,6 @@ export default {
   components: {
     IFXSearchField,
     IFXItemDataTable,
-    IFXActionSelect,
   },
   computed: {
     headers() {
@@ -42,12 +40,6 @@ export default {
       <template #title>{{ listTitle }}</template>
       <template #actions>
         <IFXSearchField :search.sync="search" />
-        <IFXActionSelect
-          :actionKeys="['deleteProduct']"
-          :apiRef="apiRef"
-          @get-set-items="getSetItems"
-          :selectedItems.sync="selected"
-        />
         <IFXButton btnType="add" small @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
