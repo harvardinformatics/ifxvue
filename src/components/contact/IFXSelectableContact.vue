@@ -8,6 +8,45 @@ export default {
     isSearchVisible() {
       return !this.itemLocal.contact || !this.itemLocal.contact.id
     },
+  },
+  data() {
+    return {
+      contactType: null
+    }
+  },
+  watch: {
+    itemLocal: {
+      deep: true,
+      handler() {
+        if (!this.contactType) {
+          this.contactType = this.getContactType()
+        }
+      }
+    },
+    contactType: function (val) {
+      if (val === 'Full') {
+        this.itemLocal.type = 'Email'
+      } else {
+        this.itemLocal.type = val
+      }
+    }
+  },
+  methods: {
+    checkValidForm() {
+     this.$emit('check-valid-form')
+    },
+    getContactType() {
+      if (!this.itemLocal.type) {
+        return null
+      }
+      if (this.itemLocal.type === 'Email' && (this.itemLocal.phone || this.itemLocal.address || this.itemLocal.name)) {
+        return 'Full'
+      }
+      return this.itemLocal.type
+    }
+  },
+  mounted() {
+    this.contactType = this.getContactType()
   }
 }
 </script>
@@ -51,67 +90,147 @@ export default {
             autocomplete="new-password"
             label="Search existing contacts"
             :items="allItems"
-            :error-messages="errors['contacts.contact']"
             item-text="name"
             return-object
-            :rules='formRules.contactable'
           >
           </v-autocomplete>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field
-            v-model.trim="itemLocal.contact.name"
-            autocomplete="new-password"
-            :error-messages="errors['contacts.name']"
-            :rules="formRules.generic"
-            label="Name"
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-select
-            :items='$api.contact.types'
-            v-model.trim='itemLocal.type'
-            autocomplete="new-password"
-            :error-messages="errors['contacts.type']"
-            :rules='formRules.generic'
-            label="Type"
-            required
-          ></v-select>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model.trim="itemLocal.contact.detail"
-            autocomplete="new-password"
-            :error-messages="errors['contacts.detail']"
-            :rules="formRules.email"
-            label="Email"
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model.trim="itemLocal.contact.phone"
-            autocomplete="new-password"
-            :error-messages="errors['contacts.phone']"
-            label="Phone"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model="itemLocal.contact.address"
-            :rules='formRules.address'
-            clearable
-            label="Address"
+          <span v-if="!itemLocal.contact">Select a </span>Contact type
+          <v-radio-group
+            v-model="contactType"
+            row
           >
-          </v-text-field>
+            <v-radio
+              label="Email"
+              value="Email"
+            >
+            </v-radio>
+            <v-radio
+              label="Phone"
+              value="Phone"
+            >
+            </v-radio>
+            <v-radio
+              label="Full"
+              value="Full"
+            >
+            </v-radio>
+          </v-radio-group>
         </v-col>
+      </v-row>
+      <v-row v-if="contactType === 'Full'">
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model.trim="itemLocal.role"
+                autocomplete="new-password"
+                :error-messages="errors['contacts.role']"
+                :rules="formRules.generic"
+                label="Role"
+                required
+                @input="checkValidForm()"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model.trim="itemLocal.detail"
+                autocomplete="new-password"
+                :error-messages="errors['contacts.detail']"
+                :rules="formRules.email"
+                label="Email"
+                required
+                @input="checkValidForm()"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model.trim="itemLocal.phone"
+                autocomplete="new-password"
+                :error-messages="errors['contacts.phone']"
+                label="Phone"
+                @input="checkValidForm()"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-textarea
+                v-model="itemLocal.address"
+                :rules='formRules.address'
+                clearable
+                label="Address"
+                :rows="3"
+                auto-grow
+                @input="checkValidForm()"
+              >
+              </v-textarea>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row v-if="contactType === 'Email'">
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model.trim="itemLocal.role"
+                autocomplete="new-password"
+                :error-messages="errors['contacts.role']"
+                :rules="formRules.generic"
+                label="Role"
+                required
+                @input="checkValidForm()"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model.trim="itemLocal.detail"
+                autocomplete="new-password"
+                :error-messages="errors['contacts.detail']"
+                :rules="formRules.email"
+                label="Email"
+                required
+                @input="checkValidForm()"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row v-if="contactType === 'Phone'">
+        <v-col>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model.trim="itemLocal.role"
+                autocomplete="new-password"
+                :error-messages="errors['contacts.role']"
+                :rules="formRules.generic"
+                label="Role"
+                required
+                @input="checkValidForm()"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model.trim="itemLocal.detail"
+                autocomplete="new-password"
+                :error-messages="errors['contacts.detail']"
+                :rules="formRules.phone"
+                label="Phone"
+                required
+                @input="checkValidForm()"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row v-else>
       </v-row>
     </span>
   </v-container>

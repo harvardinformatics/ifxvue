@@ -23,6 +23,9 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    checkValidForm() {
+      this.$refs[this.formName].validate()
+    },
     async init() {
       this.item = await this.getItem()
       this.cachedItem = JSON.stringify(this.apiRef.decompose(this.item))
@@ -40,6 +43,8 @@ export default {
     hasItemChanged() {
       const initial = JSON.stringify(this.apiRef.decompose(this.item))
       // cachedOrganization should already be decomposed and stringified
+      console.log('initial, ', initial)
+      console.log('cached, ', this.cachedItem)
       return initial !== this.cachedItem
     }
   },
@@ -118,12 +123,15 @@ export default {
               :getEmptyItem='$api.organizationContact.create'
               >
               <template v-slot="{item}">
-                <IFXSelectableContact :allItems='allContacts' :item='item' :errors='errors'/>
+                <IFXSelectableContact :allItems='allContacts' :item='item' :errors='errors' @check-valid-form="checkValidForm()"/>
               </template>
             </IFXItemSelectList>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row justify="end">
+          <v-col class="flex flex-grow-1 flex-grow-0">
+            &nbsp;
+          </v-col>
           <v-col>
             <IFXButton btnType='submit' :disabled='!isSubmittable' @action='submit'/>
           </v-col>

@@ -34,13 +34,18 @@ export default {
     async addItem() {
       const emptyItem = await this.getEmptyItem()
       this.itemsLocal.push(emptyItem)
+      this.$emit('update:items', this.items)
     },
     removeItem(index) {
       this.itemsLocal.splice(index, 1)
+      this.$emit('update:items', this.items)
     },
     canEdit() {
       // TODO: add permissions
       return true
+    },
+    checkValidForm() {
+      this.$emit('check-valid-form')
     }
   },
   computed: {
@@ -49,6 +54,7 @@ export default {
         return this.items
       },
       set(items) {
+        console.log('changed items')
         this.$emit('update:items', items)
       }
     }
