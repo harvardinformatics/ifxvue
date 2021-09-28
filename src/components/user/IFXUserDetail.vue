@@ -2,10 +2,10 @@
 import IFXUserMixin from '@/components/user/IFXUserMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
-import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
 import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXItemHistoryDisplay from '@/components/item/IFXItemHistoryDisplay'
+import IFXContactCard from '@/components/contact/IFXContactCard'
 
 export default {
   name: 'IFXUserDetail',
@@ -14,8 +14,8 @@ export default {
     IFXLoginIcon,
     IFXItemHistoryDisplay,
     IFXItemSelectList,
-    IFXSelectableContact,
-    IFXSelectableAffiliation
+    IFXSelectableAffiliation,
+    IFXContactCard
   },
   data() {
     return {
@@ -67,17 +67,9 @@ export default {
       </v-row>
       <v-row>
       </v-row>
-      <v-row>
+      <v-row v-for="contact in item.contacts" :key="contact.id">
         <v-col>
-          <IFXItemSelectList
-            title='Contacts'
-            disabled
-            :items='item.contacts'
-            >
-            <template v-slot='{item}'>
-              <IFXSelectableContact :disabled='true' :item='item'/>
-            </template>
-          </IFXItemSelectList>
+          <IFXContactCard :contact="contact" :editBtn="false" dense/>
         </v-col>
       </v-row>
       <v-row>
