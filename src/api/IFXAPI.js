@@ -4,7 +4,7 @@ import has from 'lodash/has'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import Contact from '@/components/contact/IFXContact'
-import User from '@/components/user/IFXUser'
+import { User, UserContact } from '@/components/user/IFXUser'
 import Address from '@/components/address/IFXAddress'
 import Affiliation from '@/components/affiliation/IFXAffiliation'
 import { Organization, OrganizationContact, OrganizationUser } from '@/components/organization/IFXOrganization'
@@ -237,6 +237,16 @@ export default class IFXAPIService {
     return api
   }
 
+  get userContact() {
+    const createFunc = (data = {}) => {
+      if (!data.contact) {
+        data.contact = this.contact.create()
+      }
+      return new UserContact(data)
+    }
+    return this.genericAPI(null, UserContact, createFunc, null)
+  }
+
   get user() {
     const baseURL = this.urls.USERS
     const createFunc = (userData, decompose = false) => {
@@ -253,7 +263,7 @@ export default class IFXAPIService {
             role,
             contact: decompose ? contact.data : this.contact.create(contact),
           }
-          return newContactData
+          return decompose ? newContactData : this.userContact.create(newContactData)
         })
         newUserData.contacts = contactDataObjs
       }

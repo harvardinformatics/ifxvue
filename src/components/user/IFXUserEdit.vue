@@ -62,6 +62,9 @@ export default {
       }
       return this.apiRef.getByID(this.id, params)
     },
+    checkValidForm() {
+      this.$refs[this.formName].validate()
+    },
     openDialog() {
       // If form is not valid, do not activate dialog
       const isFormValid = this.$refs[this.formName].validate()
@@ -268,10 +271,10 @@ export default {
                 <IFXItemSelectList
                   title='Contacts'
                   :items.sync='item.contacts'
-                  :getEmptyItem='$api.organizationContact.create'
+                  :getEmptyItem='$api.userContact.create'
                   >
                   <template v-slot='{item}'>
-                    <IFXSelectableContact :allItems='allContacts' :item='item' :errors='errors'/>
+                    <IFXSelectableContact :allItems='allContacts' :item='item' :errors='errors' @check-valid-form="checkValidForm()"/>
                   </template>
                 </IFXItemSelectList>
               </v-col>
@@ -291,13 +294,6 @@ export default {
             </v-row>
             <v-row>
               <v-col class="d-flex justify-end">
-                <IFXButton
-                  btnType='reset'
-                  btnText='Reset'
-                  @action='restore'
-                  class="mr-3"
-                  :disabled='!hasItemChanged()'
-                ></IFXButton>
                 <IFXButton
                   btnType='submit'
                   @action='openDialog'

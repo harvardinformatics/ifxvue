@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     checkValidForm() {
-     this.$emit('check-valid-form')
+      this.$emit('check-valid-form')
     },
     getContactType() {
       if (!this.itemLocal.type) {
