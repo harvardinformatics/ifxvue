@@ -9,7 +9,7 @@ import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 
 export default {
   name: 'IFXContactList',
-  mixins: [IFXContactMixin, IFXItemListMixin],
+  mixins: [IFXItemListMixin, IFXContactMixin],
   components: {
     IFXContactCard,
     IFXSearchField,
