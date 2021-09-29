@@ -163,7 +163,7 @@ export default {
       }
       let btnText = ''
       if (this.btnType === 'submit') {
-        btnText = 'Submit'
+        btnText = 'Save'
       } else if (this.btnType === 'close') {
         btnText = 'Close'
       } else if (this.btnType === 'cancel') {
