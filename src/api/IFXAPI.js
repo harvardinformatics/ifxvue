@@ -541,7 +541,7 @@ export default class IFXAPIService {
         return group in this.COLOR_FOR_GROUP ? this.COLOR_FOR_GROUP[group] : '#efefef'
       },
       // TODO: better way to handle this
-      ICON_FOR_GROUP: { Admin: 'mdi-key' },
+      ICON_FOR_GROUP: { Admin: { icon: 'mdi-key', color: '#fafad2' } },
       iconForGroup(group) {
         return group in this.ICON_FOR_GROUP ? this.ICON_FOR_GROUP[group] : 'mdi-check-decagram'
       },
