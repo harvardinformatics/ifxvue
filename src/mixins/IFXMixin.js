@@ -212,7 +212,7 @@ export default {
      * @param {string} id of item
      */
     navigateToCreate(type) {
-      this.rtr.push({ name: `${type}Create` })
+      this.rtr.push({ name: `${type}Create`, query: { next: this.$route.path } })
     },
     /**
      * Get format string from boolean
