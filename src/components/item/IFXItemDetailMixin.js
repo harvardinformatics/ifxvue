@@ -4,8 +4,8 @@ export default {
   props: {
     id: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -16,7 +16,7 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     navigateToItemEdit(id) {
-      this.rtr.push({ name: `${this.itemType}Edit`, params: { id } })
+      this.rtr.push({ name: `${this.itemType}Edit`, params: { id }, query: { next: this.$route.path } })
     },
     can(ability, user) {
       if (!user) {
@@ -27,7 +27,7 @@ export default {
     },
     async init() {
       this.item = await this.apiRef.getByID(this.id)
-    }
+    },
   },
   computed: {
     detailTitle() {
@@ -38,15 +38,15 @@ export default {
         return `${this.adminPath}/${this.item.id}`
       }
       return ''
-    }
+    },
   },
   mounted() {
     this.isLoading = true
     this.init()
-      .then(() => this.isLoading = false)
-      .catch(err => {
+      .then(() => (this.isLoading = false))
+      .catch((err) => {
         this.showMessage(err)
         this.rtr.replace({ name: `${this.itemType}List` })
       })
-  }
+  },
 }
