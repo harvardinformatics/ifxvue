@@ -5,6 +5,7 @@ import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
 import IFXSelectableUser from '@/components/user/IFXSelectableUser'
+import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 
 export default {
   name: 'IFXOrganizationCreateEdit',
@@ -12,13 +13,14 @@ export default {
   components: {
     IFXItemSelectList,
     IFXSelectableContact,
-    IFXSelectableUser
+    IFXSelectableUser,
+    IFXPageActionBar,
   },
   data() {
     return {
       allUsers: [],
       allContacts: [],
-      formName: 'organizationForm'
+      formName: 'organizationForm',
     }
   },
   methods: {
@@ -41,13 +43,13 @@ export default {
       const initial = JSON.stringify(this.apiRef.decompose(this.item))
       // cachedOrganization should already be decomposed and stringified
       return initial !== this.cachedItem
-    }
+    },
   },
   computed: {
     orgTreeRules() {
       return [
         this.formRules.generic,
-        v => (!v || v.toLowerCase() !== 'harvard') || "'Harvard' is a protected tree"
+        (v) => !v || v.toLowerCase() !== 'harvard' || "'Harvard' is a protected tree",
       ].flat()
     },
   },
@@ -55,31 +57,31 @@ export default {
 </script>
 
 <template>
-  <v-container v-if='!isLoading'>
+  <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{title}}</template>
-      <template #content>{{description}}</template>
+      <template #title>{{ title }}</template>
+      <template #content>{{ description }}</template>
     </IFXPageHeader>
     <v-container>
-      <v-form v-model='isValid' :ref="formName">
+      <v-form v-model="isValid" :ref="formName">
         <v-row>
           <v-col>
             <v-text-field
-              v-model='item.name'
-              label='Name'
-              data-cy='name'
-              :rules='formRules.generic'
-              :error-messages='errors.name'
+              v-model="item.name"
+              label="Name"
+              data-cy="name"
+              :rules="formRules.generic"
+              :error-messages="errors.name"
               required
             ></v-text-field>
           </v-col>
           <v-col>
             <v-select
-              v-model='item.rank'
-              label='Rank'
-              data-cy='rank'
-              :rules='formRules.generic'
-              :error-messages='errors.rank'
+              v-model="item.rank"
+              label="Rank"
+              data-cy="rank"
+              :rules="formRules.generic"
+              :error-messages="errors.rank"
               :items="apiRef.validRanks"
               item-text="text"
               item-value="value"
@@ -88,24 +90,20 @@ export default {
           </v-col>
           <v-col>
             <v-text-field
-              v-model='item.orgTree'
-              label='Org tree'
-              data-cy='org-tree'
-              :rules='orgTreeRules'
-              :error-messages='errors.org_tree'
+              v-model="item.orgTree"
+              label="Org tree"
+              data-cy="org-tree"
+              :rules="orgTreeRules"
+              :error-messages="errors.org_tree"
               required
             ></v-text-field>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <IFXItemSelectList
-              title='Users'
-              :items.sync='item.users'
-              :getEmptyItem='$api.organizationUser.create'
-              >
-              <template v-slot="{item}">
-                <IFXSelectableUser :allItems='allUsers' :item='item' :errors='errors'/>
+            <IFXItemSelectList title="Users" :items.sync="item.users" :getEmptyItem="$api.organizationUser.create">
+              <template v-slot="{ item }">
+                <IFXSelectableUser :allItems="allUsers" :item="item" :errors="errors" />
               </template>
             </IFXItemSelectList>
           </v-col>
@@ -113,19 +111,19 @@ export default {
         <v-row>
           <v-col>
             <IFXItemSelectList
-              title='Contacts'
-              :items.sync='item.contacts'
-              :getEmptyItem='$api.organizationContact.create'
-              >
-              <template v-slot="{item}">
-                <IFXSelectableContact :allItems='allContacts' :item='item' :errors='errors'/>
+              title="Contacts"
+              :items.sync="item.contacts"
+              :getEmptyItem="$api.organizationContact.create"
+            >
+              <template v-slot="{ item }">
+                <IFXSelectableContact :allItems="allContacts" :item="item" :errors="errors" />
               </template>
             </IFXItemSelectList>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <IFXButton btnType='submit' :disabled='!isSubmittable' @action='submit'/>
+            <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
           </v-col>
         </v-row>
       </v-form>
