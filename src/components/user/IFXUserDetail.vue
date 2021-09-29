@@ -19,10 +19,8 @@ export default {
   methods: {
     additionalEmailList() {
       const emails = []
-      console.log('checking contacts', this.item.contacts)
       if (this.item.contacts) {
         this.item.contacts.forEach((contact) => {
-          console.log('additionaEmailList contact', contact)
           if (contact.role !== 'Primary Email' && contact.type === 'Email') {
             emails.push(
               `<div class="contact-row"><div class="contact-role">${contact.role}</div><div class="contact-detail"><a href="mailto:${contact.detail}">${contact.detail}</a></div></div>`
@@ -106,7 +104,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col sm="7">
+        <v-col md="7">
           <v-row dense>
             <v-col sm="4">
               <h3>Primary Affiliation</h3>
