@@ -4,7 +4,8 @@ import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
 import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
-import IFXSelectableUser from '@/components/user/IFXSelectableUser'
+import IFXItemDataTable from '@/components/item/IFXItemDataTable'
+import IFXContactCard from '@/components/contact/IFXContactCard'
 
 export default {
   name: 'IFXOrganizationDetail',
@@ -12,8 +13,9 @@ export default {
   components: {
     IFXItemSelectList,
     IFXSelectableContact,
-    IFXSelectableUser,
-    IFXDeleteItemButton
+    IFXDeleteItemButton,
+    IFXItemDataTable,
+    IFXContactCard,
   },
   methods: {
     displayRank() {
@@ -22,9 +24,24 @@ export default {
         return value.text
       }
       return ''
-    },
+    }
   },
   computed: {
+    mainContacts() {
+      // Returns contacts with name and phone or address
+      if (this.item && this.item.contacts) {
+        const result = this.item.contacts.filter(contact => contact.name && (contact.phone || contact.address))
+        return result
+      }
+      return []
+    },
+    userListHeaders() {
+      const headers = [
+        { text: 'Full Name', value: 'fullName', sortable: true, namedSlot: true, click: true },
+        { text: 'Status', value: 'status', sortable: false, namedSlot: true },
+      ]
+      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+    },
     areMultipleUsers() {
       if (this.item.users && this.item.users.length > 0) {
         return true
@@ -53,47 +70,92 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
-      <v-row>
+      <v-row dense>
         <v-col>
-          <h3>Name</h3>
-          <p>{{item.name}}</p>
+          <v-row dense>
+            <v-col>
+              <h2>Users</h2>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col v-if="item && item.users">
+              <IFXItemDataTable
+                :headers="userListHeaders"
+                :items="item.users"
+                :showSelect="false"
+                itemType="OrganizationUser"
+                :hideDefaultFooter="item.users.length < 20"
+                :selected="[]"
+              >
+                <template v-slot:fullName="{ item }">
+                  <router-link :to="{ name: 'UserDetail', params: { id: item.user.id } }">{{item.fullName}}</router-link>
+                </template>
+                <template v-slot:status="{ item }">
+                  <v-tooltip v-if="item.active" top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon v-on="on" v-bind="attrs" color="#fcbd01">lightbulb</v-icon>
+                    </template>
+                    <span>Active member</span>
+                  </v-tooltip>
+                  <v-tooltip v-else top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon v-on="on" v-bind="attrs" color="#ccc">lightbulb</v-icon>
+                    </template>
+                    <span>Former member</span>
+                  </v-tooltip>
+                  <v-tooltip top v-if="item.role == 'pi'">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon color="green" v-on="on" v-bind="attrs">school</v-icon>
+                    </template>
+                    <span>PI</span>
+                  </v-tooltip>
+                  <v-tooltip top v-if="item.role == 'lab_manager'">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon color="green" v-on="on" v-bind="attrs">mdi-clipboard-account</v-icon>
+                    </template>
+                    <span>Lab Admin</span>
+                  </v-tooltip>
+                  <v-tooltip top v-if="item.role == 'approver'">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon color="green" v-on="on" v-bind="attrs">mdi-account-check</v-icon>
+                    </template>
+                    <span>Approver</span>
+                  </v-tooltip>
+                </template>
+              </IFXItemDataTable>
+            </v-col>
+            <v-col v-else>
+              No users
+            </v-col>
+          </v-row>
         </v-col>
-        <v-col>
-          <h3>Rank</h3>
-          <p>{{displayRank()}}</p>
-        </v-col>
-        <v-col>
-          <h3>Organization tree</h3>
-          <p>{{item.orgTree}}</p>
+        <v-col v-if="mainContacts.length">
+          <v-row>
+            <v-col>
+              <h2>Main Contact</h2>
+            </v-col>
+          </v-row>
+          <v-row v-for="mainContact in mainContacts" :key="mainContact.id">
+            <v-col>
+              <IFXContactCard :contact="mainContact" :editBtn="false" dense/>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
-        <v-row>
-          <v-col>
-            <IFXItemSelectList
-              title='Users'
-              disabled
-              :items='item.users'
-              >
-              <template v-slot="{item}">
-                <IFXSelectableUser disabled :item='item'/>
-              </template>
-            </IFXItemSelectList>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <!-- TODO: use contact card instead? -->
-            <IFXItemSelectList
-              title='Contacts'
-              disabled
-              :items='item.contacts'
-              >
-              <template v-slot="{item}">
-                <IFXSelectableContact disabled :item='item'/>
-              </template>
-            </IFXItemSelectList>
-          </v-col>
-        </v-row>
+      <v-row>
+        <v-col>
+          <!-- TODO: use contact card instead? -->
+          <IFXItemSelectList
+            title='Contacts'
+            disabled
+            :items='item.contacts'
+            >
+            <template v-slot="{item}">
+              <IFXSelectableContact disabled :item='item'/>
+            </template>
+          </IFXItemSelectList>
+        </v-col>
+      </v-row>
     </v-container>
   </v-container>
 </template>

@@ -327,10 +327,11 @@ export default class IFXAPIService {
 
       // Check if incoming orgData has users
       if (orgData.users && orgData.users.length) {
-        const organizationUserDataObjs = orgData.users.map(({ role, user }) => {
+        const organizationUserDataObjs = orgData.users.map(({ role, user, active }) => {
           const newUserData = {
             id: user.id,
             role,
+            active,
             // If decomposing, do not create a dynamic user object
             user: decompose ? user.data : this.user.create(user),
           }
