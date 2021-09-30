@@ -10,6 +10,7 @@ import IFXUserInfoDialog from '@/components/user/IFXUserInfoDialog'
 import { mapActions } from 'vuex'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
 import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
+import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 import clone from 'lodash/clone'
 
 export default {
@@ -22,7 +23,8 @@ export default {
     IFXUserInfoDialog,
     IFXLoginIcon,
     IFXItemHistoryDisplay,
-    IFXSelectableAffiliation
+    IFXSelectableAffiliation,
+    IFXPageActionBar,
   },
   data() {
     return {
@@ -31,18 +33,18 @@ export default {
       allOrganizationSlugs: [],
       allContacts: [],
       allCountries: [],
-      formName: 'userForm'
-    };
+      formName: 'userForm',
+    }
   },
   methods: {
     ...mapActions(['showMessage']),
     async init() {
       try {
         this.item = await this.getItem()
-        const filteredContacts = this.item.contacts.filter(c => c.contact.detail !== this.item.email)
+        const filteredContacts = this.item.contacts.filter((c) => c.contact.detail !== this.item.email)
         // TODO: find a better way to update for reactivity
         this.item.contacts = []
-        filteredContacts.forEach(fc => this.item.contacts.push(fc))
+        filteredContacts.forEach((fc) => this.item.contacts.push(fc))
       } catch (error) {
         this.showMessage(error)
         this.rtr.push({ name: 'Home' })
@@ -53,12 +55,12 @@ export default {
       this.allContacts = await this.$api.contact.getList()
       this.allGroupNames = await this.$api.group.getNames()
       const organizations = await this.$api.organization.getNames()
-      this.allOrganizationSlugs = organizations.map(o => o.slug)
+      this.allOrganizationSlugs = organizations.map((o) => o.slug)
     },
     async getItem() {
       const params = {
         include_disabled: true,
-        exclude_application_users: false
+        exclude_application_users: false,
       }
       return this.apiRef.getByID(this.id, params)
     },
@@ -70,15 +72,15 @@ export default {
       }
     },
     closeDialog() {
-      this.isDialogActive = false;
+      this.isDialogActive = false
     },
     submitSave() {
       // TODO: fix what happens when the user changes their own name
       this.apiRef
         .update(this.item)
         .then(() => {
-          const message = 'User information has been updated successfully.';
-          this.showMessage(message);
+          const message = 'User information has been updated successfully.'
+          this.showMessage(message)
 
           // TODO: check if any data changed that might be cached in local/session storage
           // This should only happen if an admin changes her own groups
@@ -96,7 +98,7 @@ export default {
 
           this.cacheItem()
         })
-        .catch(error => {
+        .catch((error) => {
           let message = error
           if (error.hasOwnProperty('response') && error.response) {
             if (error.response.data) {
@@ -115,7 +117,7 @@ export default {
           }
         })
         .finally(() => {
-          this.item.changeComment = '';
+          this.item.changeComment = ''
           // If I've changed my own name
           // TODO: put in check if own name has changed
           // if (this.item.username === this.$api.user.username) {
@@ -124,8 +126,8 @@ export default {
         })
     },
     completeAction() {
-      this.submit();
-      this.closeDialog();
+      this.submit()
+      this.closeDialog()
     },
     restore() {
       // cachedItem isn't a User object so can't use .data
@@ -151,170 +153,149 @@ export default {
       }
       return !!this.item.ifxid
     },
-  }
-};
+  },
+}
 </script>
 <template>
-  <v-container v-if='!isLoading && !!item'>
+  <v-container v-if="!isLoading && !!item">
     <!-- TODO: this dialog is not appearing properly -->
     <v-container>
       <IFXUserInfoDialog
-        :isActive.sync='isDialogActive'
-        :changeComment.sync='item.changeComment'
-        @complete-action='completeAction'
+        :isActive.sync="isDialogActive"
+        :changeComment.sync="item.changeComment"
+        @complete-action="completeAction"
       ></IFXUserInfoDialog>
       <IFXPageHeader>
         <template #title>{{ item.fullName }}</template>
         <template #actions>
-          <IFXLoginIcon v-if='item.isActive !== undefined' :isActive.sync='item.isActive'/>
+          <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
         </template>
         <template #content>
-          <IFXItemHistoryDisplay :item='item'/>
+          <IFXItemHistoryDisplay :item="item" />
         </template>
-        </IFXPageHeader>
-        <v-container v-if='hasIFXID'>
-          <v-row no-gutters>
-            <v-col>
-              <p>Use this form to view and edit user information.
-                Changes to most fields (except for application Groups) will update
-                <em><strong>all related accounts</strong></em> associated with this user.
-              </p>
+      </IFXPageHeader>
+      <v-container v-if="hasIFXID">
+        <v-row no-gutters>
+          <v-col>
+            <p>
+              Use this form to view and edit user information. Changes to most fields (except for application Groups)
+              will update
+              <em><strong>all related accounts</strong></em>
+              associated with this user.
+            </p>
+          </v-col>
+        </v-row>
+        <v-form @submit.prevent v-model="isValid" autocomplete="off" :ref="formName">
+          <v-row>
+            <v-col sm="6">
+              <v-text-field
+                v-model.trim="item.firstName"
+                label="First name"
+                autocomplete="new-password"
+                :error-messages="errors.firstName"
+                @focus="clearError('first_name')"
+                :disabled="!canEdit('User.firstName')"
+                :rules="formRules.generic"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model.trim="item.lastName"
+                label="Last name"
+                autocomplete="new-password"
+                :error-messages="errors.lastName"
+                @focus="clearError('last_name')"
+                :disabled="!canEdit('User.lastName')"
+                :rules="formRules.generic"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model.trim="item.fullName"
+                label="Full name"
+                autocomplete="new-password"
+                :error-messages="errors.fullName"
+                @focus="clearError('full_name')"
+                :disabled="!canEdit('User.fullName')"
+                :rules="formRules.generic"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col sm="6">
+              <v-combobox
+                v-if="canEdit('User.groups')"
+                v-model="item.groups"
+                :items="allGroupNames"
+                clearable
+                multiple
+                solo
+                label="Groups"
+                hint="Groups to which this user belongs."
+                persistent-hint
+                :error-messages="errors.groups"
+              >
+                <template #selection="{item}">
+                  <v-chip :color="getChipColorForGroup(item)" close @click:close="removeGroup(item)">
+                    <strong>{{ item }}</strong>
+                  </v-chip>
+                </template>
+              </v-combobox>
+              <!-- TODO: why v-else? -->
+              <div class="items-warning" v-else>{{ data.item.groups.join(', ') || 'No groups' }}</div>
             </v-col>
           </v-row>
-          <v-form @submit.prevent v-model="isValid" autocomplete="off" :ref="formName">
-            <v-row>
-              <v-col sm="6">
-                <v-text-field
-                  v-model.trim="item.firstName"
-                  label="First name"
-                  autocomplete="new-password"
-                  :error-messages="errors.firstName"
-                  @focus="clearError('first_name')"
-                  :disabled="!canEdit('User.firstName')"
-                  :rules="formRules.generic"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  v-model.trim="item.lastName"
-                  label="Last name"
-                  autocomplete="new-password"
-                  :error-messages="errors.lastName"
-                  @focus="clearError('last_name')"
-                  :disabled="!canEdit('User.lastName')"
-                  :rules="formRules.generic"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  v-model.trim="item.fullName"
-                  label="Full name"
-                  autocomplete="new-password"
-                  :error-messages="errors.fullName"
-                  @focus="clearError('full_name')"
-                  :disabled="!canEdit('User.fullName')"
-                  :rules="formRules.generic"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col sm="6">
-                <v-combobox
-                  v-if="canEdit('User.groups')"
-                  v-model="item.groups"
-                  :items="allGroupNames"
-                  clearable
-                  multiple
-                  solo
-                  label='Groups'
-                  hint='Groups to which this user belongs.'
-                  persistent-hint
-                  :error-messages="errors.groups"
-                >
-                  <template #selection="{item}">
-                    <v-chip
-                      :color="getChipColorForGroup(item)"
-                      close
-                      @click:close="removeGroup(item)"
-                    >
-                      <strong>{{ item }}</strong>
-                    </v-chip>
-                  </template>
-                </v-combobox>
-                <!-- TODO: why v-else? -->
-                <div class="items-warning" v-else>{{data.item.groups.join(', ') || 'No groups'}}</div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col sm="6">
-                <v-text-field
-                  v-model.trim="item.primaryEmail"
-                  label="Primary Email"
-                  autocomplete="new-password"
-                  :error-messages="errors.primary_email"
-                  @focus="clearError('primary_email')"
-                  :disabled="!canEdit('User.primaryEmail')"
-                  :rules="formRules.email"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col sm="6">
-                <v-text-field
-                  label='Primary Affiliation'
-                  :value='item.primaryAffiliation'
-                  disabled
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <IFXItemSelectList
-                  title='Contacts'
-                  :items.sync='item.contacts'
-                  :getEmptyItem='$api.organizationContact.create'
-                  >
-                  <template v-slot='{item}'>
-                    <IFXSelectableContact :allItems='allContacts' :item='item' :errors='errors'/>
-                  </template>
-                </IFXItemSelectList>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <IFXItemSelectList
-                  title='Affiliations'
-                  :items.sync='item.affiliations'
-                  :getEmptyItem='$api.affiliation.create'
-                  >
-                  <template v-slot='{item}'>
-                    <IFXSelectableAffiliation :allItems='allOrganizationSlugs' :item='item' :errors='errors'/>
-                  </template>
-                </IFXItemSelectList>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col class="d-flex justify-end">
-                <IFXButton
-                  btnType='reset'
-                  btnText='Reset'
-                  @action='restore'
-                  class="mr-3"
-                  :disabled='!hasItemChanged()'
-                ></IFXButton>
-                <IFXButton
-                  btnType='submit'
-                  @action='openDialog'
-                  :disabled='!isSubmittable'
-                ></IFXButton>
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-container>
-      <IFXUserEditWarning v-else :user='item'/>
+          <v-row>
+            <v-col sm="6">
+              <v-text-field
+                v-model.trim="item.primaryEmail"
+                label="Primary Email"
+                autocomplete="new-password"
+                :error-messages="errors.primary_email"
+                @focus="clearError('primary_email')"
+                :disabled="!canEdit('User.primaryEmail')"
+                :rules="formRules.email"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col sm="6">
+              <v-text-field label="Primary Affiliation" :value="item.primaryAffiliation" disabled></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <IFXItemSelectList
+                title="Contacts"
+                :items.sync="item.contacts"
+                :getEmptyItem="$api.organizationContact.create"
+              >
+                <template v-slot="{ item }">
+                  <IFXSelectableContact :allItems="allContacts" :item="item" :errors="errors" />
+                </template>
+              </IFXItemSelectList>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <IFXItemSelectList
+                title="Affiliations"
+                :items.sync="item.affiliations"
+                :getEmptyItem="$api.affiliation.create"
+              >
+                <template v-slot="{ item }">
+                  <IFXSelectableAffiliation :allItems="allOrganizationSlugs" :item="item" :errors="errors" />
+                </template>
+              </IFXItemSelectList>
+            </v-col>
+          </v-row>
+          <IFXPageActionBar btnType="submit" @action="openDialog" :disabled="!isSubmittable"></IFXPageActionBar>
+        </v-form>
+      </v-container>
+      <IFXUserEditWarning v-else :user="item" />
     </v-container>
   </v-container>
 </template>
 
 <style scoped>
-  .items-warning {
-    font-style: italic;
-    color: grey;
-  }
+.items-warning {
+  font-style: italic;
+  color: grey;
+}
 </style>

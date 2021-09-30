@@ -107,7 +107,7 @@ export default {
      * @returns {string}
      */
     xSmallComputed() {
-      return this.$vuetify.breakpoint.xs || this.xSmall
+      return this.$vuetify.breakpoint.xs || this.xSmall || (!this.btnTextComputed && !this.small && !this.large)
     },
     /**
      * Computes if button is small, based on breakpoint or boolean provided by user
@@ -163,7 +163,7 @@ export default {
       }
       let btnText = ''
       if (this.btnType === 'submit') {
-        btnText = 'Submit'
+        btnText = 'Save'
       } else if (this.btnType === 'close') {
         btnText = 'Close'
       } else if (this.btnType === 'cancel') {
