@@ -1,9 +1,7 @@
 <script>
-import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
 import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
-import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXContactCard from '@/components/contact/IFXContactCard'
 
@@ -11,8 +9,6 @@ export default {
   name: 'IFXOrganizationDetail',
   mixins: [IFXOrganizationMixin, IFXItemDetailMixin],
   components: {
-    IFXItemSelectList,
-    IFXSelectableContact,
     IFXDeleteItemButton,
     IFXItemDataTable,
     IFXContactCard,
@@ -31,6 +27,14 @@ export default {
       // Returns contacts with name and phone or address
       if (this.item && this.item.contacts) {
         const result = this.item.contacts.filter(contact => contact.name && (contact.phone || contact.address))
+        return result
+      }
+      return []
+    },
+    otherContacts() {
+      // Not mainContacts
+      if (this.item && this.item.contacts) {
+        const result = this.item.contacts.filter(contact => !contact.name && !contact.address)
         return result
       }
       return []
@@ -65,20 +69,20 @@ export default {
       <template #cypress>{{ item.id }}</template>
       <template #actions>
         <!-- TODO: check why this cannot be edited -->
-        <IFXButton v-if="!item.ifxOrg" btnType="edit" @action="navigateToItemEdit(id)"/>
-        <IFXDeleteItemButton v-if="!item.ifxOrg" :item='item' :apiRef='apiRef' :itemType='itemType'/>
+        <IFXButton v-if="$api.auth.can('edit-organization')" xSmall btnType="edit" @action="navigateToItemEdit(id)"/>
+        <IFXDeleteItemButton v-if="!item.ifxOrg" xSmall :item='item' :apiRef='apiRef' :itemType='itemType'/>
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
       <v-row dense>
-        <v-col>
+        <v-col md="6">
           <v-row dense>
             <v-col>
               <h2>Users</h2>
             </v-col>
           </v-row>
           <v-row>
-            <v-col v-if="item && item.users">
+            <v-col v-if="item && item.users && item.users.length">
               <IFXItemDataTable
                 :headers="userListHeaders"
                 :items="item.users"
@@ -128,6 +132,29 @@ export default {
               No users
             </v-col>
           </v-row>
+          <v-row dense>
+            <v-col>
+              <h2>Contacts</h2>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col v-if="otherContacts && otherContacts.length">
+              <v-row v-for="otherContact in otherContacts" :key="otherContact.id">
+                <v-col cols="1">
+                  <v-icon v-if="otherContact.type === 'Email'" color="success">email</v-icon>
+                  <v-icon v-else-if="otherContact.type === 'Phone'" color="success">local_phone</v-icon>
+                  <span v-else></span>
+                </v-col>
+                <v-col>
+                  <a v-if="otherContact.type === 'Email'" :href="`mailto:${otherContact.detail}`">{{ otherContact.detail }}</a>
+                  <span v-else>{{otherContact.detail}}</span>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col v-else>
+              No contacts
+            </v-col>
+          </v-row>
         </v-col>
         <v-col v-if="mainContacts.length">
           <v-row>
@@ -142,20 +169,6 @@ export default {
           </v-row>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
-          <!-- TODO: use contact card instead? -->
-          <IFXItemSelectList
-            title='Contacts'
-            disabled
-            :items='item.contacts'
-            >
-            <template v-slot="{item}">
-              <IFXSelectableContact disabled :item='item'/>
-            </template>
-          </IFXItemSelectList>
-        </v-col>
-      </v-row>
-    </v-container>
+     </v-container>
   </v-container>
 </template>

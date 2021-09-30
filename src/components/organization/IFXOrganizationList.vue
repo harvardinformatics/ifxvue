@@ -42,7 +42,7 @@ export default {
           @get-set-items='getSetItems'
           :selectedItems.sync='selected'
         />
-        <IFXButton btnType="add" @action="navigateToItemCreate"/>
+        <IFXButton xSmall btnType="add" @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable

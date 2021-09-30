@@ -25,6 +25,9 @@ export default {
     ...mapActions(['showMessage']),
     async init() {
       this.item = await this.getItem()
+      if (!this.item.id) {
+        this.item.orgTree = 'Local'
+      }
       this.cachedItem = JSON.stringify(this.apiRef.decompose(this.item))
       this.allUsers = await this.$api.user.getList()
       this.allContacts = await this.$api.contact.getList()
@@ -44,6 +47,19 @@ export default {
     }
   },
   computed: {
+    isIfxOrg() {
+      // Is this Organization from Nanites?
+      return !!this.item.ifxOrg
+    },
+    title() {
+      let rank = this.item.rank
+      this.apiRef.validRanks.forEach((rankData) => {
+        if (rankData.value === this.item.rank) {
+          rank = rankData.text
+        }
+      })
+      return `${this.item.name} (a ${this.item.orgTree} ${rank})`
+    },
     orgTreeRules() {
       return [
         this.formRules.generic,
@@ -71,6 +87,7 @@ export default {
               :rules='formRules.generic'
               :error-messages='errors.name'
               required
+              :disabled="isIfxOrg"
             ></v-text-field>
           </v-col>
           <v-col>
@@ -84,6 +101,7 @@ export default {
               item-text="text"
               item-value="value"
               required
+              :disabled="isIfxOrg"
             ></v-select>
           </v-col>
           <v-col>
@@ -94,18 +112,20 @@ export default {
               :rules='orgTreeRules'
               :error-messages='errors.org_tree'
               required
+              :disabled="isIfxOrg"
             ></v-text-field>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
             <IFXItemSelectList
+              :disabled="isIfxOrg"
               title='Users'
               :items.sync='item.users'
               :getEmptyItem='$api.organizationUser.create'
               >
               <template v-slot="{item}">
-                <IFXSelectableUser :allItems='allUsers' :item='item' :errors='errors'/>
+                <IFXSelectableUser :disabled="isIfxOrg" :allItems='allUsers' :item='item' :errors='errors'/>
               </template>
             </IFXItemSelectList>
           </v-col>

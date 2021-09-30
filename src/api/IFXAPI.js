@@ -286,6 +286,24 @@ export default class IFXAPIService {
     }
     const decomposeFunc = (userData) => createFunc(userData, true)
     const api = this.genericAPI(baseURL, User, createFunc, decomposeFunc)
+    api.userRoles = [
+      {
+        value: 'pi',
+        text: 'PI'
+      },
+      {
+        value: 'member',
+        text: 'Member'
+      },
+      {
+        value: 'lab_manager',
+        text: 'Lab Manager'
+      },
+      {
+        value: 'approver',
+        text: 'Approver'
+      }
+    ]
     api.canEditField = (field, obj) => {
       if (this.auth.isAdmin) return true
       const USER_EDITABLE_FIELDS = ['firstName', 'lastName']
