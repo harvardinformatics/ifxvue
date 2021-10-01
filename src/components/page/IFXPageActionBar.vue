@@ -14,6 +14,10 @@ export default {
       required: false,
       default: 'submit',
     },
+    btnText: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -36,7 +40,7 @@ export default {
   <v-row>
     <v-col class="d-flex justify-end">
       <slot>
-        <IFXButton :btnType="btnType" :disabled="disabled" @action="handleAction" />
+        <IFXButton :btnType="btnType" :disabled="disabled" :btnText="btnText" @action="handleAction" />
       </slot>
     </v-col>
   </v-row>
