@@ -88,7 +88,7 @@ export default {
     <v-container>
       <v-row>
         <v-col>
-          <span v-if="!id">Select a </span>Contact type
+          Contact type
           <v-radio-group
             v-model="localContactType"
             row
