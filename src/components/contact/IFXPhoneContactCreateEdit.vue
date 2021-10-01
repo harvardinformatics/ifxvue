@@ -30,7 +30,7 @@ export default {
             v-model='item.name'
             label='Name'
             data-cy='name'
-            :rules='formRules.name'
+            :rules='formRules.generic'
             :error-messages='errors.name'
             required
           ></v-text-field>

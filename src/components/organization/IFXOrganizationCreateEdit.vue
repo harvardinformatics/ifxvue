@@ -43,8 +43,6 @@ export default {
     hasItemChanged() {
       const initial = JSON.stringify(this.apiRef.decompose(this.item))
       // cachedOrganization should already be decomposed and stringified
-      console.log('initial, ', initial)
-      console.log('cached, ', this.cachedItem)
       return initial !== this.cachedItem
     }
   },

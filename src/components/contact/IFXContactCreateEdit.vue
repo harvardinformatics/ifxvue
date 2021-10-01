@@ -52,7 +52,6 @@ export default {
     if (this.id) {
       this.$api.contact.getByID(this.id)
         .then((contact) => {
-          console.log('Contact ', contact)
           this.item = contact
           if (contact.type === 'Phone') {
             this.localContactType = 'Phone'

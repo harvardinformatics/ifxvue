@@ -64,7 +64,6 @@ export default {
         })
     },
     loadPreviousMailing(item) {
-      console.log(item);
       return this.$store.dispatch('mailing/loadMailing', item)
     },
     getMailingBody() {

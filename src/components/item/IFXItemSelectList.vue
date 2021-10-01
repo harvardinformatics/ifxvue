@@ -54,7 +54,6 @@ export default {
         return this.items
       },
       set(items) {
-        console.log('changed items')
         this.$emit('update:items', items)
       }
     }
