@@ -4,17 +4,14 @@ module.exports = {
   root: true,
 
   env: {
-    node: true
+    node: true,
   },
 
-  extends: [
-    'plugin:vue/essential',
-    'eslint:recommended',
-    '@vue/airbnb',
-  ],
+  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/airbnb'],
 
   parserOptions: {
-    sourceType: 'module'
+    sourceType: 'module',
+    ecmaVersion: 2020,
   },
 
   settings: {
@@ -46,31 +43,32 @@ module.exports = {
     'arrow-parens': 0,
     'prefer-destructuring': 0,
     'func-names': 0,
-    'import/extensions': [2, 'always', {
-      js: 'never',
-      mjs: 'never',
-      jsx: 'never',
-      ts: 'never',
-      tsx: 'never',
-      vue: 'never'
-    }],
+    'import/extensions': [
+      2,
+      'always',
+      {
+        js: 'never',
+        mjs: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+        vue: 'never',
+      },
+    ],
     camelcase: 0,
     'class-methods-use-this': 0,
     'import/no-unresolved': [2, { caseSensitive: false }],
     'no-console': process.env.NODE_ENV === 'production' ? 1 : 0,
     'no-debugger': process.env.NODE_ENV === 'production' ? 1 : 0,
-    'no-shadow': [2, { allow: ['state'] }]
+    'no-shadow': [2, { allow: ['state'] }],
   },
 
   overrides: [
     {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
-      ],
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
       env: {
-        jest: true
-      }
-    }
+        jest: true,
+      },
+    },
   ],
 }
