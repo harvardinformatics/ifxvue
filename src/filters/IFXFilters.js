@@ -82,11 +82,30 @@ export function columnDate(value) {
   return datestr
 }
 
+/**
+ * Converts affiliation value to display name
+ * @param {string} value
+ * @returns {string} displayValue
+ */
+export function affiliationRoleDisplay(value) {
+  let result = value
+  const displayValues = {
+    pi: 'PI',
+    lab_manager: 'Lab Manager',
+    memer: 'Member'
+  }
+  if (value && displayValues[value]) {
+    result = displayValues[value]
+  }
+  return result
+}
+
 export default {
   humanDatetime,
   centsToDollars,
   capitalizeFirstLetter,
   emailDisplay,
   stateDisplay,
-  columnDate
+  columnDate,
+  affiliationRoleDisplay,
 }

@@ -1,7 +1,86 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
+export class UserContact {
+  constructor(data) {
+    this.data = data
+    this.role = data.role || 'Additional Contact'
+  }
+
+  get contact() {
+    return this.data.contact
+  }
+
+  set contact(contact) {
+    this.data.contact = contact
+  }
+
+  get role() {
+    return this.data.role
+  }
+
+  set role(role) {
+    this.data.role = role
+  }
+
+  get id() {
+    return this.data.id
+  }
+
+  set id(id) {
+    this.data.id = id
+  }
+
+  get name() {
+    return this.data.contact.name
+  }
+
+  set name(name) {
+    this.data.contact.name = name
+  }
+
+  get type() {
+    return this.data.contact.type
+  }
+
+  set type(type) {
+    this.data.contact.type = type
+  }
+
+  get detail() {
+    return this.data.contact.detail
+  }
+
+  set detail(detail) {
+    this.data.contact.detail = detail
+  }
+
+  get phone() {
+    return this.data.contact.phone
+  }
+
+  set phone(phone) {
+    this.data.contact.phone = phone
+  }
+
+  get address() {
+    return this.data.contact.address
+  }
+
+  set address(address) {
+    this.data.contact.address = address
+  }
+
+  get isValid() {
+    return this.data.contact.is_valid
+  }
+
+  set isValid(isValid) {
+    this.data.contact.is_valid = isValid
+  }
+}
+
 // export class User extends Contactable {
-export default class User extends IFXItemBase {
+export class User extends IFXItemBase {
   constructor(data) {
     super(data)
     // Setting primary email so that when updates are done, the correct Person field is updated

@@ -9,7 +9,7 @@ import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 
 export default {
   name: 'IFXContactList',
-  mixins: [IFXContactMixin, IFXItemListMixin],
+  mixins: [IFXItemListMixin, IFXContactMixin],
   components: {
     IFXContactCard,
     IFXSearchField,
@@ -31,6 +31,7 @@ export default {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Detail', value: 'detail', slot: true, sortable: true },
+        { text: 'Created', value: 'created', namedSlot: true, sortable: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
@@ -69,7 +70,7 @@ export default {
           @get-set-items='getSetItems'
           :selectedItems.sync='selected'
         />
-        <IFXButton btnType="add" small @action="navigateToItemCreate"/>
+        <IFXButton btnType="add" xSmall @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <div :style='contactContentStyle'>
@@ -81,7 +82,11 @@ export default {
         :selected.sync='selected'
         :itemType='itemType'
         @click-row='setFocusedContact'
-      />
+      >
+        <template v-slot:created="{ item }">
+          <span style="white-space: nowrap;">{{ item.created|humanDatetime }}</span>
+        </template>
+      </IFXItemDataTable>
       <IFXContactCard v-if='isContactContentLarge' :contact='focusedContact'/>
     </div>
   </v-container>

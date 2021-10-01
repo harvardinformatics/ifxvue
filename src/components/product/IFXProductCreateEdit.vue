@@ -3,12 +3,14 @@ import { mapActions } from 'vuex'
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXProductMixin from '@/components/product/IFXProductMixin'
+import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 
 export default {
   name: 'IFXProductCreateEdit',
   mixins: [IFXProductMixin, IFXItemCreateEditMixin],
   components: {
     IFXItemSelectList,
+    IFXPageActionBar,
   },
   data() {
     return {
@@ -155,23 +157,7 @@ export default {
             </IFXItemSelectList>
           </v-col>
         </v-row>
-        <v-row justify="end">
-          <v-col class="flex flex-grow-1 flex-shrink-0">
-          </v-col>
-          <v-col sm="4">
-            <v-row justify="end" nowrap>
-              <v-col>
-                &nbsp;
-              </v-col>
-              <v-col>
-                <IFXButton btnType="reset" btnText="Reset" @action="init()" />
-              </v-col>
-              <v-col>
-                <IFXButton btnType="submit" :disabled="!isSubmittable" @action="submit" />
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
+        <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
       </v-form>
     </v-container>
   </v-container>

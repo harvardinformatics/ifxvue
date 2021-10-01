@@ -1,14 +1,31 @@
 <script>
 import { mapActions } from 'vuex'
-import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
-import IFXContactMixin from '@/components/contact/IFXContactMixin'
+import IFXEmailContactCreateEdit from '@/components/contact/IFXEmailContactCreateEdit'
+import IFXPhoneContactCreateEdit from '@/components/contact/IFXPhoneContactCreateEdit'
+import IFXFullContactCreateEdit from '@/components/contact/IFXFullContactCreateEdit'
 
 export default {
   name: 'IFXContactCreateEdit',
-  mixins: [IFXContactMixin, IFXItemCreateEditMixin],
+  components: {
+    IFXEmailContactCreateEdit,
+    IFXPhoneContactCreateEdit,
+    IFXFullContactCreateEdit,
+  },
+  props: {
+    contactType: {
+      required: false,
+      default: null
+    },
+    id: {
+      required: false,
+      default: null
+    }
+  },
   data() {
     return {
       allUsers: [],
+      localContactType: this.contactType,
+      item: null
     }
   },
   methods: {
@@ -17,8 +34,7 @@ export default {
       this.item = await this.getItem()
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
       // TODO: only get chunks
-      this.allUsers = await this.$api.user.getList()
-        .catch(err => this.showMessage(err))
+      this.allUsers = await this.$api.user.getList().catch((err) => this.showMessage(err))
     },
     updateContactUsers(users) {
       this.$set(this.item.users, ...users)
@@ -26,93 +42,88 @@ export default {
     updateContactOrganizations(organizations) {
       this.$set(this.item.organizations, ...organizations)
     },
+  },
+  computed: {
+    title() {
+      const createOrEdit = this.id ? 'Edit' : 'Create'
+      const type = this.localContactType ? `${this.localContactType} Contact` : ' Contact'
+      const id = this.item && this.item.name ? `for ${this.item.name}` : this.id || ''
+      return `${createOrEdit} ${type} ${id}`
+    },
+    isEditing() {
+      return this.id !== null && this.id !== ''
+    }
+  },
+  mounted() {
+    if (this.id) {
+      this.$api.contact.getByID(this.id)
+        .then((contact) => {
+          this.item = contact
+          if (contact.type === 'Phone') {
+            this.localContactType = 'Phone'
+          } else if (contact.type === 'Email') {
+            if (contact.name || contact.address || contact.phone) {
+              this.localContactType = 'Full'
+            } else {
+              this.localContactType = 'Email'
+            }
+          } else {
+            this.showMessage('This contact has an unusual contact type')
+          }
+        })
+        .catch((error) => {
+          this.showMessage(error)
+        })
+    }
   }
 }
 </script>
 
 <template>
-  <v-container v-if='!isLoading'>
+  <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{title}}</template>
-      <template #content>{{description}}</template>
+      <template #title>{{ title }}</template>
+      <template #content>{{ description }}</template>
     </IFXPageHeader>
     <v-container>
-      <v-form v-if='!isLoading' v-model='isValid'>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model='item.name'
-              label='Name'
-              data-cy='name'
-              :rules='formRules.generic'
-              :error-messages='errors.name'
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model='item.detail'
-              label='Email'
-              data-cy='email'
-              :rules='formRules.email'
-              :error-messages='errors.detail'
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-select
-              v-model='item.type'
-              label='Type'
-              data-cy='type'
-              :items='apiRef.types'
-              :rules='formRules.generic'
-              :error-messages='errors.type'
-              required
-            ></v-select>
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model='item.phone'
-              label='Phone'
-              type='number'
-              data-cy='phone'
-              :rules='formRules.phone'
+      <v-row>
+        <v-col>
+          <span v-if="!id">Select a </span>Contact type
+          <v-radio-group
+            v-model="localContactType"
+            row
+          >
+            <v-radio
+              label="Email"
+              value="Email"
             >
-            </v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model='item.address'
-              label='Address'
-              data-cy='address'
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <!-- TODO: Add reverse search for users and org contacts associated with this contact -->
-        <!-- <span v-if='isEditing'>
-          <v-row>
-            <v-col>
-              <IFXItemSelectList title='Users' :items='contact.users' disabled v-slot="{ item }">
-                <IFXUserEdit :item='item'/>
-              </IFXItemSelectList>
-            </v-col>
-            <v-col>
-              <IFXItemSelectList title='Organization Contacts' :items='contact.contacts' disabled v-slot="{ item }">
-                <IFXOrganizationContactEdit :item='item'/>
-              </IFXItemSelectList>
-            </v-col>
-          </v-row>
-        </span> -->
-        <v-row>
-          <v-col>
-            <IFXButton :disabled='!isSubmittable' btnType='submit' @action='submit' />
-          </v-col>
-        </v-row>
-      </v-form>
+            </v-radio>
+            <v-radio
+              label="Phone"
+              value="Phone"
+            >
+            </v-radio>
+            <v-radio
+              label="Full"
+              value="Full"
+            >
+            </v-radio>
+          </v-radio-group>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col v-if="localContactType === 'Email'">
+          <IFXEmailContactCreateEdit :isEditing="isEditing" :id="id"/>
+        </v-col>
+        <v-col v-else-if="localContactType === 'Phone'">
+          <IFXPhoneContactCreateEdit :isEditing="isEditing" :id="id"/>
+        </v-col>
+        <v-col v-else-if="localContactType === 'Full'">
+          <IFXFullContactCreateEdit :isEditing="isEditing" :id="id"/>
+        </v-col>
+        <v-col v-else>
+        </v-col>
+      </v-row>
     </v-container>
   </v-container>
 </template>

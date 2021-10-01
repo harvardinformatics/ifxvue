@@ -10,6 +10,7 @@ import IFXNotFound from '@/components/page/IFXNotFound'
 import IFXForbidden from '@/components/page/IFXForbidden'
 import IFXPageHeader from '@/components/page/IFXPageHeader'
 import IFXPageErrorDisplay from '@/components/page/IFXPageErrorDisplay'
+import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 
 // Item
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
@@ -165,6 +166,7 @@ export {
   IFXProductList,
   IFXProductMixin,
   IFXProductCreateEdit,
+  IFXPageActionBar,
 }
 
 // Registered globally

@@ -16,21 +16,24 @@ export default {
     ...mapActions(['showMessage']),
     getSetItems() {
       // TODO: make this consistent, no api endpoint should be returning .data
-      return this.apiRef.getList()
-        .then(items => {
-          if (has(items, 'data')) {
-            console.error('getList should return a list of formatted objects')
-          }
-          this.items = items
-        })
-        // TODO: work on handling this error
-        .catch(error => {
-          this.showMessage(error)
-          this.rtr.replace({ name: 'Home' })
-        })
+      return (
+        this.apiRef
+          .getList()
+          .then((items) => {
+            if (has(items, 'data')) {
+              console.error('getList should return a list of formatted objects')
+            }
+            this.items = items
+          })
+          // TODO: work on handling this error
+          .catch((error) => {
+            this.showMessage(error)
+            this.rtr.replace({ name: 'Home' })
+          })
+      )
     },
     getLabelsForExport() {
-      return this.headers.map(h => h.text)
+      return this.headers.map((h) => h.text)
     },
     // Set name of exported file
     getNameForExport() {
@@ -74,18 +77,18 @@ export default {
       return formattedItems
     },
     navigateToItemCreate() {
-      this.rtr.push({ name: `${this.itemType}Create` })
+      this.rtr.push({ name: `${this.itemType}Create`, query: { next: this.$route.path } })
     },
     getItemsFilteredBySearch() {
       let items = this.items
       if (this.search) {
         const search = this.search.toString().toLowerCase()
-        items = items.filter(i => {
+        items = items.filter((i) => {
           let item = i
           if (i.data) {
             item = i.data
           }
-          return Object.keys(item).some(j => this.filterSearch(item[j], search))
+          return Object.keys(item).some((j) => this.filterSearch(item[j], search))
         })
       }
       return items
@@ -101,9 +104,7 @@ export default {
         if (Number.parseFloat(search)) {
           search = search.replace('.', '')
         }
-        return val !== null
-        && ['undefined', 'boolean'].indexOf(typeof val) === -1
-        && val.indexOf(search) !== -1
+        return val !== null && ['undefined', 'boolean'].indexOf(typeof val) === -1 && val.indexOf(search) !== -1
       }
       return false
     },
@@ -117,16 +118,15 @@ export default {
     },
     filteredItems() {
       return this.getItemsFilteredBySearch()
-    }
+    },
   },
   watch: {
     search(search) {
       this.$api.storage.setItem(this.searchStorageKey, search, 'session')
-    }
+    },
   },
   mounted() {
     this.isLoading = true
-    this.getSetItems()
-      .then(() => this.isLoading = false)
-  }
+    this.getSetItems().then(() => (this.isLoading = false))
+  },
 }

@@ -19,6 +19,11 @@ export default {
       default: true
     }
   },
+  methods: {
+    canEdit() {
+      return this.$api.auth.can('edit-contact', this.$api.authUser)
+    }
+  },
   computed: {
     cardClass() {
       return {
