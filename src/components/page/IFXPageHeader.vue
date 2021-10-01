@@ -67,10 +67,10 @@ export default {
   <v-container>
     <v-col class="pt-0">
       <v-row v-if="hasNextQueryParam">
-        <v-col class="px-0 pt-0">
+        <v-col class="pa-0">
           <div @click.prevent="rtr.back()" class="d-flex align-center blue--text text--darken-2 pointer">
             <v-icon class="mr-1 blue--text text--darken-2" :class="backArrowClass">mdi-arrow-left</v-icon>
-            <span class="text-body-1 text-md-h6 font-weight-regular mt-1">Back</span>
+            <span class="text-body-1 text-md-h6 font-weight-medium no-line-height">Back</span>
           </div>
         </v-col>
       </v-row>
@@ -120,16 +120,16 @@ export default {
 .actions-ctr-sm > * {
   margin-left: 0.5rem;
 }
-
 .back-medium {
-  font-size: 27px;
+  font-size: 24px;
 }
-
 .back-small {
-  font-size: 21px;
+  font-size: 19px;
 }
-
 .pointer {
   cursor: pointer;
+}
+.no-line-height {
+  line-height: 1;
 }
 </style>
