@@ -26,37 +26,35 @@ export default {
 }
 </script>
 <template>
-  <v-container>
-    <v-form v-if='!isLoading' v-model='isValid'>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model='item.name'
-            label='Name'
-            data-cy='name'
-            :rules='formRules.generic'
-            :error-messages='errors.name'
-            required
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model='item.detail'
-            label='Email'
-            data-cy='email'
-            :rules='formRules.email'
-            :error-messages='errors.detail'
-            required
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <IFXPageActionBar :disabled="!isSubmittable" btnType="submit" @action="submit" />
-        </v-col>
-      </v-row>
-    </v-form>
-  </v-container>
+  <v-form v-if='!isLoading' v-model='isValid'>
+    <v-row dense>
+      <v-col>
+        <v-text-field
+          v-model='item.name'
+          label='Name'
+          data-cy='name'
+          :rules='formRules.generic'
+          :error-messages='errors.name'
+          required
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col>
+        <v-text-field
+          v-model='item.detail'
+          label='Email'
+          data-cy='email'
+          :rules='formRules.email'
+          :error-messages='errors.detail'
+          required
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col>
+        <IFXPageActionBar :disabled="!isSubmittable" btnType="submit" @action="submit" />
+      </v-col>
+    </v-row>
+  </v-form>
 </template>
