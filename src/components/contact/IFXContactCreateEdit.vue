@@ -86,9 +86,9 @@ export default {
       <template #content>{{ description }}</template>
     </IFXPageHeader>
     <v-container>
-      <v-row>
-        <v-col>
-          Contact type
+      <v-row dense>
+        <v-col class="d-flex justify-start">
+          <span>Contact type</span>
           <v-radio-group
             v-model="localContactType"
             row
@@ -111,7 +111,7 @@ export default {
           </v-radio-group>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row dense>
         <v-col v-if="localContactType === 'Email'">
           <IFXEmailContactCreateEdit :isEditing="isEditing" :id="id"/>
         </v-col>
