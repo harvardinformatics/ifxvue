@@ -35,14 +35,15 @@ export default {
         </v-autocomplete>
       </v-col>
       <v-col>
-        <v-text-field
+        <v-select
+          :items="$api.user.userRoles"
           v-model.trim="itemLocal.role"
           autocomplete="new-password"
           :error-messages="errors['users.role']"
           :rules='formRules.generic'
           label="Role"
           required
-        ></v-text-field>
+        ></v-select>
       </v-col>
     </v-row>
   </v-container>

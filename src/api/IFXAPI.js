@@ -286,6 +286,24 @@ export default class IFXAPIService {
     }
     const decomposeFunc = (userData) => createFunc(userData, true)
     const api = this.genericAPI(baseURL, User, createFunc, decomposeFunc)
+    api.userRoles = [
+      {
+        value: 'pi',
+        text: 'PI'
+      },
+      {
+        value: 'member',
+        text: 'Member'
+      },
+      {
+        value: 'lab_manager',
+        text: 'Lab Manager'
+      },
+      {
+        value: 'approver',
+        text: 'Approver'
+      }
+    ]
     api.canEditField = (field, obj) => {
       if (this.auth.isAdmin) return true
       const USER_EDITABLE_FIELDS = ['firstName', 'lastName']
@@ -327,10 +345,11 @@ export default class IFXAPIService {
 
       // Check if incoming orgData has users
       if (orgData.users && orgData.users.length) {
-        const organizationUserDataObjs = orgData.users.map(({ role, user }) => {
+        const organizationUserDataObjs = orgData.users.map(({ role, user, active }) => {
           const newUserData = {
             id: user.id,
             role,
+            active,
             // If decomposing, do not create a dynamic user object
             user: decompose ? user.data : this.user.create(user),
           }
