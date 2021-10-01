@@ -64,6 +64,9 @@ export default {
       }
       return this.apiRef.getByID(this.id, params)
     },
+    checkValidForm() {
+      this.$refs[this.formName].validate()
+    },
     openDialog() {
       // If form is not valid, do not activate dialog
       const isFormValid = this.$refs[this.formName].validate()

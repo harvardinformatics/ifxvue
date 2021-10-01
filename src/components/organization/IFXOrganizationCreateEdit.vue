@@ -25,6 +25,9 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    checkValidForm() {
+      this.$refs[this.formName].validate()
+    },
     async init() {
       this.item = await this.getItem()
       if (!this.item.id) {
@@ -130,17 +133,20 @@ export default {
         <v-row>
           <v-col>
             <IFXItemSelectList
-              title="Contacts"
-              :items.sync="item.contacts"
-              :getEmptyItem="$api.organizationContact.create"
-            >
-              <template v-slot="{ item }">
-                <IFXSelectableContact :allItems="allContacts" :item="item" :errors="errors" />
+              title='Contacts'
+              :items.sync='item.contacts'
+              :getEmptyItem='$api.organizationContact.create'
+              >
+              <template v-slot="{item}">
+                <IFXSelectableContact :allItems='allContacts' :item='item' :errors='errors' @check-valid-form="checkValidForm()"/>
               </template>
             </IFXItemSelectList>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row justify="end">
+          <v-col class="flex flex-grow-1 flex-grow-0">
+            &nbsp;
+          </v-col>
           <v-col>
             <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
           </v-col>

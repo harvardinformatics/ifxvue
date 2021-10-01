@@ -89,4 +89,8 @@ export default class Contact extends IFXItemBase {
   set email(email) {
     this.data.detail = email
   }
+
+  get created() {
+    return this.data.created
+  }
 }

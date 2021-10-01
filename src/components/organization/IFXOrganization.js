@@ -5,7 +5,7 @@
 export class OrganizationContact {
   constructor(data) {
     this.data = data
-    this.role = data.role || 'Member'
+    this.role = data.role || 'Additional Contact'
   }
 
   get contact() {

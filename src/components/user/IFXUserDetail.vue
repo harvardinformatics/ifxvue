@@ -1,9 +1,6 @@
 <script>
 import IFXUserMixin from '@/components/user/IFXUserMixin'
-import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
-import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
-import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXItemHistoryDisplay from '@/components/item/IFXItemHistoryDisplay'
 
@@ -13,13 +10,38 @@ export default {
   components: {
     IFXLoginIcon,
     IFXItemHistoryDisplay,
-    IFXItemSelectList,
-    IFXSelectableContact,
-    IFXSelectableAffiliation
   },
   data() {
     return {
       allGroupNames: [],
+    }
+  },
+  methods: {
+    additionalEmailList() {
+      const emails = []
+      if (this.item.contacts) {
+        this.item.contacts.forEach((contact) => {
+          if (contact.role !== 'Primary Email' && contact.type === 'Email') {
+            emails.push(
+              `<div class="contact-row"><div class="contact-role">${contact.role}</div><div class="contact-detail"><a href="mailto:${contact.detail}">${contact.detail}</a></div></div>`
+            )
+          }
+        })
+      }
+      return emails.join('')
+    },
+    additionalContactList() {
+      const contacts = []
+      if (this.item.contacts) {
+        this.item.contacts.forEach((contact) => {
+          if (contact.type !== 'Email') {
+            contacts.push(
+              `<div class="contact-row"><div class="contact-role">${contact.role}</div><div class="contact-detail">${contact.detail}</div></div>`
+            )
+          }
+        })
+      }
+      return contacts.join('')
     }
   },
   computed: {
@@ -33,71 +55,95 @@ export default {
 <template>
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{item.fullName || id}}<v-icon color="yellow darken-1" class="ml-2 mb-1 key-background" v-if="item.isAdmin">mdi-key</v-icon></template>
+      <template #title>{{item.fullName || id}}</template>
       <template #actions>
         <IFXLoginIcon disabled v-if='item.isActive !== undefined' :isActive='item.isActive'/>
-        <IFXButton btnType="edit" @action="navigateToItemEdit(id)"/>
+        <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)"/>
       </template>
       <template #content>
         <IFXItemHistoryDisplay :item='item'/>
       </template>
     </IFXPageHeader>
     <v-container>
-      <v-row no-gutters>
-        <v-col sm="2">
-          <h3>First Name</h3>
-          <h3>Last Name</h3>
-          <h3>Primary Email</h3>
-        </v-col>
-        <v-col sm="3">
-          <div class="data-item">{{item.firstName}}</div>
-          <div class="data-item">{{item.lastName}}</div>
-          <div class="data-item">{{item.primaryEmail}}</div>
-        </v-col>
-        <v-col sm="7">
-          <h3>Groups to which this user belongs</h3>
-          <span v-if="item.groups" class="d-flex flex-column">
-            <div v-for="group in item.groups" :key="group" class="d-flex align-center mt-1">
-              <v-icon class="mr-1">{{$api.group.iconForGroup(group)}}</v-icon>
-              <span>{{group}}</span>
-            </div>
-          </span>
-          <span v-else>None</span>
-        </v-col>
-      </v-row>
-      <v-row>
-      </v-row>
       <v-row>
         <v-col>
-          <IFXItemSelectList
-            title='Contacts'
-            disabled
-            :items='item.contacts'
-            >
-            <template v-slot='{item}'>
-              <IFXSelectableContact :disabled='true' :item='item'/>
-            </template>
-          </IFXItemSelectList>
+          <v-row dense>
+            <v-col sm="3">
+              <h3>First Name</h3>
+            </v-col>
+            <v-col>
+              {{item.firstName}}
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col sm="3">
+              <h3>Last Name</h3>
+            </v-col>
+            <v-col>
+              {{item.lastName}}
+            </v-col>
+          </v-row>
+          <v-row align="start" dense>
+            <v-col sm="3">
+              <h3>Email(s)</h3>
+            </v-col>
+            <v-col>
+              <div class="contact-row">
+                <div class="contact-role">Primary Email</div>
+                <div class="contact-detail"><a :href="`mailto:${item.primaryEmail}`">{{item.primaryEmail}}</a></div>
+              </div>
+                <span v-html="additionalEmailList()"></span>
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col sm="3">
+              <h3>Other Contacts</h3>
+            </v-col>
+            <v-col>
+              <span v-html="additionalContactList()"></span>
+            </v-col>
+          </v-row>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <IFXItemSelectList
-            title='Affiliations'
-            disabled
-            :items='item.affiliations'
-            >
-            <template v-slot='{item}'>
-              <IFXSelectableAffiliation :disabled='true' :item='item'/>
-            </template>
-          </IFXItemSelectList>
+        <v-col md="7">
+          <v-row dense>
+            <v-col sm="4">
+              <h3>Primary Affiliation</h3>
+            </v-col>
+            <v-col>
+              {{item.primaryAffiliation}}
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col sm="4">
+              <h3>Other Affiliations</h3>
+            </v-col>
+            <v-col>
+               <span v-if="item.affiliations && item.affiliations.length" class="d-flex flex-column">
+                <div v-for="affiliation in item.affiliations" :key="affiliation.id" class="d-flex align-center mt-1">
+                  <span>{{affiliation.role|affiliationRoleDisplay}} of {{affiliation.organization}}</span>
+                </div>
+              </span>
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col sm="4">
+              <h3>Authorization Groups</h3>
+            </v-col>
+            <v-col>
+              <span v-if="item.groups" class="d-flex flex-column">
+                <div v-for="group in item.groups" :key="group" class="d-flex align-center mt-1">
+                  <span>{{group}}</span>
+                </div>
+              </span>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
   </v-container>
 </template>
 
-<style scoped>
+<style>
   .action-item {
     display: flex;
     justify-content: space-between;
@@ -112,5 +158,13 @@ export default {
     background-color: #90A4AE;
     border-radius: 50%;
     padding: 5px;
+  }
+  .contact-role {
+    display: inline;
+    width: 250px;
+    margin-right: 0.5em;
+  }
+  .contact-detail {
+    display: inline;
   }
 </style>

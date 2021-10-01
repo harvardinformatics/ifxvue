@@ -82,7 +82,7 @@ export default {
     submitSave() {
       this.apiRef.save(this.item)
         .then(async res => {
-          const message = `${this.itemType} created with ID: ${res.data.id}. You will be routed to the details page.`
+          const message = `${this.itemType} created with ID: ${res.data.id}.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
           if (this.$route.query.next) {

@@ -73,14 +73,14 @@ export default {
 }
 </script>
 <template>
-  <span>
-    <IFXButton data-cy='item-delete' x-small btnType='remove' @action='toggleDialog'></IFXButton>
-    <IFXActionDialog
-      :selectedAction='action'
-      :selectedItems='[item]'
-      :isActive.sync='isDialogActive'
-      @cancel-action='cancelAction'
-      @complete-action='completeAction'
-    ></IFXActionDialog>
-  </span>
+<span>
+  <IFXButton data-cy='item-delete' xSmall btnType='remove' @action='toggleDialog'></IFXButton>
+  <IFXActionDialog
+    :selectedAction='action'
+    :selectedItems='[item]'
+    :isActive.sync='isDialogActive'
+    @cancel-action='cancelAction'
+    @complete-action='completeAction'
+  ></IFXActionDialog>
+</span>
 </template>
