@@ -24,3 +24,7 @@ package-lock.json
 dist/*
 *.code-workspace
 yarn.lock
+
+# files used for stand-alone app
+App.vue
+
