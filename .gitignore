@@ -26,5 +26,5 @@ dist/*
 yarn.lock
 
 # files used for stand-alone app
-App.vue
+src/App.vue
 
