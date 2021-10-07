@@ -37,8 +37,10 @@ export default {
                 </li>
                 <li>
                   From a terminal, use the
+                  <code>make serve</code>
+                  or
                   <code>npm run serve</code>
-                  command to start a development server
+                  commands to start a development server
                 </li>
                 <li>???</li>
                 <li>Profit!</li>
