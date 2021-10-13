@@ -64,6 +64,10 @@ export class ProductRate extends IFXItemBase {
   set active(active) {
     this.data.is_active = active
   }
+
+  get description() {
+    return `${this.price} per ${this.units}`
+  }
 }
 
 export class Product extends IFXItemBase {
