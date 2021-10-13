@@ -14,6 +14,7 @@ import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 import IFXContactable from '@/components/contactable/IFXContactable'
 import Account from '@/components/account/IFXAccount'
 import Facility from '@/components/facility/IFXFacility'
+import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
 import { Product, ProductRate } from '@/components/product/IFXProduct'
 
 function isNumeric(val) {
@@ -299,20 +300,20 @@ export default class IFXAPIService {
     api.userRoles = [
       {
         value: 'pi',
-        text: 'PI'
+        text: 'PI',
       },
       {
         value: 'member',
-        text: 'Member'
+        text: 'Member',
       },
       {
         value: 'lab_manager',
-        text: 'Lab Manager'
+        text: 'Lab Manager',
       },
       {
         value: 'approver',
-        text: 'Approver'
-      }
+        text: 'Approver',
+      },
     ]
     api.canEditField = (field, obj) => {
       if (this.auth.isAdmin) return true
@@ -661,6 +662,55 @@ export default class IFXAPIService {
   get facility() {
     const baseUrl = this.urls.FACILITIES
     return this.genericAPI(baseUrl, Facility)
+  }
+
+  get billing() {
+    const baseURL = this.urls.BILLING
+    const createFunc = (data, decompose = false) => {
+      const newBillingData = cloneDeep(data) || {}
+      newBillingData.transactions = []
+
+      if (data.transactions && data.transactions.length) {
+        // If decomposing, do not create dynamic rate object
+        const transactionDataObjs = data.transactions.map((transaction) => (decompose ? transaction.data : this.billingTransaction.create(transaction)))
+        newBillingData.transactions = transactionDataObjs
+      }
+
+      return decompose ? newBillingData : new BillingRecord(newBillingData)
+    }
+    const api = {}
+    api.getBillingRecords = async (invoice_prefix, month, year, organization) => {
+      const params = {}
+      if (organization) {
+        params.organization = organization
+      }
+      return this.axios
+        .get(`${baseURL}billing-records/${invoice_prefix}/${month}/${year}/`, { params: params })
+        .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
+    }
+    api.update = async (app, rec) => {
+      const url = `${baseURL}billing-records/${app}/`
+      // pass data as a list of one to the bulk update endpoint
+      const newData = [createFunc(rec.data, true)]
+      return this.axios
+        .post(url, newData, { headers: { 'Content-Type': 'application/json' } })
+        .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
+    }
+    api.bulkUpdate = async (app, recs) => {
+      const url = `${baseURL}billing-records/${app}/`
+      const newData = []
+      recs.forEach((rec) => {
+        newData.push(createFunc(rec.data, true))
+      })
+      return this.axios
+        .post(url, newData, { headers: { 'Content-Type': 'application/json' } })
+        .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
+    }
+    return api
+  }
+
+  get billingTransaction() {
+    return this.genericAPI(null, BillingTransaction)
   }
 
   mockError(code) {
