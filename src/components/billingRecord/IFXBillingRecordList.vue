@@ -1,6 +1,9 @@
 <script>
+import { mapActions } from 'vuex'
+
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
+import IFXSearchField from '@/components/IFXSearchField'
 import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 // import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 // import IFXItemListMixin from '@/components/item/IFXItemListMixin'
@@ -10,6 +13,7 @@ export default {
   components: {
     // IFXItemDataTable,
     IFXButton,
+    IFXSearchField,
     IFXBillingRecordTransactions,
   },
   mixins: [IFXBillingRecordMixin],
@@ -23,30 +27,46 @@ export default {
       type: Object,
       required: true,
     },
-    date: {
-      type: String,
-      required: true,
-    },
     organization: {
       type: Object,
       required: false,
       default: null,
     },
-    app: {
+    date: {
       type: String,
       required: true,
     },
+    allowDownloads: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    allowApprovals: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    allowInvoiceGeneration: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
-  async mounted() {
-    this.isLoading = true
-    await this.facilityBillingRecords()
-    this.isLoading = false
+  mounted() {
+    this.facilityBillingRecords()
+      .then((response) => response.msg)
+      .catch((error) => {
+        const errorMessage = this.getErrorMessage(error)
+        this.messageType = 'error'
+        this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
+      })
+      .finally(() => (this.isLoading = false))
   },
   data() {
     return {
       isLoading: true,
-      selected: [],
       items: [],
+      selected: [],
       itemKey: 'id',
       message: '',
       messageType: 'info',
@@ -65,18 +85,17 @@ export default {
         { text: 'Txn desc', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
-      isDownloadDisabled: false,
       rowSelectionToggle: [],
       rowSelectionToggleIndeterminate: {},
       tableCollpased: false,
-      search: null,
       errors: [],
+      search: null,
       isValid: false,
       dialog: false,
-      editedIndex: -1,
+
       editedItem: {
         rate: 0,
-        charge: null,
+        charge: 0,
         description: null,
         author: {},
         orgRec: {},
@@ -105,8 +124,32 @@ export default {
     filteredItems: function () {
       return this.getItemsFilteredBySearch()
     },
+    generateInvoicesToolTip: function () {
+      return this.billingRecordsAreFinal(this.selected)
+        ? 'Re-generate invoices for selected records.  This will inactivate existing invoices.'
+        : 'Generate invoices for selected records'
+    },
+    approveAllToolTip: function () {
+      return this.billingRecordsAreFinal(this.items)
+        ? 'Cannot approve billing records that are FINAL'
+        : 'Approve all billing records'
+    },
+    approveSelectedToolTip: function () {
+      return this.billingRecordsAreFinal(this.selected)
+        ? 'Cannot approve billing records that are FINAL'
+        : 'Approve selected billing records'
+    },
+    dollarValue: {
+      get() {
+        return (this.editedItem.charge / 100).toFixed(2)
+      },
+      set(charge) {
+        this.editedItem.charge = Math.round(charge * 100)
+      },
+    },
   },
   methods: {
+    ...mapActions(['showMessage']),
     getErrorMessage(error) {
       // Regular showMessage is not getting the response data properly
       let message = 'Unknown error'
@@ -124,6 +167,14 @@ export default {
       }
       return message
     },
+    billingRecordsAreFinal(items) {
+      // Returns true if any records in the list are in the FINAL state
+      if (!items || !items.length) {
+        return false
+      }
+      const result = items.some((record) => record.currentState === 'FINAL')
+      return result
+    },
     getItemsFilteredBySearch() {
       let items = this.items
       if (this.search) {
@@ -138,11 +189,136 @@ export default {
       }
       return items
     },
+    getLabelsForExport() {
+      return this.allHeaders.map((h) => h.text)
+    },
+    getDataForExport() {
+      /* eslint-disable no-plusplus, no-continue */
+      const formattedItems = []
+      // Loop through filtered items
+      for (let i = 0; i < this.filteredItems.length; i++) {
+        // Init new record, will be a row in the exported file
+        const newRecord = {}
+        // Loop through column headers
+        for (let j = 0; j < this.allHeaders.length; j++) {
+          const header = this.allHeaders[j]
+          // Key used to access data.  May be dot-separated
+          const keys = header.value.split('.')
+          // Formatted key for displayed that data in final file
+          const formattedKey = header.text
+          let value = this.items[i]
+          keys.forEach((key) => {
+            value = value[key]
+          })
+          // If value is undefined, but not false
+          if (!value && value !== false) continue
+          // TODO: make this check more generalized for multiple item types
+          // Check for different item types
+          if (header.value.toLowerCase().includes('date')) {
+            value = value.substring(0, 10)
+          } else if (header.value === 'account.organization') {
+            value = this.$api.organization.parseSlug(value).name
+          } else if (header.value === 'transactions') {
+            value = value.map((v) => v.description).join('; ')
+          }
+          newRecord[formattedKey] = value
+        }
+        formattedItems.push(newRecord)
+      }
+      return formattedItems
+      /* eslint-enable no-plusplus, no-continue */
+    },
+    getNameForExport() {
+      const today = new Date()
+      return `BillingRecord_${this.facility.name}_Export_${today.toISOString().substring(0, 10)}.csv`
+    },
     facilityBillingRecords() {
       this.clearTableState()
       return this.$api.billing
         .getBillingRecords(this.facility.invoicePrefix, this.month, this.year, this.organization)
         .then((res) => (this.items = res))
+    },
+    setState(items, state) {
+      items.forEach((s) => {
+        s.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+      })
+      return this.$api.billing.bulkUpdate(this.facility.applicationUsername, items)
+    },
+    approve(all) {
+      if (all) {
+        this.selected = this.items
+      }
+      this.updating = true
+      this.setState(this.selected, 'LAB_APPROVED')
+        .then((response) => {
+          this.updating = false
+          this.showMessage(response.data.msg)
+          this.items = []
+          this.isLoading = true
+          this.facilityBillingRecords()
+            .then((resp) => (this.message = resp.msg))
+            .catch((error) => {
+              const errorMessage = this.getErrorMessage(error)
+              this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
+            })
+            .finally(() => (this.isLoading = false))
+        })
+        .catch((error) => {
+          this.isLoading = false
+          this.updating = false
+          const message = this.getErrorMessage(error)
+          this.showMessage(message)
+        })
+    },
+    generateInvoices() {
+      this.updating = true
+      this.message = ''
+      this.setState(this.selected, 'FINAL')
+        .then(() => {
+          const orgSet = new Set()
+          this.selected.forEach((item) => {
+            orgSet.add(item.account.organization)
+          })
+          const selectedOrgs = Array.from(orgSet)
+          this.$api.invoice
+            .generate(this.facility.invoicePrefix, this.month, this.year, selectedOrgs)
+            .then((ret) => {
+              const url = this.$router.resolve({
+                name: 'InvoiceList',
+                query: { month: this.month.toString().padStart(2, '0'), year: this.year },
+              }).href
+              if (ret.message) {
+                // eslint-disable-next-line no-param-reassign
+                ret.message = ret.message.replace(/\\n/g, '<br/>')
+              }
+              if (ret.message.includes('Failed')) {
+                this.messageType = 'error'
+              }
+              this.updating = false
+              this.message = `<p>${ret.message}</p>`
+              if (this.messageType !== 'error') {
+                this.message = `${this.message}<p><a href="${url}">Go to Invoices</a></p>`
+              }
+              this.isLoading = true
+              this.facilityBillingRecords()
+                .catch((error) => {
+                  const errorMessage = this.getErrorMessage(error)
+                  this.showMessage(`Error loading ${this.facility.name} billing records: ${errorMessage}`)
+                })
+                .finally(() => {
+                  this.isLoading = false
+                })
+            })
+            .catch((error) => {
+              this.updating = false
+              this.messageType = 'error'
+              this.message = this.getErrorMessage(error)
+            })
+        })
+        .catch((error) => {
+          this.updating = false
+          this.message = this.getErrorMessage(error)
+        })
     },
     toggleGroup(group) {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
@@ -248,7 +424,7 @@ export default {
         }
         const newTransaction = this.$api.billingTransaction.create(newTransactionData)
         orgBillingRec.addTransaction(newTransaction)
-        const newBillingRec = await this.$api.billing.update(this.app, orgBillingRec)
+        const newBillingRec = await this.$api.billing.update(this.facility.applicationUsername, orgBillingRec)
         this.items.splice(index, 1, newBillingRec[0])
       }
       this.dialog = false
@@ -267,97 +443,227 @@ export default {
 <template>
   <!-- eslint-disable vue/valid-v-slot -->
   <v-container>
-    <v-row>
-      <v-col id="data-table">
-        <v-data-table
-          ref="table"
-          v-if="filteredItems"
-          v-model="selected"
-          :items="filteredItems"
-          :headers="headers"
-          show-select
-          show-expand
-          expand-icon="mdi-menu-right"
-          :itemKey="itemKey"
-          :loading="isLoading"
-          :items-per-page="-1"
-          group-by="account.organization"
-          @item-selected="determineGroupState"
-          @toggle-select-all="toggleSelectAll"
-        >
-          <template v-slot:group.header="{ group, headers, isOpen, toggle }">
-            <td :colspan="headers.length">
-              <v-row>
-                <v-checkbox
-                  v-model="rowSelectionToggle"
-                  :value="group"
-                  hide-details
-                  multiple
-                  :indeterminate.sync="rowSelectionToggleIndeterminate[group]"
-                  class="shrink ml-3 mt-0"
-                  @click="toggleGroup(group)"
-                ></v-checkbox>
-                <div>
-                  <v-btn icon small @click="toggle">
-                    <v-icon>{{ isOpen ? 'mdi-menu-down' : 'mdi-menu-right' }}</v-icon>
-                  </v-btn>
-                  <span class="group-header">
-                    {{ $api.organization.parseSlug(group).name }}
-                  </span>
-                  <span class="ml-3 font-weight-medium">
-                    Total charges: {{ summaryCharges(group) | centsToDollars }}
-                  </span>
-                </div>
-              </v-row>
-              <v-row></v-row>
-            </td>
-          </template>
-          <template v-slot:item.account.organization="{ item }">
-            <span style="white-space: nowrap">
-              {{ $api.organization.parseSlug(item.account.organization).name }}
-            </span>
-          </template>
-          <template v-slot:item.currentState="{ item }">
-            <span class="state-display">{{ item.currentState | stateDisplay }}</span>
-          </template>
-          <template v-slot:item.account.slug="{ item }">
-            <span style="white-space: nowrap">{{ item.account.code }}</span>
-            ({{ item.account.name }})
-          </template>
-          <template v-slot:item.transactions="{ item }">
-            <div style="min-width: 150px">
-              <v-row v-for="txn in item.transactions" :key="txn.id">
-                {{ txn | transactionDisplay }}
-              </v-row>
+    <v-card>
+      <v-card-title>
+        <v-row class="d-flex justify-space-between">
+          <v-col cols="4">
+            <div>
+              {{ facility.name }}
             </div>
-          </template>
-          <template v-slot:item.charge="{ item }">
-            {{ item.charge | centsToDollars }}
-          </template>
-          <template v-slot:item.actions="{ item }">
-            <IFXButton iconString="add" btnType="add" xSmall @action="openTxnDialog(item)" />
-          </template>
-          <template v-slot:expanded-item="{ item }">
-            <IFXBillingRecordTransactions :billingRecord="item" />
-          </template>
-        </v-data-table>
-        <v-dialog v-model="dialog" max-width="600px">
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">Add a new transaction to Billing Record {{ editedItem.orgRec.id }}</span>
-            </v-card-title>
-            <v-card-subtitle>
-              <div class=" py-2 text-h6 font-weight-medium ">Rate is {{ editedItem.rate }}</div>
-            </v-card-subtitle>
+          </v-col>
+          <v-col cols="3">
+            <v-row dense>
+              <v-col>
+                <IFXSearchField :search.sync="search" />
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col cols="4">
+            <v-row dense class="d-flex flex-nowrap justify-end align-start">
+              <v-col v-if="updating">
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+              </v-col>
+              <v-col v-else>
+                <v-row dense class="d-flex justify-space-between">
+                  <v-col class="pa-2" v-if="allowApprovals">
+                    <v-row dense class="d-flex flex-nowrap">
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                                v-bind="attrs"
+                                fab
+                                small
+                                color="green"
+                                @click="approve()"
+                              >
+                                <v-icon dark>done</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>{{ approveSelectedToolTip }}</span>
+                        </v-tooltip>
+                      </v-col>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                :disabled="billingRecordsAreFinal(items) || isLoading || items.length == 0"
+                                v-bind="attrs"
+                                fab
+                                small
+                                color="green"
+                                @click="approve(true)"
+                              >
+                                <v-icon dark>done_all</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>{{ approveAllToolTip }}</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col class="pa-2" v-if="allowDownloads">
+                    <v-row dense>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <download-csv
+                                :class="{ 'download-disabled': isLoading }"
+                                :labels="getLabelsForExport()"
+                                :data="getDataForExport()"
+                                :name="getNameForExport()"
+                                v-bind="attrs"
+                              >
+                                <IFXButton
+                                  :disabled="isLoading"
+                                  small
+                                  class="download-btn"
+                                  btnType="download"
+                                ></IFXButton>
+                              </download-csv>
+                            </div>
+                          </template>
+                          <span>Download billing records in csv format</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col class="pa-2" v-if="allowInvoiceGeneration">
+                    <v-row dense>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                :disabled="
+                                  isLoading ||
+                                    selected.length == 0 ||
+                                    !$api.auth.can('generate-invoices', $api.authUser)
+                                "
+                                v-bind="attrs"
+                                :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
+                                small
+                                fab
+                                @click="generateInvoices()"
+                              >
+                                <v-icon>payments</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>{{ generateInvoicesToolTip }}</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row dense class="d-flex justify-space-around">
+          <v-col v-if="message" cols="12" class="d-flex flex-grow-1">
+            <v-alert dismissible :type="messageType" border="left" elevation="2" colored-border>
+              <span v-html="message"></span>
+            </v-alert>
+          </v-col>
+        </v-row>
+      </v-card-title>
+      <v-row>
+        <v-col id="data-table">
+          <v-data-table
+            ref="table"
+            v-if="filteredItems"
+            v-model="selected"
+            :items="filteredItems"
+            :headers="headers"
+            show-select
+            show-expand
+            expand-icon="mdi-menu-right"
+            :itemKey="itemKey"
+            :loading="isLoading"
+            :items-per-page="-1"
+            group-by="account.organization"
+            @item-selected="determineGroupState"
+            @toggle-select-all="toggleSelectAll"
+          >
+            <template v-slot:group.header="{ group, headers, isOpen, toggle }">
+              <td :colspan="headers.length">
+                <v-row>
+                  <v-checkbox
+                    v-model="rowSelectionToggle"
+                    :value="group"
+                    hide-details
+                    multiple
+                    :indeterminate.sync="rowSelectionToggleIndeterminate[group]"
+                    class="shrink ml-3 mt-0"
+                    @click="toggleGroup(group)"
+                  ></v-checkbox>
+                  <div>
+                    <v-btn icon small @click="toggle">
+                      <v-icon>{{ isOpen ? 'mdi-menu-down' : 'mdi-menu-right' }}</v-icon>
+                    </v-btn>
+                    <span class="group-header">
+                      {{ $api.organization.parseSlug(group).name }}
+                    </span>
+                    <span class="ml-3 font-weight-medium">
+                      Total charges: {{ summaryCharges(group) | centsToDollars }}
+                    </span>
+                  </div>
+                </v-row>
+                <v-row></v-row>
+              </td>
+            </template>
+            <template v-slot:item.account.organization="{ item }">
+              <span style="white-space: nowrap">
+                {{ $api.organization.parseSlug(item.account.organization).name }}
+              </span>
+            </template>
+            <template v-slot:item.currentState="{ item }">
+              <span class="state-display">{{ item.currentState | stateDisplay }}</span>
+            </template>
+            <template v-slot:item.account.slug="{ item }">
+              <span style="white-space: nowrap">{{ item.account.code }}</span>
+              ({{ item.account.name }})
+            </template>
+            <template v-slot:item.transactions="{ item }">
+              <div style="min-width: 150px">
+                <v-row v-for="txn in item.transactions" :key="txn.id">
+                  {{ txn | transactionDisplay }}
+                </v-row>
+              </div>
+            </template>
+            <template v-slot:item.charge="{ item }">
+              {{ item.charge | centsToDollars }}
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <IFXButton iconString="add" btnType="add" xSmall @action="openTxnDialog(item)" />
+            </template>
+            <template v-slot:expanded-item="{ item }">
+              <IFXBillingRecordTransactions :billingRecord="item" />
+            </template>
+          </v-data-table>
+          <v-dialog v-model="dialog" max-width="600px">
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">Add a new transaction to Billing Record {{ editedItem.orgRec.id }}</span>
+              </v-card-title>
+              <v-card-subtitle>
+                <div class=" py-2 text-h6 font-weight-medium ">Rate is {{ editedItem.rate }}</div>
+              </v-card-subtitle>
 
-            <v-card-text>
-              <v-container>
-                <v-form v-model="isValid" lazy-validation>
+              <v-card-text>
+                <v-form v-model="isValid">
                   <v-row>
                     <v-col>
                       <v-text-field
                         required
-                        v-model="editedItem.charge"
+                        v-model="dollarValue"
                         label="Charge"
                         :error-messages="errors[editedItem.charge]"
                         :rules="formRules.currency"
@@ -377,22 +683,22 @@ export default {
                     </v-col>
                   </v-row>
                 </v-form>
-              </v-container>
-            </v-card-text>
+              </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeTxnDialog">
-                Cancel
-              </v-btn>
-              <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeTxnDialog">
+                  Cancel
+                </v-btn>
+                <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-col>
+      </v-row>
+    </v-card>
   </v-container>
 </template>
 <style scoped>
