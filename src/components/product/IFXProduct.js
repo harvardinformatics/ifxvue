@@ -33,14 +33,6 @@ export class ProductRate extends IFXItemBase {
     this.data.price = Math.round(price * 100)
   }
 
-  get id() {
-    return this.data.id
-  }
-
-  set id(id) {
-    this.data.id = id
-  }
-
   get units() {
     return this.data.units
   }
