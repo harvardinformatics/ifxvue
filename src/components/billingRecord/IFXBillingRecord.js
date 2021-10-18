@@ -22,6 +22,14 @@ export class BillingTransaction extends IFXItemBase {
     this.data.rate = rate
   }
 
+  get dollarValue() {
+    return (this.data.charge / 100).toFixed(2)
+  }
+
+  set dollarValue(charge) {
+    this.data.charge = Math.round(charge * 100)
+  }
+
   get description() {
     return this.data.description
   }
@@ -132,16 +140,8 @@ export default class BillingRecord extends IFXItemBase {
     this.data.transactions = Array.from(transactions)
   }
 
-  addTransaction(transaction) {
-    this.data.transactions.push(transaction)
-  }
-
   get percent() {
     return this.data.percent
-  }
-
-  set rate(rate) {
-    this.data.rate = rate
   }
 
   set precent(precent) {
@@ -152,11 +152,19 @@ export default class BillingRecord extends IFXItemBase {
     return this.data.rate
   }
 
+  set rate(rate) {
+    this.data.rate = rate
+  }
+
   get created() {
     return this.data.created
   }
 
   get updated() {
     return this.data.updated
+  }
+
+  addTransaction(transaction) {
+    this.data.transactions.push(transaction)
   }
 }
