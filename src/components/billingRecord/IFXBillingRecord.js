@@ -22,14 +22,6 @@ export class BillingTransaction extends IFXItemBase {
     this.data.rate = rate
   }
 
-  get dollarValue() {
-    return (this.data.charge / 100).toFixed(2)
-  }
-
-  set dollarValue(charge) {
-    this.data.charge = Math.round(charge * 100)
-  }
-
   get description() {
     return this.data.description
   }
