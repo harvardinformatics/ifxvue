@@ -430,18 +430,9 @@ export default {
           .then((response) => {
             this.updating = false
             this.showMessage(response.data.msg)
-            this.items = []
-            this.isLoading = true
-            this.facilityBillingRecords()
-              .then((resp) => (this.message = resp.msg))
-              .catch((error) => {
-                const errorMessage = this.getErrorMessage(error)
-                this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
-              })
-              .finally(() => {
-                this.dialog = false
-                this.isLoading = false
-              })
+            const newBillingRec = response.data.data[0]
+            this.items.splice(index, 1, newBillingRec)
+            this.dialog = false
           })
           .catch((error) => {
             this.isLoading = false
