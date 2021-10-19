@@ -664,8 +664,8 @@ export default class IFXAPIService {
     return this.genericAPI(baseUrl, Facility)
   }
 
-  get billing() {
-    const baseURL = this.urls.BILLING
+  get billingRecord() {
+    const baseURL = `${this.urls.BILLING}billing-records/`
     const createFunc = (data, decompose = false) => {
       const newBillingData = cloneDeep(data) || {}
       newBillingData.transactions = []
@@ -678,33 +678,23 @@ export default class IFXAPIService {
 
       return decompose ? newBillingData : new BillingRecord(newBillingData)
     }
-    const api = {}
-    api.getBillingRecords = async (invoice_prefix, month, year, organization) => {
-      const params = {}
-      if (organization) {
-        params.organization = organization
-      }
+    const decomposeFunc = (billingRecord) => createFunc(billingRecord, true)
+    const api = this.genericAPI(baseURL, null, createFunc, decomposeFunc)
+
+    api.getList = async (invoice_prefix, month = null, year = null, organization = null) => {
+      const params = { invoice_prefix, month, year, organization }
       return this.axios
-        .get(`${baseURL}billing-records/${invoice_prefix}/${month}/${year}/`, { params: params })
+        .get(`${baseURL}`, { params })
         .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
     }
-    api.update = async (app, rec) => {
-      const url = `${baseURL}billing-records/${app}/`
-      // pass data as a list of one to the bulk update endpoint
-      const newData = [createFunc(rec.data, true)]
-      return this.axios
-        .post(url, newData, { headers: { 'Content-Type': 'application/json' } })
-        .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
-    }
-    api.bulkUpdate = async (app, recs) => {
-      const url = `${baseURL}billing-records/${app}/`
+    api.delete = () => ({ status: 501, message: 'Not implemented' })
+    api.bulkUpdate = async (app = null, recs) => {
+      const url = `${baseURL}${app ? `${app}/` : ''}`
       const newData = []
       recs.forEach((rec) => {
         newData.push(createFunc(rec.data, true))
       })
-      return this.axios
-        .post(url, newData, { headers: { 'Content-Type': 'application/json' } })
-        .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
+      return this.axios.post(url, newData, { headers: { 'Content-Type': 'application/json' } })
     }
     return api
   }
