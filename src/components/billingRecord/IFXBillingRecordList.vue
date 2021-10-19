@@ -234,15 +234,15 @@ export default {
     },
     facilityBillingRecords() {
       this.clearTableState()
-      return this.$api.billing
-        .getBillingRecords(this.facility.invoicePrefix, this.month, this.year, this.organization)
+      return this.$api.billingRecord
+        .getList(this.facility.invoicePrefix, this.month, this.year, this.organization)
         .then((res) => (this.items = res))
     },
     setState(items, state) {
       items.forEach((s) => {
         s.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
       })
-      return this.$api.billing.bulkUpdate(this.facility.applicationUsername, items)
+      return this.$api.billingRecord.bulkUpdate(this.facility.applicationUsername, items)
     },
     approve(all) {
       if (all) {
@@ -411,7 +411,7 @@ export default {
         this.dialog = true
       })
     },
-    async addNewTransaction(item) {
+    addNewTransaction(item) {
       const index = this.items.findIndex((rec) => rec.id === item.orgRec.id)
       if (index !== -1) {
         const orgBillingRec = this.items[index]
@@ -424,10 +424,33 @@ export default {
         }
         const newTransaction = this.$api.billingTransaction.create(newTransactionData)
         orgBillingRec.addTransaction(newTransaction)
-        const newBillingRec = await this.$api.billing.update(this.facility.applicationUsername, orgBillingRec)
-        this.items.splice(index, 1, newBillingRec[0])
+        this.updating = true
+        this.$api.billingRecord
+          .bulkUpdate(this.facility.applicationUsername, [orgBillingRec])
+          .then((response) => {
+            this.updating = false
+            this.showMessage(response.data.msg)
+            this.items = []
+            this.isLoading = true
+            this.facilityBillingRecords()
+              .then((resp) => (this.message = resp.msg))
+              .catch((error) => {
+                const errorMessage = this.getErrorMessage(error)
+                this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
+              })
+              .finally(() => {
+                this.dialog = false
+                this.isLoading = false
+              })
+          })
+          .catch((error) => {
+            this.isLoading = false
+            this.updating = false
+            this.dialog = false
+            const message = this.getErrorMessage(error)
+            this.showMessage(message)
+          })
       }
-      this.dialog = false
     },
   },
   watch: {
