@@ -656,7 +656,13 @@ export default {
               {{ item.charge | centsToDollars }}
             </template>
             <template v-slot:item.actions="{ item }">
-              <IFXButton v-if="$api.auth.can('add-transactions')" iconString="add" btnType="add" xSmall @action="openTxnDialog(item)" />
+              <IFXButton
+                v-if="$api.auth.can('add-transactions', $api.authUser)"
+                iconString="add"
+                btnType="add"
+                xSmall
+                @action="openTxnDialog(item)"
+              />
             </template>
             <template v-slot:expanded-item="{ item }">
               <IFXBillingRecordTransactions :billingRecord="item" />
