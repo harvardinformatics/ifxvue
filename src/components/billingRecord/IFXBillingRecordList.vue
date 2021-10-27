@@ -72,8 +72,8 @@ export default {
       messageType: 'info',
       updating: false,
       allHeaders: [
-        { text: 'ID', value: 'id', sortable: true, hide: true },
         { text: '', value: 'data-table-expand', sortable: false },
+        { text: 'ID', value: 'id', sortable: true, hide: false },
         { text: 'State', value: 'currentState', sortable: true, width: '100px', namedSlot: true },
         { text: 'User', value: 'productUser.full_name', sortable: true },
         { text: 'Lab', value: 'account.organization', sortable: true },
@@ -443,6 +443,13 @@ export default {
           })
       }
     },
+    navigateToDetail(id) {
+      this.rtr.push({
+        name: `${this.itemType}Detail`,
+        params: { id, facility_id: this.facility.id },
+        query: { next: this.$route.path },
+      })
+    },
   },
   watch: {
     filteredItems() {
@@ -630,9 +637,12 @@ export default {
                     </span>
                   </div>
                 </v-row>
-                <v-row></v-row>
               </td>
             </template>
+            <template v-slot:item.id="{ item }">
+              <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
+            </template>
+
             <template v-slot:item.account.organization="{ item }">
               <span style="white-space: nowrap">
                 {{ $api.organization.parseSlug(item.account.organization).name }}
