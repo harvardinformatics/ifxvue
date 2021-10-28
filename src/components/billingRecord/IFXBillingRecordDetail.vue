@@ -127,14 +127,36 @@ export default {
     openTxnDialog(item) {
       this.editedItem = { ...this.defaultItem }
       this.editedItem.rate = item.rate
-      this.editedItem.orgRec = item
       this.editedItem.author = { ...this.$api.authUser }
       this.$nextTick(() => {
         this.dialog = true
       })
     },
-    enableEditing() {
+    async openEditDialog() {
+      if (this.$api.auth.can('set-any-account', this.$api.authUser)) {
+        this.expenseCodes = await this.$api.account.getList()
+      } else {
+        const currentUserRecord = await this.$api.auth
+          .getCurrentUserRecord()
+          .catch(() => this.showMessage('Could not get user record. '))
+        this.expenseCodes = currentUserRecord.accounts
+      }
+
+      this.newDescription = this.item.description
+      this.newExpenseCode = this.$api.account.create(this.item.account)
+
       this.editDialog = true
+    },
+    closeEditDialog() {
+      this.editDialog = false
+    },
+    updateRecord() {
+      const newBillingRec = cloneDeep(this.item)
+      newBillingRec.description = this.newDescription
+      newBillingRec.account = this.newExpenseCode.data
+
+      this.updateBillingRecord(newBillingRec)
+      this.closeEditDialog()
     },
     addNewTransaction(item) {
       const orgBillingRec = cloneDeep(this.item)
@@ -147,21 +169,22 @@ export default {
       }
       const newTransaction = this.$api.billingTransaction.create(newTransactionData)
       orgBillingRec.addTransaction(newTransaction)
-      this.item.addTransaction(newTransaction)
+      this.updateBillingRecord(orgBillingRec)
+      this.dialog = false
+    },
+    updateBillingRecord(newRecord) {
       this.updating = true
       this.$api.billingRecord
-        .bulkUpdate(this.facility.applicationUsername, [orgBillingRec])
+        .bulkUpdate(this.facility.applicationUsername, [newRecord])
         .then((response) => {
-          this.updating = false
           this.showMessage(response.data.msg)
           this.item = this.$api.billingRecord.create(response.data.data[0])
-          this.dialog = false
+          this.updating = false
         })
         .catch((error) => {
-          this.updating = false
-          this.dialog = false
           const message = this.getErrorMessage(error)
           this.showMessage(message)
+          this.updating = false
         })
     },
     toggleState() {
@@ -428,10 +451,4 @@ export default {
     transform: rotate(90deg);
   }
 }
-</style>
-<style>
-/* #data-table .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-} */
 </style>
