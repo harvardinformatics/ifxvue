@@ -40,6 +40,7 @@ export default {
       updating: false,
       errors: [],
       isValid: false,
+      isValidEdit: false,
       dialog: false,
       editDialog: false,
       stateOpen: false,
@@ -50,7 +51,6 @@ export default {
         charge: 0,
         description: null,
         author: {},
-        orgRec: {},
       },
       defaultItem: {
         rate: 0,
@@ -65,6 +65,9 @@ export default {
         { text: 'Comment', value: 'comment', sortable: false },
         { text: 'Updated', value: 'updated', sortable: true },
       ],
+      newExpenseCode: '',
+      newDescription: '',
+      expenseCodes: [],
     }
   },
   computed: {
@@ -203,7 +206,12 @@ export default {
     <IFXPageHeader>
       <template #title>Billing Record {{ item.id }}</template>
       <template #actions>
-        <IFXButton btnType="edit" xSmall @action="enableEditing()" />
+        <IFXButton
+          v-if="$api.auth.can('edit-billing-record', $api.authUser)"
+          btnType="edit"
+          xSmall
+          @action="openEditDialog()"
+        />
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
@@ -305,12 +313,11 @@ export default {
         <v-dialog v-model="dialog" max-width="600px">
           <v-card>
             <v-card-title>
-              <span class="text-h5">Add a new transaction to Billing Record {{ editedItem.orgRec.id }}</span>
+              <span class="text-h5">Add a new transaction to Billing Record {{ item.id }}</span>
             </v-card-title>
             <v-card-subtitle>
               <div class=" py-2 text-h6 font-weight-medium ">Rate is {{ editedItem.rate }}</div>
             </v-card-subtitle>
-
             <v-card-text>
               <v-form v-model="isValid">
                 <v-row>
@@ -350,89 +357,55 @@ export default {
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog v-model="editDialog" max-width="600px">
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">Edit Billing Record {{ item.id }}</span>
+            </v-card-title>
+            <v-card-text>
+              <v-form v-model="isValidEdit">
+                <v-row>
+                  <v-col>
+                    <v-autocomplete
+                      required
+                      v-model="newExpenseCode"
+                      :items="expenseCodes"
+                      item-text="slug"
+                      item-value="code"
+                      label="Expense Code / PO"
+                      :error-messages="errors[newExpenseCode]"
+                      :rules="formRules.generic"
+                      return-object
+                    ></v-autocomplete>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-textarea
+                      required
+                      v-model="newDescription"
+                      label="Billing Record description"
+                      :error-messages="errors[newDescription]"
+                      :rules="formRules.generic"
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeEditDialog">
+                Cancel
+              </v-btn>
+              <v-btn color="blue darken-1" text :disabled="!isValidEdit" @click="updateRecord">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-row>
     </v-container>
   </v-container>
-  <!-- <v-container>
-    <v-card>
-      <v-card-title>
-        <div>Billing Record ID {{ record.id }}</div>
-        <v-row dense class="d-flex justify-space-around">
-          <v-col v-if="message" cols="12" class="d-flex flex-grow-1">
-            <v-alert dismissible :type="messageType" border="left" elevation="2" colored-border>
-              <span v-html="message"></span>
-            </v-alert>
-          </v-col>
-        </v-row>
-      </v-card-title>
-      <v-card-subtitle>
-        <span>{{ $api.organization.parseSlug(record.account.organization).name }}</span>
-      </v-card-subtitle>
-      <v-card-text>
-        <v-row>
-          <v-col>
-            <IFXButton
-              v-if="$api.auth.can('add-transactions', $api.authUser)"
-              iconString="add"
-              btnType="add"
-              xSmall
-              @action="openTxnDialog(record)"
-            />
-
-            <IFXBillingRecordTransactions :billingRecord="record" />
-            <v-dialog v-model="dialog" max-width="600px">
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5">Add a new transaction to Billing Record {{ editedItem.orgRec.id }}</span>
-                </v-card-title>
-                <v-card-subtitle>
-                  <div class=" py-2 text-h6 font-weight-medium ">Rate is {{ editedItem.rate }}</div>
-                </v-card-subtitle>
-
-                <v-card-text>
-                  <v-form v-model="isValid">
-                    <v-row>
-                      <v-col>
-                        <v-text-field
-                          required
-                          v-model="dollarValue"
-                          label="Charge"
-                          :error-messages="errors[editedItem.charge]"
-                          :rules="formRules.currency"
-                          prefix="$"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col cols="12">
-                        <v-textarea
-                          required
-                          v-model="editedItem.description"
-                          label="Transaction description"
-                          :error-messages="errors[editedItem.description]"
-                          :rules="formRules.generic"
-                        ></v-textarea>
-                      </v-col>
-                    </v-row>
-                  </v-form>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="closeTxnDialog">
-                    Cancel
-                  </v-btn>
-                  <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">
-                    Save
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
-  </v-container> -->
 </template>
 <style scoped lang="scss">
 .message-text {
