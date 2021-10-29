@@ -297,6 +297,10 @@ export default {
               @action="openTxnDialog(item)"
             />
           </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col offset="2">
           <v-data-table
             v-if="item.transactions && item.transactions.length"
             :items="item.transactions"
