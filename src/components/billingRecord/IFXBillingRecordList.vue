@@ -189,6 +189,22 @@ export default {
       }
       return items
     },
+    // TODO: this is inefficient because it's checking all attributes
+    // Make it check only relevant fields
+    // Taken almost directly from the Vuetify docs
+    filterSearch(v, s) {
+      let search = s
+      if (search && v) {
+        const val = v.toString().toLowerCase()
+        // If search is number, remove any decimal places, as values are stored as integers
+        if (Number.parseFloat(search)) {
+          search = search.replace('.', '')
+        }
+        return val !== null && ['undefined', 'boolean'].indexOf(typeof val) === -1 && val.indexOf(search) !== -1
+      }
+      return false
+    },
+
     getLabelsForExport() {
       return this.allHeaders.map((h) => h.text)
     },
