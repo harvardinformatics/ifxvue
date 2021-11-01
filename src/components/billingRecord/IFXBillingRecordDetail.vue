@@ -146,7 +146,7 @@ export default {
       }
 
       this.newDescription = this.item.description
-      this.newExpenseCode = this.$api.account.create(this.item.account)
+      this.newExpenseCode = cloneDeep(this.item.account)
 
       this.editDialog = true
     },
@@ -375,7 +375,7 @@ export default {
                       v-model="newExpenseCode"
                       :items="expenseCodes"
                       item-text="slug"
-                      item-value="code"
+                      item-value="slug"
                       label="Expense Code / PO"
                       :error-messages="errors[newExpenseCode]"
                       :rules="formRules.generic"
