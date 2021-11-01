@@ -19,8 +19,8 @@ export function humanDatetime(value) {
  * @returns {number} value in dollars
  */
 export function centsToDollars(cents) {
-  const dollars = cents / 100;
-  return dollars.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
+  return formatter.format(cents / 100)
 }
 
 /**
@@ -33,7 +33,7 @@ export function capitalizeFirstLetter(rawValue) {
   if (rawValue) {
     const value = rawValue.toString()
     if (value) {
-      str = value.charAt(0).toUpperCase() + value.slice(1);
+      str = value.charAt(0).toUpperCase() + value.slice(1)
     }
   }
   return str
@@ -61,7 +61,7 @@ export function stateDisplay(value) {
   if (value) {
     const result = value
       .split('_')
-      .map(e => capitalizeFirstLetter(e))
+      .map((e) => capitalizeFirstLetter(e))
       .join(' ')
       .trim()
     return result
@@ -92,7 +92,7 @@ export function affiliationRoleDisplay(value) {
   const displayValues = {
     pi: 'PI',
     lab_manager: 'Lab Manager',
-    memer: 'Member'
+    memer: 'Member',
   }
   if (value && displayValues[value]) {
     result = displayValues[value]

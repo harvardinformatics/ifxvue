@@ -93,6 +93,9 @@ import IFXProductDetail from '@/components/product/IFXProductDetail'
 import IFXProductCreateEdit from '@/components/product/IFXProductCreateEdit'
 import IFXProductMixin from '@/components/product/IFXProductMixin'
 
+// Billing
+import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
+
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
@@ -167,6 +170,7 @@ export {
   IFXProductMixin,
   IFXProductCreateEdit,
   IFXPageActionBar,
+  IFXBillingRecordList,
 }
 
 // Registered globally
