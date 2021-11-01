@@ -23,7 +23,7 @@ export default {
         this.item.contacts.forEach((contact) => {
           if (contact.role !== 'Primary Email' && contact.type === 'Email') {
             emails.push(
-              `<div class="contact-row"><div class="contact-role">${contact.role}</div><div class="contact-detail"><a href="mailto:${contact.detail}">${contact.detail}</a></div></div>`
+              `<div class="row row--dense"><div class="col col-md-4">${contact.role}</div><div class="col"><a href="mailto:${contact.detail}">${contact.detail}</a></div></div>`
             )
           }
         })
@@ -36,7 +36,7 @@ export default {
         this.item.contacts.forEach((contact) => {
           if (contact.type !== 'Email') {
             contacts.push(
-              `<div class="contact-row"><div class="contact-role">${contact.role}</div><div class="contact-detail">${contact.detail}</div></div>`
+              `<div class="row row--dense"><div class="col col-md-4">${contact.role}</div><div class="col">${contact.detail}</div></div>`
             )
           }
         })
@@ -65,10 +65,10 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container>
-      <v-row>
+      <v-row no-gutters>
         <v-col>
           <v-row dense>
-            <v-col sm="3">
+            <v-col xs="4" md="3">
               <h3>First Name</h3>
             </v-col>
             <v-col>
@@ -76,7 +76,7 @@ export default {
             </v-col>
           </v-row>
           <v-row dense>
-            <v-col sm="3">
+            <v-col xs="4" md="3">
               <h3>Last Name</h3>
             </v-col>
             <v-col>
@@ -84,19 +84,19 @@ export default {
             </v-col>
           </v-row>
           <v-row align="start" dense>
-            <v-col sm="3">
+            <v-col xs="4" md="3">
               <h3>Email(s)</h3>
             </v-col>
             <v-col>
-              <div class="contact-row">
-                <div class="contact-role">Primary Email</div>
-                <div class="contact-detail"><a :href="`mailto:${item.primaryEmail}`">{{item.primaryEmail}}</a></div>
-              </div>
-                <span v-html="additionalEmailList()"></span>
+              <v-row dense>
+                <v-col md="4">Primary Email</v-col>
+                <v-col ><a :href="`mailto:${item.primaryEmail}`">{{item.primaryEmail}}</a></v-col>
+              </v-row>
+              <span v-html="additionalEmailList()"></span>
             </v-col>
           </v-row>
           <v-row dense>
-            <v-col sm="3">
+            <v-col xs="4" md="3">
               <h3>Other Contacts</h3>
             </v-col>
             <v-col>
@@ -104,7 +104,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col md="7">
+        <v-col md="5" sm="12" xs="12">
           <v-row dense>
             <v-col sm="4">
               <h3>Primary Affiliation</h3>
@@ -158,13 +158,5 @@ export default {
     background-color: #90A4AE;
     border-radius: 50%;
     padding: 5px;
-  }
-  .contact-role {
-    display: inline;
-    width: 250px;
-    margin-right: 0.5em;
-  }
-  .contact-detail {
-    display: inline;
   }
 </style>

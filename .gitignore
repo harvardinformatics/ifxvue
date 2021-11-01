@@ -23,3 +23,6 @@ package-lock.json
 *.sw?
 *.code-workspace
 yarn.lock
+
+# files used for stand-alone app
+/src/App.vue

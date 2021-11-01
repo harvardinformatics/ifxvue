@@ -98,3 +98,9 @@ Example (in App.js or any other top-level component):
 ```
 <IFXDisplayMessage :top=true :color="success" :timeout=5000/>
 ```
+## Local app development
+ `IFXVue` to be used as a standalone app for development/testing purposes. To use this, you should copy `src/AppTemplate.vue` to `src/App.vue` and issue the `make serve` or `npm run serve` command in a terminal. This will start a development server that will do hot reloading. `src/App.vue` should be `.gitignore`d so you shouldn't been to revert changes before checking things in but it can't hurt.
+
+ If you navigate to [localhost](http://localhost:8080/) (or whereever the development server tells you to go), you should see the instructions card. Start editting `src/App.vue` with the code you want to develop/test. For example, develop a new component and "instantiate" it in `src/App.vue`.
+
+Note that there is no back-end so all data will need to be mocked.

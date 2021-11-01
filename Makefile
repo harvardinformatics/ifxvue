@@ -15,3 +15,5 @@ build-no-cache:
 	yarn build
 build:
 	yarn build
+serve:
+	yarn serve
