@@ -246,6 +246,14 @@ export class User extends IFXItemBase {
     this.data.accounts = accounts
   }
 
+  get productAccounts() {
+    return this.data.product_accounts
+  }
+
+  set productAccounts(productAccounts) {
+    this.data.product_accounts = productAccounts
+  }
+
   get logins() {
     return this.data.logins
   }
@@ -283,7 +291,7 @@ export class User extends IFXItemBase {
   }
 
   disablePerson() {
-  // UserList action
+    // UserList action
     this.isEnabled = false
   }
 
