@@ -305,10 +305,12 @@ export default {
               }).href
               if (ret.message) {
                 // eslint-disable-next-line no-param-reassign
-                ret.message = ret.message.replace(/\\n/g, '<br/>')
+                ret.message = ret.message.replace(/\n/g, '<br/>')
               }
-              if (ret.message.includes('Failed')) {
+              if (ret.message.includes('Failed') || ret.message.includes('Unable')) {
                 this.messageType = 'error'
+              } else {
+                this.messageType = 'success'
               }
               this.updating = false
               this.message = `<p>${ret.message}</p>`
