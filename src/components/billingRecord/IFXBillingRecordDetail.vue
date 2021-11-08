@@ -82,6 +82,9 @@ export default {
     hasMultipleTransactions() {
       return this.item.billingRecordStates.length > 1
     },
+    canEdit() {
+      return this.$api.auth.can('edit-billing-record', this.$api.authUser) && this.item.currentState !== 'FINAL'
+    },
   },
   methods: {
     ...mapActions(['showMessage']),
@@ -196,12 +199,7 @@ export default {
     <IFXPageHeader>
       <template #title>Billing Record {{ item.id }}</template>
       <template #actions>
-        <IFXButton
-          v-if="$api.auth.can('edit-billing-record', $api.authUser)"
-          btnType="edit"
-          xSmall
-          @action="openEditDialog()"
-        />
+        <IFXButton v-if="canEdit" btnType="edit" xSmall @action="openEditDialog()" />
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
