@@ -3,21 +3,11 @@ import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
-// import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
-// import IFXButton from '@/components/IFXButton'
-// import IFXPageHeader from '@/components/page/IFXPageHeader'
-
-// import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
   name: 'IFXBillingRecordDetail',
-  components: {
-    // IFXItemDataTable,
-    // IFXButton,
-    // IFXPageHeader,
-    // IFXBillingRecordTransactions,
-  },
+  components: {},
   mixins: [IFXBillingRecordMixin, IFXItemDetailMixin],
   filters: {
     transactionDisplay(txn) {
