@@ -221,6 +221,14 @@ export default {
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
+          <h3>Charge</h3>
+        </v-col>
+        <v-col>
+          {{ item.charge | centsToDollars }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>{{ item.account.account_type }}</h3>
         </v-col>
         <v-col>
