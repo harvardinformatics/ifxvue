@@ -86,7 +86,7 @@ export default {
       return this.$api.auth.can('edit-billing-record', this.$api.authUser) && this.item.currentState !== 'FINAL'
     },
     canAddTransaction() {
-      return this.$api.auth.can('add-transactions', $api.authUser) && this.item.currentState !== 'FINAL'
+      return this.$api.auth.can('add-transactions', this.$api.authUser) && this.item.currentState !== 'FINAL'
     },
   },
   methods: {
