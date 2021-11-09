@@ -687,6 +687,10 @@ export default class IFXAPIService {
         .get(`${baseURL}`, { params })
         .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
     }
+    api.getByID = async (facilityPrefix, id) => {
+      const url = `${baseURL}${facilityPrefix}/${id}/`
+      return this.axios.get(url).then((res) => createFunc(res.data))
+    }
     api.delete = () => ({ status: 501, message: 'Not implemented' })
     api.bulkUpdate = async (app = null, recs) => {
       const url = `${baseURL}${app ? `${app}/` : ''}`
