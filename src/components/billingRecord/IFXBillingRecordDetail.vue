@@ -85,6 +85,9 @@ export default {
     canEdit() {
       return this.$api.auth.can('edit-billing-record', this.$api.authUser) && this.item.currentState !== 'FINAL'
     },
+    canAddTransaction() {
+      return this.$api.auth.can('add-transactions', $api.authUser) && this.item.currentState !== 'FINAL'
+    },
   },
   methods: {
     ...mapActions(['showMessage']),
@@ -285,13 +288,7 @@ export default {
         <v-col>
           <div class="d-flex justify-space-between">
             <h3>Transactions</h3>
-            <IFXButton
-              v-if="$api.auth.can('add-transactions', $api.authUser)"
-              iconString="add"
-              btnType="add"
-              xSmall
-              @action="openTxnDialog(item)"
-            />
+            <IFXButton v-if="canAddTransaction" iconString="add" btnType="add" xSmall @action="openTxnDialog(item)" />
           </div>
         </v-col>
       </v-row>
