@@ -13,6 +13,7 @@ import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
 import IFXContactable from '@/components/contactable/IFXContactable'
 import Account from '@/components/account/IFXAccount'
+import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
 import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
 import { Product, ProductRate } from '@/components/product/IFXProduct'
@@ -255,6 +256,7 @@ export default class IFXAPIService {
       newUserData.contacts = []
       newUserData.affiliations = []
       newUserData.accounts = []
+      newUserData.product_accounts = []
 
       if (userData.contacts && userData.contacts.length) {
         const contactDataObjs = userData.contacts.map(({ id, role, contact }) => {
@@ -283,14 +285,20 @@ export default class IFXAPIService {
       }
 
       if (userData.accounts && userData.accounts.length) {
-        const accountDataObjs = userData.accounts.map(({ id, account }) => {
+        const accountDataObjs = userData.accounts.map(({ id, is_valid, account }) => {
           const newAccountData = {
             id,
+            is_valid,
             account: decompose ? account : this.account.create(account),
           }
           return newAccountData
         })
         newUserData.accounts = accountDataObjs
+      }
+
+      if (userData.product_accounts && userData.product_accounts.length) {
+        const productAccountDataObjs = userData.product_accounts.map((pa) => (decompose ? pa : this.productAccount.create(pa)))
+        newUserData.product_accounts = productAccountDataObjs
       }
 
       return decompose ? newUserData : new User(newUserData)
@@ -625,6 +633,33 @@ export default class IFXAPIService {
   get account() {
     const baseURL = this.urls.ACCOUNTS
     return this.genericAPI(baseURL, Account)
+  }
+
+  get productAccount() {
+    const createFunc = (productAccountData, decompose = false) => {
+      const newProductAccountData = cloneDeep(productAccountData) || {}
+
+      // Check if incoming productAccountData has account or product
+      if (productAccountData.account) {
+        // If decomposing, do not create dynamic account object
+        newProductAccountData.account = decompose
+          ? productAccountData.account.data
+          : this.account.create(productAccountData.account)
+      }
+
+      if (productAccountData.product) {
+        // If decomposing, do not create dynamic product object
+        newProductAccountData.product = decompose
+          ? productAccountData.product.data
+          : this.product.create(productAccountData.product)
+      }
+
+      // If decomposing, do not create a dynamic product object
+      return decompose ? newProductAccountData : new ProductAccount(newProductAccountData)
+    }
+    const decomposeFunc = (newProductAccountData) => createFunc(newProductAccountData, true)
+    const api = this.genericAPI(null, ProductAccount, createFunc, decomposeFunc)
+    return api
   }
 
   get expenseCodeRequest() {
