@@ -700,7 +700,7 @@ export default class IFXAPIService {
   }
 
   get billingRecord() {
-    const baseURL = `${this.urls.BILLING}billing-records/`
+    const baseURL = `${this.urls.BILLING_RECORDS}`
     const createFunc = (data, decompose = false) => {
       const newBillingData = cloneDeep(data) || {}
       newBillingData.transactions = []
@@ -717,13 +717,13 @@ export default class IFXAPIService {
     const api = this.genericAPI(baseURL, null, createFunc, decomposeFunc)
 
     api.getList = async (invoice_prefix, month = null, year = null, organization = null) => {
-      const params = { invoice_prefix, month, year, organization }
+      const params = { month, year, organization }
       return this.axios
         .get(`${baseURL}`, { params })
         .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
     }
     api.getByID = async (facilityPrefix, id) => {
-      const url = `${baseURL}${facilityPrefix}/${id}/`
+      const url = `${baseURL}${id}/`
       return this.axios.get(url).then((res) => createFunc(res.data))
     }
     api.delete = () => ({ status: 501, message: 'Not implemented' })
