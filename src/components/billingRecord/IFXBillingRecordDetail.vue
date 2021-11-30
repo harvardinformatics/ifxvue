@@ -19,6 +19,11 @@ export default {
       type: String,
       required: true,
     },
+    showEditButtons: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   created() {
     this.isLoading = true
@@ -83,10 +88,18 @@ export default {
       return this.item.billingRecordStates.length > 1
     },
     canEdit() {
-      return this.$api.auth.can('edit-billing-record', this.$api.authUser) && this.item.currentState !== 'FINAL'
+      return (
+        this.showEditButtons
+        && this.$api.auth.can('edit-billing-record', this.$api.authUser)
+        && this.item.currentState !== 'FINAL'
+      )
     },
     canAddTransaction() {
-      return this.$api.auth.can('add-transactions', this.$api.authUser) && this.item.currentState !== 'FINAL'
+      return (
+        this.showEditButtons
+        && this.$api.auth.can('add-transactions', this.$api.authUser)
+        && this.item.currentState !== 'FINAL'
+      )
     },
   },
   methods: {
