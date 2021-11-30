@@ -147,6 +147,9 @@ export default {
         this.editedItem.charge = Math.round(charge * 100)
       },
     },
+    showCheckboxes: function () {
+      return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration
+    },
   },
   methods: {
     ...mapActions(['showMessage']),
@@ -621,7 +624,7 @@ export default {
             v-model="selected"
             :items="filteredItems"
             :headers="headers"
-            show-select
+            :show-select="showCheckboxes"
             show-expand
             expand-icon="mdi-menu-right"
             :itemKey="itemKey"
@@ -635,6 +638,7 @@ export default {
               <td :colspan="headers.length">
                 <v-row>
                   <v-checkbox
+                    v-if="showCheckboxes"
                     v-model="rowSelectionToggle"
                     :value="group"
                     hide-details
