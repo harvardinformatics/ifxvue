@@ -728,7 +728,8 @@ export default class IFXAPIService {
     }
     api.delete = () => ({ status: 501, message: 'Not implemented' })
     api.bulkUpdate = async (app = null, recs) => {
-      const url = `${baseURL}${app ? `${app}/` : ''}`
+      const prefix = app ? `${app}/` : ''
+      const url = `${baseURL}${prefix}bulk-update/`
       const newData = []
       recs.forEach((rec) => {
         newData.push(createFunc(rec.data, true))
