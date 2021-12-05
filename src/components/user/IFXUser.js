@@ -79,6 +79,92 @@ export class UserContact {
   }
 }
 
+export class UserAccount extends IFXItemBase {
+  get account() {
+    return this.data.account
+  }
+
+  set account(account) {
+    this.data.account = account
+  }
+
+  get isValid() {
+    return this.data.is_valid
+  }
+
+  set isValid(isValid) {
+    this.data.is_valid = isValid
+  }
+
+  get code() {
+    return this.data.account.code
+  }
+
+  set code(val) {
+    this.data.account.code = val
+  }
+
+  get name() {
+    return this.data.account.name
+  }
+
+  set name(val) {
+    this.data.account.name = val
+  }
+
+  get organization() {
+    return this.data.account.organization
+  }
+
+  set organization(val) {
+    this.data.account.organization = val
+  }
+
+  get accountType() {
+    return this.data.account.account_type
+  }
+
+  set accountType(val) {
+    this.data.account.account_type = val
+  }
+
+  get root() {
+    return this.data.account.root
+  }
+
+  set root(val) {
+    this.data.account.root = val
+  }
+
+  get active() {
+    return this.data.account.active
+  }
+
+  set active(val) {
+    this.data.account.active = val
+  }
+
+  get validFrom() {
+    return this.data.account.valid_from
+  }
+
+  set validFrom(val) {
+    this.data.account.valid_from = val
+  }
+
+  get expirationDate() {
+    return this.data.account.expiration_date
+  }
+
+  set expirationDate(val) {
+    this.data.account.expiration_date = val
+  }
+
+  get slug() {
+    return this.data.account.slug
+  }
+}
+
 // export class User extends Contactable {
 export class User extends IFXItemBase {
   constructor(data) {
@@ -246,6 +332,14 @@ export class User extends IFXItemBase {
     this.data.accounts = accounts
   }
 
+  get productAccounts() {
+    return this.data.product_accounts
+  }
+
+  set productAccounts(productAccounts) {
+    this.data.product_accounts = productAccounts
+  }
+
   get logins() {
     return this.data.logins
   }
@@ -283,7 +377,7 @@ export class User extends IFXItemBase {
   }
 
   disablePerson() {
-  // UserList action
+    // UserList action
     this.isEnabled = false
   }
 
