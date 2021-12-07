@@ -740,7 +740,6 @@ export default class IFXAPIService {
     api.bulkUpdate = async (recs, app = null) => {
       const url = `${baseURL}bulk_update/`
       const newData = []
-      console.log(recs)
       recs.forEach((rec) => {
         newData.push(createFunc(rec.data, true))
       })
