@@ -261,7 +261,7 @@ export default {
       items.forEach((s) => {
         s.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
       })
-      return this.$api.billingRecord.bulkUpdate(this.facility.applicationUsername, items)
+      return this.$api.billingRecord.bulkUpdate(items, this.facility.applicationUsername)
     },
     approve(all) {
       if (all) {
@@ -447,10 +447,14 @@ export default {
         orgBillingRec.addTransaction(newTransaction)
         this.updating = true
         this.$api.billingRecord
-          .bulkUpdate(this.facility.applicationUsername, [orgBillingRec])
+          .bulkUpdate([orgBillingRec], this.facility.applicationUsername)
           .then((response) => {
             this.updating = false
-            this.showMessage(response.data.msg)
+            if (response.data && response.data.msg) {
+              this.showMessage(response.data.msg)
+            } else {
+              this.showMessage('Successfully updated billing record(s)')
+            }
             const newBillingRec = response.data.data[0]
             this.items.splice(index, 1, newBillingRec)
             this.dialog = false

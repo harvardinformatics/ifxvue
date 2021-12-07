@@ -187,9 +187,9 @@ export default {
     updateBillingRecord(newRecord) {
       this.updating = true
       this.$api.billingRecord
-        .bulkUpdate(this.facility.applicationUsername, [newRecord])
+        .bulkUpdate([newRecord], this.facility.applicationUsername)
         .then((response) => {
-          this.showMessage(response.data.msg)
+          this.showMessage('Updated billing record')
           this.item = this.$api.billingRecord.create(response.data.data[0])
           this.updating = false
         })

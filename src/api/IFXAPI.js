@@ -726,7 +726,7 @@ export default class IFXAPIService {
     const api = this.genericAPI(baseURL, null, createFunc, decomposeFunc)
 
     api.getList = async (invoice_prefix, month = null, year = null, organization = null) => {
-      const params = { month, year, organization }
+      const params = { invoice_prefix, month, year, organization }
       return this.axios
         .get(`${baseURL}`, { params })
         .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
@@ -736,10 +736,11 @@ export default class IFXAPIService {
       return this.axios.get(url).then((res) => createFunc(res.data))
     }
     api.delete = () => ({ status: 501, message: 'Not implemented' })
-    api.bulkUpdate = async (app = null, recs) => {
-      const prefix = app ? `${app}/` : ''
-      const url = `${baseURL}${prefix}bulk-update/`
+    // eslint-disable-next-line no-unused-vars
+    api.bulkUpdate = async (recs, app = null) => {
+      const url = `${baseURL}bulk_update/`
       const newData = []
+      console.log(recs)
       recs.forEach((rec) => {
         newData.push(createFunc(rec.data, true))
       })
