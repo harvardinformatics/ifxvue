@@ -60,7 +60,7 @@ export default {
         { text: 'Comment', value: 'comment', sortable: false },
         { text: 'Updated', value: 'updated', sortable: true },
       ],
-      newExpenseCode: '',
+      newExpenseCode: {},
       newDescription: '',
       expenseCodes: [],
     }
@@ -155,7 +155,7 @@ export default {
       }
 
       this.newDescription = this.item.description
-      this.newExpenseCode = cloneDeep(this.item.account)
+      this.newExpenseCode = this.$api.account.create(this.item.account)
 
       this.editDialog = true
     },
