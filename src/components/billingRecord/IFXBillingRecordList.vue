@@ -271,7 +271,7 @@ export default {
       this.setState(this.selected, 'LAB_APPROVED')
         .then((response) => {
           this.updating = false
-          this.showMessage(response.data.msg)
+          this.showMessage(`Successfully updated ${response.data.length} billing record(s)`)
           this.items = []
           this.isLoading = true
           this.facilityBillingRecords()
@@ -450,12 +450,12 @@ export default {
           .bulkUpdate([orgBillingRec], this.facility.applicationUsername)
           .then((response) => {
             this.updating = false
-            if (response.data && response.data.msg) {
-              this.showMessage(response.data.msg)
+            if (response.error) {
+              this.showMessage(response.error)
             } else {
-              this.showMessage('Successfully updated billing record(s)')
+              this.showMessage('Successfully updated billing record')
             }
-            const newBillingRec = response.data.data[0]
+            const newBillingRec = response.data[0]
             this.items.splice(index, 1, newBillingRec)
             this.dialog = false
           })
