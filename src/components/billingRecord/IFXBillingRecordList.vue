@@ -475,6 +475,9 @@ export default {
         query: { next: this.$route.path },
       })
     },
+    allowAddingTransactions(item) {
+      return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
+    },
   },
   watch: {
     filteredItems() {
@@ -693,7 +696,7 @@ export default {
             </template>
             <template v-slot:item.actions="{ item }">
               <IFXButton
-                v-if="$api.auth.can('add-transactions', $api.authUser)"
+                v-if="allowAddingTransactions(item)"
                 iconString="add"
                 btnType="add"
                 xSmall
