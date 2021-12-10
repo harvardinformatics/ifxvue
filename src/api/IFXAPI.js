@@ -709,7 +709,7 @@ export default class IFXAPIService {
   }
 
   get billingRecord() {
-    const baseURL = `${this.urls.BILLING}billing-records/`
+    const baseURL = `${this.urls.BILLING_RECORDS}`
     const createFunc = (data, decompose = false) => {
       const newBillingData = cloneDeep(data) || {}
       newBillingData.transactions = []
@@ -732,12 +732,13 @@ export default class IFXAPIService {
         .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
     }
     api.getByID = async (facilityPrefix, id) => {
-      const url = `${baseURL}${facilityPrefix}/${id}/`
+      const url = `${baseURL}${id}/`
       return this.axios.get(url).then((res) => createFunc(res.data))
     }
     api.delete = () => ({ status: 501, message: 'Not implemented' })
-    api.bulkUpdate = async (app = null, recs) => {
-      const url = `${baseURL}${app ? `${app}/` : ''}`
+    // eslint-disable-next-line no-unused-vars
+    api.bulkUpdate = async (recs, app = null) => {
+      const url = `${baseURL}bulk_update/`
       const newData = []
       recs.forEach((rec) => {
         newData.push(createFunc(rec.data, true))
