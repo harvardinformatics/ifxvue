@@ -147,6 +147,9 @@ export default {
         this.editedItem.charge = Math.round(charge * 100)
       },
     },
+    showCheckboxes: function () {
+      return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration
+    },
   },
   methods: {
     ...mapActions(['showMessage']),
@@ -258,7 +261,7 @@ export default {
       items.forEach((s) => {
         s.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
       })
-      return this.$api.billingRecord.bulkUpdate(this.facility.applicationUsername, items)
+      return this.$api.billingRecord.bulkUpdate(items, this.facility.applicationUsername)
     },
     approve(all) {
       if (all) {
@@ -268,7 +271,7 @@ export default {
       this.setState(this.selected, 'LAB_APPROVED')
         .then((response) => {
           this.updating = false
-          this.showMessage(response.data.msg)
+          this.showMessage(`Successfully updated ${response.data.length} billing record(s)`)
           this.items = []
           this.isLoading = true
           this.facilityBillingRecords()
@@ -444,11 +447,15 @@ export default {
         orgBillingRec.addTransaction(newTransaction)
         this.updating = true
         this.$api.billingRecord
-          .bulkUpdate(this.facility.applicationUsername, [orgBillingRec])
+          .bulkUpdate([orgBillingRec], this.facility.applicationUsername)
           .then((response) => {
             this.updating = false
-            this.showMessage(response.data.msg)
-            const newBillingRec = response.data.data[0]
+            if (response.error) {
+              this.showMessage(response.error)
+            } else {
+              this.showMessage('Successfully updated billing record')
+            }
+            const newBillingRec = response.data[0]
             this.items.splice(index, 1, newBillingRec)
             this.dialog = false
           })
@@ -467,6 +474,9 @@ export default {
         params: { id, facility_id: this.facility.id },
         query: { next: this.$route.path },
       })
+    },
+    allowAddingTransactions(item) {
+      return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
     },
   },
   watch: {
@@ -621,7 +631,7 @@ export default {
             v-model="selected"
             :items="filteredItems"
             :headers="headers"
-            show-select
+            :show-select="showCheckboxes"
             show-expand
             expand-icon="mdi-menu-right"
             :itemKey="itemKey"
@@ -635,6 +645,7 @@ export default {
               <td :colspan="headers.length">
                 <v-row>
                   <v-checkbox
+                    v-if="showCheckboxes"
                     v-model="rowSelectionToggle"
                     :value="group"
                     hide-details
@@ -685,7 +696,7 @@ export default {
             </template>
             <template v-slot:item.actions="{ item }">
               <IFXButton
-                v-if="$api.auth.can('add-transactions', $api.authUser)"
+                v-if="allowAddingTransactions(item)"
                 iconString="add"
                 btnType="add"
                 xSmall
