@@ -24363,6 +24363,17 @@ module.exports = isArrayLike;
 
 /***/ }),
 
+/***/ "3266":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_097de7ae_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c946");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_097de7ae_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_097de7ae_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "32b3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30004,6 +30015,13 @@ module.exports = function isAxiosError(payload) {
 
 /***/ }),
 
+/***/ "5ff3":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "6044":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30271,13 +30289,6 @@ module.exports = function(module) {
 	return module;
 };
 
-
-/***/ }),
-
-/***/ "63ac":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -41397,17 +41408,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "b7be":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_39cd238d_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c681");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_39cd238d_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_39cd238d_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "b7e9":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48277,13 +48277,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "c681":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "c6b6":
 /***/ (function(module, exports) {
 
@@ -48667,6 +48660,13 @@ module.exports = cloneTypedArray;
 /***/ }),
 
 /***/ "c90c":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "c946":
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
@@ -50432,6 +50432,17 @@ module.exports = function isAbsoluteURL(url) {
   // by any combination of letters, digits, plus, period, or hyphen.
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
+
+
+/***/ }),
+
+/***/ "d974":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_157694b6_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("5ff3");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_157694b6_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_157694b6_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -52571,17 +52582,6 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "ea2a":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_0f7eceb8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("63ac");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_0f7eceb8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_0f7eceb8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
 
 /***/ }),
 
@@ -57648,7 +57648,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
     get: function get() {
       var _this19 = this;
 
-      var baseURL = "".concat(this.urls.BILLING, "billing-records/");
+      var baseURL = "".concat(this.urls.BILLING_RECORDS);
 
       var createFunc = function createFunc(data) {
         var decompose = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -57720,7 +57720,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
             while (1) {
               switch (_context19.prev = _context19.next) {
                 case 0:
-                  url = "".concat(baseURL).concat(facilityPrefix, "/").concat(id, "/");
+                  url = "".concat(baseURL).concat(id, "/");
                   return _context19.abrupt("return", _this19.axios.get(url).then(function (res) {
                     return createFunc(res.data);
                   }));
@@ -57743,38 +57743,44 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           status: 501,
           message: 'Not implemented'
         };
-      };
+      }; // eslint-disable-next-line no-unused-vars
 
-      api.bulkUpdate = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
-        var app,
-            recs,
-            url,
-            newData,
-            _args20 = arguments;
-        return regeneratorRuntime.wrap(function _callee20$(_context20) {
-          while (1) {
-            switch (_context20.prev = _context20.next) {
-              case 0:
-                app = _args20.length > 0 && _args20[0] !== undefined ? _args20[0] : null;
-                recs = _args20.length > 1 ? _args20[1] : undefined;
-                url = "".concat(baseURL).concat(app ? "".concat(app, "/") : '');
-                newData = [];
-                recs.forEach(function (rec) {
-                  newData.push(createFunc(rec.data, true));
-                });
-                return _context20.abrupt("return", _this19.axios.post(url, newData, {
-                  headers: {
-                    'Content-Type': 'application/json'
-                  }
-                }));
 
-              case 6:
-              case "end":
-                return _context20.stop();
+      api.bulkUpdate = /*#__PURE__*/function () {
+        var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(recs) {
+          var app,
+              url,
+              newData,
+              _args20 = arguments;
+          return regeneratorRuntime.wrap(function _callee20$(_context20) {
+            while (1) {
+              switch (_context20.prev = _context20.next) {
+                case 0:
+                  app = _args20.length > 1 && _args20[1] !== undefined ? _args20[1] : null;
+                  url = "".concat(baseURL, "bulk_update/");
+                  newData = [];
+                  recs.forEach(function (rec) {
+                    newData.push(createFunc(rec.data, true));
+                  });
+                  return _context20.abrupt("return", _this19.axios.post(url, newData, {
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                  }));
+
+                case 5:
+                case "end":
+                  return _context20.stop();
+              }
             }
-          }
-        }, _callee20);
-      }));
+          }, _callee20);
+        }));
+
+        return function (_x12) {
+          return _ref11.apply(this, arguments);
+        };
+      }();
+
       return api;
     }
   }, {
@@ -80149,8 +80155,8 @@ var IFXProductCreateEdit_component = normalizeComponent(
 
 installComponents_default()(IFXProductCreateEdit_component, {VCol: VCol,VContainer: VContainer,VForm: VForm,VRow: VRow,VSelect: VSelect_VSelect,VSwitch: VSwitch_VSwitch,VTextField: VTextField_VTextField,VTextarea: VTextarea_VTextarea})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=0f7eceb8&scoped=true&
-var IFXBillingRecordListvue_type_template_id_0f7eceb8_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between",attrs:{"dense":""}},[(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=097de7ae&scoped=true&
+var IFXBillingRecordListvue_type_template_id_097de7ae_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between",attrs:{"dense":""}},[(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.selected.length == 0 || _vm.billingRecordsAreFinal(_vm.selected),"fab":"","small":"","color":"green"},on:{"click":function($event){return _vm.approve()}}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":""}},[_vm._v("done")])],1)],1)]}}],null,false,594938130)},[_c('span',[_vm._v(_vm._s(_vm.approveSelectedToolTip))])])],1),_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
@@ -80164,12 +80170,12 @@ var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.isLoading ||
                                   _vm.selected.length == 0 ||
-                                  !_vm.$api.auth.can('generate-invoices', _vm.$api.authUser),"color":_vm.billingRecordsAreFinal(_vm.selected) ? 'error' : 'blue',"small":"","fab":""},on:{"click":function($event){return _vm.generateInvoices()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("payments")])],1)],1)]}}],null,false,832067090)},[_c('span',[_vm._v(_vm._s(_vm.generateInvoicesToolTip))])])],1)],1)],1):_vm._e()],1)],1)],1)],1)],1),_c('v-row',{staticClass:"d-flex justify-space-around",attrs:{"dense":""}},[(_vm.message)?_c('v-col',{staticClass:"d-flex flex-grow-1",attrs:{"cols":"12"}},[_c('v-alert',{attrs:{"dismissible":"","type":_vm.messageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.message)}})])],1):_vm._e()],1)],1),_c('v-row',[_c('v-col',{attrs:{"id":"data-table"}},[(_vm.filteredItems)?_c('v-data-table',{ref:"table",attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"show-select":"","show-expand":"","expand-icon":"mdi-menu-right","itemKey":_vm.itemKey,"loading":_vm.isLoading,"items-per-page":-1,"group-by":"account.organization"},on:{"item-selected":_vm.determineGroupState,"toggle-select-all":_vm.toggleSelectAll},scopedSlots:_vm._u([{key:"group.header",fn:function(ref){
+                                  !_vm.$api.auth.can('generate-invoices', _vm.$api.authUser),"color":_vm.billingRecordsAreFinal(_vm.selected) ? 'error' : 'blue',"small":"","fab":""},on:{"click":function($event){return _vm.generateInvoices()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("payments")])],1)],1)]}}],null,false,832067090)},[_c('span',[_vm._v(_vm._s(_vm.generateInvoicesToolTip))])])],1)],1)],1):_vm._e()],1)],1)],1)],1)],1),_c('v-row',{staticClass:"d-flex justify-space-around",attrs:{"dense":""}},[(_vm.message)?_c('v-col',{staticClass:"d-flex flex-grow-1",attrs:{"cols":"12"}},[_c('v-alert',{attrs:{"dismissible":"","type":_vm.messageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.message)}})])],1):_vm._e()],1)],1),_c('v-row',[_c('v-col',{attrs:{"id":"data-table"}},[(_vm.filteredItems)?_c('v-data-table',{ref:"table",attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"show-select":_vm.showCheckboxes,"show-expand":"","expand-icon":"mdi-menu-right","itemKey":_vm.itemKey,"loading":_vm.isLoading,"items-per-page":-1,"group-by":"account.organization"},on:{"item-selected":_vm.determineGroupState,"toggle-select-all":_vm.toggleSelectAll},scopedSlots:_vm._u([{key:"group.header",fn:function(ref){
                                   var group = ref.group;
                                   var headers = ref.headers;
                                   var isOpen = ref.isOpen;
                                   var toggle = ref.toggle;
-return [_c('td',{attrs:{"colspan":headers.length}},[_c('v-row',[_c('v-checkbox',{staticClass:"shrink ml-3 mt-0",attrs:{"value":group,"hide-details":"","multiple":"","indeterminate":_vm.rowSelectionToggleIndeterminate[group]},on:{"update:indeterminate":function($event){return _vm.$set(_vm.rowSelectionToggleIndeterminate, group, $event)},"click":function($event){return _vm.toggleGroup(group)}},model:{value:(_vm.rowSelectionToggle),callback:function ($$v) {_vm.rowSelectionToggle=$$v},expression:"rowSelectionToggle"}}),_c('div',[_c('v-btn',{attrs:{"icon":"","small":""},on:{"click":toggle}},[_c('v-icon',[_vm._v(_vm._s(isOpen ? 'mdi-menu-down' : 'mdi-menu-right'))])],1),_c('span',{staticClass:"group-header"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(group).name)+" ")]),_c('span',{staticClass:"ml-3 font-weight-medium"},[_vm._v(" Total charges: "+_vm._s(_vm._f("centsToDollars")(_vm.summaryCharges(group)))+" ")])],1)],1)],1)]}},{key:"item.id",fn:function(ref){
+return [_c('td',{attrs:{"colspan":headers.length}},[_c('v-row',[(_vm.showCheckboxes)?_c('v-checkbox',{staticClass:"shrink ml-3 mt-0",attrs:{"value":group,"hide-details":"","multiple":"","indeterminate":_vm.rowSelectionToggleIndeterminate[group]},on:{"update:indeterminate":function($event){return _vm.$set(_vm.rowSelectionToggleIndeterminate, group, $event)},"click":function($event){return _vm.toggleGroup(group)}},model:{value:(_vm.rowSelectionToggle),callback:function ($$v) {_vm.rowSelectionToggle=$$v},expression:"rowSelectionToggle"}}):_vm._e(),_c('div',[_c('v-btn',{attrs:{"icon":"","small":""},on:{"click":toggle}},[_c('v-icon',[_vm._v(_vm._s(isOpen ? 'mdi-menu-down' : 'mdi-menu-right'))])],1),_c('span',{staticClass:"group-header"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(group).name)+" ")]),_c('span',{staticClass:"ml-3 font-weight-medium"},[_vm._v(" Total charges: "+_vm._s(_vm._f("centsToDollars")(_vm.summaryCharges(group)))+" ")])],1)],1)],1)]}},{key:"item.id",fn:function(ref){
                                   var item = ref.item;
 return [_c('a',{attrs:{"href":""},on:{"click":function($event){$event.preventDefault();return _vm.navigateToDetail(item.id)}}},[_vm._v(_vm._s(item.id))])]}},{key:"item.account.organization",fn:function(ref){
                                   var item = ref.item;
@@ -80183,13 +80189,13 @@ return [_c('div',{staticStyle:{"min-width":"150px"}},_vm._l((item.transactions),
                                   var item = ref.item;
 return [_vm._v(" "+_vm._s(_vm._f("centsToDollars")(item.charge))+" ")]}},{key:"item.actions",fn:function(ref){
                                   var item = ref.item;
-return [(_vm.$api.auth.can('add-transactions', _vm.$api.authUser))?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(item)}}}):_vm._e()]}},{key:"expanded-item",fn:function(ref){
+return [(_vm.allowAddingTransactions(item))?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(item)}}}):_vm._e()]}},{key:"expanded-item",fn:function(ref){
                                   var item = ref.item;
-return [_c('IFXBillingRecordTransactions',{attrs:{"billingRecord":item}})]}}],null,false,1979715702),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v},expression:"dialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:" py-2 text-h6 font-weight-medium "},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',[_c('v-col',[_c('v-text-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$"},model:{value:(_vm.dollarValue),callback:function ($$v) {_vm.dollarValue=$$v},expression:"dollarValue"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v(" Cancel ")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1)],1)],1)],1)],1)}
-var IFXBillingRecordListvue_type_template_id_0f7eceb8_scoped_true_staticRenderFns = []
+return [_c('IFXBillingRecordTransactions',{attrs:{"billingRecord":item}})]}}],null,false,4138869969),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v},expression:"dialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:" py-2 text-h6 font-weight-medium "},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',[_c('v-col',[_c('v-text-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$"},model:{value:(_vm.dollarValue),callback:function ($$v) {_vm.dollarValue=$$v},expression:"dollarValue"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v(" Cancel ")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1)],1)],1)],1)],1)}
+var IFXBillingRecordListvue_type_template_id_097de7ae_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=0f7eceb8&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=097de7ae&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.values.js
 var es_object_values = __webpack_require__("07ac");
@@ -80519,6 +80525,9 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
       set: function set(charge) {
         this.editedItem.charge = Math.round(charge * 100);
       }
+    },
+    showCheckboxes: function showCheckboxes() {
+      return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration;
     }
   },
   methods: _objectSpread2(_objectSpread2({}, Object(vuex_esm["a" /* mapActions */])(['showMessage'])), {}, {
@@ -80662,7 +80671,7 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
           comment: ''
         });
       });
-      return this.$api.billingRecord.bulkUpdate(this.facility.applicationUsername, items);
+      return this.$api.billingRecord.bulkUpdate(items, this.facility.applicationUsername);
     },
     approve: function approve(all) {
       var _this6 = this;
@@ -80675,7 +80684,7 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
       this.setState(this.selected, 'LAB_APPROVED').then(function (response) {
         _this6.updating = false;
 
-        _this6.showMessage(response.data.msg);
+        _this6.showMessage("Successfully updated ".concat(response.data.length, " billing record(s)"));
 
         _this6.items = [];
         _this6.isLoading = true;
@@ -80904,12 +80913,16 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
         var newTransaction = this.$api.billingTransaction.create(newTransactionData);
         orgBillingRec.addTransaction(newTransaction);
         this.updating = true;
-        this.$api.billingRecord.bulkUpdate(this.facility.applicationUsername, [orgBillingRec]).then(function (response) {
+        this.$api.billingRecord.bulkUpdate([orgBillingRec], this.facility.applicationUsername).then(function (response) {
           _this13.updating = false;
 
-          _this13.showMessage(response.data.msg);
+          if (response.error) {
+            _this13.showMessage(response.error);
+          } else {
+            _this13.showMessage('Successfully updated billing record');
+          }
 
-          var newBillingRec = response.data.data[0];
+          var newBillingRec = response.data[0];
 
           _this13.items.splice(index, 1, newBillingRec);
 
@@ -80936,6 +80949,9 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
           next: this.$route.path
         }
       });
+    },
+    allowAddingTransactions: function allowAddingTransactions(item) {
+      return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL';
     }
   }),
   watch: {
@@ -80949,8 +80965,8 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordListvue_type_script_lang_js_ = (IFXBillingRecordListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=0&id=0f7eceb8&scoped=true&lang=css&
-var IFXBillingRecordListvue_type_style_index_0_id_0f7eceb8_scoped_true_lang_css_ = __webpack_require__("ea2a");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=0&id=097de7ae&scoped=true&lang=css&
+var IFXBillingRecordListvue_type_style_index_0_id_097de7ae_scoped_true_lang_css_ = __webpack_require__("3266");
 
 // EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=1&lang=css&
 var IFXBillingRecordListvue_type_style_index_1_lang_css_ = __webpack_require__("2457");
@@ -80967,11 +80983,11 @@ var IFXBillingRecordListvue_type_style_index_1_lang_css_ = __webpack_require__("
 
 var IFXBillingRecordList_component = normalizeComponent(
   billingRecord_IFXBillingRecordListvue_type_script_lang_js_,
-  IFXBillingRecordListvue_type_template_id_0f7eceb8_scoped_true_render,
-  IFXBillingRecordListvue_type_template_id_0f7eceb8_scoped_true_staticRenderFns,
+  IFXBillingRecordListvue_type_template_id_097de7ae_scoped_true_render,
+  IFXBillingRecordListvue_type_template_id_097de7ae_scoped_true_staticRenderFns,
   false,
   null,
-  "0f7eceb8",
+  "097de7ae",
   null
   
 )
@@ -81002,16 +81018,16 @@ var IFXBillingRecordList_component = normalizeComponent(
 
 installComponents_default()(IFXBillingRecordList_component, {VAlert: VAlert_VAlert,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCheckbox: VCheckbox_VCheckbox,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VForm: VForm,VIcon: components_VIcon_VIcon,VProgressCircular: VProgressCircular_VProgressCircular,VRow: VRow,VSpacer: VSpacer,VTextField: VTextField_VTextField,VTextarea: VTextarea_VTextarea,VTooltip: VTooltip_VTooltip})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=template&id=39cd238d&scoped=true&
-var IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v("Billing Record "+_vm._s(_vm.item.id))]},proxy:true},{key:"actions",fn:function(){return [(_vm.canEdit)?_c('IFXButton',{attrs:{"btnType":"edit","xSmall":""},on:{"action":function($event){return _vm.openEditDialog()}}}):_vm._e()]},proxy:true}],null,false,3458140123)}),_c('v-container',{attrs:{"px-5":"","py-0":""}},[_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Organization")])]),(_vm.item.account)?_c('v-col',[_vm._v(" "+_vm._s(_vm.getOrgName(_vm.item))+" ")]):_vm._e()],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Facility")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Charge")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm._f("centsToDollars")(_vm.item.charge))+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v(_vm._s(_vm.item.account.account_type))])]),_c('v-col',[_c('span',[_vm._v(_vm._s(_vm.item.account.slug))]),(_vm.item.account.active)?_c('span',{staticClass:"ml-2 text-body-1 green--text text--darken-1"},[_vm._v(" ✓ Active ")]):_c('span',{staticClass:"ml-2 text-body-1 red--text"},[_vm._v("✗ Inactive")])])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Description")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.item.description)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("State")])]),(_vm.hasMultipleTransactions)?_c('v-btn',{staticClass:"expand-icon",attrs:{"icon":"","small":""},on:{"click":_vm.toggleState}},[_c('v-icon',{class:{ active: _vm.stateOpen }},[_vm._v("mdi-menu-right")])],1):_vm._e(),_c('span',{staticClass:"ml-1"},[_vm._v(_vm._s(_vm.item.currentState))])],1),(_vm.stateOpen)?_c('v-row',[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("State History")])]),_c('v-col',[_c('v-data-table',{attrs:{"headers":_vm.stateHeaders,"items":_vm.item.billingRecordStates,"items-per-page":-1,"hide-default-footer":""},scopedSlots:_vm._u([{key:"item.updated",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=template&id=157694b6&scoped=true&
+var IFXBillingRecordDetailvue_type_template_id_157694b6_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(" Billing Record "+_vm._s(_vm.item.id)+" ")]},proxy:true},{key:"actions",fn:function(){return [(_vm.canEdit)?_c('IFXButton',{attrs:{"btnType":"edit","xSmall":""},on:{"action":function($event){return _vm.openEditDialog()}}}):_vm._e()]},proxy:true}],null,false,1351080720)}),_c('v-container',{attrs:{"px-5":"","py-0":""}},[(_vm.updating)?_c('v-progress-linear',{attrs:{"indeterminate":""}}):_vm._e(),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Organization")])]),(_vm.item.account)?_c('v-col',[_vm._v(" "+_vm._s(_vm.getOrgName(_vm.item))+" ")]):_vm._e()],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Facility")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Charge")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm._f("centsToDollars")(_vm.item.charge))+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v(_vm._s(_vm.item.account.account_type))])]),_c('v-col',[_c('span',[_vm._v(_vm._s(_vm.item.account.slug))]),(_vm.item.account.active)?_c('span',{staticClass:"ml-2 text-body-1 green--text text--darken-1"},[_vm._v(" ✓ Active ")]):_c('span',{staticClass:"ml-2 text-body-1 red--text"},[_vm._v("✗ Inactive")])])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Description")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.item.description)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("State")])]),(_vm.hasMultipleTransactions)?_c('v-btn',{staticClass:"expand-icon",attrs:{"icon":"","small":""},on:{"click":_vm.toggleState}},[_c('v-icon',{class:{ active: _vm.stateOpen }},[_vm._v("mdi-menu-right")])],1):_vm._e(),_c('span',{staticClass:"ml-1"},[_vm._v(_vm._s(_vm.item.currentState))])],1),(_vm.stateOpen)?_c('v-row',[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("State History")])]),_c('v-col',[_c('v-data-table',{attrs:{"headers":_vm.stateHeaders,"items":_vm.item.billingRecordStates,"items-per-page":-1,"hide-default-footer":""},scopedSlots:_vm._u([{key:"item.updated",fn:function(ref){
 var item = ref.item;
 return [_vm._v(" "+_vm._s(_vm._f("humanDatetime")(item.updated))+" ")]}}],null,false,1649712072)})],1)],1):_vm._e(),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Updated")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm._f("humanDatetime")(_vm.item.updated))+" ")])],1),_c('v-row',[_c('v-col',[_c('div',{staticClass:"d-flex justify-space-between"},[_c('h3',[_vm._v("Transactions")]),(_vm.canAddTransaction)?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(_vm.item)}}}):_vm._e()],1)])],1),_c('v-row',[_c('v-col',{attrs:{"offset":"2"}},[(_vm.item.transactions && _vm.item.transactions.length)?_c('v-data-table',{attrs:{"items":_vm.item.transactions,"headers":_vm.headers,"hide-default-footer":"","items-per-page":-1},scopedSlots:_vm._u([{key:"item.charge",fn:function(ref){
 var item = ref.item;
 return [_vm._v(" "+_vm._s(_vm._f("centsToDollars")(item.charge))+" ")]}}],null,false,544261321)}):_c('span',[_vm._v("None")])],1),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v},expression:"dialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.item.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:" py-2 text-h6 font-weight-medium "},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',[_c('v-col',[_c('v-text-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$"},model:{value:(_vm.dollarValue),callback:function ($$v) {_vm.dollarValue=$$v},expression:"dollarValue"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v(" Cancel ")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.editDialog),callback:function ($$v) {_vm.editDialog=$$v},expression:"editDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Edit Billing Record "+_vm._s(_vm.item.id))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidEdit),callback:function ($$v) {_vm.isValidEdit=$$v},expression:"isValidEdit"}},[_c('v-row',[_c('v-col',[_c('v-autocomplete',{attrs:{"required":"","items":_vm.expenseCodes,"item-text":"slug","item-value":"slug","label":"Expense Code / PO","error-messages":_vm.errors[_vm.newExpenseCode],"rules":_vm.formRules.generic,"return-object":""},model:{value:(_vm.newExpenseCode),callback:function ($$v) {_vm.newExpenseCode=$$v},expression:"newExpenseCode"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Billing Record description","error-messages":_vm.errors[_vm.newDescription],"rules":_vm.formRules.generic},model:{value:(_vm.newDescription),callback:function ($$v) {_vm.newDescription=$$v},expression:"newDescription"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","text":""},on:{"click":_vm.closeEditDialog}},[_vm._v(" Cancel ")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidEdit},on:{"click":_vm.updateRecord}},[_vm._v(" Save ")])],1)],1)],1)],1)],1)],1):_vm._e()}
-var IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_staticRenderFns = []
+var IFXBillingRecordDetailvue_type_template_id_157694b6_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=template&id=39cd238d&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=template&id=157694b6&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=script&lang=js&
 
@@ -81042,6 +81058,11 @@ var IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_staticRender
     facilityId: {
       type: String,
       required: true
+    },
+    showEditButtons: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   created: function created() {
@@ -81094,7 +81115,7 @@ var IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_staticRender
         value: 'updated',
         sortable: true
       }],
-      newExpenseCode: '',
+      newExpenseCode: {},
       newDescription: '',
       expenseCodes: []
     };
@@ -81143,10 +81164,10 @@ var IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_staticRender
       return this.item.billingRecordStates.length > 1;
     },
     canEdit: function canEdit() {
-      return this.$api.auth.can('edit-billing-record', this.$api.authUser) && this.item.currentState !== 'FINAL';
+      return this.showEditButtons && this.$api.auth.can('edit-billing-record', this.$api.authUser) && this.item.currentState !== 'FINAL';
     },
     canAddTransaction: function canAddTransaction() {
-      return this.$api.auth.can('add-transactions', this.$api.authUser) && this.item.currentState !== 'FINAL';
+      return this.showEditButtons && this.$api.auth.can('add-transactions', this.$api.authUser) && this.item.currentState !== 'FINAL';
     }
   },
   methods: _objectSpread2(_objectSpread2({}, Object(vuex_esm["a" /* mapActions */])(['showMessage'])), {}, {
@@ -81251,7 +81272,7 @@ var IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_staticRender
 
               case 10:
                 _this4.newDescription = _this4.item.description;
-                _this4.newExpenseCode = cloneDeep_default()(_this4.item.account);
+                _this4.newExpenseCode = _this4.$api.account.create(_this4.item.account);
                 _this4.editDialog = true;
 
               case 13:
@@ -81293,12 +81314,14 @@ var IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_staticRender
       var _this5 = this;
 
       this.updating = true;
-      this.$api.billingRecord.bulkUpdate(this.facility.applicationUsername, [newRecord]).then(function (response) {
-        _this5.showMessage(response.data.msg);
+      this.$api.billingRecord.bulkUpdate([newRecord], this.facility.applicationUsername).then(function (response) {
+        _this5.showMessage('Successfully updated billing record');
 
-        _this5.item = _this5.$api.billingRecord.create(response.data.data[0]);
+        _this5.item = _this5.$api.billingRecord.create(response.data[0]);
         _this5.updating = false;
       }).catch(function (error) {
+        console.log(error);
+
         var message = _this5.getErrorMessage(error);
 
         _this5.showMessage(message);
@@ -81317,8 +81340,8 @@ var IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_staticRender
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordDetailvue_type_script_lang_js_ = (IFXBillingRecordDetailvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=style&index=0&id=39cd238d&scoped=true&lang=scss&
-var IFXBillingRecordDetailvue_type_style_index_0_id_39cd238d_scoped_true_lang_scss_ = __webpack_require__("b7be");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=style&index=0&id=157694b6&scoped=true&lang=scss&
+var IFXBillingRecordDetailvue_type_style_index_0_id_157694b6_scoped_true_lang_scss_ = __webpack_require__("d974");
 
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue
 
@@ -81331,11 +81354,11 @@ var IFXBillingRecordDetailvue_type_style_index_0_id_39cd238d_scoped_true_lang_sc
 
 var IFXBillingRecordDetail_component = normalizeComponent(
   billingRecord_IFXBillingRecordDetailvue_type_script_lang_js_,
-  IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_render,
-  IFXBillingRecordDetailvue_type_template_id_39cd238d_scoped_true_staticRenderFns,
+  IFXBillingRecordDetailvue_type_template_id_157694b6_scoped_true_render,
+  IFXBillingRecordDetailvue_type_template_id_157694b6_scoped_true_staticRenderFns,
   false,
   null,
-  "39cd238d",
+  "157694b6",
   null
   
 )
@@ -81361,7 +81384,8 @@ var IFXBillingRecordDetail_component = normalizeComponent(
 
 
 
-installComponents_default()(IFXBillingRecordDetail_component, {VAutocomplete: VAutocomplete_VAutocomplete,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VForm: VForm,VIcon: components_VIcon_VIcon,VRow: VRow,VSpacer: VSpacer,VTextField: VTextField_VTextField,VTextarea: VTextarea_VTextarea})
+
+installComponents_default()(IFXBillingRecordDetail_component, {VAutocomplete: VAutocomplete_VAutocomplete,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VForm: VForm,VIcon: components_VIcon_VIcon,VProgressLinear: VProgressLinear_VProgressLinear,VRow: VRow,VSpacer: VSpacer,VTextField: VTextField_VTextField,VTextarea: VTextarea_VTextarea})
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXEnabledIcon.vue?vue&type=template&id=11141dae&scoped=true&
 var IFXEnabledIconvue_type_template_id_11141dae_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"action-item"},[(!_vm.disabled && _vm.$api.user.canEditField('User.isEnabled'))?_c('span',[_c('v-checkbox',{attrs:{"label":_vm.label,"color":_vm.color,"on-icon":_vm.onIcon,"off-icon":_vm.offIcon},model:{value:(_vm.isEnabledLocal),callback:function ($$v) {_vm.isEnabledLocal=$$v},expression:"isEnabledLocal"}})],1):_c('span',[_c('v-icon',{attrs:{"color":_vm.color}},[_vm._v(_vm._s(_vm.displayIcon))]),(!_vm.iconOnly)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._e()],1)])}
