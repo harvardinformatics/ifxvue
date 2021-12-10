@@ -194,6 +194,7 @@ export default {
           this.updating = false
         })
         .catch((error) => {
+          console.log(error)
           const message = this.getErrorMessage(error)
           this.showMessage(message)
           this.updating = false
@@ -206,19 +207,22 @@ export default {
       return item.account ? this.$api.organization.parseSlug(item.account.organization).name : ''
     },
   },
-  watch: {},
+  watch: {}
 }
 </script>
 <template>
   <!-- eslint-disable vue/valid-v-slot -->
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>Billing Record {{ item.id }}</template>
+      <template #title>
+        Billing Record {{ item.id }}
+      </template>
       <template #actions>
         <IFXButton v-if="canEdit" btnType="edit" xSmall @action="openEditDialog()" />
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
+      <v-progress-linear indeterminate v-if="updating"></v-progress-linear>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
           <h3>Organization</h3>
