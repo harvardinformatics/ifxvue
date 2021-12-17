@@ -18,18 +18,12 @@ export default {
     Editor
   },
   props: {
-    getText: {
-      type: Function,
-      required: true
-    },
-    setText: {
-      type: Function,
-      required: true
-    },
+    value: null,
   },
   data() {
     return {
       isLoading: false,
+      content: null,
     }
   },
   methods: {
@@ -38,15 +32,6 @@ export default {
     }
   },
   computed: {
-    text: {
-      get() {
-        return this.getText()
-      },
-      set(value) {
-        this.setText(value)
-      }
-    },
-
     init() {
       return {
         height: 300,
@@ -65,6 +50,9 @@ export default {
   },
   created() {
     this.isLoading = true
+  },
+  mounted() {
+    this.content = this.value
   }
 }
 </script>

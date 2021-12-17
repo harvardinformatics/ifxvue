@@ -1,17 +1,46 @@
 <script>
 import { mapActions } from 'vuex'
 import * as has from 'lodash/has'
+import Editor from '@tinymce/tinymce-vue'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
-import IFXTextEditor from '@/components/IFXTextEditor'
+import IFXPageHeader from '@/components/page/IFXPageHeader'
+import IFXButton from '@/components/IFXButton'
 
 export default {
   name: 'IFXMailingCompose',
   components: {
-    IFXTextEditor,
-    IFXContactablesCombobox
+    Editor,
+    IFXPageHeader,
+    IFXButton,
+    IFXContactablesCombobox,
   },
   props: {
-    item: {
+    from: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    to: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    cc: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    bcc: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    messageName: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    theapiobj: {
       type: Object,
       required: false,
       default: null
@@ -29,30 +58,32 @@ export default {
         subject: null,
         message: null
       },
-      recipients: [
-        {
-          label: 'to',
-          required: true,
-          isSearchDisabled: false
-        },
-        {
-          label: 'cc',
-          required: false,
-          isSearchDisabled: false
-        },
-        {
-          label: 'bcc',
-          required: false,
-          isSearchDisabled: false
-        }
-      ],
+      fromAddr: null,
+      toList: [],
+      ccList: [],
+      bccList: [],
+      subject: null,
+      message: null,
+      mailing: null,
+      content: null,
     }
   },
   methods: {
     ...mapActions(['showMessage']),
     sendMailing() {
       // Get mailing from vuex - this is where the mailing is stored throughout the composition process
-      const mailing = this.$store.getters['mailing/serializedMailing']
+      const mailing = {
+        message: this.content,
+        subject: this.subject,
+        fromstr: this.fromAddr,
+        tostr: this.toList.join(',')
+      }
+      if (this.ccList.length) {
+        mailing.ccstr = this.ccList.join(',')
+      }
+      if (this.bccList.length) {
+        mailing.bccstr = this.bccList.join(',')
+      }
       this.$api.mailing.sendIfxMailing(mailing)
         .then(res => this.showMessage(res))
         .catch(err => {
@@ -63,48 +94,48 @@ export default {
           }
         })
     },
-    loadPreviousMailing(item) {
-      return this.$store.dispatch('mailing/loadMailing', item)
-    },
-    getMailingBody() {
-      return this.$store.getters['mailing/message']
-    },
-    setMailingBody(value) {
-      const payload = { key: 'message', value }
-      this.$store.dispatch('mailing/setValue', payload)
-    }
   },
   computed: {
-    title() {
-      return 'Compose Mailing'
-    },
-    description() {
-      return 'Compose a new mailing.'
-    },
-    subject: {
-      get() {
-        return this.$store.getters['mailing/subject']
-      },
-      set(value) {
-        const payload = { key: 'subject', value }
-        this.$store.dispatch('mailing/setValue', payload)
+    editorInit() {
+      return {
+        height: 300,
+        menubar: false,
+        statusbar: false,
+        plugins: [
+          'advlist autolink lists link image charmap',
+          'searchreplace visualblocks code fullscreen',
+          'print preview anchor insertdatetime media',
+          'paste code help wordcount table'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+        // setup: editor => { editor.on('init', () => this.initCallback()) }
       }
     },
-    from: {
-      get() {
-        return this.$store.getters['mailing/from']
-      },
-      set(value) {
-        const payload = { key: 'from', value }
-        this.$store.dispatch('mailing/setValue', payload)
-      }
-    }
   },
   mounted() {
+    if (this.theapiobj) {
+      console.log(' assert the apiobj is the same ', Object.is(this.theapiobj, this.$api))
+    }
     this.isLoading = true
-    this.from = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail
-    if (this.item) {
-      this.loadPreviousMailing(this.item)
+    if (this.from) {
+      this.fromAddr = this.from
+    } else {
+      this.fromAddr = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail
+    }
+    if (this.to) {
+      this.toList = this.to.split(',')
+    }
+    if (this.cc) {
+      this.ccList = this.cc.split(',')
+    }
+    if (this.bcc) {
+      this.bccList = this.bcc.split(',')
+    }
+    if (this.messageName) {
+      this.$api.message.getList({ name: this.messageName })
+        .then((result) => {
+          this.message = result[0]
+        })
     }
     this.$nextTick(() => this.isLoading = false)
   }
@@ -114,43 +145,55 @@ export default {
 <template>
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{title}}</template>
-      <template #content>{{description}}</template>
+      <template #title>Compose Mailing</template>
+      <template #content>Compose a new mailing</template>
       <template #actions>
-        <IFXButton btnType='add' btnText='Load Mailing' @action="rtr.push({name: 'MailingList' })"/>
+        <IFXButton btnType='add' btnText='Load message template' />
       </template>
     </IFXPageHeader>
     <v-container>
     <v-form v-model='isValid' id="mailing-compose-form" ref="mailingComposeForm">
       <v-text-field
         label="From"
-        v-model="from"
-        :rules='formRules.generic'
-        :error-messages="fieldErrors.from"
+        v-model="fromAddr"
+        :rules="formRules.generic"
+        :error-messages="fieldErrors.fromAddr"
         class="required"
       ></v-text-field>
       <IFXContactablesCombobox
-        v-for='r in recipients'
-        :label='r.label'
-        :key='r.label'
-        :required="r.required"
-        :fieldError='fieldErrors[r.label]'
-        :isSearchDisabled='r.isSearchDisabled'
+        ref="toCombobox"
+        label="To:"
+        required
+        :fieldError="fieldErrors.toList"
+        v-model="toList"
+      />
+      <IFXContactablesCombobox
+        ref="ccCombobox"
+        label="Cc:"
+        required
+        :fieldError="fieldErrors.ccList"
+        v-model="ccList"
+      />
+      <IFXContactablesCombobox
+        label="Bcc:"
+        required
+        :fieldError="fieldErrors.bccList"
+        v-model="bccList"
       />
       <v-text-field
         label="Subject"
         v-model="subject"
-        :rules='formRules.generic'
+        :rules="formRules.generic"
         :error-messages="fieldErrors.subject"
         required
         class="required"
         hint="This will appear as the subject line in the email."
       ></v-text-field>
       <span>
-        <v-col class='text-right'>
-          <IFXButton btnType='add' btnColor='secondary' btnText='Load Message Body' @action="rtr.push({name: 'IFXMessageList' })"/>
-        </v-col>
-        <IFXTextEditor :getText="getMailingBody" :setText="setMailingBody"/>
+        <Editor
+          v-model="content"
+          :init="editorInit"
+        ></Editor>
       </span>
     </v-form>
     <div>
