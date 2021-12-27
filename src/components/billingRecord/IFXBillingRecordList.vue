@@ -5,8 +5,6 @@ import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMi
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
-// import IFXItemDataTable from '@/components/item/IFXItemDataTable'
-// import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 
 export default {
   name: 'IFXBillingRecordList',
@@ -92,7 +90,6 @@ export default {
       search: null,
       isValid: false,
       dialog: false,
-
       editedItem: {
         rate: 0,
         charge: 0,
@@ -514,6 +511,23 @@ export default {
               </v-col>
               <v-col v-else>
                 <v-row dense class="d-flex justify-space-between">
+                  <v-col class="pa-2">
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                small
+                                fab
+                                color="green"
+                                v-bind="attrs"
+                              >
+                                <v-icon color="white">mdi-email-send-outline</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>Notify lab managers</span>
+                        </v-tooltip>
+                  </v-col>
                   <v-col class="pa-2" v-if="allowApprovals">
                     <v-row dense class="d-flex flex-nowrap">
                       <v-col>

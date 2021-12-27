@@ -744,4 +744,8 @@ export default class IFXAPIService {
     }
     return this.axios.get(url)
   }
+
+  notifyLabManagers(organizations){
+
+  }
 }

@@ -15,7 +15,7 @@ import vuetify from './plugins/vuetify-local'
 const appName = 'ifxvue'
 const appNameFormatted = 'IFXVue'
 const urls = {
-  BILLING: 'billing/',
+  BILLING_RECORDS: 'billing/',
   CONTACTS: 'contacts/',
   ORGANIZATIONS: 'organizations/',
 }
