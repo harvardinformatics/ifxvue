@@ -749,7 +749,6 @@ export default class IFXAPIService {
   }
 
   notifyLabManagers(organizationSlugs, router) {
-    console.log(organizationSlugs)
     router.push({ name: 'MailingCompose', params: { labManagerOrgSlugs: organizationSlugs } })
   }
 }
