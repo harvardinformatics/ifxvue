@@ -27,7 +27,7 @@
       <v-list-item v-text='item.text'></v-list-item>
     </template>
     <template #selection="{item}">
-      <v-chip color="transparent" close>
+      <v-chip color="transparent" close draggable>
         <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{item.label}}
       </v-chip>
     </template>

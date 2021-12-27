@@ -523,9 +523,12 @@ export default class IFXAPIService {
 
   get contactables() {
     return {
-      getList: async () => {
+      getList: async (params) => {
         const url = this.urls.CONTACTABLES
-        const contactables = await this.axios.get(url).then((response) => response.data)
+        if (params && params.org_slugs) {
+          params.org_slugs = params.org_slugs.join(',')
+        }
+        const contactables = await this.axios.get(url, { params }).then((response) => response.data)
           .catch((error) => { throw new Error(error) })
         return contactables
       },
@@ -745,7 +748,8 @@ export default class IFXAPIService {
     return this.axios.get(url)
   }
 
-  notifyLabManagers(organizations){
-
+  notifyLabManagers(organizationSlugs, router) {
+    console.log(organizationSlugs)
+    router.push({ name: 'MailingCompose', params: { labManagerOrgSlugs: organizationSlugs } })
   }
 }

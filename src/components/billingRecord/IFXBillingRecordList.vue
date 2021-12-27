@@ -204,7 +204,6 @@ export default {
       }
       return false
     },
-
     getLabelsForExport() {
       return this.allHeaders.map((h) => h.text)
     },
@@ -475,6 +474,10 @@ export default {
     allowAddingTransactions(item) {
       return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
     },
+    notifyLabManagers() {
+      const orgSlugs = this.items.map((item) => item.account.organization)
+      this.$api.notifyLabManagers([...new Set(orgSlugs)], this.$router)
+    }
   },
   watch: {
     filteredItems() {
@@ -520,6 +523,7 @@ export default {
                                 fab
                                 color="green"
                                 v-bind="attrs"
+                                @click="notifyLabManagers"
                               >
                                 <v-icon color="white">mdi-email-send-outline</v-icon>
                               </v-btn>

@@ -40,8 +40,8 @@ export default {
       required: false,
       default: null,
     },
-    theapiobj: {
-      type: Object,
+    labManagerOrgSlugs: {
+      type: Array,
       required: false,
       default: null
     }
@@ -120,10 +120,34 @@ export default {
     },
   },
   mounted() {
+    const me = this
     this.$api.contactables.getList()
       .then((result) => {
         this.contactables = result
-        this.isLoading = false
+        // If we're doing the lab manager notification thing
+        if (this.labManagerOrgSlugs) {
+          this.$api.contactables.getList({ role: 'Lab Manager', org_slugs: this.labManagerOrgSlugs })
+            .then((result2) => {
+              // If a contact for one of the orgs cannot be found, raise an error
+              const orgContactNotFound = []
+              me.labManagerOrgSlugs.forEach((slug) => {
+                const name = this.$api.organization.parseSlug((slug)).name
+                // Check if org name is in the contactable label
+                if (!result2.some((contactable) => contactable.label.indexOf(name) !== -1)) {
+                  orgContactNotFound.push(name)
+                }
+              })
+              me.toList = result2
+              this.isLoading = false
+              if (orgContactNotFound) {
+                const names = orgContactNotFound.join(', ')
+                const message = `Unable to find lab manager contact for ${names}`
+                me.showMessage(message)
+              }
+            })
+        } else {
+          this.isLoading = false
+        }
         if (this.from) {
           this.fromAddr = this.from
         } else {
