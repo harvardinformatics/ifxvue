@@ -11,7 +11,6 @@ import { Organization, OrganizationContact, OrganizationUser } from '@/component
 import IFXMailing from '@/components/mailing/IFXMailing'
 import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
-import IFXContactable from '@/components/contactable/IFXContactable'
 import Account from '@/components/account/IFXAccount'
 import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
@@ -524,24 +523,10 @@ export default class IFXAPIService {
 
   get contactables() {
     return {
-      create: (data = null) => {
-        console.error('Still need to implement contactable object')
-        return new IFXContactable(data)
-      },
-      getList: async (search, orgTrees) => {
-        const contacts = await this.contact.getList(search).catch((err) => {
-          throw new Error(err)
-        })
-
-        const users = await this.user.getList(search).catch((err) => {
-          throw new Error(err)
-        })
-
-        const organizations = await this.organization.getList({ search, orgTrees }).catch((err) => {
-          throw new Error(err)
-        })
-
-        const contactables = [contacts, organizations, users].flat()
+      getList: async () => {
+        const url = this.urls.CONTACTABLES
+        const contactables = await this.axios.get(url).then((response) => response.data)
+          .catch((error) => { throw new Error(error) })
         return contactables
       },
     }

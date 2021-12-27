@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       isValid: false,
-      isLoading: false,
+      isLoading: true,
       fieldErrors: {
         from: null,
         to: null,
@@ -66,23 +66,30 @@ export default {
       message: null,
       mailing: null,
       content: null,
+      contactables: [],
     }
   },
   methods: {
     ...mapActions(['showMessage']),
     sendMailing() {
+      const toMailStr = (contactable) => {
+        if (contactable.name) {
+          return `${contactable.name} <${contactable.detail} >`
+        }
+        return contactable.detail
+      }
       // Get mailing from vuex - this is where the mailing is stored throughout the composition process
       const mailing = {
         message: this.content,
         subject: this.subject,
         fromstr: this.fromAddr,
-        tostr: this.toList.join(',')
+        tostr: [...new Set(this.toList.map(toMailStr))].join(',')
       }
       if (this.ccList.length) {
-        mailing.ccstr = this.ccList.join(',')
+        mailing.ccstr = [...new Set(this.ccList.map(toMailStr))].join(',')
       }
       if (this.bccList.length) {
-        mailing.bccstr = this.bccList.join(',')
+        mailing.bccstr = [...new Set(this.bccList.map(toMailStr))].join(',')
       }
       this.$api.mailing.sendIfxMailing(mailing)
         .then(res => this.showMessage(res))
@@ -113,31 +120,71 @@ export default {
     },
   },
   mounted() {
-    if (this.theapiobj) {
-      console.log(' assert the apiobj is the same ', Object.is(this.theapiobj, this.$api))
-    }
-    this.isLoading = true
-    if (this.from) {
-      this.fromAddr = this.from
-    } else {
-      this.fromAddr = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail
-    }
-    if (this.to) {
-      this.toList = this.to.split(',')
-    }
-    if (this.cc) {
-      this.ccList = this.cc.split(',')
-    }
-    if (this.bcc) {
-      this.bccList = this.bcc.split(',')
-    }
+    this.$api.contactables.getList()
+      .then((result) => {
+        this.contactables = result
+        this.isLoading = false
+        if (this.from) {
+          this.fromAddr = this.from
+        } else {
+          this.fromAddr = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail
+        }
+        if (this.to) {
+          this.to.split(',').forEach((ele) => {
+            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            if (matches) {
+              this.toList = matches
+            } else {
+              this.toList.push(
+                {
+                  detail: ele,
+                  label: ele,
+                  text: ele
+                }
+              )
+            }
+          })
+        }
+        if (this.cc) {
+          this.cc.split(',').forEach((ele) => {
+            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            if (matches) {
+              this.ccList = matches
+            } else {
+              this.ccList.push(
+                {
+                  detail: ele,
+                  label: ele,
+                  text: ele
+                }
+              )
+            }
+          })
+        }
+        if (this.bcc) {
+          this.bcc.split(',').forEach((ele) => {
+            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            if (matches) {
+              this.bccList = matches
+            } else {
+              this.bccList.push(
+                {
+                  detail: ele,
+                  label: ele,
+                  text: ele
+                }
+              )
+            }
+          })
+        }
+      })
+      .catch((error) => { this.showMessage(error) })
     if (this.messageName) {
       this.$api.message.getList({ name: this.messageName })
         .then((result) => {
           this.message = result[0]
         })
     }
-    this.$nextTick(() => this.isLoading = false)
   }
 }
 </script>
@@ -166,19 +213,20 @@ export default {
         required
         :fieldError="fieldErrors.toList"
         v-model="toList"
+        :contactables="contactables"
       />
       <IFXContactablesCombobox
         ref="ccCombobox"
         label="Cc:"
-        required
         :fieldError="fieldErrors.ccList"
         v-model="ccList"
+        :contactables="contactables"
       />
       <IFXContactablesCombobox
         label="Bcc:"
-        required
         :fieldError="fieldErrors.bccList"
         v-model="bccList"
+        :contactables="contactables"
       />
       <v-text-field
         label="Subject"
