@@ -5,15 +5,15 @@ import { has } from 'lodash'
 const getDefaultState = () => ({
   isMessageActive: false,
   isActionRequired: false,
-  message: ''
+  message: '',
 })
 
 const state = getDefaultState()
 
 const getters = {
-  isMessageActive: state => state.isMessageActive,
-  isActionRequired: state => state.isActionRequired,
-  message: state => state.message,
+  isMessageActive: (state) => state.isMessageActive,
+  isActionRequired: (state) => state.isActionRequired,
+  message: (state) => state.message,
 }
 
 /**
@@ -56,25 +56,25 @@ function getMessage(payload) {
       switch (payload.response.status) {
         case 400:
           message = 'Malformed edit.'
-          break;
+          break
         case 401:
           message = 'You are not authorized to use this application.'
-          break;
+          break
         case 403:
           message = 'You are not allowed to modify this record.'
-          break;
+          break
         case 404:
           message = 'Unable to find the URL you are looking for.'
-          break;
+          break
         case 405:
           message = 'This method is not allowed. Please try something else.'
-          break;
+          break
         case 500:
           message = 'REST API is malfunctioning. Please send a note to rchelp@rc.fas.harvard.edu.'
-          break;
+          break
         default:
           message = `Error accessing this URL: ${JSON.stringify(payload)}`
-          break;
+          break
       }
       return { message, isActionRequired }
     }
@@ -99,7 +99,7 @@ const actions = {
   },
   deactivateMessage({ commit }) {
     commit('deactivateMessage')
-  }
+  },
 }
 
 const mutations = {
@@ -113,12 +113,12 @@ const mutations = {
   },
   deactivateMessage(state) {
     Object.assign(state, getDefaultState())
-  }
+  },
 }
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }
