@@ -528,8 +528,12 @@ export default class IFXAPIService {
         if (params && params.org_slugs) {
           params.org_slugs = params.org_slugs.join(',')
         }
-        const contactables = await this.axios.get(url, { params }).then((response) => response.data)
-          .catch((error) => { throw new Error(error) })
+        const contactables = await this.axios
+          .get(url, { params })
+          .then((response) => response.data)
+          .catch((error) => {
+            throw new Error(error)
+          })
         return contactables
       },
     }
@@ -758,9 +762,25 @@ export default class IFXAPIService {
     let message = ''
     let subject = ''
     if (messages.length) {
-      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ]
       const link = `https://fiine.rc.fas.harvard.edu/fiine/billing/billing-records/list/?year=${year}&month=${month}&facility=${facility.name}`
-      message = messages[0].message.replaceAll('{link}', link).replaceAll('{month}', months[month]).replaceAll('{year}', year)
+      message = messages[0].message
+        .replaceAll('{link}', link)
+        .replaceAll('{month}', months[month])
+        .replaceAll('{year}', year)
       subject = messages[0].subject
     }
 
@@ -770,7 +790,7 @@ export default class IFXAPIService {
         labManagerOrgSlugs: organizationSlugs,
         message: message,
         subject: subject,
-      }
+      },
     })
   }
 }
