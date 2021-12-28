@@ -748,7 +748,30 @@ export default class IFXAPIService {
     return this.axios.get(url)
   }
 
-  notifyLabManagers(organizationSlugs, router) {
-    router.push({ name: 'MailingCompose', params: { labManagerOrgSlugs: organizationSlugs } })
+  getLabManagerNotificationMessageName(facility) {
+    console.log(facility)
+    return `${this.vars.appName}_${facility.invoicePrefix}_lab_manager_billing_record_notification`
+  }
+
+  async notifyLabManagers(organizationSlugs, facility, year, month, router) {
+    const messageName = this.getLabManagerNotificationMessageName(facility)
+    const messages = await this.message.getList({ name: messageName })
+    let message = ''
+    let subject = ''
+    if (messages.length) {
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      const link = `https://fiine.rc.fas.harvard.edu/fiine/billing/billing-records/list/?year=${year}&month=${month}&facility=${facility.name}`
+      message = messages[0].message.replaceAll('{link}', link).replaceAll('{month}', months[month]).replaceAll('{year}', year)
+      subject = messages[0].subject
+    }
+
+    router.push({
+      name: 'MailingCompose',
+      params: {
+        labManagerOrgSlugs: organizationSlugs,
+        message: message,
+        subject: subject,
+      }
+    })
   }
 }

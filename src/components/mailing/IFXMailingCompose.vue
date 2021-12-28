@@ -35,6 +35,16 @@ export default {
       required: false,
       default: null,
     },
+    subject: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    message: {
+      type: String,
+      required: false,
+      default: null,
+    },
     messageName: {
       type: String,
       required: false,
@@ -62,8 +72,7 @@ export default {
       toList: [],
       ccList: [],
       bccList: [],
-      subject: null,
-      message: null,
+      localSubject: null,
       mailing: null,
       content: null,
       contactables: [],
@@ -81,7 +90,7 @@ export default {
       // Get mailing from vuex - this is where the mailing is stored throughout the composition process
       const mailing = {
         message: this.content,
-        subject: this.subject,
+        subject: this.localSubject,
         fromstr: this.fromAddr,
         tostr: [...new Set(this.toList.map(toMailStr))].join(',')
       }
@@ -121,6 +130,12 @@ export default {
   },
   mounted() {
     const me = this
+    if (this.message) {
+      this.content = this.message
+    }
+    if (this.subject) {
+      this.localSubject = this.subject
+    }
     this.$api.contactables.getList()
       .then((result) => {
         this.contactables = result
@@ -206,7 +221,7 @@ export default {
     if (this.messageName) {
       this.$api.message.getList({ name: this.messageName })
         .then((result) => {
-          this.message = result[0]
+          this.content = result[0]
         })
     }
   }
@@ -254,7 +269,7 @@ export default {
       />
       <v-text-field
         label="Subject"
-        v-model="subject"
+        v-model="localSubject"
         :rules="formRules.generic"
         :error-messages="fieldErrors.subject"
         required

@@ -476,7 +476,7 @@ export default {
     },
     notifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
-      this.$api.notifyLabManagers([...new Set(orgSlugs)], this.$router)
+      this.$api.notifyLabManagers([...new Set(orgSlugs)], this.facility, this.year, this.month, this.$router)
     }
   },
   watch: {
