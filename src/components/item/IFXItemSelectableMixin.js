@@ -8,21 +8,21 @@ export default {
     allItems: {
       type: Array,
       required: false,
-      default: () => []
+      default: () => [],
     },
     errors: {
       type: Object,
       required: false,
       default: () => ({
         contacts: {},
-        users: {}
-      })
+        users: {},
+      }),
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -36,11 +36,11 @@ export default {
       },
       set(item) {
         this.$emit('update:item', item)
-      }
+      },
     },
   },
   mounted() {
     this.isLoading = true
-    this.$nextTick(() => this.isLoading = false)
-  }
+    this.$nextTick(() => (this.isLoading = false))
+  },
 }

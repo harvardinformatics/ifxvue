@@ -6,12 +6,12 @@ export default {
   props: {
     id: {
       default: '',
-      type: String
+      type: String,
     },
     isEditing: {
       default: false,
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -60,8 +60,9 @@ export default {
       }
     },
     submitUpdate() {
-      this.apiRef.update(this.item)
-        .then(async res => {
+      this.apiRef
+        .update(this.item)
+        .then(async (res) => {
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
@@ -71,7 +72,7 @@ export default {
             this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
           }
         })
-        .catch(error => {
+        .catch((error) => {
           const { response } = error
           if (response) {
             this.errors = response.data
@@ -80,8 +81,9 @@ export default {
         })
     },
     submitSave() {
-      this.apiRef.save(this.item)
-        .then(async res => {
+      this.apiRef
+        .save(this.item)
+        .then(async (res) => {
           const message = `${this.itemType} created with ID: ${res.data.id}.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
@@ -91,7 +93,7 @@ export default {
             this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
           }
         })
-        .catch(error => {
+        .catch((error) => {
           const { response } = error
           if (response) {
             this.errors = response.data
@@ -105,7 +107,7 @@ export default {
         return this.apiRef.getByID(this.id)
       }
       // Otherwise, create a new item
-      return this.apiRef.create({ })
+      return this.apiRef.create({})
     },
     hasItemChanged() {
       // TODO: add decomposition by default
@@ -113,7 +115,6 @@ export default {
     },
   },
   computed: {
-
     /**
      * Computes title for PageHeader
      * If editing, the id of the item is displayed
@@ -141,7 +142,7 @@ export default {
         return this.isValid && this.hasItemChanged()
       }
       return this.isValid
-    }
+    },
   },
   mounted() {
     this.isLoading = true
@@ -151,5 +152,5 @@ export default {
         this.showMessage(error)
         this.rtr.replace({ name: 'Home' })
       })
-  }
+  },
 }

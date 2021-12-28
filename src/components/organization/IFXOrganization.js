@@ -257,7 +257,7 @@ export class Organization {
   }
 
   get recipients() {
-    return [this.contacts, this.users].flat().map(contactable => contactable.email)
+    return [this.contacts, this.users].flat().map((contactable) => contactable.email)
   }
 
   // get recipientEmails() {
