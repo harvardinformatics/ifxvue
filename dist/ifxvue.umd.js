@@ -255,6 +255,17 @@ module.exports = getRawTag;
 
 /***/ }),
 
+/***/ "02b5":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_591b0260_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("f229");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_591b0260_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_591b0260_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "02fb":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4283,6 +4294,13 @@ module.exports = function (options, source) {
   }
 };
 
+
+/***/ }),
+
+/***/ "23f2":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -24363,17 +24381,6 @@ module.exports = isArrayLike;
 
 /***/ }),
 
-/***/ "3266":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_097de7ae_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c946");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_097de7ae_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_097de7ae_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "32b3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26350,36 +26357,6 @@ module.exports = function (value) {
 
 /***/ }),
 
-/***/ "408c":
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__("2b3e");
-
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => Logs the number of milliseconds it took for the deferred invocation.
- */
-var now = function() {
-  return root.Date.now();
-};
-
-module.exports = now;
-
-
-/***/ }),
-
 /***/ "40f5":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27998,32 +27975,6 @@ $({ target: 'Reflect', stat: true, forced: FORCED, sham: FORCED }, {
 
 /***/ }),
 
-/***/ "4cef":
-/***/ (function(module, exports) {
-
-/** Used to match a single whitespace character. */
-var reWhitespace = /\s/;
-
-/**
- * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
- * character of `string`.
- *
- * @private
- * @param {string} string The string to inspect.
- * @returns {number} Returns the index of the last non-whitespace character.
- */
-function trimmedEndIndex(string) {
-  var index = string.length;
-
-  while (index-- && reWhitespace.test(string.charAt(index))) {}
-  return index;
-}
-
-module.exports = trimmedEndIndex;
-
-
-/***/ }),
-
 /***/ "4d64":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28604,17 +28555,6 @@ module.exports = function dispatchRequest(config) {
     return ur;
 
 })));
-
-
-/***/ }),
-
-/***/ "52b2":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactablesCombobox_vue_vue_type_style_index_0_id_d37f1d28_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("64bc");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactablesCombobox_vue_vue_type_style_index_0_id_d37f1d28_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactablesCombobox_vue_vue_type_style_index_0_id_d37f1d28_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -30381,13 +30321,6 @@ module.exports = function(module) {
 
 })));
 
-
-/***/ }),
-
-/***/ "64bc":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -35323,32 +35256,6 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
 
 /***/ }),
 
-/***/ "8d74":
-/***/ (function(module, exports, __webpack_require__) {
-
-var trimmedEndIndex = __webpack_require__("4cef");
-
-/** Used to match leading whitespace. */
-var reTrimStart = /^\s+/;
-
-/**
- * The base implementation of `_.trim`.
- *
- * @private
- * @param {string} string The string to trim.
- * @returns {string} Returns the trimmed string.
- */
-function baseTrim(string) {
-  return string
-    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
-    : string;
-}
-
-module.exports = baseTrim;
-
-
-/***/ }),
-
 /***/ "8df4":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39931,204 +39838,6 @@ module.exports = baseUnary;
 
 /***/ }),
 
-/***/ "b047c":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("1a8c"),
-    now = __webpack_require__("408c"),
-    toNumber = __webpack_require__("b4b0");
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        timeWaiting = wait - timeSinceLastCall;
-
-    return maxing
-      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
-      : timeWaiting;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastInvokeTime = 0;
-    lastArgs = lastCallTime = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        clearTimeout(timerId);
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
-
-
-/***/ }),
-
 /***/ "b0c0":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40154,6 +39863,17 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
     }
   });
 }
+
+
+/***/ }),
+
+/***/ "b1cf":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactablesCombobox_vue_vue_type_style_index_0_id_e3f4805e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("23f2");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactablesCombobox_vue_vue_type_style_index_0_id_e3f4805e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_cli_service_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_cli_service_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactablesCombobox_vue_vue_type_style_index_0_id_e3f4805e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -40466,77 +40186,6 @@ module.exports = isLength;
     return de;
 
 })));
-
-
-/***/ }),
-
-/***/ "b4b0":
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseTrim = __webpack_require__("8d74"),
-    isObject = __webpack_require__("1a8c"),
-    isSymbol = __webpack_require__("ffd6");
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = baseTrim(value);
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-module.exports = toNumber;
 
 
 /***/ }),
@@ -48666,13 +48315,6 @@ module.exports = cloneTypedArray;
 
 /***/ }),
 
-/***/ "c946":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "c96a":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -53188,6 +52830,13 @@ hiddenKeys[METADATA] = true;
 
 /***/ }),
 
+/***/ "f229":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "f260":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -54202,9 +53851,6 @@ var es_array_join = __webpack_require__("a15b");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
 var es_string_match = __webpack_require__("466d");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.flat.js
-var es_array_flat = __webpack_require__("0481");
-
 // EXTERNAL MODULE: ./node_modules/axios/index.js
 var axios = __webpack_require__("bc3a");
 var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
@@ -55087,6 +54733,9 @@ var IFXAffiliation_Affiliation = /*#__PURE__*/function (_IFXItemBase) {
 }(IFXItemBase_ItemBase);
 
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.flat.js
+var es_array_flat = __webpack_require__("0481");
+
 // CONCATENATED MODULE: ./src/components/organization/IFXOrganization.js
 
 
@@ -55618,47 +55267,6 @@ var IFXAuthUser_AuthUser = /*#__PURE__*/function () {
 
   return AuthUser;
 }();
-
-
-// CONCATENATED MODULE: ./src/components/contactable/IFXContactable.js
-
-
-
-
-
-
-
-var IFXContactable_Contactable = /*#__PURE__*/function (_IFXItemBase) {
-  _inherits(Contactable, _IFXItemBase);
-
-  var _super = _createSuper(Contactable);
-
-  function Contactable() {
-    _classCallCheck(this, Contactable);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(Contactable, [{
-    key: "name",
-    get: function get() {
-      return this.data.name;
-    },
-    set: function set(name) {
-      this.data.name = name;
-    }
-  }, {
-    key: "type",
-    get: function get() {
-      return this.data.type;
-    },
-    set: function set(type) {
-      this.data.type = type;
-    }
-  }]);
-
-  return Contactable;
-}(IFXItemBase_ItemBase);
 
 
 // CONCATENATED MODULE: ./src/components/account/IFXAccount.js
@@ -56302,9 +55910,7 @@ var IFXProduct_Product = /*#__PURE__*/function (_IFXItemBase2) {
 
 
 
-
 /* eslint-disable no-param-reassign */
-
 
 
 
@@ -57239,46 +56845,33 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
       var _this12 = this;
 
       return {
-        create: function create() {
-          var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-          console.error('Still need to implement contactable object');
-          return new IFXContactable_Contactable(data);
-        },
         getList: function () {
-          var _getList2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(search, orgTrees) {
-            var contacts, users, organizations, contactables;
+          var _getList2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(params) {
+            var url, contactables;
             return regeneratorRuntime.wrap(function _callee12$(_context12) {
               while (1) {
                 switch (_context12.prev = _context12.next) {
                   case 0:
-                    _context12.next = 2;
-                    return _this12.contact.getList(search).catch(function (err) {
-                      throw new Error(err);
+                    url = _this12.urls.CONTACTABLES;
+
+                    if (params && params.org_slugs) {
+                      params.org_slugs = params.org_slugs.join(',');
+                    }
+
+                    _context12.next = 4;
+                    return _this12.axios.get(url, {
+                      params: params
+                    }).then(function (response) {
+                      return response.data;
+                    }).catch(function (error) {
+                      throw new Error(error);
                     });
 
-                  case 2:
-                    contacts = _context12.sent;
-                    _context12.next = 5;
-                    return _this12.user.getList(search).catch(function (err) {
-                      throw new Error(err);
-                    });
-
-                  case 5:
-                    users = _context12.sent;
-                    _context12.next = 8;
-                    return _this12.organization.getList({
-                      search: search,
-                      orgTrees: orgTrees
-                    }).catch(function (err) {
-                      throw new Error(err);
-                    });
-
-                  case 8:
-                    organizations = _context12.sent;
-                    contactables = [contacts, organizations, users].flat();
+                  case 4:
+                    contactables = _context12.sent;
                     return _context12.abrupt("return", contactables);
 
-                  case 11:
+                  case 6:
                   case "end":
                     return _context12.stop();
                 }
@@ -57286,7 +56879,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
             }, _callee12);
           }));
 
-          function getList(_x6, _x7) {
+          function getList(_x6) {
             return _getList2.apply(this, arguments);
           }
 
@@ -57347,7 +56940,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
             }, _callee13, null, [[2, 9]]);
           }));
 
-          function getList(_x8) {
+          function getList(_x7) {
             return _getList3.apply(this, arguments);
           }
 
@@ -57708,7 +57301,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           }, _callee18);
         }));
 
-        return function (_x9) {
+        return function (_x8) {
           return _ref9.apply(this, arguments);
         };
       }();
@@ -57733,7 +57326,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           }, _callee19);
         }));
 
-        return function (_x10, _x11) {
+        return function (_x9, _x10) {
           return _ref10.apply(this, arguments);
         };
       }();
@@ -57776,7 +57369,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           }, _callee20);
         }));
 
-        return function (_x12) {
+        return function (_x11) {
           return _ref11.apply(this, arguments);
         };
       }();
@@ -57799,6 +57392,61 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
       return this.axios.get(url);
     }
+  }, {
+    key: "getLabManagerNotificationMessageName",
+    value: function getLabManagerNotificationMessageName(facility) {
+      return "".concat(this.vars.appName, "_").concat(facility.invoicePrefix, "_lab_manager_billing_record_notification");
+    }
+  }, {
+    key: "notifyLabManagers",
+    value: function () {
+      var _notifyLabManagers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(organizationSlugs, facility, year, month, router) {
+        var messageName, messages, message, subject, months, link;
+        return regeneratorRuntime.wrap(function _callee21$(_context21) {
+          while (1) {
+            switch (_context21.prev = _context21.next) {
+              case 0:
+                messageName = this.getLabManagerNotificationMessageName(facility);
+                _context21.next = 3;
+                return this.message.getList({
+                  name: messageName
+                });
+
+              case 3:
+                messages = _context21.sent;
+                message = '';
+                subject = '';
+
+                if (messages.length) {
+                  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                  link = "https://fiine.rc.fas.harvard.edu/fiine/billing/billing-records/list/?year=".concat(year, "&month=").concat(month, "&facility=").concat(facility.name);
+                  message = messages[0].message.replaceAll('{link}', link).replaceAll('{month}', months[month]).replaceAll('{year}', year);
+                  subject = messages[0].subject;
+                }
+
+                router.push({
+                  name: 'MailingCompose',
+                  params: {
+                    labManagerOrgSlugs: organizationSlugs,
+                    message: message,
+                    subject: subject
+                  }
+                });
+
+              case 8:
+              case "end":
+                return _context21.stop();
+            }
+          }
+        }, _callee21, this);
+      }));
+
+      function notifyLabManagers(_x12, _x13, _x14, _x15, _x16) {
+        return _notifyLabManagers.apply(this, arguments);
+      }
+
+      return notifyLabManagers;
+    }()
   }]);
 
   return IFXAPIService;
@@ -73002,36 +72650,432 @@ var IFXDeleteItemButton_component = normalizeComponent(
 )
 
 /* harmony default export */ var IFXDeleteItemButton = (IFXDeleteItemButton_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/mailing/IFXMailingCompose.vue?vue&type=template&id=366d2184&
-var IFXMailingComposevue_type_template_id_366d2184_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.title))]},proxy:true},{key:"content",fn:function(){return [_vm._v(_vm._s(_vm.description))]},proxy:true},{key:"actions",fn:function(){return [_c('IFXButton',{attrs:{"btnType":"add","btnText":"Load Mailing"},on:{"action":function($event){return _vm.rtr.push({name: 'MailingList' })}}})]},proxy:true}],null,false,4283434333)}),_c('v-container',[_c('v-form',{ref:"mailingComposeForm",attrs:{"id":"mailing-compose-form"},model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-text-field',{staticClass:"required",attrs:{"label":"From","rules":_vm.formRules.generic,"error-messages":_vm.fieldErrors.from},model:{value:(_vm.from),callback:function ($$v) {_vm.from=$$v},expression:"from"}}),_vm._l((_vm.recipients),function(r){return _c('IFXContactablesCombobox',{key:r.label,attrs:{"label":r.label,"required":r.required,"fieldError":_vm.fieldErrors[r.label],"isSearchDisabled":r.isSearchDisabled}})}),_c('v-text-field',{staticClass:"required",attrs:{"label":"Subject","rules":_vm.formRules.generic,"error-messages":_vm.fieldErrors.subject,"required":"","hint":"This will appear as the subject line in the email."},model:{value:(_vm.subject),callback:function ($$v) {_vm.subject=$$v},expression:"subject"}}),_c('span',[_c('v-col',{staticClass:"text-right"},[_c('IFXButton',{attrs:{"btnType":"add","btnColor":"secondary","btnText":"Load Message Body"},on:{"action":function($event){return _vm.rtr.push({name: 'IFXMessageList' })}}})],1),_c('IFXTextEditor',{attrs:{"getText":_vm.getMailingBody,"setText":_vm.setMailingBody}})],1)],2),_c('div',[_c('IFXButton',{staticClass:"mt-5",attrs:{"disabled":false,"btnType":"submit","btnText":"Send"},on:{"action":_vm.sendMailing}})],1)],1)],1):_vm._e()}
-var IFXMailingComposevue_type_template_id_366d2184_staticRenderFns = []
+// CONCATENATED MODULE: ./src/components/contactable/IFXContactable.js
 
 
-// CONCATENATED MODULE: ./src/components/mailing/IFXMailingCompose.vue?vue&type=template&id=366d2184&
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXContactablesCombobox.vue?vue&type=template&id=d37f1d28&scoped=true&
-var IFXContactablesComboboxvue_type_template_id_d37f1d28_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown"},[(!_vm.isLoading)?_c('v-combobox',{ref:_vm.ref,class:{'required': _vm.required},attrs:{"loading":_vm.isSearching,"items":_vm.items,"search-input":_vm.search,"label":_vm._f("capitalizeFirstLetter")(_vm.label),"chips":"","clearable":"","multiple":"","hide-selected":"","item-text":_vm.getItemText,"item-value":_vm.getItemValue,"item-disabled":"false","rules":_vm.rules,"menu-props":{closeOnContentClick:true},"required":_vm.required,"error-messages":_vm.errorMessage,"no-data-text":"No new results match that query."},on:{"update:searchInput":function($event){_vm.search=$event},"update:search-input":function($event){_vm.search=$event},"change":_vm.clearSearch},scopedSlots:_vm._u([{key:"item",fn:function(ref){
+
+
+
+
+var IFXContactable_Contactable = /*#__PURE__*/function (_IFXItemBase) {
+  _inherits(Contactable, _IFXItemBase);
+
+  var _super = _createSuper(Contactable);
+
+  function Contactable() {
+    _classCallCheck(this, Contactable);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(Contactable, [{
+    key: "name",
+    get: function get() {
+      return this.data.name;
+    },
+    set: function set(name) {
+      this.data.name = name;
+    }
+  }, {
+    key: "type",
+    get: function get() {
+      return this.data.type;
+    },
+    set: function set(type) {
+      this.data.type = type;
+    }
+  }]);
+
+  return Contactable;
+}(IFXItemBase_ItemBase);
+
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/mailing/IFXMailingCompose.vue?vue&type=template&id=0daffc66&
+var IFXMailingComposevue_type_template_id_0daffc66_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v("Compose Mailing")]},proxy:true},{key:"content",fn:function(){return [_vm._v("Compose a new mailing")]},proxy:true},{key:"actions",fn:function(){return [_c('IFXButton',{attrs:{"btnType":"add","btnText":"Load message template"}})]},proxy:true}],null,false,3526883731)}),_c('v-container',[_c('v-form',{ref:"mailingComposeForm",attrs:{"id":"mailing-compose-form"},model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-text-field',{staticClass:"required",attrs:{"label":"From","rules":_vm.formRules.generic,"error-messages":_vm.fieldErrors.fromAddr},model:{value:(_vm.fromAddr),callback:function ($$v) {_vm.fromAddr=$$v},expression:"fromAddr"}}),_c('IFXContactablesCombobox',{ref:"toCombobox",attrs:{"label":"To:","required":"","fieldError":_vm.fieldErrors.toList,"contactables":_vm.contactables},model:{value:(_vm.toList),callback:function ($$v) {_vm.toList=$$v},expression:"toList"}}),_c('IFXContactablesCombobox',{ref:"ccCombobox",attrs:{"label":"Cc:","fieldError":_vm.fieldErrors.ccList,"contactables":_vm.contactables},model:{value:(_vm.ccList),callback:function ($$v) {_vm.ccList=$$v},expression:"ccList"}}),_c('IFXContactablesCombobox',{attrs:{"label":"Bcc:","fieldError":_vm.fieldErrors.bccList,"contactables":_vm.contactables},model:{value:(_vm.bccList),callback:function ($$v) {_vm.bccList=$$v},expression:"bccList"}}),_c('v-text-field',{staticClass:"required",attrs:{"label":"Subject","rules":_vm.formRules.generic,"error-messages":_vm.fieldErrors.subject,"required":"","hint":"This will appear as the subject line in the email."},model:{value:(_vm.localSubject),callback:function ($$v) {_vm.localSubject=$$v},expression:"localSubject"}}),_c('span',[_c('Editor',{attrs:{"init":_vm.editorInit},model:{value:(_vm.content),callback:function ($$v) {_vm.content=$$v},expression:"content"}})],1)],1),_c('div',[_c('IFXButton',{staticClass:"mt-5",attrs:{"disabled":false,"btnType":"submit","btnText":"Send"},on:{"action":_vm.sendMailing}})],1)],1)],1):_vm._e()}
+var IFXMailingComposevue_type_template_id_0daffc66_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/components/mailing/IFXMailingCompose.vue?vue&type=template&id=0daffc66&
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+
+
+
+
+
+
+
+
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.js
+var es_set = __webpack_require__("6062");
+
+// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/Utils.js
+/**
+ * Copyright (c) 2018-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var validEvents = [
+    'onActivate',
+    'onAddUndo',
+    'onBeforeAddUndo',
+    'onBeforeExecCommand',
+    'onBeforeGetContent',
+    'onBeforeRenderUI',
+    'onBeforeSetContent',
+    'onBeforePaste',
+    'onBlur',
+    'onChange',
+    'onClearUndos',
+    'onClick',
+    'onContextMenu',
+    'onCopy',
+    'onCut',
+    'onDblclick',
+    'onDeactivate',
+    'onDirty',
+    'onDrag',
+    'onDragDrop',
+    'onDragEnd',
+    'onDragGesture',
+    'onDragOver',
+    'onDrop',
+    'onExecCommand',
+    'onFocus',
+    'onFocusIn',
+    'onFocusOut',
+    'onGetContent',
+    'onHide',
+    'onInit',
+    'onKeyDown',
+    'onKeyPress',
+    'onKeyUp',
+    'onLoadContent',
+    'onMouseDown',
+    'onMouseEnter',
+    'onMouseLeave',
+    'onMouseMove',
+    'onMouseOut',
+    'onMouseOver',
+    'onMouseUp',
+    'onNodeChange',
+    'onObjectResizeStart',
+    'onObjectResized',
+    'onObjectSelected',
+    'onPaste',
+    'onPostProcess',
+    'onPostRender',
+    'onPreProcess',
+    'onProgressState',
+    'onRedo',
+    'onRemove',
+    'onReset',
+    'onSaveContent',
+    'onSelectionChange',
+    'onSetAttrib',
+    'onSetContent',
+    'onShow',
+    'onSubmit',
+    'onUndo',
+    'onVisualAid'
+];
+var isValidKey = function (key) { return validEvents.map(function (event) { return event.toLowerCase(); }).indexOf(key.toLowerCase()) !== -1; };
+var bindHandlers = function (initEvent, listeners, editor) {
+    Object.keys(listeners)
+        .filter(isValidKey)
+        .forEach(function (key) {
+        var handler = listeners[key];
+        if (typeof handler === 'function') {
+            if (key === 'onInit') {
+                handler(initEvent, editor);
+            }
+            else {
+                editor.on(key.substring(2), function (e) { return handler(e, editor); });
+            }
+        }
+    });
+};
+var bindModelHandlers = function (ctx, editor) {
+    var modelEvents = ctx.$props.modelEvents ? ctx.$props.modelEvents : null;
+    var normalizedEvents = Array.isArray(modelEvents) ? modelEvents.join(' ') : modelEvents;
+    ctx.$watch('value', function (val, prevVal) {
+        if (editor && typeof val === 'string' && val !== prevVal && val !== editor.getContent({ format: ctx.$props.outputFormat })) {
+            editor.setContent(val);
+        }
+    });
+    editor.on(normalizedEvents ? normalizedEvents : 'change input undo redo', function () {
+        ctx.$emit('input', editor.getContent({ format: ctx.$props.outputFormat }));
+    });
+};
+var initEditor = function (initEvent, ctx, editor) {
+    var value = ctx.$props.value ? ctx.$props.value : '';
+    var initialValue = ctx.$props.initialValue ? ctx.$props.initialValue : '';
+    editor.setContent(value || (ctx.mounted ? ctx.cache : initialValue));
+    // checks if the v-model shorthand is used (which sets an v-on:input listener) and then binds either
+    // specified the events or defaults to "change keyup" event and emits the editor content on that event
+    if (ctx.$listeners.input) {
+        bindModelHandlers(ctx, editor);
+    }
+    bindHandlers(initEvent, ctx.$listeners, editor);
+    ctx.mounted = true;
+};
+var unique = 0;
+var uuid = function (prefix) {
+    var time = Date.now();
+    var random = Math.floor(Math.random() * 1000000000);
+    unique++;
+    return prefix + '_' + random + unique + String(time);
+};
+var isTextarea = function (element) {
+    return element !== null && element.tagName.toLowerCase() === 'textarea';
+};
+var normalizePluginArray = function (plugins) {
+    if (typeof plugins === 'undefined' || plugins === '') {
+        return [];
+    }
+    return Array.isArray(plugins) ? plugins : plugins.split(' ');
+};
+var mergePlugins = function (initPlugins, inputPlugins) {
+    return normalizePluginArray(initPlugins).concat(normalizePluginArray(inputPlugins));
+};
+var isNullOrUndefined = function (value) { return value === null || value === undefined; };
+
+
+// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/ScriptLoader.js
+/**
+ * Copyright (c) 2018-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+var createState = function () {
+    return {
+        listeners: [],
+        scriptId: uuid('tiny-script'),
+        scriptLoaded: false
+    };
+};
+var CreateScriptLoader = function () {
+    var state = createState();
+    var injectScriptTag = function (scriptId, doc, url, callback) {
+        var scriptTag = doc.createElement('script');
+        scriptTag.referrerPolicy = 'origin';
+        scriptTag.type = 'application/javascript';
+        scriptTag.id = scriptId;
+        scriptTag.src = url;
+        var handler = function () {
+            scriptTag.removeEventListener('load', handler);
+            callback();
+        };
+        scriptTag.addEventListener('load', handler);
+        if (doc.head) {
+            doc.head.appendChild(scriptTag);
+        }
+    };
+    var load = function (doc, url, callback) {
+        if (state.scriptLoaded) {
+            callback();
+        }
+        else {
+            state.listeners.push(callback);
+            if (!doc.getElementById(state.scriptId)) {
+                injectScriptTag(state.scriptId, doc, url, function () {
+                    state.listeners.forEach(function (fn) { return fn(); });
+                    state.scriptLoaded = true;
+                });
+            }
+        }
+    };
+    // Only to be used by tests.
+    var reinitialize = function () {
+        state = createState();
+    };
+    return {
+        load: load,
+        reinitialize: reinitialize
+    };
+};
+var ScriptLoader = CreateScriptLoader();
+
+
+// EXTERNAL MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/TinyMCE.js
+var TinyMCE = __webpack_require__("c4a9");
+
+// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/components/EditorPropTypes.js
+/**
+ * Copyright (c) 2018-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var editorProps = {
+    apiKey: String,
+    cloudChannel: String,
+    id: String,
+    init: Object,
+    initialValue: String,
+    inline: Boolean,
+    modelEvents: [String, Array],
+    plugins: [String, Array],
+    tagName: String,
+    toolbar: [String, Array],
+    value: String,
+    disabled: Boolean,
+    tinymceScriptSrc: String,
+    outputFormat: {
+        type: String,
+        validator: function (prop) { return prop === 'html' || prop === 'text'; }
+    },
+};
+
+// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/components/Editor.js
+/**
+ * Copyright (c) 2018-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+
+
+var renderInline = function (h, id, tagName) {
+    return h(tagName ? tagName : 'div', {
+        attrs: { id: id }
+    });
+};
+var renderIframe = function (h, id) {
+    return h('textarea', {
+        attrs: { id: id },
+        style: { visibility: 'hidden' }
+    });
+};
+var initialise = function (ctx) { return function () {
+    var finalInit = __assign(__assign({}, ctx.$props.init), { readonly: ctx.$props.disabled, selector: "#" + ctx.elementId, plugins: mergePlugins(ctx.$props.init && ctx.$props.init.plugins, ctx.$props.plugins), toolbar: ctx.$props.toolbar || (ctx.$props.init && ctx.$props.init.toolbar), inline: ctx.inlineEditor, setup: function (editor) {
+            ctx.editor = editor;
+            editor.on('init', function (e) { return initEditor(e, ctx, editor); });
+            if (ctx.$props.init && typeof ctx.$props.init.setup === 'function') {
+                ctx.$props.init.setup(editor);
+            }
+        } });
+    if (isTextarea(ctx.element)) {
+        ctx.element.style.visibility = '';
+    }
+    Object(TinyMCE["a" /* getTinymce */])().init(finalInit);
+}; };
+var Editor = {
+    props: editorProps,
+    created: function () {
+        this.elementId = this.$props.id || uuid('tiny-vue');
+        this.inlineEditor = (this.$props.init && this.$props.init.inline) || this.$props.inline;
+        this.mounted = false;
+    },
+    watch: {
+        disabled: function () {
+            this.editor.setMode(this.disabled ? 'readonly' : 'design');
+        }
+    },
+    mounted: function () {
+        this.element = this.$el;
+        if (Object(TinyMCE["a" /* getTinymce */])() !== null) {
+            initialise(this)();
+        }
+        else if (this.element && this.element.ownerDocument) {
+            var channel = this.$props.cloudChannel ? this.$props.cloudChannel : '5';
+            var apiKey = this.$props.apiKey ? this.$props.apiKey : 'no-api-key';
+            var scriptSrc = isNullOrUndefined(this.$props.tinymceScriptSrc) ?
+                "https://cdn.tiny.cloud/1/" + apiKey + "/tinymce/" + channel + "/tinymce.min.js" :
+                this.$props.tinymceScriptSrc;
+            ScriptLoader.load(this.element.ownerDocument, scriptSrc, initialise(this));
+        }
+    },
+    beforeDestroy: function () {
+        if (Object(TinyMCE["a" /* getTinymce */])() !== null) {
+            Object(TinyMCE["a" /* getTinymce */])().remove(this.editor);
+        }
+    },
+    deactivated: function () {
+        var _a;
+        if (!this.inlineEditor) {
+            this.cache = this.editor.getContent();
+            (_a = Object(TinyMCE["a" /* getTinymce */])()) === null || _a === void 0 ? void 0 : _a.remove(this.editor);
+        }
+    },
+    activated: function () {
+        if (!this.inlineEditor && this.mounted) {
+            initialise(this)();
+        }
+    },
+    render: function (h) {
+        return this.inlineEditor ? renderInline(h, this.elementId, this.$props.tagName) : renderIframe(h, this.elementId);
+    }
+};
+
+// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js
+/**
+ * Copyright (c) 2018-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+/* harmony default export */ var ts = (Editor);
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXContactablesCombobox.vue?vue&type=template&id=e3f4805e&scoped=true&
+var IFXContactablesComboboxvue_type_template_id_e3f4805e_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown"},[_c('v-combobox',{ref:_vm.ref,class:{'required': _vm.required},attrs:{"items":_vm.contactables,"search-input":_vm.search,"label":_vm._f("capitalizeFirstLetter")(_vm.label),"chips":"","clearable":"","multiple":"","hide-selected":"","item-text":_vm.getItemText,"item-value":_vm.getItemValue,"item-disabled":"false","rules":_vm.rules,"menu-props":{closeOnContentClick:true},"required":_vm.required,"error-messages":_vm.errorMessage,"no-data-text":"No new results match that query."},on:{"update:searchInput":function($event){_vm.search=$event},"update:search-input":function($event){_vm.search=$event},"change":_vm.handleChange},scopedSlots:_vm._u([{key:"item",fn:function(ref){
 var item = ref.item;
 return [_c('v-icon',{attrs:{"color":item.color}},[_vm._v(_vm._s(item.icon))]),_c('v-list-item',{domProps:{"textContent":_vm._s(item.text)}})]}},{key:"selection",fn:function(ref){
 var item = ref.item;
-return [(_vm.isContactableObj(item))?_c('v-chip',{attrs:{"color":"transparent","close":""},on:{"click:close":function($event){return _vm.removeRecipient(item)}}},[_c('v-icon',{staticClass:"mr-2",attrs:{"color":item.color}},[_vm._v(_vm._s(item.icon))]),_vm._v(_vm._s(item.name))],1):_c('v-chip',{attrs:{"close":""},on:{"click:close":function($event){return _vm.removeRecipient(item)}}},[_vm._v(_vm._s(item))])]}}],null,false,130212005),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e()],1)}
-var IFXContactablesComboboxvue_type_template_id_d37f1d28_scoped_true_staticRenderFns = []
+return [_c('v-chip',{attrs:{"color":"transparent","close":"","draggable":""}},[_c('v-icon',{staticClass:"mr-2",attrs:{"color":item.color}},[_vm._v(_vm._s(item.icon))]),_vm._v(_vm._s(item.label)+" ")],1)]}}]),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}})],1)}
+var IFXContactablesComboboxvue_type_template_id_e3f4805e_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/IFXContactablesCombobox.vue?vue&type=template&id=d37f1d28&scoped=true&
-
-// EXTERNAL MODULE: ./node_modules/lodash/debounce.js
-var lodash_debounce = __webpack_require__("b047c");
-var debounce_default = /*#__PURE__*/__webpack_require__.n(lodash_debounce);
+// CONCATENATED MODULE: ./src/components/IFXContactablesCombobox.vue?vue&type=template&id=e3f4805e&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXContactablesCombobox.vue?vue&type=script&lang=js&
 
 
 
 
-
-//
-//
 //
 //
 //
@@ -73072,7 +73116,6 @@ var debounce_default = /*#__PURE__*/__webpack_require__.n(lodash_debounce);
 // Primarily used in mailingCompose component for searching through multiple types of objects
 // (i.e. contactables: organization, user, contact)
 
-
 /* harmony default export */ var IFXContactablesComboboxvue_type_script_lang_js_ = ({
   name: 'IFXContactablesCombobox',
   props: {
@@ -73095,21 +73138,21 @@ var debounce_default = /*#__PURE__*/__webpack_require__.n(lodash_debounce);
       required: false,
       default: null
     },
-    orgTree: {
+    contactables: {
       type: Array,
-      required: false,
-      default: function _default() {
-        return ['Harvard'];
-      }
+      required: true
+    },
+    value: {
+      type: Array,
+      required: true
     }
   },
   data: function data() {
     return {
-      isLoading: false,
-      isSearching: false,
       search: null,
       items: [],
-      errorMessage: ''
+      errorMessage: '',
+      selected: []
     };
   },
   methods: _objectSpread2(_objectSpread2({}, Object(vuex_esm["a" /* mapActions */])(['showMessage'])), {}, {
@@ -73119,50 +73162,9 @@ var debounce_default = /*#__PURE__*/__webpack_require__.n(lodash_debounce);
     getItemValue: function getItemValue(item) {
       return item;
     },
-    // Debounce so the query doesn't fire on every keydown
-    querySelections: debounce_default()( /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(val) {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.isSearching = true;
-                _context.next = 3;
-                return this.$api.contactables.getList(val, this.orgTree).then(function (res) {
-                  return res;
-                });
-
-              case 3:
-                this.items = _context.sent;
-                this.isSearching = false;
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      return function (_x) {
-        return _ref.apply(this, arguments);
-      };
-    }(), 750),
-    clearSearch: function clearSearch() {
+    handleChange: function handleChange() {
+      this.$emit('input', this.selected);
       this.search = null;
-    },
-    removeRecipient: function removeRecipient(item) {
-      var payload = {
-        key: this.label,
-        value: item
-      };
-      this.$store.dispatch('mailing/deleteValue', payload);
-    },
-    // TODO: make this more specific, this way of checking the shape of a contactable is brittle
-    isContactableObj: function isContactableObj(_ref2) {
-      var slug = _ref2.slug,
-          color = _ref2.color;
-      return !!slug && !!color;
     }
   }),
   computed: {
@@ -73171,28 +73173,9 @@ var debounce_default = /*#__PURE__*/__webpack_require__.n(lodash_debounce);
     },
     rules: function rules() {
       return this.required ? this.formRules.generic : [];
-    },
-    selected: {
-      get: function get() {
-        return this.$store.getters["mailing/".concat(this.label)];
-      },
-      set: function set(valuesArray) {
-        var payload = {
-          key: this.label,
-          value: valuesArray
-        };
-        this.$store.dispatch('mailing/setValue', payload);
-      }
     }
   },
   watch: {
-    search: function search(n, o) {
-      if (this.isSearchDisabled) return;
-
-      if (n && this.areValuesDifferent(n, o)) {
-        this.querySelections(n);
-      }
-    },
     fieldError: {
       handler: function handler(n) {
         if (n) {
@@ -73205,17 +73188,15 @@ var debounce_default = /*#__PURE__*/__webpack_require__.n(lodash_debounce);
     this.isLoading = true;
   },
   mounted: function mounted() {
-    var _this = this;
-
-    this.$nextTick(function () {
-      return _this.isLoading = false;
-    });
+    if (this.value) {
+      this.selected = this.value.slice();
+    }
   }
 });
 // CONCATENATED MODULE: ./src/components/IFXContactablesCombobox.vue?vue&type=script&lang=js&
  /* harmony default export */ var components_IFXContactablesComboboxvue_type_script_lang_js_ = (IFXContactablesComboboxvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/IFXContactablesCombobox.vue?vue&type=style&index=0&id=d37f1d28&lang=scss&scoped=true&
-var IFXContactablesComboboxvue_type_style_index_0_id_d37f1d28_lang_scss_scoped_true_ = __webpack_require__("52b2");
+// EXTERNAL MODULE: ./src/components/IFXContactablesCombobox.vue?vue&type=style&index=0&id=e3f4805e&lang=scss&scoped=true&
+var IFXContactablesComboboxvue_type_style_index_0_id_e3f4805e_lang_scss_scoped_true_ = __webpack_require__("b1cf");
 
 // EXTERNAL MODULE: ./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass
 var VAutocomplete = __webpack_require__("2bfd");
@@ -73830,11 +73811,11 @@ const VAutocomplete_defaultMenuProps = { ...defaultMenuProps,
 
 var IFXContactablesCombobox_component = normalizeComponent(
   components_IFXContactablesComboboxvue_type_script_lang_js_,
-  IFXContactablesComboboxvue_type_template_id_d37f1d28_scoped_true_render,
-  IFXContactablesComboboxvue_type_template_id_d37f1d28_scoped_true_staticRenderFns,
+  IFXContactablesComboboxvue_type_template_id_e3f4805e_scoped_true_render,
+  IFXContactablesComboboxvue_type_template_id_e3f4805e_scoped_true_staticRenderFns,
   false,
   null,
-  "d37f1d28",
+  "e3f4805e",
   null
   
 )
@@ -73849,438 +73830,23 @@ var IFXContactablesCombobox_component = normalizeComponent(
 
 installComponents_default()(IFXContactablesCombobox_component, {VChip: VChip_VChip,VCombobox: VCombobox,VIcon: components_VIcon_VIcon,VListItem: VList_VListItem})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXTextEditor.vue?vue&type=template&id=52ab46df&
-var IFXTextEditorvue_type_template_id_52ab46df_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('Editor',{attrs:{"init":_vm.init},model:{value:(_vm.text),callback:function ($$v) {_vm.text=$$v},expression:"text"}})}
-var IFXTextEditorvue_type_template_id_52ab46df_staticRenderFns = []
-
-
-// CONCATENATED MODULE: ./src/components/IFXTextEditor.vue?vue&type=template&id=52ab46df&
-
-// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/Utils.js
-/**
- * Copyright (c) 2018-present, Ephox, Inc.
- *
- * This source code is licensed under the Apache 2 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-var validEvents = [
-    'onActivate',
-    'onAddUndo',
-    'onBeforeAddUndo',
-    'onBeforeExecCommand',
-    'onBeforeGetContent',
-    'onBeforeRenderUI',
-    'onBeforeSetContent',
-    'onBeforePaste',
-    'onBlur',
-    'onChange',
-    'onClearUndos',
-    'onClick',
-    'onContextMenu',
-    'onCopy',
-    'onCut',
-    'onDblclick',
-    'onDeactivate',
-    'onDirty',
-    'onDrag',
-    'onDragDrop',
-    'onDragEnd',
-    'onDragGesture',
-    'onDragOver',
-    'onDrop',
-    'onExecCommand',
-    'onFocus',
-    'onFocusIn',
-    'onFocusOut',
-    'onGetContent',
-    'onHide',
-    'onInit',
-    'onKeyDown',
-    'onKeyPress',
-    'onKeyUp',
-    'onLoadContent',
-    'onMouseDown',
-    'onMouseEnter',
-    'onMouseLeave',
-    'onMouseMove',
-    'onMouseOut',
-    'onMouseOver',
-    'onMouseUp',
-    'onNodeChange',
-    'onObjectResizeStart',
-    'onObjectResized',
-    'onObjectSelected',
-    'onPaste',
-    'onPostProcess',
-    'onPostRender',
-    'onPreProcess',
-    'onProgressState',
-    'onRedo',
-    'onRemove',
-    'onReset',
-    'onSaveContent',
-    'onSelectionChange',
-    'onSetAttrib',
-    'onSetContent',
-    'onShow',
-    'onSubmit',
-    'onUndo',
-    'onVisualAid'
-];
-var isValidKey = function (key) { return validEvents.map(function (event) { return event.toLowerCase(); }).indexOf(key.toLowerCase()) !== -1; };
-var bindHandlers = function (initEvent, listeners, editor) {
-    Object.keys(listeners)
-        .filter(isValidKey)
-        .forEach(function (key) {
-        var handler = listeners[key];
-        if (typeof handler === 'function') {
-            if (key === 'onInit') {
-                handler(initEvent, editor);
-            }
-            else {
-                editor.on(key.substring(2), function (e) { return handler(e, editor); });
-            }
-        }
-    });
-};
-var bindModelHandlers = function (ctx, editor) {
-    var modelEvents = ctx.$props.modelEvents ? ctx.$props.modelEvents : null;
-    var normalizedEvents = Array.isArray(modelEvents) ? modelEvents.join(' ') : modelEvents;
-    ctx.$watch('value', function (val, prevVal) {
-        if (editor && typeof val === 'string' && val !== prevVal && val !== editor.getContent({ format: ctx.$props.outputFormat })) {
-            editor.setContent(val);
-        }
-    });
-    editor.on(normalizedEvents ? normalizedEvents : 'change input undo redo', function () {
-        ctx.$emit('input', editor.getContent({ format: ctx.$props.outputFormat }));
-    });
-};
-var initEditor = function (initEvent, ctx, editor) {
-    var value = ctx.$props.value ? ctx.$props.value : '';
-    var initialValue = ctx.$props.initialValue ? ctx.$props.initialValue : '';
-    editor.setContent(value || (ctx.mounted ? ctx.cache : initialValue));
-    // checks if the v-model shorthand is used (which sets an v-on:input listener) and then binds either
-    // specified the events or defaults to "change keyup" event and emits the editor content on that event
-    if (ctx.$listeners.input) {
-        bindModelHandlers(ctx, editor);
-    }
-    bindHandlers(initEvent, ctx.$listeners, editor);
-    ctx.mounted = true;
-};
-var unique = 0;
-var uuid = function (prefix) {
-    var time = Date.now();
-    var random = Math.floor(Math.random() * 1000000000);
-    unique++;
-    return prefix + '_' + random + unique + String(time);
-};
-var isTextarea = function (element) {
-    return element !== null && element.tagName.toLowerCase() === 'textarea';
-};
-var normalizePluginArray = function (plugins) {
-    if (typeof plugins === 'undefined' || plugins === '') {
-        return [];
-    }
-    return Array.isArray(plugins) ? plugins : plugins.split(' ');
-};
-var mergePlugins = function (initPlugins, inputPlugins) {
-    return normalizePluginArray(initPlugins).concat(normalizePluginArray(inputPlugins));
-};
-var isNullOrUndefined = function (value) { return value === null || value === undefined; };
-
-
-// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/ScriptLoader.js
-/**
- * Copyright (c) 2018-present, Ephox, Inc.
- *
- * This source code is licensed under the Apache 2 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-var createState = function () {
-    return {
-        listeners: [],
-        scriptId: uuid('tiny-script'),
-        scriptLoaded: false
-    };
-};
-var CreateScriptLoader = function () {
-    var state = createState();
-    var injectScriptTag = function (scriptId, doc, url, callback) {
-        var scriptTag = doc.createElement('script');
-        scriptTag.referrerPolicy = 'origin';
-        scriptTag.type = 'application/javascript';
-        scriptTag.id = scriptId;
-        scriptTag.src = url;
-        var handler = function () {
-            scriptTag.removeEventListener('load', handler);
-            callback();
-        };
-        scriptTag.addEventListener('load', handler);
-        if (doc.head) {
-            doc.head.appendChild(scriptTag);
-        }
-    };
-    var load = function (doc, url, callback) {
-        if (state.scriptLoaded) {
-            callback();
-        }
-        else {
-            state.listeners.push(callback);
-            if (!doc.getElementById(state.scriptId)) {
-                injectScriptTag(state.scriptId, doc, url, function () {
-                    state.listeners.forEach(function (fn) { return fn(); });
-                    state.scriptLoaded = true;
-                });
-            }
-        }
-    };
-    // Only to be used by tests.
-    var reinitialize = function () {
-        state = createState();
-    };
-    return {
-        load: load,
-        reinitialize: reinitialize
-    };
-};
-var ScriptLoader = CreateScriptLoader();
-
-
-// EXTERNAL MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/TinyMCE.js
-var TinyMCE = __webpack_require__("c4a9");
-
-// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/components/EditorPropTypes.js
-/**
- * Copyright (c) 2018-present, Ephox, Inc.
- *
- * This source code is licensed under the Apache 2 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-var editorProps = {
-    apiKey: String,
-    cloudChannel: String,
-    id: String,
-    init: Object,
-    initialValue: String,
-    inline: Boolean,
-    modelEvents: [String, Array],
-    plugins: [String, Array],
-    tagName: String,
-    toolbar: [String, Array],
-    value: String,
-    disabled: Boolean,
-    tinymceScriptSrc: String,
-    outputFormat: {
-        type: String,
-        validator: function (prop) { return prop === 'html' || prop === 'text'; }
-    },
-};
-
-// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/components/Editor.js
-/**
- * Copyright (c) 2018-present, Ephox, Inc.
- *
- * This source code is licensed under the Apache 2 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-
-
-
-
-var renderInline = function (h, id, tagName) {
-    return h(tagName ? tagName : 'div', {
-        attrs: { id: id }
-    });
-};
-var renderIframe = function (h, id) {
-    return h('textarea', {
-        attrs: { id: id },
-        style: { visibility: 'hidden' }
-    });
-};
-var initialise = function (ctx) { return function () {
-    var finalInit = __assign(__assign({}, ctx.$props.init), { readonly: ctx.$props.disabled, selector: "#" + ctx.elementId, plugins: mergePlugins(ctx.$props.init && ctx.$props.init.plugins, ctx.$props.plugins), toolbar: ctx.$props.toolbar || (ctx.$props.init && ctx.$props.init.toolbar), inline: ctx.inlineEditor, setup: function (editor) {
-            ctx.editor = editor;
-            editor.on('init', function (e) { return initEditor(e, ctx, editor); });
-            if (ctx.$props.init && typeof ctx.$props.init.setup === 'function') {
-                ctx.$props.init.setup(editor);
-            }
-        } });
-    if (isTextarea(ctx.element)) {
-        ctx.element.style.visibility = '';
-    }
-    Object(TinyMCE["a" /* getTinymce */])().init(finalInit);
-}; };
-var Editor = {
-    props: editorProps,
-    created: function () {
-        this.elementId = this.$props.id || uuid('tiny-vue');
-        this.inlineEditor = (this.$props.init && this.$props.init.inline) || this.$props.inline;
-        this.mounted = false;
-    },
-    watch: {
-        disabled: function () {
-            this.editor.setMode(this.disabled ? 'readonly' : 'design');
-        }
-    },
-    mounted: function () {
-        this.element = this.$el;
-        if (Object(TinyMCE["a" /* getTinymce */])() !== null) {
-            initialise(this)();
-        }
-        else if (this.element && this.element.ownerDocument) {
-            var channel = this.$props.cloudChannel ? this.$props.cloudChannel : '5';
-            var apiKey = this.$props.apiKey ? this.$props.apiKey : 'no-api-key';
-            var scriptSrc = isNullOrUndefined(this.$props.tinymceScriptSrc) ?
-                "https://cdn.tiny.cloud/1/" + apiKey + "/tinymce/" + channel + "/tinymce.min.js" :
-                this.$props.tinymceScriptSrc;
-            ScriptLoader.load(this.element.ownerDocument, scriptSrc, initialise(this));
-        }
-    },
-    beforeDestroy: function () {
-        if (Object(TinyMCE["a" /* getTinymce */])() !== null) {
-            Object(TinyMCE["a" /* getTinymce */])().remove(this.editor);
-        }
-    },
-    deactivated: function () {
-        var _a;
-        if (!this.inlineEditor) {
-            this.cache = this.editor.getContent();
-            (_a = Object(TinyMCE["a" /* getTinymce */])()) === null || _a === void 0 ? void 0 : _a.remove(this.editor);
-        }
-    },
-    activated: function () {
-        if (!this.inlineEditor && this.mounted) {
-            initialise(this)();
-        }
-    },
-    render: function (h) {
-        return this.inlineEditor ? renderInline(h, this.elementId, this.$props.tagName) : renderIframe(h, this.elementId);
-    }
-};
-
-// CONCATENATED MODULE: ./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js
-/**
- * Copyright (c) 2018-present, Ephox, Inc.
- *
- * This source code is licensed under the Apache 2 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-/* harmony default export */ var ts = (Editor);
-
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXTextEditor.vue?vue&type=script&lang=js&
-//
-//
-//
-//
-//
-//
-//
-// https://www.tiny.cloud/docs/integrations/vue/
-// TODO: extend vuetify input to make this component swork better with forms
-// import VInput from 'vuetify/lib/components/VInput/VInput'
-
-/* harmony default export */ var IFXTextEditorvue_type_script_lang_js_ = ({
-  name: 'IFXTextEditor',
-  // extends: VInput,
-  components: {
-    Editor: ts
-  },
-  props: {
-    getText: {
-      type: Function,
-      required: true
-    },
-    setText: {
-      type: Function,
-      required: true
-    }
-  },
-  data: function data() {
-    return {
-      isLoading: false
-    };
-  },
-  methods: {
-    initCallback: function initCallback() {
-      this.isLoading = false;
-    }
-  },
-  computed: {
-    text: {
-      get: function get() {
-        return this.getText();
-      },
-      set: function set(value) {
-        this.setText(value);
-      }
-    },
-    init: function init() {
-      var _this = this;
-
-      return {
-        height: 300,
-        menubar: false,
-        statusbar: false,
-        plugins: ['advlist autolink lists link image charmap', 'searchreplace visualblocks code fullscreen', 'print preview anchor insertdatetime media', 'paste code help wordcount table'],
-        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
-        setup: function setup(editor) {
-          editor.on('init', function () {
-            return _this.initCallback();
-          });
-        }
-      };
-    }
-  },
-  created: function created() {
-    this.isLoading = true;
-  }
-});
-// CONCATENATED MODULE: ./src/components/IFXTextEditor.vue?vue&type=script&lang=js&
- /* harmony default export */ var components_IFXTextEditorvue_type_script_lang_js_ = (IFXTextEditorvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/IFXTextEditor.vue?vue&type=style&index=0&lang=css&
-var IFXTextEditorvue_type_style_index_0_lang_css_ = __webpack_require__("0d3d");
-
-// CONCATENATED MODULE: ./src/components/IFXTextEditor.vue
-
-
-
-
-
-
-/* normalize component */
-
-var IFXTextEditor_component = normalizeComponent(
-  components_IFXTextEditorvue_type_script_lang_js_,
-  IFXTextEditorvue_type_template_id_52ab46df_render,
-  IFXTextEditorvue_type_template_id_52ab46df_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* harmony default export */ var IFXTextEditor = (IFXTextEditor_component.exports);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/mailing/IFXMailingCompose.vue?vue&type=script&lang=js&
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -74289,12 +73855,49 @@ var IFXTextEditor_component = normalizeComponent(
 /* harmony default export */ var IFXMailingComposevue_type_script_lang_js_ = ({
   name: 'IFXMailingCompose',
   components: {
-    IFXTextEditor: IFXTextEditor,
+    Editor: ts,
+    IFXPageHeader: IFXPageHeader,
+    IFXButton: IFXButton,
     IFXContactablesCombobox: IFXContactablesCombobox
   },
   props: {
-    item: {
-      type: Object,
+    from: {
+      type: String,
+      required: false,
+      default: null
+    },
+    to: {
+      type: String,
+      required: false,
+      default: null
+    },
+    cc: {
+      type: String,
+      required: false,
+      default: null
+    },
+    bcc: {
+      type: String,
+      required: false,
+      default: null
+    },
+    subject: {
+      type: String,
+      required: false,
+      default: null
+    },
+    message: {
+      type: String,
+      required: false,
+      default: null
+    },
+    messageName: {
+      type: String,
+      required: false,
+      default: null
+    },
+    labManagerOrgSlugs: {
+      type: Array,
       required: false,
       default: null
     }
@@ -74302,7 +73905,7 @@ var IFXTextEditor_component = normalizeComponent(
   data: function data() {
     return {
       isValid: false,
-      isLoading: false,
+      isLoading: true,
       fieldErrors: {
         from: null,
         to: null,
@@ -74311,27 +73914,44 @@ var IFXTextEditor_component = normalizeComponent(
         subject: null,
         message: null
       },
-      recipients: [{
-        label: 'to',
-        required: true,
-        isSearchDisabled: false
-      }, {
-        label: 'cc',
-        required: false,
-        isSearchDisabled: false
-      }, {
-        label: 'bcc',
-        required: false,
-        isSearchDisabled: false
-      }]
+      fromAddr: null,
+      toList: [],
+      ccList: [],
+      bccList: [],
+      localSubject: null,
+      mailing: null,
+      content: null,
+      contactables: []
     };
   },
   methods: _objectSpread2(_objectSpread2({}, Object(vuex_esm["a" /* mapActions */])(['showMessage'])), {}, {
     sendMailing: function sendMailing() {
       var _this = this;
 
-      // Get mailing from vuex - this is where the mailing is stored throughout the composition process
-      var mailing = this.$store.getters['mailing/serializedMailing'];
+      var toMailStr = function toMailStr(contactable) {
+        if (contactable.name) {
+          return "".concat(contactable.name, " <").concat(contactable.detail, " >");
+        }
+
+        return contactable.detail;
+      }; // Get mailing from vuex - this is where the mailing is stored throughout the composition process
+
+
+      var mailing = {
+        message: this.content,
+        subject: this.localSubject,
+        fromstr: this.fromAddr,
+        tostr: _toConsumableArray(new Set(this.toList.map(toMailStr))).join(',')
+      };
+
+      if (this.ccList.length) {
+        mailing.ccstr = _toConsumableArray(new Set(this.ccList.map(toMailStr))).join(',');
+      }
+
+      if (this.bccList.length) {
+        mailing.bccstr = _toConsumableArray(new Set(this.bccList.map(toMailStr))).join(',');
+      }
+
       this.$api.mailing.sendIfxMailing(mailing).then(function (res) {
         return _this.showMessage(res);
       }).catch(function (err) {
@@ -74341,66 +73961,136 @@ var IFXTextEditor_component = normalizeComponent(
           _this.showMessage(err);
         }
       });
-    },
-    loadPreviousMailing: function loadPreviousMailing(item) {
-      return this.$store.dispatch('mailing/loadMailing', item);
-    },
-    getMailingBody: function getMailingBody() {
-      return this.$store.getters['mailing/message'];
-    },
-    setMailingBody: function setMailingBody(value) {
-      var payload = {
-        key: 'message',
-        value: value
-      };
-      this.$store.dispatch('mailing/setValue', payload);
     }
   }),
   computed: {
-    title: function title() {
-      return 'Compose Mailing';
-    },
-    description: function description() {
-      return 'Compose a new mailing.';
-    },
-    subject: {
-      get: function get() {
-        return this.$store.getters['mailing/subject'];
-      },
-      set: function set(value) {
-        var payload = {
-          key: 'subject',
-          value: value
-        };
-        this.$store.dispatch('mailing/setValue', payload);
-      }
-    },
-    from: {
-      get: function get() {
-        return this.$store.getters['mailing/from'];
-      },
-      set: function set(value) {
-        var payload = {
-          key: 'from',
-          value: value
-        };
-        this.$store.dispatch('mailing/setValue', payload);
-      }
+    editorInit: function editorInit() {
+      return {
+        height: 300,
+        menubar: false,
+        statusbar: false,
+        plugins: ['advlist autolink lists link image charmap', 'searchreplace visualblocks code fullscreen', 'print preview anchor insertdatetime media', 'paste code help wordcount table'],
+        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help' // setup: editor => { editor.on('init', () => this.initCallback()) }
+
+      };
     }
   },
   mounted: function mounted() {
     var _this2 = this;
 
-    this.isLoading = true;
-    this.from = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail;
+    var me = this;
 
-    if (this.item) {
-      this.loadPreviousMailing(this.item);
+    if (this.message) {
+      this.content = this.message;
     }
 
-    this.$nextTick(function () {
-      return _this2.isLoading = false;
+    if (this.subject) {
+      this.localSubject = this.subject;
+    }
+
+    this.$api.contactables.getList().then(function (result) {
+      _this2.contactables = result; // If we're doing the lab manager notification thing
+
+      if (_this2.labManagerOrgSlugs) {
+        _this2.$api.contactables.getList({
+          role: 'Lab Manager',
+          org_slugs: _this2.labManagerOrgSlugs
+        }).then(function (result2) {
+          // If a contact for one of the orgs cannot be found, raise an error
+          var orgContactNotFound = [];
+          me.labManagerOrgSlugs.forEach(function (slug) {
+            var name = _this2.$api.organization.parseSlug(slug).name; // Check if org name is in the contactable label
+
+
+            if (!result2.some(function (contactable) {
+              return contactable.label.indexOf(name) !== -1;
+            })) {
+              orgContactNotFound.push(name);
+            }
+          });
+          me.toList = result2;
+          _this2.isLoading = false;
+
+          if (orgContactNotFound) {
+            var names = orgContactNotFound.join(', ');
+            var message = "Unable to find lab manager contact for ".concat(names);
+            me.showMessage(message);
+          }
+        });
+      } else {
+        _this2.isLoading = false;
+      }
+
+      if (_this2.from) {
+        _this2.fromAddr = _this2.from;
+      } else {
+        _this2.fromAddr = _this2.$api.vars.appDefaultFromField || _this2.$api.auth.getCurrentUserRecord().primaryEmail;
+      }
+
+      if (_this2.to) {
+        _this2.to.split(',').forEach(function (ele) {
+          var matches = _this2.contactables.filter(function (contactable) {
+            return contactable.detail === ele;
+          });
+
+          if (matches) {
+            _this2.toList = matches;
+          } else {
+            _this2.toList.push({
+              detail: ele,
+              label: ele,
+              text: ele
+            });
+          }
+        });
+      }
+
+      if (_this2.cc) {
+        _this2.cc.split(',').forEach(function (ele) {
+          var matches = _this2.contactables.filter(function (contactable) {
+            return contactable.detail === ele;
+          });
+
+          if (matches) {
+            _this2.ccList = matches;
+          } else {
+            _this2.ccList.push({
+              detail: ele,
+              label: ele,
+              text: ele
+            });
+          }
+        });
+      }
+
+      if (_this2.bcc) {
+        _this2.bcc.split(',').forEach(function (ele) {
+          var matches = _this2.contactables.filter(function (contactable) {
+            return contactable.detail === ele;
+          });
+
+          if (matches) {
+            _this2.bccList = matches;
+          } else {
+            _this2.bccList.push({
+              detail: ele,
+              label: ele,
+              text: ele
+            });
+          }
+        });
+      }
+    }).catch(function (error) {
+      _this2.showMessage(error);
     });
+
+    if (this.messageName) {
+      this.$api.message.getList({
+        name: this.messageName
+      }).then(function (result) {
+        _this2.content = result[0];
+      });
+    }
   }
 });
 // CONCATENATED MODULE: ./src/components/mailing/IFXMailingCompose.vue?vue&type=script&lang=js&
@@ -74550,8 +74240,8 @@ var IFXTextEditor_component = normalizeComponent(
 
 var IFXMailingCompose_component = normalizeComponent(
   mailing_IFXMailingComposevue_type_script_lang_js_,
-  IFXMailingComposevue_type_template_id_366d2184_render,
-  IFXMailingComposevue_type_template_id_366d2184_staticRenderFns,
+  IFXMailingComposevue_type_template_id_0daffc66_render,
+  IFXMailingComposevue_type_template_id_0daffc66_staticRenderFns,
   false,
   null,
   null,
@@ -74566,8 +74256,7 @@ var IFXMailingCompose_component = normalizeComponent(
 
 
 
-
-installComponents_default()(IFXMailingCompose_component, {VCol: VCol,VContainer: VContainer,VForm: VForm,VTextField: VTextField_VTextField})
+installComponents_default()(IFXMailingCompose_component, {VContainer: VContainer,VForm: VForm,VTextField: VTextField_VTextField})
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/mailing/IFXMailingDetail.vue?vue&type=template&id=9765a6a8&
 var IFXMailingDetailvue_type_template_id_9765a6a8_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.detailTitle)+": ")]},proxy:true},{key:"id",fn:function(){return [_vm._v(_vm._s(_vm.id))]},proxy:true},{key:"actions",fn:function(){return [(_vm.$api.auth.isAdmin)?_c('IFXButton',{attrs:{"btnType":"edit"},on:{"action":function($event){return _vm.navigateToItemEdit(_vm.id)}}}):_vm._e(),(_vm.$api.auth.isAdmin)?_c('IFXDeleteItemButton',{attrs:{"item":_vm.item,"apiRef":_vm.apiRef,"itemType":_vm.itemType}}):_vm._e()]},proxy:true}],null,false,426649423)}),_c('v-container',{attrs:{"px-5":"","py-0":""}},[_c('v-row',[_c('v-col',[_c('h3',[_vm._v("Subject")]),_c('p',[_vm._v(_vm._s(_vm.item.subject))])])],1),_c('v-row',[_c('v-col',[_c('h3',[_vm._v("From")]),_c('p',[_vm._v(_vm._s(_vm.item.fromstr))])]),_c('v-col',[_c('h3',[_vm._v("To")]),_c('p',[_vm._v(_vm._s(_vm.item.tostr))])]),_c('v-col',[_c('h3',[_vm._v("CC")]),_c('p',[_vm._v(_vm._s(_vm.item.ccstr))])]),_c('v-col',[_c('h3',[_vm._v("BCC")]),_c('p',[_vm._v(_vm._s(_vm.item.bccstr))])])],1),_c('v-row',[_c('v-col',[_c('h3',[_vm._v("Date Sent")]),_c('p',[_vm._v(_vm._s(_vm._f("humanDatetime")(_vm.item.sent)))])])],1),_c('v-row',[_c('v-col',[_c('h3',[_vm._v("Message")]),_c('p',[_vm._v(_vm._s(_vm.item.message))])])],1)],1)],1):_vm._e()}
@@ -77196,35 +76885,6 @@ var IFXContactCreateEditvue_type_template_id_29c67ed0_staticRenderFns = []
 
 // CONCATENATED MODULE: ./src/components/contact/IFXContactCreateEdit.vue?vue&type=template&id=29c67ed0&
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-
-
-
-
-
-
-
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/contact/IFXEmailContactCreateEdit.vue?vue&type=template&id=38b4c1a6&
 var IFXEmailContactCreateEditvue_type_template_id_38b4c1a6_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('v-text-field',{attrs:{"label":"Name","data-cy":"name","rules":_vm.formRules.generic,"error-messages":_vm.errors.name,"required":""},model:{value:(_vm.item.name),callback:function ($$v) {_vm.$set(_vm.item, "name", $$v)},expression:"item.name"}})],1)],1),_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('v-text-field',{attrs:{"label":"Email","data-cy":"email","rules":_vm.formRules.email,"error-messages":_vm.errors.detail,"required":""},model:{value:(_vm.item.detail),callback:function ($$v) {_vm.$set(_vm.item, "detail", $$v)},expression:"item.detail"}})],1)],1),_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXPageActionBar',{attrs:{"disabled":!_vm.isSubmittable,"btnType":"submit"},on:{"action":_vm.submit}})],1)],1)],1):_vm._e()}
 var IFXEmailContactCreateEditvue_type_template_id_38b4c1a6_staticRenderFns = []
@@ -80155,8 +79815,11 @@ var IFXProductCreateEdit_component = normalizeComponent(
 
 installComponents_default()(IFXProductCreateEdit_component, {VCol: VCol,VContainer: VContainer,VForm: VForm,VRow: VRow,VSelect: VSelect_VSelect,VSwitch: VSwitch_VSwitch,VTextField: VTextField_VTextField,VTextarea: VTextarea_VTextarea})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=097de7ae&scoped=true&
-var IFXBillingRecordListvue_type_template_id_097de7ae_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between",attrs:{"dense":""}},[(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=591b0260&scoped=true&
+var IFXBillingRecordListvue_type_template_id_591b0260_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between",attrs:{"dense":""}},[_c('v-col',{staticClass:"pa-2"},[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+var on = ref.on;
+var attrs = ref.attrs;
+return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"small":"","fab":"","color":"green"},on:{"click":_vm.notifyLabManagers}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"color":"white"}},[_vm._v("mdi-email-send-outline")])],1)],1)]}}])},[_c('span',[_vm._v("Notify lab managers")])])],1),(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.selected.length == 0 || _vm.billingRecordsAreFinal(_vm.selected),"fab":"","small":"","color":"green"},on:{"click":function($event){return _vm.approve()}}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":""}},[_vm._v("done")])],1)],1)]}}],null,false,594938130)},[_c('span',[_vm._v(_vm._s(_vm.approveSelectedToolTip))])])],1),_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
@@ -80192,16 +79855,13 @@ return [_vm._v(" "+_vm._s(_vm._f("centsToDollars")(item.charge))+" ")]}},{key:"i
 return [(_vm.allowAddingTransactions(item))?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(item)}}}):_vm._e()]}},{key:"expanded-item",fn:function(ref){
                                   var item = ref.item;
 return [_c('IFXBillingRecordTransactions',{attrs:{"billingRecord":item}})]}}],null,false,4138869969),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v},expression:"dialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:" py-2 text-h6 font-weight-medium "},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',[_c('v-col',[_c('v-text-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$"},model:{value:(_vm.dollarValue),callback:function ($$v) {_vm.dollarValue=$$v},expression:"dollarValue"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v(" Cancel ")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1)],1)],1)],1)],1)}
-var IFXBillingRecordListvue_type_template_id_097de7ae_scoped_true_staticRenderFns = []
+var IFXBillingRecordListvue_type_template_id_591b0260_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=097de7ae&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=591b0260&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.values.js
 var es_object_values = __webpack_require__("07ac");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.set.js
-var es_set = __webpack_require__("6062");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.pad-start.js
 var es_string_pad_start = __webpack_require__("4d90");
@@ -80341,8 +80001,7 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 
 
 
- // import IFXItemDataTable from '@/components/item/IFXItemDataTable'
-// import IFXItemListMixin from '@/components/item/IFXItemListMixin'
+
 
 /* harmony default export */ var IFXBillingRecordListvue_type_script_lang_js_ = ({
   name: 'IFXBillingRecordList',
@@ -80952,6 +80611,12 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
     },
     allowAddingTransactions: function allowAddingTransactions(item) {
       return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL';
+    },
+    notifyLabManagers: function notifyLabManagers() {
+      var orgSlugs = this.items.map(function (item) {
+        return item.account.organization;
+      });
+      this.$api.notifyLabManagers(_toConsumableArray(new Set(orgSlugs)), this.facility, this.year, this.month, this.$router);
     }
   }),
   watch: {
@@ -80965,8 +80630,8 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordListvue_type_script_lang_js_ = (IFXBillingRecordListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=0&id=097de7ae&scoped=true&lang=css&
-var IFXBillingRecordListvue_type_style_index_0_id_097de7ae_scoped_true_lang_css_ = __webpack_require__("3266");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=0&id=591b0260&scoped=true&lang=css&
+var IFXBillingRecordListvue_type_style_index_0_id_591b0260_scoped_true_lang_css_ = __webpack_require__("02b5");
 
 // EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=1&lang=css&
 var IFXBillingRecordListvue_type_style_index_1_lang_css_ = __webpack_require__("2457");
@@ -80983,11 +80648,11 @@ var IFXBillingRecordListvue_type_style_index_1_lang_css_ = __webpack_require__("
 
 var IFXBillingRecordList_component = normalizeComponent(
   billingRecord_IFXBillingRecordListvue_type_script_lang_js_,
-  IFXBillingRecordListvue_type_template_id_097de7ae_scoped_true_render,
-  IFXBillingRecordListvue_type_template_id_097de7ae_scoped_true_staticRenderFns,
+  IFXBillingRecordListvue_type_template_id_591b0260_scoped_true_render,
+  IFXBillingRecordListvue_type_template_id_591b0260_scoped_true_staticRenderFns,
   false,
   null,
-  "097de7ae",
+  "591b0260",
   null
   
 )
@@ -82697,6 +82362,96 @@ if (typeof window !== 'undefined' && window.Vue) {
 var r=function(r){return function(r){return!!r&&"object"==typeof r}(r)&&!function(r){var t=Object.prototype.toString.call(r);return"[object RegExp]"===t||"[object Date]"===t||function(r){return r.$$typeof===vuex_persistedstate_es_e}(r)}(r)},vuex_persistedstate_es_e="function"==typeof Symbol&&Symbol.for?Symbol.for("react.element"):60103;function t(r,e){return!1!==e.clone&&e.isMergeableObject(r)?vuex_persistedstate_es_c(Array.isArray(r)?[]:{},r,e):r}function vuex_persistedstate_es_n(r,e,n){return r.concat(e).map(function(r){return t(r,n)})}function vuex_persistedstate_es_o(r){return Object.keys(r).concat(function(r){return Object.getOwnPropertySymbols?Object.getOwnPropertySymbols(r).filter(function(e){return r.propertyIsEnumerable(e)}):[]}(r))}function u(r,e){try{return e in r}catch(r){return!1}}function vuex_persistedstate_es_c(e,i,a){(a=a||{}).arrayMerge=a.arrayMerge||vuex_persistedstate_es_n,a.isMergeableObject=a.isMergeableObject||r,a.cloneUnlessOtherwiseSpecified=t;var f=Array.isArray(i);return f===Array.isArray(e)?f?a.arrayMerge(e,i,a):function(r,e,n){var i={};return n.isMergeableObject(r)&&vuex_persistedstate_es_o(r).forEach(function(e){i[e]=t(r[e],n)}),vuex_persistedstate_es_o(e).forEach(function(o){(function(r,e){return u(r,e)&&!(Object.hasOwnProperty.call(r,e)&&Object.propertyIsEnumerable.call(r,e))})(r,o)||(i[o]=u(r,o)&&n.isMergeableObject(e[o])?function(r,e){if(!e.customMerge)return vuex_persistedstate_es_c;var t=e.customMerge(r);return"function"==typeof t?t:vuex_persistedstate_es_c}(o,n)(r[o],e[o],n):t(e[o],n))}),i}(e,i,a):t(i,a)}vuex_persistedstate_es_c.all=function(r,e){if(!Array.isArray(r))throw new Error("first argument should be an array");return r.reduce(function(r,t){return vuex_persistedstate_es_c(r,t,e)},{})};var vuex_persistedstate_es_i=vuex_persistedstate_es_c;/* harmony default export */ var vuex_persistedstate_es = (function(r){var e=(r=r||{}).storage||window&&window.localStorage,t=r.key||"vuex";(r.assertStorage||function(){e.setItem("@@",1),e.removeItem("@@")})(e);var n,o=function(){return(r.getState||function(r,e){var t;try{return(t=e.getItem(r))&&void 0!==t?JSON.parse(t):void 0}catch(r){}})(t,e)};return r.fetchBeforeUse&&(n=o()),function(u){r.fetchBeforeUse||(n=o()),"object"==typeof n&&null!==n&&(u.replaceState(r.overwrite?n:vuex_persistedstate_es_i(u.state,n,{arrayMerge:r.arrayMerger||function(r,e){return e},clone:!1})),(r.rehydrated||function(){})(u)),(r.subscriber||function(r){return function(e){return r.subscribe(e)}})(u)(function(n,o){(r.filter||function(){return!0})(n)&&(r.setState||function(r,e,t){return t.setItem(r,JSON.stringify(e))})(t,(r.reducer||function(r,e){return Array.isArray(e)?e.reduce(function(e,t){return function(r,e,t,n){return(e=e.split?e.split("."):e).slice(0,-1).reduce(function(r,e){return r[e]=r[e]||{}},r)[e.pop()]=t,r}(e,t,function(r,e,t){return void 0===(r=(e.split?e.split("."):e).reduce(function(r,e){return r&&r[e]},r))?void 0:r}(r,t))},{}):r})(o,r.paths),e)})}});
 //# sourceMappingURL=vuex-persistedstate.es.js.map
 
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"9c79e2f2-vue-loader-template"}!./node_modules/@vue/cli-service/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXTextEditor.vue?vue&type=template&id=466bfd3a&
+var IFXTextEditorvue_type_template_id_466bfd3a_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('Editor',{attrs:{"init":_vm.init},model:{value:(_vm.text),callback:function ($$v) {_vm.text=$$v},expression:"text"}})}
+var IFXTextEditorvue_type_template_id_466bfd3a_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/components/IFXTextEditor.vue?vue&type=template&id=466bfd3a&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader/lib??vue-loader-options!./src/components/IFXTextEditor.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+// https://www.tiny.cloud/docs/integrations/vue/
+// TODO: extend vuetify input to make this component swork better with forms
+// import VInput from 'vuetify/lib/components/VInput/VInput'
+
+/* harmony default export */ var IFXTextEditorvue_type_script_lang_js_ = ({
+  name: 'IFXTextEditor',
+  // extends: VInput,
+  components: {
+    Editor: ts
+  },
+  props: {
+    value: null
+  },
+  data: function data() {
+    return {
+      isLoading: false,
+      content: null
+    };
+  },
+  methods: {
+    initCallback: function initCallback() {
+      this.isLoading = false;
+    }
+  },
+  computed: {
+    init: function init() {
+      var _this = this;
+
+      return {
+        height: 300,
+        menubar: false,
+        statusbar: false,
+        plugins: ['advlist autolink lists link image charmap', 'searchreplace visualblocks code fullscreen', 'print preview anchor insertdatetime media', 'paste code help wordcount table'],
+        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+        setup: function setup(editor) {
+          editor.on('init', function () {
+            return _this.initCallback();
+          });
+        }
+      };
+    }
+  },
+  created: function created() {
+    this.isLoading = true;
+  },
+  mounted: function mounted() {
+    this.content = this.value;
+  }
+});
+// CONCATENATED MODULE: ./src/components/IFXTextEditor.vue?vue&type=script&lang=js&
+ /* harmony default export */ var components_IFXTextEditorvue_type_script_lang_js_ = (IFXTextEditorvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./src/components/IFXTextEditor.vue?vue&type=style&index=0&lang=css&
+var IFXTextEditorvue_type_style_index_0_lang_css_ = __webpack_require__("0d3d");
+
+// CONCATENATED MODULE: ./src/components/IFXTextEditor.vue
+
+
+
+
+
+
+/* normalize component */
+
+var IFXTextEditor_component = normalizeComponent(
+  components_IFXTextEditorvue_type_script_lang_js_,
+  IFXTextEditorvue_type_template_id_466bfd3a_render,
+  IFXTextEditorvue_type_template_id_466bfd3a_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var IFXTextEditor = (IFXTextEditor_component.exports);
 // EXTERNAL MODULE: ./node_modules/moment/moment.js
 var moment = __webpack_require__("c1df");
 var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
