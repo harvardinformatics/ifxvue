@@ -1,13 +1,11 @@
 <template>
 <div class="dropdown">
   <v-combobox
-    v-if='!isLoading'
     :ref='ref'
-    :loading="isSearching"
     v-model="selected"
-    :items="items"
+    :items="contactables"
     :search-input.sync="search"
-    @change="clearSearch"
+    @change="handleChange"
     :label="label | capitalizeFirstLetter"
     chips
     clearable
@@ -29,9 +27,9 @@
       <v-list-item v-text='item.text'></v-list-item>
     </template>
     <template #selection="{item}">
-      <v-chip v-if='isContactableObj(item)' color="transparent" close @click:close ="removeRecipient(item)">
-        <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{item.name}}</v-chip>
-      <v-chip v-else close @click:close ="removeRecipient(item)">{{item}}</v-chip>
+      <v-chip color="transparent" close draggable>
+        <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{item.label}}
+      </v-chip>
     </template>
   </v-combobox>
   </div>
@@ -40,7 +38,6 @@
 <script>
 // Primarily used in mailingCompose component for searching through multiple types of objects
 // (i.e. contactables: organization, user, contact)
-import debounce from 'lodash/debounce'
 import { mapActions } from 'vuex'
 
 export default {
@@ -65,21 +62,21 @@ export default {
       required: false,
       default: null
     },
-    orgTree: {
+    contactables: {
       type: Array,
-      required: false,
-      default() {
-        return ['Harvard']
-      }
+      required: true,
+    },
+    value: {
+      type: Array,
+      required: true,
     }
   },
   data() {
     return {
-      isLoading: false,
-      isSearching: false,
       search: null,
       items: [],
       errorMessage: '',
+      selected: [],
     }
   },
   methods: {
@@ -90,23 +87,10 @@ export default {
     getItemValue(item) {
       return item
     },
-    // Debounce so the query doesn't fire on every keydown
-    querySelections: debounce(async function (val) {
-      this.isSearching = true
-      this.items = await this.$api.contactables.getList(val, this.orgTree).then(res => res)
-      this.isSearching = false
-    }, 750),
-    clearSearch() {
+    handleChange() {
+      this.$emit('input', this.selected)
       this.search = null
     },
-    removeRecipient(item) {
-      const payload = { key: this.label, value: item }
-      this.$store.dispatch('mailing/deleteValue', payload)
-    },
-    // TODO: make this more specific, this way of checking the shape of a contactable is brittle
-    isContactableObj({ slug, color }) {
-      return !!slug && !!color
-    }
   },
   computed: {
     ref() {
@@ -115,23 +99,8 @@ export default {
     rules() {
       return this.required ? this.formRules.generic : []
     },
-    selected: {
-      get() {
-        return this.$store.getters[`mailing/${this.label}`]
-      },
-      set(valuesArray) {
-        const payload = { key: this.label, value: valuesArray }
-        this.$store.dispatch('mailing/setValue', payload)
-      }
-    }
   },
   watch: {
-    search(n, o) {
-      if (this.isSearchDisabled) return
-      if (n && this.areValuesDifferent(n, o)) {
-        this.querySelections(n)
-      }
-    },
     fieldError: {
       handler(n) {
         if (n) {
@@ -144,7 +113,9 @@ export default {
     this.isLoading = true
   },
   mounted() {
-    this.$nextTick(() => this.isLoading = false)
+    if (this.value) {
+      this.selected = this.value.slice()
+    }
   }
 }
 </script>

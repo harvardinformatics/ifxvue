@@ -11,7 +11,6 @@ import { Organization, OrganizationContact, OrganizationUser } from '@/component
 import IFXMailing from '@/components/mailing/IFXMailing'
 import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
-import IFXContactable from '@/components/contactable/IFXContactable'
 import Account from '@/components/account/IFXAccount'
 import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
@@ -524,24 +523,17 @@ export default class IFXAPIService {
 
   get contactables() {
     return {
-      create: (data = null) => {
-        console.error('Still need to implement contactable object')
-        return new IFXContactable(data)
-      },
-      getList: async (search, orgTrees) => {
-        const contacts = await this.contact.getList(search).catch((err) => {
-          throw new Error(err)
-        })
-
-        const users = await this.user.getList(search).catch((err) => {
-          throw new Error(err)
-        })
-
-        const organizations = await this.organization.getList({ search, orgTrees }).catch((err) => {
-          throw new Error(err)
-        })
-
-        const contactables = [contacts, organizations, users].flat()
+      getList: async (params) => {
+        const url = this.urls.CONTACTABLES
+        if (params && params.org_slugs) {
+          params.org_slugs = params.org_slugs.join(',')
+        }
+        const contactables = await this.axios
+          .get(url, { params })
+          .then((response) => response.data)
+          .catch((error) => {
+            throw new Error(error)
+          })
         return contactables
       },
     }
@@ -758,5 +750,47 @@ export default class IFXAPIService {
       url += `${code}/`
     }
     return this.axios.get(url)
+  }
+
+  getLabManagerNotificationMessageName(facility) {
+    return `${this.vars.appName}_${facility.invoicePrefix}_lab_manager_billing_record_notification`
+  }
+
+  async notifyLabManagers(organizationSlugs, facility, year, month, router) {
+    const messageName = this.getLabManagerNotificationMessageName(facility)
+    const messages = await this.message.getList({ name: messageName })
+    let message = ''
+    let subject = ''
+    if (messages.length) {
+      const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ]
+      const link = `https://fiine.rc.fas.harvard.edu/fiine/billing/billing-records/list/?year=${year}&month=${month}&facility=${facility.name}`
+      message = messages[0].message
+        .replaceAll('{link}', link)
+        .replaceAll('{month}', months[month])
+        .replaceAll('{year}', year)
+      subject = messages[0].subject
+    }
+
+    router.push({
+      name: 'MailingCompose',
+      params: {
+        labManagerOrgSlugs: organizationSlugs,
+        message: message,
+        subject: subject,
+      },
+    })
   }
 }
