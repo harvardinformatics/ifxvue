@@ -2,7 +2,7 @@ export default {
   data() {
     return {
       itemType: 'Contact',
-      apiRef: this.$api.contact
+      apiRef: this.$api.contact,
     }
-  }
+  },
 }

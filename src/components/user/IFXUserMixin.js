@@ -2,7 +2,7 @@ export default {
   data() {
     return {
       itemType: 'User',
-      apiRef: this.$api.user
+      apiRef: this.$api.user,
     }
-  }
+  },
 }

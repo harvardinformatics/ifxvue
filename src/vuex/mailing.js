@@ -22,13 +22,13 @@ const getters = {
   mailingData: (state) => state.mailingData,
   messageData: (state) => state.messageData,
   to: (state) => state.to,
-  tostr: (state) => state.to.map(item => (item.email ? item.email : item)).join(', '),
+  tostr: (state) => state.to.map((item) => (item.email ? item.email : item)).join(', '),
   from: (state) => state.from,
   fromstr: (state) => state.from,
   cc: (state) => state.cc,
-  ccstr: (state) => state.cc.map(item => (item.email ? item.email : item)).join(', '),
+  ccstr: (state) => state.cc.map((item) => (item.email ? item.email : item)).join(', '),
   bcc: (state) => state.bcc,
-  bccstr: (state) => state.bcc.map(item => (item.email ? item.email : item)).join(', '),
+  bccstr: (state) => state.bcc.map((item) => (item.email ? item.email : item)).join(', '),
   subject: (state) => state.subject,
   message: (state) => state.message,
   ifxmessage: (state) => state.ifxmessage,
@@ -41,10 +41,10 @@ const getters = {
       ccstr: gtrs.ccstr,
       bccstr: gtrs.bccstr,
       subject: gtrs.subject,
-      message: gtrs.message
+      message: gtrs.message,
     }
     return mailing
-  }
+  },
 }
 
 const actions = {
@@ -61,7 +61,7 @@ const actions = {
     commit('appendValue', payload)
   },
   appendValues({ commit }, { key, values }) {
-    values.forEach(v => {
+    values.forEach((v) => {
       commit('appendValue', { key, value: v })
     })
   },
@@ -73,7 +73,7 @@ const actions = {
   },
   clearAllFields({ commit }) {
     commit('resetState')
-  }
+  },
 }
 
 const mutations = {
@@ -110,7 +110,7 @@ const mutations = {
   },
   resetState(state) {
     Object.assign(state, getDefaultState())
-  }
+  },
 }
 
 export default {
@@ -118,5 +118,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }
