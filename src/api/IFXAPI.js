@@ -112,8 +112,7 @@ export default class IFXAPIService {
       // As organization creation is assumed to be sync, so if users, contacts creation is async, things break
       create: (data) => createFunc(data),
       decompose: (item) => decomposeFunc(item),
-      getList: async (params = {}) =>
-        this.axios.get(baseURL, { params }).then((res) => res.data.map((item) => createFunc(item))),
+      getList: async (params = {}) => this.axios.get(baseURL, { params }).then((res) => res.data.map((item) => createFunc(item))),
       getByID: async (id) => {
         const url = `${baseURL}${id}/`
         return this.axios.get(url).then((res) => createFunc(res.data))
@@ -199,9 +198,9 @@ export default class IFXAPIService {
           if (has(error, 'response') && has(error.response, 'status') && error.response.status === 401) {
             let info = ''
             if (
-              error.response.hasOwnProperty('data') &&
-              error.response.data &&
-              error.response.data.hasOwnProperty('error')
+              error.response.hasOwnProperty('data')
+              && error.response.data
+              && error.response.data.hasOwnProperty('error')
             ) {
               info = error.response.data.error
             }
@@ -307,9 +306,7 @@ export default class IFXAPIService {
       }
 
       if (userData.product_accounts && userData.product_accounts.length) {
-        const productAccountDataObjs = userData.product_accounts.map((pa) =>
-          decompose ? pa : this.productAccount.create(pa)
-        )
+        const productAccountDataObjs = userData.product_accounts.map((pa) => (decompose ? pa : this.productAccount.create(pa)))
         newUserData.product_accounts = productAccountDataObjs
       }
       return decompose ? newUserData : new User(newUserData)
@@ -682,9 +679,7 @@ export default class IFXAPIService {
       // Check if incoming productData has rates
       if (productData.rates && productData.rates.length) {
         // If decomposing, do not create dynamic rate object
-        const productRateDataObjs = productData.rates.map((rate) =>
-          decompose ? rate.data : this.productRate.create(rate)
-        )
+        const productRateDataObjs = productData.rates.map((rate) => (decompose ? rate.data : this.productRate.create(rate)))
         newProductData.rates = productRateDataObjs
       }
 
@@ -713,9 +708,7 @@ export default class IFXAPIService {
 
       if (data.transactions && data.transactions.length) {
         // If decomposing, do not create dynamic rate object
-        const transactionDataObjs = data.transactions.map((transaction) =>
-          decompose ? transaction.data : this.billingTransaction.create(transaction)
-        )
+        const transactionDataObjs = data.transactions.map((transaction) => (decompose ? transaction.data : this.billingTransaction.create(transaction)))
         newBillingData.transactions = transactionDataObjs
       }
 
