@@ -749,7 +749,6 @@ export default class IFXAPIService {
   }
 
   getLabManagerNotificationMessageName(facility) {
-    console.log(facility)
     return `${this.vars.appName}_${facility.invoicePrefix}_lab_manager_billing_record_notification`
   }
 
