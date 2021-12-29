@@ -109,14 +109,11 @@ export default {
     headers() {
       return this.allHeaders.filter((h) => !h.hide).filter((h) => !this.$vuetify.breakpoint[h.hide])
     },
-    dateParts: function () {
-      return this.date.split('-')
-    },
     month: function () {
-      return Number(this.dateParts[1])
+      return Number(this.dateParts()[1])
     },
     year: function () {
-      return Number(this.dateParts[0])
+      return Number(this.dateParts()[0])
     },
     filteredItems: function () {
       return this.getItemsFilteredBySearch()
@@ -150,6 +147,9 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    dateParts: function () {
+      return this.date.split('-')
+    },
     getErrorMessage(error) {
       // Regular showMessage is not getting the response data properly
       let message = 'Unknown error'

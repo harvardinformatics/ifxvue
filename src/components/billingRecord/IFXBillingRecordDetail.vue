@@ -261,6 +261,22 @@ export default {
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
+          <h3>Billing year</h3>
+        </v-col>
+        <v-col>
+          {{ item.year }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Billing month</h3>
+        </v-col>
+        <v-col>
+          {{ item.month }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Description</h3>
         </v-col>
         <v-col>

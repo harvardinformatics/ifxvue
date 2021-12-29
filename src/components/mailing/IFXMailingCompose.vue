@@ -5,6 +5,7 @@ import Editor from '@tinymce/tinymce-vue'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXPageHeader from '@/components/page/IFXPageHeader'
 import IFXButton from '@/components/IFXButton'
+import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 
 export default {
   name: 'IFXMailingCompose',
@@ -13,6 +14,7 @@ export default {
     IFXPageHeader,
     IFXButton,
     IFXContactablesCombobox,
+    IFXPageActionBar,
   },
   props: {
     from: {
@@ -283,9 +285,13 @@ export default {
         ></Editor>
       </span>
     </v-form>
-    <div>
-      <IFXButton :disabled='false' btnType='submit' btnText='Send' class="mt-5" @action="sendMailing"/>
-    </div>
+    <IFXPageActionBar
+      :disabled='false'
+      btnType='submit'
+      btnText='Send'
+      @action="sendMailing"
+    >
+    </IFXPageActionBar>
     </v-container>
   </v-container>
 </template>
