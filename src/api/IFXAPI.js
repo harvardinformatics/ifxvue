@@ -779,7 +779,7 @@ export default class IFXAPIService {
       const link = `https://fiine.rc.fas.harvard.edu/fiine/billing/billing-records/list/?year=${year}&month=${month}&facility=${facility.name}`
       message = messages[0].message
         .replaceAll('{link}', link)
-        .replaceAll('{month}', months[month])
+        .replaceAll('{month}', months[month - 1])
         .replaceAll('{year}', year)
       subject = messages[0].subject
     }
