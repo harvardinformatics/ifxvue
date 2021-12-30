@@ -9,6 +9,32 @@ export default {
     selectedMailing: Object
   },
   methods: {
+    navigateToItemEdit() {
+      const params = {
+        from: this.item.fromstr,
+        subject: this.item.subject,
+        message: this.item.message,
+      }
+      const fields = ['to', 'cc', 'bcc']
+      fields.forEach((field) => {
+        const fieldName = `${field}str`
+        if (this.item[fieldName]) {
+          const emails = this.item[fieldName].split(',')
+          params[field] = emails.map((email) => {
+            const match = email.match(/<([^>]+)>/)
+            if (match) {
+              return match[1].trim()
+            }
+            return email
+          }).join(',')
+        }
+      })
+      this.rtr.push({
+        name: 'MailingCompose',
+        params: params,
+        query: { next: this.$route.path }
+      })
+    },
     async getItem() {
       if (this.selectedMailing) {
         return this.selectedMailing
@@ -26,7 +52,6 @@ export default {
       <template #id>{{id}}</template>
       <template #actions>
         <IFXButton v-if='$api.auth.isAdmin' btnType="edit" @action="navigateToItemEdit(id)"/>
-        <IFXDeleteItemButton v-if='$api.auth.isAdmin' :item='item' :apiRef='apiRef' :itemType='itemType'/>
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
@@ -41,17 +66,23 @@ export default {
           <h3>From</h3>
           <p>{{item.fromstr}}</p>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <h3>To</h3>
-          <p>{{item.tostr}}</p>
+          <p>{{item.tostr | commaSpace}}</p>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <h3>CC</h3>
-          <p>{{item.ccstr}}</p>
+          <p>{{item.ccstr | commaSpace}}</p>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <h3>BCC</h3>
-          <p>{{item.bccstr}}</p>
+          <p>{{item.bccstr | commaSpace}}</p>
         </v-col>
       </v-row>
       <v-row>
