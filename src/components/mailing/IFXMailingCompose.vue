@@ -85,7 +85,7 @@ export default {
     sendMailing() {
       const toMailStr = (contactable) => {
         if (contactable.name) {
-          return `${contactable.name} <${contactable.detail} >`
+          return `${contactable.name} <${contactable.detail}>`
         }
         return contactable.detail
       }
@@ -174,7 +174,7 @@ export default {
           this.to.split(',').forEach((ele) => {
             const matches = this.contactables.filter((contactable) => contactable.detail === ele)
             if (matches) {
-              this.toList = matches
+              this.toList = this.toList.concat(matches)
             } else {
               this.toList.push(
                 {
@@ -190,7 +190,7 @@ export default {
           this.cc.split(',').forEach((ele) => {
             const matches = this.contactables.filter((contactable) => contactable.detail === ele)
             if (matches) {
-              this.ccList = matches
+              this.ccList = this.ccList.concat(matches)
             } else {
               this.ccList.push(
                 {
@@ -206,7 +206,7 @@ export default {
           this.bcc.split(',').forEach((ele) => {
             const matches = this.contactables.filter((contactable) => contactable.detail === ele)
             if (matches) {
-              this.bccList = matches
+              this.bccList = this.bccList.concat(matches)
             } else {
               this.bccList.push(
                 {
