@@ -100,6 +100,17 @@ export function affiliationRoleDisplay(value) {
   return result
 }
 
+/**
+ * Add spaces to a comma-separated list
+ */
+export function commaSpace(value) {
+  let result = value
+  if (value) {
+    result = value.replaceAll(/,(\S)/g, ', $1')
+  }
+  return result
+}
+
 export default {
   humanDatetime,
   centsToDollars,
@@ -108,4 +119,5 @@ export default {
   stateDisplay,
   columnDate,
   affiliationRoleDisplay,
+  commaSpace,
 }
