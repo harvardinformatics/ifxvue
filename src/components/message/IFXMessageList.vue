@@ -1,8 +1,6 @@
 <script>
-import IFXActionSelect from '@/components/action/IFXActionSelect'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
-
 import IFXMessageMixin from '@/components/message/IFXMessageMixin'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 
@@ -11,7 +9,6 @@ export default {
   mixins: [IFXMessageMixin, IFXItemListMixin],
   components: {
     IFXSearchField,
-    IFXActionSelect,
     IFXItemDataTable
   },
   computed: {
@@ -20,10 +17,15 @@ export default {
         { text: 'ID', value: 'id', sortable: true },
         { text: 'Subject', value: 'subject' },
         { text: 'Message', value: 'message' },
-        { text: '', value: 'rowActionEdit' },
-        { text: '', value: 'rowActionCopy' }
+        { text: '', value: 'actions', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+    },
+  },
+  methods: {
+    composeWithMessage(item) {
+      console.log('howdy ', item)
+      this.$router.push({ name: 'MailingCompose', params: { messageName: item.name } })
     },
   }
 }
@@ -35,12 +37,6 @@ export default {
       <template #title>{{listTitle}}</template>
       <template #actions>
         <IFXSearchField :search.sync='search'/>
-        <IFXActionSelect
-          :actionKeys="['deleteItems']"
-          :apiRef='apiRef'
-          @get-set-items='getSetItems'
-          :selectedItems.sync='selected'
-        />
         <IFXButton btnType="add" @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
@@ -49,6 +45,26 @@ export default {
       :headers='headers'
       :selected.sync='selected'
       :itemType='itemType'
-    />
+    >
+      <template #actions="{ item }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              small
+              color="primary"
+              @click="composeWithMessage(item)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon color="white">
+                mdi-email-send-outline
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Compose an email with this message</span>
+        </v-tooltip>
+      </template>
+    </IFXItemDataTable>
   </v-container>
 </template>

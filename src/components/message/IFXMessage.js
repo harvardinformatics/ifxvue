@@ -9,6 +9,14 @@ export default class Message extends IFXItemBase {
     this.data.name = name
   }
 
+  get displayName() {
+    return this.data.display_name
+  }
+
+  set displayName(displayName) {
+    this.data.display_name = displayName
+  }
+
   get subject() {
     return this.data.subject
   }
