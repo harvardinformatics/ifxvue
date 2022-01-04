@@ -4,7 +4,6 @@ import * as has from 'lodash/has'
 import Editor from '@tinymce/tinymce-vue'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXPageHeader from '@/components/page/IFXPageHeader'
-import IFXButton from '@/components/IFXButton'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 
 export default {
@@ -12,7 +11,6 @@ export default {
   components: {
     Editor,
     IFXPageHeader,
-    IFXButton,
     IFXContactablesCombobox,
     IFXPageActionBar,
   },
@@ -121,12 +119,11 @@ export default {
         statusbar: false,
         plugins: [
           'advlist autolink lists link image charmap',
-          'searchreplace visualblocks code fullscreen',
+          'searchreplace visualblocks fullscreen',
           'print preview anchor insertdatetime media',
           'paste code help wordcount table'
         ],
-        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
-        // setup: editor => { editor.on('init', () => this.initCallback()) }
+        toolbar: 'undo redo | code | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
       }
     },
   },
@@ -235,9 +232,6 @@ export default {
     <IFXPageHeader>
       <template #title>Compose Mailing</template>
       <template #content>Compose a new mailing</template>
-      <template #actions>
-        <IFXButton btnType='add' btnText='Load message template' />
-      </template>
     </IFXPageHeader>
     <v-container>
     <v-form v-model='isValid' id="mailing-compose-form" ref="mailingComposeForm">
