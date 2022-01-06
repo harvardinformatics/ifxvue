@@ -103,6 +103,7 @@ export default {
         description: '',
         author: {},
       },
+      mailFab: false,
     }
   },
   computed: {
@@ -474,9 +475,9 @@ export default {
     allowAddingTransactions(item) {
       return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
     },
-    notifyLabManagers() {
+    notifyLabManagers(recipientField) {
       const orgSlugs = this.items.map((item) => item.account.organization)
-      this.$api.notifyLabManagers([...new Set(orgSlugs)], this.facility, this.year, this.month, this.$router)
+      this.$api.notifyLabManagers([...new Set(orgSlugs)], this.facility, this.year, this.month, recipientField, this.$router)
     }
   },
   watch: {
@@ -515,22 +516,63 @@ export default {
               <v-col v-else>
                 <v-row dense class="d-flex justify-space-between">
                   <v-col class="pa-2">
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <div v-on="on">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-speed-dial
+                            direction="bottom"
+                            v-model="mailFab"
+                            v-bind="attrs"
+                          >
+                            <template v-slot:activator>
                               <v-btn
+                                v-model="mailFab"
                                 small
-                                fab
                                 color="green"
-                                v-bind="attrs"
-                                @click="notifyLabManagers"
+                                fab
                               >
-                                <v-icon color="white">mdi-email-send-outline</v-icon>
+                                <v-icon color="white" v-if="mailFab">
+                                  mdi-close
+                                </v-icon>
+                                <v-icon color="white" v-else>
+                                  mdi-email-send-outline
+                                </v-icon>
                               </v-btn>
-                            </div>
-                          </template>
-                          <span>Notify lab managers</span>
-                        </v-tooltip>
+                            </template>
+                            <v-btn
+                              xSmall
+                              fab
+                              color="#A4F323"
+                              @click="notifyLabManagers('to')"
+                              :disabled="!filteredItems.length"
+                            >
+                              to:
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              fab
+                              color="#86C61D"
+                              @click="notifyLabManagers('cc')"
+                              :disabled="!filteredItems.length"
+                            >
+                              cc:
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              fab
+                              color="#669617"
+                              @click="notifyLabManagers('bcc')"
+                              :disabled="!filteredItems.length"
+                            >
+                              bcc:
+                            </v-btn>
+                          </v-speed-dial>
+                        </div>
+                      </template>
+                      <span>
+                        Notify lab managers
+                      </span>
+                    </v-tooltip>
                   </v-col>
                   <v-col class="pa-2" v-if="allowApprovals">
                     <v-row dense class="d-flex flex-nowrap">

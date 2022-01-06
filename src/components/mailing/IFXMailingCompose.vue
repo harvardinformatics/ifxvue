@@ -54,7 +54,17 @@ export default {
       type: Array,
       required: false,
       default: null
-    }
+    },
+    recipients: {
+      type: String,
+      required: false,
+      default: null
+    },
+    recipientField: {
+      type: String,
+      required: false,
+      default: null
+    },
   },
   data() {
     return {
@@ -151,7 +161,23 @@ export default {
                   orgContactNotFound.push(name)
                 }
               })
-              me.toList = result2
+              if (me.recipientField) {
+                switch (me.recipientField) {
+                  case 'to':
+                    me.toList = me.toList.concat(result2)
+                    break
+                  case 'cc':
+                    me.ccList = me.ccList.concat(result2)
+                    break
+                  case 'bcc':
+                    me.bccList = me.bccList.concat(result2)
+                    break
+                  default:
+                    console.log('bad recipient')
+                }
+              } else {
+                me.toList = result2
+              }
               this.isLoading = false
               if (orgContactNotFound) {
                 const names = orgContactNotFound.join(', ')
@@ -212,6 +238,30 @@ export default {
                   text: ele
                 }
               )
+            }
+          })
+        }
+        if (this.recipients) {
+          this.recipients.split(',').forEach((ele) => {
+            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            if (matches) {
+              if (this.recipientField) {
+                switch (this.recipientField) {
+                  case 'to':
+                    this.toList = this.toList.concat(matches)
+                    break
+                  case 'cc':
+                    this.ccList = this.ccList.concat(matches)
+                    break
+                  case 'bcc':
+                    this.bccList = this.bccList.concat(matches)
+                    break
+                  default:
+                    console.log('bad recipient')
+                }
+              } else {
+                this.toList = this.toList.concat(matches)
+              }
             }
           })
         }
