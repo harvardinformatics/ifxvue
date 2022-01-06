@@ -51,7 +51,7 @@ export default {
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               fab
-              small
+              xSmall
               color="primary"
               @click="composeWithMessage(item)"
               v-bind="attrs"
