@@ -3,6 +3,7 @@ import IFXUserMixin from '@/components/user/IFXUserMixin'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
+import IFXMailButton from '@/components/mailing/IFXMailButton'
 
 export default {
   name: 'IFXUserList',
@@ -10,6 +11,7 @@ export default {
   components: {
     IFXSearchField,
     IFXItemDataTable,
+    IFXMailButton,
   },
   props: {
     headers: {
@@ -22,6 +24,7 @@ export default {
     return {
       includeDisabled: this.$api.storage.getItem('UserListIncludeDisabled') || false,
       mailFab: false,
+      recipientField: '',
     }
   },
   methods: {
@@ -32,13 +35,12 @@ export default {
         this.showMessage(error)
       }
     },
-    composeEmail(recipientField) {
+    composeEmail() {
       const params = {
-        recipientField: recipientField,
+        recipientField: this.recipientField,
         recipients: null
       }
       params.recipients = this.selected.map((item) => item.primaryEmail).join(',')
-      console.log('params ', params)
       this.$router.push({ name: 'MailingCompose', params: params })
     }
   },
@@ -81,63 +83,13 @@ export default {
             <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
           </v-col>
           <v-col>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
-                  <v-speed-dial
-                    direction="bottom"
-                    v-model="mailFab"
-                    v-bind="attrs"
-                  >
-                    <template v-slot:activator>
-                      <v-btn
-                        v-model="mailFab"
-                        small
-                        color="green"
-                        fab
-                      >
-                        <v-icon color="white" v-if="mailFab">
-                          mdi-close
-                        </v-icon>
-                        <v-icon color="white" v-else>
-                          mdi-email-send-outline
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <v-btn
-                      xSmall
-                      fab
-                      color="#A4F323"
-                      @click="composeEmail('to')"
-                      :disabled="!selected.length"
-                    >
-                      to:
-                    </v-btn>
-                    <v-btn
-                      xSmall
-                      fab
-                      color="#86C61D"
-                      @click="composeEmail('cc')"
-                      :disabled="!selected.length"
-                    >
-                      cc:
-                    </v-btn>
-                    <v-btn
-                      xSmall
-                      fab
-                      color="#669617"
-                      @click="composeEmail('bcc')"
-                      :disabled="!selected.length"
-                    >
-                      bcc:
-                    </v-btn>
-                  </v-speed-dial>
-                </div>
-              </template>
-              <span>
-                Email selected users
-              </span>
-            </v-tooltip>
+            <IFXMailButton
+              v-model="recipientField"
+              :disabled="!selected.length"
+              toolTip="Email selected users"
+              @input="composeEmail()"
+            >
+            </IFXMailButton>
           </v-col>
         </v-row>
       </template>
