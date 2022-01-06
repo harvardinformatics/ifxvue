@@ -270,7 +270,9 @@ export default {
     if (this.messageName) {
       this.$api.message.getList({ name: this.messageName })
         .then((result) => {
-          this.content = result[0]
+          if (result.length) {
+            this.content = result[0].message
+          }
         })
     }
   }
