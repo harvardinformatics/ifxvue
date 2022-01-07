@@ -90,6 +90,15 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    extractEmailAddress(str) {
+      // If email is of the form Name <email>, extract the email.  Otherwise return
+      let result = str
+      if (str && str.indexOf('<') !== -1) {
+        const match = str.match(/<\s*([^ >]+)\s*>/)
+        if (match) { result = match[1] }
+      }
+      return result
+    },
     sendMailing() {
       const toMailStr = (contactable) => {
         if (contactable.name) {
@@ -195,15 +204,16 @@ export default {
         }
         if (this.to) {
           this.to.split(',').forEach((ele) => {
-            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            const email = this.extractEmailAddress(ele)
+            const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               this.toList = this.toList.concat(matches)
             } else {
               this.toList.push(
                 {
-                  detail: ele,
-                  label: ele,
-                  text: ele
+                  detail: email,
+                  label: email,
+                  text: email
                 }
               )
             }
@@ -211,15 +221,16 @@ export default {
         }
         if (this.cc) {
           this.cc.split(',').forEach((ele) => {
-            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            const email = this.extractEmailAddress(ele)
+            const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               this.ccList = this.ccList.concat(matches)
             } else {
               this.ccList.push(
                 {
-                  detail: ele,
-                  label: ele,
-                  text: ele
+                  detail: email,
+                  label: email,
+                  text: email
                 }
               )
             }
@@ -227,15 +238,16 @@ export default {
         }
         if (this.bcc) {
           this.bcc.split(',').forEach((ele) => {
-            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            const email = this.extractEmailAddress(ele)
+            const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               this.bccList = this.bccList.concat(matches)
             } else {
               this.bccList.push(
                 {
-                  detail: ele,
-                  label: ele,
-                  text: ele
+                  detail: email,
+                  label: email,
+                  text: email
                 }
               )
             }
@@ -243,7 +255,8 @@ export default {
         }
         if (this.recipients) {
           this.recipients.split(',').forEach((ele) => {
-            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            const email = this.extractEmailAddress(ele)
+            const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               if (this.recipientField) {
                 switch (this.recipientField) {

@@ -1,5 +1,4 @@
 <script>
-import IFXActionSelect from '@/components/action/IFXActionSelect'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 import IFXSearchField from '@/components/IFXSearchField'
@@ -11,7 +10,6 @@ export default {
   components: {
     IFXItemDataTable,
     IFXSearchField,
-    IFXActionSelect
   },
   computed: {
     headers() {
@@ -25,7 +23,7 @@ export default {
         { text: 'BCC', hide: 'mdAndDown', value: 'bccstr', namedSlot: true, width: '300px' },
         { text: 'Message', value: 'message', namedSlot: true },
         { text: 'Status', hide: 'mdAndDown', value: 'status' },
-        { text: '', value: 'rowActionCopy', sortable: false }
+        { text: '', value: 'action', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     }
@@ -38,6 +36,22 @@ export default {
         query: { next: this.$route.path },
       })
     },
+    composeEmail(item) {
+      const params = {
+        from: item.from,
+        to: item.tostr,
+        subject: item.subject,
+        message: item.message,
+      }
+      if (item.ccstr) {
+        params.cc = item.ccstr
+      }
+      if (item.bccstr) {
+        params.bcc = item.bccstr
+      }
+      console.log('mailing with params ', params)
+      this.$router.push({ name: 'MailingCompose', params: params })
+    }
   }
 }
 </script>
@@ -48,13 +62,7 @@ export default {
       <template #title>{{listTitle}}</template>
       <template #actions>
         <IFXSearchField :search.sync='search'/>
-        <IFXActionSelect
-          :actionKeys="[]"
-          :apiRef='apiRef'
-          @get-set-items='getSetItems'
-          :selectedItems.sync='selected'
-        />
-        <IFXButton btnType="add" @action="navigateToItemCreate"/>
+        <IFXButton small btnType="add" @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
@@ -116,6 +124,26 @@ export default {
           </span>
         </template>
         <span>{{item.message}}</span>
+      </v-tooltip>
+    </template>
+    <template #action="{ item }">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <span
+            v-bind="attrs"
+            v-on="on"
+          >
+          <v-btn
+            xSmall
+            fab
+            color="primary"
+            @click="composeEmail(item)"
+          >
+            <v-icon color="white">mdi-email-send-outline</v-icon>
+          </v-btn>
+          </span>
+        </template>
+        <span>Compose a new email from this one</span>
       </v-tooltip>
     </template>
     </IFXItemDataTable>
