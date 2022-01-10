@@ -9,6 +9,11 @@ export default {
   components: {
     IFXItemHistoryDisplay,
   },
+  data() {
+    return {
+      showInvalidAuthorizations: false
+    }
+  },
   computed: {
     detailTitle() {
       if (!this.item.accountType) {
@@ -41,7 +46,7 @@ export default {
     </IFXPageHeader>
     <v-container px-5 py-0>
       <v-row justify="start" align="center" dense>
-        <v-col sm="3">
+        <v-col sm="2">
           <h3>Code</h3>
         </v-col>
         <v-col>
@@ -49,7 +54,7 @@ export default {
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
-        <v-col sm="3">
+        <v-col sm="2">
           <h3>Organization</h3>
         </v-col>
         <v-col>
@@ -57,7 +62,7 @@ export default {
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
-        <v-col sm="3">
+        <v-col sm="2">
           <h3>Valid From</h3>
         </v-col>
         <v-col>
@@ -65,7 +70,7 @@ export default {
         </v-col>
      </v-row>
       <v-row justify="start" align="center" dense>
-        <v-col sm="3">
+        <v-col sm="2">
           <h3>Expiration Date</h3>
         </v-col>
         <v-col>
@@ -73,7 +78,7 @@ export default {
         </v-col>
       </v-row>
       <v-row justify="start" align="top" dense>
-        <v-col sm="3">
+        <v-col sm="2">
           <h3>Authorizations</h3>
         </v-col>
         <v-col>
@@ -90,6 +95,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
+        <v-spacer></v-spacer>
       </v-row>
     </v-container>
   </v-container>
