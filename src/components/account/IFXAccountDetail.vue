@@ -17,6 +17,9 @@ export default {
       return this.item.accountType
     }
   },
+  mounted() {
+    console.log(this.item)
+  }
 }
 </script>
 <template>
@@ -58,7 +61,7 @@ export default {
           <h3>Valid From</h3>
         </v-col>
         <v-col>
-          {{ item.validFrom | humanDate }}
+          {{ item.validFrom | columnDate }}
         </v-col>
      </v-row>
       <v-row justify="start" align="center" dense>
@@ -66,7 +69,26 @@ export default {
           <h3>Expiration Date</h3>
         </v-col>
         <v-col>
-          {{ item.expirationDate | humanDate }}
+          {{ item.expirationDate | columnDate }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="top" dense>
+        <v-col sm="3">
+          <h3>Authorizations</h3>
+        </v-col>
+        <v-col>
+          <v-row dense v-for="userAccount in item.userAccounts" :key="userAccount.id">
+            <v-col>
+              <span :class="userAccount.isValid ? 'valid' : 'invalid'">{{userAccount.user.fullName}} for any facility product</span>
+            </v-col>
+          </v-row>
+          <v-row dense v-for="userProductAccount in item.userProductAccounts" :key="userProductAccount.id">
+            <v-col>
+              <span :class="userProductAccount.isValid ? 'valid' : 'invalid'">
+                {{userProductAccount.user.fullName}} for {{userProductAccount.product}} <span v-if="userProductAccount.percent !== 100">({{userProductAccount.percent}}%)</span>
+              </span>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -84,6 +106,10 @@ export default {
   }
   .inactive-account {
     color: red;
+    font-style: italic;
+  }
+  .invalid {
+    color: grey;
     font-style: italic;
   }
 </style>
