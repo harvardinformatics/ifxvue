@@ -76,4 +76,12 @@ export default class Account extends IFXItemBase {
   get slug() {
     return this.data.slug
   }
+
+  get created() {
+    return this.data.created
+  }
+
+  get updated() {
+    return this.data.updated
+  }
 }
