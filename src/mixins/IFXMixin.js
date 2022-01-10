@@ -278,7 +278,13 @@ export default {
          * @param {any} v
          * @returns {boolean | string}
          */
-        positiveNumber: [baseRule, numericRule, positiveRule, nonZeroRule],
+        positiveNumber: [baseRule, numericRule, nonZeroRule, positiveRule],
+        /**
+         * Checks if value is positive number
+         * @param {any} v
+         * @returns {boolean | string}
+         */
+        nonNegativeNumber: [baseRule, numericRule, positiveRule],
         /**
          * Checks if value is a valid email
          * @param {any} v
