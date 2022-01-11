@@ -93,4 +93,14 @@ export default class Contact extends IFXItemBase {
   get created() {
     return this.data.created
   }
+
+  get computedName() {
+    // Used in contact list display
+    return this.org ? `${this.org} (${this.name})` : this.name
+  }
+
+  get key() {
+    // Needed for item list because id is not unique
+    return `${this.id}${this.org}`
+  }
 }

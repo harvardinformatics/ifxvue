@@ -1,9 +1,9 @@
 <script>
-import IFXActionSelect from '@/components/action/IFXActionSelect'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
+import IFXMailButton from '@/components/mailing/IFXMailButton'
 
 export default {
   name: 'IFXOrganizationList',
@@ -11,7 +11,12 @@ export default {
   components: {
     IFXSearchField,
     IFXItemDataTable,
-    IFXActionSelect
+    IFXMailButton,
+  },
+  data() {
+    return {
+      recipientField: '',
+    }
   },
   computed: {
     headers() {
@@ -26,6 +31,12 @@ export default {
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
   },
+  methods: {
+    emailLabManagers() {
+      const organizationSlugs = this.selected.map((item) => item.slug)
+      this.$router.push({ name: 'MailingCompose', params: { labManagerOrgSlugs: organizationSlugs, recipientField: this.recipientField } })
+    }
+  }
 }
 </script>
 
@@ -34,15 +45,23 @@ export default {
     <IFXPageHeader>
       <template #title>{{listTitle}}</template>
       <template #actions>
-        <IFXSearchField :search.sync='search'/>
-        <!-- TODO: put condition check for nanites org_tree and then add deleteItems action key-->
-        <IFXActionSelect
-          :actionKeys="['addMailingTo', 'addMailingCC', 'addMailingBCC', 'deleteOrganizations']"
-          :apiRef='apiRef'
-          @get-set-items='getSetItems'
-          :selectedItems.sync='selected'
-        />
-        <IFXButton xSmall btnType="add" @action="navigateToItemCreate"/>
+        <v-row nowrap align="center">
+          <v-col>
+            <IFXSearchField :search.sync='search'/>
+          </v-col>
+          <v-col>
+            <IFXMailButton
+              v-model="recipientField"
+              toolTip="Email Lab Managers"
+              :disabled="!selected.length"
+              @input="emailLabManagers()"
+            >
+            </IFXMailButton>
+          </v-col>
+          <v-col>
+            <IFXButton small btnType="add" @action="navigateToItemCreate"/>
+          </v-col>
+        </v-row>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
