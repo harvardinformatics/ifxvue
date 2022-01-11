@@ -4,6 +4,7 @@ import { mapActions } from 'vuex'
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
+import IFXMailButton from '@/components/mailing/IFXMailButton'
 import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
@@ -13,6 +14,7 @@ export default {
     IFXButton,
     IFXSearchField,
     IFXBillingRecordTransactions,
+    IFXMailButton,
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -103,6 +105,8 @@ export default {
         description: '',
         author: {},
       },
+      mailFab: false,
+      recipientField: '',
     }
   },
   computed: {
@@ -476,7 +480,7 @@ export default {
     },
     notifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
-      this.$api.notifyLabManagers([...new Set(orgSlugs)], this.facility, this.year, this.month, this.$router)
+      this.$api.notifyLabManagers([...new Set(orgSlugs)], this.facility, this.year, this.month, this.recipientField, this.$router)
     }
   },
   watch: {
@@ -515,22 +519,13 @@ export default {
               <v-col v-else>
                 <v-row dense class="d-flex justify-space-between">
                   <v-col class="pa-2">
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <div v-on="on">
-                              <v-btn
-                                small
-                                fab
-                                color="green"
-                                v-bind="attrs"
-                                @click="notifyLabManagers"
-                              >
-                                <v-icon color="white">mdi-email-send-outline</v-icon>
-                              </v-btn>
-                            </div>
-                          </template>
-                          <span>Notify lab managers</span>
-                        </v-tooltip>
+                    <IFXMailButton
+                      v-model="recipientField"
+                      :disabled="!filteredItems.length"
+                      toolTip="Notify Lab Managers"
+                      @input="notifyLabManagers()"
+                    >
+                    </IFXMailButton>
                   </v-col>
                   <v-col class="pa-2" v-if="allowApprovals">
                     <v-row dense class="d-flex flex-nowrap">

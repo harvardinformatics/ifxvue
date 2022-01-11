@@ -54,7 +54,17 @@ export default {
       type: Array,
       required: false,
       default: null
-    }
+    },
+    recipients: {
+      type: String,
+      required: false,
+      default: null
+    },
+    recipientField: {
+      type: String,
+      required: false,
+      default: null
+    },
   },
   data() {
     return {
@@ -80,6 +90,15 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    extractEmailAddress(str) {
+      // If email is of the form Name <email>, extract the email.  Otherwise return
+      let result = str
+      if (str && str.indexOf('<') !== -1) {
+        const match = str.match(/<\s*([^ >]+)\s*>/)
+        if (match) { result = match[1] }
+      }
+      return result
+    },
     sendMailing() {
       const toMailStr = (contactable) => {
         if (contactable.name) {
@@ -151,7 +170,24 @@ export default {
                   orgContactNotFound.push(name)
                 }
               })
-              me.toList = result2
+              if (me.recipientField) {
+                const badFieldMessage = `An invalid recipient field was specified: ${me.recipientField}`
+                switch (me.recipientField) {
+                  case 'to':
+                    me.toList = me.toList.concat(result2)
+                    break
+                  case 'cc':
+                    me.ccList = me.ccList.concat(result2)
+                    break
+                  case 'bcc':
+                    me.bccList = me.bccList.concat(result2)
+                    break
+                  default:
+                    me.showMessage(badFieldMessage)
+                }
+              } else {
+                me.toList = result2
+              }
               this.isLoading = false
               if (orgContactNotFound) {
                 const names = orgContactNotFound.join(', ')
@@ -169,15 +205,16 @@ export default {
         }
         if (this.to) {
           this.to.split(',').forEach((ele) => {
-            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            const email = this.extractEmailAddress(ele)
+            const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               this.toList = this.toList.concat(matches)
             } else {
               this.toList.push(
                 {
-                  detail: ele,
-                  label: ele,
-                  text: ele
+                  detail: email,
+                  label: email,
+                  text: email
                 }
               )
             }
@@ -185,15 +222,16 @@ export default {
         }
         if (this.cc) {
           this.cc.split(',').forEach((ele) => {
-            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            const email = this.extractEmailAddress(ele)
+            const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               this.ccList = this.ccList.concat(matches)
             } else {
               this.ccList.push(
                 {
-                  detail: ele,
-                  label: ele,
-                  text: ele
+                  detail: email,
+                  label: email,
+                  text: email
                 }
               )
             }
@@ -201,17 +239,44 @@ export default {
         }
         if (this.bcc) {
           this.bcc.split(',').forEach((ele) => {
-            const matches = this.contactables.filter((contactable) => contactable.detail === ele)
+            const email = this.extractEmailAddress(ele)
+            const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               this.bccList = this.bccList.concat(matches)
             } else {
               this.bccList.push(
                 {
-                  detail: ele,
-                  label: ele,
-                  text: ele
+                  detail: email,
+                  label: email,
+                  text: email
                 }
               )
+            }
+          })
+        }
+        if (this.recipients) {
+          this.recipients.split(',').forEach((ele) => {
+            const email = this.extractEmailAddress(ele)
+            const matches = this.contactables.filter((contactable) => contactable.detail === email)
+            if (matches) {
+              if (this.recipientField) {
+                const badFieldMessage = `An invalid recipient field was specified: ${me.recipientField}`
+                switch (this.recipientField) {
+                  case 'to':
+                    this.toList = this.toList.concat(matches)
+                    break
+                  case 'cc':
+                    this.ccList = this.ccList.concat(matches)
+                    break
+                  case 'bcc':
+                    this.bccList = this.bccList.concat(matches)
+                    break
+                  default:
+                    this.showMessage(badFieldMessage)
+                }
+              } else {
+                this.toList = this.toList.concat(matches)
+              }
             }
           })
         }
@@ -220,7 +285,9 @@ export default {
     if (this.messageName) {
       this.$api.message.getList({ name: this.messageName })
         .then((result) => {
-          this.content = result[0]
+          if (result.length) {
+            this.content = result[0].message
+          }
         })
     }
   }
