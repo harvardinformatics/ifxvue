@@ -53,7 +53,7 @@ export default {
       <v-card-title xs-12 v-if="contactData.org"> <!-- So that contacts on the OrganizationDetail page don't see blank space -->
         <v-col alignContent='start' justify="start">
           <v-row>
-            <div class="headline">{{ contactData.org }}</div>
+            <div class="headline">{{ contactData.org }} ({{ contactData.name }})</div>
           </v-row>
         </v-col>
       </v-card-title>

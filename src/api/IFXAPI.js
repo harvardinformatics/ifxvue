@@ -756,7 +756,7 @@ export default class IFXAPIService {
     return `${this.vars.appName}_${facility.invoicePrefix}_lab_manager_billing_record_notification`
   }
 
-  async notifyLabManagers(organizationSlugs, facility, year, month, router) {
+  async notifyLabManagers(organizationSlugs, facility, year, month, recipientField, router) {
     const messageName = this.getLabManagerNotificationMessageName(facility)
     const messages = await this.message.getList({ name: messageName })
     let message = ''
@@ -790,6 +790,7 @@ export default class IFXAPIService {
         labManagerOrgSlugs: organizationSlugs,
         message: message,
         subject: subject,
+        recipientField: recipientField,
       },
     })
   }

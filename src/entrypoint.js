@@ -32,6 +32,7 @@ import IFXMailingDetail from '@/components/mailing/IFXMailingDetail'
 import IFXMailingList from '@/components/mailing/IFXMailingList'
 import IFXMailingMixin from '@/components/mailing/IFXMailingMixin'
 import IFXMailing from '@/components/mailing/IFXMailing'
+import IFXMailButton from '@/components/mailing/IFXMailButton'
 
 // Message
 import IFXMessageCreateEdit from '@/components/message/IFXMessageCreateEdit'
@@ -125,6 +126,7 @@ export {
   IFXMailingDetail,
   IFXMailingList,
   IFXMailingMixin,
+  IFXMailButton,
   IFXActionSelect,
   IFXDeleteItemButton,
   IFXMailing,

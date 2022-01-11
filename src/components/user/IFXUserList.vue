@@ -1,9 +1,9 @@
 <script>
 import IFXUserMixin from '@/components/user/IFXUserMixin'
-import IFXActionSelect from '@/components/action/IFXActionSelect'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
+import IFXMailButton from '@/components/mailing/IFXMailButton'
 
 export default {
   name: 'IFXUserList',
@@ -11,7 +11,7 @@ export default {
   components: {
     IFXSearchField,
     IFXItemDataTable,
-    IFXActionSelect
+    IFXMailButton,
   },
   props: {
     headers: {
@@ -23,6 +23,8 @@ export default {
   data() {
     return {
       includeDisabled: this.$api.storage.getItem('UserListIncludeDisabled') || false,
+      mailFab: false,
+      recipientField: '',
     }
   },
   methods: {
@@ -33,6 +35,14 @@ export default {
         this.showMessage(error)
       }
     },
+    composeEmail() {
+      const params = {
+        recipientField: this.recipientField,
+        recipients: null
+      }
+      params.recipients = this.selected.map((item) => item.primaryEmail).join(',')
+      this.$router.push({ name: 'MailingCompose', params: params })
+    }
   },
   computed: {
     computedHeaders() {
@@ -61,24 +71,35 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if="!isLoading" grid-list-md>
+  <v-container grid-list-md>
     <IFXPageHeader>
       <template #title>{{listTitle}}</template>
       <template #actions>
-        <IFXSearchField :search.sync='search'/>
-        <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
-        <IFXActionSelect
-          class='action-item'
-          :selectedItems.sync='selected'
-          :actionKeys="['activateUserLogin', 'deactivateUserLogin', 'addMailingTo', 'addMailingCC', 'addMailingBCC']"
-        ></IFXActionSelect>
+        <v-row nowrap align="center">
+          <v-col>
+            <IFXSearchField :search.sync='search'/>
+          </v-col>
+          <v-col>
+            <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
+          </v-col>
+          <v-col>
+            <IFXMailButton
+              v-model="recipientField"
+              :disabled="!selected.length"
+              toolTip="Email selected users"
+              @input="composeEmail()"
+            >
+            </IFXMailButton>
+          </v-col>
+        </v-row>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
-      :items='filteredItems'
-      :headers='computedHeaders'
-      :selected.sync='selected'
-      :itemType='itemType'
+      :items="filteredItems"
+      :headers="computedHeaders"
+      :selected.sync="selected"
+      :itemType="itemType"
+      :loading="isLoading"
     ></IFXItemDataTable>
   </v-container>
 </template>

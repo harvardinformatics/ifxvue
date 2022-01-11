@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import IFXContactMixin from '@/components/contact/IFXContactMixin'
 import IFXContactCard from '@/components/contact/IFXContactCard'
-import IFXActionSelect from '@/components/action/IFXActionSelect'
+import IFXMailButton from '@/components/mailing/IFXMailButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
@@ -13,23 +13,28 @@ export default {
   components: {
     IFXContactCard,
     IFXSearchField,
-    IFXActionSelect,
+    IFXMailButton,
     IFXItemDataTable,
   },
   data() {
     return {
-      focusedContact: {}
+      focusedContact: {},
+      recipientField: '',
     }
   },
   methods: {
     setFocusedContact(contact) {
       this.focusedContact = contact
+    },
+    composeEmail() {
+      const recipients = this.selected.map((item) => item.detail).join(',')
+      this.$router.push({ name: 'MailingCompose', params: { recipients: recipients, recipientField: this.recipientField } })
     }
   },
   computed: {
     headers() {
       const headers = [
-        { text: 'Name', value: 'name', sortable: true },
+        { text: 'Name', value: 'computedName', sortable: true },
         { text: 'Detail', value: 'detail', slot: true, sortable: true },
         { text: 'Created', value: 'created', namedSlot: true, sortable: true },
       ]
@@ -63,14 +68,23 @@ export default {
     <IFXPageHeader>
       <template #title>{{listTitle}}</template>
       <template #actions>
-        <IFXSearchField :search.sync='search'/>
-        <IFXActionSelect
-          :actionKeys="['addMailingTo', 'addMailingCC', 'addMailingBCC', 'deleteContacts']"
-          :apiRef='apiRef'
-          @get-set-items='getSetItems'
-          :selectedItems.sync='selected'
-        />
-        <IFXButton btnType="add" xSmall @action="navigateToItemCreate"/>
+        <v-row nowrap align="center">
+          <v-col>
+            <IFXSearchField :search.sync='search'/>
+          </v-col>
+          <v-col>
+            <IFXMailButton
+              v-model="recipientField"
+              toolTip="Email contacts"
+              :disabled="!selected.length"
+              @input="composeEmail()"
+            >
+            </IFXMailButton>
+          </v-col>
+          <v-col>
+            <IFXButton small btnType="add" @action="navigateToItemCreate"/>
+          </v-col>
+        </v-row>
       </template>
     </IFXPageHeader>
     <div :style='contactContentStyle'>
@@ -81,6 +95,7 @@ export default {
         :headers='headers'
         :selected.sync='selected'
         :itemType='itemType'
+        itemKey='key'
         @click-row='setFocusedContact'
       >
         <template v-slot:created="{ item }">
