@@ -80,6 +80,7 @@ export default {
       <v-row justify="start" align="top" dense>
         <v-col sm="2">
           <h3>Authorizations</h3>
+          <div class="invalid" style="margin: 0.5em; font-size: smaller;">Indicates currently inactive authorizations</div>
         </v-col>
         <v-col>
           <v-row dense v-for="userAccount in item.userAccounts" :key="userAccount.id">
