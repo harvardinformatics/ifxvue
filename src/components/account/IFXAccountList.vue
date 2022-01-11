@@ -18,7 +18,7 @@ export default {
         { text: 'ID', value: 'id', sortable: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
         { text: 'Name', value: 'name', sortable: true },
-        { text: 'Lab', value: 'organization', sortable: true },
+        { text: 'Lab', value: 'organization', sortable: true, namedSlot: true },
         { text: 'Account Type', value: 'accountType', sortable: true },
         { text: 'Code', value: 'code', sortable: true, namedSlot: true },
         { text: 'Expiration Date', value: 'expirationDate', sortable: true, namedSlot: true },
@@ -44,6 +44,9 @@ export default {
       <template v-slot:active="{ item }">
         <v-icon v-if="item.active" color="green">check</v-icon>
         <v-icon v-else color="red">close</v-icon>
+      </template>
+      <template v-slot:lab="{ item }">
+        {{ item.organization }}
       </template>
       <template v-slot:code="{ item }">
         <span style="white-space: nowrap">{{ item.code }}</span>
