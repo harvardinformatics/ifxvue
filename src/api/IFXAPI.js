@@ -794,4 +794,13 @@ export default class IFXAPIService {
       },
     })
   }
+
+  updateAuthorizations(ifxids) {
+    const url = this.urls.UPDATE_USER_ACCOUNTS
+    const data = {}
+    if (ifxids && ifxids.length) {
+      data.ifxids = ifxids
+    }
+    return this.axios.post(url, data, { headers: { 'Content-Type': 'application/json' } })
+  }
 }
