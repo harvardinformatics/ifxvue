@@ -71,7 +71,7 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if="!isLoading" grid-list-md>
+  <v-container grid-list-md>
     <IFXPageHeader>
       <template #title>{{listTitle}}</template>
       <template #actions>
@@ -95,10 +95,11 @@ export default {
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
-      :items='filteredItems'
-      :headers='computedHeaders'
-      :selected.sync='selected'
-      :itemType='itemType'
+      :items="filteredItems"
+      :headers="computedHeaders"
+      :selected.sync="selected"
+      :itemType="itemType"
+      :loading="isLoading"
     ></IFXItemDataTable>
   </v-container>
 </template>

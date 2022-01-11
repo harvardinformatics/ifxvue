@@ -171,6 +171,7 @@ export default {
                 }
               })
               if (me.recipientField) {
+                const badFieldMessage = `An invalid recipient field was specified: ${me.recipientField}`
                 switch (me.recipientField) {
                   case 'to':
                     me.toList = me.toList.concat(result2)
@@ -182,7 +183,7 @@ export default {
                     me.bccList = me.bccList.concat(result2)
                     break
                   default:
-                    console.log('bad recipient')
+                    me.showMessage(badFieldMessage)
                 }
               } else {
                 me.toList = result2
@@ -259,6 +260,7 @@ export default {
             const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               if (this.recipientField) {
+                const badFieldMessage = `An invalid recipient field was specified: ${me.recipientField}`
                 switch (this.recipientField) {
                   case 'to':
                     this.toList = this.toList.concat(matches)
@@ -270,7 +272,7 @@ export default {
                     this.bccList = this.bccList.concat(matches)
                     break
                   default:
-                    console.log('bad recipient')
+                    this.showMessage(badFieldMessage)
                 }
               } else {
                 this.toList = this.toList.concat(matches)
