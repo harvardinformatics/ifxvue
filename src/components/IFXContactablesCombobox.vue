@@ -27,7 +27,7 @@
       <v-list-item v-text='item.text'></v-list-item>
     </template>
     <template #selection="{item}">
-      <v-chip color="transparent" close>
+      <v-chip color="transparent" close @click:close="removeFromSelected(item)">
         <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{item.label}}
       </v-chip>
     </template>
@@ -86,6 +86,9 @@ export default {
     },
     getItemValue(item) {
       return item
+    },
+    removeFromSelected(item) {
+      this.selected.splice(this.selected.findIndex((i) => i.id === item.id), 1)
     },
     handleChange() {
       this.$emit('input', this.selected)

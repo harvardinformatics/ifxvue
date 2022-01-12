@@ -17,6 +17,7 @@ export default {
         { text: 'ID', value: 'id', sortable: true },
         { text: 'Subject', value: 'subject' },
         { text: 'Message', value: 'message' },
+        { text: '', value: 'rowActionEdit', slot: true },
         { text: '', value: 'actions', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
@@ -24,7 +25,6 @@ export default {
   },
   methods: {
     composeWithMessage(item) {
-      console.log('howdy ', item)
       this.$router.push({ name: 'MailingCompose', params: { messageName: item.name } })
     },
   }
@@ -37,7 +37,7 @@ export default {
       <template #title>{{listTitle}}</template>
       <template #actions>
         <IFXSearchField :search.sync='search'/>
-        <IFXButton btnType="add" @action="navigateToItemCreate"/>
+        <IFXButton small btnType="add" @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
@@ -51,7 +51,7 @@ export default {
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               fab
-              small
+              xSmall
               color="primary"
               @click="composeWithMessage(item)"
               v-bind="attrs"
