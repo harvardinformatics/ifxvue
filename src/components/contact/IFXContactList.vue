@@ -46,7 +46,8 @@ export default {
     contactContentStyle() {
       return {
         display: 'flex',
-        'flex-direction': this.isContactContentLarge ? 'row' : 'column'
+        'flex-direction': this.isContactContentLarge ? 'row' : 'column',
+        width: '600px'
       }
     }
   },
@@ -88,7 +89,6 @@ export default {
       </template>
     </IFXPageHeader>
     <div :style='contactContentStyle'>
-      <IFXContactCard v-if='!isContactContentLarge' dense :contact='focusedContact'/>
       <IFXItemDataTable
         class="full-width"
         :items='filteredItems'
@@ -102,7 +102,19 @@ export default {
           <span style="white-space: nowrap;">{{ item.created|humanDatetime }}</span>
         </template>
       </IFXItemDataTable>
-      <IFXContactCard v-if='isContactContentLarge' :contact='focusedContact'/>
+    </div>
+    <div class="contact-card">
+      <IFXContactCard :dense="isContactContentLarge" :contact="focusedContact"/>
     </div>
   </v-container>
 </template>
+<style scoped>
+  .contact-card {
+    position: fixed;
+    right: 0.5em;
+    top: 300px;
+    background-color: white;
+    z-index: 1000;
+    width: 500px;
+  }
+</style>
