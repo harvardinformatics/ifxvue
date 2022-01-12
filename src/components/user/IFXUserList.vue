@@ -48,18 +48,10 @@ export default {
     },
     getErrorMessage(error) {
       let message = 'Unknown error'
-      if (error) {
-        if (
-          error.hasOwnProperty('response')
-          && error.response
-          && error.response.hasOwnProperty('data')
-          && error.response.data
-          && error.response.data.errors
-        ) {
-          message = error.response.data.errors.join('<br/>')
-        } else {
-          message = error
-        }
+      if (error.response?.data?.errors) {
+        message = error.response.data.errors.join('<br/>')
+      } else {
+        message = error
       }
       return message
     },
