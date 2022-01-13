@@ -35,7 +35,14 @@ const nonZeroRule = (v) => parseFloat(v) !== 0 || 'Value cannot be zero'
  * @param {any} v
  * @returns {boolean | string}
  */
-const positiveRule = (v) => parseFloat(v) > 0 || 'Value cannot be negative'
+const positiveRule = (v) => parseFloat(v) > 0 || 'Value must be positive'
+
+/**
+ * Checks if value is non-negative
+ * @param {any} v
+ * @returns {boolean | string}
+ */
+const nonNegativeRule = (v) => parseFloat(v) >= 0 || 'Value cannot be negative'
 
 // Main mixin block
 export default {
@@ -74,11 +81,17 @@ export default {
       // If today is Friday and it is 11am or later, first business day is next monday
       if (todayInt === 5 && hour >= 11) {
         // Add one week to today and get monday of that week
-        return now.clone().add(1, 'week').isoWeekday(1)
+        return now
+          .clone()
+          .add(1, 'week')
+          .isoWeekday(1)
       }
       if ([6, 7].includes(todayInt)) {
         // If today is Saturday or Sunday, first business day is next monday
-        return now.clone().add(1, 'week').isoWeekday(1)
+        return now
+          .clone()
+          .add(1, 'week')
+          .isoWeekday(1)
       }
       // If it is a weekday and it is before 11am, today is the first business day
       if (hour < 11) {
@@ -100,11 +113,17 @@ export default {
       }
       // If firstBusinessDay is Thursday, deliver next Monday
       if (firstBusinessDay.isoWeekday() === 4) {
-        return firstBusinessDay.clone().add(1, 'week').isoWeekday(1)
+        return firstBusinessDay
+          .clone()
+          .add(1, 'week')
+          .isoWeekday(1)
       }
       // If firstBusinessDay is Friday, deliver next Tuesday
       if (firstBusinessDay.isoWeekday() === 5) {
-        return firstBusinessDay.clone().add(1, 'week').isoWeekday(2)
+        return firstBusinessDay
+          .clone()
+          .add(1, 'week')
+          .isoWeekday(2)
       }
       return null
     },
@@ -284,7 +303,7 @@ export default {
          * @param {any} v
          * @returns {boolean | string}
          */
-        nonNegativeNumber: [baseRule, numericRule, positiveRule],
+        nonNegativeNumber: [baseRule, numericRule, nonNegativeRule],
         /**
          * Checks if value is a valid email
          * @param {any} v
