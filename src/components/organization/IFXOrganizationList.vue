@@ -41,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>{{listTitle}}</template>
       <template #actions>
@@ -65,10 +65,11 @@ export default {
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
-      :items='filteredItems'
-      :headers='headers'
-      :selected.sync='selected'
-      :itemType='itemType'
+      :items="filteredItems"
+      :headers="headers"
+      :selected.sync="selected"
+      :itemType="itemType"
+      :loading="isLoading"
     />
   </v-container>
 </template>
