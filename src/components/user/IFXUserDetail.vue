@@ -96,11 +96,28 @@ export default {
             </v-col>
           </v-row>
           <v-row dense>
-            <v-col xs="4" md="3">
+            <v-col xs="4" md="3" v-if="additionalContactList()">
               <h3>Other Contacts</h3>
             </v-col>
             <v-col>
               <span v-html="additionalContactList()"></span>
+            </v-col>
+          </v-row>
+          <v-row dense v-if="item.accounts?.length || item.productAccounts?.length">
+            <v-col sm="4">
+              <h3>Expense code / PO Authorizations</h3>
+            </v-col>
+            <v-col>
+              <span v-if="item.accounts?.length" class="d-flex flex-column">
+                <div v-for="account in item.accounts" :key="account.id" class="d-flex align-center mt-1">
+                  <span>{{account.account.slug}} for any facility product</span>
+                </div>
+              </span>
+              <span v-if="item.productAccounts?.length" class="d-flex flex-column">
+                <div v-for="account in item.productAccounts" :key="account.id" class="d-flex align-center mt-1">
+                  <span>{{account.account.slug}} for {{account.product.name}}</span>
+                </div>
+              </span>
             </v-col>
           </v-row>
         </v-col>
@@ -113,19 +130,19 @@ export default {
               {{item.primaryAffiliation}}
             </v-col>
           </v-row>
-          <v-row dense>
+          <v-row dense v-if="item.affiliations?.length">
             <v-col sm="4">
               <h3>Other Affiliations</h3>
             </v-col>
             <v-col>
-               <span v-if="item.affiliations && item.affiliations.length" class="d-flex flex-column">
+               <span v-if="item.affiliations?.length" class="d-flex flex-column">
                 <div v-for="affiliation in item.affiliations" :key="affiliation.id" class="d-flex align-center mt-1">
                   <span>{{affiliation.role|affiliationRoleDisplay}} of {{affiliation.organization}}</span>
                 </div>
               </span>
             </v-col>
           </v-row>
-          <v-row dense>
+          <v-row dense v-if="item.groups?.length">
             <v-col sm="4">
               <h3>Authorization Groups</h3>
             </v-col>

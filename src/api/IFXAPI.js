@@ -11,7 +11,7 @@ import { Organization, OrganizationContact, OrganizationUser } from '@/component
 import IFXMailing from '@/components/mailing/IFXMailing'
 import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
-import Account from '@/components/account/IFXAccount'
+import { Account, UserProductAccount } from '@/components/account/IFXAccount'
 import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
 import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
@@ -633,7 +633,49 @@ export default class IFXAPIService {
 
   get account() {
     const baseURL = this.urls.ACCOUNTS
-    return this.genericAPI(baseURL, Account)
+    const createFunc = (accountData, decompose = false) => {
+      const newAccountData = cloneDeep(accountData)
+      // Initialize contacts and users as empty arrays - will be filled in if incoming orgData has contacts or users
+      newAccountData.user_accounts = []
+      newAccountData.user_product_accounts = []
+
+      // Check if incoming accountData has user_accounts, user_product_accounts
+      if (accountData.user_accounts?.length) {
+        const userAccountDataObjs = accountData.user_accounts.map(({ id, user, is_valid }) => {
+          const newUserAccountData = {
+            id,
+            is_valid,
+            // If decomposing, do not create dynamic contact object
+            // TODO: why isn't type defined here? Role is not type
+            user: decompose ? user.data : this.user.create(user),
+          }
+          // If decomposing, do not create dynamic organization contact object
+          return decompose ? newUserAccountData : new UserProductAccount(newUserAccountData)
+        })
+        newAccountData.user_accounts = userAccountDataObjs
+      }
+
+      // Check if incoming accountData has user product accounts
+      if (accountData.user_product_accounts?.length) {
+        const userProductAccountDataObjs = accountData.user_product_accounts.map(({ id, is_valid, user, product, percent }) => {
+          const newProductAccountData = {
+            id,
+            is_valid,
+            product,
+            percent,
+            // If decomposing, do not create a dynamic user object
+            user: decompose ? user.data : this.user.create(user),
+          }
+          // If decomposing, do not create a dynamic organization user object
+          return decompose ? newProductAccountData : new UserProductAccount(newProductAccountData)
+        })
+        newAccountData.user_product_accounts = userProductAccountDataObjs
+      }
+      // If decomposing, do not create a dynamic organization object
+      return decompose ? newAccountData : new Account(newAccountData)
+    }
+    const decomposeFunc = (accountData) => createFunc(accountData, true)
+    return this.genericAPI(baseURL, null, createFunc, decomposeFunc)
   }
 
   get productAccount() {

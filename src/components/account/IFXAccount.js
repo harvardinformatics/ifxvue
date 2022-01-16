@@ -1,6 +1,24 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
-export default class Account extends IFXItemBase {
+export class UserProductAccount extends IFXItemBase {
+  get user() {
+    return this.data.user
+  }
+
+  get product() {
+    return this.data.product
+  }
+
+  get percent() {
+    return this.data.percent
+  }
+
+  get isValid() {
+    return this.data.is_valid
+  }
+}
+
+export class Account extends IFXItemBase {
   constructor(data = {}) {
     super(data)
     // Set default template values here
@@ -75,5 +93,21 @@ export default class Account extends IFXItemBase {
 
   get slug() {
     return this.data.slug
+  }
+
+  get created() {
+    return this.data.created
+  }
+
+  get updated() {
+    return this.data.updated
+  }
+
+  get userAccounts() {
+    return this.data.user_accounts
+  }
+
+  get userProductAccounts() {
+    return this.data.user_product_accounts
   }
 }
