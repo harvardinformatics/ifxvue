@@ -25,6 +25,9 @@ export default {
       includeDisabled: this.$api.storage.getItem('UserListIncludeDisabled') || false,
       mailFab: false,
       recipientField: '',
+      authorizationUpdating: false,
+      authorizationUpdateMessage: '',
+      authorizationMessageType: 'info',
     }
   },
   methods: {
@@ -42,6 +45,35 @@ export default {
       }
       params.recipients = this.selected.map((item) => item.primaryEmail).join(',')
       this.$router.push({ name: 'MailingCompose', params: params })
+    },
+    getErrorMessage(error) {
+      let message = 'Unknown error'
+      if (error.response?.data?.errors) {
+        message = error.response.data.errors.join('<br/>')
+      } else {
+        message = error
+      }
+      return message
+    },
+    updateAuthorizations() {
+      this.authorizationUpdating = true
+      let ifxids = null
+      if (this.selected) {
+        ifxids = this.selected.map((item) => item.ifxid)
+      }
+      this.$api.updateAuthorizations(ifxids)
+        .then((result) => {
+          this.authorizationMessageType = 'info'
+          const plural = result.data.successes.length > 1 ? 's' : ''
+          this.authorizationUpdateMessage = `Successfully updated ${result.data.successes} user${plural}`
+        })
+        .catch((error) => {
+          this.authorizationMessageType = 'error'
+          this.authorizationUpdateMessage = this.getErrorMessage(error)
+        })
+        .finally(() => {
+          this.authorizationUpdating = false
+        })
     }
   },
   computed: {
@@ -91,16 +123,48 @@ export default {
             >
             </IFXMailButton>
           </v-col>
+          <v-col>
+            <v-tooltip>
+              <template v-slot:activator="{ on, attrs }">
+                <div v-on="on">
+                  <v-btn
+                    v-bind="attrs"
+                    small
+                    fab
+                    @click="updateAuthorizations()"
+                    color="secondary"
+                  >
+                    <v-icon>verified_user</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              <span>Update Expense code / PO authorizations</span>
+            </v-tooltip>
+          </v-col>
         </v-row>
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable
-      :items="filteredItems"
-      :headers="computedHeaders"
-      :selected.sync="selected"
-      :itemType="itemType"
-      :loading="isLoading"
-    ></IFXItemDataTable>
+    <v-row justify="center" align="center">
+      <v-col v-if="authorizationUpdating">
+        <v-progress-linear indeterminate color="primary"></v-progress-linear>
+      </v-col>
+      <v-col v-else-if="authorizationUpdateMessage">
+        <v-alert dismissible :type="authorizationMessageType" border="left" elevation="2" colored-border>
+          <span v-html="authorizationUpdateMessage"></span>
+        </v-alert>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <IFXItemDataTable
+          :items="filteredItems"
+          :headers="computedHeaders"
+          :selected.sync="selected"
+          :itemType="itemType"
+          :loading="isLoading"
+        ></IFXItemDataTable>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
