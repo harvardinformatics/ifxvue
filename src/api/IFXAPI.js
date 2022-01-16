@@ -640,7 +640,7 @@ export default class IFXAPIService {
       newAccountData.user_product_accounts = []
 
       // Check if incoming accountData has user_accounts, user_product_accounts
-      if (accountData.user_accounts && accountData.user_accounts.length) {
+      if (accountData.user_accounts?.length) {
         const userAccountDataObjs = accountData.user_accounts.map(({ id, user, is_valid }) => {
           const newUserAccountData = {
             id,
@@ -656,7 +656,7 @@ export default class IFXAPIService {
       }
 
       // Check if incoming accountData has user product accounts
-      if (accountData.user_product_accounts && accountData.user_product_accounts.length) {
+      if (accountData.user_product_accounts?.length) {
         const userProductAccountDataObjs = accountData.user_product_accounts.map(({ id, is_valid, user, product, percent }) => {
           const newProductAccountData = {
             id,
@@ -675,8 +675,7 @@ export default class IFXAPIService {
       return decompose ? newAccountData : new Account(newAccountData)
     }
     const decomposeFunc = (accountData) => createFunc(accountData, true)
-    const api = this.genericAPI(baseURL, null, createFunc, decomposeFunc)
-    return api
+    return this.genericAPI(baseURL, null, createFunc, decomposeFunc)
   }
 
   get productAccount() {

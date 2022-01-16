@@ -5,7 +5,6 @@ import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 
 export default {
-  // TODO: fix IFXAccountList in ifxvue and then use that
   name: 'AccountList',
   mixins: [IFXItemListMixin, IFXAccountMixin],
   components: {
@@ -66,9 +65,3 @@ export default {
     </IFXItemDataTable>
   </v-container>
 </template>
-
-<style scoped>
-  .container {
-    max-width: 1600px;
-  }
-</style>

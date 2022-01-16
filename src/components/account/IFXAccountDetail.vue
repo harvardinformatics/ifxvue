@@ -22,9 +22,6 @@ export default {
       return this.item.accountType
     }
   },
-  mounted() {
-    console.log(this.item)
-  }
 }
 </script>
 <template>
