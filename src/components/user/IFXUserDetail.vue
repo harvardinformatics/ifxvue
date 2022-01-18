@@ -60,6 +60,9 @@ export default {
     areAffiliationsPresent() {
       return this.item.affiliations?.length
     },
+    areGroupsPresent() {
+      return this.item.groups?.length
+    },
   },
 }
 </script>
@@ -144,7 +147,7 @@ export default {
               {{ item.primaryAffiliation }}
             </v-col>
           </v-row>
-          <v-row dense v-if="item.affiliations?.length">
+          <v-row dense v-if="areAffiliationsPresent">
             <v-col sm="4">
               <h3>Other Affiliations</h3>
             </v-col>
@@ -156,7 +159,7 @@ export default {
               </span>
             </v-col>
           </v-row>
-          <v-row dense v-if="item.groups?.length">
+          <v-row dense v-if="areGroupsPresent">
             <v-col sm="4">
               <h3>Authorization Groups</h3>
             </v-col>
