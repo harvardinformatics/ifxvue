@@ -101,6 +101,7 @@ import IFXBillingRecordDetail from '@/components/billingRecord/IFXBillingRecordD
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
+import IFXOrgExpenseCodePicker from '@/components/IFXOrgExpenseCodePicker'
 import VCurrencyField from 'v-currency-field'
 import createPersistedState from 'vuex-persistedstate'
 import IFXTextEditor from '@/components/IFXTextEditor'
@@ -175,6 +176,7 @@ export {
   IFXPageActionBar,
   IFXBillingRecordList,
   IFXBillingRecordDetail,
+  IFXOrgExpenseCodePicker,
 }
 
 // Registered globally
