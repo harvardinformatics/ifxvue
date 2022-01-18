@@ -42,26 +42,38 @@ export default {
         })
       }
       return contacts.join('')
-    }
+    },
   },
   computed: {
     appName() {
       return this.$api.vars.appName
-    }
-  }
+    },
+    areAnyAccountsPresent() {
+      return this.item.accounts?.length || this.item.productAccounts?.length
+    },
+    areAccountsPresent() {
+      return this.item.accounts?.length
+    },
+    areProductAccountsPresent() {
+      return this.item.productAccounts?.length
+    },
+    areAffiliationsPresent() {
+      return this.item.affiliations?.length
+    },
+  },
 }
 </script>
 
 <template>
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{item.fullName || id}}</template>
+      <template #title>{{ item.fullName || id }}</template>
       <template #actions>
-        <IFXLoginIcon disabled v-if='item.isActive !== undefined' :isActive='item.isActive'/>
-        <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)"/>
+        <IFXLoginIcon disabled v-if="item.isActive !== undefined" :isActive="item.isActive" />
+        <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)" />
       </template>
       <template #content>
-        <IFXItemHistoryDisplay :item='item'/>
+        <IFXItemHistoryDisplay :item="item" />
       </template>
     </IFXPageHeader>
     <v-container>
@@ -72,7 +84,7 @@ export default {
               <h3>First Name</h3>
             </v-col>
             <v-col>
-              {{item.firstName}}
+              {{ item.firstName }}
             </v-col>
           </v-row>
           <v-row dense>
@@ -80,7 +92,7 @@ export default {
               <h3>Last Name</h3>
             </v-col>
             <v-col>
-              {{item.lastName}}
+              {{ item.lastName }}
             </v-col>
           </v-row>
           <v-row align="start" dense>
@@ -90,7 +102,9 @@ export default {
             <v-col>
               <v-row dense>
                 <v-col md="4">Primary Email</v-col>
-                <v-col ><a :href="`mailto:${item.primaryEmail}`">{{item.primaryEmail}}</a></v-col>
+                <v-col>
+                  <a :href="`mailto:${item.primaryEmail}`">{{ item.primaryEmail }}</a>
+                </v-col>
               </v-row>
               <span v-html="additionalEmailList()"></span>
             </v-col>
@@ -103,19 +117,19 @@ export default {
               <span v-html="additionalContactList()"></span>
             </v-col>
           </v-row>
-          <v-row dense v-if="item.accounts?.length || item.productAccounts?.length">
+          <v-row dense v-if="areAnyAccountsPresent">
             <v-col sm="4">
               <h3>Expense code / PO Authorizations</h3>
             </v-col>
             <v-col>
-              <span v-if="item.accounts?.length" class="d-flex flex-column">
+              <span v-if="areAccountsPresent" class="d-flex flex-column">
                 <div v-for="account in item.accounts" :key="account.id" class="d-flex align-center mt-1">
-                  <span>{{account.account.slug}} for any facility product</span>
+                  <span>{{ account.account.slug }} for any facility product</span>
                 </div>
               </span>
-              <span v-if="item.productAccounts?.length" class="d-flex flex-column">
+              <span v-if="areProductAccountsPresent" class="d-flex flex-column">
                 <div v-for="account in item.productAccounts" :key="account.id" class="d-flex align-center mt-1">
-                  <span>{{account.account.slug}} for {{account.product.name}}</span>
+                  <span>{{ account.account.slug }} for {{ account.product.name }}</span>
                 </div>
               </span>
             </v-col>
@@ -127,7 +141,7 @@ export default {
               <h3>Primary Affiliation</h3>
             </v-col>
             <v-col>
-              {{item.primaryAffiliation}}
+              {{ item.primaryAffiliation }}
             </v-col>
           </v-row>
           <v-row dense v-if="item.affiliations?.length">
@@ -135,9 +149,9 @@ export default {
               <h3>Other Affiliations</h3>
             </v-col>
             <v-col>
-               <span v-if="item.affiliations?.length" class="d-flex flex-column">
+              <span v-if="areAffiliationsPresent" class="d-flex flex-column">
                 <div v-for="affiliation in item.affiliations" :key="affiliation.id" class="d-flex align-center mt-1">
-                  <span>{{affiliation.role|affiliationRoleDisplay}} of {{affiliation.organization}}</span>
+                  <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization }}</span>
                 </div>
               </span>
             </v-col>
@@ -149,7 +163,7 @@ export default {
             <v-col>
               <span v-if="item.groups" class="d-flex flex-column">
                 <div v-for="group in item.groups" :key="group" class="d-flex align-center mt-1">
-                  <span>{{group}}</span>
+                  <span>{{ group }}</span>
                 </div>
               </span>
             </v-col>
@@ -161,19 +175,19 @@ export default {
 </template>
 
 <style>
-  .action-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .data-item {
-    padding-top: 1px;
-    padding-bottom: 1px;
-  }
+.action-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.data-item {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
 
-  .key-background {
-    background-color: #90A4AE;
-    border-radius: 50%;
-    padding: 5px;
-  }
+.key-background {
+  background-color: #90a4ae;
+  border-radius: 50%;
+  padding: 5px;
+}
 </style>
