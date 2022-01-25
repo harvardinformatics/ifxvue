@@ -111,6 +111,17 @@ export function commaSpace(value) {
   return result
 }
 
+export function orgNameFromSlug(slug) {
+  let result = slug
+  if (slug) {
+    const match = slug.match(/(.+?) \(a (.+?) (\S+)\)$/)
+    if (match) {
+      result = match[1]
+    }
+  }
+  return result
+}
+
 export default {
   humanDatetime,
   centsToDollars,
@@ -120,4 +131,5 @@ export default {
   columnDate,
   affiliationRoleDisplay,
   commaSpace,
+  orgNameFromSlug,
 }

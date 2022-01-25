@@ -52,7 +52,7 @@ import IFXOrganizationCreateEdit from '@/components/organization/IFXOrganization
 import IFXOrganizationDetail from '@/components/organization/IFXOrganizationDetail'
 import IFXOrganizationList from '@/components/organization/IFXOrganizationList'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
-import IFXOrganization from '@/components/organization/IFXOrganization'
+import { Organization } from '@/components/organization/IFXOrganization'
 
 // Contact
 import IFXContactCreateEdit from '@/components/contact/IFXContactCreateEdit'
@@ -80,8 +80,9 @@ import IFXAddress from '@/components/address/IFXAddress'
 import IFXSelectableAddress from '@/components/address/IFXSelectableAddress'
 
 // Account
-import IFXAccount from '@/components/account/IFXAccount'
+import { Account } from '@/components/account/IFXAccount'
 import IFXAccountList from '@/components/account/IFXAccountList'
+import IFXAccountDetail from '@/components/account/IFXAccountDetail'
 import IFXAccountMixin from '@/components/account/IFXAccountMixin'
 import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 
@@ -141,7 +142,7 @@ export {
   IFXContactable,
   IFXLoginIcon,
   IFXEnabledIcon,
-  IFXOrganization,
+  Organization,
   IFXOrganizationCreateEdit,
   IFXOrganizationDetail,
   IFXOrganizationList,
@@ -163,8 +164,9 @@ export {
   IFXSelectableAffiliation,
   IFXAddress,
   IFXSelectableAddress,
-  IFXAccount,
+  Account,
   IFXAccountList,
+  IFXAccountDetail,
   IFXAccountMixin,
   IFXExpenseCodeRequest,
   IFXFacility,

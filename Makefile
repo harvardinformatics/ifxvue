@@ -11,9 +11,9 @@ run: container
 build-no-cache:
 	rm -rf node_modules/
 	npm cache clean --force && npm cache verify
-	yarn
-	yarn build
+	npm install .
+	npm run-script build
 build:
-	yarn build
+	npm run-script build
 serve:
 	yarn serve
