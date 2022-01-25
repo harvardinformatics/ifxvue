@@ -75,11 +75,14 @@ export default {
   <span v-else-if="name === 'deliveryDate'">
     <div>{{ item.deliveryDate | humanDatetime }}</div>
   </span>
-  <span v-else-if="name === 'dateCreated'">
-    <div>{{ item.dateCreated | humanDatetime }}</div>
+  <span v-else-if="name==='created'">
+    <div>{{item.created | humanDatetime}}</div>
   </span>
-  <span v-else-if="name === 'created'">
-    <div>{{ item.created | humanDatetime }}</div>
+  <span v-else-if="name==='updated'">
+    <div>{{item.updated | humanDatetime}}</div>
+  </span>
+  <span v-else-if="name==='dateCreated'">
+    <div>{{item.dateCreated | humanDatetime}}</div>
   </span>
   <span v-else-if="name === 'dateJoined'">
     <div>{{ item.dateJoined | humanDatetime }}</div>
@@ -98,9 +101,6 @@ export default {
   </span>
   <span v-else-if="name === 'dateModified'">
     <div>{{ item.dateModified | humanDatetime }}</div>
-  </span>
-  <span v-else-if="name === 'updated'">
-    <div>{{ item.updated | humanDatetime }}</div>
   </span>
   <span v-else-if="name === 'sent'">
     <div>{{ item.sent | humanDatetime }}</div>
