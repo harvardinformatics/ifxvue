@@ -67,6 +67,12 @@ export default {
   <span v-else-if="name==='deliveryDate'">
     <div>{{item.deliveryDate | humanDatetime}}</div>
   </span>
+  <span v-else-if="name==='created'">
+    <div>{{item.created | humanDatetime}}</div>
+  </span>
+  <span v-else-if="name==='updated'">
+    <div>{{item.updated | humanDatetime}}</div>
+  </span>
   <span v-else-if="name==='dateCreated'">
     <div>{{item.dateCreated | humanDatetime}}</div>
   </span>

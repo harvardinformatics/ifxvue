@@ -27,8 +27,8 @@
     "@tinymce/tinymce-vue": "3.2.5"
   },
   "devDependencies": {
-    "@babel/core": "7.12.3",
-    "@vue/babel-preset-app": "^4.5.11",
+    "@babel/core": "7.14.6",
+    "@vue/babel-preset-app": "4.5.15",
     "@vue/cli": "4.5.8",
     "@vue/cli-plugin-babel": "4.5.8",
     "@vue/cli-plugin-eslint": "4.5.8",
@@ -59,7 +59,7 @@
     "@mdi/font": "5.8.55",
     "material-design-icons-iconfont": "6.1.0",
     "axios-mock-adapter": "1.20.0",
-    "webpack": "^4.44.2"
+    "webpack": "4.44.2"
   },
   "postcss": {
     "plugins": {
