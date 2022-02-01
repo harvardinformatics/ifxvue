@@ -62,7 +62,7 @@ export class ProductRate extends IFXItemBase {
   }
 }
 
-export class Product extends IFXItemBase {
+export default class Product extends IFXItemBase {
   constructor(data = {}) {
     super(data)
     this.data = data
