@@ -90,7 +90,7 @@ import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 import IFXFacility from '@/components/facility/IFXFacility'
 
 // Product
-import IFXProduct from '@/components/product/IFXProduct'
+import { Product, ProductRate } from '@/components/product/IFXProduct'
 import IFXProductList from '@/components/product/IFXProductList'
 import IFXProductDetail from '@/components/product/IFXProductDetail'
 import IFXProductCreateEdit from '@/components/product/IFXProductCreateEdit'
@@ -171,7 +171,8 @@ export {
   IFXAccountMixin,
   IFXExpenseCodeRequest,
   IFXFacility,
-  IFXProduct,
+  Product,
+  ProductRate,
   IFXProductDetail,
   IFXProductList,
   IFXProductMixin,
