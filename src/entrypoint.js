@@ -68,7 +68,7 @@ import IFXUserEdit from '@/components/user/IFXUserEdit'
 import IFXUserDetail from '@/components/user/IFXUserDetail'
 import IFXUserList from '@/components/user/IFXUserList'
 import IFXUserMixin from '@/components/user/IFXUserMixin'
-import IFXUser from '@/components/user/IFXUser'
+import { User, UserContact, UserAccount } from '@/components/user/IFXUser'
 import IFXSelectableUser from '@/components/user/IFXSelectableUser'
 
 // Affiliation
@@ -90,6 +90,7 @@ import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 import IFXFacility from '@/components/facility/IFXFacility'
 
 // Product
+import { Product, ProductRate } from '@/components/product/IFXProduct'
 import IFXProductList from '@/components/product/IFXProductList'
 import IFXProductDetail from '@/components/product/IFXProductDetail'
 import IFXProductCreateEdit from '@/components/product/IFXProductCreateEdit'
@@ -154,7 +155,9 @@ export {
   IFXContactMixin,
   IFXSelectableContact,
   IFXContactCard,
-  IFXUser,
+  User,
+  UserContact,
+  UserAccount,
   IFXUserEdit,
   IFXUserDetail,
   IFXUserList,
@@ -170,6 +173,8 @@ export {
   IFXAccountMixin,
   IFXExpenseCodeRequest,
   IFXFacility,
+  Product,
+  ProductRate,
   IFXProductDetail,
   IFXProductList,
   IFXProductMixin,

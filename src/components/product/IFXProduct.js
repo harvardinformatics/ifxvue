@@ -1,6 +1,6 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
-export class ProductRate extends IFXItemBase {
+class ProductRate extends IFXItemBase {
   constructor(data = {}) {
     super(data)
     // Set default template values here
@@ -62,7 +62,7 @@ export class ProductRate extends IFXItemBase {
   }
 }
 
-export class Product extends IFXItemBase {
+class Product extends IFXItemBase {
   constructor(data = {}) {
     super(data)
     this.data = data
@@ -134,3 +134,5 @@ export class Product extends IFXItemBase {
     return this.name
   }
 }
+
+export { Product, ProductRate }
