@@ -68,7 +68,7 @@ import IFXUserEdit from '@/components/user/IFXUserEdit'
 import IFXUserDetail from '@/components/user/IFXUserDetail'
 import IFXUserList from '@/components/user/IFXUserList'
 import IFXUserMixin from '@/components/user/IFXUserMixin'
-import IFXUser from '@/components/user/IFXUser'
+import { User, UserContact, UserAccount } from '@/components/user/IFXUser'
 import IFXSelectableUser from '@/components/user/IFXSelectableUser'
 
 // Affiliation
@@ -155,7 +155,9 @@ export {
   IFXContactMixin,
   IFXSelectableContact,
   IFXContactCard,
-  IFXUser,
+  User,
+  UserContact,
+  UserAccount,
   IFXUserEdit,
   IFXUserDetail,
   IFXUserList,

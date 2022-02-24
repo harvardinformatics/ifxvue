@@ -346,6 +346,11 @@ export default class IFXAPIService {
     return api
   }
 
+  get skinnyUser() {
+    const baseUrl = this.urls.SKINNY_USERS
+    return this.genericAPI(baseUrl, User)
+  }
+
   get organization() {
     const baseUrl = this.urls.ORGANIZATIONS
     const createFunc = (orgData, decompose = false) => {
