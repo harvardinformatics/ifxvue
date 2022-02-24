@@ -757,7 +757,7 @@ export default class IFXAPIService {
       return decompose ? newProductUsageData : new ProductUsage(newProductUsageData)
     }
     const decomposeFunc = (newProductUsageData) => createFunc(newProductUsageData, true)
-    return this.genericAPI(baseUrl, ProductUsage)
+    return this.genericAPI(baseUrl, ProductUsage, createFunc, decomposeFunc)
   }
 
   get facility() {

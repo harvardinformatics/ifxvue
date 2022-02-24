@@ -1,10 +1,11 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
+import isEmpty from 'lodash/isEmpty'
 
 class ProductRate extends IFXItemBase {
   constructor(data = {}) {
     super(data)
     // Set default template values here
-    if (!data) {
+    if (isEmpty(data)) {
       this.data.is_active = true
     }
   }
