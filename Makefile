@@ -5,7 +5,7 @@ IMAGE         = ifxvue
 
 .PHONY: Makefile build run container
 container:
-	docker build -t $(IMAGE) .
+	docker build -t $(IMAGE) . --no-cache
 run: container
 	docker run --rm -it -p 8080:8080 -v `pwd`:/app $(IMAGE)
 build-no-cache:

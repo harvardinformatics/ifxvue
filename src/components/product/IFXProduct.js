@@ -1,6 +1,28 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 import isEmpty from 'lodash/isEmpty'
 
+class Processing extends IFXItemBase {
+  constructor(data = {}) {
+    super(data)
+  }
+
+  get resolved() {
+    return this.data.resolved
+  }
+
+  get errorMessage() {
+    return this.data.error_message
+  }
+
+  get created() {
+    return this.data.created
+  }
+
+  get updated() {
+    return this.data.updated
+  }
+}
+
 class ProductRate extends IFXItemBase {
   constructor(data = {}) {
     super(data)
@@ -221,4 +243,4 @@ class ProductUsage extends IFXItemBase {
   }
 }
 
-export { Product, ProductRate, ProductUsage }
+export { Product, ProductRate, ProductUsage, Processing }

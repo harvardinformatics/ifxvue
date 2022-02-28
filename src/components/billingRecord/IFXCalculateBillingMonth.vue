@@ -50,7 +50,7 @@ export default {
         { text: 'User', value: 'productUser', sortable: true, namedSlot: true },
         { text: 'Year', value: 'year', slot: true, sortable: true },
         { text: 'Month', value: 'month', slot: true, sortable: true },
-        { text: 'Organization', value: 'organization', slot: true, sortable: true },
+        { text: 'Organization', value: 'organization', namedSlot: true, sortable: true },
         { text: 'Description', value: 'description', slot: true },
         { text: 'Processing', value: 'processing', sortable: true, namedSlot: true },
       ]
@@ -224,7 +224,7 @@ export default {
                     small
                     :color="recalculate ? 'red' : 'primary'"
                   >
-                    <v-icon>money</v-icon>
+                    <v-icon>autorenew</v-icon>
                   </v-btn>
                 </div>
               </template>
@@ -248,11 +248,14 @@ export default {
           <template v-slot:productUser="{ item }">
             {{ item.productUser.fullName }}
           </template>
+          <template v-slot:organization="{ item }">
+            {{ item.organization|orgNameFromSlug }}
+          </template>
           <template v-slot:processing="{ item }">
-            <span style="color: red;" v-if="item.processing && item.processing[0] && !item.processing[0].resolved">
-              {{ item.processing[0].errorMessage }}
+            <span style="color: red;" v-if="item.processing && item.processing && !item.processing.resolved">
+              {{ item.processing.errorMessage }}
             </span>
-            <span v-else-if="item.processing && item.processing[0]">
+            <span v-else-if="item.processing">
               OK
             </span>
             <span v-else>&nbsp;</span>

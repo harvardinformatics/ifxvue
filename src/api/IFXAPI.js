@@ -15,7 +15,7 @@ import { Account, UserProductAccount } from '@/components/account/IFXAccount'
 import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
 import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
-import { Product, ProductRate, ProductUsage } from '@/components/product/IFXProduct'
+import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -742,6 +742,10 @@ export default class IFXAPIService {
     return this.genericAPI(null, ProductRate)
   }
 
+  get processing() {
+    return this.genericAPI(null, Processing)
+  }
+
   get productUsage() {
     const baseUrl = this.urls.PRODUCT_USAGES
     const createFunc = (productUsageData, decompose = false) => {
@@ -751,6 +755,11 @@ export default class IFXAPIService {
       }
       if (productUsageData.product_user) {
         newProductUsageData.product_user = decompose ? productUsageData.productUser.data : this.user.create(productUsageData.product_user)
+      }
+      if (newProductUsageData.processing?.length) {
+        newProductUsageData.processing = decompose
+          ? newProductUsageData.processing.data
+          : this.processing.create(newProductUsageData.processing[0]) // There should be only one of these
       }
 
       // If decomposing, do not create a dynamic product object
