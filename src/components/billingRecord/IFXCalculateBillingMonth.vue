@@ -75,7 +75,7 @@ export default {
       return !this.usagesPreviouslyBilled() || this.recalculate
     },
     hasFinalBillingRecord(usage) {
-      return usage.billingRecords && usage.billingRecords.some((br) => br.currentState === 'FINAL')
+      return usage?.billingRecords.some((br) => br.currentState === 'FINAL')
     },
     usagesPreviouslyBilled() {
       // Returns true if any of the usages has billingRecords
