@@ -98,6 +98,7 @@ export default {
 
 .data-card {
   margin-top: 0.5rem;
+  padding: 10px 20px;
 }
 
 .data-title {
