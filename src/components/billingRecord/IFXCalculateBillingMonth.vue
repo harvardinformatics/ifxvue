@@ -69,7 +69,7 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     canCalculate() {
-      if (this.usages && this.usages.some((usage) => this.hasFinalBillingRecord(usage))) {
+      if (this.usages?.some((usage) => this.hasFinalBillingRecord(usage))) {
         return false
       }
       return !this.usagesPreviouslyBilled() || this.recalculate
