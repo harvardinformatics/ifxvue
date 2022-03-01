@@ -90,7 +90,7 @@ import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 import IFXFacility from '@/components/facility/IFXFacility'
 
 // Product
-import { Product, ProductRate } from '@/components/product/IFXProduct'
+import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
 import IFXProductList from '@/components/product/IFXProductList'
 import IFXProductDetail from '@/components/product/IFXProductDetail'
 import IFXProductCreateEdit from '@/components/product/IFXProductCreateEdit'
@@ -99,6 +99,8 @@ import IFXProductMixin from '@/components/product/IFXProductMixin'
 // Billing
 import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
 import IFXBillingRecordDetail from '@/components/billingRecord/IFXBillingRecordDetail'
+import IFXCalculateBillingMonth from '@/components/billingRecord/IFXCalculateBillingMonth'
+import IFXBillableMixin from '@/components/billingRecord/IFXBillableMixin'
 
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
@@ -175,6 +177,8 @@ export {
   IFXFacility,
   Product,
   ProductRate,
+  ProductUsage,
+  Processing,
   IFXProductDetail,
   IFXProductList,
   IFXProductMixin,
@@ -182,6 +186,8 @@ export {
   IFXPageActionBar,
   IFXBillingRecordList,
   IFXBillingRecordDetail,
+  IFXCalculateBillingMonth,
+  IFXBillableMixin,
 }
 
 // Registered globally

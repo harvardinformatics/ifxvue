@@ -1,10 +1,33 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
+import isEmpty from 'lodash/isEmpty'
+
+class Processing extends IFXItemBase {
+  constructor(data = {}) {
+    super(data)
+  }
+
+  get resolved() {
+    return this.data.resolved
+  }
+
+  get errorMessage() {
+    return this.data.error_message
+  }
+
+  get created() {
+    return this.data.created
+  }
+
+  get updated() {
+    return this.data.updated
+  }
+}
 
 class ProductRate extends IFXItemBase {
   constructor(data = {}) {
     super(data)
     // Set default template values here
-    if (!data) {
+    if (isEmpty(data)) {
       this.data.is_active = true
     }
   }
@@ -135,4 +158,89 @@ class Product extends IFXItemBase {
   }
 }
 
-export { Product, ProductRate }
+/* Generic ProductUsage that is primarily used
+ * by the IFXCalculateBillingMonth component
+ */
+class ProductUsage extends IFXItemBase {
+  get product() {
+    return this.data.product
+  }
+
+  set product(product) {
+    this.data.product = product
+  }
+
+  get productUser() {
+    return this.data.product_user
+  }
+
+  set productUser(productUser) {
+    this.data.product_user = productUser
+  }
+
+  get year() {
+    return this.data.year
+  }
+
+  set year(year) {
+    this.data.year = year
+  }
+
+  get month() {
+    return this.data.month
+  }
+
+  set month(month) {
+    this.data.month = month
+  }
+
+  get quantity() {
+    return this.data.quantity
+  }
+
+  set quantity(quantity) {
+    this.data.quantity = quantity
+  }
+
+  get startDate() {
+    return this.data.start_date
+  }
+
+  set startDate(startDate) {
+    this.data.start_date = startDate
+  }
+
+  get description() {
+    return this.data.description
+  }
+
+  set description(description) {
+    this.data.description = description
+  }
+
+  get organization() {
+    return this.data.organization
+  }
+
+  set organization(organization) {
+    this.data.organization = organization
+  }
+
+  get processing() {
+    return this.data.processing
+  }
+
+  get loggedBy() {
+    return this.data.logged_by
+  }
+
+  get created() {
+    return this.data.created
+  }
+
+  get updated() {
+    return this.data.updated
+  }
+}
+
+export { Product, ProductRate, ProductUsage, Processing }

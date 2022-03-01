@@ -15,7 +15,7 @@ import { Account, UserProductAccount } from '@/components/account/IFXAccount'
 import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
 import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
-import { Product, ProductRate } from '@/components/product/IFXProduct'
+import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -742,6 +742,33 @@ export default class IFXAPIService {
     return this.genericAPI(null, ProductRate)
   }
 
+  get processing() {
+    return this.genericAPI(null, Processing)
+  }
+
+  get productUsage() {
+    const baseUrl = this.urls.PRODUCT_USAGES
+    const createFunc = (productUsageData, decompose = false) => {
+      const newProductUsageData = cloneDeep(productUsageData) || {}
+      if (productUsageData.product) {
+        newProductUsageData.product = decompose ? productUsageData.product.data : this.product.create(productUsageData.product)
+      }
+      if (productUsageData.product_user) {
+        newProductUsageData.product_user = decompose ? productUsageData.productUser.data : this.user.create(productUsageData.product_user)
+      }
+      if (newProductUsageData.processing?.length) {
+        newProductUsageData.processing = decompose
+          ? newProductUsageData.processing.data
+          : this.processing.create(newProductUsageData.processing[0]) // There should be only one of these
+      }
+
+      // If decomposing, do not create a dynamic product object
+      return decompose ? newProductUsageData : new ProductUsage(newProductUsageData)
+    }
+    const decomposeFunc = (newProductUsageData) => createFunc(newProductUsageData, true)
+    return this.genericAPI(baseUrl, ProductUsage, createFunc, decomposeFunc)
+  }
+
   get facility() {
     const baseUrl = this.urls.FACILITIES
     return this.genericAPI(baseUrl, Facility)
@@ -784,6 +811,21 @@ export default class IFXAPIService {
       })
       return this.axios.post(url, newData, { headers: { 'Content-Type': 'application/json' } })
     }
+
+    api.calculateBillingMonth = (facility, year, month, recalculate = false) => {
+      if (!facility.invoicePrefix) {
+        throw new Error(`Facility ${facility.name} is missing an invoice prefix`)
+      }
+      const url = `${this.urls.CALCULATE_BILLING_MONTH}${facility.invoicePrefix}/${year}/${month}/`
+      return this.axios.post(url, { recalculate })
+    }
+    api.getUsagesForFacility = (facility, year, month) => {
+      if (facility.name === 'Liquid Nitrogen Service') {
+        return this.nitrogenLog.getList(null, year, month)
+      }
+      throw new Error(`Do not understand facility ${facility.name}`)
+    }
+
     return api
   }
 
