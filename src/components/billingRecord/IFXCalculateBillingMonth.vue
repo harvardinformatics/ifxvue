@@ -80,7 +80,7 @@ export default {
     usagesPreviouslyBilled() {
       // Returns true if any of the usages has billingRecords
       if (this.usages) {
-        return this.usages.some((usage) => usage?.billingRecords.length)
+        return this.usages.some((usage) => usage.billingRecords?.length)
       }
       return false
     },
@@ -164,8 +164,6 @@ export default {
   <v-container v-if="!isLoading">
     <IFXPageHeader>
       <template #title>Calculate billing month</template>
-      <template #actions>
-      </template>
     </IFXPageHeader>
     <v-row align="center">
       <v-col>
