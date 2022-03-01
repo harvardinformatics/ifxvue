@@ -80,7 +80,7 @@ export default {
     usagesPreviouslyBilled() {
       // Returns true if any of the usages has billingRecords
       if (this.usages) {
-        return this.usages.some((usage) => usage.billingRecords && usage.billingRecords.length)
+        return this.usages.some((usage) => usage?.billingRecords.length)
       }
       return false
     },
