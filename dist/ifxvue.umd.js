@@ -27785,7 +27785,7 @@ module.exports = hashClear;
 /***/ "4a0c":
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"_from\":\"axios@0.21.2\",\"_id\":\"axios@0.21.2\",\"_inBundle\":false,\"_integrity\":\"sha512-87otirqUw3e8CzHTMO+/9kh/FSgXt/eVDvipijwDtEuwbkySWZ9SBm6VEubmJ/kLKEoLQV/POhxXFb66bfekfg==\",\"_location\":\"/axios\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"axios@0.21.2\",\"name\":\"axios\",\"escapedName\":\"axios\",\"rawSpec\":\"0.21.2\",\"saveSpec\":null,\"fetchSpec\":\"0.21.2\"},\"_requiredBy\":[\"/\"],\"_resolved\":\"https://registry.npmjs.org/axios/-/axios-0.21.2.tgz\",\"_shasum\":\"21297d5084b2aeeb422f5d38e7be4fbb82239017\",\"_spec\":\"axios@0.21.2\",\"_where\":\"/app\",\"author\":{\"name\":\"Matt Zabriskie\"},\"browser\":{\"./lib/adapters/http.js\":\"./lib/adapters/xhr.js\"},\"bugs\":{\"url\":\"https://github.com/axios/axios/issues\"},\"bundleDependencies\":false,\"bundlesize\":[{\"path\":\"./dist/axios.min.js\",\"threshold\":\"5kB\"}],\"dependencies\":{\"follow-redirects\":\"^1.14.0\"},\"deprecated\":false,\"description\":\"Promise based HTTP client for the browser and node.js\",\"devDependencies\":{\"coveralls\":\"^3.0.0\",\"es6-promise\":\"^4.2.4\",\"grunt\":\"^1.3.0\",\"grunt-banner\":\"^0.6.0\",\"grunt-cli\":\"^1.2.0\",\"grunt-contrib-clean\":\"^1.1.0\",\"grunt-contrib-watch\":\"^1.0.0\",\"grunt-eslint\":\"^23.0.0\",\"grunt-karma\":\"^4.0.0\",\"grunt-mocha-test\":\"^0.13.3\",\"grunt-ts\":\"^6.0.0-beta.19\",\"grunt-webpack\":\"^4.0.2\",\"istanbul-instrumenter-loader\":\"^1.0.0\",\"jasmine-core\":\"^2.4.1\",\"karma\":\"^6.3.2\",\"karma-chrome-launcher\":\"^3.1.0\",\"karma-firefox-launcher\":\"^2.1.0\",\"karma-jasmine\":\"^1.1.1\",\"karma-jasmine-ajax\":\"^0.1.13\",\"karma-safari-launcher\":\"^1.0.0\",\"karma-sauce-launcher\":\"^4.3.6\",\"karma-sinon\":\"^1.0.5\",\"karma-sourcemap-loader\":\"^0.3.8\",\"karma-webpack\":\"^4.0.2\",\"load-grunt-tasks\":\"^3.5.2\",\"minimist\":\"^1.2.0\",\"mocha\":\"^8.2.1\",\"sinon\":\"^4.5.0\",\"terser-webpack-plugin\":\"^4.2.3\",\"typescript\":\"^4.0.5\",\"url-search-params\":\"^0.10.0\",\"webpack\":\"^4.44.2\",\"webpack-dev-server\":\"^3.11.0\"},\"homepage\":\"https://axios-http.com\",\"jsdelivr\":\"dist/axios.min.js\",\"keywords\":[\"xhr\",\"http\",\"ajax\",\"promise\",\"node\"],\"license\":\"MIT\",\"main\":\"index.js\",\"name\":\"axios\",\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/axios/axios.git\"},\"scripts\":{\"build\":\"NODE_ENV=production grunt build\",\"coveralls\":\"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js\",\"examples\":\"node ./examples/server.js\",\"fix\":\"eslint --fix lib/**/*.js\",\"postversion\":\"git push && git push --tags\",\"preversion\":\"npm test\",\"start\":\"node ./sandbox/server.js\",\"test\":\"grunt test\",\"version\":\"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json\"},\"typings\":\"./index.d.ts\",\"unpkg\":\"dist/axios.min.js\",\"version\":\"0.21.2\"}");
+module.exports = JSON.parse("{\"_args\":[[\"axios@0.21.2\",\"/app\"]],\"_from\":\"axios@0.21.2\",\"_id\":\"axios@0.21.2\",\"_inBundle\":false,\"_integrity\":\"sha512-87otirqUw3e8CzHTMO+/9kh/FSgXt/eVDvipijwDtEuwbkySWZ9SBm6VEubmJ/kLKEoLQV/POhxXFb66bfekfg==\",\"_location\":\"/axios\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"axios@0.21.2\",\"name\":\"axios\",\"escapedName\":\"axios\",\"rawSpec\":\"0.21.2\",\"saveSpec\":null,\"fetchSpec\":\"0.21.2\"},\"_requiredBy\":[\"/\"],\"_resolved\":\"https://registry.npmjs.org/axios/-/axios-0.21.2.tgz\",\"_spec\":\"0.21.2\",\"_where\":\"/app\",\"author\":{\"name\":\"Matt Zabriskie\"},\"browser\":{\"./lib/adapters/http.js\":\"./lib/adapters/xhr.js\"},\"bugs\":{\"url\":\"https://github.com/axios/axios/issues\"},\"bundlesize\":[{\"path\":\"./dist/axios.min.js\",\"threshold\":\"5kB\"}],\"dependencies\":{\"follow-redirects\":\"^1.14.0\"},\"description\":\"Promise based HTTP client for the browser and node.js\",\"devDependencies\":{\"coveralls\":\"^3.0.0\",\"es6-promise\":\"^4.2.4\",\"grunt\":\"^1.3.0\",\"grunt-banner\":\"^0.6.0\",\"grunt-cli\":\"^1.2.0\",\"grunt-contrib-clean\":\"^1.1.0\",\"grunt-contrib-watch\":\"^1.0.0\",\"grunt-eslint\":\"^23.0.0\",\"grunt-karma\":\"^4.0.0\",\"grunt-mocha-test\":\"^0.13.3\",\"grunt-ts\":\"^6.0.0-beta.19\",\"grunt-webpack\":\"^4.0.2\",\"istanbul-instrumenter-loader\":\"^1.0.0\",\"jasmine-core\":\"^2.4.1\",\"karma\":\"^6.3.2\",\"karma-chrome-launcher\":\"^3.1.0\",\"karma-firefox-launcher\":\"^2.1.0\",\"karma-jasmine\":\"^1.1.1\",\"karma-jasmine-ajax\":\"^0.1.13\",\"karma-safari-launcher\":\"^1.0.0\",\"karma-sauce-launcher\":\"^4.3.6\",\"karma-sinon\":\"^1.0.5\",\"karma-sourcemap-loader\":\"^0.3.8\",\"karma-webpack\":\"^4.0.2\",\"load-grunt-tasks\":\"^3.5.2\",\"minimist\":\"^1.2.0\",\"mocha\":\"^8.2.1\",\"sinon\":\"^4.5.0\",\"terser-webpack-plugin\":\"^4.2.3\",\"typescript\":\"^4.0.5\",\"url-search-params\":\"^0.10.0\",\"webpack\":\"^4.44.2\",\"webpack-dev-server\":\"^3.11.0\"},\"homepage\":\"https://axios-http.com\",\"jsdelivr\":\"dist/axios.min.js\",\"keywords\":[\"xhr\",\"http\",\"ajax\",\"promise\",\"node\"],\"license\":\"MIT\",\"main\":\"index.js\",\"name\":\"axios\",\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/axios/axios.git\"},\"scripts\":{\"build\":\"NODE_ENV=production grunt build\",\"coveralls\":\"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js\",\"examples\":\"node ./examples/server.js\",\"fix\":\"eslint --fix lib/**/*.js\",\"postversion\":\"git push && git push --tags\",\"preversion\":\"npm test\",\"start\":\"node ./sandbox/server.js\",\"test\":\"grunt test\",\"version\":\"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json\"},\"typings\":\"./index.d.ts\",\"unpkg\":\"dist/axios.min.js\",\"version\":\"0.21.2\"}");
 
 /***/ }),
 
@@ -84647,8 +84647,8 @@ var IFXBillingRecordDetail_component = normalizeComponent(
 
 installComponents_default()(IFXBillingRecordDetail_component, {VAutocomplete: VAutocomplete_VAutocomplete,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VForm: VForm,VIcon: components_VIcon_VIcon,VProgressLinear: VProgressLinear_VProgressLinear,VRow: VRow,VSpacer: VSpacer,VTextField: VTextField_VTextField,VTextarea: VTextarea_VTextarea})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e26e54cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=template&id=76d75c34&scoped=true&
-var IFXCalculateBillingMonthvue_type_template_id_76d75c34_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v("Calculate billing month")]},proxy:true}],null,false,28044514)}),_c('v-row',{attrs:{"align":"center"}},[_c('v-col',[_c('v-menu',{attrs:{"close-on-content-click":false,"nudge-right":40,"transition":"scale-transition","offset-y":"","min-width":"auto"},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e26e54cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=template&id=496f3609&scoped=true&
+var IFXCalculateBillingMonthvue_type_template_id_496f3609_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v("Calculate billing month")]},proxy:true}],null,false,28044514)}),_c('v-row',{attrs:{"align":"center"}},[_c('v-col',[_c('v-menu',{attrs:{"close-on-content-click":false,"nudge-right":40,"transition":"scale-transition","offset-y":"","min-width":"auto"},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('v-text-field',_vm._g(_vm._b({attrs:{"label":"Month *","prepend-icon":"mdi-calendar","readonly":"","hint":"YYYY-MM format","persistent-hint":""},model:{value:(_vm.selectedDate),callback:function ($$v) {_vm.selectedDate=$$v},expression:"selectedDate"}},'v-text-field',attrs,false),on))]}}],null,false,3051545751),model:{value:(_vm.dateMenu),callback:function ($$v) {_vm.dateMenu=$$v},expression:"dateMenu"}},[_c('v-date-picker',{attrs:{"type":"month"},on:{"input":function($event){_vm.dateMenu = false}},model:{value:(_vm.selectedDate),callback:function ($$v) {_vm.selectedDate=$$v},expression:"selectedDate"}})],1)],1),_c('v-col',[_c('v-select',{attrs:{"items":_vm.facilities,"item-text":"name","label":"Facility","return-object":""},on:{"change":function($event){return _vm.getUsages()}},model:{value:(_vm.facility),callback:function ($$v) {_vm.facility=$$v},expression:"facility"}})],1),_c('v-col',[_c('v-row',{attrs:{"align":"center","nowrap":""}},[_c('v-col',[_c('v-checkbox',{attrs:{"label":"Recalculate"},model:{value:(_vm.recalculate),callback:function ($$v) {_vm.recalculate=$$v},expression:"recalculate"}})],1),_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
@@ -84661,10 +84661,10 @@ var item = ref.item;
 return [_vm._v(" "+_vm._s(_vm._f("orgNameFromSlug")(item.organization))+" ")]}},{key:"processing",fn:function(ref){
 var item = ref.item;
 return [(item.processing && item.processing && !item.processing.resolved)?_c('span',{staticStyle:{"color":"red"}},[_vm._v(" "+_vm._s(item.processing.errorMessage)+" ")]):(item.processing)?_c('span',[_vm._v(" OK ")]):_c('span')]}}],null,false,3732039363)})],1)],1)],1):_vm._e()}
-var IFXCalculateBillingMonthvue_type_template_id_76d75c34_scoped_true_staticRenderFns = []
+var IFXCalculateBillingMonthvue_type_template_id_496f3609_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=template&id=76d75c34&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=template&id=496f3609&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=script&lang=js&
 
@@ -84786,7 +84786,9 @@ var IFXCalculateBillingMonthvue_type_template_id_76d75c34_scoped_true_staticRend
       return !this.usagesPreviouslyBilled() || this.recalculate;
     },
     hasFinalBillingRecord: function hasFinalBillingRecord(usage) {
-      return usage === null || usage === void 0 ? void 0 : usage.billingRecords.some(function (br) {
+      var _usage$billingRecords;
+
+      return usage === null || usage === void 0 ? void 0 : (_usage$billingRecords = usage.billingRecords) === null || _usage$billingRecords === void 0 ? void 0 : _usage$billingRecords.some(function (br) {
         return br.currentState === 'FINAL';
       });
     },
@@ -84794,9 +84796,9 @@ var IFXCalculateBillingMonthvue_type_template_id_76d75c34_scoped_true_staticRend
       // Returns true if any of the usages has billingRecords
       if (this.usages) {
         return this.usages.some(function (usage) {
-          var _usage$billingRecords;
+          var _usage$billingRecords2;
 
-          return (_usage$billingRecords = usage.billingRecords) === null || _usage$billingRecords === void 0 ? void 0 : _usage$billingRecords.length;
+          return (_usage$billingRecords2 = usage.billingRecords) === null || _usage$billingRecords2 === void 0 ? void 0 : _usage$billingRecords2.length;
         });
       }
 
@@ -84951,11 +84953,11 @@ var IFXCalculateBillingMonthvue_type_template_id_76d75c34_scoped_true_staticRend
 
 var IFXCalculateBillingMonth_component = normalizeComponent(
   billingRecord_IFXCalculateBillingMonthvue_type_script_lang_js_,
-  IFXCalculateBillingMonthvue_type_template_id_76d75c34_scoped_true_render,
-  IFXCalculateBillingMonthvue_type_template_id_76d75c34_scoped_true_staticRenderFns,
+  IFXCalculateBillingMonthvue_type_template_id_496f3609_scoped_true_render,
+  IFXCalculateBillingMonthvue_type_template_id_496f3609_scoped_true_staticRenderFns,
   false,
   null,
-  "76d75c34",
+  "496f3609",
   null
   
 )
