@@ -17,8 +17,8 @@ export default {
     headers: {
       type: Array,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -41,7 +41,7 @@ export default {
     composeEmail() {
       const params = {
         recipientField: this.recipientField,
-        recipients: null
+        recipients: null,
       }
       params.recipients = this.selected.map((item) => item.primaryEmail).join(',')
       this.$router.push({ name: 'MailingCompose', params: params })
@@ -61,7 +61,8 @@ export default {
       if (this.selected) {
         ifxids = this.selected.map((item) => item.ifxid)
       }
-      this.$api.updateAuthorizations(ifxids)
+      this.$api
+        .updateAuthorizations(ifxids)
         .then((result) => {
           this.authorizationMessageType = 'info'
           const plural = result.data.successes.length > 1 ? 's' : ''
@@ -74,7 +75,7 @@ export default {
         .finally(() => {
           this.authorizationUpdating = false
         })
-    }
+    },
   },
   computed: {
     computedHeaders() {
@@ -88,28 +89,28 @@ export default {
         { text: 'IfxId', value: 'ifxid', hide: 'mdAndDown', sortable: true },
         { text: 'Groups', value: 'groups', sortable: true },
         { text: `${this.$api.vars.appNameFormatted} Login`, value: 'isLoginActive', sortable: true },
-        { text: '', value: 'rowActionEdit', sortable: false }
+        { text: '', value: 'rowActionEdit', sortable: false },
       ]
       const headers = this.headers || defaultHeaders
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
-    }
+    },
   },
   watch: {
     includeDisabled(val) {
       this.$api.storage.setItem('UserListIncludeDisabled', val)
       this.getSetItems()
-    }
-  }
+    },
+  },
 }
 </script>
 <template>
   <v-container grid-list-md>
     <IFXPageHeader>
-      <template #title>{{listTitle}}</template>
+      <template #title>{{ listTitle }}</template>
       <template #actions>
         <v-row nowrap align="center">
           <v-col>
-            <IFXSearchField :search.sync='search'/>
+            <IFXSearchField :search.sync="search" />
           </v-col>
           <v-col>
             <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
@@ -120,20 +121,13 @@ export default {
               :disabled="!selected.length"
               toolTip="Email selected users"
               @input="composeEmail()"
-            >
-            </IFXMailButton>
+            ></IFXMailButton>
           </v-col>
           <v-col>
             <v-tooltip>
               <template v-slot:activator="{ on, attrs }">
                 <div v-on="on">
-                  <v-btn
-                    v-bind="attrs"
-                    small
-                    fab
-                    @click="updateAuthorizations()"
-                    color="secondary"
-                  >
+                  <v-btn v-bind="attrs" small fab @click="updateAuthorizations()" color="secondary">
                     <v-icon>verified_user</v-icon>
                   </v-btn>
                 </div>
@@ -162,30 +156,44 @@ export default {
           :selected.sync="selected"
           :itemType="itemType"
           :loading="isLoading"
-        ></IFXItemDataTable>
+        >
+          <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
+          <template v-for="header in headers" #[`${header.value}`]="{ item }">
+            <span v-if="header.namedSlot" v-bind:key="header.value">
+              <slot :name="header.value" :item="item"></slot>
+            </span>
+            <IFXDataTableCell
+              v-else
+              :header="header"
+              :item="item"
+              :type="itemType"
+              :key="header.value"
+            ></IFXDataTableCell>
+          </template>
+        </IFXItemDataTable>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <style scoped>
-  .action-item {
-    display: inline-block !important;
-    margin-right: 2rem;
-  }
-  .v-text-field__details {
-    display: none !important;
-  }
+.action-item {
+  display: inline-block !important;
+  margin-right: 2rem;
+}
+.v-text-field__details {
+  display: none !important;
+}
 
-  .v-select-list > .v-list {
-    padding: 0;
-  }
+.v-select-list > .v-list {
+  padding: 0;
+}
 
-  .v-select-list > .v-list__tile {
-    border-bottom: 1px red solid;
-  }
+.v-select-list > .v-list__tile {
+  border-bottom: 1px red solid;
+}
 
-  .v-select-list {
-    padding: 0;
-  }
+.v-select-list {
+  padding: 0;
+}
 </style>
