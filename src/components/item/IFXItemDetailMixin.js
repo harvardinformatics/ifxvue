@@ -26,7 +26,7 @@ export default {
       return this.$api.auth.can(ability, user)
     },
     async init() {
-      this.item = await this.apiRef.getByID(this.id)
+      this.item = await this.apiRef.getByID(this.id, true)
     },
   },
   computed: {
