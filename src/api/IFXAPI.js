@@ -343,6 +343,12 @@ export default class IFXAPIService {
       }
       return false
     }
+    api.getByID = async (id, includeDisabled = true) => {
+      const params = includeDisabled ? { include_disabled: true } : {}
+      const url = `${baseURL}${id}/`
+      return this.axios.get(url, { params }).then((res) => createFunc(res.data))
+    }
+
     return api
   }
 
@@ -662,18 +668,20 @@ export default class IFXAPIService {
 
       // Check if incoming accountData has user product accounts
       if (accountData.user_product_accounts?.length) {
-        const userProductAccountDataObjs = accountData.user_product_accounts.map(({ id, is_valid, user, product, percent }) => {
-          const newProductAccountData = {
-            id,
-            is_valid,
-            product,
-            percent,
-            // If decomposing, do not create a dynamic user object
-            user: decompose ? user.data : this.user.create(user),
+        const userProductAccountDataObjs = accountData.user_product_accounts.map(
+          ({ id, is_valid, user, product, percent }) => {
+            const newProductAccountData = {
+              id,
+              is_valid,
+              product,
+              percent,
+              // If decomposing, do not create a dynamic user object
+              user: decompose ? user.data : this.user.create(user),
+            }
+            // If decomposing, do not create a dynamic organization user object
+            return decompose ? newProductAccountData : new UserProductAccount(newProductAccountData)
           }
-          // If decomposing, do not create a dynamic organization user object
-          return decompose ? newProductAccountData : new UserProductAccount(newProductAccountData)
-        })
+        )
         newAccountData.user_product_accounts = userProductAccountDataObjs
       }
       // If decomposing, do not create a dynamic organization object
@@ -751,10 +759,14 @@ export default class IFXAPIService {
     const createFunc = (productUsageData, decompose = false) => {
       const newProductUsageData = cloneDeep(productUsageData) || {}
       if (productUsageData.product) {
-        newProductUsageData.product = decompose ? productUsageData.product.data : this.product.create(productUsageData.product)
+        newProductUsageData.product = decompose
+          ? productUsageData.product.data
+          : this.product.create(productUsageData.product)
       }
       if (productUsageData.product_user) {
-        newProductUsageData.product_user = decompose ? productUsageData.productUser.data : this.user.create(productUsageData.product_user)
+        newProductUsageData.product_user = decompose
+          ? productUsageData.productUser.data
+          : this.user.create(productUsageData.product_user)
       }
       if (newProductUsageData.processing?.length) {
         newProductUsageData.processing = decompose
