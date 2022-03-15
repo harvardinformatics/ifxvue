@@ -750,7 +750,7 @@ export default class IFXAPIService {
     const baseUrl = this.urls.PRODUCT_USAGES
     const createFunc = (productUsageData, decompose = false) => {
       const newProductUsageData = cloneDeep(productUsageData) || {}
-      if (productUsageData.product) {
+      if (productUsageData.product && typeof productUsageData.product === 'object') { // Might just be a string
         newProductUsageData.product = decompose ? productUsageData.product.data : this.product.create(productUsageData.product)
       }
       if (productUsageData.product_user) {
