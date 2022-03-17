@@ -480,8 +480,15 @@ export default {
     },
     notifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
-      this.$api.notifyLabManagers([...new Set(orgSlugs)], this.facility, this.year, this.month, this.recipientField, this.$router)
-    }
+      this.$api.notifyLabManagers(
+        [...new Set(orgSlugs)],
+        this.facility,
+        this.year,
+        this.month,
+        this.recipientField,
+        this.$router
+      )
+    },
   },
   watch: {
     filteredItems() {
@@ -517,15 +524,14 @@ export default {
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-col>
               <v-col v-else>
-                <v-row dense class="d-flex justify-space-between">
+                <v-row dense class="d-flex justify-space-between align-center">
                   <v-col class="pa-2">
                     <IFXMailButton
                       v-model="recipientField"
                       :disabled="!filteredItems.length"
                       toolTip="Notify Lab Managers"
                       @input="notifyLabManagers()"
-                    >
-                    </IFXMailButton>
+                    ></IFXMailButton>
                   </v-col>
                   <v-col class="pa-2" v-if="allowApprovals">
                     <v-row dense class="d-flex flex-nowrap">
@@ -605,8 +611,8 @@ export default {
                               <v-btn
                                 :disabled="
                                   isLoading ||
-                                    selected.length == 0 ||
-                                    !$api.auth.can('generate-invoices', $api.authUser)
+                                  selected.length == 0 ||
+                                  !$api.auth.can('generate-invoices', $api.authUser)
                                 "
                                 v-bind="attrs"
                                 :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
@@ -726,7 +732,7 @@ export default {
                 <span class="text-h5">Add a new transaction to Billing Record {{ editedItem.orgRec.id }}</span>
               </v-card-title>
               <v-card-subtitle>
-                <div class=" py-2 text-h6 font-weight-medium ">Rate is {{ editedItem.rate }}</div>
+                <div class="py-2 text-h6 font-weight-medium">Rate is {{ editedItem.rate }}</div>
               </v-card-subtitle>
 
               <v-card-text>
@@ -759,9 +765,7 @@ export default {
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeTxnDialog">
-                  Cancel
-                </v-btn>
+                <v-btn color="blue darken-1" text @click="closeTxnDialog">Cancel</v-btn>
                 <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">
                   Save
                 </v-btn>
