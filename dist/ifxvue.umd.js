@@ -24754,17 +24754,6 @@ module.exports = baseGetTag;
 
 /***/ }),
 
-/***/ "37cc":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_d8812280_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d724");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_d8812280_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_d8812280_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "37e8":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27884,6 +27873,17 @@ module.exports = function mergeConfig(config1, config2) {
 
 /***/ }),
 
+/***/ "4a82":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_ba678350_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d951");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_ba678350_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_ba678350_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "4ae1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30205,6 +30205,13 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
+
+/***/ }),
+
+/***/ "604b":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -33027,17 +33034,6 @@ var getNative = __webpack_require__("0b07"),
 var Map = getNative(root, 'Map');
 
 module.exports = Map;
-
-
-/***/ }),
-
-/***/ "7a04":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_637b0fa7_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("9eb8");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_637b0fa7_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_637b0fa7_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -38366,13 +38362,6 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-
-/***/ }),
-
-/***/ "9eb8":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -50035,13 +50024,6 @@ module.exports = function (it, TAG, STATIC) {
 
 /***/ }),
 
-/***/ "d724":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "d784":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -50256,6 +50238,13 @@ module.exports = function isAbsoluteURL(url) {
 /***/ }),
 
 /***/ "d951":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "d951c":
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
@@ -52940,6 +52929,17 @@ function stackClear() {
 }
 
 module.exports = stackClear;
+
+
+/***/ }),
+
+/***/ "efd0":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_e35052da_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("604b");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_e35052da_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_e35052da_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -57107,6 +57107,40 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         return false;
       };
 
+      api.getByID = /*#__PURE__*/function () {
+        var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(id) {
+          var includeDisabled,
+              params,
+              url,
+              _args10 = arguments;
+          return regeneratorRuntime.wrap(function _callee10$(_context10) {
+            while (1) {
+              switch (_context10.prev = _context10.next) {
+                case 0:
+                  includeDisabled = _args10.length > 1 && _args10[1] !== undefined ? _args10[1] : true;
+                  params = includeDisabled ? {
+                    include_disabled: true
+                  } : {};
+                  url = "".concat(baseURL).concat(id, "/");
+                  return _context10.abrupt("return", _this8.axios.get(url, {
+                    params: params
+                  }).then(function (res) {
+                    return createFunc(res.data);
+                  }));
+
+                case 4:
+                case "end":
+                  return _context10.stop();
+              }
+            }
+          }, _callee10);
+        }));
+
+        return function (_x6) {
+          return _ref5.apply(this, arguments);
+        };
+      }();
+
       return api;
     }
   }, {
@@ -57132,9 +57166,9 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         newOrgData.users = []; // Check if incoming orgData has contacts
 
         if (orgData.contacts && orgData.contacts.length) {
-          var organizationContactDataObjs = orgData.contacts.map(function (_ref5) {
-            var role = _ref5.role,
-                contact = _ref5.contact;
+          var organizationContactDataObjs = orgData.contacts.map(function (_ref6) {
+            var role = _ref6.role,
+                contact = _ref6.contact;
             var newContactData = {
               id: contact.id,
               role: role,
@@ -57150,10 +57184,10 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
 
         if (orgData.users && orgData.users.length) {
-          var organizationUserDataObjs = orgData.users.map(function (_ref6) {
-            var role = _ref6.role,
-                user = _ref6.user,
-                active = _ref6.active;
+          var organizationUserDataObjs = orgData.users.map(function (_ref7) {
+            var role = _ref7.role,
+                user = _ref7.user,
+                active = _ref7.active;
             var newUserData = {
               id: user.id,
               role: role,
@@ -57229,16 +57263,16 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         });
       };
 
-      api.getList = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+      api.getList = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
         var params,
             orgTrees,
             organizations,
-            _args10 = arguments;
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+            _args11 = arguments;
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
-                params = _args10.length > 0 && _args10[0] !== undefined ? _args10[0] : {};
+                params = _args11.length > 0 && _args11[0] !== undefined ? _args11[0] : {};
                 orgTrees = params.orgTrees;
 
                 if (orgTrees) {
@@ -57246,7 +57280,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                   delete params.orgTrees;
                 }
 
-                _context10.next = 5;
+                _context11.next = 5;
                 return _this9.axios.get(baseUrl, {
                   params: params
                 }).then(function (res) {
@@ -57258,33 +57292,33 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                 });
 
               case 5:
-                organizations = _context10.sent;
-                return _context10.abrupt("return", organizations || []);
+                organizations = _context11.sent;
+                return _context11.abrupt("return", organizations || []);
 
               case 7:
               case "end":
-                return _context10.stop();
+                return _context11.stop();
             }
           }
-        }, _callee10);
+        }, _callee11);
       })); // this has been added to the object itelf
 
       api.canEdit = function (organization) {
         return !organization.ifxOrg;
       };
 
-      api.getNames = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+      api.getNames = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
         var selector,
             url,
             orgNames,
-            _args11 = arguments;
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+            _args12 = arguments;
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                selector = _args11.length > 0 && _args11[0] !== undefined ? _args11[0] : null;
+                selector = _args12.length > 0 && _args12[0] !== undefined ? _args12[0] : null;
                 url = _this9.urls.ORGANIZATION_NAMES;
-                _context11.next = 4;
+                _context12.next = 4;
                 return _this9.axios.get(url).then(function (res) {
                   return res.data;
                 }).then(function (objs) {
@@ -57298,15 +57332,15 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                 });
 
               case 4:
-                orgNames = _context11.sent;
-                return _context11.abrupt("return", orgNames);
+                orgNames = _context12.sent;
+                return _context12.abrupt("return", orgNames);
 
               case 6:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11);
+        }, _callee12);
       }));
 
       api.parseSlug = function (slug) {
@@ -57377,11 +57411,11 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
       return {
         getList: function () {
-          var _getList2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(params) {
+          var _getList2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(params) {
             var url, contactables;
-            return regeneratorRuntime.wrap(function _callee12$(_context12) {
+            return regeneratorRuntime.wrap(function _callee13$(_context13) {
               while (1) {
-                switch (_context12.prev = _context12.next) {
+                switch (_context13.prev = _context13.next) {
                   case 0:
                     url = _this12.urls.CONTACTABLES;
 
@@ -57389,7 +57423,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                       params.org_slugs = params.org_slugs.join(',');
                     }
 
-                    _context12.next = 4;
+                    _context13.next = 4;
                     return _this12.axios.get(url, {
                       params: params
                     }).then(function (response) {
@@ -57399,18 +57433,18 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                     });
 
                   case 4:
-                    contactables = _context12.sent;
-                    return _context12.abrupt("return", contactables);
+                    contactables = _context13.sent;
+                    return _context13.abrupt("return", contactables);
 
                   case 6:
                   case "end":
-                    return _context12.stop();
+                    return _context13.stop();
                 }
               }
-            }, _callee12);
+            }, _callee13);
           }));
 
-          function getList(_x6) {
+          function getList(_x7) {
             return _getList2.apply(this, arguments);
           }
 
@@ -57436,11 +57470,11 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
       return {
         getList: function () {
-          var _getList3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(p) {
+          var _getList3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(p) {
             var params, response;
-            return regeneratorRuntime.wrap(function _callee13$(_context13) {
+            return regeneratorRuntime.wrap(function _callee14$(_context14) {
               while (1) {
-                switch (_context13.prev = _context13.next) {
+                switch (_context14.prev = _context14.next) {
                   case 0:
                     params = p;
 
@@ -57448,57 +57482,57 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                       params = {};
                     }
 
-                    _context13.prev = 2;
-                    _context13.next = 5;
+                    _context14.prev = 2;
+                    _context14.next = 5;
                     return _this13.axios.get(_this13.urls.GROUPS, {
                       params: params
                     });
 
                   case 5:
-                    response = _context13.sent;
-                    return _context13.abrupt("return", response.data);
+                    response = _context14.sent;
+                    return _context14.abrupt("return", response.data);
 
                   case 9:
-                    _context13.prev = 9;
-                    _context13.t0 = _context13["catch"](2);
-                    throw new Error(_context13.t0);
+                    _context14.prev = 9;
+                    _context14.t0 = _context14["catch"](2);
+                    throw new Error(_context14.t0);
 
                   case 12:
                   case "end":
-                    return _context13.stop();
+                    return _context14.stop();
                 }
               }
-            }, _callee13, null, [[2, 9]]);
+            }, _callee14, null, [[2, 9]]);
           }));
 
-          function getList(_x7) {
+          function getList(_x8) {
             return _getList3.apply(this, arguments);
           }
 
           return getList;
         }(),
         getNames: function () {
-          var _getNames = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+          var _getNames = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
             var response;
-            return regeneratorRuntime.wrap(function _callee14$(_context14) {
+            return regeneratorRuntime.wrap(function _callee15$(_context15) {
               while (1) {
-                switch (_context14.prev = _context14.next) {
+                switch (_context15.prev = _context15.next) {
                   case 0:
-                    _context14.next = 2;
+                    _context15.next = 2;
                     return _this13.group.getList();
 
                   case 2:
-                    response = _context14.sent;
-                    return _context14.abrupt("return", response.map(function (g) {
+                    response = _context15.sent;
+                    return _context15.abrupt("return", response.map(function (g) {
                       return g.name;
                     }));
 
                   case 4:
                   case "end":
-                    return _context14.stop();
+                    return _context15.stop();
                 }
               }
-            }, _callee14);
+            }, _callee15);
           }));
 
           function getNames() {
@@ -57539,25 +57573,25 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           });
         },
         getCountryList: function () {
-          var _getCountryList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+          var _getCountryList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
             var params;
-            return regeneratorRuntime.wrap(function _callee15$(_context15) {
+            return regeneratorRuntime.wrap(function _callee16$(_context16) {
               while (1) {
-                switch (_context15.prev = _context15.next) {
+                switch (_context16.prev = _context16.next) {
                   case 0:
                     params = {
                       target: 'country'
                     };
-                    return _context15.abrupt("return", _this14.location.getInfo(params).then(function (res) {
+                    return _context16.abrupt("return", _this14.location.getInfo(params).then(function (res) {
                       return res.data.location_info;
                     }));
 
                   case 2:
                   case "end":
-                    return _context15.stop();
+                    return _context16.stop();
                 }
               }
-            }, _callee15);
+            }, _callee16);
           }));
 
           function getCountryList() {
@@ -57567,15 +57601,15 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           return getCountryList;
         }(),
         getStateList: function () {
-          var _getStateList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+          var _getStateList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
             var country,
                 params,
-                _args16 = arguments;
-            return regeneratorRuntime.wrap(function _callee16$(_context16) {
+                _args17 = arguments;
+            return regeneratorRuntime.wrap(function _callee17$(_context17) {
               while (1) {
-                switch (_context16.prev = _context16.next) {
+                switch (_context17.prev = _context17.next) {
                   case 0:
-                    country = _args16.length > 0 && _args16[0] !== undefined ? _args16[0] : null;
+                    country = _args17.length > 0 && _args17[0] !== undefined ? _args17[0] : null;
                     params = {
                       target: 'state'
                     };
@@ -57584,16 +57618,16 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                       params.country = country;
                     }
 
-                    return _context16.abrupt("return", _this14.location.getInfo(params).then(function (res) {
+                    return _context17.abrupt("return", _this14.location.getInfo(params).then(function (res) {
                       return res.data.location_info;
                     }));
 
                   case 4:
                   case "end":
-                    return _context16.stop();
+                    return _context17.stop();
                 }
               }
-            }, _callee16);
+            }, _callee17);
           }));
 
           function getStateList() {
@@ -57603,17 +57637,17 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           return getStateList;
         }(),
         getCityList: function () {
-          var _getCityList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
+          var _getCityList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
             var country,
                 state,
                 params,
-                _args17 = arguments;
-            return regeneratorRuntime.wrap(function _callee17$(_context17) {
+                _args18 = arguments;
+            return regeneratorRuntime.wrap(function _callee18$(_context18) {
               while (1) {
-                switch (_context17.prev = _context17.next) {
+                switch (_context18.prev = _context18.next) {
                   case 0:
-                    country = _args17.length > 0 && _args17[0] !== undefined ? _args17[0] : null;
-                    state = _args17.length > 1 && _args17[1] !== undefined ? _args17[1] : null;
+                    country = _args18.length > 0 && _args18[0] !== undefined ? _args18[0] : null;
+                    state = _args18.length > 1 && _args18[1] !== undefined ? _args18[1] : null;
                     params = {
                       target: 'city'
                     };
@@ -57626,16 +57660,16 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                       params.state = state;
                     }
 
-                    return _context17.abrupt("return", _this14.location.getInfo(params).then(function (res) {
+                    return _context18.abrupt("return", _this14.location.getInfo(params).then(function (res) {
                       return res.data.location_info;
                     }));
 
                   case 6:
                   case "end":
-                    return _context17.stop();
+                    return _context18.stop();
                 }
               }
-            }, _callee17);
+            }, _callee18);
           }));
 
           function getCityList() {
@@ -57691,10 +57725,10 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         newAccountData.user_product_accounts = []; // Check if incoming accountData has user_accounts, user_product_accounts
 
         if ((_accountData$user_acc = accountData.user_accounts) !== null && _accountData$user_acc !== void 0 && _accountData$user_acc.length) {
-          var userAccountDataObjs = accountData.user_accounts.map(function (_ref9) {
-            var id = _ref9.id,
-                user = _ref9.user,
-                is_valid = _ref9.is_valid;
+          var userAccountDataObjs = accountData.user_accounts.map(function (_ref10) {
+            var id = _ref10.id,
+                user = _ref10.user,
+                is_valid = _ref10.is_valid;
             var newUserAccountData = {
               id: id,
               is_valid: is_valid,
@@ -57710,12 +57744,12 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
 
         if ((_accountData$user_pro = accountData.user_product_accounts) !== null && _accountData$user_pro !== void 0 && _accountData$user_pro.length) {
-          var userProductAccountDataObjs = accountData.user_product_accounts.map(function (_ref10) {
-            var id = _ref10.id,
-                is_valid = _ref10.is_valid,
-                user = _ref10.user,
-                product = _ref10.product,
-                percent = _ref10.percent;
+          var userProductAccountDataObjs = accountData.user_product_accounts.map(function (_ref11) {
+            var id = _ref11.id,
+                is_valid = _ref11.is_valid,
+                user = _ref11.user,
+                product = _ref11.product,
+                percent = _ref11.percent;
             var newProductAccountData = {
               id: id,
               is_valid: is_valid,
@@ -57897,26 +57931,26 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
       var api = this.genericAPI(baseURL, null, createFunc, decomposeFunc);
 
       api.getList = /*#__PURE__*/function () {
-        var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(invoice_prefix) {
+        var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(invoice_prefix) {
           var month,
               year,
               organization,
               params,
-              _args18 = arguments;
-          return regeneratorRuntime.wrap(function _callee18$(_context18) {
+              _args19 = arguments;
+          return regeneratorRuntime.wrap(function _callee19$(_context19) {
             while (1) {
-              switch (_context18.prev = _context18.next) {
+              switch (_context19.prev = _context19.next) {
                 case 0:
-                  month = _args18.length > 1 && _args18[1] !== undefined ? _args18[1] : null;
-                  year = _args18.length > 2 && _args18[2] !== undefined ? _args18[2] : null;
-                  organization = _args18.length > 3 && _args18[3] !== undefined ? _args18[3] : null;
+                  month = _args19.length > 1 && _args19[1] !== undefined ? _args19[1] : null;
+                  year = _args19.length > 2 && _args19[2] !== undefined ? _args19[2] : null;
+                  organization = _args19.length > 3 && _args19[3] !== undefined ? _args19[3] : null;
                   params = {
                     invoice_prefix: invoice_prefix,
                     month: month,
                     year: year,
                     organization: organization
                   };
-                  return _context18.abrupt("return", _this21.axios.get("".concat(baseURL), {
+                  return _context19.abrupt("return", _this21.axios.get("".concat(baseURL), {
                     params: params
                   }).then(function (res) {
                     return Promise.all(res.data.map(function (data) {
@@ -57926,39 +57960,39 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
                 case 5:
                 case "end":
-                  return _context18.stop();
-              }
-            }
-          }, _callee18);
-        }));
-
-        return function (_x8) {
-          return _ref11.apply(this, arguments);
-        };
-      }();
-
-      api.getByID = /*#__PURE__*/function () {
-        var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(facilityPrefix, id) {
-          var url;
-          return regeneratorRuntime.wrap(function _callee19$(_context19) {
-            while (1) {
-              switch (_context19.prev = _context19.next) {
-                case 0:
-                  url = "".concat(baseURL).concat(id, "/");
-                  return _context19.abrupt("return", _this21.axios.get(url).then(function (res) {
-                    return createFunc(res.data);
-                  }));
-
-                case 2:
-                case "end":
                   return _context19.stop();
               }
             }
           }, _callee19);
         }));
 
-        return function (_x9, _x10) {
+        return function (_x9) {
           return _ref12.apply(this, arguments);
+        };
+      }();
+
+      api.getByID = /*#__PURE__*/function () {
+        var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(facilityPrefix, id) {
+          var url;
+          return regeneratorRuntime.wrap(function _callee20$(_context20) {
+            while (1) {
+              switch (_context20.prev = _context20.next) {
+                case 0:
+                  url = "".concat(baseURL).concat(id, "/");
+                  return _context20.abrupt("return", _this21.axios.get(url).then(function (res) {
+                    return createFunc(res.data);
+                  }));
+
+                case 2:
+                case "end":
+                  return _context20.stop();
+              }
+            }
+          }, _callee20);
+        }));
+
+        return function (_x10, _x11) {
+          return _ref13.apply(this, arguments);
         };
       }();
 
@@ -57971,22 +58005,22 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
 
       api.bulkUpdate = /*#__PURE__*/function () {
-        var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(recs) {
+        var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(recs) {
           var app,
               url,
               newData,
-              _args20 = arguments;
-          return regeneratorRuntime.wrap(function _callee20$(_context20) {
+              _args21 = arguments;
+          return regeneratorRuntime.wrap(function _callee21$(_context21) {
             while (1) {
-              switch (_context20.prev = _context20.next) {
+              switch (_context21.prev = _context21.next) {
                 case 0:
-                  app = _args20.length > 1 && _args20[1] !== undefined ? _args20[1] : null;
+                  app = _args21.length > 1 && _args21[1] !== undefined ? _args21[1] : null;
                   url = "".concat(baseURL, "bulk_update/");
                   newData = [];
                   recs.forEach(function (rec) {
                     newData.push(createFunc(rec.data, true));
                   });
-                  return _context20.abrupt("return", _this21.axios.post(url, newData, {
+                  return _context21.abrupt("return", _this21.axios.post(url, newData, {
                     headers: {
                       'Content-Type': 'application/json'
                     }
@@ -57994,14 +58028,14 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
                 case 5:
                 case "end":
-                  return _context20.stop();
+                  return _context21.stop();
               }
             }
-          }, _callee20);
+          }, _callee21);
         }));
 
-        return function (_x11) {
-          return _ref13.apply(this, arguments);
+        return function (_x12) {
+          return _ref14.apply(this, arguments);
         };
       }();
 
@@ -58052,20 +58086,20 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
   }, {
     key: "notifyLabManagers",
     value: function () {
-      var _notifyLabManagers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(organizationSlugs, facility, year, month, recipientField, router) {
+      var _notifyLabManagers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22(organizationSlugs, facility, year, month, recipientField, router) {
         var messageName, messages, message, subject, months, link;
-        return regeneratorRuntime.wrap(function _callee21$(_context21) {
+        return regeneratorRuntime.wrap(function _callee22$(_context22) {
           while (1) {
-            switch (_context21.prev = _context21.next) {
+            switch (_context22.prev = _context22.next) {
               case 0:
                 messageName = this.getLabManagerNotificationMessageName(facility);
-                _context21.next = 3;
+                _context22.next = 3;
                 return this.message.getList({
                   name: messageName
                 });
 
               case 3:
-                messages = _context21.sent;
+                messages = _context22.sent;
                 message = '';
                 subject = '';
 
@@ -58088,13 +58122,13 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
               case 8:
               case "end":
-                return _context21.stop();
+                return _context22.stop();
             }
           }
-        }, _callee21, this);
+        }, _callee22, this);
       }));
 
-      function notifyLabManagers(_x12, _x13, _x14, _x15, _x16, _x17) {
+      function notifyLabManagers(_x13, _x14, _x15, _x16, _x17, _x18) {
         return _notifyLabManagers.apply(this, arguments);
       }
 
@@ -63868,7 +63902,7 @@ installComponents_default()(IFXPageActionBar_component, {VCol: VCol,VRow: VRow})
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.apiRef.getByID(_this.id);
+                return _this.apiRef.getByID(_this.id, true);
 
               case 2:
                 _this.item = _context.sent;
@@ -79725,15 +79759,17 @@ var IFXUserDetail_component = normalizeComponent(
 
 installComponents_default()(IFXUserDetail_component, {VCol: VCol,VContainer: VContainer,VRow: VRow})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e26e54cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/user/IFXUserList.vue?vue&type=template&id=637b0fa7&scoped=true&
-var IFXUserListvue_type_template_id_637b0fa7_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',{attrs:{"grid-list-md":""}},[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('v-row',{attrs:{"nowrap":"","align":"center"}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1),_c('v-col',[_c('v-checkbox',{staticClass:"action-item",attrs:{"label":"Include disabled"},model:{value:(_vm.includeDisabled),callback:function ($$v) {_vm.includeDisabled=$$v},expression:"includeDisabled"}})],1),_c('v-col',[_c('IFXMailButton',{attrs:{"disabled":!_vm.selected.length,"toolTip":"Email selected users"},on:{"input":function($event){return _vm.composeEmail()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),_c('v-col',[_c('v-tooltip',{scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e26e54cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/user/IFXUserList.vue?vue&type=template&id=ba678350&scoped=true&
+var IFXUserListvue_type_template_id_ba678350_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',{attrs:{"grid-list-md":""}},[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('v-row',{attrs:{"nowrap":"","align":"center"}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1),_c('v-col',[_c('v-checkbox',{staticClass:"action-item",attrs:{"label":"Include disabled"},model:{value:(_vm.includeDisabled),callback:function ($$v) {_vm.includeDisabled=$$v},expression:"includeDisabled"}})],1),_c('v-col',[_c('IFXMailButton',{attrs:{"disabled":!_vm.selected.length,"toolTip":"Email selected users"},on:{"input":function($event){return _vm.composeEmail()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),_c('v-col',[_c('v-tooltip',{scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
-return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"small":"","fab":"","color":"secondary"},on:{"click":function($event){return _vm.updateAuthorizations()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("verified_user")])],1)],1)]}}])},[_c('span',[_vm._v("Update Expense code / PO authorizations")])])],1)],1)]},proxy:true}])}),_c('v-row',{attrs:{"justify":"center","align":"center"}},[(_vm.authorizationUpdating)?_c('v-col',[_c('v-progress-linear',{attrs:{"indeterminate":"","color":"primary"}})],1):(_vm.authorizationUpdateMessage)?_c('v-col',[_c('v-alert',{attrs:{"dismissible":"","type":_vm.authorizationMessageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.authorizationUpdateMessage)}})])],1):_vm._e()],1),_c('v-row',[_c('v-col',[_c('IFXItemDataTable',{attrs:{"items":_vm.filteredItems,"headers":_vm.computedHeaders,"selected":_vm.selected,"itemType":_vm.itemType,"loading":_vm.isLoading},on:{"update:selected":function($event){_vm.selected=$event}}})],1)],1)],1)}
-var IFXUserListvue_type_template_id_637b0fa7_scoped_true_staticRenderFns = []
+return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"small":"","fab":"","color":"secondary"},on:{"click":function($event){return _vm.updateAuthorizations()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("verified_user")])],1)],1)]}}])},[_c('span',[_vm._v("Update Expense code / PO authorizations")])])],1)],1)]},proxy:true}])}),_c('v-row',{attrs:{"justify":"center","align":"center"}},[(_vm.authorizationUpdating)?_c('v-col',[_c('v-progress-linear',{attrs:{"indeterminate":"","color":"primary"}})],1):(_vm.authorizationUpdateMessage)?_c('v-col',[_c('v-alert',{attrs:{"dismissible":"","type":_vm.authorizationMessageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.authorizationUpdateMessage)}})])],1):_vm._e()],1),_c('v-row',[_c('v-col',[_c('IFXItemDataTable',{attrs:{"items":_vm.filteredItems,"headers":_vm.computedHeaders,"selected":_vm.selected,"itemType":_vm.itemType,"loading":_vm.isLoading},on:{"update:selected":function($event){_vm.selected=$event}},scopedSlots:_vm._u([_vm._l((_vm.headers),function(header){return {key:("" + (header.value)),fn:function(ref){
+var item = ref.item;
+return [(header.namedSlot)?_c('span',{key:header.value},[_vm._t(header.value,null,{"item":item})],2):_c('IFXDataTableCell',{key:header.value,attrs:{"header":header,"item":item,"type":_vm.itemType}})]}}})],null,true)})],1)],1)],1)}
+var IFXUserListvue_type_template_id_ba678350_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/user/IFXUserList.vue?vue&type=template&id=637b0fa7&scoped=true&
+// CONCATENATED MODULE: ./src/components/user/IFXUserList.vue?vue&type=template&id=ba678350&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/user/IFXUserList.vue?vue&type=script&lang=js&
 
@@ -79923,8 +79959,8 @@ var IFXUserListvue_type_template_id_637b0fa7_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./src/components/user/IFXUserList.vue?vue&type=script&lang=js&
  /* harmony default export */ var user_IFXUserListvue_type_script_lang_js_ = (IFXUserListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/user/IFXUserList.vue?vue&type=style&index=0&id=637b0fa7&scoped=true&lang=css&
-var IFXUserListvue_type_style_index_0_id_637b0fa7_scoped_true_lang_css_ = __webpack_require__("7a04");
+// EXTERNAL MODULE: ./src/components/user/IFXUserList.vue?vue&type=style&index=0&id=ba678350&scoped=true&lang=css&
+var IFXUserListvue_type_style_index_0_id_ba678350_scoped_true_lang_css_ = __webpack_require__("4a82");
 
 // CONCATENATED MODULE: ./src/components/user/IFXUserList.vue
 
@@ -79937,11 +79973,11 @@ var IFXUserListvue_type_style_index_0_id_637b0fa7_scoped_true_lang_css_ = __webp
 
 var IFXUserList_component = normalizeComponent(
   user_IFXUserListvue_type_script_lang_js_,
-  IFXUserListvue_type_template_id_637b0fa7_scoped_true_render,
-  IFXUserListvue_type_template_id_637b0fa7_scoped_true_staticRenderFns,
+  IFXUserListvue_type_template_id_ba678350_scoped_true_render,
+  IFXUserListvue_type_template_id_ba678350_scoped_true_staticRenderFns,
   false,
   null,
-  "637b0fa7",
+  "ba678350",
   null
   
 )
@@ -81167,8 +81203,8 @@ var IFXProductCreateEdit_component = normalizeComponent(
 
 installComponents_default()(IFXProductCreateEdit_component, {VCol: VCol,VContainer: VContainer,VForm: VForm,VRow: VRow,VSelect: VSelect_VSelect,VSwitch: VSwitch_VSwitch,VTextField: VTextField_VTextField,VTextarea: VTextarea_VTextarea})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e26e54cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=d8812280&scoped=true&
-var IFXBillingRecordListvue_type_template_id_d8812280_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between",attrs:{"dense":""}},[_c('v-col',{staticClass:"pa-2"},[_c('IFXMailButton',{attrs:{"disabled":!_vm.filteredItems.length,"toolTip":"Notify Lab Managers"},on:{"input":function($event){return _vm.notifyLabManagers()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e26e54cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=e35052da&scoped=true&
+var IFXBillingRecordListvue_type_template_id_e35052da_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between align-center",attrs:{"dense":""}},[_c('v-col',{staticClass:"pa-2"},[_c('IFXMailButton',{attrs:{"disabled":!_vm.filteredItems.length,"toolTip":"Notify Lab Managers"},on:{"input":function($event){return _vm.notifyLabManagers()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.selected.length == 0 || _vm.billingRecordsAreFinal(_vm.selected),"fab":"","small":"","color":"green"},on:{"click":function($event){return _vm.approve()}}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":""}},[_vm._v("done")])],1)],1)]}}],null,false,594938130)},[_c('span',[_vm._v(_vm._s(_vm.approveSelectedToolTip))])])],1),_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
@@ -81181,33 +81217,33 @@ return [_c('div',_vm._g({},on),[_c('download-csv',_vm._b({class:{ 'download-disa
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.isLoading ||
-                                  _vm.selected.length == 0 ||
-                                  !_vm.$api.auth.can('generate-invoices', _vm.$api.authUser),"color":_vm.billingRecordsAreFinal(_vm.selected) ? 'error' : 'blue',"small":"","fab":""},on:{"click":function($event){return _vm.generateInvoices()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("payments")])],1)],1)]}}],null,false,832067090)},[_c('span',[_vm._v(_vm._s(_vm.generateInvoicesToolTip))])])],1)],1)],1):_vm._e()],1)],1)],1)],1)],1),_c('v-row',{staticClass:"d-flex justify-space-around",attrs:{"dense":""}},[(_vm.message)?_c('v-col',{staticClass:"d-flex flex-grow-1",attrs:{"cols":"12"}},[_c('v-alert',{attrs:{"dismissible":"","type":_vm.messageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.message)}})])],1):_vm._e()],1)],1),_c('v-row',[_c('v-col',{attrs:{"id":"data-table"}},[(_vm.filteredItems)?_c('v-data-table',{ref:"table",attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"show-select":_vm.showCheckboxes,"show-expand":"","expand-icon":"mdi-menu-right","itemKey":_vm.itemKey,"loading":_vm.isLoading,"items-per-page":-1,"group-by":"account.organization"},on:{"item-selected":_vm.determineGroupState,"toggle-select-all":_vm.toggleSelectAll},scopedSlots:_vm._u([{key:"group.header",fn:function(ref){
-                                  var group = ref.group;
-                                  var headers = ref.headers;
-                                  var isOpen = ref.isOpen;
-                                  var toggle = ref.toggle;
+                                _vm.selected.length == 0 ||
+                                !_vm.$api.auth.can('generate-invoices', _vm.$api.authUser),"color":_vm.billingRecordsAreFinal(_vm.selected) ? 'error' : 'blue',"small":"","fab":""},on:{"click":function($event){return _vm.generateInvoices()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("payments")])],1)],1)]}}],null,false,1462392466)},[_c('span',[_vm._v(_vm._s(_vm.generateInvoicesToolTip))])])],1)],1)],1):_vm._e()],1)],1)],1)],1)],1),_c('v-row',{staticClass:"d-flex justify-space-around",attrs:{"dense":""}},[(_vm.message)?_c('v-col',{staticClass:"d-flex flex-grow-1",attrs:{"cols":"12"}},[_c('v-alert',{attrs:{"dismissible":"","type":_vm.messageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.message)}})])],1):_vm._e()],1)],1),_c('v-row',[_c('v-col',{attrs:{"id":"data-table"}},[(_vm.filteredItems)?_c('v-data-table',{ref:"table",attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"show-select":_vm.showCheckboxes,"show-expand":"","expand-icon":"mdi-menu-right","itemKey":_vm.itemKey,"loading":_vm.isLoading,"items-per-page":-1,"group-by":"account.organization"},on:{"item-selected":_vm.determineGroupState,"toggle-select-all":_vm.toggleSelectAll},scopedSlots:_vm._u([{key:"group.header",fn:function(ref){
+                                var group = ref.group;
+                                var headers = ref.headers;
+                                var isOpen = ref.isOpen;
+                                var toggle = ref.toggle;
 return [_c('td',{attrs:{"colspan":headers.length}},[_c('v-row',[(_vm.showCheckboxes)?_c('v-checkbox',{staticClass:"shrink ml-3 mt-0",attrs:{"value":group,"hide-details":"","multiple":"","indeterminate":_vm.rowSelectionToggleIndeterminate[group]},on:{"update:indeterminate":function($event){return _vm.$set(_vm.rowSelectionToggleIndeterminate, group, $event)},"click":function($event){return _vm.toggleGroup(group)}},model:{value:(_vm.rowSelectionToggle),callback:function ($$v) {_vm.rowSelectionToggle=$$v},expression:"rowSelectionToggle"}}):_vm._e(),_c('div',[_c('v-btn',{attrs:{"icon":"","small":""},on:{"click":toggle}},[_c('v-icon',[_vm._v(_vm._s(isOpen ? 'mdi-menu-down' : 'mdi-menu-right'))])],1),_c('span',{staticClass:"group-header"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(group).name)+" ")]),_c('span',{staticClass:"ml-3 font-weight-medium"},[_vm._v(" Total charges: "+_vm._s(_vm._f("centsToDollars")(_vm.summaryCharges(group)))+" ")])],1)],1)],1)]}},{key:"item.id",fn:function(ref){
-                                  var item = ref.item;
+                                var item = ref.item;
 return [_c('a',{attrs:{"href":""},on:{"click":function($event){$event.preventDefault();return _vm.navigateToDetail(item.id)}}},[_vm._v(_vm._s(item.id))])]}},{key:"item.account.organization",fn:function(ref){
-                                  var item = ref.item;
+                                var item = ref.item;
 return [_c('span',{staticStyle:{"white-space":"nowrap"}},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(item.account.organization).name)+" ")])]}},{key:"item.currentState",fn:function(ref){
-                                  var item = ref.item;
+                                var item = ref.item;
 return [_c('span',{staticClass:"state-display"},[_vm._v(_vm._s(_vm._f("stateDisplay")(item.currentState)))])]}},{key:"item.account.slug",fn:function(ref){
-                                  var item = ref.item;
+                                var item = ref.item;
 return [_c('span',{staticStyle:{"white-space":"nowrap"}},[_vm._v(_vm._s(item.account.code))]),_vm._v(" ("+_vm._s(item.account.name)+") ")]}},{key:"item.transactions",fn:function(ref){
-                                  var item = ref.item;
+                                var item = ref.item;
 return [_c('div',{staticStyle:{"min-width":"150px"}},_vm._l((item.transactions),function(txn){return _c('v-row',{key:txn.id},[_vm._v(" "+_vm._s(_vm._f("transactionDisplay")(txn))+" ")])}),1)]}},{key:"item.charge",fn:function(ref){
-                                  var item = ref.item;
+                                var item = ref.item;
 return [_vm._v(" "+_vm._s(_vm._f("centsToDollars")(item.charge))+" ")]}},{key:"item.actions",fn:function(ref){
-                                  var item = ref.item;
+                                var item = ref.item;
 return [(_vm.allowAddingTransactions(item))?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(item)}}}):_vm._e()]}},{key:"expanded-item",fn:function(ref){
-                                  var item = ref.item;
-return [_c('IFXBillingRecordTransactions',{attrs:{"billingRecord":item}})]}}],null,false,4138869969),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v},expression:"dialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:" py-2 text-h6 font-weight-medium "},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',[_c('v-col',[_c('v-text-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$"},model:{value:(_vm.dollarValue),callback:function ($$v) {_vm.dollarValue=$$v},expression:"dollarValue"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v(" Cancel ")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1)],1)],1)],1)],1)}
-var IFXBillingRecordListvue_type_template_id_d8812280_scoped_true_staticRenderFns = []
+                                var item = ref.item;
+return [_c('IFXBillingRecordTransactions',{attrs:{"billingRecord":item}})]}}],null,false,4138869969),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v},expression:"dialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:"py-2 text-h6 font-weight-medium"},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',[_c('v-col',[_c('v-text-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$"},model:{value:(_vm.dollarValue),callback:function ($$v) {_vm.dollarValue=$$v},expression:"dollarValue"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"blue darken-1","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1)],1)],1)],1)],1)}
+var IFXBillingRecordListvue_type_template_id_e35052da_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=d8812280&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=e35052da&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.values.js
 var es_object_values = __webpack_require__("07ac");
@@ -81979,8 +82015,8 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordListvue_type_script_lang_js_ = (IFXBillingRecordListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=0&id=d8812280&scoped=true&lang=css&
-var IFXBillingRecordListvue_type_style_index_0_id_d8812280_scoped_true_lang_css_ = __webpack_require__("37cc");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=0&id=e35052da&scoped=true&lang=css&
+var IFXBillingRecordListvue_type_style_index_0_id_e35052da_scoped_true_lang_css_ = __webpack_require__("efd0");
 
 // EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=1&lang=css&
 var IFXBillingRecordListvue_type_style_index_1_lang_css_ = __webpack_require__("2457");
@@ -81997,11 +82033,11 @@ var IFXBillingRecordListvue_type_style_index_1_lang_css_ = __webpack_require__("
 
 var IFXBillingRecordList_component = normalizeComponent(
   billingRecord_IFXBillingRecordListvue_type_script_lang_js_,
-  IFXBillingRecordListvue_type_template_id_d8812280_scoped_true_render,
-  IFXBillingRecordListvue_type_template_id_d8812280_scoped_true_staticRenderFns,
+  IFXBillingRecordListvue_type_template_id_e35052da_scoped_true_render,
+  IFXBillingRecordListvue_type_template_id_e35052da_scoped_true_staticRenderFns,
   false,
   null,
-  "d8812280",
+  "e35052da",
   null
   
 )
@@ -82160,7 +82196,7 @@ var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecords.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordsvue_type_script_lang_js_ = (IFXBillingRecordsvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vuetify/src/components/VDatePicker/VDatePickerTitle.sass
-var VDatePickerTitle = __webpack_require__("d951");
+var VDatePickerTitle = __webpack_require__("d951c");
 
 // CONCATENATED MODULE: ./node_modules/vuetify/lib/mixins/picker-button/index.js
 // Mixins
