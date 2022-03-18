@@ -16,4 +16,4 @@ build-no-cache:
 build:
 	npm run-script build
 serve:
-	yarn serve
+	npm run dev
