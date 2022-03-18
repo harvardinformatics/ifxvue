@@ -52,7 +52,7 @@ module.exports = {
         jsx: 'never',
         ts: 'never',
         tsx: 'never',
-        vue: 'never',
+        vue: 'always',
       },
     ],
     camelcase: 0,
