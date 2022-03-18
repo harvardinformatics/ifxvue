@@ -1,5 +1,5 @@
 <script>
-import IFXButton from '@/components/IFXButton'
+import IFXButton from '@/components/IFXButton.vue'
 
 export default {
   name: 'IFXPageActionBar',

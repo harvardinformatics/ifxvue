@@ -6,7 +6,7 @@ import VCurrencyField from 'v-currency-field'
 
 import MockAdapter from 'axios-mock-adapter'
 import APIService from './api/IFXAPI'
-import App from './App'
+import App from './App.vue'
 import vuetify from './plugins/vuetify-local'
 
 // import 'vuetify/dist/vuetify.min.css'
