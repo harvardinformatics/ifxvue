@@ -28,7 +28,7 @@ export default {
       required: true,
     },
     organization: {
-      type: Object,
+      type: String,
       required: false,
       default: null,
     },
