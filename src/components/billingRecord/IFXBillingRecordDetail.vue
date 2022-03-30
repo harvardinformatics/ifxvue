@@ -66,14 +66,6 @@ export default {
     }
   },
   computed: {
-    dollarValue: {
-      get() {
-        return (this.editedItem.charge / 100).toFixed(2)
-      },
-      set(charge) {
-        this.editedItem.charge = Math.round(charge * 100)
-      },
-    },
     headers() {
       const headers = [
         { text: 'ID', value: 'id', sortable: true, hide: true },
@@ -357,6 +349,7 @@ export default {
                       :error-messages="errors[editedItem.charge]"
                       :rules="formRules.currency"
                       prefix="$"
+                      allow-negative
                     ></v-currency-field>
                   </v-col>
                 </v-row>

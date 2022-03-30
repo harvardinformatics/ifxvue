@@ -738,6 +738,7 @@ export default {
                         :error-messages="errors[editedItem.charge]"
                         :rules="formRules.currency"
                         prefix="$"
+                        allow-negative
                       ></v-currency-field>
                     </v-col>
                   </v-row>
