@@ -137,14 +137,6 @@ export default {
         ? 'Cannot approve billing records that are FINAL'
         : 'Approve selected billing records'
     },
-    dollarValue: {
-      get() {
-        return (this.editedItem.charge / 100).toFixed(2)
-      },
-      set(charge) {
-        this.editedItem.charge = Math.round(charge * 100)
-      },
-    },
     showCheckboxes: function () {
       return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration
     },
@@ -739,14 +731,14 @@ export default {
                 <v-form v-model="isValid">
                   <v-row>
                     <v-col>
-                      <v-text-field
+                      <v-currency-field
                         required
-                        v-model="dollarValue"
+                        v-model="editedItem.charge"
                         label="Charge"
                         :error-messages="errors[editedItem.charge]"
                         :rules="formRules.currency"
                         prefix="$"
-                      ></v-text-field>
+                      ></v-currency-field>
                     </v-col>
                   </v-row>
                   <v-row>
