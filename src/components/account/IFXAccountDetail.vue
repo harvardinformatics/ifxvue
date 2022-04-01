@@ -11,7 +11,7 @@ export default {
   },
   data() {
     return {
-      showInvalidAuthorizations: false
+      showInvalidAuthorizations: false,
     }
   },
   computed: {
@@ -20,21 +20,23 @@ export default {
         return 'Expense Code / PO'
       }
       return this.item.accountType
-    }
+    },
   },
 }
 </script>
 <template>
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{ detailTitle }} </template>
+      <template #title>{{ detailTitle }}</template>
       <template #id>"{{ item.name }}"</template>
       <template #actions>
         <span v-if="item.active" class="active-account">
-          <v-icon color="success">check</v-icon> Currently Active
+          <v-icon color="success">check</v-icon>
+          Currently Active
         </span>
         <span v-else class="inactive-account">
-          <v-icon>close</v-icon>Currently Inactive
+          <v-icon>close</v-icon>
+          Currently Inactive
         </span>
       </template>
       <template #content>
@@ -65,30 +67,38 @@ export default {
         <v-col>
           {{ item.validFrom | columnDate }}
         </v-col>
-     </v-row>
+      </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
           <h3>Expiration Date</h3>
         </v-col>
         <v-col>
-          {{ item.expirationDate | columnDate }}
+          <span v-if="item.expirationDate">
+            {{ item.expirationDate | columnDate }}
+          </span>
+          <span v-else>None</span>
         </v-col>
       </v-row>
-      <v-row justify="start" align="top" dense>
+      <v-row justify="start" align="start" dense>
         <v-col sm="2">
           <h3>Authorizations</h3>
-          <div class="invalid" style="margin: 0.5em; font-size: smaller;">Indicates currently inactive authorizations</div>
+          <div class="invalid" style="margin: 0.5em; font-size: smaller">
+            Italics indicates currently inactive authorizations
+          </div>
         </v-col>
         <v-col>
           <v-row dense v-for="userAccount in item.userAccounts" :key="userAccount.id">
             <v-col>
-              <span :class="userAccount.isValid ? 'valid' : 'invalid'">{{userAccount.user.fullName}} for any facility product</span>
+              <span :class="userAccount.isValid ? 'valid' : 'invalid'">
+                {{ userAccount.user.fullName }} for any facility product
+              </span>
             </v-col>
           </v-row>
           <v-row dense v-for="userProductAccount in item.userProductAccounts" :key="userProductAccount.id">
             <v-col>
               <span :class="userProductAccount.isValid ? 'valid' : 'invalid'">
-                {{userProductAccount.user.fullName}} for {{userProductAccount.product}} <span v-if="userProductAccount.percent !== 100">({{userProductAccount.percent}}%)</span>
+                {{ userProductAccount.user.fullName }} for {{ userProductAccount.product }}
+                <span v-if="userProductAccount.percent !== 100">({{ userProductAccount.percent }}%)</span>
               </span>
             </v-col>
           </v-row>
@@ -100,20 +110,20 @@ export default {
 </template>
 
 <style scoped>
-  .data-item {
-    padding-top: 1px;
-    padding-bottom: 1px;
-  }
-  .active-account {
-    color: green;
-    font-style: italic;
-  }
-  .inactive-account {
-    color: red;
-    font-style: italic;
-  }
-  .invalid {
-    color: grey;
-    font-style: italic;
-  }
+.data-item {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.active-account {
+  color: green;
+  font-style: italic;
+}
+.inactive-account {
+  color: red;
+  font-style: italic;
+}
+.invalid {
+  color: grey;
+  font-style: italic;
+}
 </style>
