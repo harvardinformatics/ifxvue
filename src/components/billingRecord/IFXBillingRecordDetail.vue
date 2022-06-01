@@ -66,14 +66,6 @@ export default {
     }
   },
   computed: {
-    dollarValue: {
-      get() {
-        return (this.editedItem.charge / 100).toFixed(2)
-      },
-      set(charge) {
-        this.editedItem.charge = Math.round(charge * 100)
-      },
-    },
     headers() {
       const headers = [
         { text: 'ID', value: 'id', sortable: true, hide: true },
@@ -207,16 +199,14 @@ export default {
       return item.account ? this.$api.organization.parseSlug(item.account.organization).name : ''
     },
   },
-  watch: {}
+  watch: {},
 }
 </script>
 <template>
   <!-- eslint-disable vue/valid-v-slot -->
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>
-        Billing Record {{ item.id }}
-      </template>
+      <template #title>Billing Record {{ item.id }}</template>
       <template #actions>
         <IFXButton v-if="canEdit" btnType="edit" xSmall @action="openEditDialog()" />
       </template>
@@ -346,20 +336,21 @@ export default {
               <span class="text-h5">Add a new transaction to Billing Record {{ item.id }}</span>
             </v-card-title>
             <v-card-subtitle>
-              <div class=" py-2 text-h6 font-weight-medium ">Rate is {{ editedItem.rate }}</div>
+              <div class="py-2 text-h6 font-weight-medium">Rate is {{ editedItem.rate }}</div>
             </v-card-subtitle>
             <v-card-text>
               <v-form v-model="isValid">
                 <v-row>
                   <v-col>
-                    <v-text-field
+                    <v-currency-field
                       required
-                      v-model="dollarValue"
+                      v-model="editedItem.charge"
                       label="Charge"
                       :error-messages="errors[editedItem.charge]"
                       :rules="formRules.currency"
                       prefix="$"
-                    ></v-text-field>
+                      allow-negative
+                    ></v-currency-field>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -378,12 +369,8 @@ export default {
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeTxnDialog">
-                Cancel
-              </v-btn>
-              <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">
-                Save
-              </v-btn>
+              <v-btn color="blue darken-1" text @click="closeTxnDialog">Cancel</v-btn>
+              <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -424,12 +411,8 @@ export default {
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeEditDialog">
-                Cancel
-              </v-btn>
-              <v-btn color="blue darken-1" text :disabled="!isValidEdit" @click="updateRecord">
-                Save
-              </v-btn>
+              <v-btn color="blue darken-1" text @click="closeEditDialog">Cancel</v-btn>
+              <v-btn color="blue darken-1" text :disabled="!isValidEdit" @click="updateRecord">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
