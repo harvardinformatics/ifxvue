@@ -57,7 +57,7 @@ Vue.use(VCurrencyField, {
   max: null,
   defaultValue: null,
   valueAsInteger: true,
-  allowNegative: false,
+  allowNegative: true,
   prefix: '$',
 })
 
