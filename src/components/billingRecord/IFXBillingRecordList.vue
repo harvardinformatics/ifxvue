@@ -303,6 +303,7 @@ export default {
           if (ret.message) {
             // eslint-disable-next-line no-param-reassign
             ret.message = ret.message.replace(/\n/g, '<br/>')
+            this.message = `<p>${ret.message}</p>`
           }
           if (ret.message.includes('Failed') || ret.message.includes('Unable')) {
             this.messageType = 'error'
@@ -310,7 +311,6 @@ export default {
             this.messageType = 'success'
           }
           this.updating = false
-          this.message = `<p>${ret.message}</p>`
           if (this.messageType !== 'error') {
             this.message = `${this.message}<p><a href="${url}">Go to Invoices</a></p>`
           }
