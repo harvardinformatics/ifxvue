@@ -95,6 +95,7 @@ export default {
       if (this.selectedDate) {
         const me = this
         const totalUsages = this.usages.length
+        this.isLoading = true
         // Keep refreshing the usages until the calculation is finished
         this.interval = setInterval(() => {
           me.getUsages()
@@ -111,12 +112,15 @@ export default {
             clearInterval(this.interval)
             this.showMessage(error)
           })
+          .finally(() => this.isLoading = false)
       }
     },
     async getUsages() {
       if (this.selectedDate && this.facility) {
+        this.isLoading = true
         const yearMonth = this.getYearMonth()
         this.usages = await this.$api.getUsagesForFacility(this.facility, yearMonth.year, yearMonth.month)
+        this.isLoading = false
       }
     },
     async setFacility() {
@@ -161,7 +165,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>Calculate billing month</template>
     </IFXPageHeader>
@@ -241,6 +245,7 @@ export default {
           :items="usages"
           :showSelect="false"
           :selected="selected"
+          :loading="isLoading"
           itemType="ProductUsage"
         >
           <template v-slot:productUser="{ item }">

@@ -281,55 +281,52 @@ export default {
           this.showMessage(message)
         })
     },
-    generateInvoices() {
+    async generateInvoices() {
       this.updating = true
       this.message = ''
-      this.setState(this.selected, 'FINAL')
-        .then(() => {
-          const orgSet = new Set()
-          this.selected.forEach((item) => {
-            orgSet.add(item.account.organization)
-          })
-          const selectedOrgs = Array.from(orgSet)
-          this.$api.invoice
-            .generate(this.facility.invoicePrefix, this.month, this.year, selectedOrgs)
-            .then((ret) => {
-              const url = this.$router.resolve({
-                name: 'InvoiceList',
-                query: { month: this.month.toString().padStart(2, '0'), year: this.year },
-              }).href
-              if (ret.message) {
-                // eslint-disable-next-line no-param-reassign
-                ret.message = ret.message.replace(/\n/g, '<br/>')
-              }
-              if (ret.message.includes('Failed') || ret.message.includes('Unable')) {
-                this.messageType = 'error'
-              } else {
-                this.messageType = 'success'
-              }
-              this.updating = false
-              this.message = `<p>${ret.message}</p>`
-              if (this.messageType !== 'error') {
-                this.message = `${this.message}<p><a href="${url}">Go to Invoices</a></p>`
-              }
-              this.isLoading = true
-              this.facilityBillingRecords()
-                .catch((error) => {
-                  const errorMessage = this.getErrorMessage(error)
-                  this.showMessage(`Error loading ${this.facility.name} billing records: ${errorMessage}`)
-                })
-                .finally(() => {
-                  this.isLoading = false
-                })
-            })
+      const allFinal = this.selected.every((record) => record.currentState === 'FINAL')
+      if (!allFinal) {
+        await this.setState(this.selected, 'FINAL')
+      }
+      const orgSet = new Set()
+      this.selected.forEach((item) => {
+        orgSet.add(item.account.organization)
+      })
+      const selectedOrgs = Array.from(orgSet)
+      this.$api.invoice
+        .generate(this.facility.invoicePrefix, this.month, this.year, selectedOrgs)
+        .then((ret) => {
+          const url = this.$router.resolve({
+            name: 'InvoiceList',
+            query: { month: this.month.toString().padStart(2, '0'), year: this.year },
+          }).href
+          if (ret.message) {
+            // eslint-disable-next-line no-param-reassign
+            ret.message = ret.message.replace(/\n/g, '<br/>')
+          }
+          if (ret.message.includes('Failed') || ret.message.includes('Unable')) {
+            this.messageType = 'error'
+          } else {
+            this.messageType = 'success'
+          }
+          this.updating = false
+          this.message = `<p>${ret.message}</p>`
+          if (this.messageType !== 'error') {
+            this.message = `${this.message}<p><a href="${url}">Go to Invoices</a></p>`
+          }
+          this.isLoading = true
+          this.facilityBillingRecords()
             .catch((error) => {
-              this.updating = false
-              this.messageType = 'error'
-              this.message = this.getErrorMessage(error)
+              const errorMessage = this.getErrorMessage(error)
+              this.showMessage(`Error loading ${this.facility.name} billing records: ${errorMessage}`)
+            })
+            .finally(() => {
+              this.isLoading = false
             })
         })
         .catch((error) => {
           this.updating = false
+          this.messageType = 'error'
           this.message = this.getErrorMessage(error)
         })
     },
