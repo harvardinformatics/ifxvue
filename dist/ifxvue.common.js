@@ -63663,7 +63663,7 @@ installComponents_default()(IFXPageActionBar_component, {VCol: VCol,VRow: VRow})
     // Used by individual form fields to clear their own errors
     clearError: function clearError(key) {
       if (this.errors.hasOwnProperty(key)) {
-        delete this.errors[key];
+        this.$delete(this.errors, key);
       }
     },
     submitUpdate: function submitUpdate() {
