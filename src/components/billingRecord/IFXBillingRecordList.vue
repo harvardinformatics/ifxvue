@@ -419,15 +419,18 @@ export default {
     closeTxnDialog() {
       this.txnDialog = false
     },
-    openTxnDialog(item, index) {
-      this.editedItem = { ...this.defaultItem }
-      this.editedItem.rate = item.rate
-      this.editedItem.orgRec = item
-      this.editedItem.index = index
-      this.editedItem.author = { ...this.$api.authUser }
-      this.$nextTick(() => {
-        this.txnDialog = true
-      })
+    openTxnDialog(item) {
+      const index = this.items.findIndex((rec) => rec.id === item.id)
+      if (index !== -1) {
+        this.editedItem = { ...this.defaultItem }
+        this.editedItem.rate = item.rate
+        this.editedItem.orgRec = item
+        this.editedItem.index = index
+        this.editedItem.author = { ...this.$api.authUser }
+        this.$nextTick(() => {
+          this.txnDialog = true
+        })
+      }
     },
     addNewTransaction(item) {
       const orgBillingRec = item.orgRec
@@ -452,7 +455,7 @@ export default {
           } else {
             this.showMessage('Successfully updated billing record')
           }
-          const newBillingRec = response.data[0]
+          const newBillingRec = this.$api.billingRecord.create(response.data[0])
           this.items.splice(index, 1, newBillingRec)
         })
         .catch((error) => {
@@ -466,21 +469,24 @@ export default {
           this.editDialog = false
         })
     },
-    async openEditDialog(item, index) {
-      if (this.$api.auth.can('set-any-account', this.$api.authUser)) {
-        this.expenseCodes = await this.$api.account.getList()
-      } else {
-        const currentUserRecord = await this.$api.auth
-          .getCurrentUserRecord()
-          .catch(() => this.showMessage('Could not get user record. '))
-        this.expenseCodes = currentUserRecord.accounts
+    async openEditDialog(item) {
+      const index = this.items.findIndex((rec) => rec.id === item.id)
+      if (index !== -1) {
+        if (this.$api.auth.can('set-any-account', this.$api.authUser)) {
+          this.expenseCodes = await this.$api.account.getList()
+        } else {
+          const currentUserRecord = await this.$api.auth
+            .getCurrentUserRecord()
+            .catch(() => this.showMessage('Could not get user record. '))
+          this.expenseCodes = currentUserRecord.accounts
+        }
+
+        this.editingIndex = index
+        this.editedRecord = cloneDeep(item)
+        this.newExpenseCode = this.$api.account.create(item.account)
+
+        this.editDialog = true
       }
-
-      this.editingIndex = index
-      this.editedRecord = cloneDeep(item)
-      this.newExpenseCode = this.$api.account.create(item.account)
-
-      this.editDialog = true
     },
     closeEditDialog() {
       this.editDialog = false
@@ -738,7 +744,7 @@ export default {
             <template v-slot:item.charge="{ item }">
               {{ item.charge | centsToDollars }}
             </template>
-            <template v-slot:item.actions="{ item, index }">
+            <template v-slot:item.actions="{ item }">
               <div class="d-flex flex-row">
                 <IFXButton
                   v-if="allowAddingTransactions(item)"
@@ -753,7 +759,7 @@ export default {
                   iconString="edit"
                   btnType="edit"
                   xSmall
-                  @action="openEditDialog(item, index)"
+                  @action="openEditDialog(item)"
                 />
               </div>
             </template>
