@@ -61,7 +61,6 @@ export default {
         { text: 'Updated', value: 'updated', sortable: true },
       ],
       newExpenseCode: {},
-      currentDescription: '',
       expenseCodes: [],
     }
   },
@@ -155,7 +154,6 @@ export default {
     },
     updateRecord() {
       const newBillingRec = cloneDeep(this.item)
-      newBillingRec.description = this.currentDescription
       newBillingRec.account = this.newExpenseCode.data
 
       this.updateBillingRecord(newBillingRec)
@@ -402,9 +400,9 @@ export default {
                   <v-col cols="12">
                     <v-textarea
                       required
-                      v-model="currentDescription"
+                      v-model="item.description"
                       label="Billing Record description"
-                      :error-messages="errors[currentDescription]"
+                      :error-messages="errors[item.description]"
                       :rules="formRules.generic"
                       disabled
                     ></v-textarea>
