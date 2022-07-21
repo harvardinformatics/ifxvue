@@ -509,6 +509,9 @@ export default {
     allowAddingTransactions(item) {
       return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
     },
+    allowEditingRecords(item) {
+      return this.$api.auth.can('edit-records', this.$api.authUser) && item.currentState !== 'FINAL'
+    },
     notifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
       this.$api.notifyLabManagers(
@@ -755,7 +758,7 @@ export default {
                 />
                 <IFXButton
                   class="ml-2"
-                  v-if="allowAddingTransactions(item)"
+                  v-if="allowEditingRecords(item)"
                   iconString="edit"
                   btnType="edit"
                   xSmall
