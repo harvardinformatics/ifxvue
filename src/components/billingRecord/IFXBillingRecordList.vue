@@ -1,5 +1,6 @@
 <script>
 import { mapActions } from 'vuex'
+import cloneDeep from 'lodash/cloneDeep'
 
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
@@ -90,14 +91,17 @@ export default {
       tableCollpased: false,
       errors: [],
       search: null,
-      isValid: false,
-      dialog: false,
+      isValidTxn: false,
+      isValidEdit: false,
+      txnDialog: false,
+      editDialog: false,
       editedItem: {
         rate: 0,
         charge: 0,
         description: null,
         author: {},
         orgRec: {},
+        index: null,
       },
       defaultItem: {
         rate: 0,
@@ -107,6 +111,9 @@ export default {
       },
       mailFab: false,
       recipientField: '',
+      editedRecord: {},
+      expenseCodes: [],
+      editingIndex: null,
     }
   },
   computed: {
@@ -410,52 +417,87 @@ export default {
       this.rowSelectionToggleIndeterminate = {}
     },
     closeTxnDialog() {
-      this.dialog = false
+      this.txnDialog = false
     },
     openTxnDialog(item) {
-      this.editedItem = { ...this.defaultItem }
-      this.editedItem.rate = item.rate
-      this.editedItem.orgRec = item
-      this.editedItem.author = { ...this.$api.authUser }
-      this.$nextTick(() => {
-        this.dialog = true
-      })
+      const index = this.items.findIndex((rec) => rec.id === item.id)
+      if (index !== -1) {
+        this.editedItem = { ...this.defaultItem }
+        this.editedItem.rate = item.rate
+        this.editedItem.orgRec = item
+        this.editedItem.index = index
+        this.editedItem.author = { ...this.$api.authUser }
+        this.$nextTick(() => {
+          this.txnDialog = true
+        })
+      }
     },
     addNewTransaction(item) {
-      const index = this.items.findIndex((rec) => rec.id === item.orgRec.id)
-      if (index !== -1) {
-        const orgBillingRec = this.items[index]
-        const { charge, rate, description, author } = item
-        const newTransactionData = {
-          charge,
-          rate,
-          description,
-          author,
-        }
-        const newTransaction = this.$api.billingTransaction.create(newTransactionData)
-        orgBillingRec.addTransaction(newTransaction)
-        this.updating = true
-        this.$api.billingRecord
-          .bulkUpdate([orgBillingRec], this.facility.applicationUsername)
-          .then((response) => {
-            this.updating = false
-            if (response.error) {
-              this.showMessage(response.error)
-            } else {
-              this.showMessage('Successfully updated billing record')
-            }
-            const newBillingRec = response.data[0]
-            this.items.splice(index, 1, newBillingRec)
-            this.dialog = false
-          })
-          .catch((error) => {
-            this.isLoading = false
-            this.updating = false
-            this.dialog = false
-            const message = this.getErrorMessage(error)
-            this.showMessage(message)
-          })
+      const orgBillingRec = item.orgRec
+      const { charge, rate, description, author } = item
+      const newTransactionData = {
+        charge,
+        rate,
+        description,
+        author,
       }
+      const newTransaction = this.$api.billingTransaction.create(newTransactionData)
+      orgBillingRec.addTransaction(newTransaction)
+      this.updateBillingRecord(orgBillingRec, item.index)
+    },
+    updateBillingRecord(newRecord, index) {
+      this.updating = true
+      this.$api.billingRecord
+        .bulkUpdate([newRecord], this.facility.applicationUsername)
+        .then((response) => {
+          if (response.error) {
+            this.showMessage(response.error)
+          } else {
+            this.showMessage('Successfully updated billing record')
+          }
+          const newBillingRec = this.$api.billingRecord.create(response.data[0])
+          this.items.splice(index, 1, newBillingRec)
+        })
+        .catch((error) => {
+          this.isLoading = false
+          const message = this.getErrorMessage(error)
+          this.showMessage(message)
+        })
+        .finally(() => {
+          this.updating = false
+          this.txnDialog = false
+          this.editDialog = false
+        })
+    },
+    async openEditDialog(item) {
+      const index = this.items.findIndex((rec) => rec.id === item.id)
+      if (index !== -1) {
+        if (this.$api.auth.can('set-any-account', this.$api.authUser)) {
+          this.expenseCodes = await this.$api.account.getList()
+        } else {
+          const currentUserRecord = await this.$api.auth
+            .getCurrentUserRecord()
+            .catch(() => this.showMessage('Could not get user record. '))
+          this.expenseCodes = currentUserRecord.accounts
+        }
+
+        this.editingIndex = index
+        this.editedRecord = cloneDeep(item)
+        this.newExpenseCode = this.$api.account.create(item.account)
+
+        this.editDialog = true
+      }
+    },
+    closeEditDialog() {
+      this.editDialog = false
+      this.editedRecord = {}
+      this.editingIndex = null
+    },
+    updateSpecificRecord(billingRec) {
+      const newBillingRec = cloneDeep(billingRec)
+      newBillingRec.account = this.newExpenseCode.data
+      this.updateBillingRecord(newBillingRec, this.editingIndex)
+      this.closeEditDialog()
     },
     navigateToDetail(id) {
       this.rtr.push({
@@ -466,6 +508,9 @@ export default {
     },
     allowAddingTransactions(item) {
       return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
+    },
+    allowEditingRecords(item) {
+      return this.$api.auth.can('edit-records', this.$api.authUser) && item.currentState !== 'FINAL'
     },
     notifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
@@ -703,19 +748,29 @@ export default {
               {{ item.charge | centsToDollars }}
             </template>
             <template v-slot:item.actions="{ item }">
-              <IFXButton
-                v-if="allowAddingTransactions(item)"
-                iconString="add"
-                btnType="add"
-                xSmall
-                @action="openTxnDialog(item)"
-              />
+              <div class="d-flex flex-row">
+                <IFXButton
+                  v-if="allowAddingTransactions(item)"
+                  iconString="add"
+                  btnType="add"
+                  xSmall
+                  @action="openTxnDialog(item)"
+                />
+                <IFXButton
+                  class="ml-2"
+                  v-if="allowEditingRecords(item)"
+                  iconString="edit"
+                  btnType="edit"
+                  xSmall
+                  @action="openEditDialog(item)"
+                />
+              </div>
             </template>
             <template v-slot:expanded-item="{ item }">
               <IFXBillingRecordTransactions :billingRecord="item" />
             </template>
           </v-data-table>
-          <v-dialog v-model="dialog" max-width="600px">
+          <v-dialog v-model="txnDialog" max-width="600px">
             <v-card>
               <v-card-title>
                 <span class="text-h5">Add a new transaction to Billing Record {{ editedItem.orgRec.id }}</span>
@@ -725,7 +780,7 @@ export default {
               </v-card-subtitle>
 
               <v-card-text>
-                <v-form v-model="isValid">
+                <v-form v-model="isValidTxn">
                   <v-row>
                     <v-col>
                       <v-currency-field
@@ -755,8 +810,51 @@ export default {
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeTxnDialog">Cancel</v-btn>
-                <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">
+                <v-btn color="secondary" text @click="closeTxnDialog">Cancel</v-btn>
+                <v-btn color="blue darken-1" text :disabled="!isValidTxn" @click="addNewTransaction(editedItem)">
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog v-model="editDialog" max-width="600px">
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">Edit Billing Record {{ editedRecord.id }}</span>
+              </v-card-title>
+              <v-card-text>
+                <v-form v-model="isValidEdit">
+                  <v-row>
+                    <v-col>
+                      <v-autocomplete
+                        required
+                        v-model="newExpenseCode"
+                        :items="expenseCodes"
+                        item-text="slug"
+                        item-value="slug"
+                        label="Expense Code / PO"
+                        :error-messages="errors[newExpenseCode]"
+                        :rules="formRules.generic"
+                        return-object
+                      ></v-autocomplete>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-textarea
+                        required
+                        v-model="editedRecord.description"
+                        label="Billing Record description"
+                        :error-messages="errors[description]"
+                        :rules="formRules.generic"
+                        disabled
+                      ></v-textarea>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="secondary" text @click="closeEditDialog">Cancel</v-btn>
+                <v-btn color="blue darken-1" text :disabled="!isValidEdit" @click="updateSpecificRecord(editedRecord)">
                   Save
                 </v-btn>
               </v-card-actions>

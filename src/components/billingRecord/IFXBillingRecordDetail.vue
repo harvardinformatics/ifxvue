@@ -61,7 +61,6 @@ export default {
         { text: 'Updated', value: 'updated', sortable: true },
       ],
       newExpenseCode: {},
-      newDescription: '',
       expenseCodes: [],
     }
   },
@@ -146,7 +145,6 @@ export default {
         this.expenseCodes = currentUserRecord.accounts
       }
 
-      this.newDescription = this.item.description
       this.newExpenseCode = this.$api.account.create(this.item.account)
 
       this.editDialog = true
@@ -156,7 +154,6 @@ export default {
     },
     updateRecord() {
       const newBillingRec = cloneDeep(this.item)
-      newBillingRec.description = this.newDescription
       newBillingRec.account = this.newExpenseCode.data
 
       this.updateBillingRecord(newBillingRec)
@@ -327,6 +324,9 @@ export default {
             <template v-slot:item.charge="{ item }">
               {{ item.charge | centsToDollars }}
             </template>
+            <template v-slot:item.rate="{ item }">
+              {{ item.rate | centsToDollars }}
+            </template>
           </v-data-table>
           <span v-else>None</span>
         </v-col>
@@ -369,7 +369,7 @@ export default {
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeTxnDialog">Cancel</v-btn>
+              <v-btn color="secondary" text @click="closeTxnDialog">Cancel</v-btn>
               <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">Save</v-btn>
             </v-card-actions>
           </v-card>
@@ -400,10 +400,11 @@ export default {
                   <v-col cols="12">
                     <v-textarea
                       required
-                      v-model="newDescription"
+                      v-model="item.description"
                       label="Billing Record description"
-                      :error-messages="errors[newDescription]"
+                      :error-messages="errors[item.description]"
                       :rules="formRules.generic"
+                      disabled
                     ></v-textarea>
                   </v-col>
                 </v-row>
@@ -411,7 +412,7 @@ export default {
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeEditDialog">Cancel</v-btn>
+              <v-btn color="secondary" text @click="closeEditDialog">Cancel</v-btn>
               <v-btn color="blue darken-1" text :disabled="!isValidEdit" @click="updateRecord">Save</v-btn>
             </v-card-actions>
           </v-card>
