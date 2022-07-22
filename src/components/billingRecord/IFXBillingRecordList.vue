@@ -254,8 +254,32 @@ export default {
       this.clearTableState()
       return this.$api.billingRecord
         .getList(this.facility.invoicePrefix, this.month, this.year, this.organization)
-        .then((res) => (this.items = res))
+        .then((res) => {
+          this.items = res.concat()
+          // let bump = 0
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
+        })
     },
+    // dupRecords(res, bump) {
+    //   const foo = res.map(item => {
+    //     const newItem = cloneDeep(item)
+    //     newItem._data.id += bump
+    //     return newItem
+    //   })
+    //   return foo
+    // },
     setState(items, state) {
       items.forEach((s) => {
         s.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
@@ -338,7 +362,9 @@ export default {
         })
     },
     toggleGroup(group) {
+      // console.log(new Date().getTime())
       const records = this.filteredItems.filter((item) => item.account.organization === group)
+      // console.log(new Date().getTime())
       const isSelected = this.rowSelectionToggle.indexOf(group) !== -1
       records.forEach((record) => {
         const index = this.selected.findIndex((item) => record.id === item.id)
@@ -350,6 +376,7 @@ export default {
           this.selected.push(record)
         }
       })
+      // console.log(new Date().getTime())
       this.$set(this.rowSelectionToggleIndeterminate, group, false)
     },
     summaryCharges(group) {
@@ -359,45 +386,49 @@ export default {
     },
     determineGroupState(e) {
       const group = e.item.account.organization
-      this.$nextTick(() => {
-        const records = this.filteredItems.filter((item) => item.account.organization === group)
-        const checked = this.selected.filter((item) => item.account.organization === group)
-        const state = checked.length !== 0 && checked.length < records.length
-        this.$set(this.rowSelectionToggleIndeterminate, group, state)
-        // Now set the checkbox model to the correct state
-        if (checked.length) {
-          if (checked.length === records.length) {
-            // All are checked so add this if it isn't already there
-            const index = this.rowSelectionToggle.indexOf(group)
-            if (index === -1) {
-              this.rowSelectionToggle.push(group)
-            }
-          }
-        } else {
-          // None are checked so remove this group
+      const records = this.filteredItems.filter((item) => item.account.organization === group)
+      let checked = this.selected.filter((item) => item.account.organization === group).length
+      // console.log(new Date().getTime(), checked, this.selected.length)
+      checked += e.value ? 1 : -1
+      // console.log(new Date().getTime(), checked, this.selected.length)
+      // this.$nextTick(() => {
+      // console.log(new Date().getTime(), checked, this.selected.length)
+      const state = checked !== 0 && checked < records.length
+      this.$set(this.rowSelectionToggleIndeterminate, group, state)
+      // Now set the checkbox model to the correct state
+      if (checked) {
+        if (checked === records.length) {
+          // All are checked so add this if it isn't already there
           const index = this.rowSelectionToggle.indexOf(group)
-          if (index !== -1) {
-            this.rowSelectionToggle.splice(index, 1)
+          if (index === -1) {
+            this.rowSelectionToggle.push(group)
           }
         }
-      })
+      } else {
+        // None are checked so remove this group
+        const index = this.rowSelectionToggle.indexOf(group)
+        if (index !== -1) {
+          this.rowSelectionToggle.splice(index, 1)
+        }
+      }
+      // })
     },
     toggleSelectAll({ items, value }) {
       const orgSet = new Set()
       items.forEach((item) => {
         orgSet.add(item.account.organization)
       })
-      this.$nextTick(() => {
-        if (value) {
-          // The user selected all records. Set all the checkboxes on
-          this.rowSelectionToggle = Array.from(orgSet)
-        } else {
-          // They've cleared all records. Remove all orgs from the array
-          this.rowSelectionToggle = []
-        }
-        // And clear indeterminate state
-        this.$set(this.rowSelectionToggleIndeterminate, Array.from(orgSet), false)
-      })
+      // this.$nextTick(() => {
+      if (value) {
+        // The user selected all records. Set all the checkboxes on
+        this.rowSelectionToggle = Array.from(orgSet)
+      } else {
+        // They've cleared all records. Remove all orgs from the array
+        this.rowSelectionToggle = []
+      }
+      // And clear indeterminate state
+      this.$set(this.rowSelectionToggleIndeterminate, Array.from(orgSet), false)
+      // })
     },
     collpaseRows() {
       // This is a bit of a hack to collpase the group sections when the table loads
