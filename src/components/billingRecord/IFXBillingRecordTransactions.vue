@@ -39,7 +39,7 @@ export default {
         {{ item.charge | centsToDollars }}
       </template>
       <template v-slot:item.rate="{ item }">
-        {{ item.rate | centsToDollars }}
+        {{ item.rate }}
       </template>
     </v-data-table>
   </td>
