@@ -178,7 +178,7 @@ export default {
       if (br.id) {
         // Go get it
         br = await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
-        this.items[index] = br
+        this.$set(this.items, index, br)
         return br
       }
       console.log(`Billing record with id not found at item index ${index}`)
