@@ -805,8 +805,9 @@ export default class IFXAPIService {
 
     api.getList = async (invoice_prefix, month = null, year = null, organization = null) => {
       const params = { invoice_prefix, month, year, organization }
+      const url = this.urls.BILLING_RECORD_LIST
       return this.axios
-        .get(`${baseURL}`, { params })
+        .get(url, { params })
         .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
     }
     api.getByID = async (facilityPrefix, id) => {
