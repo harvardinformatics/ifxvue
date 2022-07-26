@@ -55,7 +55,6 @@ export default {
   },
   mounted() {
     this.facilityBillingRecords()
-      .then((response) => response.msg)
       .catch((error) => {
         const errorMessage = this.getErrorMessage(error)
         this.messageType = 'error'
