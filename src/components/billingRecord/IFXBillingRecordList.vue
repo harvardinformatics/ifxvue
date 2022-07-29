@@ -55,7 +55,6 @@ export default {
   },
   mounted() {
     this.facilityBillingRecords()
-      .then((response) => response.msg)
       .catch((error) => {
         const errorMessage = this.getErrorMessage(error)
         this.messageType = 'error'
@@ -169,6 +168,21 @@ export default {
         }
       }
       return message
+    },
+    async getFullBillingRecordByItemIndex(index) {
+      let br = this.items?.[index]
+      if (br?.billingRecordStates?.length) {
+        // Full record is already there
+        return br
+      }
+      if (br.id) {
+        // Go get it
+        br = await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
+        this.$set(this.items, index, br)
+        return br
+      }
+      console.log(`Billing record with id not found at item index ${index}`)
+      return null
     },
     billingRecordsAreFinal(items) {
       // Returns true if any records in the list are in the FINAL state
@@ -450,12 +464,13 @@ export default {
     closeTxnDialog() {
       this.txnDialog = false
     },
-    openTxnDialog(item) {
+    async openTxnDialog(item) {
       const index = this.items.findIndex((rec) => rec.id === item.id)
+      const br = await this.getFullBillingRecordByItemIndex(index)
       if (index !== -1) {
         this.editedItem = { ...this.defaultItem }
-        this.editedItem.rate = item.rate
-        this.editedItem.orgRec = item
+        this.editedItem.rate = br.rate
+        this.editedItem.orgRec = br
         this.editedItem.index = index
         this.editedItem.author = { ...this.$api.authUser }
         this.$nextTick(() => {
@@ -524,8 +539,9 @@ export default {
       this.editedRecord = {}
       this.editingIndex = null
     },
-    updateSpecificRecord(billingRec) {
-      const newBillingRec = cloneDeep(billingRec)
+    async updateSpecificRecord(billingRec) {
+      const index = this.items.findIndex((rec) => rec.id === billingRec.id)
+      const newBillingRec = await this.getFullBillingRecordByItemIndex(index)
       newBillingRec.account = this.newExpenseCode.data
       this.updateBillingRecord(newBillingRec, this.editingIndex)
       this.closeEditDialog()
