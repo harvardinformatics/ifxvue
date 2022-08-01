@@ -6,7 +6,8 @@ import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMi
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
-import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
+// import IFXBillingRecordHeader from '@/components/billingRecord/IFXBillingRecordHeader'
+// import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
   name: 'IFXBillingRecordList',
@@ -14,8 +15,9 @@ export default {
     // IFXItemDataTable,
     IFXButton,
     IFXSearchField,
-    IFXBillingRecordTransactions,
+    // IFXBillingRecordTransactions,
     IFXMailButton,
+    // IFXBillingRecordHeader
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -268,32 +270,8 @@ export default {
       this.clearTableState()
       return this.$api.billingRecord
         .getList(this.facility.invoicePrefix, this.month, this.year, this.organization)
-        .then((res) => {
-          this.items = res.concat()
-          // let bump = 0
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-          // this.items = this.items.concat(this.dupRecords(res, bump += 1000))
-        })
+        .then((res) => (this.items = res))
     },
-    // dupRecords(res, bump) {
-    //   const foo = res.map(item => {
-    //     const newItem = cloneDeep(item)
-    //     newItem._data.id += bump
-    //     return newItem
-    //   })
-    //   return foo
-    // },
     setState(items, state) {
       items.forEach((s) => {
         s.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
@@ -401,10 +379,11 @@ export default {
     determineGroupState(e) {
       const group = e.item.account.organization
       const records = this.filteredItems.filter((item) => item.account.organization === group)
+      console.log(new Date().getTime(), records.length)
       let checked = this.selected.filter((item) => item.account.organization === group).length
-      // console.log(new Date().getTime(), checked, this.selected.length)
+      console.log(new Date().getTime(), checked, this.selected.length)
       checked += e.value ? 1 : -1
-      // console.log(new Date().getTime(), checked, this.selected.length)
+      console.log(new Date().getTime(), checked, this.selected.length)
       // this.$nextTick(() => {
       // console.log(new Date().getTime(), checked, this.selected.length)
       const state = checked !== 0 && checked < records.length
@@ -425,6 +404,7 @@ export default {
           this.rowSelectionToggle.splice(index, 1)
         }
       }
+      console.log(new Date().getTime(), 'done')
       // })
     },
     toggleSelectAll({ items, value }) {
@@ -569,6 +549,10 @@ export default {
         this.recipientField,
         this.$router
       )
+    },
+    foo(content) {
+      console.log(content)
+      return content
     },
   },
   watch: {
@@ -725,50 +709,71 @@ export default {
       </v-card-title>
       <v-row>
         <v-col id="data-table">
-          <v-data-table
-            ref="table"
-            v-if="filteredItems"
-            v-model="selected"
-            :items="filteredItems"
-            :headers="headers"
-            :show-select="showCheckboxes"
-            show-expand
-            expand-icon="mdi-menu-right"
-            :itemKey="itemKey"
-            :loading="isLoading"
-            :items-per-page="-1"
-            group-by="account.organization"
-            @item-selected="determineGroupState"
-            @toggle-select-all="toggleSelectAll"
-          >
-            <template v-slot:group.header="{ group, headers, isOpen, toggle }">
-              <td :colspan="headers.length">
-                <v-row>
-                  <v-checkbox
-                    v-if="showCheckboxes"
-                    v-model="rowSelectionToggle"
-                    :value="group"
-                    hide-details
-                    multiple
-                    :indeterminate.sync="rowSelectionToggleIndeterminate[group]"
-                    class="shrink ml-3 mt-0"
-                    @click="toggleGroup(group)"
-                  ></v-checkbox>
-                  <div>
-                    <v-btn icon small @click="toggle">
-                      <v-icon>{{ isOpen ? 'mdi-menu-down' : 'mdi-menu-right' }}</v-icon>
-                    </v-btn>
-                    <span class="group-header">
-                      {{ $api.organization.parseSlug(group).name }}
-                    </span>
-                    <span class="ml-3 font-weight-medium">
-                      Total charges: {{ summaryCharges(group) | centsToDollars }}
-                    </span>
-                  </div>
-                </v-row>
-              </td>
-            </template>
-            <template v-slot:item.id="{ item }">
+            <v-data-table
+              ref="table"
+              v-if="filteredItems"
+              v-model="selected"
+              :items="filteredItems"
+              :headers="headers"
+              :show-select="showCheckboxes"
+              show-expand
+              expand-icon="mdi-menu-right"
+              :itemKey="itemKey"
+              :loading="isLoading"
+              :items-per-page="-1"
+              xxgroup-by="account.organization"
+              @xxitem-selected="determineGroupState"
+              @xxtoggle-select-all="toggleSelectAll"
+            >
+              <!-- <template
+              v-slot:group.header="{ group, headers, isOpen, toggle }"
+              xxv-on:rendered="itemRendered('group.header')"
+            >
+                <IFXBillingRecordHeader
+                :item="item"
+                :group="group"
+                :headers="headers"
+                :isOpen="isOpen"
+                :showCheckboxes="showCheckboxes"
+                :toggle="toggle"
+                :xxrowSelectionToggleGroup.sync="rowSelectionToggle[group]"
+                :xxrowSelectionToggleIndeterminateGroup.sync="rowSelectionToggleIndeterminate[group]"
+                rowSelectionToggleGroup="rowSelectionToggle[group]"
+                :rowSelectionToggleIndeterminateGroup="true"
+                :summaryCharges="summaryCharges(group)"
+                :toggleGroup="toggleGroup"
+                @
+              /> -->
+              <!-- <template v-slot:group.header="{ group, headers, isOpen, toggle }">
+                <td :colspan="headers.length">
+                  {{ foo('group header') }}
+
+                  <v-row>
+                    <v-checkbox
+                      v-if="showCheckboxes"
+                      v-model="rowSelectionToggle"
+                      :value="group"
+                      hide-details
+                      multiple
+                      :indeterminate.sync="rowSelectionToggleIndeterminate[group]"
+                      class="shrink ml-3 mt-0"
+                      @click="toggleGroup(group)"
+                    ></v-checkbox>
+                    <div>
+                      <v-btn icon small @click="toggle">
+                        <v-icon>{{ isOpen ? 'mdi-menu-down' : 'mdi-menu-right' }}</v-icon>
+                      </v-btn>
+                      <span class="group-header">
+                        {{ $api.organization.parseSlug(group).name }}
+                      </span>
+                      <span class="ml-3 font-weight-medium">
+                        Total charges: {{ summaryCharges(group) | centsToDollars }}
+                      </span>
+                    </div>
+                  </v-row>
+                </td> -->
+              <!-- </template> -->
+              <!-- <template v-slot:item.id="{ item }">
               <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
             </template>
 
@@ -815,8 +820,8 @@ export default {
             </template>
             <template v-slot:expanded-item="{ item }">
               <IFXBillingRecordTransactions :billingRecord="item" />
-            </template>
-          </v-data-table>
+            </template> -->
+            </v-data-table>
           <v-dialog v-model="txnDialog" max-width="600px">
             <v-card>
               <v-card-title>
@@ -930,5 +935,10 @@ export default {
 #data-table .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+</style>
+<style>
+.input-group--selection-controls__ripple {
+  border-radius: 0 !important;
 }
 </style>
