@@ -2,11 +2,15 @@
 import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 
+// import the styles
+import 'vue-good-table/dist/vue-good-table.css'
+import { VueGoodTable } from 'vue-good-table';
+
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
-import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
+// import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
   name: 'IFXBillingRecordList',
@@ -14,8 +18,9 @@ export default {
     // IFXItemDataTable,
     IFXButton,
     IFXSearchField,
-    IFXBillingRecordTransactions,
+    // IFXBillingRecordTransactions,
     IFXMailButton,
+    VueGoodTable
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -84,6 +89,20 @@ export default {
         { text: 'Usage id', value: 'productUsage.id', sortable: true },
         { text: 'Txn desc', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
+      ],
+      columns: [
+        { label: '', field: 'data-table-expand', sortable: false },
+        { label: 'ID', field: '_data.id', sortable: true, hide: false },
+        { label: 'State', field: 'currentState', sortable: true, width: '100px', namedSlot: true },
+        { label: 'User', field: 'productUser.full_name', sortable: true },
+        { label: 'Lab', field: 'account.organization', sortable: true },
+        { label: 'Expense Code / PO', field: 'account.slug', sortable: true },
+        { label: 'Product', field: 'product', sortable: true },
+        { label: 'Charge', field: 'charge', sortable: true, width: '100px' },
+        { label: 'Percent', field: 'percent', sortable: true, width: '100px' },
+        { label: 'Usage id', field: 'productUsage.id', sortable: true },
+        { label: 'Txn desc', field: 'transactions', sortable: false },
+        { label: 'Actions', field: 'actions', sortable: false },
       ],
       rowSelectionToggle: [],
       rowSelectionToggleIndeterminate: {},
@@ -694,7 +713,20 @@ export default {
       </v-card-title>
       <v-row>
         <v-col id="data-table">
-          <v-data-table
+          <VueGoodTable
+            v-if="filteredItems"
+  @on-selected-rows-change="determineGroupState"
+  :columns="columns"
+  :rows="filteredItems"
+  :select-options="{
+    enabled: true,
+    selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+    disableSelectInfo: true, // disable the select info panel on top
+    selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+  }"><div slot="emptystate">
+    This will show up when there are no rows
+  </div></VueGoodTable>
+          <!-- <v-data-table
             ref="table"
             v-if="filteredItems"
             v-model="selected"
@@ -785,7 +817,7 @@ export default {
             <template v-slot:expanded-item="{ item }">
               <IFXBillingRecordTransactions :billingRecord="item" />
             </template>
-          </v-data-table>
+          </v-data-table> -->
           <v-dialog v-model="txnDialog" max-width="600px">
             <v-card>
               <v-card-title>
