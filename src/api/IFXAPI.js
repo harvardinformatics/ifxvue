@@ -798,6 +798,8 @@ export default class IFXAPIService {
         newBillingData.transactions = transactionDataObjs
       }
 
+      newBillingData.organization = data.account?.organization
+
       return decompose ? newBillingData : new BillingRecord(newBillingData)
     }
     const decomposeFunc = (billingRecord) => createFunc(billingRecord, true)
