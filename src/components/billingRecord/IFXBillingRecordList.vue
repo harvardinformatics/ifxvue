@@ -10,7 +10,7 @@ import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMi
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
-// import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
+import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
   name: 'IFXBillingRecordList',
@@ -18,14 +18,14 @@ export default {
     // IFXItemDataTable,
     IFXButton,
     IFXSearchField,
-    // IFXBillingRecordTransactions,
+    IFXBillingRecordTransactions,
     IFXMailButton,
     VueGoodTable
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
     transactionDisplay(txn) {
-      return `${txn.description}`
+      return `${txn._data.description}`
     },
   },
   props: {
@@ -93,17 +93,18 @@ export default {
       columns: [
         { label: '', field: 'data-table-expand', sortable: false },
         { label: 'ID', field: '_data.id', sortable: true, hide: false },
-        { label: 'State', field: 'currentState', sortable: true, width: '100px', namedSlot: true },
-        { label: 'User', field: 'productUser.full_name', sortable: true },
-        { label: 'Lab', field: 'account.organization', sortable: true },
-        { label: 'Expense Code / PO', field: 'account.slug', sortable: true },
-        { label: 'Product', field: 'product', sortable: true },
-        { label: 'Charge', field: 'charge', sortable: true, width: '100px' },
-        { label: 'Percent', field: 'percent', sortable: true, width: '100px' },
-        { label: 'Usage id', field: 'productUsage.id', sortable: true },
-        { label: 'Txn desc', field: 'transactions', sortable: false },
+        { label: 'State', field: '_data.current_state', sortable: true, width: '100px' },
+        { label: 'User', field: '_data.product_usage.product_user.full_name', sortable: true },
+        { label: 'Lab', field: '_data.account.organization', sortable: true },
+        { label: 'Expense Code / PO', field: '_data.account.slug', sortable: true },
+        { label: 'Product', field: '_data.product', sortable: true },
+        { label: 'Charge', field: '_data.charge', sortable: true, width: '100px' },
+        { label: 'Percent', field: '_data.percent', sortable: true, width: '100px' },
+        { label: 'Usage id', field: '_data.product_usage.id', sortable: true },
+        { label: 'Txn desc', field: '_data.transactions', sortable: false },
         { label: 'Actions', field: 'actions', sortable: false },
       ],
+      rowExpanded: [],
       rowSelectionToggle: [],
       rowSelectionToggleIndeterminate: {},
       tableCollpased: false,
@@ -146,6 +147,23 @@ export default {
     },
     filteredItems: function () {
       return this.getItemsFilteredBySearch()
+    },
+    tableRows: function () {
+      const orgSet = new Set()
+      this.filteredItems.forEach((item) => {
+        orgSet.add(item.account.organization)
+      })
+      const selectedOrgs = Array.from(orgSet).sort()
+      const rows = selectedOrgs.map(org => {
+        const children = this.filteredItems.filter(item => item.account.organization === org)
+        return {
+          mode: 'span', // span means this header will span all columns
+          label: org, // this is the label that'll be used for the header
+          html: false,
+          children,
+        }
+      })
+      return rows
     },
     generateInvoicesToolTip: function () {
       return this.billingRecordsAreFinal(this.selected)
@@ -558,6 +576,10 @@ export default {
         this.$router
       )
     },
+    toggleShowTrans(id) {
+      this.rowExpanded[id] = !this.rowExpanded[id]
+      console.log(id, this.rowExpanded[id])
+    }
   },
   watch: {
     filteredItems() {
@@ -713,19 +735,98 @@ export default {
       </v-card-title>
       <v-row>
         <v-col id="data-table">
+          <v-progress-linear
+          v-if="isLoading"
+      indeterminate
+      color="primary"
+    ></v-progress-linear>
           <VueGoodTable
             v-if="filteredItems"
-  @on-selected-rows-change="determineGroupState"
+  @xxon-selected-rows-change="determineGroupState"
   :columns="columns"
-  :rows="filteredItems"
+  :rows="tableRows"
   :select-options="{
     enabled: true,
     selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
     disableSelectInfo: true, // disable the select info panel on top
     selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-  }"><div slot="emptystate">
-    This will show up when there are no rows
-  </div></VueGoodTable>
+  }"
+  :group-options="{
+    enabled: true,
+    collapsable: true
+  }">
+  <div slot="emptystate" class="text-center">
+    <span class="font-italic text-body-2">No items to display...</span>
+  </div>
+    <template slot="table-header-row" slot-scope="props">
+      <span class="ml-2 font-weight-regular">
+        {{ $api.organization.parseSlug(props.row.label).name }}
+      </span>
+      <span class="ml-3 font-weight-medium">
+        Total charges: {{ summaryCharges(props.row.label) | centsToDollars }}
+      </span>
+    </template>
+  <template slot="table-row" slot-scope="props">
+    <span v-if="props.column.field === 'data-table-expand'">
+      <v-btn small @click="toggleShowTrans(props.row._data.id) "><v-icon>{{ rowExpanded[props.row._data.id] ? 'mdi-menu-down' : 'mdi-menu-right' }}</v-icon></v-btn>
+    <!-- <tr>
+      <td>
+    <div v-if="rowExpanded[props.row._data.id] || true">
+      <IFXBillingRecordTransactions :billingRecord="props.row._data" />
+    </div></td></tr> -->
+
+    </span>
+    <span v-if="props.column.field === '_data.id'">
+      <a href="" @click.prevent="navigateToDetail(props.row._data.id)">{{ props.row._data.id }}</a>
+    </span>
+    <span v-else-if="props.column.field === '_data.current_state'">
+      <span class="state-display">{{ props.row._data.current_state | stateDisplay }}</span>
+    </span>
+    <span v-else-if="props.column.field === '_data.account.slug'">
+      <span style="white-space: nowrap">
+        <span style="white-space: nowrap">{{ props.row._data.account.code }}</span>
+        ({{ props.row._data.account.name }})
+      </span>
+    </span>
+    <span v-else-if="props.column.field === '_data.account.organization'">
+      <span style="white-space: nowrap">
+        {{ $api.organization.parseSlug(props.row._data.account.organization).name }}
+      </span>
+    </span>
+    <span v-else-if="props.column.field === '_data.charge'">
+      {{ props.row._data.charge | centsToDollars }}
+    </span>
+    <span v-else-if="props.column.field === '_data.transactions'">
+      <div style="min-width: 150px">
+        <v-row v-for="txn in props.row._data.transactions" :key="txn.id">
+          {{ txn | transactionDisplay }}
+        </v-row>
+      </div>
+    </span>
+    <span v-else-if="props.column.field === 'actions'">
+      <div class="d-flex flex-row">
+        <IFXButton
+          v-if="allowAddingTransactions($api.billingRecord.create(props.row._data))"
+          iconString="add"
+          btnType="add"
+          xSmall
+          @action="openTxnDialog($api.billingRecord.create(props.row._data))"
+        />
+        <IFXButton
+          class="ml-2"
+          v-if="allowEditingRecords($api.billingRecord.create(props.row._data))"
+          iconString="edit"
+          btnType="edit"
+          xSmall
+          @action="openEditDialog($api.billingRecord.create(props.row._data))"
+        />
+      </div>
+    </span>
+    <span v-else>
+      {{props.formattedRow[props.column.field]}}
+    </span>
+  </template>
+  </VueGoodTable>
           <!-- <v-data-table
             ref="table"
             v-if="filteredItems"
@@ -924,6 +1025,9 @@ export default {
 }
 </style>
 <style>
+#data-table table.vgt-table{
+  font-size: 14px;
+}
 #data-table .v-data-table__expand-icon--active {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
