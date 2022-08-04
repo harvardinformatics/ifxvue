@@ -6,8 +6,8 @@ import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMi
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
-// import IFXBillingRecordHeader from '@/components/billingRecord/IFXBillingRecordHeader'
-// import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
+import IFXBillingRecordHeader from '@/components/billingRecord/IFXBillingRecordHeader'
+import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
   name: 'IFXBillingRecordList',
@@ -15,9 +15,9 @@ export default {
     // IFXItemDataTable,
     IFXButton,
     IFXSearchField,
-    // IFXBillingRecordTransactions,
+    IFXBillingRecordTransactions,
     IFXMailButton,
-    // IFXBillingRecordHeader
+    IFXBillingRecordHeader
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -358,6 +358,7 @@ export default {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
       // console.log(new Date().getTime())
       const isSelected = this.rowSelectionToggle.indexOf(group) !== -1
+      // const isSelected = e.value
       records.forEach((record) => {
         const index = this.selected.findIndex((item) => record.id === item.id)
         if (index !== -1) {
@@ -379,11 +380,11 @@ export default {
     determineGroupState(e) {
       const group = e.item.account.organization
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      console.log(new Date().getTime(), records.length)
+      // console.log(new Date().getTime(), records.length)
       let checked = this.selected.filter((item) => item.account.organization === group).length
-      console.log(new Date().getTime(), checked, this.selected.length)
+      // console.log(new Date().getTime(), checked, this.selected.length)
       checked += e.value ? 1 : -1
-      console.log(new Date().getTime(), checked, this.selected.length)
+      // console.log(new Date().getTime(), checked, this.selected.length)
       // this.$nextTick(() => {
       // console.log(new Date().getTime(), checked, this.selected.length)
       const state = checked !== 0 && checked < records.length
@@ -404,7 +405,7 @@ export default {
           this.rowSelectionToggle.splice(index, 1)
         }
       }
-      console.log(new Date().getTime(), 'done')
+      // console.log(new Date().getTime(), 'done')
       // })
     },
     toggleSelectAll({ items, value }) {
@@ -721,29 +722,27 @@ export default {
               :itemKey="itemKey"
               :loading="isLoading"
               :items-per-page="-1"
-              xxgroup-by="account.organization"
-              @xxitem-selected="determineGroupState"
-              @xxtoggle-select-all="toggleSelectAll"
+              group-by="account.organization"
+              @item-selected="determineGroupState"
+              @toggle-select-all="toggleSelectAll"
             >
-              <!-- <template
+              <template
               v-slot:group.header="{ group, headers, isOpen, toggle }"
-              xxv-on:rendered="itemRendered('group.header')"
+              v-on:rendered="itemRendered('group.header')"
             >
                 <IFXBillingRecordHeader
                 :item="item"
                 :group="group"
-                :headers="headers"
+                :colSpan="headers.length"
                 :isOpen="isOpen"
                 :showCheckboxes="showCheckboxes"
                 :toggle="toggle"
-                :xxrowSelectionToggleGroup.sync="rowSelectionToggle[group]"
-                :xxrowSelectionToggleIndeterminateGroup.sync="rowSelectionToggleIndeterminate[group]"
-                rowSelectionToggleGroup="rowSelectionToggle[group]"
-                :rowSelectionToggleIndeterminateGroup="true"
+                :rowSelectionToggle.sync="rowSelectionToggle"
+                :rowSelectionToggleIndeterminateGroup.sync="rowSelectionToggleIndeterminate[group]"
                 :summaryCharges="summaryCharges(group)"
                 :toggleGroup="toggleGroup"
                 @
-              /> -->
+              />
               <!-- <template v-slot:group.header="{ group, headers, isOpen, toggle }">
                 <td :colspan="headers.length">
                   {{ foo('group header') }}
@@ -772,8 +771,8 @@ export default {
                     </div>
                   </v-row>
                 </td> -->
-              <!-- </template> -->
-              <!-- <template v-slot:item.id="{ item }">
+              </template>
+            <template v-slot:item.id="{ item }">
               <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
             </template>
 
@@ -820,7 +819,7 @@ export default {
             </template>
             <template v-slot:expanded-item="{ item }">
               <IFXBillingRecordTransactions :billingRecord="item" />
-            </template> -->
+            </template>
             </v-data-table>
           <v-dialog v-model="txnDialog" max-width="600px">
             <v-card>

@@ -6,8 +6,8 @@ export default {
       type: String,
       required: true,
     },
-    headers: {
-      type: Array,
+    colSpan: {
+      type: Number,
       required: true,
     },
     isOpen: {
@@ -26,8 +26,8 @@ export default {
       type: Function,
       required: true,
     },
-    rowSelectionToggleGroup: {
-      type: String,
+    rowSelectionToggle: {
+      type: Array,
       required: false,
     },
     rowSelectionToggleIndeterminateGroup: {
@@ -40,7 +40,7 @@ export default {
     },
   },
   mounted() {
-    this.localRowSelectionToggleGroup = this.rowSelectionToggleGroup
+    this.localRowSelectionToggle = this.rowSelectionToggle.concat()
   },
   data() {
     return {
@@ -49,31 +49,31 @@ export default {
   },
   computed: {},
   methods: {
-    syncData() {
-      this.$emit('update:row-selection-toggle', this.localRowSelectionToggleGroup)
+    syncData(group) {
+      this.$emit('update:row-selection-toggle', this.localRowSelectionToggle)
       this.$emit('update:row-selection-toggle-indeterminate', this.rowSelectionToggleIndeterminateGroup)
+      this.toggleGroup(group)
     },
-    foo(content) {
-      console.log(content)
-    }
+    // logIt(content) {
+    //   console.log(content)
+    // }
   },
   watch: {},
 }
 </script>
 <template>
-  <td :colspan="headers.length">
-    {{ foo('group header')}}
+  <td :colspan="colSpan">
+    <!-- {{ logIt('group header')}} -->
     <v-row>
       <v-checkbox
         v-if="showCheckboxes"
-        v-model="localRowSelectionToggleGroup"
+        v-model="localRowSelectionToggle"
         :value="group"
         hide-details
         multiple
         :indeterminate.sync="rowSelectionToggleIndeterminateGroup"
         class="shrink ml-3 mt-0"
-        @change="syncData"
-        @click="toggleGroup(group)"
+        @change="syncData(group)"
       ></v-checkbox>
       <div>
         <v-btn icon small @click="toggle">
