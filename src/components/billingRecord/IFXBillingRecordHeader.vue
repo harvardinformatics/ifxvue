@@ -38,32 +38,46 @@ export default {
       type: Number,
       required: true,
     },
+    getSummaryDetails: {
+      type: Function,
+      required: true,
+    },
   },
   mounted() {
     this.localRowSelectionToggle = this.rowSelectionToggle.concat()
   },
   data() {
     return {
-      localRowSelectionToggle: []
+      localRowSelectionToggle: [],
+      showSummaryDetail: false,
+      summaryButtonText: 'Show',
+      summaryDetails: []
     }
   },
   computed: {},
   methods: {
-    syncData(group) {
+    syncData() {
       this.$emit('update:row-selection-toggle', this.localRowSelectionToggle)
       this.$emit('update:row-selection-toggle-indeterminate', this.rowSelectionToggleIndeterminateGroup)
-      this.toggleGroup(group)
+      this.toggleGroup(this.group)
     },
-    // logIt(content) {
-    //   console.log(content)
-    // }
+    toggleSummaryDetail() {
+      this.summaryButtonText = this.showSummaryDetail ? 'Show' : 'Hide'
+      if (!this.showSummaryDetail && this.summaryDetails.length === 0) {
+        this.summaryDetails = Array.from(this.getSummaryDetails(this.group).entries())
+      }
+      this.showSummaryDetail = !this.showSummaryDetail
+    },
+    logIt(content) {
+      console.log(content)
+    }
   },
   watch: {},
 }
 </script>
 <template>
-  <td :colspan="colSpan">
-    <!-- {{ logIt('group header')}} -->
+  <td :colspan="colSpan" class="py-2">
+    <!-- {{ logIt(`group header for ${group}`)}} -->
     <v-row>
       <v-checkbox
         v-if="showCheckboxes"
@@ -73,18 +87,31 @@ export default {
         multiple
         :indeterminate.sync="rowSelectionToggleIndeterminateGroup"
         class="shrink ml-3 mt-0"
-        @change="syncData(group)"
+        @change="syncData()"
       ></v-checkbox>
       <div>
         <v-btn icon small @click="toggle">
-          <v-icon>{{ isOpen ? 'mdi-menu-down' : 'mdi-menu-right' }}</v-icon>
+          <v-icon :class="{'active' : isOpen}">mdi-menu-right</v-icon>
         </v-btn>
         <span class="group-header">
           {{ $api.organization.parseSlug(group).name }}
         </span>
         <span class="ml-3 font-weight-medium">Total charges: {{ summaryCharges | centsToDollars }}</span>
+        <v-btn small text @click="toggleSummaryDetail" class="ml-2">{{summaryButtonText}} Detail</v-btn>
       </div>
+    </v-row>
+    <v-row v-if="showSummaryDetail">
+      <v-col class="py-1 ml-9">
+        <div v-for="entry in summaryDetails" :key="`${group}-${entry[0]}`" class="text-body-2">
+          <span>{{entry[0]}}:</span><span class="ml-3 font-weight-medium">{{ entry[1] | centsToDollars}} </span>
+        </div>
+      </v-col>
     </v-row>
   </td>
 </template>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.active {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+</style>
