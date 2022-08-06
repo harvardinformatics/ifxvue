@@ -68,16 +68,12 @@ export default {
       }
       this.showSummaryDetail = !this.showSummaryDetail
     },
-    logIt(content) {
-      console.log(content)
-    }
   },
   watch: {},
 }
 </script>
 <template>
   <td :colspan="colSpan" class="py-2">
-    <!-- {{ logIt(`group header for ${group}`)}} -->
     <v-row>
       <v-checkbox
         v-if="showCheckboxes"

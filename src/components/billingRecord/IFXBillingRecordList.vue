@@ -354,11 +354,8 @@ export default {
         })
     },
     toggleGroup(group) {
-      // console.log(new Date().getTime())
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      // console.log(new Date().getTime())
       const isSelected = this.rowSelectionToggle.indexOf(group) !== -1
-      // const isSelected = e.value
       records.forEach((record) => {
         const index = this.selected.findIndex((item) => record.id === item.id)
         if (index !== -1) {
@@ -369,7 +366,6 @@ export default {
           this.selected.push(record)
         }
       })
-      // console.log(new Date().getTime())
       this.$set(this.rowSelectionToggleIndeterminate, group, false)
     },
     summaryCharges(group) {
@@ -393,13 +389,8 @@ export default {
     determineGroupState(e) {
       const group = e.item.account.organization
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      // console.log(new Date().getTime(), records.length)
       let checked = this.selected.filter((item) => item.account.organization === group).length
-      // console.log(new Date().getTime(), checked, this.selected.length)
       checked += e.value ? 1 : -1
-      // console.log(new Date().getTime(), checked, this.selected.length)
-      // this.$nextTick(() => {
-      // console.log(new Date().getTime(), checked, this.selected.length)
       const state = checked !== 0 && checked < records.length
       this.$set(this.rowSelectionToggleIndeterminate, group, state)
       // Now set the checkbox model to the correct state
@@ -418,15 +409,12 @@ export default {
           this.rowSelectionToggle.splice(index, 1)
         }
       }
-      // console.log(new Date().getTime(), 'done')
-      // })
     },
     toggleSelectAll({ items, value }) {
       const orgSet = new Set()
       items.forEach((item) => {
         orgSet.add(item.account.organization)
       })
-      // this.$nextTick(() => {
       if (value) {
         // The user selected all records. Set all the checkboxes on
         this.rowSelectionToggle = Array.from(orgSet)
@@ -436,7 +424,6 @@ export default {
       }
       // And clear indeterminate state
       this.$set(this.rowSelectionToggleIndeterminate, Array.from(orgSet), false)
-      // })
     },
     collpaseRows() {
       // This is a bit of a hack to collpase the group sections when the table loads
@@ -563,10 +550,6 @@ export default {
         this.recipientField,
         this.$router
       )
-    },
-    foo(content) {
-      console.log(content)
-      return content
     },
   },
   watch: {
@@ -758,34 +741,6 @@ export default {
                 :getSummaryDetails="getSummaryDetails"
                 @
               />
-              <!-- <template v-slot:group.header="{ group, headers, isOpen, toggle }">
-                <td :colspan="headers.length">
-                  {{ foo('group header') }}
-
-                  <v-row>
-                    <v-checkbox
-                      v-if="showCheckboxes"
-                      v-model="rowSelectionToggle"
-                      :value="group"
-                      hide-details
-                      multiple
-                      :indeterminate.sync="rowSelectionToggleIndeterminate[group]"
-                      class="shrink ml-3 mt-0"
-                      @click="toggleGroup(group)"
-                    ></v-checkbox>
-                    <div>
-                      <v-btn icon small @click="toggle">
-                        <v-icon>{{ isOpen ? 'mdi-menu-down' : 'mdi-menu-right' }}</v-icon>
-                      </v-btn>
-                      <span class="group-header">
-                        {{ $api.organization.parseSlug(group).name }}
-                      </span>
-                      <span class="ml-3 font-weight-medium">
-                        Total charges: {{ summaryCharges(group) | centsToDollars }}
-                      </span>
-                    </div>
-                  </v-row>
-                </td> -->
               </template>
             <template v-slot:item.id="{ item }">
               <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
@@ -950,6 +905,4 @@ export default {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-</style>
-<style>
 </style>
