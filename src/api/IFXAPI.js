@@ -832,6 +832,10 @@ export default class IFXAPIService {
       const url = `${this.urls.CALCULATE_BILLING_MONTH}${facility.invoicePrefix}/${year}/${month}/`
       return this.axios.post(url, { recalculate })
     }
+    api.billingRecordReviewNotification = (ifxorg_ids, test = []) => {
+      const url = `${this.urls.BILLING_RECORD_REVIEW_NOTIFICATION}`
+      return this.axios.post(url, { ifxorg_ids, test }, { headers: { 'Content-Type': 'application/json' } })
+    }
     api.getUsagesForFacility = (facility, year, month) => {
       if (facility.name === 'Liquid Nitrogen Service') {
         return this.nitrogenLog.getList(null, year, month)
@@ -895,6 +899,27 @@ export default class IFXAPIService {
         recipientField: recipientField,
       },
     })
+  }
+
+  async reviewLabManagerNotifications(organizationSlugs, selectedContactables,) {
+    let orgIFXIDs = []
+    let emails = []
+    if (selectedContactables.length) {
+      emails = selectedContactables.map(contact => contact.detail)
+    }
+    if (organizationSlugs.length) {
+      // There are no test email addresses so create the array of org ids
+      const orgs = await this.organization.getList()
+      orgIFXIDs = organizationSlugs.map(org => {
+        const fullOrg = orgs.find(anOrg => org === anOrg.slug)
+        if (fullOrg) {
+          return fullOrg.ifxOrg
+        }
+        return ''
+      })
+    }
+    const response = await this.billingRecord.billingRecordReviewNotification(orgIFXIDs, emails)
+    return response
   }
 
   updateAuthorizations(ifxids) {
