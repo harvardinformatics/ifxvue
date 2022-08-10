@@ -5,7 +5,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
-import IFXMailButton from '@/components/mailing/IFXMailButton'
+// import IFXMailButton from '@/components/mailing/IFXMailButton'
+import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
@@ -15,7 +16,8 @@ export default {
     IFXButton,
     IFXSearchField,
     IFXBillingRecordTransactions,
-    IFXMailButton,
+    // IFXMailButton,
+    IFXContactablesCombobox,
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -94,6 +96,7 @@ export default {
       isValidEdit: false,
       txnDialog: false,
       editDialog: false,
+      notifyDialog: false,
       editedItem: {
         rate: 0,
         charge: 0,
@@ -113,6 +116,8 @@ export default {
       editedRecord: {},
       expenseCodes: [],
       editingIndex: null,
+      selectedContactables: [],
+      contactables: [],
     }
   },
   computed: {
@@ -528,16 +533,30 @@ export default {
     allowEditingRecords(item) {
       return this.$api.auth.can('edit-records', this.$api.authUser) && item.currentState !== 'FINAL'
     },
-    notifyLabManagers() {
-      const orgSlugs = this.items.map((item) => item.account.organization)
-      this.$api.notifyLabManagers(
+    async notifyLabManagers() {
+      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgSlugs = orgs.map((item) => item.account.organization)
+      const response = await this.$api.reviewLabManagerNotifications(
         [...new Set(orgSlugs)],
-        this.facility,
-        this.year,
-        this.month,
-        this.recipientField,
-        this.$router
+        this.selectedContactables
       )
+      console.log(response)
+    },
+    getSelectedOrgs() {
+      const orgSet = new Set()
+      this.selected.forEach((item) => {
+        orgSet.add(item.account.organization)
+      })
+      return Array.from(orgSet)
+    },
+    openNotifyDialog() {
+      if (!this.contactables.length) {
+        // If we haven't fetched the contactables list, do so now
+        this.$api.contactables.getList().then((result) => {
+          this.contactables = result
+        })
+      }
+      this.notifyDialog = true
     },
   },
   watch: {
@@ -576,12 +595,74 @@ export default {
               <v-col v-else>
                 <v-row dense class="d-flex justify-space-between align-center">
                   <v-col class="pa-2">
-                    <IFXMailButton
-                      v-model="recipientField"
-                      :disabled="!filteredItems.length"
-                      toolTip="Notify Lab Managers"
-                      @input="notifyLabManagers()"
-                    ></IFXMailButton>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn small fab color="green" v-bind="attrs" @click="openNotifyDialog">
+                            <v-icon dark color="white">mdi-email-send-outline</v-icon>
+                          </v-btn>
+
+                          <v-dialog v-bind="attrs" v-model="notifyDialog" max-width="600px">
+                            <v-card>
+                              <v-card-title>
+                                <span class="text-h5">Notify Lab Managers</span>
+                              </v-card-title>
+                              <!-- <v-card-subtitle>
+                                Send email to the lab managers of all selected organizations
+                              </v-card-subtitle> -->
+                              <v-card-text>
+                                <v-form v-model="isValid">
+                                  <v-row class="text-body-1">
+                                    <v-col v-if="selected.length">
+                                      <!-- <v-list dense>
+                                        <v-subheader>Send to the managers for the following labs:</v-subheader>
+                                        <v-list-item v-for="org in getSelectedOrgs()" :key="org">
+                                          <v-list-item-content>
+                                            <v-list-item-title>
+                                              {{ $api.organization.parseSlug(org).name }}
+                                            </v-list-item-title>
+                                          </v-list-item-content>
+                                        </v-list-item>
+                                      </v-list> -->
+                                      <div class="mb-2">Send to the managers for the following labs:</div>
+                                      <ul class="lab-manager-list">
+                                        <li v-for="org in getSelectedOrgs()" :key="org" class="font-weight-medium">
+                                          {{ $api.organization.parseSlug(org).name }}
+                                        </li>
+                                      </ul>
+                                    </v-col>
+                                    <v-col v-else>
+                                      <div class="font-weight-medium">Send to all lab managers</div>
+                                    </v-col>
+                                  </v-row>
+                                  <v-row no-gutters>
+                                    <v-col cols="12">
+                                      <div class="text-divider font-italic text-center">
+                                        Or specify email addresses directly
+                                      </div>
+                                      <IFXContactablesCombobox
+                                        label="To:"
+                                        v-model="selectedContactables"
+                                        :contactables="contactables"
+                                      />
+                                    </v-col>
+                                  </v-row>
+                                </v-form>
+                              </v-card-text>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="secondary" text @click="notifyDialog = false">Cancel</v-btn>
+                                <v-btn color="blue darken-1" text :disabled="!isValid" @click="notifyLabManagers">
+                                  Notify
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
+                        </div>
+                      </template>
+                      <span>Notify Lab Managers</span>
+                    </v-tooltip>
                   </v-col>
                   <v-col class="pa-2" v-if="allowApprovals">
                     <v-row dense class="d-flex flex-nowrap">
@@ -881,7 +962,7 @@ export default {
     </v-card>
   </v-container>
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .message-text {
   font-size: smaller;
   font-style: italic;
@@ -889,6 +970,32 @@ export default {
 }
 .state-display {
   font-size: smaller;
+}
+.text-divider {
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1em;
+  --text-divider-gap: 1rem;
+
+  &::before,
+  &::after {
+    content: '';
+    height: 1px;
+    background-color: silver;
+    flex-grow: 1;
+  }
+
+  &::before {
+    margin-right: var(--text-divider-gap);
+  }
+
+  &::after {
+    margin-left: var(--text-divider-gap);
+  }
+}
+.lab-manager-list {
+  list-style: inside;
+  list-style-type: square;
 }
 </style>
 <style>
