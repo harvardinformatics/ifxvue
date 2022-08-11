@@ -5,19 +5,18 @@ import cloneDeep from 'lodash/cloneDeep'
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
-// import IFXMailButton from '@/components/mailing/IFXMailButton'
+import IFXMailButton from '@/components/mailing/IFXMailButton'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
   name: 'IFXBillingRecordList',
   components: {
-    // IFXItemDataTable,
     IFXButton,
     IFXSearchField,
     IFXBillingRecordTransactions,
-    // IFXMailButton,
     IFXContactablesCombobox,
+    IFXMailButton
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -53,6 +52,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    useDefaultMailButton: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   mounted() {
@@ -118,6 +122,8 @@ export default {
       editingIndex: null,
       selectedContactables: [],
       contactables: [],
+      sendingNotifications: false,
+      emailResponse: null,
     }
   },
   computed: {
@@ -534,13 +540,19 @@ export default {
       return this.$api.auth.can('edit-records', this.$api.authUser) && item.currentState !== 'FINAL'
     },
     async notifyLabManagers() {
+      this.emailResponse = null
+      this.sendingNotifications = true
       const orgs = this.selected.length ? this.selected : this.filteredItems
       const orgSlugs = orgs.map((item) => item.account.organization)
       const response = await this.$api.reviewLabManagerNotifications(
         [...new Set(orgSlugs)],
-        this.selectedContactables
+        this.selectedContactables,
+        this.facility,
+        this.year,
+        this.month
       )
-      console.log(response)
+      this.emailResponse = response.data
+      this.sendingNotifications = false
     },
     getSelectedOrgs() {
       const orgSet = new Set()
@@ -595,7 +607,14 @@ export default {
               <v-col v-else>
                 <v-row dense class="d-flex justify-space-between align-center">
                   <v-col class="pa-2">
-                    <v-tooltip top>
+                    <IFXMailButton
+                      v-if="useDefaultMailButton"
+                      v-model="recipientField"
+                      :disabled="!filteredItems.length"
+                      toolTip="Notify Lab Managers"
+                      @input="notifyLabManagers()"
+                    ></IFXMailButton>
+                    <v-tooltip top v-else>
                       <template v-slot:activator="{ on, attrs }">
                         <div v-on="on">
                           <v-btn small fab color="green" v-bind="attrs" @click="openNotifyDialog">
@@ -647,9 +666,47 @@ export default {
                                       />
                                     </v-col>
                                   </v-row>
+                                  <div v-if="sendingNotifications">
+                                    Sending emails...
+                                    <v-progress-linear indeterminate></v-progress-linear>
+                                  </div>
+                                  <v-row no-gutters v-if="emailResponse">
+                                    <v-col cols="12" class="text-body-1">
+                                      <div v-if="emailResponse.errors">
+                                        The following
+                                        <span class="red--text">errors</span>
+                                        occurred trying to send emails:
+                                        <ul class="list-style-none mt-1">
+                                          <li v-for="(value, key) in emailResponse.errors" :key="key">
+                                            <span>To the {{ key }}</span>
+                                            <ul class="error-list">
+                                              <li v-for="error in value" :key="error">
+                                                {{ error }}
+                                              </li>
+                                            </ul>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div v-if="emailResponse.successes.length" class="mt-2">
+                                        Sent to the following recipients:
+                                        <ul class="lab-manager-list">
+                                          <li v-for="value in emailResponse.successes" :key="value">
+                                            <div>{{ value }}</div>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div v-if="emailResponse.nobrs.length" class="mt-2">
+                                        The following organizations had no billing records:
+                                        <ul class="lab-manager-list">
+                                          <li v-for="value in emailResponse.nobrs" :key="value">
+                                            <div>{{ value }}</div>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </v-col>
+                                  </v-row>
                                 </v-form>
                               </v-card-text>
-
                               <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="secondary" text @click="notifyDialog = false">Cancel</v-btn>
@@ -996,6 +1053,12 @@ export default {
 .lab-manager-list {
   list-style: inside;
   list-style-type: square;
+}
+.error-list {
+  list-style-type: circle;
+}
+.list-style-none {
+  list-style-type: none;
 }
 </style>
 <style>
