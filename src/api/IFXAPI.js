@@ -832,8 +832,8 @@ export default class IFXAPIService {
       const url = `${this.urls.CALCULATE_BILLING_MONTH}${facility.invoicePrefix}/${year}/${month}/`
       return this.axios.post(url, { recalculate })
     }
-    api.billingRecordReviewNotification = (ifxorg_ids, test = []) => {
-      const url = `${this.urls.BILLING_RECORD_REVIEW_NOTIFICATION}`
+    api.billingRecordReviewNotification = (ifxorg_ids, test = [], facility, year, month) => {
+      const url = `${this.urls.BILLING_RECORD_REVIEW_NOTIFICATION}${facility.invoicePrefix}/${year}/${month}/`
       return this.axios.post(url, { ifxorg_ids, test }, { headers: { 'Content-Type': 'application/json' } })
     }
     api.getUsagesForFacility = (facility, year, month) => {
@@ -901,7 +901,7 @@ export default class IFXAPIService {
     })
   }
 
-  async reviewLabManagerNotifications(organizationSlugs, selectedContactables,) {
+  async reviewLabManagerNotifications(organizationSlugs, selectedContactables, facility, year, month) {
     let orgIFXIDs = []
     let emails = []
     if (selectedContactables.length) {
@@ -918,7 +918,7 @@ export default class IFXAPIService {
         return ''
       })
     }
-    const response = await this.billingRecord.billingRecordReviewNotification(orgIFXIDs, emails)
+    const response = await this.billingRecord.billingRecordReviewNotification(orgIFXIDs, emails, facility, year, month)
     return response
   }
 
