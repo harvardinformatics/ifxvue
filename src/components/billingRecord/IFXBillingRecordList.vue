@@ -680,7 +680,7 @@ export default {
                                     <v-progress-linear indeterminate></v-progress-linear>
                                   </div>
                                   <v-row no-gutters v-if="emailResponse">
-                                    <v-col cols="12" class="text-body-1">
+                                    <v-col cols="12" class="text-body-1 results-section">
                                       <div class="text-body-1 font-weight-medium text-center">Email Notification Results</div>
                                       <div v-if="Object.keys(emailResponse.errors).length">
                                         The following
@@ -1069,6 +1069,10 @@ export default {
 }
 .list-style-none {
   list-style-type: none;
+}
+.results-section {
+  max-height: 30rem;
+  overflow: auto;
 }
 </style>
 <style>
