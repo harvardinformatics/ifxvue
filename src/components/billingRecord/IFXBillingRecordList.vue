@@ -544,14 +544,20 @@ export default {
       this.sendingNotifications = true
       const orgs = this.selected.length ? this.selected : this.filteredItems
       const orgSlugs = orgs.map((item) => item.account.organization)
-      const response = await this.$api.reviewLabManagerNotifications(
-        [...new Set(orgSlugs)],
-        this.selectedContactables,
-        this.facility,
-        this.year,
-        this.month
-      )
-      this.emailResponse = response.data
+      try {
+        const response = await this.$api.reviewLabManagerNotifications(
+          [...new Set(orgSlugs)],
+          this.selectedContactables,
+          this.facility,
+          this.year,
+          this.month
+        )
+        this.emailResponse = response.data
+      } catch (error) {
+        this.emailResponse = null
+        const message = this.getErrorMessage(error)
+        this.showMessage(message)
+      }
       this.sendingNotifications = false
     },
     getSelectedOrgs() {
@@ -568,6 +574,9 @@ export default {
           this.contactables = result
         })
       }
+      // Clear any previous usage
+      this.selectedContactables = []
+      this.emailResponse = null
       this.notifyDialog = true
     },
   },
