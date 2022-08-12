@@ -16,7 +16,7 @@ export default {
     IFXSearchField,
     IFXBillingRecordTransactions,
     IFXContactablesCombobox,
-    IFXMailButton
+    IFXMailButton,
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -575,7 +575,7 @@ export default {
         })
       }
       // Clear any previous usage
-      this.selectedContactables = []
+      this.selectedContactables.splice(0)
       this.emailResponse = null
       this.notifyDialog = true
     },
@@ -681,7 +681,8 @@ export default {
                                   </div>
                                   <v-row no-gutters v-if="emailResponse">
                                     <v-col cols="12" class="text-body-1">
-                                      <div v-if="emailResponse.errors">
+                                      <div class="text-body-1 font-weight-medium text-center">Email Notification Results</div>
+                                      <div v-if="Object.keys(emailResponse.errors).length">
                                         The following
                                         <span class="red--text">errors</span>
                                         occurred trying to send emails:
@@ -697,18 +698,18 @@ export default {
                                         </ul>
                                       </div>
                                       <div v-if="emailResponse.successes.length" class="mt-2">
-                                        Sent to the following recipients:
+                                        Successfully <span class="green--text">sent</span> for the following organizations:
                                         <ul class="lab-manager-list">
                                           <li v-for="value in emailResponse.successes" :key="value">
-                                            <div>{{ value }}</div>
+                                            <span>{{ value }}</span>
                                           </li>
                                         </ul>
                                       </div>
                                       <div v-if="emailResponse.nobrs.length" class="mt-2">
-                                        The following organizations had no billing records:
+                                        The following <span class="yellow--text text--darken-3">organizations</span> had no billing records:
                                         <ul class="lab-manager-list">
                                           <li v-for="value in emailResponse.nobrs" :key="value">
-                                            <div>{{ value }}</div>
+                                            <span>{{ value }}</span>
                                           </li>
                                         </ul>
                                       </div>
