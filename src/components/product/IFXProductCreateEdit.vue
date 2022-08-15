@@ -63,6 +63,7 @@ export default {
               :error-messages="errors.product_name"
               @keyup="$refs.productForm.resetValidation()"
               required
+              @focus="clearError('product_name')"
             ></v-text-field>
           </v-col>
           <v-col>
@@ -76,6 +77,7 @@ export default {
               item-text="name"
               item-value="name"
               required
+              @focus="clearError('facility')"
             ></v-select>
           </v-col>
         </v-row>
@@ -87,7 +89,7 @@ export default {
               data-cy="description"
               :rules="formRules.generic"
               :error-messages="errors.product_description"
-              @input="clearError('product_description')"
+              @focus="clearError('product_description')"
               required
               auto-grow
               rows="2"
