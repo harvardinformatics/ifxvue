@@ -579,6 +579,15 @@ export default {
       this.emailResponse = null
       this.notifyDialog = true
     },
+    buildNotificationlList() {
+      let list = ''
+      if (this.selectedContactables.length) {
+        list = this.selectedContactables.map((contact) => contact.name).join(', ')
+      } else {
+        list = 'Lab managers'
+      }
+      return list
+    },
   },
   watch: {
     filteredItems() {
@@ -635,23 +644,10 @@ export default {
                               <v-card-title>
                                 <span class="text-h5">Notify Lab Managers</span>
                               </v-card-title>
-                              <!-- <v-card-subtitle>
-                                Send email to the lab managers of all selected organizations
-                              </v-card-subtitle> -->
                               <v-card-text>
                                 <v-form v-model="isValid">
                                   <v-row class="text-body-1">
                                     <v-col v-if="selected.length">
-                                      <!-- <v-list dense>
-                                        <v-subheader>Send to the managers for the following labs:</v-subheader>
-                                        <v-list-item v-for="org in getSelectedOrgs()" :key="org">
-                                          <v-list-item-content>
-                                            <v-list-item-title>
-                                              {{ $api.organization.parseSlug(org).name }}
-                                            </v-list-item-title>
-                                          </v-list-item-content>
-                                        </v-list-item>
-                                      </v-list> -->
                                       <div class="mb-2">Send to the managers for the following labs:</div>
                                       <ul class="lab-manager-list">
                                         <li v-for="org in getSelectedOrgs()" :key="org" class="font-weight-medium">
@@ -681,8 +677,23 @@ export default {
                                   </div>
                                   <v-row no-gutters v-if="emailResponse">
                                     <v-col cols="12" class="text-body-1 results-section">
-                                      <div class="text-body-1 font-weight-medium text-center">Email Notification Results</div>
-                                      <div v-if="Object.keys(emailResponse.errors).length">
+                                      <div class="text-body-1 font-weight-medium text-center">
+                                        Email Notification Results
+                                      </div>
+                                      <div class="text-body-2 font-weight-regular text-center">
+                                        Sent to {{ buildNotificationlList() }}
+                                      </div>
+                                      <div v-if="emailResponse.successes.length" class="my-3 pb-2 border-bottom">
+                                        Successfully
+                                        <span class="green--text">sent</span>
+                                        for the following organizations:
+                                        <ul class="lab-manager-list">
+                                          <li v-for="value in emailResponse.successes" :key="value">
+                                            <span>{{ value }}</span>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div v-if="Object.keys(emailResponse.errors).length" class="my-3 pb-2 border-bottom">
                                         The following
                                         <span class="red--text">errors</span>
                                         occurred trying to send emails:
@@ -697,16 +708,10 @@ export default {
                                           </li>
                                         </ul>
                                       </div>
-                                      <div v-if="emailResponse.successes.length" class="mt-2">
-                                        Successfully <span class="green--text">sent</span> for the following organizations:
-                                        <ul class="lab-manager-list">
-                                          <li v-for="value in emailResponse.successes" :key="value">
-                                            <span>{{ value }}</span>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                      <div v-if="emailResponse.nobrs.length" class="mt-2">
-                                        The following <span class="yellow--text text--darken-3">organizations</span> had no billing records:
+                                      <div v-if="emailResponse.nobrs.length" class="my-3 pb-2 border-bottom">
+                                        The following organizations had&nbsp;
+                                        <span class="yellow--text text--darken-3">no billing records</span>
+                                        :
                                         <ul class="lab-manager-list">
                                           <li v-for="value in emailResponse.nobrs" :key="value">
                                             <span>{{ value }}</span>
@@ -1073,6 +1078,9 @@ export default {
 .results-section {
   max-height: 30rem;
   overflow: auto;
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc;
 }
 </style>
 <style>
