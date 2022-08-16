@@ -190,6 +190,7 @@ export default {
         // Go get it
         br = await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
         this.$set(this.items, index, br)
+        console.log('the items now ', this.items)
         return br
       }
       console.log(`Billing record with id not found at item index ${index}`)
@@ -281,11 +282,30 @@ export default {
         .getList(this.facility.invoicePrefix, this.month, this.year, this.organization)
         .then((res) => (this.items = res))
     },
-    setState(items, state) {
-      items.forEach((s) => {
-        s.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
-      })
-      return this.$api.billingRecord.bulkUpdate(items, this.facility.applicationUsername)
+    async setState(items, state) {
+      const me = this
+      const missing = []
+      for (let i = 0; i < items.length; i += 1) {
+        const s = items[i]
+        if (!s.billingRecordStates) {
+          /* eslint-disable no-await-in-loop */
+          missing.push(i)
+        }
+      }
+      Promise.all(missing.map((i) => me.getFullBillingRecordByItemIndex(i)))
+        .then(() => {
+          const toBeUpdated = []
+          me.items.forEach((it1) => {
+            items.forEach((it2) => {
+              if (it1.id === it2.id) {
+                it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+                toBeUpdated.push(it1)
+              }
+            })
+          })
+          console.log(toBeUpdated)
+          return this.$api.billingRecord.bulkUpdate(toBeUpdated, this.facility.applicationUsername)
+        })
     },
     approve(all) {
       if (all) {
