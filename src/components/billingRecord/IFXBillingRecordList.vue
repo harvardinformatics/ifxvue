@@ -744,7 +744,7 @@ export default {
                               </v-card-text>
                               <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="secondary" text @click="notifyDialog = false">Cancel</v-btn>
+                                <v-btn color="secondary" text @click="notifyDialog = false">{{emailResponse ? "Close" : "Cancel"}}</v-btn>
                                 <v-btn color="blue darken-1" text :disabled="!isValid" @click="notifyLabManagers">
                                   Notify
                                 </v-btn>

@@ -11,6 +11,11 @@ export default {
       required: false,
       default: null,
     },
+    useDefaultMailButton: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data() {
     return {
@@ -130,6 +135,7 @@ export default {
             :allowInvoiceGeneration="false"
             :allowApprovals="false"
             :allowDownloads="false"
+            :useDefaultMailButton="useDefaultMailButton"
           />
         </v-col>
       </v-row>
