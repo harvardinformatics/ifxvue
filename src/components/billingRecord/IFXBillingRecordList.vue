@@ -58,6 +58,11 @@ export default {
       required: false,
       default: true,
     },
+    promiseBatchSize: {
+      type: Number,
+      required: false,
+      default: 20,
+    }
   },
   mounted() {
     this.facilityBillingRecords()
@@ -166,6 +171,7 @@ export default {
     getErrorMessage(error) {
       // Regular showMessage is not getting the response data properly
       let message = 'Unknown error'
+      console.log('in getErrorMesssage, error is ', error)
       if (error) {
         if (
           error.hasOwnProperty('response')
@@ -181,16 +187,14 @@ export default {
       return message
     },
     async getFullBillingRecordByItemIndex(index) {
-      let br = this.items?.[index]
-      if (br?.billingRecordStates?.length) {
-        // Full record is already there
+      let br = this.items[index]
+      if (br.billingRecordStates?.length) {
         return br
       }
       if (br.id) {
         // Go get it
         br = await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
         this.$set(this.items, index, br)
-        console.log('the items now ', this.items)
         return br
       }
       console.log(`Billing record with id not found at item index ${index}`)
@@ -201,7 +205,7 @@ export default {
       if (!items || !items.length) {
         return false
       }
-      const result = items.some((record) => record.currentState === 'FINAL')
+      const result = items.some((record) => record?.currentState === 'FINAL')
       return result
     },
     getItemsFilteredBySearch() {
@@ -287,25 +291,38 @@ export default {
       const missing = []
       for (let i = 0; i < items.length; i += 1) {
         const s = items[i]
-        if (!s.billingRecordStates) {
-          /* eslint-disable no-await-in-loop */
-          missing.push(i)
+        try {
+          if (!s.billingRecordStates) {
+            /* eslint-disable no-await-in-loop */
+            missing.push(i)
+          }
+        } catch (err) {
+          console.log('error checking billing record states')
+          console.log(err)
         }
       }
-      Promise.all(missing.map((i) => me.getFullBillingRecordByItemIndex(i)))
-        .then(() => {
-          const toBeUpdated = []
-          me.items.forEach((it1) => {
-            items.forEach((it2) => {
-              if (it1.id === it2.id) {
-                it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
-                toBeUpdated.push(it1)
-              }
-            })
+      const promises = missing.map((i) => me.getFullBillingRecordByItemIndex(i))
+      while (promises.length) {
+        await new Promise(r => setTimeout(r, 500));
+        await Promise.all(promises.splice(0, this.promiseBatchSize))
+          .catch((err) => {
+            console.log('error from one of the promises ', err)
           })
-          console.log(toBeUpdated)
-          return this.$api.billingRecord.bulkUpdate(toBeUpdated, this.facility.applicationUsername)
+      }
+      const toBeUpdated = []
+      this.items.forEach((it1) => {
+        items.forEach((it2) => {
+          try {
+            if (it1.id === it2.id) {
+              it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+              toBeUpdated.push(it1)
+            }
+          } catch (err) {
+            console.log('error pushing new billing record state ', err)
+          }
         })
+      })
+      return this.$api.billingRecord.bulkUpdate(toBeUpdated, this.facility.applicationUsername)
     },
     approve(all) {
       if (all) {
