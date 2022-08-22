@@ -304,7 +304,16 @@ export default {
           })
       }
       const toBeUpdated = []
-      this.items.forEach((it1) => {
+      items.forEach((it2) => {
+        for (i = 0; i < this.items.length; i++) {
+          if (this.items[i].id === it2.id) {
+              const it1 = this.items[i]
+              it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+             toBeUpdated.push(it1)
+             break;
+           }
+         }
+      }
         items.forEach((it2) => {
           if (it1.id === it2.id) {
             it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
