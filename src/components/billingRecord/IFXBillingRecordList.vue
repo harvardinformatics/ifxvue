@@ -171,7 +171,6 @@ export default {
     getErrorMessage(error) {
       // Regular showMessage is not getting the response data properly
       let message = 'Unknown error'
-      console.log('in getErrorMesssage, error is ', error)
       if (error) {
         if (
           error.hasOwnProperty('response')
