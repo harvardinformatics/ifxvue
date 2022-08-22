@@ -290,14 +290,9 @@ export default {
       const missing = []
       for (let i = 0; i < items.length; i += 1) {
         const s = items[i]
-        try {
-          if (!s.billingRecordStates) {
-            /* eslint-disable no-await-in-loop */
-            missing.push(i)
-          }
-        } catch (err) {
-          console.log('error checking billing record states')
-          console.log(err)
+        if (!s.billingRecordStates) {
+          /* eslint-disable no-await-in-loop */
+          missing.push(i)
         }
       }
       const promises = missing.map((i) => me.getFullBillingRecordByItemIndex(i))
@@ -311,13 +306,9 @@ export default {
       const toBeUpdated = []
       this.items.forEach((it1) => {
         items.forEach((it2) => {
-          try {
-            if (it1.id === it2.id) {
-              it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
-              toBeUpdated.push(it1)
-            }
-          } catch (err) {
-            console.log('error pushing new billing record state ', err)
+          if (it1.id === it2.id) {
+            it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+            toBeUpdated.push(it1)
           }
         })
       })
