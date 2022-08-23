@@ -286,41 +286,28 @@ export default {
         .then((res) => (this.items = res))
     },
     async setState(items, state) {
-      const me = this
-      const missing = []
+      const promises = []
+      const toBeUpdated = []
       for (let i = 0; i < items.length; i += 1) {
-        const s = items[i]
-        if (!s.billingRecordStates) {
-          /* eslint-disable no-await-in-loop */
-          missing.push(i)
+        const item = items[i]
+        if (!item.billingRecordStates) {
+          promises.push(this.apiRef.getByID(this.facility.invoicePrefix, item.id))
+          if (i !== 0 && i % this.promiseBatchSize === 0) {
+            // Wait a bit to not overwhelm the backend
+            /* eslint-disable no-await-in-loop */
+            await new Promise(r => setTimeout(r, 500));
+          }
+        } else {
+          item.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+          toBeUpdated.push(item)
         }
       }
-      const promises = missing.map((i) => me.getFullBillingRecordByItemIndex(i))
-      while (promises.length) {
-        await new Promise(r => setTimeout(r, 500));
-        await Promise.all(promises.splice(0, this.promiseBatchSize))
-          .catch((err) => {
-            console.log('error from one of the promises ', err)
-          })
-      }
-      const toBeUpdated = []
-      items.forEach((it2) => {
-        for (i = 0; i < this.items.length; i++) {
-          if (this.items[i].id === it2.id) {
-              const it1 = this.items[i]
-              it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
-             toBeUpdated.push(it1)
-             break;
-           }
-         }
-      }
-        items.forEach((it2) => {
-          if (it1.id === it2.id) {
-            it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
-            toBeUpdated.push(it1)
-          }
-        })
+      const results = await Promise.all(promises)
+      results.forEach(item => {
+        item.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+        toBeUpdated.push(item)
       })
+
       return this.$api.billingRecord.bulkUpdate(toBeUpdated, this.facility.applicationUsername)
     },
     approve(all) {
