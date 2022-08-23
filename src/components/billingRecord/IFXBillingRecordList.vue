@@ -58,6 +58,11 @@ export default {
       required: false,
       default: true,
     },
+    promiseBatchSize: {
+      type: Number,
+      required: false,
+      default: 20,
+    }
   },
   mounted() {
     this.facilityBillingRecords()
@@ -181,16 +186,14 @@ export default {
       return message
     },
     async getFullBillingRecordByItemIndex(index) {
-      let br = this.items?.[index]
-      if (br?.billingRecordStates?.length) {
-        // Full record is already there
+      let br = this.items[index]
+      if (br.billingRecordStates?.length) {
         return br
       }
       if (br.id) {
         // Go get it
         br = await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
         this.$set(this.items, index, br)
-        console.log('the items now ', this.items)
         return br
       }
       console.log(`Billing record with id not found at item index ${index}`)
@@ -201,7 +204,7 @@ export default {
       if (!items || !items.length) {
         return false
       }
-      const result = items.some((record) => record.currentState === 'FINAL')
+      const result = items.some((record) => record?.currentState === 'FINAL')
       return result
     },
     getItemsFilteredBySearch() {
@@ -283,29 +286,29 @@ export default {
         .then((res) => (this.items = res))
     },
     async setState(items, state) {
-      const me = this
-      const missing = []
+      const promises = []
+      const toBeUpdated = []
       for (let i = 0; i < items.length; i += 1) {
-        const s = items[i]
-        if (!s.billingRecordStates) {
-          /* eslint-disable no-await-in-loop */
-          missing.push(i)
+        const item = items[i]
+        if (!item.billingRecordStates) {
+          promises.push(this.apiRef.getByID(this.facility.invoicePrefix, item.id))
+          if (i !== 0 && i % this.promiseBatchSize === 0) {
+            // Wait a bit to not overwhelm the backend
+            /* eslint-disable no-await-in-loop */
+            await new Promise(r => setTimeout(r, 500));
+          }
+        } else {
+          item.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+          toBeUpdated.push(item)
         }
       }
-      Promise.all(missing.map((i) => me.getFullBillingRecordByItemIndex(i)))
-        .then(() => {
-          const toBeUpdated = []
-          me.items.forEach((it1) => {
-            items.forEach((it2) => {
-              if (it1.id === it2.id) {
-                it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
-                toBeUpdated.push(it1)
-              }
-            })
-          })
-          console.log(toBeUpdated)
-          return this.$api.billingRecord.bulkUpdate(toBeUpdated, this.facility.applicationUsername)
-        })
+      const results = await Promise.all(promises)
+      results.forEach(item => {
+        item.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+        toBeUpdated.push(item)
+      })
+
+      return this.$api.billingRecord.bulkUpdate(toBeUpdated, this.facility.applicationUsername)
     },
     approve(all) {
       if (all) {
