@@ -99,7 +99,7 @@ export default {
     <v-row v-if="showSummaryDetail">
       <v-col class="py-1 ml-9">
         <v-row v-for="entry in summaryDetails" :key="`${group}-${entry[0]}`" class="text-body-2">
-          <v-col class="ml-3">{{entry[0]}}</v-col><v-col class="ml-3 font-weight-medium">{{ entry[1] | centsToDollars}} </v-col><v-spacer></v-spacer>
+          <v-col cols="5" class="ml-3">{{entry[0]}}</v-col><v-col class="text-xs-left ml-3 font-weight-medium">{{ entry[1] | centsToDollars}} </v-col>
         </v-row>
       </v-col>
     </v-row>
