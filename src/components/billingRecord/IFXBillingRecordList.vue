@@ -7,15 +7,16 @@ import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
 import IFXBillingRecordHeader from '@/components/billingRecord/IFXBillingRecordHeader'
+import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
 export default {
   name: 'IFXBillingRecordList',
   components: {
-    // IFXItemDataTable,
     IFXButton,
     IFXSearchField,
     IFXBillingRecordTransactions,
+    IFXContactablesCombobox,
     IFXMailButton,
     IFXBillingRecordHeader
   },
@@ -53,6 +54,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    useDefaultMailButton: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   mounted() {
@@ -96,6 +102,7 @@ export default {
       isValidEdit: false,
       txnDialog: false,
       editDialog: false,
+      notifyDialog: false,
       editedItem: {
         rate: 0,
         charge: 0,
@@ -115,6 +122,10 @@ export default {
       editedRecord: {},
       expenseCodes: [],
       editingIndex: null,
+      selectedContactables: [],
+      contactables: [],
+      sendingNotifications: false,
+      emailResponse: null,
     }
   },
   computed: {
@@ -181,6 +192,7 @@ export default {
         // Go get it
         br = await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
         this.$set(this.items, index, br)
+        console.log('the items now ', this.items)
         return br
       }
       console.log(`Billing record with id not found at item index ${index}`)
@@ -272,11 +284,30 @@ export default {
         .getList(this.facility.invoicePrefix, this.month, this.year, this.organization)
         .then((res) => (this.items = res))
     },
-    setState(items, state) {
-      items.forEach((s) => {
-        s.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
-      })
-      return this.$api.billingRecord.bulkUpdate(items, this.facility.applicationUsername)
+    async setState(items, state) {
+      const me = this
+      const missing = []
+      for (let i = 0; i < items.length; i += 1) {
+        const s = items[i]
+        if (!s.billingRecordStates) {
+          /* eslint-disable no-await-in-loop */
+          missing.push(i)
+        }
+      }
+      Promise.all(missing.map((i) => me.getFullBillingRecordByItemIndex(i)))
+        .then(() => {
+          const toBeUpdated = []
+          me.items.forEach((it1) => {
+            items.forEach((it2) => {
+              if (it1.id === it2.id) {
+                it1.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
+                toBeUpdated.push(it1)
+              }
+            })
+          })
+          console.log(toBeUpdated)
+          return this.$api.billingRecord.bulkUpdate(toBeUpdated, this.facility.applicationUsername)
+        })
     },
     approve(all) {
       if (all) {
@@ -540,16 +571,54 @@ export default {
     allowEditingRecords(item) {
       return this.$api.auth.can('edit-records', this.$api.authUser) && item.currentState !== 'FINAL'
     },
-    notifyLabManagers() {
-      const orgSlugs = this.items.map((item) => item.account.organization)
-      this.$api.notifyLabManagers(
-        [...new Set(orgSlugs)],
-        this.facility,
-        this.year,
-        this.month,
-        this.recipientField,
-        this.$router
-      )
+    async notifyLabManagers() {
+      this.emailResponse = null
+      this.sendingNotifications = true
+      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgSlugs = orgs.map((item) => item.account.organization)
+      try {
+        const response = await this.$api.reviewLabManagerNotifications(
+          [...new Set(orgSlugs)],
+          this.selectedContactables,
+          this.facility,
+          this.year,
+          this.month
+        )
+        this.emailResponse = response.data
+      } catch (error) {
+        this.emailResponse = null
+        const message = this.getErrorMessage(error)
+        this.showMessage(message)
+      }
+      this.sendingNotifications = false
+    },
+    getSelectedOrgs() {
+      const orgSet = new Set()
+      this.selected.forEach((item) => {
+        orgSet.add(item.account.organization)
+      })
+      return Array.from(orgSet)
+    },
+    openNotifyDialog() {
+      if (!this.contactables.length) {
+        // If we haven't fetched the contactables list, do so now
+        this.$api.contactables.getList().then((result) => {
+          this.contactables = result
+        })
+      }
+      // Clear any previous usage
+      this.selectedContactables.splice(0)
+      this.emailResponse = null
+      this.notifyDialog = true
+    },
+    buildNotificationlList() {
+      let list = ''
+      if (this.selectedContactables.length) {
+        list = this.selectedContactables.map((contact) => contact.name).join(', ')
+      } else {
+        list = 'Lab managers'
+      }
+      return list
     },
   },
   watch: {
@@ -589,11 +658,115 @@ export default {
                 <v-row dense class="d-flex justify-space-between align-center">
                   <v-col class="pa-2">
                     <IFXMailButton
+                      v-if="useDefaultMailButton"
                       v-model="recipientField"
                       :disabled="!filteredItems.length"
                       toolTip="Notify Lab Managers"
                       @input="notifyLabManagers()"
                     ></IFXMailButton>
+                    <v-tooltip top v-else>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn small fab color="green" v-bind="attrs" @click="openNotifyDialog">
+                            <v-icon dark color="white">mdi-email-send-outline</v-icon>
+                          </v-btn>
+
+                          <v-dialog v-bind="attrs" v-model="notifyDialog" max-width="600px">
+                            <v-card>
+                              <v-card-title>
+                                <span class="text-h5">Notify Lab Managers</span>
+                              </v-card-title>
+                              <v-card-text>
+                                <v-form v-model="isValid">
+                                  <v-row class="text-body-1">
+                                    <v-col v-if="selected.length">
+                                      <div class="mb-2">Send to the managers for the following labs:</div>
+                                      <ul class="lab-manager-list">
+                                        <li v-for="org in getSelectedOrgs()" :key="org" class="font-weight-medium">
+                                          {{ $api.organization.parseSlug(org).name }}
+                                        </li>
+                                      </ul>
+                                    </v-col>
+                                    <v-col v-else>
+                                      <div class="font-weight-medium">Send to all lab managers</div>
+                                    </v-col>
+                                  </v-row>
+                                  <v-row no-gutters>
+                                    <v-col cols="12">
+                                      <div class="text-divider font-italic text-center">
+                                        Or specify email addresses directly
+                                      </div>
+                                      <IFXContactablesCombobox
+                                        label="To:"
+                                        v-model="selectedContactables"
+                                        :contactables="contactables"
+                                      />
+                                    </v-col>
+                                  </v-row>
+                                  <div v-if="sendingNotifications">
+                                    Sending emails...
+                                    <v-progress-linear indeterminate></v-progress-linear>
+                                  </div>
+                                  <v-row no-gutters v-if="emailResponse">
+                                    <v-col cols="12" class="text-body-1 results-section">
+                                      <div class="text-body-1 font-weight-medium text-center">
+                                        Email Notification Results
+                                      </div>
+                                      <div class="text-body-2 font-weight-regular text-center">
+                                        Sent to {{ buildNotificationlList() }}
+                                      </div>
+                                      <div v-if="emailResponse.successes.length" class="my-3 pb-2 border-bottom">
+                                        Successfully
+                                        <span class="green--text">sent</span>
+                                        for the following organizations:
+                                        <ul class="lab-manager-list">
+                                          <li v-for="value in emailResponse.successes" :key="value">
+                                            <span>{{ value }}</span>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div v-if="Object.keys(emailResponse.errors).length" class="my-3 pb-2 border-bottom">
+                                        The following
+                                        <span class="red--text">errors</span>
+                                        occurred trying to send emails:
+                                        <ul class="list-style-none mt-1">
+                                          <li v-for="(value, key) in emailResponse.errors" :key="key">
+                                            <span>To the {{ key }}</span>
+                                            <ul class="error-list">
+                                              <li v-for="error in value" :key="error">
+                                                {{ error }}
+                                              </li>
+                                            </ul>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div v-if="emailResponse.nobrs.length" class="my-3 pb-2 border-bottom">
+                                        The following organizations had&nbsp;
+                                        <span class="yellow--text text--darken-3">no billing records</span>
+                                        :
+                                        <ul class="lab-manager-list">
+                                          <li v-for="value in emailResponse.nobrs" :key="value">
+                                            <span>{{ value }}</span>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </v-col>
+                                  </v-row>
+                                </v-form>
+                              </v-card-text>
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="secondary" text @click="notifyDialog = false">Cancel</v-btn>
+                                <v-btn color="blue darken-1" text :disabled="!isValid" @click="notifyLabManagers">
+                                  Notify
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
+                        </div>
+                      </template>
+                      <span>Notify Lab Managers</span>
+                    </v-tooltip>
                   </v-col>
                   <v-col class="pa-2" v-if="allowApprovals">
                     <v-row dense class="d-flex flex-nowrap">
@@ -886,7 +1059,7 @@ export default {
     </v-card>
   </v-container>
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .message-text {
   font-size: smaller;
   font-style: italic;
@@ -894,6 +1067,45 @@ export default {
 }
 .state-display {
   font-size: smaller;
+}
+.text-divider {
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1em;
+  --text-divider-gap: 1rem;
+
+  &::before,
+  &::after {
+    content: '';
+    height: 1px;
+    background-color: silver;
+    flex-grow: 1;
+  }
+
+  &::before {
+    margin-right: var(--text-divider-gap);
+  }
+
+  &::after {
+    margin-left: var(--text-divider-gap);
+  }
+}
+.lab-manager-list {
+  list-style: inside;
+  list-style-type: square;
+}
+.error-list {
+  list-style-type: circle;
+}
+.list-style-none {
+  list-style-type: none;
+}
+.results-section {
+  max-height: 30rem;
+  overflow: auto;
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc;
 }
 </style>
 <style>

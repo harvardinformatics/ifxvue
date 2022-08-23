@@ -93,14 +93,14 @@ export default {
           {{ $api.organization.parseSlug(group).name }}
         </span>
         <span class="ml-3 font-weight-medium">Total charges: {{ summaryCharges | centsToDollars }}</span>
-        <v-btn small text @click="toggleSummaryDetail" class="ml-2">{{summaryButtonText}} Detail</v-btn>
+        <v-btn small text @click="toggleSummaryDetail" class="ml-2">{{summaryButtonText}} Acct Summary</v-btn>
       </div>
     </v-row>
     <v-row v-if="showSummaryDetail">
       <v-col class="py-1 ml-9">
-        <div v-for="entry in summaryDetails" :key="`${group}-${entry[0]}`" class="text-body-2">
-          <span>{{entry[0]}}:</span><span class="ml-3 font-weight-medium">{{ entry[1] | centsToDollars}} </span>
-        </div>
+        <v-row v-for="entry in summaryDetails" :key="`${group}-${entry[0]}`" class="text-body-2">
+          <v-col class="ml-3">{{entry[0]}}</v-col><v-col class="ml-3 font-weight-medium">{{ entry[1] | centsToDollars}} </v-col><v-spacer></v-spacer>
+        </v-row>
       </v-col>
     </v-row>
   </td>
