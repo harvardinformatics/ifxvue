@@ -6,6 +6,7 @@ import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMi
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
+import IFXBillingRecordHeader from '@/components/billingRecord/IFXBillingRecordHeader'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
@@ -17,6 +18,7 @@ export default {
     IFXBillingRecordTransactions,
     IFXContactablesCombobox,
     IFXMailButton,
+    IFXBillingRecordHeader
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -405,47 +407,57 @@ export default {
       const summary = records.reduce((prev, current) => prev + current.charge, 0)
       return summary
     },
-    determineGroupState(e) {
-      const group = e.item.account.organization
-      this.$nextTick(() => {
-        const records = this.filteredItems.filter((item) => item.account.organization === group)
-        const checked = this.selected.filter((item) => item.account.organization === group)
-        const state = checked.length !== 0 && checked.length < records.length
-        this.$set(this.rowSelectionToggleIndeterminate, group, state)
-        // Now set the checkbox model to the correct state
-        if (checked.length) {
-          if (checked.length === records.length) {
-            // All are checked so add this if it isn't already there
-            const index = this.rowSelectionToggle.indexOf(group)
-            if (index === -1) {
-              this.rowSelectionToggle.push(group)
-            }
-          }
+    getSummaryDetails(group) {
+      const records = this.filteredItems.filter((item) => item.account.organization === group)
+      const expenseMap = new Map()
+      records.forEach((item) => {
+        if (expenseMap.has(item.account.slug)) {
+          const value = expenseMap.get(item.account.slug)
+          expenseMap.set(item.account.slug, value + item.charge)
         } else {
-          // None are checked so remove this group
-          const index = this.rowSelectionToggle.indexOf(group)
-          if (index !== -1) {
-            this.rowSelectionToggle.splice(index, 1)
-          }
+          expenseMap.set(item.account.slug, item.charge)
         }
       })
+      return expenseMap
+    },
+    determineGroupState(e) {
+      const group = e.item.account.organization
+      const records = this.filteredItems.filter((item) => item.account.organization === group)
+      let checked = this.selected.filter((item) => item.account.organization === group).length
+      checked += e.value ? 1 : -1
+      const state = checked !== 0 && checked < records.length
+      this.$set(this.rowSelectionToggleIndeterminate, group, state)
+      // Now set the checkbox model to the correct state
+      if (checked) {
+        if (checked === records.length) {
+          // All are checked so add this if it isn't already there
+          const index = this.rowSelectionToggle.indexOf(group)
+          if (index === -1) {
+            this.rowSelectionToggle.push(group)
+          }
+        }
+      } else {
+        // None are checked so remove this group
+        const index = this.rowSelectionToggle.indexOf(group)
+        if (index !== -1) {
+          this.rowSelectionToggle.splice(index, 1)
+        }
+      }
     },
     toggleSelectAll({ items, value }) {
       const orgSet = new Set()
       items.forEach((item) => {
         orgSet.add(item.account.organization)
       })
-      this.$nextTick(() => {
-        if (value) {
-          // The user selected all records. Set all the checkboxes on
-          this.rowSelectionToggle = Array.from(orgSet)
-        } else {
-          // They've cleared all records. Remove all orgs from the array
-          this.rowSelectionToggle = []
-        }
-        // And clear indeterminate state
-        this.$set(this.rowSelectionToggleIndeterminate, Array.from(orgSet), false)
-      })
+      if (value) {
+        // The user selected all records. Set all the checkboxes on
+        this.rowSelectionToggle = Array.from(orgSet)
+      } else {
+        // They've cleared all records. Remove all orgs from the array
+        this.rowSelectionToggle = []
+      }
+      // And clear indeterminate state
+      this.$set(this.rowSelectionToggleIndeterminate, Array.from(orgSet), false)
     },
     collpaseRows() {
       // This is a bit of a hack to collpase the group sections when the table loads
@@ -870,49 +882,42 @@ export default {
       </v-card-title>
       <v-row>
         <v-col id="data-table">
-          <v-data-table
-            ref="table"
-            v-if="filteredItems"
-            v-model="selected"
-            :items="filteredItems"
-            :headers="headers"
-            :show-select="showCheckboxes"
-            show-expand
-            expand-icon="mdi-menu-right"
-            :itemKey="itemKey"
-            :loading="isLoading"
-            :items-per-page="-1"
-            group-by="account.organization"
-            @item-selected="determineGroupState"
-            @toggle-select-all="toggleSelectAll"
-          >
-            <template v-slot:group.header="{ group, headers, isOpen, toggle }">
-              <td :colspan="headers.length">
-                <v-row>
-                  <v-checkbox
-                    v-if="showCheckboxes"
-                    v-model="rowSelectionToggle"
-                    :value="group"
-                    hide-details
-                    multiple
-                    :indeterminate.sync="rowSelectionToggleIndeterminate[group]"
-                    class="shrink ml-3 mt-0"
-                    @click="toggleGroup(group)"
-                  ></v-checkbox>
-                  <div>
-                    <v-btn icon small @click="toggle">
-                      <v-icon>{{ isOpen ? 'mdi-menu-down' : 'mdi-menu-right' }}</v-icon>
-                    </v-btn>
-                    <span class="group-header">
-                      {{ $api.organization.parseSlug(group).name }}
-                    </span>
-                    <span class="ml-3 font-weight-medium">
-                      Total charges: {{ summaryCharges(group) | centsToDollars }}
-                    </span>
-                  </div>
-                </v-row>
-              </td>
-            </template>
+            <v-data-table
+              ref="table"
+              v-if="filteredItems"
+              v-model="selected"
+              :items="filteredItems"
+              :headers="headers"
+              :show-select="showCheckboxes"
+              show-expand
+              expand-icon="mdi-menu-right"
+              :itemKey="itemKey"
+              :loading="isLoading"
+              :items-per-page="-1"
+              group-by="account.organization"
+              @item-selected="determineGroupState"
+              @toggle-select-all="toggleSelectAll"
+            >
+              <template
+              v-slot:group.header="{ group, headers, isOpen, toggle }"
+              v-on:rendered="itemRendered('group.header')"
+            >
+                <IFXBillingRecordHeader
+                :key="group"
+                :item="item"
+                :group="group"
+                :colSpan="headers.length"
+                :isOpen="isOpen"
+                :showCheckboxes="showCheckboxes"
+                :toggle="toggle"
+                :rowSelectionToggle.sync="rowSelectionToggle"
+                :rowSelectionToggleIndeterminateGroup.sync="rowSelectionToggleIndeterminate[group]"
+                :summaryCharges="summaryCharges(group)"
+                :toggleGroup="toggleGroup"
+                :getSummaryDetails="getSummaryDetails"
+                @
+              />
+              </template>
             <template v-slot:item.id="{ item }">
               <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
             </template>
@@ -961,7 +966,7 @@ export default {
             <template v-slot:expanded-item="{ item }">
               <IFXBillingRecordTransactions :billingRecord="item" />
             </template>
-          </v-data-table>
+            </v-data-table>
           <v-dialog v-model="txnDialog" max-width="600px">
             <v-card>
               <v-card-title>
