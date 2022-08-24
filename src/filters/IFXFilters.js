@@ -24,6 +24,16 @@ export function centsToDollars(cents) {
 }
 
 /**
+ * Display decimal as docllars
+ * @param {number} dollars
+ * @returns {number} value in dollars
+ */
+export function dollars(val) {
+  const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
+  return formatter.format(val)
+}
+
+/**
  * Capitalizes the first letter
  * @param {any} rawValue
  * @returns {string} a converted string
@@ -125,6 +135,7 @@ export function orgNameFromSlug(slug) {
 export default {
   humanDatetime,
   centsToDollars,
+  dollars,
   capitalizeFirstLetter,
   emailDisplay,
   stateDisplay,

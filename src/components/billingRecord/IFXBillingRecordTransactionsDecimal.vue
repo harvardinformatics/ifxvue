@@ -1,24 +1,19 @@
 <script>
 export default {
-  name: 'IFXBillingRecordTransactions',
+  name: 'IFXBillingRecordTransactionsDecimal',
   components: {},
   props: {
     billingRecord: {
       type: Object,
       required: true,
     },
-    useDecimalCharge: {
-      type: Boolean,
-      required: false,
-      default: false,
-    }
   },
   mounted() {},
   data() {
     return {
       txnHeaders: [
         { text: 'ID', value: 'id', sortable: true, hide: true },
-        { text: 'Charge', value: 'charge', sortable: true, width: '100px', namedSlot: true },
+        { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px', namedSlot: true },
         { text: 'Rate', value: 'rate', sortable: true },
         { text: 'User', value: 'author.full_name', sortable: true },
         { text: 'Description', value: 'description', sortable: true },
@@ -40,9 +35,8 @@ export default {
       hide-default-footer
       dense
     >
-      <template v-slot:item.charge="{ item }">
-        <span v-if="useDecimalCharge">{{ item.decimalCharge }}</span>
-        <span v-else>{{ item.charge | centsToDollars }}</span>
+      <template v-slot:item.decimalCharge="{ item }">
+        {{ item.decimalCharge | dollars }}
       </template>
       <template v-slot:item.rate="{ item }">
         {{ item.rate }}

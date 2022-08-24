@@ -6,19 +6,19 @@ import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMi
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
-import IFXBillingRecordHeader from '@/components/billingRecord/IFXBillingRecordHeader'
+import IFXBillingRecordHeaderDecimal from '@/components/billingRecord/IFXBillingRecordHeaderDecimal'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
-import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
+import IFXBillingRecordTransactionsDecimal from './IFXBillingRecordTransactionsDecimal'
 
 export default {
-  name: 'IFXBillingRecordList',
+  name: 'IFXBillingRecordListDecimal',
   components: {
     IFXButton,
     IFXSearchField,
-    IFXBillingRecordTransactions,
+    IFXBillingRecordTransactionsDecimal,
     IFXContactablesCombobox,
     IFXMailButton,
-    IFXBillingRecordHeader
+    IFXBillingRecordHeaderDecimal
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -92,7 +92,7 @@ export default {
         { text: 'Lab', value: 'account.organization', sortable: true },
         { text: 'Expense Code / PO', value: 'account.slug', sortable: true },
         { text: 'Product', value: 'product', sortable: true },
-        { text: 'Charge', value: 'charge', sortable: true, width: '100px' },
+        { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
         { text: 'Usage id', value: 'productUsage.id', sortable: true },
         { text: 'Txn desc', value: 'transactions', sortable: false },
@@ -406,14 +406,14 @@ export default {
     },
     summaryCharges(group) {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      const summary = records.reduce((prev, current) => prev + current.charge, 0)
+      const summary = records.reduce((prev, current) => prev + current.decimalCharge, 0)
       return summary
     },
     getSummaryDetails(group) {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
       const expenseMap = new Map()
       records.forEach((item) => {
-        const charge = item.charge
+        const charge = item.decimalCharge
         if (expenseMap.has(item.account.slug)) {
           const value = expenseMap.get(item.account.slug)
           expenseMap.set(item.account.slug, value + charge)
@@ -906,7 +906,7 @@ export default {
               v-slot:group.header="{ group, headers, isOpen, toggle }"
               v-on:rendered="itemRendered('group.header')"
             >
-                <IFXBillingRecordHeader
+                <IFXBillingRecordHeaderDecimal
                 :key="group"
                 :item="item"
                 :group="group"
@@ -945,8 +945,8 @@ export default {
                 </v-row>
               </div>
             </template>
-            <template v-slot:item.charge="{ item }">
-              {{ item.charge | centsToDollars }}
+            <template v-slot:item.decimalCharge="{ item }">
+              {{ item.decimalCharge | dollars }}
             </template>
             <template v-slot:item.actions="{ item }">
               <div class="d-flex flex-row">
@@ -968,7 +968,7 @@ export default {
               </div>
             </template>
             <template v-slot:expanded-item="{ item }">
-              <IFXBillingRecordTransactions :billingRecord="item" />
+              <IFXBillingRecordTransactionsDecimal :billingRecord="item" />
             </template>
             </v-data-table>
           <v-dialog v-model="txnDialog" max-width="600px">
