@@ -111,7 +111,6 @@ export default {
       editedItem: {
         rate: 0,
         charge: 0,
-        decimalCharge: 0,
         description: null,
         author: {},
         orgRec: {},
@@ -120,7 +119,6 @@ export default {
       defaultItem: {
         rate: 0,
         charge: 0,
-        decimalCharge: 0,
         description: '',
         author: {},
       },
@@ -499,10 +497,9 @@ export default {
     },
     addNewTransaction(item) {
       const orgBillingRec = item.orgRec
-      const { charge, decimalCharge, rate, description, author } = item
+      const { charge, rate, description, author } = item
       const newTransactionData = {
         charge,
-        decimalCharge,
         rate,
         description,
         author,
