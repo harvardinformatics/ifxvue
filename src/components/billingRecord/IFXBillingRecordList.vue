@@ -133,6 +133,7 @@ export default {
       contactables: [],
       sendingNotifications: false,
       emailResponse: null,
+      newExpenseCode: null,
     }
   },
   computed: {
@@ -257,7 +258,7 @@ export default {
           const keys = header.value.split('.')
           // Formatted key for displayed that data in final file
           const formattedKey = header.text
-          let value = this.items[i]
+          let value = this.filteredItems[i]
           keys.forEach((key) => {
             value = value[key]
           })
@@ -548,7 +549,7 @@ export default {
 
         this.editingIndex = index
         this.editedRecord = cloneDeep(item)
-        this.newExpenseCode = this.$api.account.create(item.account)
+        this.newExpenseCode = await this.$api.account.create(item.account)
 
         this.editDialog = true
       }
@@ -1032,7 +1033,6 @@ export default {
                         v-model="newExpenseCode"
                         :items="expenseCodes"
                         item-text="slug"
-                        item-value="slug"
                         label="Expense Code / PO"
                         :error-messages="errors[newExpenseCode]"
                         :rules="formRules.generic"
