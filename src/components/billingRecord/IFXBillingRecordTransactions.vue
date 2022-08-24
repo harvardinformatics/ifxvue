@@ -7,11 +7,6 @@ export default {
       type: Object,
       required: true,
     },
-    useDecimalCharge: {
-      type: Boolean,
-      required: false,
-      default: false,
-    }
   },
   mounted() {},
   data() {
@@ -41,8 +36,7 @@ export default {
       dense
     >
       <template v-slot:item.charge="{ item }">
-        <span v-if="useDecimalCharge">{{ item.decimalCharge }}</span>
-        <span v-else>{{ item.charge | centsToDollars }}</span>
+        {{ item.charge | centsToDollars }}
       </template>
       <template v-slot:item.rate="{ item }">
         {{ item.rate }}
