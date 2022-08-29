@@ -98,6 +98,7 @@ import IFXProductMixin from '@/components/product/IFXProductMixin'
 
 // Billing
 import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
+import IFXBillingRecordListDecimal from '@/components/billingRecord/IFXBillingRecordListDecimal'
 import IFXBillingRecords from '@/components/billingRecord/IFXBillingRecords'
 import IFXBillingRecordDetail from '@/components/billingRecord/IFXBillingRecordDetail'
 import IFXCalculateBillingMonth from '@/components/billingRecord/IFXCalculateBillingMonth'
@@ -186,6 +187,7 @@ export {
   IFXProductCreateEdit,
   IFXPageActionBar,
   IFXBillingRecordList,
+  IFXBillingRecordListDecimal,
   IFXBillingRecords,
   IFXBillingRecordDetail,
   IFXCalculateBillingMonth,

@@ -14,6 +14,14 @@ export class BillingTransaction extends IFXItemBase {
     this.data.charge = charge
   }
 
+  get decimalCharge() {
+    return this.data.decimal_charge
+  }
+
+  set decimalCharge(decimalCharge) {
+    this.data.decimal_charge = decimalCharge
+  }
+
   get rate() {
     return this.data.rate
   }
@@ -82,6 +90,14 @@ export default class BillingRecord extends IFXItemBase {
 
   set charge(charge) {
     this.data.charge = charge
+  }
+
+  get decimalCharge() {
+    return this.data.decimal_charge
+  }
+
+  set decimalCharge(decimalCharge) {
+    this.data.decimal_charge = decimalCharge
   }
 
   get description() {
