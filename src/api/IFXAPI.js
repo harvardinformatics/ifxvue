@@ -540,7 +540,7 @@ export default class IFXAPIService {
           params.org_slugs = params.org_slugs.join(',')
         }
         const contactables = await this.axios
-          .get(url, { params })
+          .post(url, params)
           .then((response) => response.data)
           .catch((error) => {
             throw new Error(error)
