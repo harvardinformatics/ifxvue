@@ -576,6 +576,17 @@ export default {
     allowEditingRecords(item) {
       return this.$api.auth.can('edit-records', this.$api.authUser) && item.currentState !== 'FINAL'
     },
+    defaultNotifyLabManagers() {
+      const orgSlugs = this.items.map((item) => item.account.organization)
+      this.$api.notifyLabManagers(
+        [...new Set(orgSlugs)],
+        this.facility,
+        this.year,
+        this.month,
+        this.recipientField,
+        this.$router
+      )
+    },
     async notifyLabManagers() {
       this.emailResponse = null
       this.sendingNotifications = true
@@ -667,7 +678,7 @@ export default {
                       v-model="recipientField"
                       :disabled="!filteredItems.length"
                       toolTip="Notify Lab Managers"
-                      @input="notifyLabManagers()"
+                      @input="defaultNotifyLabManagers()"
                     ></IFXMailButton>
                     <v-tooltip top v-else>
                       <template v-slot:activator="{ on, attrs }">
