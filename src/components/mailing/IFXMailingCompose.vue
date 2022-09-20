@@ -189,7 +189,7 @@ export default {
                 me.toList = result2
               }
               this.isLoading = false
-              if (orgContactNotFound) {
+              if (orgContactNotFound.length) {
                 const names = orgContactNotFound.join(', ')
                 const message = `Unable to find lab manager contact for ${names}`
                 me.showMessage(message)
