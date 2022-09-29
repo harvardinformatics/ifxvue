@@ -577,7 +577,7 @@ export default {
       return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
     },
     allowEditingRecords(item) {
-      return this.$api.auth.can('edit-records', this.$api.authUser) && item.currentState !== 'FINAL'
+      return item.currentState !== 'FINAL'
     },
     defaultNotifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
