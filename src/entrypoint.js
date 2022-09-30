@@ -116,6 +116,9 @@ import IFXFilters from '@/filters/IFXFilters'
 import message from '@/vuex/message'
 import mailing from '@/vuex/mailing'
 
+// Calendars
+import IFXCalendarList from '@/components/calendar/IFXCalendarList'
+
 // These components/mixins must be import individually in host application
 export {
   IFXAPIService,
@@ -192,6 +195,7 @@ export {
   IFXBillingRecordDetail,
   IFXCalculateBillingMonth,
   IFXBillableMixin,
+  IFXCalendarList,
 }
 
 // Registered globally
