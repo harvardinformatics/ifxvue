@@ -827,7 +827,9 @@ export default {
       }
       // Now update the list of expense code since there might be "user product" codes for this resource
       this.getAllExpenseCodes(this.user)
-      this.$refs.reserveForm?.validate()
+      if (this.$refs.reserveForm) {
+        this.$refs.reserveForm.validate()
+      }
     },
     handlePlural(amount, text) {
       return amount === 1 ? text : `${text}s`
