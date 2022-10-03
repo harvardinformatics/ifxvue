@@ -536,6 +536,7 @@ export default {
       const index = this.items.findIndex((rec) => rec.id === item.id)
       if (index !== -1) {
         this.expenseCodes = await this.$api.account.getList()
+        console.log('got codes ', this.expenseCodes)
 
         this.editingIndex = index
         this.editedRecord = cloneDeep(item)
