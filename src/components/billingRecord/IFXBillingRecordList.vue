@@ -535,14 +535,8 @@ export default {
     async openEditDialog(item) {
       const index = this.items.findIndex((rec) => rec.id === item.id)
       if (index !== -1) {
-        if (this.$api.auth.can('set-any-account', this.$api.authUser)) {
-          this.expenseCodes = await this.$api.account.getList()
-        } else {
-          const currentUserRecord = await this.$api.auth
-            .getCurrentUserRecord()
-            .catch(() => this.showMessage('Could not get user record. '))
-          this.expenseCodes = currentUserRecord.accounts
-        }
+        this.expenseCodes = await this.$api.account.getList()
+        console.log('got codes ', this.expenseCodes)
 
         this.editingIndex = index
         this.editedRecord = cloneDeep(item)
