@@ -24,6 +24,8 @@ module.exports = {
   },
 
   rules: {
+    'no-plusplus': 0,
+    'no-continue': 0,
     'max-classes-per-file': 0,
     semi: 0,
     'import/prefer-default-export': 0,
