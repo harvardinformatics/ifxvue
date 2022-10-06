@@ -7,7 +7,7 @@ IMAGE         = ifxvue
 container:
 	docker build -t $(IMAGE) . 
 run: container
-	docker run --rm -it -p 8080:8080 -v `pwd`:/app $(IMAGE)
+	docker run --rm -it -p 8079:8080 -v `pwd`:/app $(IMAGE)
 build-no-cache:
 	rm -rf node_modules/
 	npm cache clean --force && npm cache verify
