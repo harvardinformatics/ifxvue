@@ -996,7 +996,7 @@ export default {
             </v-menu>
           </v-toolbar>
         </v-sheet>
-        <v-sheet :min-height="calHeight" class="d-flex justify-middle relative">
+        <v-sheet :height="calHeight" class="d-flex justify-middle relative">
           <span class="flex-grow-1">
             <v-calendar
               ref="calendar"
