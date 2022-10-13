@@ -649,7 +649,7 @@ export default {
       <v-card-title>
         <v-row class="d-flex justify-space-between">
           <v-col cols="4">
-            <div>
+            <div class="text-no-wrap">
               {{ facility.name }}
             </div>
           </v-col>
