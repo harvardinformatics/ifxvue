@@ -943,7 +943,7 @@ export default {
             </template>
             <template v-slot:item.transactions="{ item }">
               <div style="min-width: 150px;">
-                <div class="mb-1" v-for="txn in item.transactions" :key="txn.id">
+                <div class="my-1" v-for="txn in item.transactions" :key="txn.id">
                   {{ txn | transactionDisplay }}
                 </div>
               </div>
