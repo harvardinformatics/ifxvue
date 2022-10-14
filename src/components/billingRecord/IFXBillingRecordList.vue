@@ -942,9 +942,9 @@ export default {
               ({{ item.account.name }})
             </template>
             <template v-slot:item.transactions="{ item }">
-              <div style="min-width: 150px">
+              <div style="min-width: 150px;">
                 <v-row v-for="txn in item.transactions" :key="txn.id">
-                  {{ txn | transactionDisplay }}
+                  <v-col>{{ txn | transactionDisplay }}</v-col>
                 </v-row>
               </div>
             </template>
