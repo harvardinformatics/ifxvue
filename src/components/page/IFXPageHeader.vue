@@ -74,7 +74,7 @@ export default {
           </div>
         </v-col>
       </v-row>
-      <v-row v-if="hasTitle" justify="space-between" align="center">
+      <v-row v-if="hasTitle" justify="space-between" align="center" class="my-0">
         <div class="title-ctr">
           <h1 data-cy="header-title" :class="headerClass"><slot name="title"></slot></h1>
           <h1 data-cy="header-id" :class="headerClass"><slot name="id"></slot></h1>
