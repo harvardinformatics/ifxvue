@@ -649,7 +649,7 @@ export default {
       <v-card-title>
         <v-row class="d-flex justify-space-between">
           <v-col cols="4">
-            <div>
+            <div class="text-no-wrap">
               {{ facility.name }}
             </div>
           </v-col>
@@ -944,9 +944,9 @@ export default {
             </template>
             <template v-slot:item.transactions="{ item }">
               <div style="min-width: 150px">
-                <v-row v-for="txn in item.transactions" :key="txn.id">
+                <div class="my-1" v-for="txn in item.transactions" :key="txn.id">
                   {{ txn | transactionDisplay }}
-                </v-row>
+                </div>
               </div>
             </template>
             <template v-slot:item.decimalCharge="{ item }">
