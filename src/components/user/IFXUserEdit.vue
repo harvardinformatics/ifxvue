@@ -26,6 +26,18 @@ export default {
     IFXSelectableAffiliation,
     IFXPageActionBar,
   },
+  props: {
+    section: {
+      type: String,
+      required: false,
+      default: 'all',
+    },
+    inDialog: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
   data() {
     return {
       isDialogActive: false,
@@ -42,8 +54,7 @@ export default {
       try {
         this.item = await this.getItem()
         const filteredContacts = this.item.contacts.filter((c) => c.contact.detail !== this.item.email)
-        // TODO: find a better way to update for reactivity
-        this.item.contacts = []
+        this.$set(this.item, 'contacts', [])
         filteredContacts.forEach((fc) => this.item.contacts.push(fc))
       } catch (error) {
         this.showMessage(error)
@@ -160,15 +171,15 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if="!isLoading && !!item">
+  <v-container fluid v-if="!isLoading && !!item" :class="{ 'pa-0': inDialog }">
     <!-- TODO: this dialog is not appearing properly -->
-    <v-container>
+    <v-container fluid :class="{ 'pa-0': inDialog }">
       <IFXUserInfoDialog
         :isActive.sync="isDialogActive"
         :changeComment.sync="item.changeComment"
         @complete-action="completeAction"
       ></IFXUserInfoDialog>
-      <IFXPageHeader>
+      <IFXPageHeader v-if="section === 'all'">
         <template #title>{{ item.fullName }}</template>
         <template #actions>
           <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
@@ -177,7 +188,7 @@ export default {
           <IFXItemHistoryDisplay :item="item" />
         </template>
       </IFXPageHeader>
-      <v-container v-if="hasIFXID">
+      <v-container fluid v-if="hasIFXID" :class="{ 'pa-0': inDialog }">
         <v-row no-gutters>
           <v-col>
             <p>
@@ -189,7 +200,7 @@ export default {
           </v-col>
         </v-row>
         <v-form @submit.prevent v-model="isValid" autocomplete="off" :ref="formName">
-          <v-row>
+          <v-row v-if="section === 'all' || section === 'user'">
             <v-col sm="6">
               <v-text-field
                 v-model.trim="item.firstName"
@@ -198,16 +209,6 @@ export default {
                 :error-messages="errors.firstName"
                 @focus="clearError('first_name')"
                 :disabled="!canEdit('User.firstName')"
-                :rules="formRules.generic"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model.trim="item.lastName"
-                label="Last name"
-                autocomplete="new-password"
-                :error-messages="errors.lastName"
-                @focus="clearError('last_name')"
-                :disabled="!canEdit('User.lastName')"
                 :rules="formRules.generic"
                 required
               ></v-text-field>
@@ -223,19 +224,28 @@ export default {
               ></v-text-field>
             </v-col>
             <v-col sm="6">
+              <v-text-field
+                v-model.trim="item.lastName"
+                label="Last name"
+                autocomplete="new-password"
+                :error-messages="errors.lastName"
+                @focus="clearError('last_name')"
+                :disabled="!canEdit('User.lastName')"
+                :rules="formRules.generic"
+                required
+              ></v-text-field>
               <v-combobox
                 v-if="canEdit('User.groups')"
                 v-model="item.groups"
                 :items="allGroupNames"
                 clearable
                 multiple
-                solo
                 label="Groups"
                 hint="Groups to which this user belongs."
                 persistent-hint
                 :error-messages="errors.groups"
               >
-                <template #selection="{item}">
+                <template #selection="{ item }">
                   <v-chip :color="getChipColorForGroup(item)" close @click:close="removeGroup(item)">
                     <strong>{{ item }}</strong>
                   </v-chip>
@@ -245,7 +255,7 @@ export default {
               <div class="items-warning" v-else>{{ data.item.groups.join(', ') || 'No groups' }}</div>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row v-if="section === 'all' || section === 'user'">
             <v-col sm="6">
               <v-text-field
                 v-model.trim="item.primaryEmail"
@@ -262,7 +272,7 @@ export default {
               <v-text-field label="Primary Affiliation" :value="item.primaryAffiliation" disabled></v-text-field>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row v-if="section === 'all' || section === 'contacts'">
             <v-col>
               <IFXItemSelectList
                 title="Contacts"
@@ -275,7 +285,7 @@ export default {
               </IFXItemSelectList>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row v-if="section === 'all' || section === 'affiliations'">
             <v-col>
               <IFXItemSelectList
                 title="Affiliations"
