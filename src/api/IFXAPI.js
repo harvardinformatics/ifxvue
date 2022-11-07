@@ -268,9 +268,10 @@ export default class IFXAPIService {
       newUserData.product_accounts = []
 
       if (userData.contacts && userData.contacts.length) {
-        const contactDataObjs = userData.contacts.map(({ id, role, contact }) => {
+        const contactDataObjs = userData.contacts.map(({ active, id, role, contact }) => {
           // contact.data.id = 1
           const newContactData = {
+            active,
             id,
             role,
             contact: decompose ? contact.data : this.contact.create(contact),
