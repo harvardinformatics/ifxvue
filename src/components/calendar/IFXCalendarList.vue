@@ -30,6 +30,10 @@ export default {
       default: false,
       type: Boolean,
     },
+    startTime: {
+      default: 0,
+      type: Number,
+    },
   },
   data: () => ({
     calHeight: '900',
@@ -889,15 +893,6 @@ export default {
     },
   },
   watch: {
-    type: {
-      handler(newType, prevType) {
-        if (newType !== prevType && newType !== 'month') {
-          this.$nextTick(() => {
-            this.$refs.calendar.scrollToTime('07:00')
-          })
-        }
-      },
-    },
     filteredResources() {
       // Store filtered resource ids in local storage unless page was accessed by edit link
       // where the resource filter is set to the resource of the link
@@ -996,7 +991,7 @@ export default {
             </v-menu>
           </v-toolbar>
         </v-sheet>
-        <v-sheet :height="calHeight" class="d-flex justify-middle relative">
+        <v-sheet :min-height="calHeight" class="d-flex justify-middle relative">
           <span class="flex-grow-1">
             <v-calendar
               ref="calendar"
@@ -1019,6 +1014,8 @@ export default {
               @moved="moved"
               :start="startingDate"
               data-cy="calendar"
+              :first-interval="startTime"
+              :interval-count="24 - startTime"
             >
               <template v-slot:event="item">
                 <div
