@@ -75,6 +75,9 @@ export default {
     isDecimalFacility(facility) {
       return ['Research Computing Storage'].includes(facility.name)
     },
+    isFacilityWithDates(facility) {
+      return ['Center for Brain Science Neuroimaging'].includes(facility.name)
+    },
     resetShowBillingRecords() {
       this.showBillingRecords = false
       this.keyModifier += 100
@@ -145,6 +148,16 @@ export default {
             :allowApprovals="false"
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
+          />
+          <IFXBillingRecordList
+            v-else-if="isFacilityWithDates(facility)"
+            :facility="facility"
+            :date="date"
+            :organization="organization"
+            :allowInvoiceGeneration="true"
+            :allowApprovals="true"
+            :allowDownloads="true"
+            :showDates="true"
           />
           <IFXBillingRecordList
             v-else

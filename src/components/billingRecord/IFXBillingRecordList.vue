@@ -65,6 +65,11 @@ export default {
       required: false,
       default: 20,
     },
+    showDates: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   mounted() {
     this.facilityBillingRecords()
@@ -92,10 +97,12 @@ export default {
         { text: 'Lab', value: 'account.organization', sortable: true },
         { text: 'Expense Code / PO', value: 'account.slug', sortable: true },
         { text: 'Product', value: 'product', sortable: true },
+        { text: 'Start Date', value: 'startDate', sortable: true, hide: !this.showDates, namedSlot: true },
+        { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'charge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
         { text: 'Usage id', value: 'productUsage.id', sortable: true },
-        { text: 'Txn desc', value: 'transactions', sortable: false },
+        { text: 'Transaction Description', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       rowSelectionToggle: [],
@@ -908,7 +915,7 @@ export default {
               <template
               v-slot:group.header="{ group, headers, isOpen, toggle }"
               v-on:rendered="itemRendered('group.header')"
-            >
+              >
                 <IFXBillingRecordHeader
                 :key="group"
                 :item="item"
@@ -950,6 +957,16 @@ export default {
             </template>
             <template v-slot:item.charge="{ item }">
               {{ item.charge | centsToDollars }}
+            </template>
+            <template v-slot:item.startDate="{ item }">
+              <span style="white-space: nowrap">
+                {{ item.startDate | humanDatetime }}
+              </span>
+            </template>
+            <template v-slot:item.endDate="{ item }">
+              <span style="white-space: nowrap">
+                {{ item.endDate | humanDatetime }}
+              </span>
             </template>
             <template v-slot:item.actions="{ item }">
               <div class="d-flex flex-row">
