@@ -30,6 +30,14 @@ export class UserContact {
     this.data.id = id
   }
 
+  get active() {
+    return this.data.active
+  }
+
+  set active(active) {
+    this.data.active = active
+  }
+
   get name() {
     return this.data.contact.name
   }
