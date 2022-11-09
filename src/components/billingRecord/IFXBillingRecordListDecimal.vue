@@ -102,7 +102,7 @@ export default {
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
         { text: 'Usage id', value: 'productUsage.id', sortable: true },
-        { text: 'Txn desc', value: 'transactions', sortable: false },
+        { text: 'Transaction description', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       rowSelectionToggle: [],
