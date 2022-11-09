@@ -21,6 +21,11 @@ export default {
       required: false,
       default: false,
     },
+    showDates: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -145,6 +150,7 @@ export default {
             :allowApprovals="false"
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
+            :showDates="showDates"
           />
           <IFXBillingRecordList
             v-else
@@ -155,6 +161,7 @@ export default {
             :allowApprovals="false"
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
+            :showDates="showDates"
           />
         </v-col>
       </v-row>
