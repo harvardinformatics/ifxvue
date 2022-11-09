@@ -16,6 +16,16 @@ export default {
       required: false,
       default: true,
     },
+    allowDownloads: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    showDates: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -138,8 +148,9 @@ export default {
             :organization="organization"
             :allowInvoiceGeneration="false"
             :allowApprovals="false"
-            :allowDownloads="false"
+            :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
+            :showDates="showDates"
           />
           <IFXBillingRecordList
             v-else
@@ -148,8 +159,9 @@ export default {
             :organization="organization"
             :allowInvoiceGeneration="false"
             :allowApprovals="false"
-            :allowDownloads="false"
+            :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
+            :showDates="showDates"
           />
         </v-col>
       </v-row>
