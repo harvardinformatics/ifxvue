@@ -1,4 +1,5 @@
 <script>
+import moment from 'moment'
 import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -271,11 +272,14 @@ export default {
           if (!value && value !== false) continue
           // TODO: make this check more generalized for multiple item types
           // Check for different item types
-          if (header.value.toLowerCase().includes('date')) {
+          const header_value = header.value.toLowerCase()
+          if (header_value === 'startdate' || header_value === 'enddate') {
+            value = moment(String(value)).format('M/DD/YYYY h:mm A')
+          } else if (header_value.includes('date')) {
             value = value.substring(0, 10)
-          } else if (header.value === 'account.organization') {
+          } else if (header_value === 'account.organization') {
             value = this.$api.organization.parseSlug(value).name
-          } else if (header.value === 'transactions') {
+          } else if (header_value === 'transactions') {
             value = value.map((v) => v.description).join('; ')
           }
           newRecord[formattedKey] = value
