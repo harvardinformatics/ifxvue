@@ -18,11 +18,11 @@ export default {
     navigateToItemEdit(id) {
       this.rtr.push({ name: `${this.itemType}Edit`, params: { id }, query: { next: this.$route.path } })
     },
-    can(ability, user) {
-      if (!user) {
-        // eslint-disable-next-line no-param-reassign
-        user = this.$api.authUser
-      }
+    can(ability, user = this.$api.authUser) {
+      // if (!user) {
+      //   // eslint-disable-next-line no-param-reassign
+      //   user = this.$api.authUser
+      // }
       return this.$api.auth.can(ability, user)
     },
     async init() {

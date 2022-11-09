@@ -39,11 +39,11 @@ export default {
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
       // this.cachedItem = JSON.parse(JSON.stringify(this.apiRef.decompose(this.item)))
     },
-    can(ability, user) {
-      if (!user) {
-        // eslint-disable-next-line no-param-reassign
-        user = this.$api.authUser
-      }
+    can(ability, user = this.$api.authUser) {
+      // if (!user) {
+      //   // eslint-disable-next-line no-param-reassign
+      //   user = this.$api.authUser
+      // }
       return this.$api.auth.can(ability, user)
     },
     submit() {
