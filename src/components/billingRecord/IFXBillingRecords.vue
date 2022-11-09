@@ -21,6 +21,11 @@ export default {
       required: false,
       default: false,
     },
+    showDates: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -74,9 +79,6 @@ export default {
     },
     isDecimalFacility(facility) {
       return ['Research Computing Storage'].includes(facility.name)
-    },
-    isFacilityWithDates(facility) {
-      return ['Center for Brain Science Neuroimaging'].includes(facility.name)
     },
     resetShowBillingRecords() {
       this.showBillingRecords = false
@@ -148,26 +150,18 @@ export default {
             :allowApprovals="false"
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
-          />
-          <IFXBillingRecordList
-            v-else-if="isFacilityWithDates(facility)"
-            :facility="facility"
-            :date="date"
-            :organization="organization"
-            :allowInvoiceGeneration="true"
-            :allowApprovals="true"
-            :allowDownloads="true"
-            :showDates="true"
+            :showDates="showDates"
           />
           <IFXBillingRecordList
             v-else
             :facility="facility"
             :date="date"
             :organization="organization"
-            :allowInvoiceGeneration="false"
-            :allowApprovals="false"
+            :allowInvoiceGeneration="true"
+            :allowApprovals="true"
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
+            :showDates="showDates"
           />
         </v-col>
       </v-row>
