@@ -7,9 +7,9 @@ import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXItemHistoryDisplay from '@/components/item/IFXItemHistoryDisplay'
 import IFXUserEdit from '@/components/user/IFXUserEdit'
 
-// import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
+import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 // import IFXUserEditWarning from '@/components/user/IFXUserEditWarning'
-// import IFXUserInfoDialog from '@/components/user/IFXUserInfoDialog'
+import IFXUserInfoDialog from '@/components/user/IFXUserInfoDialog'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
 // import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
@@ -17,13 +17,13 @@ import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'IFXUserDetail',
-  mixins: [IFXUserMixin, IFXItemDetailMixin],
+  mixins: [IFXUserMixin, IFXItemDetailMixin, IFXItemCreateEditMixin],
   components: {
     IFXLoginIcon,
     IFXItemHistoryDisplay,
     IFXUserEdit,
     // IFXUserEditWarning,
-    // IFXUserInfoDialog,
+    IFXUserInfoDialog,
     IFXSelectableContact,
     // IFXSelectableAffiliation,
     IFXPageActionBar,
@@ -35,6 +35,7 @@ export default {
       allOrganizationSlugs: [],
       currentContact: {},
       dialogSection: 'all',
+      changeDialogActive: false,
       userInfoDialogOpen: false,
       contactDialogOpen: false,
     }
@@ -92,6 +93,10 @@ export default {
     //   }
     //   return contacts.join('')
     // },
+    completeAction() {
+      this.submitUpdate()
+      this.changeDialogActive = false
+    },
     openUserInfoDialog(section) {
       this.dialogSection = section
       this.userInfoDialogOpen = true
@@ -102,7 +107,6 @@ export default {
     },
     closeContactDialog() {
       this.contactDialogOpen = false
-      debugger
       if (this.currentContact.id) {
         // this is an update. Find the contact and update it
         const contactIndex = this.item.contacts.findIndex((c) => c.id === this.currentContact.id)
@@ -113,18 +117,18 @@ export default {
         // this is a new contact. Add it to the list
         this.item.contacts.push(this.currentContact)
       }
-      this.submitUpdate()
+      // this.submitUpdate()
     },
     removeContact(contact) {
-      // Find the contact and remove it
+      // Find the contact and set it to inactive
       const contactIndex = this.item.contacts.findIndex((c) => c.id === contact.id)
       if (contactIndex) {
-        this.items.contacts.splice(contactIndex, 1)
+        this.item.contacts[contactIndex].active = false;
+        // this.submitUpdate()
       }
-      this.submitUpdate()
     },
     addContact() {
-      this.currentContact = this.$api.organizationContact.create()
+      this.currentContact = this.$api.contact.create()
       this.contactDialogOpen = true
     },
     editContact(contact) {
@@ -178,6 +182,11 @@ export default {
 
 <template>
   <v-container v-if="!isLoading">
+      <IFXUserInfoDialog
+        :isActive.sync="changeDialogActive"
+        :changeComment.sync="item.changeComment"
+        @complete-action="completeAction"
+      ></IFXUserInfoDialog>
     <IFXPageHeader>
       <template #title>{{ item.fullName || id }}</template>
       <template #actions>
@@ -245,11 +254,16 @@ export default {
             </v-col>
           </v-row>
           <span v-if="areContactsPresent">
+            <v-divider class="my-2"></v-divider>
             <div v-for="contact in item.contacts" :key="contact.id">
               <v-row dense v-if="contact.role !== 'Primary Email' && contact.type === 'Email'">
                 <v-col md="4">{{ contact.role }}</v-col>
                 <v-col>
                   <a :href="`mailto:${contact.detail}`">{{ contact.detail }}</a>
+                </v-col>
+                <v-col>
+                  <v-icon class="ml-2" small color="red" @click.stop="removeContact(contact)">mdi-content-cut</v-icon>
+                  <v-icon class="ml-2" small color="primary" @click.stop="editContact(contact)">mdi-pencil</v-icon>
                 </v-col>
               </v-row>
             </div>
@@ -272,7 +286,7 @@ export default {
                   <a :href="`mailto:${contact.detail}`">{{ contact.detail }}</a>
                 </v-col>
                 <v-col>
-                  <v-icon class="ml-2" small color="red" @click.stop="removeContact(contact)">close</v-icon>
+                  <v-icon class="ml-2" small color="red" @click.stop="removeContact(contact)">mdi-content-cut</v-icon>
                   <v-icon class="ml-2" small color="primary" @click.stop="editContact(contact)">mdi-pencil</v-icon>
                 </v-col>
               </v-row>
@@ -296,7 +310,7 @@ export default {
               <div v-for="affiliation in item.affiliations" :key="affiliation.id" class="d-flex align-center mt-1">
                 <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization }}</span>
                 <v-col>
-                  <v-icon class="ml-2" small color="red" @click.stop="removeaffiliation(affiliation)">close</v-icon>
+                  <v-icon class="ml-2" small color="red" @click.stop="removeaffiliation(affiliation)">mdi-content-cut</v-icon>
                   <v-icon class="ml-2" small color="primary" @click.stop="editAffiliation(affiliation)">mdi-pencil</v-icon>
                 </v-col>
               </div>
@@ -325,8 +339,8 @@ export default {
             </div>
           </span>
         </v-col>
-        <!-- <IFXPageActionBar btnType="submit" @action="openDialog" :disabled="!isSubmittable"></IFXPageActionBar> -->
       </v-row>
+      <IFXPageActionBar btnType="submit" @action="submitUpdate" :disabled="!isSubmittable"></IFXPageActionBar>
       <v-dialog v-model="userInfoDialogOpen" v-if="userInfoDialogOpen" max-width="90vw" persistent>
         <v-card>
           <v-card-title>
