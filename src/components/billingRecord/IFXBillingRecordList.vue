@@ -272,14 +272,13 @@ export default {
           if (!value && value !== false) continue
           // TODO: make this check more generalized for multiple item types
           // Check for different item types
-          const header_value = header.value.toLowerCase()
-          if (header_value === 'startdate' || header_value === 'enddate') {
+          if (header.value === 'startDate' || header.value === 'endDate') {
             value = moment(String(value)).format('M/DD/YYYY h:mm A')
-          } else if (header_value.includes('date')) {
+          } else if (header.value.toLowerCase().includes('date')) {
             value = value.substring(0, 10)
-          } else if (header_value === 'account.organization') {
+          } else if (header.value === 'account.organization') {
             value = this.$api.organization.parseSlug(value).name
-          } else if (header_value === 'transactions') {
+          } else if (header.value === 'transactions') {
             value = value.map((v) => v.description).join('; ')
           }
           newRecord[formattedKey] = value
