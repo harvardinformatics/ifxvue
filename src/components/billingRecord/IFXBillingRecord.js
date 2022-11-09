@@ -172,6 +172,14 @@ export default class BillingRecord extends IFXItemBase {
     return this.data.updated
   }
 
+  get startDate() {
+    return this.productUsage.start_date
+  }
+
+  get endDate() {
+    return this.productUsage.end_date
+  }
+
   addTransaction(transaction) {
     this.data.transactions.push(transaction)
   }
