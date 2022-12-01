@@ -14,7 +14,7 @@ import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
 import IFXRoleDisplayEdit from '@/components/contact/IFXRoleDisplayEdit'
 // import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
-import cloneDeep from 'lodash/cloneDeep'
+// import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'IFXUserDetail',
@@ -36,67 +36,23 @@ export default {
       allContacts: [],
       allOrganizationSlugs: [],
       currentContact: {},
-      allRoles: ['Additional Email', 'Work Phone', 'Additional Phone'],
+      allRoles: ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
       dialogSection: 'all',
       changeDialogActive: false,
       userInfoDialogOpen: false,
       contactDialogOpen: false,
-      roleEditingEnabled: false,
+      addContactFormIsValid: false,
     }
   },
   methods: {
     ...mapActions(['showMessage']),
     async init() {
-      // try {
-      //   const filteredContacts = this.item.contacts.filter((c) => c.contact.detail !== this.item.email)
-      //   this.$set(this.item, 'contacts', [])
-      //   filteredContacts.forEach((fc) => this.item.contacts.push(fc))
-      // } catch (error) {
-      //   this.showMessage(error)
-      //   this.rtr.push({ name: 'Home' })
-      // }
       this.item = await this.apiRef.getByID(this.id, true)
       this.allContacts = await this.$api.contact.getList({ has_name: false })
       this.allGroupNames = await this.$api.group.getNames()
       const organizations = await this.$api.organization.getNames()
       this.allOrganizationSlugs = organizations.map((o) => o.slug)
     },
-    // async getItem() {
-    //   const params = {
-    //     include_disabled: true,
-    //     exclude_application_users: false,
-    //   }
-    //   return this.apiRef.getByID(this.id, params)
-    // },
-    // checkValidForm() {
-    //   this.$refs[this.formName].validate()
-    // },
-    // additionalEmailList() {
-    //   const emails = []
-    //   if (this.item.contacts) {
-    //     this.item.contacts.forEach((contact) => {
-    //       if (contact.role !== 'Primary Email' && contact.type === 'Email') {
-    //         emails.push(
-    //           `<div class="row row--dense"><div class="col col-md-4">${contact.role}</div><div class="col"><a href="mailto:${contact.detail}">${contact.detail}</a></div></div>`
-    //         )
-    //       }
-    //     })
-    //   }
-    //   return emails.join('')
-    // },
-    // additionalContactList() {
-    //   const contacts = []
-    //   if (this.item.contacts) {
-    //     this.item.contacts.forEach((contact) => {
-    //       if (contact.type !== 'Email') {
-    //         contacts.push(
-    //           `<div class="row row--dense"><div class="col col-md-4">${contact.role}</div><div class="col">${contact.detail}</div></div>`
-    //         )
-    //       }
-    //     })
-    //   }
-    //   return contacts.join('')
-    // },
     completeAction() {
       this.submitUpdate()
       this.changeDialogActive = false
@@ -149,23 +105,16 @@ export default {
       }
       this.contactDialogOpen = false
     },
-    editContact(contact) {
-      this.currentContact = cloneDeep(contact)
-      this.roleEditingEnabled = !this.roleEditingEnabled
-    },
     updateContact(contact) {
       const contactIndex = this.item.contacts.findIndex((c) => c.id === contact.id)
       if (contactIndex) {
         this.item.contacts.splice(contactIndex, 1, contact)
       }
-      this.roleEditingEnabled = false
     },
     cancelContact() {
       this.currentContact = this.$api.userContact.create()
       this.currentContact.role = null
       this.currentContact.active = false
-      // console.log(this.currentContact)
-      this.roleEditingEnabled = false
     },
     submitUpdate() {
       this.apiRef
@@ -205,9 +154,9 @@ export default {
     areGroupsPresent() {
       return this.item.groups?.length
     },
-    addContactButtonEnabled() {
-      return this.currentContact.role && this.currentContact.contact?.detail
-    }
+    // addContactButtonEnabled() {
+    //   return this.currentContact.role && this.currentContact.contact?.detail
+    // },
   },
 }
 </script>
@@ -223,25 +172,19 @@ export default {
       <template #title>{{ item.fullName || id }}</template>
       <template #actions>
         <IFXLoginIcon v-if="item.isActive !== undefined" :isActive="item.isActive" />
-        <!-- <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)" /> -->
       </template>
       <template #content>
         <IFXItemHistoryDisplay :item="item" />
       </template>
     </IFXPageHeader>
     <v-container>
-      <!-- <v-row no-gutters> -->
       <v-row dense wrap>
-        <!-- <v-col>
-      <v-row dense wrap> -->
         <v-col sm="4" md="3">
           <h3>First Name</h3>
         </v-col>
         <v-col>
           {{ item.firstName }}
         </v-col>
-        <!-- </v-row>
-      <v-row dense> -->
         <v-col sm="4" md="3">
           <h3>Last Name</h3>
         </v-col>
@@ -265,12 +208,6 @@ export default {
           <h3>Authorization Groups</h3>
         </v-col>
         <v-col>
-          <!-- <span class="d-flex flex-column">
-            <div v-for="group in item.groups" :key="group" class="d-flex align-center mt-1">
-              <span>{{ group }}</span>
-            </div>
-          </span> -->
-
           {{ item.groups.join(', ') }}
         </v-col>
       </v-row>
@@ -284,43 +221,7 @@ export default {
               <a :href="`mailto:${item.primaryEmail}`">{{ item.primaryEmail }}</a>
             </v-col>
           </v-row>
-          <!-- <span v-if="areContactsPresent">
-            <v-divider class="my-2"></v-divider>
-            <div v-for="contact in item.contacts" :key="contact.id">
-              <v-row dense v-if="contact.role !== 'Primary Email' && contact.type === 'Email'">
-                <v-col
-                  :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !contact.active }"
-                  md="4"
-                >
-                  {{ contact.role }}
-                </v-col>
-                <v-col
-                  :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !contact.active }"
-                >
-                  <a :href="`mailto:${contact.detail}`">{{ contact.detail }}</a>
-                </v-col>
-                <v-col>
-                  <v-icon
-                    small
-                    color="red"
-                    class="ml-2"
-                    v-if="contact.active"
-                    @click.stop="setContactActiveState(contact, false)"
-                  >
-                    mdi-delete
-                  </v-icon>
-                  <v-icon v-else small class="ml-2" color="green" @click.stop="setContactActiveState(contact, true)">
-                    mdi-delete-restore
-                  </v-icon>
-                </v-col>
-              </v-row>
-            </div>
-          </span> -->
-          <!-- <span v-html="additionalEmailList()"></span> -->
         </v-col>
-        <!-- <v-col sm="1" align="end">
-          <IFXButton btnType="add" xSmall @action="addContact()" />
-        </v-col> -->
       </v-row>
       <span v-if="areContactsPresent">
         <v-divider class="my-2"></v-divider>
@@ -331,51 +232,7 @@ export default {
           <v-col>
             <div v-for="contact in item.contacts" :key="contact.id">
               <IFXRoleDisplayEdit :contact="contact" @update="updateContact"  v-if="contact.role !== 'Primary Email'"/>
-               <!-- <v-row dense>
-               <v-col md="4" v-if="roleEditingEnabled">
-                  <v-select
-                    v-model.trim="contact.role"
-                    :items="allRoles"
-                    label="Role"
-                    :rules="formRules.generic"
-                    required
-                  ></v-select>
-                  <v-btn x-small outlined class="mr-2" color="secondary" @click.stop="cancelContact">Cancel</v-btn>
-                  <v-btn x-small class="mr-2" color="primary" @click.stop="updateContact(contact)">Save</v-btn>
-                </v-col>
-                <v-col
-                  md="4"
-                  v-else
-                  :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !contact.active }"
-                >
-                  {{ contact.role }}
-                </v-col>
-                <v-col
-                  :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !contact.active }"
-                >
-                  <a :href="`mailto:${contact.detail}`">{{ contact.detail }}</a>
-                </v-col>
-                <v-col>
-                  <v-icon
-                    class="ml-2"
-                    small
-                    color="red"
-                    @click.stop="setContactActiveState(contact, false)"
-                    v-if="contact.active"
-                    :disabled="roleEditingEnabled"
-                  >
-                    mdi-delete
-                  </v-icon>
-                  <v-icon class="ml-2" small color="green" @click.stop="setContactActiveState(contact, true)" v-else>
-                    mdi-delete-restore
-                  </v-icon>
-                  <v-icon v-if="contact.active" class="ml-2" small color="primary" @click.stop="editContact(contact)">
-                    mdi-pencil
-                  </v-icon>
-                </v-col>
-              </v-row> -->
             </div>
-            <!-- <span v-html="additionalContactList()"></span> -->
           </v-col>
           <v-col sm="1" align="end">
             <IFXButton btnType="add" xSmall @action="addContact()" />
@@ -397,9 +254,6 @@ export default {
                   <v-icon class="ml-2" small color="red" @click.stop="removeaffiliation(affiliation)">
                     mdi-delete
                   </v-icon>
-                  <!-- <v-icon class="ml-2" small color="primary" @click.stop="editAffiliation(affiliation)">
-                    mdi-pencil
-                  </v-icon> -->
                 </v-col>
               </div>
             </span>
@@ -409,7 +263,6 @@ export default {
           </v-col>
         </v-row>
       </span>
-      <!-- </v-row> -->
       <v-divider class="my-2"></v-divider>
       <v-row dense v-if="areAnyAccountsPresent">
         <v-col sm="4" md="3">
@@ -476,11 +329,11 @@ export default {
             </v-tooltip>
           </v-card-title>
           <v-card-text class="pb-0">
-            <IFXSelectCreateContact :allItems="allContacts" :item.sync="currentContact" :errors="errors" />
+            <IFXSelectCreateContact :allItems="allContacts" :item.sync="currentContact" :errors="errors" :valid.sync="addContactFormIsValid"/>
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
             <v-btn small outlined class="mr-2" color="secondary" @click.stop="cancelContact">Clear</v-btn>
-            <v-btn small class="mr-2" :disabled="!addContactButtonEnabled" color="primary" @click.stop="closeContactDialog">Add</v-btn>
+            <v-btn small class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click.stop="closeContactDialog">Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
