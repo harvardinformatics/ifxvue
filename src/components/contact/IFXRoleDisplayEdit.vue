@@ -16,11 +16,9 @@ export default {
     return {
       roleEditingEnabled: false,
       allRoles: ['Additional Email', 'Work Phone', 'Additional Phone'],
-      // itemLocal: {},
     }
   },
   mounted() {
-    // this.itemLocal = cloneDeep(this.contact)
   },
   computed: {
     itemLocal: {
@@ -33,8 +31,10 @@ export default {
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
-      return this.allRoles.filter(role => role.includes(this.contact?.type))
-    }
+      return this.allRoles.filter(
+        (role) => role.includes(this.contact?.type) || role === 'Additional Contact'
+      )
+    },
   },
   methods: {
     setContactActiveState(active) {
