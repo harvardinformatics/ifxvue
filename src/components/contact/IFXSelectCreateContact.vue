@@ -13,10 +13,7 @@ export default {
       isValid: false,
     }
   },
-  mounted() {
-    // this.contactType = this.getContactType()
-    // console.log(this.search)
-  },
+  mounted() {},
   computed: {
     isContactSelected() {
       return this.itemLocal.contact?.detail
@@ -38,40 +35,14 @@ export default {
     checkValidForm() {
       this.$emit('check-valid-form')
     },
-    // getContactType() {
-    //   if (!this.itemLocal.contact.type) {
-    //     return null
-    //   }
-    //   if (this.itemLocal.contact.type === 'Email' && (this.itemLocal.contact.phone || this.itemLocal.contact.address || this.itemLocal.contact.name)) {
-    //     return 'Full'
-    //   }
-    //   return this.itemLocal.contact.type
-    // },
-    // checkForNew(val) {
-    //   if (val) {
-    //     if (typeof val === 'string') {
-    //       // This is a new contact. Create the object.
-    //       this.itemLocal.contact = this.$api.contact.create({ detail: val })
-    //     } else {
-    //       // This is an existing contact.
-    //       this.itemLocal.contact = val
-    //     }
-    //   }
-    //   this.search = ''
-    // },
     createNew(val) {
       // This is a new contact. Create the object.
-      // this.itemLocal.contact = this.$api.contact.create({ detail: val })
       const contact = this.$api.contact.create({ detail: val })
-      // if (val.includes('@')) {
-      //   this.$set(this.itemLocal.contact, 'type', 'Email')
-      // }
       if (/^[\\d+-]+$/.test(val)) {
         this.$set(contact, 'type', 'Phone')
+      } else {
+        this.$set(contact, 'type', 'Email')
       }
-      // if (val.includes('@')) {
-      this.$set(contact, 'type', 'Email')
-      // }
       this.$set(this.itemLocal, 'contact', contact)
       this.$refs.autocomplete.isMenuActive = false
       this.newContacts.push(contact)
@@ -95,58 +66,15 @@ export default {
     },
   },
   watch: {
-    // itemLocal: {
-    //   deep: true,
-    //   handler(val) {
-    //     // if (val?.contact && typeof val.contact === 'string') {
-    //     //   // This is a new contact. Create the object.
-    //     //   this.itemLocal.contact = this.$api.contact.create({ detail: val.contact })
-    //     // }
-    //     // this.contactType = this.getContactType()
-    //   },
-    // },
-    // contactType: function (val) {
-    //   if (val === 'Full') {
-    //     this.itemLocal.contact.type = 'Email'
-    //   } else {
-    //     this.itemLocal.contact.type = val
-    //   }
-    // },
+    isValid(valid) {
+      this.$emit('update:valid', valid)
+    },
   },
 }
 </script>
 <template>
   <v-container fluid v-if="!isLoading">
-    <!-- TODO: this disabled section is basically the contact detail page - probably use that -->
-    <span v-if="disabled">
-      <v-row>
-        <v-col>
-          <h5>Name</h5>
-          <p>{{ itemLocal.contact.name }}</p>
-        </v-col>
-        <v-col>
-          <h5>Type</h5>
-          <p>{{ itemLocal.contact.type }}</p>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <h5>Detail</h5>
-          <p>{{ itemLocal.contact.detail }}</p>
-        </v-col>
-        <v-col>
-          <h5>Phone</h5>
-          <p>{{ itemLocal.contact.phone }}</p>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <h5>Address</h5>
-          <p>{{ itemLocal.contact.address }}</p>
-        </v-col>
-      </v-row>
-    </span>
-    <span v-else>
+    <span>
       <!-- TODO: give user the option to select this, rather than checking it only -->
       <v-row no-gutters>
         <v-col>
@@ -209,66 +137,11 @@ export default {
             </template>
             <v-radio label="Email" value="Email"></v-radio>
             <v-radio label="Phone" value="Phone"></v-radio>
-            <!-- <v-radio label="Full" value="Full"></v-radio> -->
           </v-radio-group>
         </v-col>
       </v-row>
-      <!-- <v-row v-if="contactType === 'Full'" no-gutters>
-        <v-col>
-          <v-row>
-            <v-col>
-              <v-autocomplete
-                v-model="itemLocal.role"
-                :items="allRoles"
-                :error-messages="errors['contact.role']"
-                :rules="formRules.generic"
-                label="Role"
-                required
-                @input="checkValidForm()"
-              ></v-autocomplete>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model.trim="itemLocal.contact.detail"
-                autocomplete="new-password"
-                :error-messages="errors['contacts.detail']"
-                :rules="formRules.email"
-                label="Email"
-                required
-                @input="checkValidForm()"
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model.trim="itemLocal.contact.phone"
-                autocomplete="new-password"
-                :error-messages="errors['contacts.phone']"
-                label="Phone"
-                @input="checkValidForm()"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-textarea
-                v-model="itemLocal.contact.address"
-                :rules="formRules.address"
-                clearable
-                label="Address"
-                :rows="3"
-                auto-grow
-                @input="checkValidForm()"
-              ></v-textarea>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row> -->
-      <v-form ref="form" v-model="isValid">
-        <v-row v-if="isContactSelected">
-          <!-- <v-col>
-          <v-row> -->
+      <v-form ref="form" v-model="isValid" v-if="isContactSelected">
+        <v-row>
           <v-col>
             <v-autocomplete
               v-model="itemLocal.role"
@@ -299,39 +172,8 @@ export default {
               required
             ></v-text-field>
           </v-col>
-          <!-- </v-row>
-        </v-col> -->
         </v-row>
       </v-form>
-      <!-- <v-row v-if="itemLocal.contact.type === 'Phone'" no-gutters>
-        <v-col>
-          <v-row>
-            <v-col>
-              <v-autocomplete
-                v-model="itemLocal.role"
-                :items="appropriateRoles"
-                :error-messages="errors['role']"
-                :rules="formRules.generic"
-                label="Role"
-                required
-                @input="checkValidForm()"
-              ></v-autocomplete>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model.trim="itemLocal.detail"
-                autocomplete="new-password"
-                :error-messages="errors['contacts.detail']"
-                :rules="formRules.phone"
-                label="Phone"
-                required
-                @input="checkValidForm()"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-      <v-row v-else></v-row> -->
     </span>
   </v-container>
 </template>
