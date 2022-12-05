@@ -51,6 +51,7 @@ export default {
       })
     },
     contactTypeChange() {
+      this.itemLocal.role = null
       this.$nextTick(() => {
         this.$refs.form.validate()
       })
