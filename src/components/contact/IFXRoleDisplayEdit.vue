@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       roleEditingEnabled: false,
-      allRoles: ['Additional Email', 'Work Phone', 'Additional Phone'],
+      allRoles: ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
     }
   },
   mounted() {
@@ -59,7 +59,7 @@ export default {
     <v-col md="4" v-if="roleEditingEnabled">
       <v-select
         v-model.trim="itemLocal.role"
-        :items="allRoles"
+        :items="appropriateRoles"
         label="Role"
         :rules="formRules.generic"
         required
