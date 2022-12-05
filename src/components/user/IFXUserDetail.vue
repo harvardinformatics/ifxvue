@@ -11,7 +11,8 @@ import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 // import IFXUserEditWarning from '@/components/user/IFXUserEditWarning'
 import IFXUserInfoDialog from '@/components/user/IFXUserInfoDialog'
 import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
-import IFXRoleDisplayEdit from '@/components/contact/IFXRoleDisplayEdit'
+import IFXContactRoleDisplayEdit from '@/components/contact/IFXContactRoleDisplayEdit'
+import IFXAffiliationRoleDisplayEdit from '@/components/contact/IFXAffiliationRoleDisplayEdit'
 // import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 // import cloneDeep from 'lodash/cloneDeep'
@@ -28,7 +29,8 @@ export default {
     IFXSelectCreateContact,
     // IFXSelectableAffiliation,
     IFXPageActionBar,
-    IFXRoleDisplayEdit
+    IFXContactRoleDisplayEdit,
+    IFXAffiliationRoleDisplayEdit,
   },
   data() {
     return {
@@ -109,6 +111,12 @@ export default {
       const contactIndex = this.item.contacts.findIndex((c) => c.id === contact.id)
       if (contactIndex) {
         this.item.contacts.splice(contactIndex, 1, contact)
+      }
+    },
+    updateAffiliation(affiliation) {
+      const affiliationIndex = this.item.affiliations.findIndex((c) => c.id === affiliation.id)
+      if (affiliationIndex) {
+        this.item.affiliations.splice(affiliationIndex, 1, affiliation)
       }
     },
     cancelContact() {
@@ -231,7 +239,7 @@ export default {
           </v-col>
           <v-col>
             <div v-for="contact in item.contacts" :key="contact.id">
-              <IFXRoleDisplayEdit :contact="contact" @update="updateContact"  v-if="contact.role !== 'Primary Email'"/>
+              <IFXContactRoleDisplayEdit :contact="contact" @update="updateContact"  v-if="contact.role !== 'Primary Email'"/>
             </div>
           </v-col>
           <v-col sm="1" align="end">
@@ -249,12 +257,13 @@ export default {
           <v-col>
             <span class="d-flex flex-column">
               <div v-for="affiliation in item.affiliations" :key="affiliation.id" class="d-flex align-center mt-1">
-                <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization }}</span>
+              <IFXAffiliationRoleDisplayEdit :affiliation="affiliation" @update="updateAffiliation" />
+                <!-- <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization }}</span>
                 <v-col>
-                  <v-icon class="ml-2" small color="red" @click.stop="removeaffiliation(affiliation)">
+                  <v-icon class="ml-2" small color="red" @click.stop="deactivateAffiliation(affiliation)">
                     mdi-delete
                   </v-icon>
-                </v-col>
+                </v-col> -->
               </div>
             </span>
           </v-col>

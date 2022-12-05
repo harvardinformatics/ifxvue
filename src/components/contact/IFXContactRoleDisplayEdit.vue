@@ -1,8 +1,7 @@
 <script>
-// import cloneDeep from 'lodash/cloneDeep'
 
 export default {
-  name: 'IFXRoleDisplayEdit',
+  name: 'IFXContactRoleDisplayEdit',
   mixins: [],
   components: {},
   props: {
