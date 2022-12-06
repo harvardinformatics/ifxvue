@@ -11,9 +11,9 @@ import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 // import IFXUserEditWarning from '@/components/user/IFXUserEditWarning'
 import IFXUserInfoDialog from '@/components/user/IFXUserInfoDialog'
 import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
+import IFXSelectAffiliation from '@/components/affiliation/IFXSelectAffiliation'
 import IFXContactRoleDisplayEdit from '@/components/contact/IFXContactRoleDisplayEdit'
 import IFXAffiliationRoleDisplayEdit from '@/components/contact/IFXAffiliationRoleDisplayEdit'
-// import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 // import cloneDeep from 'lodash/cloneDeep'
 
@@ -27,7 +27,7 @@ export default {
     // IFXUserEditWarning,
     IFXUserInfoDialog,
     IFXSelectCreateContact,
-    // IFXSelectableAffiliation,
+    IFXSelectAffiliation,
     IFXPageActionBar,
     IFXContactRoleDisplayEdit,
     IFXAffiliationRoleDisplayEdit,
@@ -38,12 +38,14 @@ export default {
       allContacts: [],
       allOrganizationSlugs: [],
       currentContact: {},
-      allRoles: ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
+      newAffiliation: {},
       dialogSection: 'all',
       changeDialogActive: false,
       userInfoDialogOpen: false,
       contactDialogOpen: false,
       addContactFormIsValid: false,
+      affiliationDialogOpen: false,
+      addAffiliationFormIsValid: false,
     }
   },
   methods: {
@@ -67,7 +69,7 @@ export default {
       this.dialogSection = 'all'
       this.userInfoDialogOpen = false
     },
-    closeContactDialog() {
+    addContact() {
       this.contactDialogOpen = false
       if (this.currentContact.id) {
         // this is an update. Find the contact and update it
@@ -77,52 +79,71 @@ export default {
         }
       } else {
         // this is a new contact. Set it to active and add it to the list
-        this.$set(this.currentContact, 'active', true)
+        // this.$set(this.currentContact, 'active', true)
+        this.currentContact.active = true
         this.item.contacts.push(this.currentContact)
       }
       // this.submitUpdate()
     },
-    setContactActiveState(contact, active) {
-      // Find the contact and set it to inactive
-      const contactIndex = this.item.contacts.findIndex((c) => c.id === contact.id)
-      if (contactIndex) {
-        this.item.contacts[contactIndex].active = active
-        // this.submitUpdate()
-      }
-    },
-    addContact() {
+    openContactDialog() {
+      // eslint-disable-next-line prefer-object-spread
+      // this.$set(this, 'currentContact', this.$api.userContact.create())
+      // this.$set(this.currentContact, 'role', null)
+      // this.$set(this.currentContact, 'active', false)
+      // debugger
       this.currentContact = this.$api.userContact.create()
-      this.currentContact.role = null
       this.currentContact.active = false
+      this.currentContact.role = null
+      // console.log(this.currentContact)
       this.contactDialogOpen = true
     },
-    saveContact() {
-      const contactIndex = this.item.contacts.findIndex((c) => c.id === this.currentContact.id)
-      if (contactIndex) {
-        // If this contact already exists, update it
-        this.item.contacts[contactIndex].active = this.currentContact.active
-      } else {
-        // Otherwise, add it
-        this.item.contacts.push(this.currentContact)
-      }
-      this.contactDialogOpen = false
-    },
-    updateContact(contact) {
-      const contactIndex = this.item.contacts.findIndex((c) => c.id === contact.id)
-      if (contactIndex) {
-        this.item.contacts.splice(contactIndex, 1, contact)
-      }
-    },
-    updateAffiliation(affiliation) {
-      const affiliationIndex = this.item.affiliations.findIndex((c) => c.id === affiliation.id)
-      if (affiliationIndex) {
-        this.item.affiliations.splice(affiliationIndex, 1, affiliation)
-      }
+    updateContact(contact, index) {
+      // const contactIndex = this.item.contacts.findIndex((c) => c.id === contact.id)
+      // if (contactIndex) {
+      //   this.item.contacts.splice(contactIndex, 1, contact)
+      // }
+      this.item.contacts.splice(index, 1, contact)
     },
     cancelContact() {
       this.currentContact = this.$api.userContact.create()
+      // this.$set(this.currentContact, 'role', null)
+      // this.$set(this.currentContact, 'active', false)
+
       this.currentContact.role = null
       this.currentContact.active = false
+    },
+    updateAffiliation(affiliation, index) {
+      // const affiliationIndex = this.item.affiliations.findIndex((c) => c.id === affiliation.id)
+      // if (affiliationIndex) {
+      //   this.item.affiliations.splice(affiliationIndex, 1, affiliation)
+      // }
+      this.item.affiliations.splice(index, 1, affiliation)
+    },
+    openAffiliationDialog() {
+      this.newAffiliation = this.$api.affiliation.create()
+      this.newAffiliation.data.role = null
+      this.newAffiliation.data.active = false
+      this.affiliationDialogOpen = true
+    },
+    cancelAffiliation() {
+      this.newAffiliation = this.$api.affiliation.create()
+      this.newAffiliation.role = null
+      this.newAffiliation.active = false
+    },
+    addAffiliation() {
+      this.affiliationDialogOpen = false
+      if (this.newAffiliation.id) {
+        // this is an update. Find the affiliation and update it
+        const affiliationIndex = this.item.affiliations.findIndex((a) => a.id === this.newAffiliation.id)
+        if (affiliationIndex) {
+          this.items.affiliations.splice(affiliationIndex, 1, this.newAffiliation)
+        }
+      } else {
+        // this is a new Affiliation. Set it to active and add it to the list
+        this.newAffiliation.active = true
+        this.item.affiliations.push(this.newAffiliation)
+      }
+      // this.submitUpdate()
     },
     submitUpdate() {
       this.apiRef
@@ -238,12 +259,16 @@ export default {
             <h3>Other Contacts</h3>
           </v-col>
           <v-col>
-            <div v-for="contact in item.contacts" :key="contact.id">
-              <IFXContactRoleDisplayEdit :contact="contact" @update="updateContact"  v-if="contact.role !== 'Primary Email'"/>
+            <div v-for="(contact, index) in item.contacts" :key="index">
+              <IFXContactRoleDisplayEdit
+                :contact="contact"
+                @update="updateContact(contact, index)"
+                v-if="contact.role !== 'Primary Email'"
+              />
             </div>
           </v-col>
           <v-col sm="1" align="end">
-            <IFXButton btnType="add" xSmall @action="addContact()" />
+            <IFXButton btnType="add" xSmall @action="openContactDialog()" />
           </v-col>
         </v-row>
       </span>
@@ -256,8 +281,8 @@ export default {
           </v-col>
           <v-col>
             <span class="d-flex flex-column">
-              <div v-for="affiliation in item.affiliations" :key="affiliation.id" class="d-flex align-center mt-1">
-              <IFXAffiliationRoleDisplayEdit :affiliation="affiliation" @update="updateAffiliation" />
+              <div v-for="(affiliation, index) in item.affiliations" :key="index" class="d-flex align-center mt-1">
+                <IFXAffiliationRoleDisplayEdit :affiliation="affiliation" @update="updateAffiliation(affiliation, index)" />
                 <!-- <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization }}</span>
                 <v-col>
                   <v-icon class="ml-2" small color="red" @click.stop="deactivateAffiliation(affiliation)">
@@ -268,7 +293,7 @@ export default {
             </span>
           </v-col>
           <v-col sm="1" align="end">
-            <IFXButton btnType="add" xSmall @action="openUserInfoDialog('affiliations')" />
+            <IFXButton btnType="add" xSmall @action="openAffiliationDialog()" />
           </v-col>
         </v-row>
       </span>
@@ -338,11 +363,67 @@ export default {
             </v-tooltip>
           </v-card-title>
           <v-card-text class="pb-0">
-            <IFXSelectCreateContact :allItems="allContacts" :item.sync="currentContact" :errors="errors" :valid.sync="addContactFormIsValid"/>
+            <IFXSelectCreateContact
+              :allItems="allContacts"
+              :item.sync="currentContact"
+              :errors="errors"
+              :valid.sync="addContactFormIsValid"
+            />
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
             <v-btn small outlined class="mr-2" color="secondary" @click.stop="cancelContact">Clear</v-btn>
-            <v-btn small class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click.stop="closeContactDialog">Add</v-btn>
+            <v-btn
+              small
+              class="mr-2"
+              :disabled="!addContactFormIsValid"
+              color="primary"
+              @click="addContact()"
+            >
+              Add
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="affiliationDialogOpen" v-if="affiliationDialogOpen" max-width="800px" persistent>
+        <v-card>
+          <v-card-title>
+            Add Affiliation
+            <v-spacer></v-spacer>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  small
+                  @click.stop="affiliationDialogOpen = false"
+                  data-cy="affiliation-dialog-close"
+                  v-on="on"
+                  v-bind="attrs"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </template>
+              <span>Cancel</span>
+            </v-tooltip>
+          </v-card-title>
+          <v-card-text class="pb-0">
+            <IFXSelectAffiliation
+              :allItems="allOrganizationSlugs"
+              :item.sync="newAffiliation"
+              :errors="errors"
+              :valid.sync="addAffiliationFormIsValid"
+            />
+          </v-card-text>
+          <v-card-actions class="d-flex justify-end pb-3">
+            <v-btn small outlined class="mr-2" color="secondary" @click.stop="cancelAffiliation">Clear</v-btn>
+            <v-btn
+              small
+              class="mr-2"
+              :disabled="!addAffiliationFormIsValid"
+              color="primary"
+              @click="addAffiliation()"
+            >
+              Add
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
