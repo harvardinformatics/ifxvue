@@ -31,6 +31,7 @@ export default {
           text: 'Approver',
         },
       ],
+      rowKey: 0,
     }
   },
   mounted() {},
@@ -45,12 +46,16 @@ export default {
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
-      return this.allRoles.filter((role) => this.$api.auth.can('edit-affiliations', this.$api.authUser) || role.value === 'member')
+      return this.allRoles.filter(
+        (role) => this.$api.auth.can('edit-affiliations', this.$api.authUser) || role.value === 'member'
+      )
     },
   },
   methods: {
     setAffiliationActiveState(active) {
       this.itemLocal.active = active
+      // This is a hack to get the row to update based on the active state
+      this.rowKey++
       this.$emit('update', this.itemLocal)
     },
     toggleEditing() {
@@ -67,20 +72,20 @@ export default {
 }
 </script>
 <template>
-  <v-row dense>
+  <v-row dense :key="rowKey">
     <v-col md="8" v-if="roleEditingEnabled" class="d-flex flex-row">
       <span>
-      <v-select
-        v-model.trim="itemLocal.role"
-        :items="appropriateRoles"
-        label="Role"
-        :rules="formRules.generic"
-        required
-      ></v-select>
-      <v-btn x-small outlined class="mr-2" color="secondary" @click.stop="cancelAffiliation">Cancel</v-btn>
-      <v-btn x-small class="mr-2" color="primary" @click.stop="updateAffiliation(itemLocal)">Save</v-btn>
+        <v-select
+          v-model.trim="itemLocal.role"
+          :items="appropriateRoles"
+          label="Role"
+          :rules="formRules.generic"
+          required
+        ></v-select>
+        <v-btn x-small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Cancel</v-btn>
+        <v-btn x-small class="mr-2" color="primary" @click="updateAffiliation(itemLocal)">Save</v-btn>
       </span>
-      <span class="ml-2"> of {{ affiliation.organization }}</span>
+      <span class="ml-2">of {{ affiliation.organization }}</span>
     </v-col>
     <v-col
       md="8"
@@ -100,10 +105,17 @@ export default {
       >
         mdi-delete
       </v-icon>
-      <v-icon class="ml-2" small color="green" @click.stop.prevent="setAffiliationActiveState(true)" v-else :disabled="roleEditingEnabled">
+      <v-icon
+        class="ml-2"
+        small
+        color="green"
+        @click.stop.prevent="setAffiliationActiveState(true)"
+        v-else
+        :disabled="roleEditingEnabled"
+      >
         mdi-delete-restore
       </v-icon>
-      <v-icon v-if="itemLocal.active" class="ml-2" small color="primary" @click.stop="toggleEditing">mdi-pencil</v-icon>
+      <v-icon v-if="itemLocal.active" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
     </v-col>
   </v-row>
 </template>

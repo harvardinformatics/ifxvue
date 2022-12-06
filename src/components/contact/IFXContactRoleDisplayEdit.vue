@@ -1,5 +1,4 @@
 <script>
-
 export default {
   name: 'IFXContactRoleDisplayEdit',
   mixins: [],
@@ -15,10 +14,10 @@ export default {
     return {
       roleEditingEnabled: false,
       allRoles: ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
+      rowKey: 0,
     }
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {
     itemLocal: {
       get() {
@@ -30,14 +29,14 @@ export default {
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
-      return this.allRoles.filter(
-        (role) => role.includes(this.contact?.type) || role === 'Additional Contact'
-      )
+      return this.allRoles.filter((role) => role.includes(this.contact?.type) || role === 'Additional Contact')
     },
   },
   methods: {
     setContactActiveState(active) {
       this.itemLocal.active = active
+      // This is a hack to get the row to update based on the active state
+      this.rowKey++
       this.$emit('update', this.itemLocal)
     },
     toggleEditing() {
@@ -54,7 +53,7 @@ export default {
 }
 </script>
 <template>
-  <v-row dense>
+  <v-row dense :key="rowKey">
     <v-col md="4" v-if="roleEditingEnabled">
       <v-select
         v-model.trim="itemLocal.role"
@@ -74,25 +73,21 @@ export default {
       {{ itemLocal.role }}
     </v-col>
     <v-col :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }">
-      <a :href="`mailto:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
+      <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
     </v-col>
     <v-col>
       <v-icon
         class="ml-2"
         small
         color="red"
-        @click.stop.prevent="setContactActiveState(false)"
+        @click="setContactActiveState(false)"
         v-if="itemLocal.active"
         :disabled="roleEditingEnabled"
       >
         mdi-delete
       </v-icon>
-      <v-icon class="ml-2" small color="green" @click.stop="setContactActiveState(true)" v-else>
-        mdi-delete-restore
-      </v-icon>
-      <v-icon v-if="itemLocal.active" class="ml-2" small color="primary" @click.stop="toggleEditing">
-        mdi-pencil
-      </v-icon>
+      <v-icon class="ml-2" small color="green" @click="setContactActiveState(true)" v-else>mdi-delete-restore</v-icon>
+      <v-icon v-if="itemLocal.active" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
     </v-col>
   </v-row>
 </template>
