@@ -38,12 +38,12 @@ export default {
     createNew(val) {
       // This is a new contact. Create the object.
       const contact = this.$api.contact.create({ detail: val })
-      if (/^[\\d+-]+$/.test(val)) {
-        this.$set(contact, 'type', 'Phone')
+      if (/^\(?\+?(\d)+[\d )-]*$/g.test(val)) {
+        this.contact.type = 'Phone'
       } else {
-        this.$set(contact, 'type', 'Email')
+        this.contact.type = 'Email'
       }
-      this.$set(this.itemLocal, 'contact', contact)
+      this.itemLocal.contact = contact
       this.$refs.autocomplete.isMenuActive = false
       this.newContacts.push(contact)
       this.$nextTick(() => {
@@ -136,8 +136,8 @@ export default {
               <span v-if="!itemLocal.contact.id">Select a</span>
               Contact type
             </template>
-            <v-radio label="Email" value="Email"></v-radio>
-            <v-radio label="Phone" value="Phone"></v-radio>
+            <v-radio label="Email" value="Email" data-cy="select-contact-email"></v-radio>
+            <v-radio label="Phone" value="Phone" data-cy="select-contact-phone"></v-radio>
           </v-radio-group>
         </v-col>
       </v-row>
@@ -151,6 +151,7 @@ export default {
               :rules="formRules.generic"
               label="Role"
               required
+              data-cy="select-role"
             ></v-autocomplete>
           </v-col>
           <v-col>
@@ -162,6 +163,7 @@ export default {
               :rules="formRules.email"
               label="Email"
               required
+              data-cy="role-email"
             ></v-text-field>
             <v-text-field
               v-if="itemLocal.contact.type === 'Phone'"
@@ -171,6 +173,7 @@ export default {
               :rules="formRules.generic"
               label="Phone"
               required
+              data-cy="role-phone"
             ></v-text-field>
           </v-col>
         </v-row>
