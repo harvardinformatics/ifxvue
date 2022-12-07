@@ -45,7 +45,7 @@ export default {
       },
     },
     appropriateRoles() {
-      // We assume that the type and the role name both contain the same case-senstive value
+      // If you're not an admin, you can only set yourself to member
       return this.allRoles.filter(
         (role) => this.$api.auth.can('edit-affiliations', this.$api.authUser) || role.value === 'member'
       )
