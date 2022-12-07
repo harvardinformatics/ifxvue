@@ -71,30 +71,23 @@ export default {
     },
     addContact() {
       this.contactDialogOpen = false
-      if (this.currentContact.id) {
-        // this is an update. Find the contact and update it
-        const contactIndex = this.item.contacts.findIndex((c) => c.id === this.currentContact.id)
-        if (contactIndex) {
-          this.items.contacts.splice(contactIndex, 1, this.currentContact)
-        }
-      } else {
-        // this is a new contact. Set it to active and add it to the list
-        // this.$set(this.currentContact, 'active', true)
-        this.currentContact.active = true
-        this.item.contacts.push(this.currentContact)
-      }
+      // if (this.currentContact.id) {
+      //   // this is an update. Find the contact and update it
+      //   const contactIndex = this.item.contacts.findIndex((c) => c.id === this.currentContact.id)
+      //   if (contactIndex) {
+      //     this.items.contacts.splice(contactIndex, 1, this.currentContact)
+      //   }
+      // } else {
+      //   // this is a new contact. Set it to active and add it to the list
+      this.currentContact.active = true
+      this.item.contacts.push(this.currentContact)
+      // }
       // this.submitUpdate()
     },
     openContactDialog() {
-      // eslint-disable-next-line prefer-object-spread
-      // this.$set(this, 'currentContact', this.$api.userContact.create())
-      // this.$set(this.currentContact, 'role', null)
-      // this.$set(this.currentContact, 'active', false)
-      // debugger
       this.currentContact = this.$api.userContact.create()
       this.currentContact.active = false
       this.currentContact.role = null
-      // console.log(this.currentContact)
       this.contactDialogOpen = true
     },
     updateContact(contact, index) {
@@ -106,17 +99,10 @@ export default {
     },
     cancelContact() {
       this.currentContact = this.$api.userContact.create()
-      // this.$set(this.currentContact, 'role', null)
-      // this.$set(this.currentContact, 'active', false)
-
       this.currentContact.role = null
       this.currentContact.active = false
     },
     updateAffiliation(affiliation, index) {
-      // const affiliationIndex = this.item.affiliations.findIndex((c) => c.id === affiliation.id)
-      // if (affiliationIndex) {
-      //   this.item.affiliations.splice(affiliationIndex, 1, affiliation)
-      // }
       this.item.affiliations.splice(index, 1, affiliation)
     },
     openAffiliationDialog() {
@@ -132,17 +118,17 @@ export default {
     },
     addAffiliation() {
       this.affiliationDialogOpen = false
-      if (this.newAffiliation.id) {
-        // this is an update. Find the affiliation and update it
-        const affiliationIndex = this.item.affiliations.findIndex((a) => a.id === this.newAffiliation.id)
-        if (affiliationIndex) {
-          this.items.affiliations.splice(affiliationIndex, 1, this.newAffiliation)
-        }
-      } else {
-        // this is a new Affiliation. Set it to active and add it to the list
-        this.newAffiliation.active = true
-        this.item.affiliations.push(this.newAffiliation)
-      }
+      // if (this.newAffiliation.id) {
+      //   // this is an update. Find the affiliation and update it
+      //   const affiliationIndex = this.item.affiliations.findIndex((a) => a.id === this.newAffiliation.id)
+      //   if (affiliationIndex) {
+      //     this.items.affiliations.splice(affiliationIndex, 1, this.newAffiliation)
+      //   }
+      // } else {
+      // this is a new Affiliation. Set it to active and add it to the list
+      this.newAffiliation.active = true
+      this.item.affiliations.push(this.newAffiliation)
+      // }
       // this.submitUpdate()
     },
     submitUpdate() {
@@ -183,9 +169,6 @@ export default {
     areGroupsPresent() {
       return this.item.groups?.length
     },
-    // addContactButtonEnabled() {
-    //   return this.currentContact.role && this.currentContact.contact?.detail
-    // },
   },
 }
 </script>
@@ -282,13 +265,10 @@ export default {
           <v-col>
             <span class="d-flex flex-column">
               <div v-for="(affiliation, index) in item.affiliations" :key="index" class="d-flex align-center mt-1">
-                <IFXAffiliationRoleDisplayEdit :affiliation="affiliation" @update="updateAffiliation(affiliation, index)" />
-                <!-- <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization }}</span>
-                <v-col>
-                  <v-icon class="ml-2" small color="red" @click.stop="deactivateAffiliation(affiliation)">
-                    mdi-delete
-                  </v-icon>
-                </v-col> -->
+                <IFXAffiliationRoleDisplayEdit
+                  :affiliation="affiliation"
+                  @update="updateAffiliation(affiliation, index)"
+                />
               </div>
             </span>
           </v-col>
@@ -372,13 +352,7 @@ export default {
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
             <v-btn small outlined class="mr-2" color="secondary" @click.stop="cancelContact">Clear</v-btn>
-            <v-btn
-              small
-              class="mr-2"
-              :disabled="!addContactFormIsValid"
-              color="primary"
-              @click="addContact()"
-            >
+            <v-btn small class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
               Add
             </v-btn>
           </v-card-actions>
@@ -415,13 +389,7 @@ export default {
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
             <v-btn small outlined class="mr-2" color="secondary" @click.stop="cancelAffiliation">Clear</v-btn>
-            <v-btn
-              small
-              class="mr-2"
-              :disabled="!addAffiliationFormIsValid"
-              color="primary"
-              @click="addAffiliation()"
-            >
+            <v-btn small class="mr-2" :disabled="!addAffiliationFormIsValid" color="primary" @click="addAffiliation()">
               Add
             </v-btn>
           </v-card-actions>
