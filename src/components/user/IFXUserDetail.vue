@@ -169,6 +169,12 @@ export default {
     areGroupsPresent() {
       return this.item.groups?.length
     },
+    filteredContacts() {
+      return this.allContacts.filter((c) => !this.item.contacts?.some((item) => item.contact.id === c.id))
+    },
+    filteredOrgSlugs() {
+      return this.allOrganizationSlugs.filter((slug) => !this.item.affiliations?.some((item) => item.organization === slug))
+    },
   },
 }
 </script>
@@ -305,7 +311,7 @@ export default {
                 <v-btn
                   icon
                   small
-                  @click.stop="closeUserInfoDialog"
+                  @click="closeUserInfoDialog"
                   data-cy="user-info-dialog-close"
                   v-on="on"
                   v-bind="attrs"
@@ -331,7 +337,7 @@ export default {
                 <v-btn
                   icon
                   small
-                  @click.stop="contactDialogOpen = false"
+                  @click="contactDialogOpen = false"
                   data-cy="contact-dialog-close"
                   v-on="on"
                   v-bind="attrs"
@@ -344,14 +350,16 @@ export default {
           </v-card-title>
           <v-card-text class="pb-0">
             <IFXSelectCreateContact
-              :allItems="allContacts"
+              :allItems="filteredContacts"
               :item.sync="currentContact"
               :errors="errors"
               :valid.sync="addContactFormIsValid"
             />
           </v-card-text>
-          <v-card-actions class="d-flex justify-end pb-3">
-            <v-btn small outlined class="mr-2" color="secondary" @click.stop="cancelContact">Clear</v-btn>
+          <v-card-actions class="d-flex justify-start pb-3">
+            <v-btn small outlined color="secondary" @click="contactDialogOpen = false">Close</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn small outlined class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
             <v-btn small class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
               Add
             </v-btn>
@@ -368,7 +376,7 @@ export default {
                 <v-btn
                   icon
                   small
-                  @click.stop="affiliationDialogOpen = false"
+                  @click="affiliationDialogOpen = false"
                   data-cy="affiliation-dialog-close"
                   v-on="on"
                   v-bind="attrs"
@@ -381,14 +389,14 @@ export default {
           </v-card-title>
           <v-card-text class="pb-0">
             <IFXSelectAffiliation
-              :allItems="allOrganizationSlugs"
+              :allItems="filteredOrgSlugs"
               :item.sync="newAffiliation"
               :errors="errors"
               :valid.sync="addAffiliationFormIsValid"
             />
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
-            <v-btn small outlined class="mr-2" color="secondary" @click.stop="cancelAffiliation">Clear</v-btn>
+            <v-btn small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Clear</v-btn>
             <v-btn small class="mr-2" :disabled="!addAffiliationFormIsValid" color="primary" @click="addAffiliation()">
               Add
             </v-btn>
