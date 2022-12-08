@@ -11,7 +11,7 @@ import { mapActions } from 'vuex'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
 import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
-import clone from 'lodash/clone'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'IFXUserEdit',
@@ -27,16 +27,6 @@ export default {
     IFXPageActionBar,
   },
   props: {
-    section: {
-      type: String,
-      required: false,
-      default: 'all',
-    },
-    inDialog: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   data() {
     return {
@@ -145,7 +135,7 @@ export default {
     },
     restore() {
       // cachedItem isn't a User object so can't use .data
-      this.item.data = clone(this.cachedItem._data)
+      this.item.data = cloneDeep(this.cachedItem._data)
       this.clearAllErrors()
     },
     canEdit(field) {
@@ -171,15 +161,15 @@ export default {
 }
 </script>
 <template>
-  <v-container fluid v-if="!isLoading && !!item" :class="{ 'pa-0': inDialog }">
+  <v-container fluid v-if="!isLoading && !!item">
     <!-- TODO: this dialog is not appearing properly -->
-    <v-container fluid :class="{ 'pa-0': inDialog }">
+    <v-container fluid>
       <IFXUserInfoDialog
         :isActive.sync="isDialogActive"
         :changeComment.sync="item.changeComment"
         @complete-action="completeAction"
       ></IFXUserInfoDialog>
-      <IFXPageHeader v-if="section === 'all'">
+      <IFXPageHeader>
         <template #title>{{ item.fullName }}</template>
         <template #actions>
           <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
@@ -188,7 +178,7 @@ export default {
           <IFXItemHistoryDisplay :item="item" />
         </template>
       </IFXPageHeader>
-      <v-container fluid v-if="hasIFXID" :class="{ 'pa-0': inDialog }">
+      <v-container fluid v-if="hasIFXID">
         <v-row no-gutters>
           <v-col>
             <p>
@@ -200,7 +190,7 @@ export default {
           </v-col>
         </v-row>
         <v-form @submit.prevent v-model="isValid" autocomplete="off" :ref="formName">
-          <v-row v-if="section === 'all' || section === 'user'">
+          <v-row>
             <v-col sm="6">
               <v-text-field
                 v-model.trim="item.firstName"
@@ -251,11 +241,10 @@ export default {
                   </v-chip>
                 </template>
               </v-combobox>
-              <!-- TODO: why v-else? -->
               <div class="items-warning" v-else>{{ data.item.groups.join(', ') || 'No groups' }}</div>
             </v-col>
           </v-row>
-          <v-row v-if="section === 'all' || section === 'user'">
+          <v-row>
             <v-col sm="6">
               <v-text-field
                 v-model.trim="item.primaryEmail"
@@ -272,7 +261,7 @@ export default {
               <v-text-field label="Primary Affiliation" :value="item.primaryAffiliation" disabled></v-text-field>
             </v-col>
           </v-row>
-          <v-row v-if="section === 'all' || section === 'contacts'">
+          <v-row>
             <v-col>
               <IFXItemSelectList
                 title="Contacts"
@@ -285,7 +274,7 @@ export default {
               </IFXItemSelectList>
             </v-col>
           </v-row>
-          <v-row v-if="section === 'all' || section === 'affiliations'">
+          <v-row>
             <v-col>
               <IFXItemSelectList
                 title="Affiliations"
