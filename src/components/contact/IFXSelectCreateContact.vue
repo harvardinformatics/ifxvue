@@ -39,9 +39,9 @@ export default {
       // This is a new contact. Create the object.
       const contact = this.$api.contact.create({ detail: val })
       if (/^\(?\+?(\d)+[\d )-]*$/g.test(val)) {
-        this.contact.type = 'Phone'
+        contact.type = 'Phone'
       } else {
-        this.contact.type = 'Email'
+        contact.type = 'Email'
       }
       this.itemLocal.contact = contact
       this.$refs.autocomplete.isMenuActive = false
