@@ -5,17 +5,16 @@ import IFXUserMixin from '@/components/user/IFXUserMixin'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXItemHistoryDisplay from '@/components/item/IFXItemHistoryDisplay'
-import IFXUserEdit from '@/components/user/IFXUserEdit'
+import IFXUserInfoEdit from '@/components/user/IFXUserInfoEdit'
 
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
-// import IFXUserEditWarning from '@/components/user/IFXUserEditWarning'
 import IFXUserInfoDialog from '@/components/user/IFXUserInfoDialog'
 import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
 import IFXSelectAffiliation from '@/components/affiliation/IFXSelectAffiliation'
 import IFXContactRoleDisplayEdit from '@/components/contact/IFXContactRoleDisplayEdit'
 import IFXAffiliationRoleDisplayEdit from '@/components/contact/IFXAffiliationRoleDisplayEdit'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
-// import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'IFXUserDetail',
@@ -23,8 +22,7 @@ export default {
   components: {
     IFXLoginIcon,
     IFXItemHistoryDisplay,
-    IFXUserEdit,
-    // IFXUserEditWarning,
+    IFXUserInfoEdit,
     IFXUserInfoDialog,
     IFXSelectCreateContact,
     IFXSelectAffiliation,
@@ -39,9 +37,10 @@ export default {
       allOrganizationSlugs: [],
       currentContact: {},
       newAffiliation: {},
-      dialogSection: 'all',
+      itemCopy: {},
       changeDialogActive: false,
       userInfoDialogOpen: false,
+      userInfoDialogValid: false,
       contactDialogOpen: false,
       addContactFormIsValid: false,
       affiliationDialogOpen: false,
@@ -52,37 +51,35 @@ export default {
     ...mapActions(['showMessage']),
     async init() {
       this.item = await this.apiRef.getByID(this.id, true)
+      this.cacheItem()
       this.allContacts = await this.$api.contact.getList({ has_name: false })
       this.allGroupNames = await this.$api.group.getNames()
       const organizations = await this.$api.organization.getNames()
       this.allOrganizationSlugs = organizations.map((o) => o.slug)
     },
+    openCommentDialog() {
+      this.changeDialogActive = true
+    },
     completeAction() {
       this.submitUpdate()
       this.changeDialogActive = false
     },
-    openUserInfoDialog(section) {
-      this.dialogSection = section
+    openUserInfoDialog() {
+      this.itemCopy = cloneDeep(this.item)
       this.userInfoDialogOpen = true
     },
     closeUserInfoDialog() {
-      this.dialogSection = 'all'
+      this.item = cloneDeep(this.itemCopy)
+      this.userInfoDialogOpen = false
+    },
+    cancelUserInfoDialog() {
+      this.itemCopy = {}
       this.userInfoDialogOpen = false
     },
     addContact() {
       this.contactDialogOpen = false
-      // if (this.currentContact.id) {
-      //   // this is an update. Find the contact and update it
-      //   const contactIndex = this.item.contacts.findIndex((c) => c.id === this.currentContact.id)
-      //   if (contactIndex) {
-      //     this.items.contacts.splice(contactIndex, 1, this.currentContact)
-      //   }
-      // } else {
-      //   // this is a new contact. Set it to active and add it to the list
       this.currentContact.active = true
       this.item.contacts.push(this.currentContact)
-      // }
-      // this.submitUpdate()
     },
     openContactDialog() {
       this.currentContact = this.$api.userContact.create()
@@ -91,10 +88,6 @@ export default {
       this.contactDialogOpen = true
     },
     updateContact(contact, index) {
-      // const contactIndex = this.item.contacts.findIndex((c) => c.id === contact.id)
-      // if (contactIndex) {
-      //   this.item.contacts.splice(contactIndex, 1, contact)
-      // }
       this.item.contacts.splice(index, 1, contact)
     },
     cancelContact() {
@@ -118,39 +111,21 @@ export default {
     },
     addAffiliation() {
       this.affiliationDialogOpen = false
-      // if (this.newAffiliation.id) {
-      //   // this is an update. Find the affiliation and update it
-      //   const affiliationIndex = this.item.affiliations.findIndex((a) => a.id === this.newAffiliation.id)
-      //   if (affiliationIndex) {
-      //     this.items.affiliations.splice(affiliationIndex, 1, this.newAffiliation)
-      //   }
-      // } else {
-      // this is a new Affiliation. Set it to active and add it to the list
       this.newAffiliation.active = true
       this.item.affiliations.push(this.newAffiliation)
-      // }
-      // this.submitUpdate()
     },
-    submitUpdate() {
-      this.apiRef
-        .update(this.item)
-        .then(async () => {
-          const message = `${this.itemType} updated successfully.`
-          this.showMessage(message)
-        })
-        .catch((error) => {
-          const { response } = error
-          if (response) {
-            this.errors = response.data
-          }
-          this.showMessage(error)
-        })
+    canEdit(field) {
+      return this.apiRef.canEditField(field)
+    },
+    removeGroup(group) {
+      const index = this.item.groups.indexOf(group)
+      if (index >= 0) this.item.groups.splice(index, 1)
+    },
+    getChipColorForGroup(group) {
+      return this.$api.group.colorForGroup(group)
     },
   },
   computed: {
-    appName() {
-      return this.$api.vars.appName
-    },
     areAnyAccountsPresent() {
       return this.item.accounts?.length || this.item.productAccounts?.length
     },
@@ -173,8 +148,16 @@ export default {
       return this.allContacts.filter((c) => !this.item.contacts?.some((item) => item.contact.id === c.id))
     },
     filteredOrgSlugs() {
-      return this.allOrganizationSlugs.filter((slug) => !this.item.affiliations?.some((item) => item.organization === slug))
+      return this.allOrganizationSlugs.filter(
+        (slug) => !this.item.affiliations?.some((item) => item.organization === slug)
+      )
     },
+    isSubmittable() {
+      return this.hasItemChanged()
+    },
+    isUserInfoEdittable() {
+      return this.item && this.item.username && !!this.item.ifxid
+    }
   },
 }
 </script>
@@ -189,7 +172,7 @@ export default {
     <IFXPageHeader>
       <template #title>{{ item.fullName || id }}</template>
       <template #actions>
-        <IFXLoginIcon v-if="item.isActive !== undefined" :isActive="item.isActive" />
+        <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
       </template>
       <template #content>
         <IFXItemHistoryDisplay :item="item" />
@@ -210,7 +193,7 @@ export default {
           {{ item.lastName }}
         </v-col>
         <v-col sm="1" align="end">
-          <IFXButton btnType="edit" xSmall @action="openUserInfoDialog('user')" />
+          <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable"/>
         </v-col>
       </v-row>
       <v-row dense>
@@ -261,7 +244,6 @@ export default {
           </v-col>
         </v-row>
       </span>
-      <!-- </v-col> -->
       <span v-if="areAffiliationsPresent">
         <v-divider class="my-2"></v-divider>
         <v-row dense>
@@ -301,17 +283,18 @@ export default {
           </span>
         </v-col>
       </v-row>
-      <IFXPageActionBar btnType="submit" @action="submitUpdate" :disabled="!isSubmittable"></IFXPageActionBar>
-      <v-dialog v-model="userInfoDialogOpen" v-if="userInfoDialogOpen" max-width="90vw" persistent>
+      <IFXPageActionBar btnType="submit" @action="openCommentDialog" :disabled="!isSubmittable"></IFXPageActionBar>
+      <v-dialog v-model="userInfoDialogOpen" v-if="userInfoDialogOpen" max-width="80vw" persistent>
         <v-card>
           <v-card-title>
+            Edit User Info
             <v-spacer></v-spacer>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
                   small
-                  @click="closeUserInfoDialog"
+                  @click="cancelUserInfoDialog"
                   data-cy="user-info-dialog-close"
                   v-on="on"
                   v-bind="attrs"
@@ -323,8 +306,19 @@ export default {
             </v-tooltip>
           </v-card-title>
           <v-card-text>
-            <IFXUserEdit :section="dialogSection" :id="id" :inDialog="true"></IFXUserEdit>
+            <IFXUserInfoEdit
+              :item.sync="itemCopy"
+              :errors="errors"
+              :allGroupNames="allGroupNames"
+              :valid.sync="userInfoDialogValid"
+            />
           </v-card-text>
+          <v-card-actions class="d-flex justify-end pb-3">
+            <v-btn small class="mr-2" outlined color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
+            <v-btn small class="mr-2" :disabled="!userInfoDialogValid" color="primary" @click="closeUserInfoDialog">
+              Update
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
       <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
@@ -357,7 +351,7 @@ export default {
             />
           </v-card-text>
           <v-card-actions class="d-flex justify-start pb-3">
-            <v-btn small outlined color="secondary" @click="contactDialogOpen = false">Close</v-btn>
+            <v-btn small outlined class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
             <v-btn small outlined class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
             <v-btn small class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
@@ -396,6 +390,8 @@ export default {
             />
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
+            <v-btn small outlined class="ml-2" color="secondary" @click="affiliationDialogOpen = false">Close</v-btn>
+            <v-spacer></v-spacer>
             <v-btn small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Clear</v-btn>
             <v-btn small class="mr-2" :disabled="!addAffiliationFormIsValid" color="primary" @click="addAffiliation()">
               Add
@@ -417,10 +413,13 @@ export default {
   padding-top: 1px;
   padding-bottom: 1px;
 }
-
 .key-background {
   background-color: #90a4ae;
   border-radius: 50%;
   padding: 5px;
+}
+.items-warning {
+  font-style: italic;
+  color: grey;
 }
 </style>
