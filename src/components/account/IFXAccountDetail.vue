@@ -28,15 +28,15 @@ export default {
   <v-container v-if="!isLoading">
     <IFXPageHeader>
       <template #title>{{ detailTitle }}</template>
-      <template #id>"{{ item.name }}"</template>
+      <template #id>&nbsp;"{{ item.name }}"</template>
       <template #actions>
-        <span v-if="item.active" class="active-account">
+        <span v-if="item.active" class="active-account d-flex align-center">
           <v-icon color="success">check</v-icon>
-          Currently Active
+          <span>Currently Active</span>
         </span>
-        <span v-else class="inactive-account">
+        <span v-else class="inactive-account d-flex align-center">
           <v-icon>close</v-icon>
-          Currently Inactive
+          <span>Currently Inactive</span>
         </span>
       </template>
       <template #content>
