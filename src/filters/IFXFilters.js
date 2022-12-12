@@ -103,6 +103,7 @@ export function affiliationRoleDisplay(value) {
     pi: 'PI',
     lab_manager: 'Lab Manager',
     member: 'Member',
+    approver: 'Approver',
   }
   if (value && displayValues[value]) {
     result = displayValues[value]
