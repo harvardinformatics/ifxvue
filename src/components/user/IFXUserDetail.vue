@@ -275,12 +275,13 @@ export default {
         <v-col>
           <span v-if="areAccountsPresent" class="d-flex flex-column">
             <div v-for="account in item.accounts" :key="account.id" class="d-flex align-center mt-1">
-              <span>{{ account.account.slug }} for any facility product</span>
+              <span :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active) }"
+>{{ account.account.slug }} for any facility product</span>
             </div>
           </span>
           <span v-if="areProductAccountsPresent" class="d-flex flex-column">
             <div v-for="account in item.productAccounts" :key="account.id" class="d-flex align-center mt-1">
-              <span>{{ account.account.slug }} for {{ account.product.name }}</span>
+              <span :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active) }">{{ account.account.slug }} for {{ account.product.name }}</span>
             </div>
           </span>
         </v-col>
@@ -363,7 +364,7 @@ export default {
             <v-btn small text class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
             <v-btn small text class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
-            <v-btn small class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
+            <v-btn small text class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
               Add
             </v-btn>
           </v-card-actions>
