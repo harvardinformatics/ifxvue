@@ -7,24 +7,6 @@ export default {
   data() {
     return {
       contactType: null,
-      allRoles: [
-        {
-          value: 'pi',
-          text: 'PI',
-        },
-        {
-          value: 'member',
-          text: 'Member',
-        },
-        {
-          value: 'lab_manager',
-          text: 'Lab Manager',
-        },
-        {
-          value: 'approver',
-          text: 'Approver',
-        },
-      ],
       search: '',
       isValid: false,
     }
@@ -36,10 +18,13 @@ export default {
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
-      return this.allRoles.filter(
+      return this.$api.user.userRoles.filter(
         (role) => this.$api.auth.can('edit-affiliations', this.$api.authUser) || role.value === 'member'
       )
     },
+    onlyOrgNames() {
+      return this.allItems.map((item) => this.$options.filters.orgNameFromSlug(item))
+    }
   },
   methods: {},
   watch: {
@@ -68,7 +53,7 @@ export default {
           <v-autocomplete
             v-model="itemLocal.organization"
             label="Search for an organization"
-            :items="allItems"
+            :items="onlyOrgNames"
             auto-select-first
             clearable
             clear-icon="mdi-close-circle"
