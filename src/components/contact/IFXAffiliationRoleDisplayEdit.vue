@@ -13,24 +13,6 @@ export default {
   data() {
     return {
       roleEditingEnabled: false,
-      allRoles: [
-        {
-          value: 'pi',
-          text: 'PI',
-        },
-        {
-          value: 'member',
-          text: 'Member',
-        },
-        {
-          value: 'lab_manager',
-          text: 'Lab Manager',
-        },
-        {
-          value: 'approver',
-          text: 'Approver',
-        },
-      ],
       rowKey: 0,
     }
   },
@@ -46,7 +28,7 @@ export default {
     },
     appropriateRoles() {
       // If you're not an admin, you can only set yourself to member
-      return this.allRoles.filter(
+      return this.$api.user.userRoles.filter(
         (role) => this.$api.auth.can('edit-affiliations', this.$api.authUser) || role.value === 'member'
       )
     },
@@ -85,14 +67,14 @@ export default {
         <v-btn x-small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Cancel</v-btn>
         <v-btn x-small class="mr-2" color="primary" @click="updateAffiliation(itemLocal)">Save</v-btn>
       </span>
-      <span class="ml-2">of {{ affiliation.organization }}</span>
+      <span class="ml-2">of {{ affiliation.organization | orgNameFromSlug }}</span>
     </v-col>
     <v-col
       md="8"
       v-else
       :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-affiliations') && !itemLocal.active }"
     >
-      <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization }}</span>
+      <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization | orgNameFromSlug }}</span>
     </v-col>
     <v-col v-if="$api.auth.can('edit-affiliations')" md="4">
       <v-icon
