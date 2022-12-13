@@ -11,6 +11,8 @@ export default {
       search: '',
       newContacts: [],
       isValid: false,
+      showCreateUI: false,
+      newContactDetail: null,
     }
   },
   mounted() {},
@@ -35,16 +37,19 @@ export default {
     checkValidForm() {
       this.$emit('check-valid-form')
     },
-    createNew(val) {
-      // This is a new contact. Create the object.
-      const contact = this.$api.contact.create({ detail: val })
-      if (/^\(?\+?(\d)+[\d )-]*$/g.test(val)) {
+    createNew() {
+      // This is a new contact. Verify this detail doesn't already exist
+      // const index = this.allContacts.findIndex((contact) => contact.detail === this.newContactDetail)
+      // if (index !== -1) {
+      // }
+      // Create the object.
+      const contact = this.$api.contact.create({ detail: this.newContactDetail })
+      if (/^\(?\+?(\d)+[\d )-]*$/g.test(this.newContactDetail)) {
         contact.type = 'Phone'
       } else {
         contact.type = 'Email'
       }
       this.itemLocal.contact = contact
-      this.$refs.autocomplete.isMenuActive = false
       this.newContacts.push(contact)
       this.$nextTick(() => {
         this.$refs.form.validate()
@@ -65,6 +70,15 @@ export default {
       }
       return 'mdi-help-circle'
     },
+    openCreateUI() {
+      this.newContactDetail = this.search
+      this.showCreateUI = true
+    },
+    detailIsUnique(v) {
+      return (
+        (v && v.length && this.allContacts.every((contact) => contact.detail !== v)) || 'Contact information cannot be empty and must be unique'
+      )
+    },
   },
   watch: {
     isValid(valid) {
@@ -77,12 +91,11 @@ export default {
   <v-container fluid v-if="!isLoading">
     <span>
       <!-- TODO: give user the option to select this, rather than checking it only -->
-      <v-row no-gutters>
-        <v-col>
+      <v-row align="center">
+        <v-col v-if="!showCreateUI">
           <v-autocomplete
             v-model="itemLocal.contact"
-            ref="autocomplete"
-            label="Search to use an existing contect or enter text to create a new one"
+            label="Search for an existing contect"
             :items="allContacts"
             item-text="detail"
             return-object
@@ -95,28 +108,6 @@ export default {
             data-cy="select-contact"
             :menu-props="{ closeOnContentClick: true, closeOnClick: true }"
           >
-            <template #no-data>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    <p>
-                      No Contact matching "
-                      <strong>{{ search }}</strong>
-                      ".
-                      <v-btn
-                        class="ml-2"
-                        x-small
-                        @click.stop="createNew(search)"
-                        color="primary"
-                        data-cy="create-new-contact"
-                      >
-                        Create
-                      </v-btn>
-                    </p>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
             <template v-slot:selection="{ attrs, item }">
               {{ selected }}
               <v-chip v-bind="attrs" label small color="primary">
@@ -127,6 +118,23 @@ export default {
               </v-chip>
             </template>
           </v-autocomplete>
+        </v-col>
+        <v-col v-else>
+          <span>
+            <v-text-field
+              v-model.trim="newContactDetail"
+              label="New contact information"
+              :rules="[detailIsUnique]"
+              required
+            ></v-text-field>
+          </span>
+        </v-col>
+        <v-col cols="2" v-if="!showCreateUI">
+          <v-btn x-small class="ml-2" color="primary" @click="openCreateUI">Create new</v-btn>
+        </v-col>
+        <v-col cols="3" v-else>
+          <v-btn x-small outlined class="ml-2" color="secondary" @click="showCreateUI = false">Cancel</v-btn>
+          <v-btn x-small class="ml-2" color="primary" :disabled="!newContactDetail" @click="createNew">Save</v-btn>
         </v-col>
       </v-row>
       <v-row no-gutters v-if="isContactSelected">
