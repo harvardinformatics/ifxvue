@@ -126,6 +126,7 @@ export default {
               label="New contact information"
               :rules="[detailIsUnique]"
               required
+              :disabled="itemLocal.contact.detail"
             ></v-text-field>
           </span>
         </v-col>
@@ -134,7 +135,7 @@ export default {
         </v-col>
         <v-col cols="3" v-else>
           <v-btn x-small outlined class="ml-2" color="secondary" @click="showCreateUI = false">Cancel</v-btn>
-          <v-btn x-small class="ml-2" color="primary" :disabled="!newContactDetail" @click="createNew">Save</v-btn>
+          <v-btn x-small class="ml-2" color="primary" :disabled="!newContactDetail || itemLocal.contact.detail" @click="createNew">Save</v-btn>
         </v-col>
       </v-row>
       <v-row no-gutters v-if="isContactSelected">
