@@ -157,7 +157,7 @@ export default {
     },
     isUserInfoEdittable() {
       return this.item && this.item.username && !!this.item.ifxid
-    }
+    },
   },
 }
 </script>
@@ -186,14 +186,16 @@ export default {
         <v-col>
           {{ item.firstName }}
         </v-col>
+        <v-col sm="1" align="end">
+          <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable" />
+        </v-col>
+      </v-row>
+      <v-row dense class="mt-n2">
         <v-col sm="4" md="3">
           <h3>Last Name</h3>
         </v-col>
         <v-col>
           {{ item.lastName }}
-        </v-col>
-        <v-col sm="1" align="end">
-          <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable"/>
         </v-col>
       </v-row>
       <v-row dense>
@@ -201,7 +203,7 @@ export default {
           <h3>Primary Affiliation</h3>
         </v-col>
         <v-col>
-          {{ item.primaryAffiliation }}
+          {{ item.primaryAffiliation | orgNameFromSlug }}
         </v-col>
       </v-row>
       <v-row dense v-if="areGroupsPresent">
@@ -314,8 +316,15 @@ export default {
             />
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
-            <v-btn small class="mr-2" outlined color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
-            <v-btn small class="mr-2" :disabled="!userInfoDialogValid" color="primary" @click="closeUserInfoDialog">
+            <v-btn small class="mr-2" text color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
+            <v-btn
+              small
+              class="mr-2"
+              text
+              :disabled="!userInfoDialogValid"
+              color="primary"
+              @click="closeUserInfoDialog"
+            >
               Update
             </v-btn>
           </v-card-actions>
@@ -351,9 +360,9 @@ export default {
             />
           </v-card-text>
           <v-card-actions class="d-flex justify-start pb-3">
-            <v-btn small outlined class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
+            <v-btn small text class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn small outlined class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
+            <v-btn small text class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
             <v-btn small class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
               Add
             </v-btn>
@@ -390,10 +399,10 @@ export default {
             />
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
-            <v-btn small outlined class="ml-2" color="secondary" @click="affiliationDialogOpen = false">Close</v-btn>
+            <v-btn small text class="ml-2" color="secondary" @click="affiliationDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Clear</v-btn>
-            <v-btn small class="mr-2" :disabled="!addAffiliationFormIsValid" color="primary" @click="addAffiliation()">
+            <v-btn small text class="mr-2" color="secondary" @click="cancelAffiliation">Clear</v-btn>
+            <v-btn small text class="mr-2" :disabled="!addAffiliationFormIsValid" color="primary" @click="addAffiliation()">
               Add
             </v-btn>
           </v-card-actions>
