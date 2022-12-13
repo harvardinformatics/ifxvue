@@ -82,7 +82,7 @@ export default {
           <v-autocomplete
             v-model="itemLocal.contact"
             ref="autocomplete"
-            label="Search or create a contact"
+            label="Search to use an existing contect or enter text to create a new one"
             :items="allContacts"
             item-text="detail"
             return-object
