@@ -65,7 +65,7 @@ export default {
           required
         ></v-select>
         <v-btn x-small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Cancel</v-btn>
-        <v-btn x-small class="mr-2" color="primary" @click="updateAffiliation(itemLocal)">Save</v-btn>
+        <v-btn x-small color="primary" @click="updateAffiliation(itemLocal)">Save</v-btn>
       </span>
       <span class="ml-2">of {{ affiliation.organization | orgNameFromSlug }}</span>
     </v-col>
