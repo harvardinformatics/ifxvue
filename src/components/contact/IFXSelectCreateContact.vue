@@ -11,14 +11,14 @@ export default {
       search: '',
       newContacts: [],
       isValid: false,
-      showCreateUI: false,
+      createNewSelected: false,
       newContactDetail: null,
     }
   },
   mounted() {},
   computed: {
     isContactSelected() {
-      return this.itemLocal.contact?.detail
+      return this.itemLocal.contact?.detail || this.createNewSelected
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
@@ -38,22 +38,23 @@ export default {
       this.$emit('check-valid-form')
     },
     createNew() {
-      // This is a new contact. Verify this detail doesn't already exist
-      // const index = this.allContacts.findIndex((contact) => contact.detail === this.newContactDetail)
-      // if (index !== -1) {
-      // }
-      // Create the object.
+      // This is a new contact. Create the object and assume Email type
+      this.newContactDetail = this.search
       const contact = this.$api.contact.create({ detail: this.newContactDetail })
-      if (/^\(?\+?(\d)+[\d )-]*$/g.test(this.newContactDetail)) {
-        contact.type = 'Phone'
-      } else {
-        contact.type = 'Email'
-      }
+      contact.type = 'Email'
       this.itemLocal.contact = contact
-      this.newContacts.push(contact)
+      if (this.newContactDetail) {
+        // Only save contact if there is a detail value
+        this.newContacts.push(contact)
+      }
+      this.createNewSelected = true
       this.$nextTick(() => {
         this.$refs.form.validate()
       })
+    },
+    switchToSearch() {
+      this.createNewSelected = false
+      this.search = null
     },
     contactTypeChange() {
       this.itemLocal.role = null
@@ -72,11 +73,12 @@ export default {
     },
     openCreateUI() {
       this.newContactDetail = this.search
-      this.showCreateUI = true
+      this.createNewSelected = true
     },
     detailIsUnique(v) {
       return (
-        (v && v.length && this.allContacts.every((contact) => contact.detail !== v)) || 'Contact information cannot be empty and must be unique'
+        (v && v.length && this.allItems.every((contact) => contact.detail !== v))
+        || 'Contact information cannot be empty and must be unique'
       )
     },
   },
@@ -90,10 +92,10 @@ export default {
 <template>
   <v-container fluid v-if="!isLoading">
     <span>
-      <!-- TODO: give user the option to select this, rather than checking it only -->
       <v-row align="center">
-        <v-col v-if="!showCreateUI">
+        <v-col>
           <v-autocomplete
+            v-show="!createNewSelected"
             v-model="itemLocal.contact"
             label="Search for an existing contect"
             :items="allContacts"
@@ -107,6 +109,7 @@ export default {
             @change="search = ''"
             data-cy="select-contact"
             :menu-props="{ closeOnContentClick: true, closeOnClick: true }"
+            :disabled="createNewSelected"
           >
             <template v-slot:selection="{ attrs, item }">
               {{ selected }}
@@ -119,23 +122,11 @@ export default {
             </template>
           </v-autocomplete>
         </v-col>
-        <v-col v-else>
-          <span>
-            <v-text-field
-              v-model.trim="newContactDetail"
-              label="New contact information"
-              :rules="[detailIsUnique]"
-              required
-              :disabled="itemLocal.contact.detail"
-            ></v-text-field>
-          </span>
-        </v-col>
-        <v-col cols="2" v-if="!showCreateUI">
-          <v-btn x-small class="ml-2" color="primary" @click="openCreateUI">Create new</v-btn>
-        </v-col>
-        <v-col cols="3" v-else>
-          <v-btn x-small outlined class="ml-2" color="secondary" @click="showCreateUI = false">Cancel</v-btn>
-          <v-btn x-small class="ml-2" color="primary" :disabled="!newContactDetail || itemLocal.contact.detail" @click="createNew">Save</v-btn>
+        <v-col cols="2">
+          <v-btn x-small class="ml-2" color="primary" @click="createNew" v-if="!createNewSelected">Create new</v-btn>
+          <v-btn x-small outlined class="ml-2" color="secondary" @click="createNewSelected = false" v-else>
+            Search
+          </v-btn>
         </v-col>
       </v-row>
       <v-row no-gutters v-if="isContactSelected">
@@ -169,9 +160,10 @@ export default {
               v-model.trim="itemLocal.contact.detail"
               autocomplete="new-password"
               :error-messages="errors['contacts.detail']"
-              :rules="formRules.email"
+              :rules="[detailIsUnique].concat(formRules.email)"
               label="Email"
               required
+              :disabled="!!itemLocal.contact.id"
               data-cy="role-email"
             ></v-text-field>
             <v-text-field
@@ -182,6 +174,7 @@ export default {
               :rules="formRules.generic"
               label="Phone"
               required
+              :disabled="!!itemLocal.contact.id"
               data-cy="role-phone"
             ></v-text-field>
           </v-col>
