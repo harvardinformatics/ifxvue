@@ -85,6 +85,7 @@ export default {
       this.currentContact = this.$api.userContact.create()
       this.currentContact.active = false
       this.currentContact.role = null
+      this.currentContact.type = 'Email'
       this.contactDialogOpen = true
     },
     updateContact(contact, index) {
@@ -94,6 +95,7 @@ export default {
       this.currentContact = this.$api.userContact.create()
       this.currentContact.role = null
       this.currentContact.active = false
+      this.currentContact.type = 'Email'
     },
     updateAffiliation(affiliation, index) {
       this.item.affiliations.splice(index, 1, affiliation)
