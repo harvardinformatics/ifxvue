@@ -844,10 +844,15 @@ export default {
         .map(({ account }) => {
           let result = account
           if (account) {
-            // parse a slug and return the friendly name in parens
+            // parse a slug
             const match = account.match(/(.+?) \((.+?)\)$/)
-            if (match) {
-              result = match[2]
+            if (match.length) {
+              // If the first three characters are "PO<space>", we've got a PO
+              if (match[1].startsWith('PO ')) {
+                result = match[1].substr(3)
+              } else {
+                result = match[2]
+              }
             }
           }
           return result
