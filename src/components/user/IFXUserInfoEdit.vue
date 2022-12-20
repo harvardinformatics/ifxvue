@@ -131,7 +131,7 @@ export default {
                 </v-chip>
               </template>
             </v-combobox>
-            <div class="items-warning" v-else>{{ data.itemLocal.groups.join(', ') || 'No groups' }}</div>
+            <div class="items-warning" v-else>{{ itemLocal.groups.join(', ') || 'No groups' }}</div>
           </v-col>
         </v-row>
         <v-row>
