@@ -32,6 +32,9 @@ export default {
     allContacts() {
       return this.allItems.concat(this.newContacts)
     },
+    emailRules() {
+      return this.formRules.email.concat(this.detailIsUnique)
+    },
   },
   methods: {
     checkValidForm() {
@@ -71,15 +74,17 @@ export default {
       }
       return 'mdi-help-circle'
     },
-    openCreateUI() {
-      this.newContactDetail = this.search
-      this.createNewSelected = true
-    },
     detailIsUnique(v) {
       return (
         (v && v.length && this.allItems.every((contact) => contact.detail !== v))
         || 'Contact information cannot be empty and must be unique'
       )
+    },
+    selectContact() {
+      this.search = ''
+      this.$nextTick(() => {
+        this.$refs.form.validate()
+      })
     },
   },
   watch: {
@@ -106,7 +111,7 @@ export default {
             clear-icon="mdi-close-circle"
             hide-selected
             :search-input.sync="search"
-            @change="search = ''"
+            @change="selectContact"
             data-cy="select-contact"
             :menu-props="{ closeOnContentClick: true, closeOnClick: true }"
             :disabled="createNewSelected"
@@ -160,7 +165,7 @@ export default {
               v-model.trim="itemLocal.contact.detail"
               autocomplete="new-password"
               :error-messages="errors['contacts.detail']"
-              :rules="[detailIsUnique].concat(formRules.email)"
+              :rules="formRules.email"
               label="Email"
               required
               :disabled="!!itemLocal.contact.id"
