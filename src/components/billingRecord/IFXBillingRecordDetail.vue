@@ -25,8 +25,11 @@ export default {
       default: false,
     },
   },
-  created() {
+  async created() {
     this.isLoading = true
+    this.currentUserRecord = await this.$api.auth
+      .getCurrentUserRecord()
+      .catch(() => this.showMessage('Could not get user record. '))
   },
   data() {
     return {
@@ -62,6 +65,7 @@ export default {
       ],
       newExpenseCode: {},
       expenseCodes: [],
+      currentUserRecord: {},
     }
   },
   computed: {
@@ -77,20 +81,6 @@ export default {
     },
     hasMultipleTransactions() {
       return this.item.billingRecordStates.length > 1
-    },
-    canEdit() {
-      return (
-        this.showEditButtons
-        && this.$api.auth.can('edit-billing-record', this.$api.authUser)
-        && this.item.currentState !== 'FINAL'
-      )
-    },
-    canAddTransaction() {
-      return (
-        this.showEditButtons
-        && this.$api.auth.can('add-transactions', this.$api.authUser)
-        && this.item.currentState !== 'FINAL'
-      )
     },
   },
   methods: {
@@ -139,10 +129,7 @@ export default {
       if (this.$api.auth.can('set-any-account', this.$api.authUser)) {
         this.expenseCodes = await this.$api.account.getList()
       } else {
-        const currentUserRecord = await this.$api.auth
-          .getCurrentUserRecord()
-          .catch(() => this.showMessage('Could not get user record. '))
-        this.expenseCodes = currentUserRecord.accounts
+        this.expenseCodes = this.currentUserRecord.accounts
       }
 
       this.newExpenseCode = this.$api.account.create(this.item.account)
@@ -194,6 +181,12 @@ export default {
     },
     getOrgName(item) {
       return item.account ? this.$api.organization.parseSlug(item.account.organization).name : ''
+    },
+    canEdit() {
+      return this.showEditButtons && this.item.currentState !== 'FINAL'
+    },
+    canAddTransaction() {
+      return this.showEditButtons && this.item.currentState !== 'FINAL'
     },
   },
   watch: {},
