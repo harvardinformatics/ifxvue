@@ -183,18 +183,10 @@ export default {
       return item.account ? this.$api.organization.parseSlug(item.account.organization).name : ''
     },
     canEdit() {
-      return (
-        this.showEditButtons
-        && this.$api.auth.can('edit-billing-record', this.$api.authUser)
-        && this.item.currentState !== 'FINAL'
-      )
+      return this.showEditButtons && this.item.currentState !== 'FINAL'
     },
     canAddTransaction() {
-      return (
-        this.showEditButtons
-        && this.$api.auth.can('add-transactions', this.$api.authUser)
-        && this.item.currentState !== 'FINAL'
-      )
+      return this.showEditButtons && this.item.currentState !== 'FINAL'
     },
   },
   watch: {},
