@@ -127,11 +127,18 @@ export default {
     :loading="loading"
   >
     <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
-    <template v-for="header in headers" #[`item.${header.value}`]="{item}">
+    <template v-for="header in headers" #[`item.${header.value}`]="{ item }">
       <span v-if="header.namedSlot" v-bind:key="header.value">
         <slot :name="header.value" :item="item"></slot>
       </span>
-      <IFXDataTableCell v-else :header="header" :item="item" :type="itemType" :key="header.value"></IFXDataTableCell>
+      <IFXDataTableCell
+        v-else
+        :header="header"
+        :item="item"
+        :type="itemType"
+        :key="header.value"
+        :custom="header.custom"
+      ></IFXDataTableCell>
     </template>
   </v-data-table>
 </template>
