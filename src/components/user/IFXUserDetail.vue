@@ -137,12 +137,6 @@ export default {
     areProductAccountsPresent() {
       return this.item.productAccounts?.length
     },
-    areContactsPresent() {
-      return this.item.contacts?.length
-    },
-    areAffiliationsPresent() {
-      return this.item.affiliations?.length
-    },
     areGroupsPresent() {
       return this.item.groups?.length
     },
@@ -228,7 +222,7 @@ export default {
           </v-row>
         </v-col>
       </v-row>
-      <span v-if="areContactsPresent">
+      <span>
         <v-divider class="my-2"></v-divider>
         <v-row dense>
           <v-col sm="4" md="3">
@@ -248,7 +242,7 @@ export default {
           </v-col>
         </v-row>
       </span>
-      <span v-if="areAffiliationsPresent">
+      <span>
         <v-divider class="my-2"></v-divider>
         <v-row dense>
           <v-col sm="4" md="3">
@@ -277,18 +271,36 @@ export default {
         <v-col>
           <span v-if="areAccountsPresent" class="d-flex flex-column">
             <div v-for="account in item.accounts" :key="account.id" class="d-flex align-center mt-1">
-              <span :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active) }"
->{{ account.account.slug }} for any facility product</span>
+              <span
+                :class="{
+                  'text-decoration-line-through':
+                    $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
+                }"
+              >
+                {{ account.account.slug }} for any facility product
+              </span>
             </div>
           </span>
           <span v-if="areProductAccountsPresent" class="d-flex flex-column">
             <div v-for="account in item.productAccounts" :key="account.id" class="d-flex align-center mt-1">
-              <span :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active) }">{{ account.account.slug }} for {{ account.product.name }}</span>
+              <span
+                :class="{
+                  'text-decoration-line-through':
+                    $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
+                }"
+              >
+                {{ account.account.slug }} for {{ account.product.name }}
+              </span>
             </div>
           </span>
         </v-col>
       </v-row>
-      <IFXPageActionBar btnType="submit" @action="openCommentDialog" :disabled="!isSubmittable"></IFXPageActionBar>
+      <IFXPageActionBar
+        class="mt-0"
+        btnType="submit"
+        @action="openCommentDialog"
+        :disabled="!isSubmittable"
+      ></IFXPageActionBar>
       <v-dialog v-model="userInfoDialogOpen" v-if="userInfoDialogOpen" max-width="80vw" persistent>
         <v-card>
           <v-card-title>
@@ -405,7 +417,14 @@ export default {
             <v-btn small text class="ml-2" color="secondary" @click="affiliationDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
             <v-btn small text class="mr-2" color="secondary" @click="cancelAffiliation">Clear</v-btn>
-            <v-btn small text class="mr-2" :disabled="!addAffiliationFormIsValid" color="primary" @click="addAffiliation()">
+            <v-btn
+              small
+              text
+              class="mr-2"
+              :disabled="!addAffiliationFormIsValid"
+              color="primary"
+              @click="addAffiliation()"
+            >
               Add
             </v-btn>
           </v-card-actions>
