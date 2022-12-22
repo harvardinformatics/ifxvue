@@ -332,13 +332,13 @@ export default class IFXAPIService {
         text: 'Approver',
       },
     ]
-    api.canEditField = (field, obj) => {
+    api.canEditField = (field, obj = this.authUser) => {
       if (this.auth.isAdmin) return true
-      const USER_EDITABLE_FIELDS = ['firstName', 'lastName']
+      const USER_EDITABLE_FIELDS = ['firstName', 'lastName', 'primaryEmail', 'fullName']
       // field name should be class.field
       const [className, fieldName] = field.split('.')
-      if (className === 'User' && fieldName in USER_EDITABLE_FIELDS) {
-        if (obj.username === this.username) {
+      if (className === 'User' && USER_EDITABLE_FIELDS.includes(fieldName)) {
+        if (obj.username === this.authUser.username) {
           return true
         }
       }
