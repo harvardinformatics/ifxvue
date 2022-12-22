@@ -40,7 +40,6 @@ export default {
         this.$delete(this.errors, key)
       }
     },
-
   },
   watch: {
     isValid(valid) {
@@ -148,14 +147,19 @@ export default {
             ></v-text-field>
           </v-col>
           <v-col sm="6">
-            <v-switch :label="`${this.$api.vars.appNameFormatted} Login`" v-model="itemLocal.isActive" ></v-switch>
+            <v-switch
+              :label="`${this.$api.vars.appNameFormatted} Login`"
+              :disabled="!canEdit('User.isActive')"
+              v-model="itemLocal.isActive"
+            ></v-switch>
           </v-col>
         </v-row>
       </v-form>
     </v-container>
     <v-container v-else>
       <v-alert :value="true" type="error" outlined>
-        Application users that are not associated with a Person cannot be edited with this form.  Use Django admin forms for these edits.
+        Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms
+        for these edits.
       </v-alert>
     </v-container>
   </v-container>
