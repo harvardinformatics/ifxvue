@@ -2,6 +2,7 @@
 import moment from 'moment'
 import { mapActions } from 'vuex'
 import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
+import IFXBillingRecordListDecimal from '@/components/billingRecord/IFXBillingRecordListDecimal'
 
 export default {
   name: 'IFXBillingRecords',
@@ -52,6 +53,7 @@ export default {
   },
   components: {
     IFXBillingRecordList,
+    IFXBillingRecordListDecimal,
   },
   methods: {
     ...mapActions(['showMessage']),
