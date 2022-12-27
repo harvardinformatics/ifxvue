@@ -77,9 +77,6 @@ export default {
     async getFacilities() {
       this.facilities = await this.$api.facility.getList({ application_username: this.$api.vars.appName })
     },
-    isDecimalFacility(facility) {
-      return ['Research Computing Storage'].includes(facility.name)
-    },
     resetShowBillingRecords() {
       this.showBillingRecords = false
       this.keyModifier += 100
@@ -142,7 +139,7 @@ export default {
       <v-row v-for="facility in facilities" :key="facility.id + keyModifier">
         <v-col>
           <IFXBillingRecordListDecimal
-            v-if="isDecimalFacility(facility)"
+            v-if="$api.facility.isDecimalFacility(facility.name)"
             :facility="facility"
             :date="date"
             :organization="organization"
