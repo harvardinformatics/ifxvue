@@ -783,7 +783,17 @@ export default class IFXAPIService {
 
   get facility() {
     const baseUrl = this.urls.FACILITIES
-    return this.genericAPI(baseUrl, Facility)
+    const api = this.genericAPI(baseUrl, Facility)
+    api.isDecimalFacility = (facility_name) => {
+      const result = ['Research Computing Storage', 'Center for Brain Science Neuroimaging'].includes(facility_name)
+      return result
+    }
+    api.isFacilityWithDates = (facility_name) => {
+      const result = ['Center for Brain Science Neuroimaging'].includes(facility_name)
+      console.log(`result of date check is ${result}`)
+      return result
+    }
+    return api
   }
 
   get billingRecord() {

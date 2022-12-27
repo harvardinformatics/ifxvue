@@ -19,7 +19,7 @@ export default {
     IFXBillingRecordTransactions,
     IFXContactablesCombobox,
     IFXMailButton,
-    IFXBillingRecordHeader
+    IFXBillingRecordHeader,
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -308,7 +308,7 @@ export default {
           if (i !== 0 && i % this.promiseBatchSize === 0) {
             // Wait a bit to not overwhelm the backend
             /* eslint-disable no-await-in-loop */
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise((r) => setTimeout(r, 500))
           }
         } else {
           item.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
@@ -316,7 +316,7 @@ export default {
         }
       }
       const results = await Promise.all(promises)
-      results.forEach(item => {
+      results.forEach((item) => {
         item.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
         toBeUpdated.push(item)
       })
@@ -575,7 +575,7 @@ export default {
       })
     },
     allowAddingTransactions(item) {
-      return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
+      return item.currentState !== 'FINAL'
     },
     allowEditingRecords(item) {
       return item.currentState !== 'FINAL'
@@ -745,7 +745,10 @@ export default {
                                           </li>
                                         </ul>
                                       </div>
-                                      <div v-if="Object.keys(emailResponse.errors).length" class="my-3 pb-2 border-bottom">
+                                      <div
+                                        v-if="Object.keys(emailResponse.errors).length"
+                                        class="my-3 pb-2 border-bottom"
+                                      >
                                         The following
                                         <span class="red--text">errors</span>
                                         occurred trying to send emails:
@@ -776,7 +779,9 @@ export default {
                               </v-card-text>
                               <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="secondary" text @click="notifyDialog = false">{{emailResponse ? "Close" : "Cancel"}}</v-btn>
+                                <v-btn color="secondary" text @click="notifyDialog = false">
+                                  {{ emailResponse ? 'Close' : 'Cancel' }}
+                                </v-btn>
                                 <v-btn color="blue darken-1" text :disabled="!isValid" @click="notifyLabManagers">
                                   Notify
                                 </v-btn>
@@ -899,27 +904,27 @@ export default {
       </v-card-title>
       <v-row>
         <v-col id="data-table">
-            <v-data-table
-              ref="table"
-              v-if="filteredItems"
-              v-model="selected"
-              :items="filteredItems"
-              :headers="headers"
-              :show-select="showCheckboxes"
-              show-expand
-              expand-icon="mdi-menu-right"
-              :itemKey="itemKey"
-              :loading="isLoading"
-              :items-per-page="-1"
-              group-by="account.organization"
-              @item-selected="determineGroupState"
-              @toggle-select-all="toggleSelectAll"
-            >
-              <template
+          <v-data-table
+            ref="table"
+            v-if="filteredItems"
+            v-model="selected"
+            :items="filteredItems"
+            :headers="headers"
+            :show-select="showCheckboxes"
+            show-expand
+            expand-icon="mdi-menu-right"
+            :itemKey="itemKey"
+            :loading="isLoading"
+            :items-per-page="-1"
+            group-by="account.organization"
+            @item-selected="determineGroupState"
+            @toggle-select-all="toggleSelectAll"
+          >
+            <template
               v-slot:group.header="{ group, headers, isOpen, toggle }"
               v-on:rendered="itemRendered('group.header')"
-              >
-                <IFXBillingRecordHeader
+            >
+              <IFXBillingRecordHeader
                 :key="group"
                 :item="item"
                 :group="group"
@@ -934,7 +939,7 @@ export default {
                 :getSummaryDetails="getSummaryDetails"
                 @
               />
-              </template>
+            </template>
             <template v-slot:item.id="{ item }">
               <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
             </template>
@@ -952,7 +957,7 @@ export default {
               ({{ item.account.name }})
             </template>
             <template v-slot:item.transactions="{ item }">
-              <div style="min-width: 150px;">
+              <div style="min-width: 150px">
                 <div class="my-1" v-for="txn in item.transactions" :key="txn.id">
                   {{ txn | transactionDisplay }}
                 </div>
@@ -993,7 +998,7 @@ export default {
             <template v-slot:expanded-item="{ item }">
               <IFXBillingRecordTransactions :billingRecord="item" />
             </template>
-            </v-data-table>
+          </v-data-table>
           <v-dialog v-model="txnDialog" max-width="600px">
             <v-card>
               <v-card-title>
