@@ -4,7 +4,6 @@ import { mapActions } from 'vuex'
 import IFXUserMixin from '@/components/user/IFXUserMixin'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
-import IFXItemHistoryDisplay from '@/components/item/IFXItemHistoryDisplay'
 import IFXUserInfoEdit from '@/components/user/IFXUserInfoEdit'
 
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
@@ -21,7 +20,6 @@ export default {
   mixins: [IFXUserMixin, IFXItemDetailMixin, IFXItemCreateEditMixin],
   components: {
     IFXLoginIcon,
-    IFXItemHistoryDisplay,
     IFXUserInfoEdit,
     IFXUserInfoDialog,
     IFXSelectCreateContact,
@@ -170,9 +168,6 @@ export default {
       <template #actions>
         <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
       </template>
-      <template #content>
-        <IFXItemHistoryDisplay :item="item" />
-      </template>
     </IFXPageHeader>
     <v-container>
       <v-row dense wrap>
@@ -222,6 +217,22 @@ export default {
           </v-row>
         </v-col>
       </v-row>
+      <v-row align="start" dense>
+        <v-col sm="4" md="3">
+          <h3>Created</h3>
+        </v-col>
+        <v-col>
+          {{ item.dateJoined|humanDatetime }}
+        </v-col>
+      </v-row>
+      <v-row align="start" dense>
+        <v-col sm="4" md="3">
+          <h3>Last Update</h3>
+        </v-col>
+        <v-col>
+          {{ item.lastUpdate|humanDatetime }}
+        </v-col>
+      </v-row>
       <span>
         <v-divider class="my-2"></v-divider>
         <v-row dense>
@@ -238,7 +249,12 @@ export default {
             </div>
           </v-col>
           <v-col sm="1" align="end">
-            <IFXButton btnType="add" xSmall @action="openContactDialog()" />
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openContactDialog()" />
+              </template>
+              <span>Add new contact</span>
+            </v-tooltip>
           </v-col>
         </v-row>
       </span>
@@ -259,7 +275,12 @@ export default {
             </span>
           </v-col>
           <v-col sm="1" align="end">
-            <IFXButton btnType="add" xSmall @action="openAffiliationDialog()" />
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openAffiliationDialog()" />
+              </template>
+              <span>Add affiliation</span>
+            </v-tooltip>
           </v-col>
         </v-row>
       </span>

@@ -2,7 +2,6 @@
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
-import IFXItemHistoryDisplay from '@/components/item/IFXItemHistoryDisplay'
 
 import IFXUserMixin from '@/components/user/IFXUserMixin'
 import IFXUserEditWarning from '@/components/user/IFXUserEditWarning'
@@ -22,7 +21,6 @@ export default {
     IFXUserEditWarning,
     IFXUserInfoDialog,
     IFXLoginIcon,
-    IFXItemHistoryDisplay,
     IFXSelectableAffiliation,
     IFXPageActionBar,
   },
@@ -173,9 +171,6 @@ export default {
         <template #title>{{ item.fullName }}</template>
         <template #actions>
           <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
-        </template>
-        <template #content>
-          <IFXItemHistoryDisplay :item="item" />
         </template>
       </IFXPageHeader>
       <v-container fluid v-if="hasIFXID">

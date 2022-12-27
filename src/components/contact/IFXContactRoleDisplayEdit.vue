@@ -76,18 +76,34 @@ export default {
       <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
     </v-col>
     <v-col>
-      <v-icon
-        class="ml-2"
-        small
-        color="red"
-        @click="setContactActiveState(false)"
-        v-if="itemLocal.active"
-        :disabled="roleEditingEnabled"
-      >
-        mdi-delete
-      </v-icon>
-      <v-icon class="ml-2" small color="green" @click="setContactActiveState(true)" v-else>mdi-delete-restore</v-icon>
-      <v-icon v-if="itemLocal.active" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
+      <v-tooltip v-if="itemLocal.active" top>
+        <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              v-bind="attrs"
+              v-on="on"
+              class="ml-2"
+              small
+              color="red"
+              @click="setContactActiveState(false)"
+              :disabled="roleEditingEnabled"
+            >
+              mdi-delete
+            </v-icon>
+        </template>
+        <span>Deactivate contact</span>
+      </v-tooltip>
+      <v-tooltip v-else top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="green" @click="setContactActiveState(true)">mdi-delete-restore</v-icon>
+        </template>
+        <span>Reactivate Contact</span>
+      </v-tooltip>
+      <v-tooltip v-if="itemLocal.active" top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
+        </template>
+        <span>Edit contact</span>
+      </v-tooltip>
     </v-col>
   </v-row>
 </template>

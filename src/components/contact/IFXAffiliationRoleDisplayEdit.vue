@@ -77,27 +77,44 @@ export default {
       <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization | orgNameFromSlug }}</span>
     </v-col>
     <v-col v-if="$api.auth.can('edit-affiliations')" md="4">
-      <v-icon
-        class="ml-2"
-        small
-        color="red"
-        @click.stop.prevent="setAffiliationActiveState(false)"
-        v-if="itemLocal.active"
-        :disabled="roleEditingEnabled"
-      >
-        mdi-delete
-      </v-icon>
-      <v-icon
-        class="ml-2"
-        small
-        color="green"
-        @click.stop.prevent="setAffiliationActiveState(true)"
-        v-else
-        :disabled="roleEditingEnabled"
-      >
-        mdi-delete-restore
-      </v-icon>
-      <v-icon v-if="itemLocal.active" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
+      <v-tooltip v-if="itemLocal.active" top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            v-on="on"
+            v-bind="attrs"
+            class="ml-2"
+            small
+            color="red"
+            @click.stop.prevent="setAffiliationActiveState(false)"
+            :disabled="roleEditingEnabled"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+        <span>Deactivate affiliation</span>
+      </v-tooltip>
+      <v-tooltip v-else>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            v-on="on"
+            v-bind="attrs"
+            class="ml-2"
+            small
+            color="green"
+            @click.stop.prevent="setAffiliationActiveState(true)"
+            :disabled="roleEditingEnabled"
+          >
+            mdi-delete-restore
+          </v-icon>
+        </template>
+        <span>Reactivate affiliation</span>
+      </v-tooltip>
+      <v-tooltip  v-if="itemLocal.active">
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
+        </template>
+        <span>Edit affiliation</span>
+      </v-tooltip>
     </v-col>
   </v-row>
 </template>
