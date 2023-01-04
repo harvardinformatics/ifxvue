@@ -66,6 +66,14 @@ export default {
   <span v-else-if="name === 'rowActionEdit'">
     <IFXButton btnType="edit" x-small data-cy="navigate-to-edit" @action="navigateToEdit(type, item.id)"></IFXButton>
   </span>
+  <span v-else-if="name === 'rowActionDetailEdit'">
+    <IFXButton
+      btnType="edit"
+      x-small
+      data-cy="navigate-to-detail"
+      @action="navigateToDetail(type, item.id)"
+    ></IFXButton>
+  </span>
   <span v-else-if="name === 'rowActionCopy'">
     <IFXButton btnType="copy" x-small data-cy="navigate-to-copy" @action="navigateToCopy(type, item)"></IFXButton>
   </span>
@@ -75,14 +83,14 @@ export default {
   <span v-else-if="name === 'deliveryDate'">
     <div>{{ item.deliveryDate | humanDatetime }}</div>
   </span>
-  <span v-else-if="name==='created'">
-    <div>{{item.created | humanDatetime}}</div>
+  <span v-else-if="name === 'created'">
+    <div>{{ item.created | humanDatetime }}</div>
   </span>
-  <span v-else-if="name==='updated'">
-    <div>{{item.updated | humanDatetime}}</div>
+  <span v-else-if="name === 'updated'">
+    <div>{{ item.updated | humanDatetime }}</div>
   </span>
-  <span v-else-if="name==='dateCreated'">
-    <div>{{item.dateCreated | humanDatetime}}</div>
+  <span v-else-if="name === 'dateCreated'">
+    <div>{{ item.dateCreated | humanDatetime }}</div>
   </span>
   <span v-else-if="name === 'dateJoined'">
     <div>{{ item.dateJoined | humanDatetime }}</div>

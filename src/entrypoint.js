@@ -61,7 +61,10 @@ import IFXContactList from '@/components/contact/IFXContactList'
 import IFXContactMixin from '@/components/contact/IFXContactMixin'
 import IFXContact from '@/components/contact/IFXContact'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
+import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
 import IFXContactCard from '@/components/contact/IFXContactCard'
+import IFXContactRoleDisplayEdit from '@/components/contact/IFXContactRoleDisplayEdit'
+import IFXAffiliationRoleDisplayEdit from '@/components/contact/IFXAffiliationRoleDisplayEdit'
 
 // User
 import IFXUserEdit from '@/components/user/IFXUserEdit'
@@ -161,7 +164,10 @@ export {
   IFXContactList,
   IFXContactMixin,
   IFXSelectableContact,
+  IFXSelectCreateContact,
   IFXContactCard,
+  IFXContactRoleDisplayEdit,
+  IFXAffiliationRoleDisplayEdit,
   User,
   UserContact,
   UserAccount,

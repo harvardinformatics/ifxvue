@@ -51,7 +51,7 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if='!isLoading'>
+  <v-container fluid v-if='!isLoading'>
     <!-- TODO: this disabled section is basically the contact detail page - probably use that -->
     <span v-if='disabled'>
       <v-row>
@@ -83,7 +83,7 @@ export default {
     </span>
     <span v-else>
     <!-- TODO: give user the option to select this, rather than checking it only -->
-      <v-row v-if="isSearchVisible">
+      <v-row v-if="isSearchVisible" no-gutters>
         <v-col>
           <v-autocomplete
             v-model="itemLocal.contact"
@@ -96,7 +96,7 @@ export default {
           </v-autocomplete>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row no-gutters>
         <v-col>
           <span v-if="!itemLocal.contact">Select a </span>Contact type
           <v-radio-group
@@ -121,7 +121,7 @@ export default {
           </v-radio-group>
         </v-col>
       </v-row>
-      <v-row v-if="contactType === 'Full'">
+      <v-row v-if="contactType === 'Full'" no-gutters>
         <v-col>
           <v-row>
             <v-col>
@@ -174,7 +174,7 @@ export default {
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="contactType === 'Email'">
+      <v-row v-if="contactType === 'Email'" no-gutters>
         <v-col>
           <v-row>
             <v-col>
@@ -202,7 +202,7 @@ export default {
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="contactType === 'Phone'">
+      <v-row v-if="contactType === 'Phone'" no-gutters>
         <v-col>
           <v-row>
             <v-col>

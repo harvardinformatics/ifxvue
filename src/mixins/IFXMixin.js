@@ -311,6 +311,12 @@ export default {
          */
         email: [baseRule, (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'],
         /**
+         * Checks if value is a valid phone # (10 digits)
+         * @param {any} v
+         * @returns {boolean | string}
+         */
+        phone: [baseRule, (v) => /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g.test(v) || 'Phone number must be, digits, hyphens or parens only'],
+        /**
          * Checks if value is valid currency
          * @param {any} v
          * @returns {boolean | string}

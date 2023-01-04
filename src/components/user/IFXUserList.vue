@@ -89,7 +89,7 @@ export default {
         { text: 'IfxId', value: 'ifxid', hide: 'mdAndDown', sortable: true },
         { text: 'Groups', value: 'groups', sortable: true },
         { text: `${this.$api.vars.appNameFormatted} Login`, value: 'isLoginActive', sortable: true },
-        { text: '', value: 'rowActionEdit', sortable: false },
+        { text: '', value: 'rowActionDetailEdit', sortable: false },
       ]
       const headers = this.headers || defaultHeaders
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
@@ -157,18 +157,11 @@ export default {
           :itemType="itemType"
           :loading="isLoading"
         >
-          <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
+          <!-- Loops through all headers and use a named slot if specified-->
           <template v-for="header in headers" #[`${header.value}`]="{ item }">
             <span v-if="header.namedSlot" v-bind:key="header.value">
               <slot :name="header.value" :item="item"></slot>
             </span>
-            <IFXDataTableCell
-              v-else
-              :header="header"
-              :item="item"
-              :type="itemType"
-              :key="header.value"
-            ></IFXDataTableCell>
           </template>
         </IFXItemDataTable>
       </v-col>
