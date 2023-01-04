@@ -50,10 +50,10 @@ export default {
     },
     changeCommentLocal: {
       get() {
-        return this.comment
+        return this.changeComment
       },
       set(text) {
-        this.$emit('update:comment', text)
+        this.$emit('update:changeComment', text)
       },
     },
   },
