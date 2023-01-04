@@ -13,18 +13,12 @@ export default {
   },
   mounted() {},
   computed: {
-    isContactSelected() {
-      return this.itemLocal.contact?.detail
-    },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
       return this.$api.user.userRoles.filter(
         (role) => this.$api.auth.can('edit-affiliations', this.$api.authUser) || role.value === 'member'
       )
     },
-    onlyOrgNames() {
-      return this.allItems.map((item) => this.$options.filters.orgNameFromSlug(item))
-    }
   },
   methods: {},
   watch: {
@@ -53,7 +47,7 @@ export default {
           <v-autocomplete
             v-model="itemLocal.organization"
             label="Search for an organization"
-            :items="onlyOrgNames"
+            :items="allItems"
             auto-select-first
             clearable
             clear-icon="mdi-close-circle"
@@ -65,6 +59,12 @@ export default {
             :rules="formRules.generic"
             :error-messages="errors['organization']"
           >
+            <template #item="{ item }">
+              {{ item | orgNameFromSlug }}
+            </template>
+            <template #selection="{ item }">
+              {{ item | orgNameFromSlug }}
+            </template>
           </v-autocomplete>
         </v-col>
       </v-row>
