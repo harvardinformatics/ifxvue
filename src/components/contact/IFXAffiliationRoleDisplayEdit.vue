@@ -65,7 +65,7 @@ export default {
           required
         ></v-select>
         <v-btn x-small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Cancel</v-btn>
-        <v-btn x-small color="primary" @click="updateAffiliation(itemLocal)">Save</v-btn>
+        <v-btn x-small color="secondary" @click="updateAffiliation(itemLocal)">Accept</v-btn>
       </span>
       <span class="ml-2">of {{ affiliation.organization | orgNameFromSlug }}</span>
     </v-col>
@@ -109,7 +109,7 @@ export default {
         </template>
         <span>Reactivate affiliation</span>
       </v-tooltip>
-      <v-tooltip  v-if="itemLocal.active">
+      <v-tooltip v-if="itemLocal.active">
         <template v-slot:activator="{ on, attrs }">
           <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
         </template>

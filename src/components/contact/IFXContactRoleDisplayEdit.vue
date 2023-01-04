@@ -63,7 +63,7 @@ export default {
         required
       ></v-select>
       <v-btn x-small outlined class="mr-2" color="secondary" @click.stop="cancelContact">Cancel</v-btn>
-      <v-btn x-small class="mr-2" color="primary" @click.stop="updateContact(itemLocal)">Save</v-btn>
+      <v-btn x-small class="mr-2" color="secondary" @click.stop="updateContact(itemLocal)">Accept</v-btn>
     </v-col>
     <v-col
       md="4"
@@ -78,23 +78,25 @@ export default {
     <v-col>
       <v-tooltip v-if="itemLocal.active" top>
         <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              v-bind="attrs"
-              v-on="on"
-              class="ml-2"
-              small
-              color="red"
-              @click="setContactActiveState(false)"
-              :disabled="roleEditingEnabled"
-            >
-              mdi-delete
-            </v-icon>
+          <v-icon
+            v-bind="attrs"
+            v-on="on"
+            class="ml-2"
+            small
+            color="red"
+            @click="setContactActiveState(false)"
+            :disabled="roleEditingEnabled"
+          >
+            mdi-delete
+          </v-icon>
         </template>
         <span>Deactivate contact</span>
       </v-tooltip>
       <v-tooltip v-else top>
         <template v-slot:activator="{ on, attrs }">
-          <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="green" @click="setContactActiveState(true)">mdi-delete-restore</v-icon>
+          <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="green" @click="setContactActiveState(true)">
+            mdi-delete-restore
+          </v-icon>
         </template>
         <span>Reactivate Contact</span>
       </v-tooltip>
