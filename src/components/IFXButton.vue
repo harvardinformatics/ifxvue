@@ -37,7 +37,7 @@ export default {
       default: 'white',
       required: false,
     },
-    // String for icon, overrides default determined buy btnType
+    // String for icon, overrides default determined by btnType
     iconString: {
       type: String,
       required: false,
@@ -50,6 +50,12 @@ export default {
     btnText: {
       type: String,
       required: false,
+    },
+    // If in a dialog, use text style buttons
+    inDialog: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   computed: {
@@ -196,6 +202,7 @@ export default {
     :color="btnColorComputed"
     @click.prevent="clickHandler"
     :data-cy="dataCyString"
+    :text="inDialog"
   >
     <v-icon v-if="iconStringComputed" :color="iconColor" :class="{ 'mr-2': btnTextComputed }">
       {{ iconStringComputed }}

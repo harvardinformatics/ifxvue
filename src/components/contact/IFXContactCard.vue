@@ -6,29 +6,29 @@ export default {
     contact: {
       type: Object,
       required: false,
-      default: () => null
+      default: () => null,
     },
     dense: {
       type: Boolean,
       required: false,
-      default: () => false
+      default: () => false,
     },
     editBtn: {
       type: Boolean,
       required: false,
-      default: true
-    }
+      default: true,
+    },
   },
   methods: {
     canEdit() {
       return this.$api.auth.can('edit-contact', this.$api.authUser)
-    }
+    },
   },
   computed: {
     cardClass() {
       return {
         'contact-card': true,
-        dense: this.dense
+        dense: this.dense,
       }
     },
     contactData() {
@@ -36,33 +36,38 @@ export default {
     },
     contactID() {
       return this.contactData.id || ''
-    }
-  }
+    },
+  },
 }
 </script>
 <template>
   <v-card :class="cardClass">
-    <span v-if='contact'>
+    <span v-if="contact">
       <IFXButton
-        class='contact-edit-btn'
-        v-if='editBtn' btnType="edit"
-        x-small @action="()=> this.navigateToEdit('Contact', contactID.toString())"
+        class="contact-edit-btn"
+        v-if="editBtn"
+        btnType="edit"
+        x-small
+        @action="() => this.navigateToEdit('Contact', contactID.toString())"
       />
 
       <!-- Titles -->
-      <v-card-title xs-12 v-if="contactData.org"> <!-- So that contacts on the OrganizationDetail page don't see blank space -->
-        <v-col alignContent='start' justify="start">
+      <v-card-title xs-12 v-if="contactData.org">
+        <!-- So that contacts on the OrganizationDetail page don't see blank space -->
+        <v-col alignContent="start" justify="start">
           <v-row>
             <div class="headline">{{ contactData.org }} ({{ contactData.name }})</div>
           </v-row>
         </v-col>
       </v-card-title>
 
-      <v-card-title xs-12 v-else-if='contactData.name'>
+      <v-card-title xs-12 v-else-if="contactData.name">
         <v-col>
           <v-row>
             <div class="headline">
-              <router-link v-if='contactData.userId' :to="{ name: 'UserEdit', params: { id: contactData.userId } }">{{ contactData.name }}</router-link>
+              <router-link v-if="contactData.userId" :to="{ name: 'UserEdit', params: { id: contactData.userId } }">
+                {{ contactData.name }}
+              </router-link>
               <div v-else>{{ contactData.name }}</div>
             </div>
           </v-row>
@@ -108,27 +113,27 @@ export default {
   </v-card>
 </template>
 <style scoped>
-  .contact-card {
-    padding: 0.2rem;
-    padding-top: 0;
-    width: 100%;
-    margin: 1rem;
-    height: 300px;
-  }
+.contact-card {
+  padding: 0.2rem;
+  padding-top: 0;
+  width: 100%;
+  margin: 1rem;
+  height: 300px;
+}
 
-  .dense {
-    width: auto;
-    height: auto;
-  }
+.dense {
+  width: auto;
+  height: auto;
+}
 
-  .contact-edit-btn {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-  }
+.contact-edit-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
 
-  .empty-contact {
-    background-color: #dedede;
-    min-height: 300px;
-  }
+.empty-contact {
+  background-color: #dedede;
+  min-height: 300px;
+}
 </style>

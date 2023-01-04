@@ -67,7 +67,7 @@ export default {
   <v-container>
     <v-col class="pt-0">
       <v-row v-if="hasNextQueryParam">
-        <v-col class="pa-0">
+        <v-col class="px-0">
           <div @click.prevent="rtr.back()" class="d-flex align-center blue--text text--darken-2 pointer">
             <v-icon class="mr-1 blue--text text--darken-2" :class="backArrowClass">mdi-arrow-left</v-icon>
             <span class="text-body-1 text-md-h6 font-weight-medium no-line-height">Back</span>

@@ -268,9 +268,10 @@ export default class IFXAPIService {
       newUserData.product_accounts = []
 
       if (userData.contacts && userData.contacts.length) {
-        const contactDataObjs = userData.contacts.map(({ id, role, contact }) => {
+        const contactDataObjs = userData.contacts.map(({ active, id, role, contact }) => {
           // contact.data.id = 1
           const newContactData = {
+            active,
             id,
             role,
             contact: decompose ? contact.data : this.contact.create(contact),
@@ -331,13 +332,13 @@ export default class IFXAPIService {
         text: 'Approver',
       },
     ]
-    api.canEditField = (field, obj) => {
+    api.canEditField = (field, obj = this.authUser) => {
       if (this.auth.isAdmin) return true
-      const USER_EDITABLE_FIELDS = ['firstName', 'lastName']
+      const USER_EDITABLE_FIELDS = ['firstName', 'lastName', 'primaryEmail', 'fullName']
       // field name should be class.field
       const [className, fieldName] = field.split('.')
-      if (className === 'User' && fieldName in USER_EDITABLE_FIELDS) {
-        if (obj.username === this.username) {
+      if (className === 'User' && USER_EDITABLE_FIELDS.includes(fieldName)) {
+        if (obj.username === this.authUser.username) {
           return true
         }
       }

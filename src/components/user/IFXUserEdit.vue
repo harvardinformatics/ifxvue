@@ -2,7 +2,6 @@
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
-import IFXItemHistoryDisplay from '@/components/item/IFXItemHistoryDisplay'
 
 import IFXUserMixin from '@/components/user/IFXUserMixin'
 import IFXUserEditWarning from '@/components/user/IFXUserEditWarning'
@@ -11,7 +10,7 @@ import { mapActions } from 'vuex'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'
 import IFXSelectableAffiliation from '@/components/affiliation/IFXSelectableAffiliation'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
-import clone from 'lodash/clone'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'IFXUserEdit',
@@ -22,9 +21,10 @@ export default {
     IFXUserEditWarning,
     IFXUserInfoDialog,
     IFXLoginIcon,
-    IFXItemHistoryDisplay,
     IFXSelectableAffiliation,
     IFXPageActionBar,
+  },
+  props: {
   },
   data() {
     return {
@@ -42,8 +42,7 @@ export default {
       try {
         this.item = await this.getItem()
         const filteredContacts = this.item.contacts.filter((c) => c.contact.detail !== this.item.email)
-        // TODO: find a better way to update for reactivity
-        this.item.contacts = []
+        this.$set(this.item, 'contacts', [])
         filteredContacts.forEach((fc) => this.item.contacts.push(fc))
       } catch (error) {
         this.showMessage(error)
@@ -134,7 +133,7 @@ export default {
     },
     restore() {
       // cachedItem isn't a User object so can't use .data
-      this.item.data = clone(this.cachedItem._data)
+      this.item.data = cloneDeep(this.cachedItem._data)
       this.clearAllErrors()
     },
     canEdit(field) {
@@ -160,9 +159,9 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if="!isLoading && !!item">
+  <v-container fluid v-if="!isLoading && !!item">
     <!-- TODO: this dialog is not appearing properly -->
-    <v-container>
+    <v-container fluid>
       <IFXUserInfoDialog
         :isActive.sync="isDialogActive"
         :changeComment.sync="item.changeComment"
@@ -173,11 +172,8 @@ export default {
         <template #actions>
           <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
         </template>
-        <template #content>
-          <IFXItemHistoryDisplay :item="item" />
-        </template>
       </IFXPageHeader>
-      <v-container v-if="hasIFXID">
+      <v-container fluid v-if="hasIFXID">
         <v-row no-gutters>
           <v-col>
             <p>
@@ -202,16 +198,6 @@ export default {
                 required
               ></v-text-field>
               <v-text-field
-                v-model.trim="item.lastName"
-                label="Last name"
-                autocomplete="new-password"
-                :error-messages="errors.lastName"
-                @focus="clearError('last_name')"
-                :disabled="!canEdit('User.lastName')"
-                :rules="formRules.generic"
-                required
-              ></v-text-field>
-              <v-text-field
                 v-model.trim="item.fullName"
                 label="Full name"
                 autocomplete="new-password"
@@ -223,25 +209,33 @@ export default {
               ></v-text-field>
             </v-col>
             <v-col sm="6">
+              <v-text-field
+                v-model.trim="item.lastName"
+                label="Last name"
+                autocomplete="new-password"
+                :error-messages="errors.lastName"
+                @focus="clearError('last_name')"
+                :disabled="!canEdit('User.lastName')"
+                :rules="formRules.generic"
+                required
+              ></v-text-field>
               <v-combobox
                 v-if="canEdit('User.groups')"
                 v-model="item.groups"
                 :items="allGroupNames"
                 clearable
                 multiple
-                solo
                 label="Groups"
                 hint="Groups to which this user belongs."
                 persistent-hint
                 :error-messages="errors.groups"
               >
-                <template #selection="{item}">
+                <template #selection="{ item }">
                   <v-chip :color="getChipColorForGroup(item)" close @click:close="removeGroup(item)">
                     <strong>{{ item }}</strong>
                   </v-chip>
                 </template>
               </v-combobox>
-              <!-- TODO: why v-else? -->
               <div class="items-warning" v-else>{{ data.item.groups.join(', ') || 'No groups' }}</div>
             </v-col>
           </v-row>
