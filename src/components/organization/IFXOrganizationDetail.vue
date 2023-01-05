@@ -1,37 +1,77 @@
 <script>
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
-import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
+import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
+
+import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXContactCard from '@/components/contact/IFXContactCard'
 import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
 import IFXContactRoleDisplayEdit from '@/components/contact/IFXContactRoleDisplayEdit'
+import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 
 export default {
   name: 'IFXOrganizationDetail',
-  mixins: [IFXOrganizationMixin, IFXItemDetailMixin],
-  data() {
-    return {
-      allContacts: [],
-      currentContact: {},
-      contactDialogOpen: false,
-      addContactFormIsValid: false,
-    }
-  },
+  mixins: [IFXOrganizationMixin, IFXItemDetailMixin, IFXItemCreateEditMixin],
   components: {
     IFXDeleteItemButton,
     IFXItemDataTable,
     IFXContactCard,
     IFXSelectCreateContact,
     IFXContactRoleDisplayEdit,
+    IFXPageActionBar,
+  },
+  data() {
+    return {
+      allRegularContacts: [],
+      currentContact: {},
+      contactDialogOpen: false,
+      addContactFormIsValid: false,
+    }
+  },
+  mounted() {
+    this.isLoading = true
+    this.init()
+      .then(() => (this.isLoading = false))
+      .catch((err) => {
+        this.showMessage(err)
+        this.rtr.replace({ name: `${this.itemType}List` })
+      })
   },
   methods: {
+    async init() {
+      this.item = await this.apiRef.getByID(this.id, true)
+      this.cacheItem()
+      this.isValid = true
+      this.allRegularContacts = await this.$api.contact.getList({ has_name: false })
+    },
     displayRank() {
       const value = this.apiRef.getValidRankByValue(this.item.rank)
       if (value && value.text) {
         return value.text
       }
       return ''
+    },
+    addContact() {
+      this.contactDialogOpen = false
+      this.currentContact.active = true
+      this.item.contacts.push(this.currentContact)
+    },
+    openContactDialog() {
+      this.currentContact = this.$api.userContact.create()
+      this.currentContact.active = false
+      this.currentContact.role = null
+      this.currentContact.type = 'Email'
+      this.contactDialogOpen = true
+    },
+    updateContact(contact, index) {
+      this.item.contacts.splice(index, 1, contact)
+    },
+    cancelContact() {
+      this.currentContact = this.$api.userContact.create()
+      this.currentContact.role = null
+      this.currentContact.active = false
+      this.currentContact.type = 'Email'
     },
   },
   computed: {
@@ -50,6 +90,12 @@ export default {
         return result
       }
       return []
+    },
+    filteredContacts() {
+      return this.allRegularContacts.filter((c) => !this.item.contacts?.some((item) => item.contact.id === c.id))
+    },
+    isSubmittable() {
+      return this.hasItemChanged()
     },
     userListHeaders() {
       const headers = [
@@ -93,7 +139,7 @@ export default {
               <h2>Users</h2>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row dense>
             <v-col v-if="item && item.users && item.users.length">
               <IFXItemDataTable
                 :headers="userListHeaders"
@@ -146,11 +192,26 @@ export default {
           </v-row>
           <v-row dense>
             <v-col>
-              <h2>Contacts</h2>
+              <h2>
+                Contacts
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <IFXButton
+                      class="ml-2"
+                      v-on="on"
+                      v-bind="attrs"
+                      btnType="add"
+                      xSmall
+                      @action="openContactDialog()"
+                    />
+                  </template>
+                  <span>Add new contact</span>
+                </v-tooltip>
+              </h2>
             </v-col>
           </v-row>
           <v-row>
-            <v-col v-if="otherContacts && otherContacts.length">
+            <v-col>
               <!-- <v-row v-for="otherContact in otherContacts" :key="otherContact.id">
                 <v-col cols="1">
                   <v-icon v-if="otherContact.type === 'Email'" color="success">email</v-icon>
@@ -170,14 +231,6 @@ export default {
                 <IFXContactRoleDisplayEdit :contact="otherContact" @update="updateContact(otherContact, index)" />
               </div>
             </v-col>
-            <v-col sm="1" align="end">
-              <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                  <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openContactDialog()" />
-                </template>
-                <span>Add new contact</span>
-              </v-tooltip>
-            </v-col>
           </v-row>
         </v-col>
         <v-col v-if="mainContacts.length">
@@ -193,6 +246,51 @@ export default {
           </v-row>
         </v-col>
       </v-row>
+      <IFXPageActionBar
+        class="mt-0"
+        btnType="submit"
+        :disabled="!isSubmittable"
+        @action="submitUpdate"
+      ></IFXPageActionBar>
+      <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
+        <v-card>
+          <v-card-title>
+            Add Contact
+            <v-spacer></v-spacer>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  small
+                  @click="contactDialogOpen = false"
+                  data-cy="contact-dialog-close"
+                  v-on="on"
+                  v-bind="attrs"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </template>
+              <span>Cancel</span>
+            </v-tooltip>
+          </v-card-title>
+          <v-card-text class="pb-0">
+            <IFXSelectCreateContact
+              :allItems="filteredContacts"
+              :item.sync="currentContact"
+              :errors="errors"
+              :valid.sync="addContactFormIsValid"
+            />
+          </v-card-text>
+          <v-card-actions class="d-flex justify-start pb-3">
+            <v-btn small text class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn small text class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
+            <v-btn small text class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
+              Add
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-container>
 </template>
