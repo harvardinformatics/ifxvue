@@ -32,6 +32,14 @@ export class OrganizationContact {
     this.data.id = id
   }
 
+  get active() {
+    return this.data.active
+  }
+
+  set active(val) {
+    this.data.active = val
+  }
+
   get name() {
     return this.data.contact.name
   }
