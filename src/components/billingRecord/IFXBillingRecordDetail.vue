@@ -126,14 +126,8 @@ export default {
       })
     },
     async openEditDialog() {
-      if (this.$api.auth.can('set-any-account', this.$api.authUser)) {
-        this.expenseCodes = await this.$api.account.getList()
-      } else {
-        this.expenseCodes = this.currentUserRecord.accounts
-      }
-
+      this.expenseCodes = await this.$api.account.getList()
       this.newExpenseCode = this.$api.account.create(this.item.account)
-
       this.editDialog = true
     },
     closeEditDialog() {
