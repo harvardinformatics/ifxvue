@@ -48,6 +48,15 @@ class ProductRate extends IFXItemBase {
     this.data.price = price
   }
 
+  get decimalPrice() {
+    return this.data.decimal_price
+  }
+
+  set decimalPrice(decimal_price) {
+    this.data.decimal_price = decimal_price
+    this.data.price = Math.round(decimal_price * 100)
+  }
+
   get dollarValue() {
     return (this.data.price / 100).toFixed(2)
   }
