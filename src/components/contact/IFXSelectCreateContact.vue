@@ -4,10 +4,21 @@ import IFXItemSelectableMixin from '@/components/item/IFXItemSelectableMixin'
 export default {
   name: 'IFXSelectCreateContact',
   mixins: [IFXItemSelectableMixin],
+  props: {
+    allRoles: {
+      type: Array,
+      required: false,
+      default: () => ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
+    },
+    filterRoles: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+  },
   data() {
     return {
       contactType: null,
-      allRoles: ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
       search: '',
       newContacts: [],
       isValid: false,
@@ -22,9 +33,9 @@ export default {
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
-      return this.allRoles.filter(
-        (role) => role.includes(this.itemLocal.contact?.type) || role === 'Additional Contact'
-      )
+      return this.filterRoles
+        ? this.allRoles.filter((role) => role.includes(this.itemLocal.contact?.type) || role === 'Additional Contact')
+        : this.allRoles
     },
     radioIsDisabled() {
       return !!this.itemLocal.contact?.id
