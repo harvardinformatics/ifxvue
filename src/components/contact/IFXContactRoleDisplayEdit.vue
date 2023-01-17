@@ -8,13 +8,23 @@ export default {
       type: Object,
       required: true,
     },
+    allRoles: {
+      type: Array,
+      required: false,
+      default: () => ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
+    },
+    filterRoles: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
 
   data() {
     return {
       roleEditingEnabled: false,
-      allRoles: ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
       rowKey: 0,
+      showExtraInfo: false,
     }
   },
   mounted() {},
@@ -29,7 +39,9 @@ export default {
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
-      return this.allRoles.filter((role) => role.includes(this.contact?.type) || role === 'Additional Contact')
+      return this.filterRoles
+        ? this.allRoles.filter((role) => role.includes(this.itemLocal.contact?.type) || role === 'Additional Contact')
+        : this.allRoles
     },
   },
   methods: {
@@ -48,6 +60,9 @@ export default {
     },
     cancelContact() {
       this.roleEditingEnabled = false
+    },
+    isFullContact(contact) {
+      return contact.name && (contact.address || contact.phone)
     },
   },
 }
@@ -70,7 +85,27 @@ export default {
       v-else
       :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
     >
+      <v-btn
+        icon
+        small
+        @click="showExtraInfo = !showExtraInfo"
+        class="expand-icon"
+        :class="{ invisible: !isFullContact(itemLocal.contact) }"
+      >
+        <v-icon :class="{ active: showExtraInfo }">mdi-menu-right</v-icon>
+      </v-btn>
+      <!-- <span v-else class="ml-7"></span> -->
       {{ itemLocal.role }}
+      <div v-if="showExtraInfo" class="ml-8">
+        <div>
+          <span class="font-weight-medium">Name:</span>
+          {{ itemLocal.contact.name }}
+        </div>
+        <div v-if="itemLocal.contact.address">
+          <span class="font-weight-medium">Address:</span>
+          {{ itemLocal.contact.address }}
+        </div>
+      </div>
     </v-col>
     <v-col :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }">
       <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
@@ -109,3 +144,16 @@ export default {
     </v-col>
   </v-row>
 </template>
+<style lang="scss" scoped>
+.expand-icon {
+  transition: rotate 0.3s ease-in-out;
+
+  .active {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+}
+.invisible {
+  visibility: hidden;
+}
+</style>
