@@ -252,6 +252,11 @@ export class Organization {
     this.data.users.push(user)
   }
 
+  // Takes user, role and active status and creates an org user
+  addOrgUser(user, role, active) {
+    this.data.users.push(new OrganizationUser({ id: user?.id, user, role, active }))
+  }
+
   get color() {
     return '#27AE60'
   }
