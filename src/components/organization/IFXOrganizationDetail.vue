@@ -4,8 +4,9 @@ import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
 
 import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
+import IFXAddMember from '@/components/organization/IFXAddMember'
+import IFXDeactivateMembers from '@/components/organization/IFXDeactivateMembers'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
-import IFXContactCard from '@/components/contact/IFXContactCard'
 import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
 import IFXContactRoleDisplayEdit from '@/components/contact/IFXContactRoleDisplayEdit'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
@@ -16,23 +17,41 @@ export default {
   components: {
     IFXDeleteItemButton,
     IFXItemDataTable,
-    IFXContactCard,
     IFXSelectCreateContact,
     IFXContactRoleDisplayEdit,
     IFXPageActionBar,
+    IFXAddMember,
+    IFXDeactivateMembers,
   },
   data() {
     return {
-      allRegularContacts: [],
+      allContacts: [],
       currentContact: {},
       contactDialogOpen: false,
       addContactFormIsValid: false,
+      showAddUserModal: false,
+      showRevokeUserModal: false,
+      selected: [],
+      selectedUsers: [],
+      contactRoles: [],
+      allRoles: [
+        'PI',
+        'Lab Manager',
+        'Facility Invoice',
+        'Facility Invoice CC',
+        `Billing Record Review for Center for ${this.$api.vars.appNameFormatted}`,
+      ],
     }
   },
   mounted() {
     this.isLoading = true
     this.init()
-      .then(() => (this.isLoading = false))
+      .then(() => {
+        this.item.contacts.forEach((contact) => {
+          this.findUniqueRoles(contact)
+        })
+        this.isLoading = false
+      })
       .catch((err) => {
         this.showMessage(err)
         this.rtr.replace({ name: `${this.itemType}List` })
@@ -42,36 +61,61 @@ export default {
     async init() {
       this.item = await this.apiRef.getByID(this.id, true)
       this.cacheItem()
-      this.isValid = true
-      this.allRegularContacts = await this.$api.contact.getList({ has_name: false })
+      this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
     },
-    displayRank() {
-      const value = this.apiRef.getValidRankByValue(this.item.rank)
-      if (value && value.text) {
-        return value.text
-      }
-      return ''
+    showRevokeUsers() {
+      this.selectedUsers = this.selected.map((item) => item.user)
+      this.showRevokeUserModal = true
     },
     addContact() {
       this.contactDialogOpen = false
       this.currentContact.active = true
       this.item.contacts.push(this.currentContact)
+      this.findUniqueRoles(this.currentContact)
     },
     openContactDialog() {
-      this.currentContact = this.$api.userContact.create()
+      this.currentContact = this.$api.organizationContact.create()
       this.currentContact.active = false
       this.currentContact.role = null
       this.currentContact.type = 'Email'
       this.contactDialogOpen = true
     },
     updateContact(contact, index) {
-      this.item.contacts.splice(index, 1, contact)
+      const oldContact = this.item.contacts.splice(index, 1, contact)
+      this.removeContactsByRole(oldContact[0])
+      this.findUniqueRoles(contact)
     },
     cancelContact() {
-      this.currentContact = this.$api.userContact.create()
+      this.currentContact = this.$api.organizationContact.create()
       this.currentContact.role = null
       this.currentContact.active = false
       this.currentContact.type = 'Email'
+    },
+    closeMemberDialog() {
+      this.showAddUserModal = false
+      this.showRevokeUserModal = false
+      this.selected = []
+    },
+    findUniqueRoles(contact) {
+      if (this.contactRoles.indexOf(contact.role) === -1) {
+        this.contactRoles.push(contact.role)
+      }
+    },
+    removeContactsByRole(contact) {
+      const foundSome = this.item.contacts.some((item) => item.role === contact.role)
+      if (!foundSome) {
+        const indexToRemove = this.contactRoles.indexOf(contact.role)
+        this.contactRoles.splice(indexToRemove, 1)
+      }
+    },
+    getContactIndicesByRole(role) {
+      const indices = []
+      this.item.contacts.forEach((contact, index) => {
+        if (contact.role === role) {
+          indices.push(index)
+        }
+      })
+      return indices
     },
   },
   computed: {
@@ -92,7 +136,7 @@ export default {
       return []
     },
     filteredContacts() {
-      return this.allRegularContacts.filter((c) => !this.item.contacts?.some((item) => item.contact.id === c.id))
+      return this.allContacts.filter((c) => !this.item.contacts?.some((item) => item.contact.id === c.id))
     },
     isSubmittable() {
       return this.hasItemChanged()
@@ -127,170 +171,195 @@ export default {
       <template #cypress>{{ item.id }}</template>
       <template #actions>
         <!-- TODO: check why this cannot be edited -->
-        <IFXButton v-if="$api.auth.can('edit-organization')" xSmall btnType="edit" @action="navigateToItemEdit(id)" />
         <IFXDeleteItemButton v-if="!item.ifxOrg" xSmall :item="item" :apiRef="apiRef" :itemType="itemType" />
       </template>
     </IFXPageHeader>
-    <v-container px-5 py-0>
-      <v-row dense>
-        <v-col md="6">
-          <v-row dense>
-            <v-col>
-              <h2>Users</h2>
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col v-if="item && item.users && item.users.length">
-              <IFXItemDataTable
-                :headers="userListHeaders"
-                :items="item.users"
-                :showSelect="false"
-                itemType="OrganizationUser"
-                :hideDefaultFooter="item.users.length < 20"
-                :selected="[]"
-              >
-                <template v-slot:fullName="{ item }">
-                  <router-link :to="{ name: 'UserDetail', params: { id: item.user.id } }">
-                    {{ item.fullName }}
-                  </router-link>
-                </template>
-                <template v-slot:status="{ item }">
-                  <v-tooltip v-if="item.active" top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon v-on="on" v-bind="attrs" color="#fcbd01">lightbulb</v-icon>
-                    </template>
-                    <span>Active member</span>
-                  </v-tooltip>
-                  <v-tooltip v-else top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon v-on="on" v-bind="attrs" color="#ccc">lightbulb</v-icon>
-                    </template>
-                    <span>Former member</span>
-                  </v-tooltip>
-                  <v-tooltip top v-if="item.role == 'pi'">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon color="green" v-on="on" v-bind="attrs">school</v-icon>
-                    </template>
-                    <span>PI</span>
-                  </v-tooltip>
-                  <v-tooltip top v-if="item.role == 'lab_manager'">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon color="green" v-on="on" v-bind="attrs">mdi-clipboard-account</v-icon>
-                    </template>
-                    <span>Lab Admin</span>
-                  </v-tooltip>
-                  <v-tooltip top v-if="item.role == 'approver'">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon color="green" v-on="on" v-bind="attrs">mdi-account-check</v-icon>
-                    </template>
-                    <span>Approver</span>
-                  </v-tooltip>
-                </template>
-              </IFXItemDataTable>
-            </v-col>
-            <v-col v-else>No users</v-col>
-          </v-row>
-          <v-row dense>
-            <v-col>
-              <h2>
-                Contacts
-                <v-tooltip top>
+    <!-- <v-container px-5 py-0> -->
+    <v-row dense>
+      <v-col>
+        <v-row xxdense>
+          <v-col>
+            <h2>Users</h2>
+          </v-col>
+          <v-col sm="2" align="end">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on"
+                  fab
+                  x-small
+                  color="primary"
+                  data-cy="add-member-modal"
+                  @click.stop="showAddUserModal = true"
+                >
+                  <v-icon>person_add</v-icon>
+                </v-btn>
+              </template>
+              <span>Add organization users</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="ml-2"
+                  v-on="on"
+                  fab
+                  x-small
+                  color="error"
+                  :disabled="!selected || !selected.length"
+                  data-cy="revoke-member-modal"
+                  @click="showRevokeUsers()"
+                >
+                  <v-icon>mdi-account-multiple-remove</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ `Deactivate organization user${selected.length === 1 ? '' : 's'}` }}</span>
+            </v-tooltip>
+          </v-col>
+        </v-row>
+        <v-row dense>
+          <v-col v-if="item && item.users && item.users.length">
+            <IFXItemDataTable
+              :headers="userListHeaders"
+              :items="item.users"
+              :showSelect="true"
+              itemType="OrganizationUser"
+              :hideDefaultFooter="item.users.length < 20"
+              :selected.sync="selected"
+            >
+              <template v-slot:fullName="{ item }">
+                <router-link :to="{ name: 'UserDetail', params: { id: item.user.id } }">
+                  {{ item.fullName }}
+                </router-link>
+              </template>
+              <template v-slot:status="{ item }">
+                <v-tooltip v-if="item.active" top>
                   <template v-slot:activator="{ on, attrs }">
-                    <IFXButton
-                      class="ml-2"
-                      v-on="on"
-                      v-bind="attrs"
-                      btnType="add"
-                      xSmall
-                      @action="openContactDialog()"
-                    />
+                    <v-icon v-on="on" v-bind="attrs" color="#fcbd01">lightbulb</v-icon>
                   </template>
-                  <span>Add new contact</span>
+                  <span>Active member</span>
                 </v-tooltip>
-              </h2>
-            </v-col>
-          </v-row>
-          <v-row>
+                <v-tooltip v-else top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-on="on" v-bind="attrs" color="#ccc">lightbulb</v-icon>
+                  </template>
+                  <span>Former member</span>
+                </v-tooltip>
+                <v-tooltip top v-if="item.role == 'pi'">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon color="green" v-on="on" v-bind="attrs">school</v-icon>
+                  </template>
+                  <span>PI</span>
+                </v-tooltip>
+                <v-tooltip top v-if="item.role == 'lab_manager'">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon color="green" v-on="on" v-bind="attrs">mdi-clipboard-account</v-icon>
+                  </template>
+                  <span>Lab Admin</span>
+                </v-tooltip>
+                <v-tooltip top v-if="item.role == 'approver'">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon color="green" v-on="on" v-bind="attrs">mdi-account-check</v-icon>
+                  </template>
+                  <span>Approver</span>
+                </v-tooltip>
+              </template>
+            </IFXItemDataTable>
+          </v-col>
+          <v-col v-else>No users</v-col>
+        </v-row>
+        <v-row dense>
+          <v-col>
+            <h2>Contacts</h2>
+          </v-col>
+          <v-col sm="1" align="end">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openContactDialog()" />
+              </template>
+              <span>Add new contact</span>
+            </v-tooltip>
+          </v-col>
+        </v-row>
+        <span :key="contactKey">
+          <v-row v-for="(contactGroupName, index) in contactRoles" :key="index" dense>
             <v-col>
-              <!-- <v-row v-for="otherContact in otherContacts" :key="otherContact.id">
-                <v-col cols="1">
-                  <v-icon v-if="otherContact.type === 'Email'" color="success">email</v-icon>
-                  <v-icon v-else-if="otherContact.type === 'Phone'" color="success">local_phone</v-icon>
-                  <span v-else></span>
-                </v-col>
-                <v-col>
-                  <a v-if="otherContact.type === 'Email'" :href="`mailto:${otherContact.detail}`">{{ otherContact.detail }}</a>
-                  <span v-else>{{otherContact.detail}}</span>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col v-else>
-              No contacts
-            </v-col> -->
-              <div v-for="(otherContact, index) in otherContacts" :key="index">
-                <IFXContactRoleDisplayEdit :contact="otherContact" @update="updateContact(otherContact, index)" />
+              <div v-for="contactIndex in getContactIndicesByRole(contactGroupName)" :key="contactIndex">
+                <IFXContactRoleDisplayEdit
+                  :allRoles="allRoles"
+                  :filterRoles="false"
+                  :contact="item.contacts[contactIndex]"
+                  @update="updateContact(item.contacts[contactIndex], contactIndex)"
+                />
               </div>
             </v-col>
           </v-row>
-        </v-col>
-        <v-col v-if="mainContacts.length">
-          <v-row>
-            <v-col>
-              <h2>Main Contact</h2>
-            </v-col>
-          </v-row>
-          <v-row v-for="mainContact in mainContacts" :key="mainContact.id">
-            <v-col>
-              <IFXContactCard :contact="mainContact" :editBtn="false" dense />
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-      <IFXPageActionBar
-        class="mt-0"
-        btnType="submit"
-        :disabled="!isSubmittable"
-        @action="submitUpdate"
-      ></IFXPageActionBar>
-      <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
-        <v-card>
-          <v-card-title>
-            Add Contact
-            <v-spacer></v-spacer>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  small
-                  @click="contactDialogOpen = false"
-                  data-cy="contact-dialog-close"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </template>
-              <span>Cancel</span>
-            </v-tooltip>
-          </v-card-title>
-          <v-card-text class="pb-0">
-            <IFXSelectCreateContact
-              :allItems="filteredContacts"
-              :item.sync="currentContact"
-              :errors="errors"
-              :valid.sync="addContactFormIsValid"
-            />
-          </v-card-text>
-          <v-card-actions class="d-flex justify-start pb-3">
-            <v-btn small text class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn small text class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
-            <v-btn small text class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
-              Add
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-container>
+          <v-divider></v-divider>
+        </span>
+      </v-col>
+    </v-row>
+    <IFXPageActionBar
+      class="mt-0"
+      btnType="submit"
+      :disabled="!isSubmittable"
+      @action="submitUpdate"
+    ></IFXPageActionBar>
+    <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
+      <v-card>
+        <v-card-title>
+          Add Contact
+          <v-spacer></v-spacer>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                small
+                @click="contactDialogOpen = false"
+                data-cy="contact-dialog-close"
+                v-on="on"
+                v-bind="attrs"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
+            <span>Cancel</span>
+          </v-tooltip>
+        </v-card-title>
+        <v-card-text class="pb-0">
+          <IFXSelectCreateContact
+            :allItems="filteredContacts"
+            :allRoles="allRoles"
+            :filterRoles="false"
+            :item.sync="currentContact"
+            :errors="errors"
+            :valid.sync="addContactFormIsValid"
+          />
+        </v-card-text>
+        <v-card-actions class="d-flex justify-start pb-3">
+          <v-btn small text class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn small text class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
+          <v-btn small text class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
+            Add
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <IFXAddMember
+      v-if="showAddUserModal"
+      v-model="item"
+      :showModal.sync="showAddUserModal"
+      :itemType="user"
+      :allowSetPrimaryAffiliation="false"
+      @close="closeMemberDialog()"
+      @input="updateOrg"
+    ></IFXAddMember>
+    <IFXDeactivateMembers
+      v-if="showRevokeUserModal"
+      v-model="selectedUsers"
+      :org="item"
+      :showModal="showRevokeUserModal"
+      @close="closeMemberDialog()"
+      @input="updatePeople"
+    ></IFXDeactivateMembers>
   </v-container>
 </template>
