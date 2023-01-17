@@ -53,6 +53,8 @@ import IFXOrganizationDetail from '@/components/organization/IFXOrganizationDeta
 import IFXOrganizationList from '@/components/organization/IFXOrganizationList'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
 import { Organization } from '@/components/organization/IFXOrganization'
+import IFXAddMember from '@/components/organization/IFXAddMember'
+import IFXDeactivateMembers from '@/components/organization/IFXDeactivateMembers'
 
 // Contact
 import IFXContactCreateEdit from '@/components/contact/IFXContactCreateEdit'
@@ -168,6 +170,8 @@ export {
   IFXContactCard,
   IFXContactRoleDisplayEdit,
   IFXAffiliationRoleDisplayEdit,
+  IFXAddMember,
+  IFXDeactivateMembers,
   User,
   UserContact,
   UserAccount,
