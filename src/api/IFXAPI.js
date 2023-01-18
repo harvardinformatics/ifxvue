@@ -786,7 +786,7 @@ export default class IFXAPIService {
     const baseUrl = this.urls.FACILITIES
     const api = this.genericAPI(baseUrl, Facility)
     api.isDecimalFacility = (facility_name) => {
-      const result = ['Research Computing Storage', 'Center for Brain Science Neuroimaging'].includes(facility_name)
+      const result = ['Research Computing Storage', 'Center for Brain Science Neuroimaging', 'Harvard University Helium'].includes(facility_name)
       return result
     }
     api.isFacilityWithDates = (facility_name) => {
