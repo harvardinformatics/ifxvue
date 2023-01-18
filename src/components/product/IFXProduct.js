@@ -211,6 +211,14 @@ class ProductUsage extends IFXItemBase {
     this.data.quantity = quantity
   }
 
+  get decimalQuantity() {
+    return this.data.decimal_quantity
+  }
+
+  set decimalQuantity(decimalQuantity) {
+    this.data.decimal_quantity = decimalQuantity
+  }
+
   get startDate() {
     return this.data.start_date
   }
