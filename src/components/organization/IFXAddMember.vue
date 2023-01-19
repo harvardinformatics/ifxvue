@@ -51,21 +51,20 @@ export default {
     }, 100),
     async updateOrg() {
       if (this.allowSetPrimaryAffiliation && this.primaryAffiliation) {
-        const nanite = await this.$api.nanite.get(this.member.ifxid).catch((error) => {
+        this.member.primaryAffiliation = this.org.slug
+        this.member.changeComment = `Converting primary affiliation to ${this.org.slug}`
+        await this.$api.user.update(this.member).catch((error) => {
           this.showMessage(error)
-          this.$emit('close')
-        })
-        nanite.primaryAffiliation = this.org.slug
-        nanite.changeComment = `Converting primary affiliation to ${this.org.slug}`
-
-        await this.$api.nanite.update(nanite).catch((error) => {
-          this.showMessage(error)
-          this.$emit('close')
         })
       }
-      this.org.addOrgUser(this.member, this.role, true)
+      const userIdx = this.org.users.findIndex((user) => user.id === this.member.id)
+      if (userIdx !== -1) {
+        this.org.users[userIdx].active = true
+      } else {
+        this.org.addOrgUser(this.member, this.role, true)
+      }
 
-      this.$emit('input', this.org)
+      this.$emit('update', this.org)
       this.$emit('close')
     },
     cancel() {

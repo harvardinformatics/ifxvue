@@ -1,5 +1,6 @@
 <script>
 import { mapActions } from 'vuex'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'IFXDeactivateMembers.',
@@ -12,7 +13,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    org: {
+    organization: {
       type: Object,
       required: true,
     },
@@ -22,6 +23,7 @@ export default {
       isLoading: true,
       selected: [],
       people: [],
+      org: {},
     }
   },
   methods: {
@@ -30,23 +32,20 @@ export default {
       /* eslint-disable no-plusplus, no-await-in-loop */
       for (let i = 0; i < this.selected.length; i++) {
         const person = this.selected[i]
-        const nanite = await this.$api.nanite.get(person.ifxid).catch((error) => {
-          this.showMessage(error)
-        })
-        const orgIndex = nanite.affiliations.findIndex((org) => this.org.slug === org.slug)
+        const orgIndex = person.affiliations.findIndex((org) => this.org.slug === org.slug)
         if (orgIndex !== -1) {
-          nanite.affiliations[orgIndex].active = false
-          nanite.changeComment = `Deactivating membership of ${person.fullName} in ${this.org.slug}`
-          await this.$api.nanite.update(nanite).catch((error) => {
+          person.affiliations[orgIndex].active = false
+          person.changeComment = `Deactivating membership of ${person.fullName} in ${this.org.slug}`
+          await this.$api.user.update(person).catch((error) => {
             this.showMessage(error)
           })
         }
+        const userIdx = this.org.users.findIndex((user) => user.id === person.id)
+        if (userIdx !== -1) {
+          this.org.users[userIdx].active = false
+        }
       }
-      // Since the parent will reload the org info, we don't actually send anything new here.
-      this.updatePeople(this.selected)
-    },
-    updatePeople(people) {
-      this.$emit('input', people)
+      this.$emit('update', this.org)
       this.$emit('close')
     },
     cancel() {
@@ -67,6 +66,7 @@ export default {
   mounted() {
     this.people = this.value
     this.selected = this.people
+    this.org = cloneDeep(this.organization)
   },
 }
 </script>
