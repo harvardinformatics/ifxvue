@@ -1,6 +1,5 @@
 <script>
-import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
-import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
+import IFXItemEditableDetailMixin from '@/components/item/IFXItemEditableDetailMixin'
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
 
 import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
@@ -13,7 +12,7 @@ import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 
 export default {
   name: 'IFXOrganizationDetail',
-  mixins: [IFXOrganizationMixin, IFXItemDetailMixin, IFXItemCreateEditMixin],
+  mixins: [IFXOrganizationMixin, IFXItemEditableDetailMixin],
   components: {
     IFXDeleteItemButton,
     IFXItemDataTable,
@@ -43,25 +42,15 @@ export default {
       ],
     }
   },
-  mounted() {
-    this.isLoading = true
-    this.init()
-      .then(() => {
-        this.item.contacts.forEach((contact) => {
-          this.findUniqueRoles(contact)
-        })
-        this.isLoading = false
-      })
-      .catch((err) => {
-        this.showMessage(err)
-        this.rtr.replace({ name: `${this.itemType}List` })
-      })
-  },
+  mounted() {},
   methods: {
     async init() {
       this.item = await this.apiRef.getByID(this.id, true)
       this.cacheItem()
       this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
+      this.item.contacts.forEach((contact) => {
+        this.findUniqueRoles(contact)
+      })
     },
     showRevokeUsers() {
       this.selectedUsers = this.selected.map((item) => item.user)
@@ -117,29 +106,13 @@ export default {
       })
       return indices
     },
+    updateOrg(org) {
+      this.item = org
+    },
   },
   computed: {
-    mainContacts() {
-      // Returns contacts with name and phone or address
-      if (this.item && this.item.contacts) {
-        const result = this.item.contacts.filter((contact) => contact.name && (contact.phone || contact.address))
-        return result
-      }
-      return []
-    },
-    otherContacts() {
-      // Not mainContacts
-      if (this.item && this.item.contacts) {
-        const result = this.item.contacts.filter((contact) => !contact.name && !contact.address)
-        return result
-      }
-      return []
-    },
     filteredContacts() {
       return this.allContacts.filter((c) => !this.item.contacts?.some((item) => item.contact.id === c.id))
-    },
-    isSubmittable() {
-      return this.hasItemChanged()
     },
     userListHeaders() {
       const headers = [
@@ -349,17 +322,17 @@ export default {
       v-model="item"
       :showModal.sync="showAddUserModal"
       :itemType="user"
-      :allowSetPrimaryAffiliation="false"
+      :allowSetPrimaryAffiliation="true"
       @close="closeMemberDialog()"
-      @input="updateOrg"
+      @update="updateOrg"
     ></IFXAddMember>
     <IFXDeactivateMembers
       v-if="showRevokeUserModal"
       v-model="selectedUsers"
-      :org="item"
+      :organization="item"
       :showModal="showRevokeUserModal"
       @close="closeMemberDialog()"
-      @input="updatePeople"
+      @update="updateOrg"
     ></IFXDeactivateMembers>
   </v-container>
 </template>
