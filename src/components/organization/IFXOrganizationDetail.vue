@@ -288,8 +288,10 @@ export default {
                 />
               </div>
             </v-col>
+            <div class="w-full">
+              <v-divider></v-divider>
+            </div>
           </v-row>
-          <v-divider></v-divider>
         </span>
       </v-col>
     </v-row>
@@ -345,7 +347,7 @@ export default {
       v-model="item"
       :showModal.sync="showAddUserModal"
       :itemType="user"
-      :allowSetPrimaryAffiliation="true"
+      :allowSetPrimaryAffiliation="false"
       @close="closeMemberDialog()"
       @update="updateOrg"
     ></IFXAddUsers>
@@ -369,3 +371,8 @@ export default {
     ></IFXActivateDeactivateUsers>
   </v-container>
 </template>
+<style scoped>
+.w-full {
+  width: 100%;
+}
+</style>
