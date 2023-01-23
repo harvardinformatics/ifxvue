@@ -71,6 +71,11 @@ export default {
       required: false,
       default: false,
     },
+    sortBy: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   mounted() {
     this.facilityBillingRecords()
@@ -102,7 +107,7 @@ export default {
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'charge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
-        { text: 'Usage id', value: 'productUsage.id', sortable: true },
+        { text: 'Usage id', value: 'productUsage', namedSlot: true, sortable: true },
         { text: 'Transaction Description', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
@@ -916,6 +921,7 @@ export default {
             :itemKey="itemKey"
             :loading="isLoading"
             :items-per-page="-1"
+            :sort-by="sortBy"
             group-by="account.organization"
             @item-selected="determineGroupState"
             @toggle-select-all="toggleSelectAll"
@@ -964,7 +970,12 @@ export default {
               </div>
             </template>
             <template v-slot:item.charge="{ item }">
-              {{ item.charge | centsToDollars }}
+              <span v-if="$api.facility.isDecimalFacility(facility.name)">
+                {{ item.decimalCharge | dollars }}
+              </span>
+              <span v-else>
+                {{ item.charge | centsToDollars }}
+              </span>
             </template>
             <template v-slot:item.startDate="{ item }">
               <span style="white-space: nowrap">
@@ -974,6 +985,14 @@ export default {
             <template v-slot:item.endDate="{ item }">
               <span style="white-space: nowrap">
                 {{ item.endDate | humanDatetime }}
+              </span>
+            </template>
+            <template v-slot:item.productUsage="{ item }">
+              <span v-if="item.productUsageLinkText" style="white-space: nowrap">
+                <a :href="item.productUsageUrl">{{item.productUsageLinkText}}</a>
+              </span>
+              <span v-else style="white-space: nowrap">
+                {{ item.productUsage.id }}
               </span>
             </template>
             <template v-slot:item.actions="{ item }">
