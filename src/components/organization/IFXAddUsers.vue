@@ -3,7 +3,7 @@ import { mapActions } from 'vuex'
 import debounce from 'lodash/debounce'
 
 export default {
-  name: 'IFXAddMember',
+  name: 'IFXAddUsers',
   props: {
     value: { type: Object, required: true }, // The whole Organization object
     showModal: {

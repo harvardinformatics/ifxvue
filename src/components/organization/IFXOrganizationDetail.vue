@@ -3,8 +3,8 @@ import IFXItemEditableDetailMixin from '@/components/item/IFXItemEditableDetailM
 import IFXOrganizationMixin from '@/components/organization/IFXOrganizationMixin'
 
 import IFXDeleteItemButton from '@/components/item/IFXDeleteItemButton'
-import IFXAddMember from '@/components/organization/IFXAddMember'
-import IFXDeactivateMembers from '@/components/organization/IFXDeactivateMembers'
+import IFXAddUsers from '@/components/organization/IFXAddUsers'
+import IFXActivateDeactivateUsers from '@/components/organization/IFXActivateDeactivateUsers'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
 import IFXContactRoleDisplayEdit from '@/components/contact/IFXContactRoleDisplayEdit'
@@ -19,8 +19,8 @@ export default {
     IFXSelectCreateContact,
     IFXContactRoleDisplayEdit,
     IFXPageActionBar,
-    IFXAddMember,
-    IFXDeactivateMembers,
+    IFXAddUsers,
+    IFXActivateDeactivateUsers,
   },
   data() {
     return {
@@ -30,6 +30,7 @@ export default {
       addContactFormIsValid: false,
       showAddUserModal: false,
       showRevokeUserModal: false,
+      showReactivateUserModal: false,
       selected: [],
       selectedUsers: [],
       contactRoles: [],
@@ -52,9 +53,13 @@ export default {
         this.findUniqueRoles(contact)
       })
     },
-    showRevokeUsers() {
+    showChangeUsers(deactivate = true) {
       this.selectedUsers = this.selected.map((item) => item.user)
-      this.showRevokeUserModal = true
+      if (deactivate) {
+        this.showRevokeUserModal = true
+      } else {
+        this.showReactivateUserModal = true
+      }
     },
     addContact() {
       this.contactDialogOpen = false
@@ -83,6 +88,7 @@ export default {
     closeMemberDialog() {
       this.showAddUserModal = false
       this.showRevokeUserModal = false
+      this.showReactivateUserModal = false
       this.selected = []
     },
     findUniqueRoles(contact) {
@@ -180,12 +186,29 @@ export default {
                   color="error"
                   :disabled="!selected || !selected.length"
                   data-cy="revoke-member-modal"
-                  @click="showRevokeUsers()"
+                  @click="showChangeUsers(true)"
                 >
                   <v-icon>mdi-account-multiple-remove</v-icon>
                 </v-btn>
               </template>
               <span>{{ `Deactivate organization user${selected.length === 1 ? '' : 's'}` }}</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="ml-2"
+                  v-on="on"
+                  fab
+                  x-small
+                  color="green"
+                  :disabled="!selected || !selected.length"
+                  data-cy="reactivate-member-modal"
+                  @click="showChangeUsers(false)"
+                >
+                  <v-icon>mdi-account-multiple-check</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ `Activate existing organization user${selected.length === 1 ? '' : 's'}` }}</span>
             </v-tooltip>
           </v-col>
         </v-row>
@@ -317,7 +340,7 @@ export default {
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <IFXAddMember
+    <IFXAddUsers
       v-if="showAddUserModal"
       v-model="item"
       :showModal.sync="showAddUserModal"
@@ -325,14 +348,24 @@ export default {
       :allowSetPrimaryAffiliation="true"
       @close="closeMemberDialog()"
       @update="updateOrg"
-    ></IFXAddMember>
-    <IFXDeactivateMembers
+    ></IFXAddUsers>
+    <IFXActivateDeactivateUsers
       v-if="showRevokeUserModal"
       v-model="selectedUsers"
+      :activate="false"
       :organization="item"
       :showModal="showRevokeUserModal"
       @close="closeMemberDialog()"
       @update="updateOrg"
-    ></IFXDeactivateMembers>
+    ></IFXActivateDeactivateUsers>
+    <IFXActivateDeactivateUsers
+      v-if="showReactivateUserModal"
+      v-model="selectedUsers"
+      :activate="true"
+      :organization="item"
+      :showModal="showReactivateUserModal"
+      @close="closeMemberDialog()"
+      @update="updateOrg"
+    ></IFXActivateDeactivateUsers>
   </v-container>
 </template>
