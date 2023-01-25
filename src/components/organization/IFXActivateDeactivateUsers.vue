@@ -39,7 +39,6 @@ export default {
         const person = await this.$api.user.getByID(personID, true).catch((error) => {
           this.showMessage(error)
         })
-        console.log(person)
         if (person?.affiliations.length) {
           const orgIndex = person.affiliations.findIndex((affiliation) => this.org.slug === affiliation.organization)
           if (orgIndex !== -1) {
