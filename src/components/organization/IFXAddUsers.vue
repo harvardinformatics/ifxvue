@@ -52,7 +52,7 @@ export default {
     async updateOrg() {
       if (this.allowSetPrimaryAffiliation && this.primaryAffiliation) {
         this.member.primaryAffiliation = this.org.slug
-        this.member.changeComment = `Converting primary affiliation to ${this.org.slug}`
+        this.member.changeComment = `Changing primary affiliation to ${this.org.slug}`
         await this.$api.user.update(this.member).catch((error) => {
           this.showMessage(error)
         })
@@ -64,6 +64,7 @@ export default {
         this.org.addOrgUser(this.member, this.role, true)
       }
 
+      this.$emit('user', this.member)
       this.$emit('update', this.org)
       this.$emit('close')
     },
