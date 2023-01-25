@@ -33,6 +33,7 @@ export default {
       showReactivateUserModal: false,
       selected: [],
       selectedUsers: [],
+      usersToBeUpdated: [],
       contactRoles: [],
       allRoles: [
         'PI',
@@ -114,6 +115,50 @@ export default {
     },
     updateOrg(org) {
       this.item = org
+    },
+    async addUser(person) {
+      // Add this person to the list of users to be updated
+      // If they are already there, replace them with the new version
+      const foundIndex = this.usersToBeUpdated.findIndex((user) => user.id === person.id)
+      if (foundIndex === -1) {
+        this.usersToBeUpdated.push(person)
+      } else {
+        this.usersToBeUpdated.splice(foundIndex, 1)
+      }
+    },
+    async updateUsersAndSubmit() {
+      // First update all the users to make sure this syncs to Nanites
+      const allPromises = []
+      for (let i = 0; i < this.usersToBeUpdated.length; i++) {
+        const person = this.usersToBeUpdated[i]
+        const orgIndex = person.affiliations.findIndex((affiliation) => this.item.slug === affiliation.organization)
+        if (orgIndex !== -1) {
+          person.affiliations[orgIndex].active = true
+          person.changeComment = `Reactivating membership of ${person.fullName} in ${this.item.slug}`
+        } else {
+          // We need to get the role out of the org's list of users.
+          // Since we added the user in IFXAddUsers, they should always be here
+          const thisUser = this.item.users.find((user) => user.id === person.id)
+          if (thisUser) {
+            const params = { active: true, id: this.item.id, organization: this.item.slug, role: thisUser.role }
+            person.affiliations.push(params)
+            person.changeComment = `Adding ${person.fullName} to ${this.item.slug}`
+          }
+        }
+        const newPromise = this.$api.user.update(person).catch((error) => {
+          this.showMessage(error.message)
+        })
+        allPromises.push(newPromise)
+      }
+      // Wait for all the promises to resolve
+      await Promise.allSettled(allPromises).catch((errors) => {
+        errors.forEach((error) => {
+          if (error.status === 'rejected') {
+            this.showMessage(error.reason)
+          }
+        })
+      })
+      this.submitUpdate()
     },
   },
   computed: {
@@ -299,7 +344,7 @@ export default {
       class="mt-0"
       btnType="submit"
       :disabled="!isSubmittable"
-      @action="submitUpdate"
+      @action="updateUsersAndSubmit"
     ></IFXPageActionBar>
     <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
       <v-card>
@@ -350,6 +395,7 @@ export default {
       :allowSetPrimaryAffiliation="false"
       @close="closeMemberDialog()"
       @update="updateOrg"
+      @user="addUser"
     ></IFXAddUsers>
     <IFXActivateDeactivateUsers
       v-if="showRevokeUserModal"
