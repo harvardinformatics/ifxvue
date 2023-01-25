@@ -94,7 +94,9 @@ export default {
     selectContact() {
       this.search = ''
       this.$nextTick(() => {
-        this.$refs.form.validate()
+        if (this.$refs.form) {
+          this.$refs.form.validate()
+        }
       })
     },
   },
