@@ -127,37 +127,40 @@ export default {
       }
     },
     async updateUsersAndSubmit() {
-      // First update all the users to make sure this syncs to Nanites
-      const allPromises = []
-      for (let i = 0; i < this.usersToBeUpdated.length; i++) {
-        const person = this.usersToBeUpdated[i]
-        const orgIndex = person.affiliations.findIndex((affiliation) => this.item.slug === affiliation.organization)
-        if (orgIndex !== -1) {
-          person.affiliations[orgIndex].active = true
-          person.changeComment = `Reactivating membership of ${person.fullName} in ${this.item.slug}`
-        } else {
-          // We need to get the role out of the org's list of users.
-          // Since we added the user in IFXAddUsers, they should always be here
-          const thisUser = this.item.users.find((user) => user.id === person.id)
-          if (thisUser) {
-            const params = { active: true, id: this.item.id, organization: this.item.slug, role: thisUser.role }
-            person.affiliations.push(params)
-            person.changeComment = `Adding ${person.fullName} to ${this.item.slug}`
+      // Only update users if this is not a local organization.
+      if (this.item.ifxOrg) {
+        // First update all the users to make sure this syncs to Nanites
+        const allPromises = []
+        for (let i = 0; i < this.usersToBeUpdated.length; i++) {
+          const person = this.usersToBeUpdated[i]
+          const orgIndex = person.affiliations.findIndex((affiliation) => this.item.slug === affiliation.organization)
+          if (orgIndex !== -1) {
+            person.affiliations[orgIndex].active = true
+            person.changeComment = `Reactivating membership of ${person.fullName} in ${this.item.slug}`
+          } else {
+            // We need to get the role out of the org's list of users.
+            // Since we added the user in IFXAddUsers, they should always be here
+            const thisUser = this.item.users.find((user) => user.id === person.id)
+            if (thisUser) {
+              const params = { active: true, id: this.item.id, organization: this.item.slug, role: thisUser.role }
+              person.affiliations.push(params)
+              person.changeComment = `Adding ${person.fullName} to ${this.item.slug}`
+            }
           }
+          const newPromise = this.$api.user.update(person).catch((error) => {
+            this.showMessage(error.message)
+          })
+          allPromises.push(newPromise)
         }
-        const newPromise = this.$api.user.update(person).catch((error) => {
-          this.showMessage(error.message)
+        // Wait for all the promises to resolve
+        await Promise.allSettled(allPromises).catch((errors) => {
+          errors.forEach((error) => {
+            if (error.status === 'rejected') {
+              this.showMessage(error.reason)
+            }
+          })
         })
-        allPromises.push(newPromise)
       }
-      // Wait for all the promises to resolve
-      await Promise.allSettled(allPromises).catch((errors) => {
-        errors.forEach((error) => {
-          if (error.status === 'rejected') {
-            this.showMessage(error.reason)
-          }
-        })
-      })
       this.submitUpdate()
     },
   },
