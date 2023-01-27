@@ -50,6 +50,7 @@ export default {
       this.item = await this.apiRef.getByID(this.id, true)
       this.cacheItem()
       this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
+      this.contactRoles = this.allRoles.concat()
       this.item.contacts.forEach((contact) => {
         this.findUniqueRoles(contact)
       })
@@ -201,10 +202,9 @@ export default {
         <IFXDeleteItemButton v-if="!item.ifxOrg" xSmall :item="item" :apiRef="apiRef" :itemType="itemType" />
       </template>
     </IFXPageHeader>
-    <!-- <v-container px-5 py-0> -->
-    <v-row dense>
+    <v-row dense class="ml-2">
       <v-col>
-        <v-row xxdense>
+        <v-row>
           <v-col>
             <h2>Users</h2>
           </v-col>
@@ -324,23 +324,24 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
-        <span :key="contactKey">
-          <v-row v-for="(contactGroupName, index) in contactRoles" :key="index" dense>
-            <v-col>
-              <div v-for="contactIndex in getContactIndicesByRole(contactGroupName)" :key="contactIndex">
-                <IFXContactRoleDisplayEdit
-                  :allRoles="allRoles"
-                  :filterRoles="false"
-                  :contact="item.contacts[contactIndex]"
-                  @update="updateContact(item.contacts[contactIndex], contactIndex)"
-                />
-              </div>
-            </v-col>
-            <div class="w-full">
-              <v-divider></v-divider>
+        <v-row v-for="(contactGroupName, index) in contactRoles" :key="index" dense>
+          <v-col v-if="getContactIndicesByRole(contactGroupName).length !== 0">
+            <div
+              v-for="contactIndex in getContactIndicesByRole(contactGroupName)"
+              :key="`${contactGroupName}-${contactIndex}`"
+            >
+              <IFXContactRoleDisplayEdit
+                :allRoles="allRoles"
+                :filterRoles="false"
+                :contact="item.contacts[contactIndex]"
+                @change="updateContact(item.contacts[contactIndex], contactIndex)"
+              />
             </div>
-          </v-row>
-        </span>
+          </v-col>
+          <div class="w-full" v-if="getContactIndicesByRole(contactGroupName).length !== 0">
+            <v-divider></v-divider>
+          </div>
+        </v-row>
       </v-col>
     </v-row>
     <IFXPageActionBar
