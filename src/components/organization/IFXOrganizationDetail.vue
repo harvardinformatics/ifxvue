@@ -34,7 +34,7 @@ export default {
       selected: [],
       selectedUsers: [],
       usersToBeUpdated: [],
-      contactRoles: [],
+      // contactRoles: [],
       allRoles: [
         'PI',
         'Lab Manager',
@@ -50,10 +50,6 @@ export default {
       this.item = await this.apiRef.getByID(this.id, true)
       this.cacheItem()
       this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
-      this.contactRoles = this.allRoles.concat()
-      this.item.contacts.forEach((contact) => {
-        this.findUniqueRoles(contact)
-      })
     },
     showChangeUsers(deactivate = true) {
       this.selectedUsers = this.selected.map((item) => item.user)
@@ -67,7 +63,6 @@ export default {
       this.contactDialogOpen = false
       this.currentContact.active = true
       this.item.contacts.push(this.currentContact)
-      this.findUniqueRoles(this.currentContact)
     },
     openContactDialog() {
       this.currentContact = this.$api.organizationContact.create()
@@ -77,9 +72,7 @@ export default {
       this.contactDialogOpen = true
     },
     updateContact(contact, index) {
-      const oldContact = this.item.contacts.splice(index, 1, contact)
-      this.removeContactsByRole(oldContact[0])
-      this.findUniqueRoles(contact)
+      this.item.contacts.splice(index, 1, contact)
     },
     cancelContact() {
       this.currentContact = this.$api.organizationContact.create()
@@ -92,18 +85,6 @@ export default {
       this.showRevokeUserModal = false
       this.showReactivateUserModal = false
       this.selected = []
-    },
-    findUniqueRoles(contact) {
-      if (this.contactRoles.indexOf(contact.role) === -1) {
-        this.contactRoles.push(contact.role)
-      }
-    },
-    removeContactsByRole(contact) {
-      const foundSome = this.item.contacts.some((item) => item.role === contact.role)
-      if (!foundSome) {
-        const indexToRemove = this.contactRoles.indexOf(contact.role)
-        this.contactRoles.splice(indexToRemove, 1)
-      }
     },
     getContactIndicesByRole(role) {
       const indices = []
@@ -176,17 +157,16 @@ export default {
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
-    areMultipleUsers() {
-      if (this.item.users && this.item.users.length > 0) {
-        return true
+    contactRolesGroups() {
+      const groups = []
+      if (this.item?.contacts?.length) {
+        this.item.contacts.forEach((contact) => {
+          if (groups.indexOf(contact.role) === -1) {
+            groups.push(contact.role)
+          }
+        })
       }
-      return false
-    },
-    areMultipleContacts() {
-      if (this.item.contacts && this.item.contacts.length > 0) {
-        return true
-      }
-      return false
+      return groups
     },
   },
 }
@@ -324,8 +304,8 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
-        <v-row v-for="(contactGroupName, index) in contactRoles" :key="index" dense>
-          <v-col v-if="getContactIndicesByRole(contactGroupName).length !== 0">
+        <v-row v-for="(contactGroupName, index) in contactRolesGroups" :key="index" dense>
+          <v-col xxv-if="getContactIndicesByRole(contactGroupName).length !== 0">
             <div
               v-for="contactIndex in getContactIndicesByRole(contactGroupName)"
               :key="`${contactGroupName}-${contactIndex}`"
@@ -338,7 +318,7 @@ export default {
               />
             </div>
           </v-col>
-          <div class="w-full" v-if="getContactIndicesByRole(contactGroupName).length !== 0">
+          <div class="w-full" xxv-if="getContactIndicesByRole(contactGroupName).length !== 0">
             <v-divider></v-divider>
           </div>
         </v-row>
