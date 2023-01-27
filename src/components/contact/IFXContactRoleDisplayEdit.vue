@@ -49,13 +49,13 @@ export default {
       this.itemLocal.active = active
       // This is a hack to get the row to update based on the active state
       this.rowKey++
-      this.$emit('update', this.itemLocal)
+      this.$emit('change', this.itemLocal)
     },
     toggleEditing() {
       this.roleEditingEnabled = !this.roleEditingEnabled
     },
     updateContact() {
-      this.$emit('update', this.itemLocal)
+      this.$emit('change', this.itemLocal)
       this.roleEditingEnabled = false
     },
     cancelContact() {
