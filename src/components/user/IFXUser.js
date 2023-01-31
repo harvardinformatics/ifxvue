@@ -365,7 +365,7 @@ export class User extends IFXItemBase {
   }
 
   hasGroup(group) {
-    return group in this.groups
+    return this.groups && this.groups.includes(group)
   }
 
   addToGroup(group) {
