@@ -31,7 +31,8 @@ export default {
   props: {
     djangoEditOnly: {
       type: Boolean,
-      default: false
+      default: false,
+      required: false,
     },
   },
   data() {
@@ -180,7 +181,7 @@ export default {
       <template #actions>
         <v-row dense align="center">
           <v-col>
-            <span style="white-space: no-wrap"><IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" :isActive.sync="item.isActive" /></span>
+            <span class="text-no-wrap"><IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" :isActive.sync="item.isActive" /></span>
           </v-col>
           <v-col v-if="isDjangoStaff()" >
             <v-tooltip top>
