@@ -8,7 +8,12 @@ export default {
     allRoles: {
       type: Array,
       required: false,
-      default: () => ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
+      default: () => [
+        { name: 'Additional Email', editable: true },
+        { name: 'Work Phone', editable: true },
+        { name: 'Additional Phone', editable: true },
+        { name: 'Additional Contact', editable: true },
+      ],
     },
     filterRoles: {
       type: Boolean,
@@ -33,9 +38,10 @@ export default {
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
-      return this.filterRoles
-        ? this.allRoles.filter((role) => role.includes(this.itemLocal.contact?.type) || role === 'Additional Contact')
-        : this.allRoles
+      return this.allRoles.filter(
+        (role) => role.editable
+          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role === 'Additional Contact' : true)
+      )
     },
     radioIsDisabled() {
       return !!this.itemLocal.contact?.id
@@ -167,6 +173,8 @@ export default {
               :items="appropriateRoles"
               :error-messages="errors['role']"
               :rules="formRules.generic"
+              item-text="name"
+              item-value="name"
               label="Role"
               required
               data-cy="select-role"

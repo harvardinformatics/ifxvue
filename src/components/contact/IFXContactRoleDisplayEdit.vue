@@ -11,7 +11,12 @@ export default {
     allRoles: {
       type: Array,
       required: false,
-      default: () => ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
+      default: () => [
+        { name: 'Additional Email', editable: true },
+        { name: 'Work Phone', editable: true },
+        { name: 'Additional Phone', editable: true },
+        { name: 'Additional Contact', editable: true },
+      ],
     },
     filterRoles: {
       type: Boolean,
@@ -39,9 +44,14 @@ export default {
     },
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
-      return this.filterRoles
-        ? this.allRoles.filter((role) => role.includes(this.itemLocal.contact?.type) || role === 'Additional Contact')
-        : this.allRoles
+      return this.allRoles.filter(
+        (role) => role.editable
+          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role === 'Additional Contact' : true)
+      )
+    },
+    isEditable() {
+      const theRole = this.allRoles.find((role) => role.name === this.itemLocal.role)
+      return theRole?.editable
     },
   },
   methods: {
@@ -73,6 +83,8 @@ export default {
       <v-select
         v-model.trim="itemLocal.role"
         :items="appropriateRoles"
+        item-text="name"
+        item-value="name"
         label="Role"
         :rules="formRules.generic"
         required
@@ -110,7 +122,7 @@ export default {
     <v-col :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }">
       <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
     </v-col>
-    <v-col>
+    <v-col v-if="isEditable">
       <v-tooltip v-if="itemLocal.active" top>
         <template v-slot:activator="{ on, attrs }">
           <v-icon

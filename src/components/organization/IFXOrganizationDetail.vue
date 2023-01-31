@@ -36,11 +36,11 @@ export default {
       usersToBeUpdated: [],
       // contactRoles: [],
       allRoles: [
-        'PI',
-        'Lab Manager',
-        'Facility Invoice',
-        'Facility Invoice CC',
-        `Billing Record Review for Center for ${this.$api.vars.appNameFormatted}`,
+        { name: 'PI', editable: false },
+        { name: 'Lab Manager', editable: false },
+        { name: 'Facility Invoice', editable: true },
+        { name: 'Facility Invoice CC', editable: true },
+        { name: `Billing Record Review for Center for ${this.$api.vars.appNameFormatted}`, editable: true },
       ],
     }
   },
