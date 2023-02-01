@@ -34,7 +34,7 @@ export default {
       selected: [],
       selectedUsers: [],
       usersToBeUpdated: [],
-      // contactRoles: [],
+      showInactive: false,
       allRoles: [
         { name: 'PI', editable: false },
         { name: 'Lab Manager', editable: false },
@@ -292,8 +292,9 @@ export default {
           <v-col v-else>No users</v-col>
         </v-row>
         <v-row dense>
-          <v-col>
+          <v-col class="d-flex flex-row">
             <h2>Contacts</h2>
+            <v-checkbox label="Show inactive" v-model="showInactive" class="ml-4 mt-0" dense></v-checkbox>
           </v-col>
           <v-col sm="1" align="end">
             <v-tooltip top>
@@ -311,6 +312,7 @@ export default {
               :key="`${contactGroupName}-${contactIndex}`"
             >
               <IFXContactRoleDisplayEdit
+                v-if="item.contacts[contactIndex].active || showInactive"
                 :allRoles="allRoles"
                 :filterRoles="false"
                 :contact="item.contacts[contactIndex]"
