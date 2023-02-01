@@ -106,7 +106,6 @@ export default {
       >
         <v-icon :class="{ active: showExtraInfo }">mdi-menu-right</v-icon>
       </v-btn>
-      <!-- <span v-else class="ml-7"></span> -->
       {{ itemLocal.role }}
       <div v-if="showExtraInfo" class="ml-8">
         <div>
