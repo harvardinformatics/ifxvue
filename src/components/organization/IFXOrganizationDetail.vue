@@ -168,6 +168,9 @@ export default {
       }
       return groups
     },
+    filteredUsers() {
+      return this.item?.users?.filter((user) => this.showInactive || user.active)
+    },
   },
 }
 </script>
@@ -178,8 +181,11 @@ export default {
       <template #title>{{ item.slug }}</template>
       <template #cypress>{{ item.id }}</template>
       <template #actions>
-        <!-- TODO: check why this cannot be edited -->
-        <IFXDeleteItemButton v-if="!item.ifxOrg" xSmall :item="item" :apiRef="apiRef" :itemType="itemType" />
+        <div class="d-flex flex-row show-inactive">
+          <v-checkbox label="Show inactive" v-model="showInactive" class="mr-3 mt-0" dense></v-checkbox>
+          <!-- TODO: check why this cannot be edited -->
+          <IFXDeleteItemButton v-if="!item.ifxOrg" xSmall :item="item" :apiRef="apiRef" :itemType="itemType" />
+        </div>
       </template>
     </IFXPageHeader>
     <v-row dense class="ml-2">
@@ -244,10 +250,10 @@ export default {
           <v-col v-if="item && item.users && item.users.length">
             <IFXItemDataTable
               :headers="userListHeaders"
-              :items="item.users"
+              :items="filteredUsers"
               :showSelect="true"
               itemType="OrganizationUser"
-              :hideDefaultFooter="item.users.length < 20"
+              :hideDefaultFooter="filteredUsers.length < 20"
               :selected.sync="selected"
             >
               <template v-slot:fullName="{ item }">
@@ -292,9 +298,8 @@ export default {
           <v-col v-else>No users</v-col>
         </v-row>
         <v-row dense>
-          <v-col class="d-flex flex-row">
+          <v-col>
             <h2>Contacts</h2>
-            <v-checkbox label="Show inactive" v-model="showInactive" class="ml-4 mt-0" dense></v-checkbox>
           </v-col>
           <v-col sm="1" align="end">
             <v-tooltip top>
@@ -306,7 +311,7 @@ export default {
           </v-col>
         </v-row>
         <v-row v-for="(contactGroupName, index) in contactRolesGroups" :key="index" dense>
-          <v-col xxv-if="getContactIndicesByRole(contactGroupName).length !== 0">
+          <v-col>
             <div
               v-for="contactIndex in getContactIndicesByRole(contactGroupName)"
               :key="`${contactGroupName}-${contactIndex}`"
@@ -320,7 +325,7 @@ export default {
               />
             </div>
           </v-col>
-          <div class="w-full" xxv-if="getContactIndicesByRole(contactGroupName).length !== 0">
+          <div class="w-full">
             <v-divider></v-divider>
           </div>
         </v-row>
@@ -406,5 +411,8 @@ export default {
 <style scoped>
 .w-full {
   width: 100%;
+}
+.show-inactive .v-messages theme--light {
+  display: none;
 }
 </style>
