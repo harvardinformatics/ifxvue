@@ -40,7 +40,6 @@ export default {
         { name: 'Lab Manager', editable: false },
         { name: 'Facility Invoice', editable: true },
         { name: 'Facility Invoice CC', editable: true },
-        { name: `Billing Record Review for Center for ${this.$api.vars.appNameFormatted}`, editable: true },
       ],
     }
   },
@@ -50,6 +49,10 @@ export default {
       this.item = await this.apiRef.getByID(this.id, true)
       this.cacheItem()
       this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
+      const allFacilities = await this.$api.facility.getList()
+      allFacilities.forEach((facility) => {
+        this.allRoles.push({ name: `Billing Record Review for ${facility.name}`, editable: true })
+      })
     },
     showChangeUsers(deactivate = true) {
       this.selectedUsers = this.selected.map((item) => item.user)
