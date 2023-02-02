@@ -40,6 +40,12 @@ export default {
       allGroupNames: [],
       allContacts: [],
       allOrganizationSlugs: [],
+      allRoles: [
+        { name: 'Additional Email', editable: true },
+        { name: 'Work Phone', editable: true },
+        { name: 'Additional Phone', editable: true },
+        { name: 'Additional Contact', editable: true },
+      ],
       currentContact: {},
       newAffiliation: {},
       itemCopy: {},
@@ -181,9 +187,11 @@ export default {
       <template #actions>
         <v-row dense align="center">
           <v-col>
-            <span class="text-no-wrap"><IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" :isActive.sync="item.isActive" /></span>
+            <span class="text-no-wrap">
+              <IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
+            </span>
           </v-col>
-          <v-col v-if="isDjangoStaff()" >
+          <v-col v-if="isDjangoStaff()">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on" fab small color="info" :href="django_admin_url">
@@ -417,7 +425,7 @@ export default {
           <v-card-text class="pb-0">
             <IFXSelectCreateContact
               :allItems="filteredContacts"
-              :allRoles="['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact']"
+              :allRoles="allRoles"
               :filterRoles="true"
               :item.sync="currentContact"
               :errors="errors"
