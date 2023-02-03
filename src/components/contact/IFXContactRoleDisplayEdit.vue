@@ -79,7 +79,7 @@ export default {
 </script>
 <template>
   <v-row dense :key="rowKey">
-    <v-col md="4" v-if="roleEditingEnabled">
+    <v-col md="5" v-if="roleEditingEnabled">
       <v-select
         v-model.trim="itemLocal.role"
         :items="appropriateRoles"
@@ -93,20 +93,21 @@ export default {
       <v-btn x-small class="mr-2" color="secondary" @click.stop="updateContact(itemLocal)">Accept</v-btn>
     </v-col>
     <v-col
-      md="4"
+      md="5"
       v-else
       :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
     >
-      <v-btn
-        icon
-        small
-        @click="showExtraInfo = !showExtraInfo"
-        class="expand-icon"
-        :class="{ invisible: !isFullContact(itemLocal.contact) }"
-      >
-        <v-icon :class="{ active: showExtraInfo }">mdi-menu-right</v-icon>
-      </v-btn>
       {{ itemLocal.role }}
+      <v-btn
+        text
+        x-small
+        color="primary"
+        @click.stop="showExtraInfo = !showExtraInfo"
+        v-if="isFullContact(itemLocal.contact)"
+      >
+        {{ `(Show ${showExtraInfo ? 'less' : 'more'})` }}
+      </v-btn>
+
       <div v-if="showExtraInfo" class="ml-8">
         <div>
           <span class="font-weight-medium">Name:</span>
@@ -118,7 +119,10 @@ export default {
         </div>
       </div>
     </v-col>
-    <v-col :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }">
+    <v-col
+      md="3"
+      :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
+    >
       <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
     </v-col>
     <v-col v-if="isEditable">
@@ -163,8 +167,5 @@ export default {
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
   }
-}
-.invisible {
-  visibility: hidden;
 }
 </style>
