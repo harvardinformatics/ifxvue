@@ -200,7 +200,6 @@ export default {
         && this.resource?.billable
         && !(this.isMaintenance && this.useMaintenance)
         && !(this.trial && this.useTrial)
-        && !this.$api.auth.can('reserve-billable-without-code', this.$api.authUser)
       return result
     },
     expenseCodeEnabled() {

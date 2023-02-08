@@ -32,6 +32,14 @@ export class OrganizationContact {
     this.data.id = id
   }
 
+  get active() {
+    return this.data.active
+  }
+
+  set active(val) {
+    this.data.active = val
+  }
+
   get name() {
     return this.data.contact.name
   }
@@ -242,6 +250,11 @@ export class Organization {
   // Does function caller know they can only add organization users? Or should this function take in a User/userData and convert?
   addUser(user) {
     this.data.users.push(user)
+  }
+
+  // Takes user, role and active status and creates an org user
+  addOrgUser(user, role, active) {
+    this.data.users.push(new OrganizationUser({ id: user?.id, user, role, active }))
   }
 
   get color() {

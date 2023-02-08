@@ -28,11 +28,24 @@ export default {
     IFXContactRoleDisplayEdit,
     IFXAffiliationRoleDisplayEdit,
   },
+  props: {
+    djangoEditOnly: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+  },
   data() {
     return {
       allGroupNames: [],
       allContacts: [],
       allOrganizationSlugs: [],
+      allRoles: [
+        { name: 'Additional Email', editable: true },
+        { name: 'Work Phone', editable: true },
+        { name: 'Additional Phone', editable: true },
+        { name: 'Additional Contact', editable: true },
+      ],
       currentContact: {},
       newAffiliation: {},
       itemCopy: {},
@@ -124,8 +137,14 @@ export default {
     getChipColorForGroup(group) {
       return this.$api.group.colorForGroup(group)
     },
+    isDjangoStaff() {
+      return this.$api.auth.isStaff
+    },
   },
   computed: {
+    django_admin_url() {
+      return [this.$api.urls.DJANGO_ADMIN_ROOT, 'ifxuser', 'ifxuser', this.item.id, 'change/'].join('/')
+    },
     areAnyAccountsPresent() {
       return this.item.accounts?.length || this.item.productAccounts?.length
     },
@@ -150,7 +169,7 @@ export default {
       return this.hasItemChanged()
     },
     isUserInfoEdittable() {
-      return this.item && this.item.username && !!this.item.ifxid
+      return this.item && this.item.username && !!this.item.ifxid && !this.djangoEditOnly
     },
   },
 }
@@ -166,7 +185,23 @@ export default {
     <IFXPageHeader>
       <template #title>{{ item.fullName || id }}</template>
       <template #actions>
-        <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
+        <v-row dense align="center">
+          <v-col>
+            <span class="text-no-wrap">
+              <IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
+            </span>
+          </v-col>
+          <v-col v-if="isDjangoStaff()">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on" fab small color="info" :href="django_admin_url">
+                  <v-icon color="yellow">vpn_key</v-icon>
+                </v-btn>
+              </template>
+              <span>View user Django admin form</span>
+            </v-tooltip>
+          </v-col>
+        </v-row>
       </template>
     </IFXPageHeader>
     <v-container>
@@ -222,7 +257,7 @@ export default {
           <h3>Created</h3>
         </v-col>
         <v-col>
-          {{ item.dateJoined|humanDatetime }}
+          {{ item.dateJoined | humanDatetime }}
         </v-col>
       </v-row>
       <v-row align="start" dense>
@@ -230,7 +265,7 @@ export default {
           <h3>Last Update</h3>
         </v-col>
         <v-col>
-          {{ item.lastUpdate|humanDatetime }}
+          {{ item.lastUpdate | humanDatetime }}
         </v-col>
       </v-row>
       <span>
@@ -249,7 +284,7 @@ export default {
             </div>
           </v-col>
           <v-col sm="1" align="end">
-            <v-tooltip top>
+            <v-tooltip top v-if="isUserInfoEdittable">
               <template v-slot:activator="{ on, attrs }">
                 <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openContactDialog()" />
               </template>
@@ -275,7 +310,7 @@ export default {
             </span>
           </v-col>
           <v-col sm="1" align="end">
-            <v-tooltip top>
+            <v-tooltip top v-if="isUserInfoEdittable">
               <template v-slot:activator="{ on, attrs }">
                 <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openAffiliationDialog()" />
               </template>
@@ -390,6 +425,8 @@ export default {
           <v-card-text class="pb-0">
             <IFXSelectCreateContact
               :allItems="filteredContacts"
+              :allRoles="allRoles"
+              :filterRoles="true"
               :item.sync="currentContact"
               :errors="errors"
               :valid.sync="addContactFormIsValid"
