@@ -26,7 +26,7 @@ export default {
         { text: 'Rank', value: 'rank', sortable: true, slot: true },
         { text: 'Org tree', value: 'orgTree', sortable: true },
         { text: 'Parent(s)', value: 'parents', sortable: false, slot: true },
-        { text: '', value: 'rowActionEdit', slot: true }
+        { text: '', value: 'rowActionDetailEdit', sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
@@ -34,20 +34,23 @@ export default {
   methods: {
     emailLabManagers() {
       const organizationSlugs = this.selected.map((item) => item.slug)
-      this.$router.push({ name: 'MailingCompose', params: { labManagerOrgSlugs: organizationSlugs, recipientField: this.recipientField } })
-    }
-  }
+      this.$router.push({
+        name: 'MailingCompose',
+        params: { labManagerOrgSlugs: organizationSlugs, recipientField: this.recipientField },
+      })
+    },
+  },
 }
 </script>
 
 <template>
   <v-container>
     <IFXPageHeader>
-      <template #title>{{listTitle}}</template>
+      <template #title>{{ listTitle }}</template>
       <template #actions>
         <v-row nowrap align="center">
           <v-col>
-            <IFXSearchField :search.sync='search'/>
+            <IFXSearchField :search.sync="search" />
           </v-col>
           <v-col>
             <IFXMailButton
@@ -55,11 +58,10 @@ export default {
               toolTip="Email Lab Managers"
               :disabled="!selected.length"
               @input="emailLabManagers()"
-            >
-            </IFXMailButton>
+            ></IFXMailButton>
           </v-col>
           <v-col>
-            <IFXButton small btnType="add" @action="navigateToItemCreate"/>
+            <IFXButton small btnType="add" @action="navigateToItemCreate" />
           </v-col>
         </v-row>
       </template>

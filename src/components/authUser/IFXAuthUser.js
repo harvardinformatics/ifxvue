@@ -44,6 +44,10 @@ export default class AuthUser {
     this.data.groups = groups
   }
 
+  hasGroup(group) {
+    return this.groups && this.groups.includes(group)
+  }
+
   get token() {
     return this.data.token
   }

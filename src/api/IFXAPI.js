@@ -368,9 +368,10 @@ export default class IFXAPIService {
 
       // Check if incoming orgData has contacts
       if (orgData.contacts && orgData.contacts.length) {
-        const organizationContactDataObjs = orgData.contacts.map(({ role, contact }) => {
+        const organizationContactDataObjs = orgData.contacts.map(({ role, active, contact }) => {
           const newContactData = {
             id: contact.id,
+            active,
             role,
             // If decomposing, do not create dynamic contact object
             // TODO: why isn't type defined here? Role is not type
@@ -819,9 +820,7 @@ export default class IFXAPIService {
     api.getList = async (invoice_prefix, month = null, year = null, organization = null) => {
       const params = { invoice_prefix, month, year, organization }
       const url = this.urls.BILLING_RECORD_LIST
-      return this.axios
-        .get(url, { params })
-        .then((res) => Promise.all(res.data.map((data) => createFunc(data))))
+      return this.axios.get(url, { params }).then((res) => Promise.all(res.data.map((data) => createFunc(data))))
     }
     api.getByID = async (facilityPrefix, id) => {
       const url = `${baseURL}${id}/`
@@ -918,13 +917,13 @@ export default class IFXAPIService {
     let orgIFXIDs = []
     let emails = []
     if (selectedContactables.length) {
-      emails = selectedContactables.map(contact => contact.detail)
+      emails = selectedContactables.map((contact) => contact.detail)
     }
     if (organizationSlugs.length) {
       // There are no test email addresses so create the array of org ids
       const orgs = await this.organization.getList()
-      orgIFXIDs = organizationSlugs.map(org => {
-        const fullOrg = orgs.find(anOrg => org === anOrg.slug)
+      orgIFXIDs = organizationSlugs.map((org) => {
+        const fullOrg = orgs.find((anOrg) => org === anOrg.slug)
         if (fullOrg) {
           return fullOrg.ifxOrg
         }

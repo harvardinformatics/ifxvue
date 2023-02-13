@@ -4,10 +4,26 @@ import IFXItemSelectableMixin from '@/components/item/IFXItemSelectableMixin'
 export default {
   name: 'IFXSelectCreateContact',
   mixins: [IFXItemSelectableMixin],
+  props: {
+    allRoles: {
+      type: Array,
+      required: false,
+      default: () => [
+        { name: 'Additional Email', editable: true },
+        { name: 'Work Phone', editable: true },
+        { name: 'Additional Phone', editable: true },
+        { name: 'Additional Contact', editable: true },
+      ],
+    },
+    filterRoles: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+  },
   data() {
     return {
       contactType: null,
-      allRoles: ['Additional Email', 'Work Phone', 'Additional Phone', 'Additional Contact'],
       search: '',
       newContacts: [],
       isValid: false,
@@ -23,7 +39,8 @@ export default {
     appropriateRoles() {
       // We assume that the type and the role name both contain the same case-senstive value
       return this.allRoles.filter(
-        (role) => role.includes(this.itemLocal.contact?.type) || role === 'Additional Contact'
+        (role) => role.editable
+          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role === 'Additional Contact' : true)
       )
     },
     radioIsDisabled() {
@@ -83,7 +100,9 @@ export default {
     selectContact() {
       this.search = ''
       this.$nextTick(() => {
-        this.$refs.form.validate()
+        if (this.$refs.form) {
+          this.$refs.form.validate()
+        }
       })
     },
   },
@@ -154,6 +173,8 @@ export default {
               :items="appropriateRoles"
               :error-messages="errors['role']"
               :rules="formRules.generic"
+              item-text="name"
+              item-value="name"
               label="Role"
               required
               data-cy="select-role"
