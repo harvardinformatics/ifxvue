@@ -70,6 +70,11 @@ export default {
       required: false,
       default: false,
     },
+    sortBy: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   mounted() {
     this.facilityBillingRecords()
@@ -101,7 +106,7 @@ export default {
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
-        { text: 'Usage id', value: 'productUsage.id', sortable: true },
+        { text: 'Usage id', value: 'productUsage', sortable: true, namedSlot: true },
         { text: 'Transaction description', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
@@ -910,6 +915,7 @@ export default {
               :loading="isLoading"
               :items-per-page="-1"
               group-by="account.organization"
+              :sort-by="sortBy"
               @item-selected="determineGroupState"
               @toggle-select-all="toggleSelectAll"
             >
@@ -968,6 +974,15 @@ export default {
               <span style="white-space: nowrap">
                 {{ item.endDate | humanDatetime }}
               </span>
+            </template>
+            <template v-slot:item.productUsage="{ item }">
+              <span v-if="item.productUsageLinkText" style="white-space: nowrap">
+                <a :href="item.productUsageUrl">{{item.productUsageLinkText}}</a>
+              </span>
+              <span v-else style="white-space: nowrap">
+                {{ item.productUsage.id }}
+              </span>
+            </template>
             <template v-slot:item.actions="{ item }">
               <div class="d-flex flex-row">
                 <IFXButton

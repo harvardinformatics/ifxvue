@@ -107,7 +107,21 @@ export default {
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'charge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
-        { text: 'Usage id', value: 'productUsage', namedSlot: true, sortable: true },
+        {
+          text: 'Usage id',
+          value: 'productUsage',
+          namedSlot: true,
+          sortable: true,
+          sort: function (a, b) {
+            if (a.productUsageLinkText) {
+              return a.productUsageLinkText.localeCompare(b.productUsageLinkText)
+            }
+            if (a.productUsage) {
+              return a.productUsage.id - b.productUsage.id
+            }
+            return 0
+          }
+        },
         { text: 'Transaction Description', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
