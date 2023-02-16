@@ -72,8 +72,24 @@ export default class BillingRecord extends IFXItemBase {
     return this.data.product_usage
   }
 
-  set productUsage(product_usage) {
-    this.data.product_usage = product_usage
+  set productUsage(productUsage) {
+    this.data.product_usage = productUsage
+  }
+
+  get productUsageLinkText() {
+    return this.data.product_usage_link_text
+  }
+
+  set productUsageLinkText(productUsageLinkText) {
+    this.data.product_usage_link_text = productUsageLinkText
+  }
+
+  get productUsageUrl() {
+    return this.data.product_usage_url
+  }
+
+  set productUsageUrl(productUsageUrl) {
+    this.data.product_usage_url = productUsageUrl
   }
 
   get productUser() {
@@ -128,16 +144,16 @@ export default class BillingRecord extends IFXItemBase {
     return this.data.current_state
   }
 
-  set currentState(current_state) {
-    this.data.current_state = current_state
+  set currentState(currentState) {
+    this.data.current_state = currentState
   }
 
   get billingRecordStates() {
     return this.data.billing_record_states
   }
 
-  set billingRecordStates(billing_record_states) {
-    this.data.billing_record_states = billing_record_states
+  set billingRecordStates(billingRecordStates) {
+    this.data.billing_record_states = billingRecordStates
   }
 
   get transactions() {

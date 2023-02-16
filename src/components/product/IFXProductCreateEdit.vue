@@ -114,7 +114,7 @@ export default {
                     </v-col>
                     <v-col>
                       <v-text-field
-                        v-model="item.dollarValue"
+                        v-model="item.decimalPrice"
                         label="Price *"
                         :hint="priceHint(item)"
                         :rules="formRules.currency"
