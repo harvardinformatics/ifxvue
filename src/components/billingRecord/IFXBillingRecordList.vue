@@ -965,7 +965,7 @@ export default {
             </template>
 
             <template v-slot:item.account.organization="{ item }">
-              <span style="white-space: nowrap">
+              <span class="text-no-wrap">
                 {{ $api.organization.parseSlug(item.account.organization).name }}
               </span>
             </template>
@@ -973,7 +973,7 @@ export default {
               <span class="state-display">{{ item.currentState | stateDisplay }}</span>
             </template>
             <template v-slot:item.account.slug="{ item }">
-              <span style="white-space: nowrap">{{ item.account.code }}</span>
+              <span class="text-no-wrap">{{ item.account.code }}</span>
               ({{ item.account.name }})
             </template>
             <template v-slot:item.transactions="{ item }">
@@ -992,20 +992,20 @@ export default {
               </span>
             </template>
             <template v-slot:item.startDate="{ item }">
-              <span style="white-space: nowrap">
+              <span class="text-no-wrap">
                 {{ item.startDate | humanDatetime }}
               </span>
             </template>
             <template v-slot:item.endDate="{ item }">
-              <span style="white-space: nowrap">
+              <span  class="text-no-wrap">
                 {{ item.endDate | humanDatetime }}
               </span>
             </template>
             <template v-slot:item.productUsage="{ item }">
-              <span v-if="item.productUsageLinkText" style="white-space: nowrap">
+              <span v-if="item.productUsageLinkText" class="text-no-wrap">
                 <a :href="item.productUsageUrl">{{item.productUsageLinkText}}</a>
               </span>
-              <span v-else style="white-space: nowrap">
+              <span v-else class="text-no-wrap">
                 {{ item.productUsage.id }}
               </span>
             </template>
