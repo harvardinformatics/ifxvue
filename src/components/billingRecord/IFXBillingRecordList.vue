@@ -56,6 +56,11 @@ export default {
       required: false,
       default: false,
     },
+    allowChangeExpenseCode: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     useDefaultMailButton: {
       type: Boolean,
       required: false,
@@ -78,6 +83,10 @@ export default {
         const errorMessage = this.getErrorMessage(error)
         this.messageType = 'error'
         this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
+      })
+      .then(async () => {
+        this.expenseCodes = await this.$api.account.getList()
+        // console.log('got codes ', this.expenseCodes)
       })
       .finally(() => (this.isLoading = false))
   },
@@ -113,6 +122,7 @@ export default {
       search: null,
       isValidTxn: false,
       isValidEdit: false,
+      isValidBulkEdit: false,
       txnDialog: false,
       editDialog: false,
       notifyDialog: false,
@@ -140,6 +150,8 @@ export default {
       sendingNotifications: false,
       emailResponse: null,
       newExpenseCode: null,
+      showChangeExpenseCodeDialog: false,
+      recordIDsToBeChanged: [],
     }
   },
   computed: {
@@ -415,7 +427,7 @@ export default {
     },
     summaryCharges(group) {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      const summary = records.reduce((prev, current) => prev + current.charge, 0)
+      const summary = records.reduce((prev, current) => prev + parseInt(current.decimalCharge, 10), 0)
       return summary
     },
     getSummaryDetails(group) {
@@ -540,14 +552,12 @@ export default {
           this.updating = false
           this.txnDialog = false
           this.editDialog = false
+          this.showChangeExpenseCodeDialog = false
         })
     },
     async openEditDialog(item) {
       const index = this.items.findIndex((rec) => rec.id === item.id)
       if (index !== -1) {
-        this.expenseCodes = await this.$api.account.getList()
-        console.log('got codes ', this.expenseCodes)
-
         this.editingIndex = index
         this.editedRecord = cloneDeep(item)
         this.newExpenseCode = await this.$api.account.create(item.account)
@@ -640,6 +650,84 @@ export default {
       }
       return list
     },
+    async openChangeExpenseCodeDialog() {
+      // Assume they want to change all records they've selected
+      this.recordIDsToBeChanged = this.selected.map((record) => record.id)
+      this.showChangeExpenseCodeDialog = true
+    },
+    closeChangeExpenseCodeDialog() {
+      this.newExpenseCode = {}
+      this.recordIDsToBeChanged = []
+      this.showChangeExpenseCodeDialog = false
+    },
+    async changeExpenseCode() {
+      const recordsToChange = []
+      const groups = new Set()
+      this.updating = true
+      for (let i = 0; i < this.recordIDsToBeChanged.length; i++) {
+        const index = this.items.findIndex((rec) => rec.id === this.recordIDsToBeChanged[i])
+        const newBillingRec = cloneDeep(await this.getFullBillingRecordByItemIndex(index))
+        newBillingRec.account = this.newExpenseCode.data
+        recordsToChange.push(newBillingRec)
+      }
+      this.$api.billingRecord
+        .bulkUpdate(recordsToChange, this.facility.applicationUsername)
+        .then((response) => {
+          if (response.error) {
+            this.showMessage(response.error)
+          } else {
+            // Replace all the new billing records
+            response.data.forEach((record) => {
+              const newBillingRec = this.$api.billingRecord.create(record)
+              let index = this.items.findIndex((rec) => rec.id === record.id)
+              this.items.splice(index, 1, newBillingRec)
+              // Now replace the records in the selected array
+              index = this.selected.findIndex((rec) => rec.id === record.id)
+              // Save potentially old org
+              groups.add(this.selected[index].account.organization)
+              this.selected.splice(index, 1, newBillingRec)
+              // Save the (deduped) org for setting the header checkboxes
+              groups.add(newBillingRec.account.organization)
+            })
+            // Now set the header checkboxes
+            Array.from(groups).forEach((org) => {
+              this.setHeaderCheckBoxState(org)
+            })
+            this.showMessage(`Successfully updated ${response.data.length} billing record(s)`)
+          }
+        })
+        .catch((error) => {
+          const message = this.getErrorMessage(error)
+          this.showMessage(message)
+        })
+        .finally(() => {
+          this.isLoading = false
+          this.updating = false
+          this.closeChangeExpenseCodeDialog()
+        })
+    },
+    setHeaderCheckBoxState(group) {
+      const records = this.filteredItems.filter((item) => item.account.organization === group)
+      const checked = this.selected.filter((item) => item.account.organization === group).length
+      const state = checked !== 0 && checked < records.length
+      this.$set(this.rowSelectionToggleIndeterminate, group, state)
+      // Now set the checkbox model to the correct state
+      if (checked) {
+        if (checked === records.length) {
+          // All are checked so add this if it isn't already there
+          const index = this.rowSelectionToggle.indexOf(group)
+          if (index === -1) {
+            this.rowSelectionToggle.push(group)
+          }
+        }
+      } else {
+        // None are checked so remove this group
+        const index = this.rowSelectionToggle.indexOf(group)
+        if (index !== -1) {
+          this.rowSelectionToggle.splice(index, 1)
+        }
+      }
+    },
   },
   watch: {
     filteredItems() {
@@ -669,7 +757,7 @@ export default {
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="5">
             <v-row dense class="d-flex flex-nowrap justify-end align-start">
               <v-col v-if="updating">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -861,6 +949,26 @@ export default {
                         </v-tooltip>
                       </v-col>
                     </v-row>
+                  </v-col>
+                  <v-col v-if="allowChangeExpenseCode">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn
+                            :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                            v-bind="attrs"
+                            fab
+                            small
+                            color="green"
+                            @click="openChangeExpenseCodeDialog()"
+                          >
+                            <!-- <v-icon dark>mdi-file-replace-outline</v-icon> -->
+                            <v-icon dark>mdi-playlist-edit</v-icon>
+                          </v-btn>
+                        </div>
+                      </template>
+                      <span>{{ approveSelectedToolTip }}</span>
+                    </v-tooltip>
                   </v-col>
                   <v-col class="pa-2" v-if="allowInvoiceGeneration">
                     <v-row dense>
@@ -1085,6 +1193,56 @@ export default {
                 <v-btn color="blue darken-1" text :disabled="!isValidEdit" @click="updateSpecificRecord(editedRecord)">
                   Save
                 </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog v-model="showChangeExpenseCodeDialog" v-if="showChangeExpenseCodeDialog" max-width="600px">
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">Edit Selected Billing Records</span>
+              </v-card-title>
+              <v-card-text>
+                <v-form v-model="isValidBulkEdit">
+                  <v-row>
+                    <v-col>
+                      <v-autocomplete
+                        required
+                        v-model="newExpenseCode"
+                        :items="expenseCodes"
+                        item-text="slug"
+                        label="New Expense Code / PO"
+                        :error-messages="errors[newExpenseCode]"
+                        :rules="formRules.generic"
+                        return-object
+                      ></v-autocomplete>
+                    </v-col>
+                  </v-row>
+                  <v-divider></v-divider>
+                  <v-row>
+                    <v-col cols="12">
+                      <div class="text-h6 text-center pb-3">Select the billing records to change</div>
+                      <div v-for="record in selected" :key="record.id">
+                        <v-checkbox v-model="recordIDsToBeChanged" :value="record.id">
+                          <template v-slot:label>
+                            <div class="font-weight-medium mr-3">Billing Record #{{ record.id }}</div>
+                            <div class="font-weight-regular">({{ record.account.name }})"</div>
+                          </template>
+                        </v-checkbox>
+                        <div class="font-weight-light mt-n5 mb-5">({{ record.description }})"</div>
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-divider></v-divider>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <div v-if="updating">
+                  <span class="mr-3">Updating billing records...</span>
+                  <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                </div>
+                <v-spacer></v-spacer>
+                <v-btn color="secondary" text @click="closeChangeExpenseCodeDialog">Cancel</v-btn>
+                <v-btn color="blue darken-1" text :disabled="!isValidBulkEdit" @click="changeExpenseCode">Save</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
