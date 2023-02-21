@@ -59,7 +59,7 @@ export default {
     allowChangeExpenseCode: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
     useDefaultMailButton: {
       type: Boolean,
@@ -764,7 +764,7 @@ export default {
   <v-container>
     <v-card>
       <v-card-title>
-        <v-row class="d-flex justify-space-between">
+        <v-row class="d-flex justify-space-between w-full">
           <v-col cols="4">
             <div class="text-no-wrap">
               {{ facility.name }}
@@ -1280,6 +1280,9 @@ export default {
   </v-container>
 </template>
 <style lang="scss" scoped>
+.w-full {
+  width: 100%;
+}
 .message-text {
   font-size: smaller;
   font-style: italic;
