@@ -1,6 +1,7 @@
 <script>
 import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
+import moment from 'moment'
 
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
@@ -90,7 +91,6 @@ export default {
       })
       .then(async () => {
         this.expenseCodes = await this.$api.account.getList()
-        // console.log('got codes ', this.expenseCodes)
       })
       .finally(() => (this.isLoading = false))
   },
@@ -115,7 +115,21 @@ export default {
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
-        { text: 'Usage id', value: 'productUsage', sortable: true, namedSlot: true },
+        {
+          text: 'Usage id',
+          value: 'productUsage',
+          namedSlot: true,
+          sortable: true,
+          sort: function (a, b) {
+            if (a.productUsageLinkText) {
+              return a.productUsageLinkText.localeCompare(b.productUsageLinkText)
+            }
+            if (a.productUsage) {
+              return a.productUsage.id - b.productUsage.id
+            }
+            return 0
+          },
+        },
         { text: 'Transaction description', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
@@ -290,7 +304,9 @@ export default {
           if (!value && value !== false) continue
           // TODO: make this check more generalized for multiple item types
           // Check for different item types
-          if (header.value.toLowerCase().includes('date')) {
+          if (header.value === 'startDate' || header.value === 'endDate') {
+            value = moment(String(value)).format('M/DD/YYYY h:mm A')
+          } else if (header.value.toLowerCase().includes('date')) {
             value = value.substring(0, 10)
           } else if (header.value === 'account.organization') {
             value = this.$api.organization.parseSlug(value).name
@@ -563,7 +579,6 @@ export default {
     async openEditDialog(item) {
       const index = this.items.findIndex((rec) => rec.id === item.id)
       if (index !== -1) {
-        this.expenseCodes = await this.$api.account.getList()
         this.editingIndex = index
         this.editedRecord = cloneDeep(item)
         this.newExpenseCode = await this.$api.account.create(item.account)
@@ -591,7 +606,7 @@ export default {
       })
     },
     allowAddingTransactions(item) {
-      return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL'
+      return item.currentState !== 'FINAL'
     },
     allowEditingRecords(item) {
       return item.currentState !== 'FINAL'
@@ -662,7 +677,6 @@ export default {
       this.showChangeExpenseCodeDialog = true
     },
     closeChangeExpenseCodeDialog() {
-      // this.newExpenseCode = {}
       this.recordIDsToBeChanged = []
       this.showChangeExpenseCodeDialog = false
     },
@@ -1030,6 +1044,7 @@ export default {
             :itemKey="itemKey"
             :loading="isLoading"
             :items-per-page="-1"
+            :sort-by="sortBy"
             group-by="account.organization"
             @item-selected="determineGroupState"
             @toggle-select-all="toggleSelectAll"

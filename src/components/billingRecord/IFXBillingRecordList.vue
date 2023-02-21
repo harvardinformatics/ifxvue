@@ -1,7 +1,7 @@
 <script>
-import moment from 'moment'
 import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
+import moment from 'moment'
 
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
@@ -91,7 +91,6 @@ export default {
       })
       .then(async () => {
         this.expenseCodes = await this.$api.account.getList()
-        // console.log('got codes ', this.expenseCodes)
       })
       .finally(() => (this.isLoading = false))
   },
@@ -129,7 +128,7 @@ export default {
               return a.productUsage.id - b.productUsage.id
             }
             return 0
-          }
+          },
         },
         { text: 'Transaction Description', value: 'transactions', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
@@ -675,7 +674,6 @@ export default {
       this.showChangeExpenseCodeDialog = true
     },
     closeChangeExpenseCodeDialog() {
-      this.newExpenseCode = {}
       this.recordIDsToBeChanged = []
       this.showChangeExpenseCodeDialog = false
     },
@@ -776,7 +774,7 @@ export default {
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="5">
+          <v-col cols="4">
             <v-row dense class="d-flex flex-nowrap justify-end align-start">
               <v-col v-if="updating">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -1105,13 +1103,13 @@ export default {
               </span>
             </template>
             <template v-slot:item.endDate="{ item }">
-              <span  class="text-no-wrap">
+              <span class="text-no-wrap">
                 {{ item.endDate | humanDatetime }}
               </span>
             </template>
             <template v-slot:item.productUsage="{ item }">
               <span v-if="item.productUsageLinkText" class="text-no-wrap">
-                <a :href="item.productUsageUrl">{{item.productUsageLinkText}}</a>
+                <a :href="item.productUsageUrl">{{ item.productUsageLinkText }}</a>
               </span>
               <span v-else class="text-no-wrap">
                 {{ item.productUsage.id }}
@@ -1250,7 +1248,6 @@ export default {
                       ></v-autocomplete>
                     </v-col>
                   </v-row>
-                  <v-divider></v-divider>
                   <v-row>
                     <v-col cols="12">
                       <div class="text-h6 text-center pb-3">Select the billing records to change</div>
