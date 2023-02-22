@@ -987,7 +987,7 @@ export default {
                           </v-btn>
                         </div>
                       </template>
-                      <span>{{ approveSelectedToolTip }}</span>
+                      <span>Edit billing record account</span>
                     </v-tooltip>
                   </v-col>
                   <v-col class="pa-2" v-if="allowInvoiceGeneration">
