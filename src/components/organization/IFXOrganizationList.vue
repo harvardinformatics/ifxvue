@@ -1,4 +1,5 @@
 <script>
+import * as has from 'lodash/has'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
@@ -32,6 +33,24 @@ export default {
     },
   },
   methods: {
+    getSetItems() {
+      // TODO: make this consistent, no api endpoint should be returning .data
+      return (
+        this.apiRef
+          .getSkinnyList()
+          .then((items) => {
+            if (has(items, 'data')) {
+              console.error('getList should return a list of formatted objects')
+            }
+            this.items = items
+          })
+          // TODO: work on handling this error
+          .catch((error) => {
+            this.showMessage(error)
+            this.rtr.replace({ name: 'Home' })
+          })
+      )
+    },
     emailLabManagers() {
       const organizationSlugs = this.selected.map((item) => item.slug)
       this.$router.push({

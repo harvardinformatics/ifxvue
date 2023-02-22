@@ -360,6 +360,7 @@ export default class IFXAPIService {
 
   get organization() {
     const baseUrl = this.urls.ORGANIZATIONS
+    const skinnyListUrl = this.urls.SKINNY_ORGANIZATIONS
     const createFunc = (orgData, decompose = false) => {
       const newOrgData = cloneDeep(orgData) || { org_tree: 'Local' }
       // Initialize contacts and users as empty arrays - will be filled in if incoming orgData has contacts or users
@@ -468,6 +469,20 @@ export default class IFXAPIService {
       }
       const organizations = await this.axios
         .get(baseUrl, { params })
+        .then((res) => Promise.all(res.data.map((orgData) => this.organization.create(orgData))))
+        .catch((err) => {
+          throw new Error(err)
+        })
+      return organizations || []
+    }
+    api.getSkinnyList = async (params = {}) => {
+      const { orgTrees } = params
+      if (orgTrees) {
+        params.org_tree = orgTrees.join(',')
+        delete params.orgTrees
+      }
+      const organizations = await this.axios
+        .get(skinnyListUrl, { params })
         .then((res) => Promise.all(res.data.map((orgData) => this.organization.create(orgData))))
         .catch((err) => {
           throw new Error(err)
