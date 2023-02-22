@@ -32,6 +32,21 @@ export default {
     },
   },
   methods: {
+    getSetItems() {
+      // TODO: make this consistent, no api endpoint should be returning .data
+      return (
+        this.apiRef
+          .getSkinnyList()
+          .then((items) => {
+            this.items = items
+          })
+          // TODO: work on handling this error
+          .catch((error) => {
+            this.showMessage(error)
+            this.rtr.replace({ name: 'Home' })
+          })
+      )
+    },
     emailLabManagers() {
       const organizationSlugs = this.selected.map((item) => item.slug)
       this.$router.push({
