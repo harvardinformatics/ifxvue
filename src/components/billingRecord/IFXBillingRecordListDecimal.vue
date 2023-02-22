@@ -1246,23 +1246,22 @@ export default {
                       ></v-autocomplete>
                     </v-col>
                   </v-row>
-                  <v-row>
+                  <v-row class="records-container">
                     <v-col cols="12">
-                      <div class="text-h6 text-center pb-3">Select the billing records to change</div>
-                      <div v-for="record in selected" :key="record.id">
-                        <v-checkbox v-model="recordIDsToBeChanged" :value="record.id">
-                          <template v-slot:label>
-                            <div class="font-weight-medium mr-3">Billing Record #{{ record.id }}</div>
-                            <div class="font-weight-regular">({{ record.account.name }})"</div>
-                          </template>
-                        </v-checkbox>
-                        <div class="font-weight-light mt-n5 mb-5">({{ record.description }})"</div>
-                      </div>
+                      <ul class="text-body-1">
+                        <li v-for="record in selected" :key="record.id">
+                          <div class="font-weight-medium mr-3">
+                            Billing Record #{{ record.id }}
+                            <span class="font-weight-regular">({{ record.account.name }})"</span>
+                          </div>
+                          <div class="font-weight-light mb-5">({{ record.description }})"</div>
+                        </li>
+                      </ul>
                     </v-col>
                   </v-row>
-                  <v-divider></v-divider>
                 </v-form>
               </v-card-text>
+              <v-divider></v-divider>
               <v-card-actions>
                 <div v-if="updating">
                   <span class="mr-3">Updating billing records...</span>
@@ -1282,6 +1281,10 @@ export default {
 <style lang="scss" scoped>
 .w-full {
   width: 100%;
+}
+.records-container {
+  max-height: 50vh;
+  overflow: auto;
 }
 .message-text {
   font-size: smaller;
