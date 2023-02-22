@@ -58865,6 +58865,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
       var _this9 = this;
 
       var baseUrl = this.urls.ORGANIZATIONS;
+      var skinnyListUrl = this.urls.SKINNY_ORGANIZATIONS;
 
       var createFunc = function createFunc(orgData) {
         var decompose = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -59013,24 +59014,63 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
             }
           }
         }, _callee11);
+      }));
+      api.getSkinnyList = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+        var params,
+            orgTrees,
+            organizations,
+            _args12 = arguments;
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                params = _args12.length > 0 && _args12[0] !== undefined ? _args12[0] : {};
+                orgTrees = params.orgTrees;
+
+                if (orgTrees) {
+                  params.org_tree = orgTrees.join(',');
+                  delete params.orgTrees;
+                }
+
+                _context12.next = 5;
+                return _this9.axios.get(skinnyListUrl, {
+                  params: params
+                }).then(function (res) {
+                  return Promise.all(res.data.map(function (orgData) {
+                    return _this9.organization.create(orgData);
+                  }));
+                }).catch(function (err) {
+                  throw new Error(err);
+                });
+
+              case 5:
+                organizations = _context12.sent;
+                return _context12.abrupt("return", organizations || []);
+
+              case 7:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
       })); // this has been added to the object itelf
 
       api.canEdit = function (organization) {
         return !organization.ifxOrg;
       };
 
-      api.getNames = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+      api.getNames = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
         var selector,
             url,
             orgNames,
-            _args12 = arguments;
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+            _args13 = arguments;
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                selector = _args12.length > 0 && _args12[0] !== undefined ? _args12[0] : null;
+                selector = _args13.length > 0 && _args13[0] !== undefined ? _args13[0] : null;
                 url = _this9.urls.ORGANIZATION_NAMES;
-                _context12.next = 4;
+                _context13.next = 4;
                 return _this9.axios.get(url).then(function (res) {
                   return res.data;
                 }).then(function (objs) {
@@ -59044,15 +59084,15 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                 });
 
               case 4:
-                orgNames = _context12.sent;
-                return _context12.abrupt("return", orgNames);
+                orgNames = _context13.sent;
+                return _context13.abrupt("return", orgNames);
 
               case 6:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12);
+        }, _callee13);
       }));
 
       api.parseSlug = function (slug) {
@@ -59123,11 +59163,11 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
       return {
         getList: function () {
-          var _getList2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(params) {
+          var _getList2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(params) {
             var url, contactables;
-            return regeneratorRuntime.wrap(function _callee13$(_context13) {
+            return regeneratorRuntime.wrap(function _callee14$(_context14) {
               while (1) {
-                switch (_context13.prev = _context13.next) {
+                switch (_context14.prev = _context14.next) {
                   case 0:
                     url = _this12.urls.CONTACTABLES;
 
@@ -59135,7 +59175,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                       params.org_slugs = params.org_slugs.join(',');
                     }
 
-                    _context13.next = 4;
+                    _context14.next = 4;
                     return _this12.axios.post(url, params).then(function (response) {
                       return response.data;
                     }).catch(function (error) {
@@ -59143,15 +59183,15 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                     });
 
                   case 4:
-                    contactables = _context13.sent;
-                    return _context13.abrupt("return", contactables);
+                    contactables = _context14.sent;
+                    return _context14.abrupt("return", contactables);
 
                   case 6:
                   case "end":
-                    return _context13.stop();
+                    return _context14.stop();
                 }
               }
-            }, _callee13);
+            }, _callee14);
           }));
 
           function getList(_x7) {
@@ -59180,11 +59220,11 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
       return {
         getList: function () {
-          var _getList3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(p) {
+          var _getList3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(p) {
             var params, response;
-            return regeneratorRuntime.wrap(function _callee14$(_context14) {
+            return regeneratorRuntime.wrap(function _callee15$(_context15) {
               while (1) {
-                switch (_context14.prev = _context14.next) {
+                switch (_context15.prev = _context15.next) {
                   case 0:
                     params = p;
 
@@ -59192,27 +59232,27 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                       params = {};
                     }
 
-                    _context14.prev = 2;
-                    _context14.next = 5;
+                    _context15.prev = 2;
+                    _context15.next = 5;
                     return _this13.axios.get(_this13.urls.GROUPS, {
                       params: params
                     });
 
                   case 5:
-                    response = _context14.sent;
-                    return _context14.abrupt("return", response.data);
+                    response = _context15.sent;
+                    return _context15.abrupt("return", response.data);
 
                   case 9:
-                    _context14.prev = 9;
-                    _context14.t0 = _context14["catch"](2);
-                    throw new Error(_context14.t0);
+                    _context15.prev = 9;
+                    _context15.t0 = _context15["catch"](2);
+                    throw new Error(_context15.t0);
 
                   case 12:
                   case "end":
-                    return _context14.stop();
+                    return _context15.stop();
                 }
               }
-            }, _callee14, null, [[2, 9]]);
+            }, _callee15, null, [[2, 9]]);
           }));
 
           function getList(_x8) {
@@ -59222,27 +59262,27 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           return getList;
         }(),
         getNames: function () {
-          var _getNames = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+          var _getNames = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
             var response;
-            return regeneratorRuntime.wrap(function _callee15$(_context15) {
+            return regeneratorRuntime.wrap(function _callee16$(_context16) {
               while (1) {
-                switch (_context15.prev = _context15.next) {
+                switch (_context16.prev = _context16.next) {
                   case 0:
-                    _context15.next = 2;
+                    _context16.next = 2;
                     return _this13.group.getList();
 
                   case 2:
-                    response = _context15.sent;
-                    return _context15.abrupt("return", response.map(function (g) {
+                    response = _context16.sent;
+                    return _context16.abrupt("return", response.map(function (g) {
                       return g.name;
                     }));
 
                   case 4:
                   case "end":
-                    return _context15.stop();
+                    return _context16.stop();
                 }
               }
-            }, _callee15);
+            }, _callee16);
           }));
 
           function getNames() {
@@ -59283,25 +59323,25 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           });
         },
         getCountryList: function () {
-          var _getCountryList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+          var _getCountryList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
             var params;
-            return regeneratorRuntime.wrap(function _callee16$(_context16) {
+            return regeneratorRuntime.wrap(function _callee17$(_context17) {
               while (1) {
-                switch (_context16.prev = _context16.next) {
+                switch (_context17.prev = _context17.next) {
                   case 0:
                     params = {
                       target: 'country'
                     };
-                    return _context16.abrupt("return", _this14.location.getInfo(params).then(function (res) {
+                    return _context17.abrupt("return", _this14.location.getInfo(params).then(function (res) {
                       return res.data.location_info;
                     }));
 
                   case 2:
                   case "end":
-                    return _context16.stop();
+                    return _context17.stop();
                 }
               }
-            }, _callee16);
+            }, _callee17);
           }));
 
           function getCountryList() {
@@ -59311,15 +59351,15 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           return getCountryList;
         }(),
         getStateList: function () {
-          var _getStateList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
+          var _getStateList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
             var country,
                 params,
-                _args17 = arguments;
-            return regeneratorRuntime.wrap(function _callee17$(_context17) {
+                _args18 = arguments;
+            return regeneratorRuntime.wrap(function _callee18$(_context18) {
               while (1) {
-                switch (_context17.prev = _context17.next) {
+                switch (_context18.prev = _context18.next) {
                   case 0:
-                    country = _args17.length > 0 && _args17[0] !== undefined ? _args17[0] : null;
+                    country = _args18.length > 0 && _args18[0] !== undefined ? _args18[0] : null;
                     params = {
                       target: 'state'
                     };
@@ -59328,16 +59368,16 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                       params.country = country;
                     }
 
-                    return _context17.abrupt("return", _this14.location.getInfo(params).then(function (res) {
+                    return _context18.abrupt("return", _this14.location.getInfo(params).then(function (res) {
                       return res.data.location_info;
                     }));
 
                   case 4:
                   case "end":
-                    return _context17.stop();
+                    return _context18.stop();
                 }
               }
-            }, _callee17);
+            }, _callee18);
           }));
 
           function getStateList() {
@@ -59347,17 +59387,17 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
           return getStateList;
         }(),
         getCityList: function () {
-          var _getCityList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
+          var _getCityList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
             var country,
                 state,
                 params,
-                _args18 = arguments;
-            return regeneratorRuntime.wrap(function _callee18$(_context18) {
+                _args19 = arguments;
+            return regeneratorRuntime.wrap(function _callee19$(_context19) {
               while (1) {
-                switch (_context18.prev = _context18.next) {
+                switch (_context19.prev = _context19.next) {
                   case 0:
-                    country = _args18.length > 0 && _args18[0] !== undefined ? _args18[0] : null;
-                    state = _args18.length > 1 && _args18[1] !== undefined ? _args18[1] : null;
+                    country = _args19.length > 0 && _args19[0] !== undefined ? _args19[0] : null;
+                    state = _args19.length > 1 && _args19[1] !== undefined ? _args19[1] : null;
                     params = {
                       target: 'city'
                     };
@@ -59370,16 +59410,16 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                       params.state = state;
                     }
 
-                    return _context18.abrupt("return", _this14.location.getInfo(params).then(function (res) {
+                    return _context19.abrupt("return", _this14.location.getInfo(params).then(function (res) {
                       return res.data.location_info;
                     }));
 
                   case 6:
                   case "end":
-                    return _context18.stop();
+                    return _context19.stop();
                 }
               }
-            }, _callee18);
+            }, _callee19);
           }));
 
           function getCityList() {
@@ -59435,10 +59475,10 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         newAccountData.user_product_accounts = []; // Check if incoming accountData has user_accounts, user_product_accounts
 
         if ((_accountData$user_acc = accountData.user_accounts) !== null && _accountData$user_acc !== void 0 && _accountData$user_acc.length) {
-          var userAccountDataObjs = accountData.user_accounts.map(function (_ref10) {
-            var id = _ref10.id,
-                user = _ref10.user,
-                is_valid = _ref10.is_valid;
+          var userAccountDataObjs = accountData.user_accounts.map(function (_ref11) {
+            var id = _ref11.id,
+                user = _ref11.user,
+                is_valid = _ref11.is_valid;
             var newUserAccountData = {
               id: id,
               is_valid: is_valid,
@@ -59454,12 +59494,12 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
 
         if ((_accountData$user_pro = accountData.user_product_accounts) !== null && _accountData$user_pro !== void 0 && _accountData$user_pro.length) {
-          var userProductAccountDataObjs = accountData.user_product_accounts.map(function (_ref11) {
-            var id = _ref11.id,
-                is_valid = _ref11.is_valid,
-                user = _ref11.user,
-                product = _ref11.product,
-                percent = _ref11.percent;
+          var userProductAccountDataObjs = accountData.user_product_accounts.map(function (_ref12) {
+            var id = _ref12.id,
+                is_valid = _ref12.is_valid,
+                user = _ref12.user,
+                product = _ref12.product,
+                percent = _ref12.percent;
             var newProductAccountData = {
               id: id,
               is_valid: is_valid,
@@ -59657,20 +59697,20 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
       var api = this.genericAPI(baseURL, null, createFunc, decomposeFunc);
 
       api.getList = /*#__PURE__*/function () {
-        var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(invoice_prefix) {
+        var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(invoice_prefix) {
           var month,
               year,
               organization,
               params,
               url,
-              _args19 = arguments;
-          return regeneratorRuntime.wrap(function _callee19$(_context19) {
+              _args20 = arguments;
+          return regeneratorRuntime.wrap(function _callee20$(_context20) {
             while (1) {
-              switch (_context19.prev = _context19.next) {
+              switch (_context20.prev = _context20.next) {
                 case 0:
-                  month = _args19.length > 1 && _args19[1] !== undefined ? _args19[1] : null;
-                  year = _args19.length > 2 && _args19[2] !== undefined ? _args19[2] : null;
-                  organization = _args19.length > 3 && _args19[3] !== undefined ? _args19[3] : null;
+                  month = _args20.length > 1 && _args20[1] !== undefined ? _args20[1] : null;
+                  year = _args20.length > 2 && _args20[2] !== undefined ? _args20[2] : null;
+                  organization = _args20.length > 3 && _args20[3] !== undefined ? _args20[3] : null;
                   params = {
                     invoice_prefix: invoice_prefix,
                     month: month,
@@ -59678,7 +59718,7 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                     organization: organization
                   };
                   url = _this21.urls.BILLING_RECORD_LIST;
-                  return _context19.abrupt("return", _this21.axios.get(url, {
+                  return _context20.abrupt("return", _this21.axios.get(url, {
                     params: params
                   }).then(function (res) {
                     return Promise.all(res.data.map(function (data) {
@@ -59688,39 +59728,39 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
                 case 6:
                 case "end":
-                  return _context19.stop();
-              }
-            }
-          }, _callee19);
-        }));
-
-        return function (_x9) {
-          return _ref12.apply(this, arguments);
-        };
-      }();
-
-      api.getByID = /*#__PURE__*/function () {
-        var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(facilityPrefix, id) {
-          var url;
-          return regeneratorRuntime.wrap(function _callee20$(_context20) {
-            while (1) {
-              switch (_context20.prev = _context20.next) {
-                case 0:
-                  url = "".concat(baseURL).concat(id, "/");
-                  return _context20.abrupt("return", _this21.axios.get(url).then(function (res) {
-                    return createFunc(res.data);
-                  }));
-
-                case 2:
-                case "end":
                   return _context20.stop();
               }
             }
           }, _callee20);
         }));
 
-        return function (_x10, _x11) {
+        return function (_x9) {
           return _ref13.apply(this, arguments);
+        };
+      }();
+
+      api.getByID = /*#__PURE__*/function () {
+        var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(facilityPrefix, id) {
+          var url;
+          return regeneratorRuntime.wrap(function _callee21$(_context21) {
+            while (1) {
+              switch (_context21.prev = _context21.next) {
+                case 0:
+                  url = "".concat(baseURL).concat(id, "/");
+                  return _context21.abrupt("return", _this21.axios.get(url).then(function (res) {
+                    return createFunc(res.data);
+                  }));
+
+                case 2:
+                case "end":
+                  return _context21.stop();
+              }
+            }
+          }, _callee21);
+        }));
+
+        return function (_x10, _x11) {
+          return _ref14.apply(this, arguments);
         };
       }();
 
@@ -59733,22 +59773,22 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
 
       api.bulkUpdate = /*#__PURE__*/function () {
-        var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(recs) {
+        var _ref15 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22(recs) {
           var app,
               url,
               newData,
-              _args21 = arguments;
-          return regeneratorRuntime.wrap(function _callee21$(_context21) {
+              _args22 = arguments;
+          return regeneratorRuntime.wrap(function _callee22$(_context22) {
             while (1) {
-              switch (_context21.prev = _context21.next) {
+              switch (_context22.prev = _context22.next) {
                 case 0:
-                  app = _args21.length > 1 && _args21[1] !== undefined ? _args21[1] : null;
+                  app = _args22.length > 1 && _args22[1] !== undefined ? _args22[1] : null;
                   url = "".concat(baseURL, "bulk_update/");
                   newData = [];
                   recs.forEach(function (rec) {
                     newData.push(createFunc(rec.data, true));
                   });
-                  return _context21.abrupt("return", _this21.axios.post(url, newData, {
+                  return _context22.abrupt("return", _this21.axios.post(url, newData, {
                     headers: {
                       'Content-Type': 'application/json'
                     }
@@ -59756,14 +59796,14 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
                 case 5:
                 case "end":
-                  return _context21.stop();
+                  return _context22.stop();
               }
             }
-          }, _callee21);
+          }, _callee22);
         }));
 
         return function (_x12) {
-          return _ref14.apply(this, arguments);
+          return _ref15.apply(this, arguments);
         };
       }();
 
@@ -59830,20 +59870,20 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
   }, {
     key: "notifyLabManagers",
     value: function () {
-      var _notifyLabManagers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22(organizationSlugs, facility, year, month, recipientField, router) {
+      var _notifyLabManagers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee23(organizationSlugs, facility, year, month, recipientField, router) {
         var messageName, messages, message, subject, months, link;
-        return regeneratorRuntime.wrap(function _callee22$(_context22) {
+        return regeneratorRuntime.wrap(function _callee23$(_context23) {
           while (1) {
-            switch (_context22.prev = _context22.next) {
+            switch (_context23.prev = _context23.next) {
               case 0:
                 messageName = this.getLabManagerNotificationMessageName(facility);
-                _context22.next = 3;
+                _context23.next = 3;
                 return this.message.getList({
                   name: messageName
                 });
 
               case 3:
-                messages = _context22.sent;
+                messages = _context23.sent;
                 message = '';
                 subject = '';
 
@@ -59866,10 +59906,10 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
 
               case 8:
               case "end":
-                return _context22.stop();
+                return _context23.stop();
             }
           }
-        }, _callee22, this);
+        }, _callee23, this);
       }));
 
       function notifyLabManagers(_x13, _x14, _x15, _x16, _x17, _x18) {
@@ -59881,11 +59921,11 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
   }, {
     key: "reviewLabManagerNotifications",
     value: function () {
-      var _reviewLabManagerNotifications = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee23(organizationSlugs, selectedContactables, facility, year, month) {
+      var _reviewLabManagerNotifications = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee24(organizationSlugs, selectedContactables, facility, year, month) {
         var orgIFXIDs, emails, orgs, response;
-        return regeneratorRuntime.wrap(function _callee23$(_context23) {
+        return regeneratorRuntime.wrap(function _callee24$(_context24) {
           while (1) {
-            switch (_context23.prev = _context23.next) {
+            switch (_context24.prev = _context24.next) {
               case 0:
                 orgIFXIDs = [];
                 emails = [];
@@ -59897,15 +59937,15 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                 }
 
                 if (!organizationSlugs.length) {
-                  _context23.next = 8;
+                  _context24.next = 8;
                   break;
                 }
 
-                _context23.next = 6;
+                _context24.next = 6;
                 return this.organization.getList();
 
               case 6:
-                orgs = _context23.sent;
+                orgs = _context24.sent;
                 orgIFXIDs = organizationSlugs.map(function (org) {
                   var fullOrg = orgs.find(function (anOrg) {
                     return org === anOrg.slug;
@@ -59919,19 +59959,19 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
                 });
 
               case 8:
-                _context23.next = 10;
+                _context24.next = 10;
                 return this.billingRecord.billingRecordReviewNotification(orgIFXIDs, emails, facility, year, month);
 
               case 10:
-                response = _context23.sent;
-                return _context23.abrupt("return", response);
+                response = _context24.sent;
+                return _context24.abrupt("return", response);
 
               case 12:
               case "end":
-                return _context23.stop();
+                return _context24.stop();
             }
           }
-        }, _callee23, this);
+        }, _callee24, this);
       }));
 
       function reviewLabManagerNotifications(_x19, _x20, _x21, _x22, _x23) {
@@ -81538,14 +81578,16 @@ var IFXOrganizationDetail_component = normalizeComponent(
 
 installComponents_default()(IFXOrganizationDetail_component, {VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardText: VCardText,VCardTitle: VCardTitle,VCheckbox: VCheckbox_VCheckbox,VCol: VCol,VContainer: VContainer,VDialog: VDialog_VDialog,VDivider: VDivider_VDivider,VIcon: components_VIcon_VIcon,VRow: VRow,VSpacer: VSpacer,VTooltip: VTooltip_VTooltip})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/organization/IFXOrganizationList.vue?vue&type=template&id=3a41fa92&
-var IFXOrganizationListvue_type_template_id_3a41fa92_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('v-row',{attrs:{"nowrap":"","align":"center"}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1),_c('v-col',[_c('IFXMailButton',{attrs:{"toolTip":"Email Lab Managers","disabled":!_vm.selected.length},on:{"input":function($event){return _vm.emailLabManagers()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),_c('v-col',[_c('IFXButton',{attrs:{"small":"","btnType":"add"},on:{"action":_vm.navigateToItemCreate}})],1)],1)]},proxy:true}])}),_c('IFXItemDataTable',{attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"selected":_vm.selected,"itemType":_vm.itemType,"loading":_vm.isLoading},on:{"update:selected":function($event){_vm.selected=$event}}})],1)}
-var IFXOrganizationListvue_type_template_id_3a41fa92_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/organization/IFXOrganizationList.vue?vue&type=template&id=a66724ae&
+var IFXOrganizationListvue_type_template_id_a66724ae_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('v-row',{attrs:{"nowrap":"","align":"center"}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1),_c('v-col',[_c('IFXMailButton',{attrs:{"toolTip":"Email Lab Managers","disabled":!_vm.selected.length},on:{"input":function($event){return _vm.emailLabManagers()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),_c('v-col',[_c('IFXButton',{attrs:{"small":"","btnType":"add"},on:{"action":_vm.navigateToItemCreate}})],1)],1)]},proxy:true}])}),_c('IFXItemDataTable',{attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"selected":_vm.selected,"itemType":_vm.itemType,"loading":_vm.isLoading},on:{"update:selected":function($event){_vm.selected=$event}}})],1)}
+var IFXOrganizationListvue_type_template_id_a66724ae_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/organization/IFXOrganizationList.vue?vue&type=template&id=3a41fa92&
+// CONCATENATED MODULE: ./src/components/organization/IFXOrganizationList.vue?vue&type=template&id=a66724ae&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/organization/IFXOrganizationList.vue?vue&type=script&lang=js&
+
+
 
 
 
@@ -81606,6 +81648,21 @@ var IFXOrganizationListvue_type_template_id_3a41fa92_staticRenderFns = []
     }
   },
   methods: {
+    getSetItems: function getSetItems() {
+      var _this2 = this;
+
+      // TODO: make this consistent, no api endpoint should be returning .data
+      return this.apiRef.getSkinnyList().then(function (items) {
+        _this2.items = items;
+      }) // TODO: work on handling this error
+      .catch(function (error) {
+        _this2.showMessage(error);
+
+        _this2.rtr.replace({
+          name: 'Home'
+        });
+      });
+    },
     emailLabManagers: function emailLabManagers() {
       var organizationSlugs = this.selected.map(function (item) {
         return item.slug;
@@ -81632,8 +81689,8 @@ var IFXOrganizationListvue_type_template_id_3a41fa92_staticRenderFns = []
 
 var IFXOrganizationList_component = normalizeComponent(
   organization_IFXOrganizationListvue_type_script_lang_js_,
-  IFXOrganizationListvue_type_template_id_3a41fa92_render,
-  IFXOrganizationListvue_type_template_id_3a41fa92_staticRenderFns,
+  IFXOrganizationListvue_type_template_id_a66724ae_render,
+  IFXOrganizationListvue_type_template_id_a66724ae_staticRenderFns,
   false,
   null,
   null,
