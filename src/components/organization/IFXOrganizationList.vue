@@ -1,5 +1,4 @@
 <script>
-import * as has from 'lodash/has'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
@@ -39,9 +38,6 @@ export default {
         this.apiRef
           .getSkinnyList()
           .then((items) => {
-            if (has(items, 'data')) {
-              console.error('getList should return a list of formatted objects')
-            }
             this.items = items
           })
           // TODO: work on handling this error
