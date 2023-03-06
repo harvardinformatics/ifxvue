@@ -192,7 +192,7 @@ export default {
     <IFXPageHeader>
       <template #title>Billing Record {{ item.id }}</template>
       <template #actions>
-        <IFXButton v-if="canEdit" btnType="edit" xSmall @action="openEditDialog()" />
+        <IFXButton v-if="canEdit()" btnType="edit" xSmall @action="openEditDialog()" />
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
@@ -298,7 +298,7 @@ export default {
         <v-col>
           <div class="d-flex justify-space-between">
             <h3>Transactions</h3>
-            <IFXButton v-if="canAddTransaction" iconString="add" btnType="add" xSmall @action="openTxnDialog(item)" />
+            <IFXButton v-if="canAddTransaction()" iconString="add" btnType="add" xSmall @action="openTxnDialog(item)" />
           </div>
         </v-col>
       </v-row>
