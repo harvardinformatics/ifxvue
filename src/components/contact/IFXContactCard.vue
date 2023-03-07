@@ -56,7 +56,7 @@ export default {
         <!-- So that contacts on the OrganizationDetail page don't see blank space -->
         <v-col alignContent="start" justify="start">
           <v-row>
-            <div class="headline">{{ contactData.org }} ({{ contactData.name }})</div>
+            <div class="headline mr-8">{{ contactData.org }} ({{ contactData.name }})</div>
           </v-row>
         </v-col>
       </v-card-title>
@@ -64,7 +64,7 @@ export default {
       <v-card-title xs-12 v-else-if="contactData.name">
         <v-col>
           <v-row>
-            <div class="headline">
+            <div class="headline mr-8">
               <router-link v-if="contactData.userId" :to="{ name: 'UserEdit', params: { id: contactData.userId } }">
                 {{ contactData.name }}
               </router-link>
