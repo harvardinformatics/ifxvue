@@ -255,11 +255,8 @@ export default {
             {{ item.organization|orgNameFromSlug }}
           </template>
           <template v-slot:processing="{ item }">
-            <span style="color: red;" v-if="item.processing && item.processing && !item.processing.resolved">
+            <span style="color: red;" v-if="item.processing">
               {{ item.processing.errorMessage }}
-            </span>
-            <span v-else-if="item.processing">
-              OK
             </span>
             <span v-else>&nbsp;</span>
           </template>
