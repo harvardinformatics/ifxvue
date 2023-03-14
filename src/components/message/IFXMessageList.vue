@@ -15,6 +15,7 @@ export default {
     headers() {
       const headers = [
         { text: 'ID', value: 'id', sortable: true },
+        { text: 'Name', value: 'displayName', sortable: true },
         { text: 'Subject', value: 'subject' },
         { text: 'Message', value: 'message' },
         { text: '', value: 'rowActionEdit', slot: true },
