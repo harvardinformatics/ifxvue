@@ -87,17 +87,6 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ "0015":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_2c0e28ce_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8a5b");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_2c0e28ce_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_2c0e28ce_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "001b":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -400,13 +389,6 @@ module.exports = getRawTag;
 
 })));
 
-
-/***/ }),
-
-/***/ "031e":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1605,6 +1587,13 @@ module.exports = getNative;
 /***/ }),
 
 /***/ "0c18":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "0c39":
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
@@ -4803,6 +4792,17 @@ module.exports = mapCacheSet;
 
 /***/ }),
 
+/***/ "200f":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeader_vue_vue_type_style_index_0_id_7814bf60_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e0d2");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeader_vue_vue_type_style_index_0_id_7814bf60_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeader_vue_vue_type_style_index_0_id_7814bf60_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "201b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6279,13 +6279,6 @@ module.exports = listCacheClear;
 
 })));
 
-
-/***/ }),
-
-/***/ "29b9":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -24013,17 +24006,6 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ "2f04":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactCard_vue_vue_type_style_index_0_id_195e8376_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("031e");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactCard_vue_vue_type_style_index_0_id_195e8376_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactCard_vue_vue_type_style_index_0_id_195e8376_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "2f62":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -25340,17 +25322,6 @@ module.exports = isArrayLike;
 
 /***/ }),
 
-/***/ "3266":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_1_id_066f023d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("f4ab");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_1_id_066f023d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_1_id_066f023d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "32b3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25532,6 +25503,13 @@ module.exports = function (it) {
     || Iterators[classof(it)];
 };
 
+
+/***/ }),
+
+/***/ "35cc":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -27346,6 +27324,17 @@ defineIterator(String, 'String', function (iterated) {
 /***/ (function(module, exports) {
 
 module.exports = {};
+
+
+/***/ }),
+
+/***/ "4002":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_1_id_709632e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d446");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_1_id_709632e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_1_id_709632e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -29886,12 +29875,12 @@ fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, ma
 
 /***/ }),
 
-/***/ "535c":
+/***/ "54c6":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordListDecimal_vue_vue_type_style_index_0_id_52567e7d_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("29b9");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordListDecimal_vue_vue_type_style_index_0_id_52567e7d_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordListDecimal_vue_vue_type_style_index_0_id_52567e7d_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_0_id_709632e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("0c39");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_0_id_709632e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_0_id_709632e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
 
 
@@ -30738,17 +30727,6 @@ $({ target: 'String', proto: true }, {
 
 /***/ }),
 
-/***/ "5c39":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_7dd436c3_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8e22");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_7dd436c3_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_7dd436c3_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "5c3a":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31004,13 +30982,6 @@ module.exports = function (bitmap, value) {
 
 /***/ }),
 
-/***/ "5d45":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "5d89":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31030,17 +31001,6 @@ function cloneDataView(dataView, isDeep) {
 }
 
 module.exports = cloneDataView;
-
-
-/***/ }),
-
-/***/ "5d9d":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_0_id_066f023d_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("bc12");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_0_id_066f023d_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactList_vue_vue_type_style_index_0_id_066f023d_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -31906,6 +31866,13 @@ module.exports = {
 
 })));
 
+
+/***/ }),
+
+/***/ "65df":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -33560,13 +33527,6 @@ module.exports = arrayLikeKeys;
 
 /***/ }),
 
-/***/ "714d":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "7156":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -34489,6 +34449,17 @@ module.exports = Object.create || function create(O, Properties) {
 
 /***/ }),
 
+/***/ "7c7b":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_25be9528_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a836");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_25be9528_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_25be9528_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "7d1f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -34803,6 +34774,17 @@ var inspectSource = __webpack_require__("8925");
 var WeakMap = global.WeakMap;
 
 module.exports = typeof WeakMap === 'function' && /native code/.test(inspectSource(WeakMap));
+
+
+/***/ }),
+
+/***/ "800a":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeaderDecimal_vue_vue_type_style_index_0_id_c0419e94_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a79b");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeaderDecimal_vue_vue_type_style_index_0_id_c0419e94_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeaderDecimal_vue_vue_type_style_index_0_id_c0419e94_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -35242,6 +35224,17 @@ $({ target: 'Promise', stat: true }, {
 
 /***/ }),
 
+/***/ "8221":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactCard_vue_vue_type_style_index_0_id_d8ba868e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("35cc");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactCard_vue_vue_type_style_index_0_id_d8ba868e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXContactCard_vue_vue_type_style_index_0_id_d8ba868e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "8230":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35587,6 +35580,17 @@ module.exports = {
   assertOptions: assertOptions,
   validators: validators
 };
+
+
+/***/ }),
+
+/***/ "84a6":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_26da1a01_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("dc67");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_26da1a01_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordDetail_vue_vue_type_style_index_0_id_26da1a01_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -36208,13 +36212,6 @@ module.exports = store.inspectSource;
 
 /***/ }),
 
-/***/ "8a5b":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "8aa5":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36789,13 +36786,6 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ "8e22":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "8e73":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -37066,17 +37056,6 @@ module.exports = copyObject;
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "9005":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeaderDecimal_vue_vue_type_style_index_0_id_0c5373de_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e2c4");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeaderDecimal_vue_vue_type_style_index_0_id_0c5373de_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeaderDecimal_vue_vue_type_style_index_0_id_0c5373de_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
 
 /***/ }),
 
@@ -39498,6 +39477,13 @@ module.exports = /Version\/10\.\d+(\.\d+)?( Mobile\/\w+)? Safari\//.test(userAge
 
 /***/ }),
 
+/***/ "9b9d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "9bdd":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39779,6 +39765,17 @@ var getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
 };
 
 module.exports = getSymbolsIn;
+
+
+/***/ }),
+
+/***/ "a0298":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordListDecimal_vue_vue_type_style_index_0_id_949277d0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("65df");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordListDecimal_vue_vue_type_style_index_0_id_949277d0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordListDecimal_vue_vue_type_style_index_0_id_949277d0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -40545,6 +40542,13 @@ module.exports = function (argument) {
 
 /***/ }),
 
+/***/ "a79b":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "a79d":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40653,6 +40657,13 @@ if (!IS_PURE && typeof NativePromise == 'function' && !NativePromise.prototype['
 
 })));
 
+
+/***/ }),
+
+/***/ "a836":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -43198,13 +43209,6 @@ function hashGet(key) {
 
 module.exports = hashGet;
 
-
-/***/ }),
-
-/***/ "bc12":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -49030,6 +49034,17 @@ module.exports = isIndex;
 
 /***/ }),
 
+/***/ "c1f6":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_17733d4c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ce51");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_17733d4c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXUserList_vue_vue_type_style_index_0_id_17733d4c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "c2b6":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -50272,6 +50287,13 @@ module.exports = function (key, value) {
 
 /***/ }),
 
+/***/ "ce51":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "ce86":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51236,6 +51258,24 @@ if (!TO_STRING_TAG_SUPPORT) {
   redefine(Object.prototype, 'toString', toString, { unsafe: true });
 }
 
+
+/***/ }),
+
+/***/ "d440":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalculateBillingMonth_vue_vue_type_style_index_0_id_0f5f177d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("9b9d");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalculateBillingMonth_vue_vue_type_style_index_0_id_0f5f177d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalculateBillingMonth_vue_vue_type_style_index_0_id_0f5f177d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "d446":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -52302,6 +52342,13 @@ module.exports = toSource;
 
 /***/ }),
 
+/***/ "dc67":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "ddb0":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -52863,6 +52910,13 @@ if (DESCRIPTORS && typeof NativeSymbol == 'function' && (!('description' in Nati
 
 /***/ }),
 
+/***/ "e0d2":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "e163":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -53147,13 +53201,6 @@ module.exports = hasPath;
 
 /***/ }),
 
-/***/ "e2c4":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "e2cc":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -53271,17 +53318,6 @@ function memoize(func, resolver) {
 memoize.Cache = MapCache;
 
 module.exports = memoize;
-
-
-/***/ }),
-
-/***/ "e3b8":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_00868f59_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("5d45");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_00868f59_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordList_vue_vue_type_style_index_0_id_00868f59_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -54845,13 +54881,6 @@ hiddenKeys[METADATA] = true;
 
 })));
 
-
-/***/ }),
-
-/***/ "f4ab":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -78462,17 +78491,17 @@ var IFXMessageDetail_component = normalizeComponent(
 
 installComponents_default()(IFXMessageDetail_component, {VCol: VCol,VContainer: VContainer,VRow: VRow})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/message/IFXMessageList.vue?vue&type=template&id=28bf4298&
-var IFXMessageListvue_type_template_id_28bf4298_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}}),_c('IFXButton',{attrs:{"small":"","btnType":"add"},on:{"action":_vm.navigateToItemCreate}})]},proxy:true}],null,false,3515614621)}),_c('IFXItemDataTable',{attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"selected":_vm.selected,"itemType":_vm.itemType},on:{"update:selected":function($event){_vm.selected=$event}},scopedSlots:_vm._u([{key:"actions",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/message/IFXMessageList.vue?vue&type=template&id=69be0ade&
+var IFXMessageListvue_type_template_id_69be0ade_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}}),_c('IFXButton',{attrs:{"small":"","btnType":"add"},on:{"action":_vm.navigateToItemCreate}})]},proxy:true}],null,false,3515614621)}),_c('IFXItemDataTable',{attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"selected":_vm.selected,"itemType":_vm.itemType},on:{"update:selected":function($event){_vm.selected=$event}},scopedSlots:_vm._u([{key:"actions",fn:function(ref){
 var item = ref.item;
 return [_c('v-tooltip',{attrs:{"bottom":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('v-btn',_vm._g(_vm._b({attrs:{"fab":"","xSmall":"","color":"primary"},on:{"click":function($event){return _vm.composeWithMessage(item)}}},'v-btn',attrs,false),on),[_c('v-icon',{attrs:{"color":"white"}},[_vm._v(" mdi-email-send-outline ")])],1)]}}],null,true)},[_c('span',[_vm._v("Compose an email with this message")])])]}}],null,false,2056344716)})],1):_vm._e()}
-var IFXMessageListvue_type_template_id_28bf4298_staticRenderFns = []
+var IFXMessageListvue_type_template_id_69be0ade_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/message/IFXMessageList.vue?vue&type=template&id=28bf4298&
+// CONCATENATED MODULE: ./src/components/message/IFXMessageList.vue?vue&type=template&id=69be0ade&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/message/IFXMessageList.vue?vue&type=script&lang=js&
 
@@ -78496,6 +78525,10 @@ var IFXMessageListvue_type_template_id_28bf4298_staticRenderFns = []
       var headers = [{
         text: 'ID',
         value: 'id',
+        sortable: true
+      }, {
+        text: 'Name',
+        value: 'displayName',
         sortable: true
       }, {
         text: 'Subject',
@@ -78541,8 +78574,8 @@ var IFXMessageListvue_type_template_id_28bf4298_staticRenderFns = []
 
 var IFXMessageList_component = normalizeComponent(
   message_IFXMessageListvue_type_script_lang_js_,
-  IFXMessageListvue_type_template_id_28bf4298_render,
-  IFXMessageListvue_type_template_id_28bf4298_staticRenderFns,
+  IFXMessageListvue_type_template_id_69be0ade_render,
+  IFXMessageListvue_type_template_id_69be0ade_staticRenderFns,
   false,
   null,
   null,
@@ -82133,14 +82166,14 @@ var IFXContactDetailvue_type_template_id_1b58150f_staticRenderFns = []
 
 // CONCATENATED MODULE: ./src/components/contact/IFXContactDetail.vue?vue&type=template&id=1b58150f&
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/contact/IFXContactCard.vue?vue&type=template&id=195e8376&scoped=true&
-var IFXContactCardvue_type_template_id_195e8376_scoped_true_render = function () {
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/contact/IFXContactCard.vue?vue&type=template&id=d8ba868e&scoped=true&
+var IFXContactCardvue_type_template_id_d8ba868e_scoped_true_render = function () {
 var this$1 = this;
-var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-card',{class:_vm.cardClass},[(_vm.contact)?_c('span',[(_vm.editBtn)?_c('IFXButton',{staticClass:"contact-edit-btn",attrs:{"btnType":"edit","x-small":""},on:{"action":function () { return this$1.navigateToEdit('Contact', _vm.contactID.toString()); }}}):_vm._e(),(_vm.contactData.org)?_c('v-card-title',{attrs:{"xs-12":""}},[_c('v-col',{attrs:{"alignContent":"start","justify":"start"}},[_c('v-row',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.contactData.org)+" ("+_vm._s(_vm.contactData.name)+")")])])],1)],1):(_vm.contactData.name)?_c('v-card-title',{attrs:{"xs-12":""}},[_c('v-col',[_c('v-row',[_c('div',{staticClass:"headline"},[(_vm.contactData.userId)?_c('router-link',{attrs:{"to":{ name: 'UserEdit', params: { id: _vm.contactData.userId } }}},[_vm._v(" "+_vm._s(_vm.contactData.name)+" ")]):_c('div',[_vm._v(_vm._s(_vm.contactData.name))])],1)])],1)],1):_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v("Contact Details")])]),_c('v-card-text',[(_vm.contactData.detail)?_c('v-row',{attrs:{"dense":"","justify":"start","align":"center"}},[_c('v-col',{attrs:{"cols":"1"}},[_c('v-icon',{attrs:{"color":"success"}},[_vm._v("email")])],1),_c('v-col',[_c('a',{attrs:{"href":("mailto:" + (_vm.contactData.detail))}},[_vm._v(_vm._s(_vm.contactData.detail))])])],1):_vm._e(),(_vm.contactData.phone)?_c('v-row',{attrs:{"dense":"","justify":"start","align":"center"}},[_c('v-col',{attrs:{"cols":"1"}},[_c('v-icon',{attrs:{"color":"success"}},[_vm._v("local_phone")])],1),_c('v-col',[_vm._v(" "+_vm._s(_vm.contactData.phone)+" ")])],1):_vm._e(),(_vm.contactData.address)?_c('v-row',{attrs:{"dense":"","justify":"start","align":"center"}},[_c('v-col',{attrs:{"cols":"1"}},[_c('v-icon',{attrs:{"color":"success"}},[_vm._v("place")])],1),_c('v-col',{staticClass:"contact-address"},[_vm._v(" "+_vm._s(_vm.contactData.address)+" ")])],1):_vm._e()],1)],1):_c('span',[_c('div',{staticClass:"empty-contact"})])])}
-var IFXContactCardvue_type_template_id_195e8376_scoped_true_staticRenderFns = []
+var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-card',{class:_vm.cardClass},[(_vm.contact)?_c('span',[(_vm.editBtn)?_c('IFXButton',{staticClass:"contact-edit-btn",attrs:{"btnType":"edit","x-small":""},on:{"action":function () { return this$1.navigateToEdit('Contact', _vm.contactID.toString()); }}}):_vm._e(),(_vm.contactData.org)?_c('v-card-title',{attrs:{"xs-12":""}},[_c('v-col',{attrs:{"alignContent":"start","justify":"start"}},[_c('v-row',[_c('div',{staticClass:"headline mr-8"},[_vm._v(_vm._s(_vm.contactData.org)+" ("+_vm._s(_vm.contactData.name)+")")])])],1)],1):(_vm.contactData.name)?_c('v-card-title',{attrs:{"xs-12":""}},[_c('v-col',[_c('v-row',[_c('div',{staticClass:"headline mr-8"},[(_vm.contactData.userId)?_c('router-link',{attrs:{"to":{ name: 'UserEdit', params: { id: _vm.contactData.userId } }}},[_vm._v(" "+_vm._s(_vm.contactData.name)+" ")]):_c('div',[_vm._v(_vm._s(_vm.contactData.name))])],1)])],1)],1):_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v("Contact Details")])]),_c('v-card-text',[(_vm.contactData.detail)?_c('v-row',{attrs:{"dense":"","justify":"start","align":"center"}},[_c('v-col',{attrs:{"cols":"1"}},[_c('v-icon',{attrs:{"color":"success"}},[_vm._v("email")])],1),_c('v-col',[_c('a',{attrs:{"href":("mailto:" + (_vm.contactData.detail))}},[_vm._v(_vm._s(_vm.contactData.detail))])])],1):_vm._e(),(_vm.contactData.phone)?_c('v-row',{attrs:{"dense":"","justify":"start","align":"center"}},[_c('v-col',{attrs:{"cols":"1"}},[_c('v-icon',{attrs:{"color":"success"}},[_vm._v("local_phone")])],1),_c('v-col',[_vm._v(" "+_vm._s(_vm.contactData.phone)+" ")])],1):_vm._e(),(_vm.contactData.address)?_c('v-row',{attrs:{"dense":"","justify":"start","align":"center"}},[_c('v-col',{attrs:{"cols":"1"}},[_c('v-icon',{attrs:{"color":"success"}},[_vm._v("place")])],1),_c('v-col',{staticClass:"contact-address"},[_vm._v(" "+_vm._s(_vm.contactData.address)+" ")])],1):_vm._e()],1)],1):_c('span',[_c('div',{staticClass:"empty-contact"})])])}
+var IFXContactCardvue_type_template_id_d8ba868e_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/contact/IFXContactCard.vue?vue&type=template&id=195e8376&scoped=true&
+// CONCATENATED MODULE: ./src/components/contact/IFXContactCard.vue?vue&type=template&id=d8ba868e&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/contact/IFXContactCard.vue?vue&type=script&lang=js&
 // Assumes a Contact record that is tied to a person and has a name
@@ -82189,8 +82222,8 @@ var IFXContactCardvue_type_template_id_195e8376_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./src/components/contact/IFXContactCard.vue?vue&type=script&lang=js&
  /* harmony default export */ var contact_IFXContactCardvue_type_script_lang_js_ = (IFXContactCardvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/contact/IFXContactCard.vue?vue&type=style&index=0&id=195e8376&scoped=true&lang=css&
-var IFXContactCardvue_type_style_index_0_id_195e8376_scoped_true_lang_css_ = __webpack_require__("2f04");
+// EXTERNAL MODULE: ./src/components/contact/IFXContactCard.vue?vue&type=style&index=0&id=d8ba868e&scoped=true&lang=css&
+var IFXContactCardvue_type_style_index_0_id_d8ba868e_scoped_true_lang_css_ = __webpack_require__("8221");
 
 // CONCATENATED MODULE: ./src/components/contact/IFXContactCard.vue
 
@@ -82203,11 +82236,11 @@ var IFXContactCardvue_type_style_index_0_id_195e8376_scoped_true_lang_css_ = __w
 
 var IFXContactCard_component = normalizeComponent(
   contact_IFXContactCardvue_type_script_lang_js_,
-  IFXContactCardvue_type_template_id_195e8376_scoped_true_render,
-  IFXContactCardvue_type_template_id_195e8376_scoped_true_staticRenderFns,
+  IFXContactCardvue_type_template_id_d8ba868e_scoped_true_render,
+  IFXContactCardvue_type_template_id_d8ba868e_scoped_true_staticRenderFns,
   false,
   null,
-  "195e8376",
+  "d8ba868e",
   null
   
 )
@@ -82276,14 +82309,14 @@ var IFXContactDetail_component = normalizeComponent(
 
 installComponents_default()(IFXContactDetail_component, {VContainer: VContainer})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/contact/IFXContactList.vue?vue&type=template&id=066f023d&scoped=true&
-var IFXContactListvue_type_template_id_066f023d_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',{attrs:{"fluid":"","grid-list-md":""}},[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('v-row',{attrs:{"nowrap":"","align":"center"}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1),_c('v-col',[_c('IFXMailButton',{attrs:{"toolTip":"Email contacts","disabled":!_vm.selected.length},on:{"input":function($event){return _vm.composeEmail()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),_c('v-col',[_c('IFXButton',{attrs:{"small":"","btnType":"add"},on:{"action":_vm.navigateToItemCreate}})],1)],1)]},proxy:true}],null,false,827712759)}),_c('div',{style:(_vm.contactContentStyle)},[_c('IFXItemDataTable',{staticClass:"full-width",attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"selected":_vm.selected,"itemType":_vm.itemType,"itemKey":"key"},on:{"update:selected":function($event){_vm.selected=$event},"click-row":_vm.setFocusedContact},scopedSlots:_vm._u([{key:"created",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/contact/IFXContactList.vue?vue&type=template&id=709632e8&scoped=true&
+var IFXContactListvue_type_template_id_709632e8_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',{attrs:{"fluid":"","grid-list-md":""}},[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('v-row',{attrs:{"nowrap":"","align":"center"}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1),_c('v-col',[_c('IFXMailButton',{attrs:{"toolTip":"Email contacts","disabled":!_vm.selected.length},on:{"input":function($event){return _vm.composeEmail()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),_c('v-col',[_c('IFXButton',{attrs:{"small":"","btnType":"add"},on:{"action":_vm.navigateToItemCreate}})],1)],1)]},proxy:true}],null,false,827712759)}),_c('div',{staticClass:"d-flex flex-column-reverse flex-lg-row"},[_c('div',[_c('IFXItemDataTable',{staticClass:"full-width",attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"selected":_vm.selected,"itemType":_vm.itemType,"itemKey":"key"},on:{"update:selected":function($event){_vm.selected=$event},"click-row":_vm.setFocusedContact},scopedSlots:_vm._u([{key:"created",fn:function(ref){
 var item = ref.item;
-return [_c('span',{staticStyle:{"white-space":"nowrap"}},[_vm._v(_vm._s(_vm._f("humanDatetime")(item.created)))])]}}],null,false,2270305808)})],1),_c('div',{staticClass:"contact-card"},[_c('IFXContactCard',{attrs:{"dense":_vm.isContactContentLarge,"contact":_vm.focusedContact}})],1)],1):_vm._e()}
-var IFXContactListvue_type_template_id_066f023d_scoped_true_staticRenderFns = []
+return [_c('span',{staticStyle:{"white-space":"nowrap"}},[_vm._v(_vm._s(_vm._f("humanDatetime")(item.created)))])]}}],null,false,2270305808)})],1),_c('div',{staticClass:"contact-card ml-auto ml-lg-3 mr-3"},[_c('IFXContactCard',{attrs:{"dense":_vm.isContactContentLarge,"contact":_vm.focusedContact}})],1)])],1):_vm._e()}
+var IFXContactListvue_type_template_id_709632e8_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/contact/IFXContactList.vue?vue&type=template&id=066f023d&scoped=true&
+// CONCATENATED MODULE: ./src/components/contact/IFXContactList.vue?vue&type=template&id=709632e8&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/contact/IFXContactList.vue?vue&type=script&lang=js&
 
@@ -82355,13 +82388,6 @@ var IFXContactListvue_type_template_id_066f023d_scoped_true_staticRenderFns = []
     },
     isContactContentLarge: function isContactContentLarge() {
       return !!this.$vuetify.breakpoint.mdAndUp;
-    },
-    contactContentStyle: function contactContentStyle() {
-      return {
-        display: 'flex',
-        'flex-direction': this.isContactContentLarge ? 'row' : 'column',
-        width: '600px'
-      };
     }
   },
   mounted: function mounted() {
@@ -82377,11 +82403,11 @@ var IFXContactListvue_type_template_id_066f023d_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./src/components/contact/IFXContactList.vue?vue&type=script&lang=js&
  /* harmony default export */ var contact_IFXContactListvue_type_script_lang_js_ = (IFXContactListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/contact/IFXContactList.vue?vue&type=style&index=0&id=066f023d&lang=scss&scoped=true&
-var IFXContactListvue_type_style_index_0_id_066f023d_lang_scss_scoped_true_ = __webpack_require__("5d9d");
+// EXTERNAL MODULE: ./src/components/contact/IFXContactList.vue?vue&type=style&index=0&id=709632e8&lang=scss&scoped=true&
+var IFXContactListvue_type_style_index_0_id_709632e8_lang_scss_scoped_true_ = __webpack_require__("54c6");
 
-// EXTERNAL MODULE: ./src/components/contact/IFXContactList.vue?vue&type=style&index=1&id=066f023d&scoped=true&lang=css&
-var IFXContactListvue_type_style_index_1_id_066f023d_scoped_true_lang_css_ = __webpack_require__("3266");
+// EXTERNAL MODULE: ./src/components/contact/IFXContactList.vue?vue&type=style&index=1&id=709632e8&lang=scss&scoped=true&
+var IFXContactListvue_type_style_index_1_id_709632e8_lang_scss_scoped_true_ = __webpack_require__("4002");
 
 // CONCATENATED MODULE: ./src/components/contact/IFXContactList.vue
 
@@ -82395,11 +82421,11 @@ var IFXContactListvue_type_style_index_1_id_066f023d_scoped_true_lang_css_ = __w
 
 var IFXContactList_component = normalizeComponent(
   contact_IFXContactListvue_type_script_lang_js_,
-  IFXContactListvue_type_template_id_066f023d_scoped_true_render,
-  IFXContactListvue_type_template_id_066f023d_scoped_true_staticRenderFns,
+  IFXContactListvue_type_template_id_709632e8_scoped_true_render,
+  IFXContactListvue_type_template_id_709632e8_scoped_true_staticRenderFns,
   false,
   null,
-  "066f023d",
+  "709632e8",
   null
   
 )
@@ -84113,17 +84139,17 @@ var IFXUserDetail_component = normalizeComponent(
 
 installComponents_default()(IFXUserDetail_component, {VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDialog: VDialog_VDialog,VDivider: VDivider_VDivider,VIcon: components_VIcon_VIcon,VRow: VRow,VSpacer: VSpacer,VTooltip: VTooltip_VTooltip})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/user/IFXUserList.vue?vue&type=template&id=2c0e28ce&scoped=true&
-var IFXUserListvue_type_template_id_2c0e28ce_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',{attrs:{"grid-list-md":""}},[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('v-row',{attrs:{"nowrap":"","align":"center"}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1),_c('v-col',[_c('v-checkbox',{staticClass:"action-item",attrs:{"label":"Include disabled"},model:{value:(_vm.includeDisabled),callback:function ($$v) {_vm.includeDisabled=$$v},expression:"includeDisabled"}})],1),_c('v-col',[_c('IFXMailButton',{attrs:{"disabled":!_vm.selected.length,"toolTip":"Email selected users"},on:{"input":function($event){return _vm.composeEmail()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),_c('v-col',[_c('v-tooltip',{scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/user/IFXUserList.vue?vue&type=template&id=17733d4c&scoped=true&
+var IFXUserListvue_type_template_id_17733d4c_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',{attrs:{"grid-list-md":""}},[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v(_vm._s(_vm.listTitle))]},proxy:true},{key:"actions",fn:function(){return [_c('v-row',{attrs:{"nowrap":"","align":"center"}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1),_c('v-col',[_c('v-checkbox',{staticClass:"action-item",attrs:{"label":"Include disabled"},model:{value:(_vm.includeDisabled),callback:function ($$v) {_vm.includeDisabled=$$v},expression:"includeDisabled"}})],1),_c('v-col',[_c('IFXMailButton',{attrs:{"disabled":!_vm.selected.length,"toolTip":"Email selected users"},on:{"input":function($event){return _vm.composeEmail()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}})],1),_c('v-col',[_c('v-tooltip',{scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"small":"","fab":"","color":"secondary"},on:{"click":function($event){return _vm.updateAuthorizations()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("verified_user")])],1)],1)]}}])},[_c('span',[_vm._v("Update Expense code / PO authorizations")])])],1)],1)]},proxy:true}])}),_c('v-row',{attrs:{"justify":"center","align":"center"}},[(_vm.authorizationUpdating)?_c('v-col',[_c('v-progress-linear',{attrs:{"indeterminate":"","color":"primary"}})],1):(_vm.authorizationUpdateMessage)?_c('v-col',[_c('v-alert',{attrs:{"dismissible":"","type":_vm.authorizationMessageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.authorizationUpdateMessage)}})])],1):_vm._e()],1),_c('v-row',[_c('v-col',[_c('IFXItemDataTable',{attrs:{"items":_vm.filteredItems,"headers":_vm.computedHeaders,"selected":_vm.selected,"itemType":_vm.itemType,"loading":_vm.isLoading},on:{"update:selected":function($event){_vm.selected=$event}},scopedSlots:_vm._u([_vm._l((_vm.headers),function(header){return {key:("" + (header.value)),fn:function(ref){
 var item = ref.item;
 return [(header.namedSlot)?_c('span',{key:header.value},[_vm._t(header.value,null,{"item":item})],2):_vm._e()]}}})],null,true)})],1)],1)],1)}
-var IFXUserListvue_type_template_id_2c0e28ce_scoped_true_staticRenderFns = []
+var IFXUserListvue_type_template_id_17733d4c_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/user/IFXUserList.vue?vue&type=template&id=2c0e28ce&scoped=true&
+// CONCATENATED MODULE: ./src/components/user/IFXUserList.vue?vue&type=template&id=17733d4c&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/user/IFXUserList.vue?vue&type=script&lang=js&
 
@@ -84293,10 +84319,6 @@ var IFXUserListvue_type_template_id_2c0e28ce_scoped_true_staticRenderFns = []
         text: "".concat(this.$api.vars.appNameFormatted, " Login"),
         value: 'isLoginActive',
         sortable: true
-      }, {
-        text: '',
-        value: 'rowActionDetailEdit',
-        sortable: false
       }];
       var headers = this.headers || defaultHeaders;
       return headers.filter(function (h) {
@@ -84313,8 +84335,8 @@ var IFXUserListvue_type_template_id_2c0e28ce_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./src/components/user/IFXUserList.vue?vue&type=script&lang=js&
  /* harmony default export */ var user_IFXUserListvue_type_script_lang_js_ = (IFXUserListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/user/IFXUserList.vue?vue&type=style&index=0&id=2c0e28ce&scoped=true&lang=css&
-var IFXUserListvue_type_style_index_0_id_2c0e28ce_scoped_true_lang_css_ = __webpack_require__("0015");
+// EXTERNAL MODULE: ./src/components/user/IFXUserList.vue?vue&type=style&index=0&id=17733d4c&scoped=true&lang=css&
+var IFXUserListvue_type_style_index_0_id_17733d4c_scoped_true_lang_css_ = __webpack_require__("c1f6");
 
 // CONCATENATED MODULE: ./src/components/user/IFXUserList.vue
 
@@ -84327,11 +84349,11 @@ var IFXUserListvue_type_style_index_0_id_2c0e28ce_scoped_true_lang_css_ = __webp
 
 var IFXUserList_component = normalizeComponent(
   user_IFXUserListvue_type_script_lang_js_,
-  IFXUserListvue_type_template_id_2c0e28ce_scoped_true_render,
-  IFXUserListvue_type_template_id_2c0e28ce_scoped_true_staticRenderFns,
+  IFXUserListvue_type_template_id_17733d4c_scoped_true_render,
+  IFXUserListvue_type_template_id_17733d4c_scoped_true_staticRenderFns,
   false,
   null,
-  "2c0e28ce",
+  "17733d4c",
   null
   
 )
@@ -85330,8 +85352,8 @@ var IFXProductCreateEdit_component = normalizeComponent(
 
 installComponents_default()(IFXProductCreateEdit_component, {VCol: VCol,VContainer: VContainer,VForm: VForm,VRow: VRow,VSelect: VSelect_VSelect,VSwitch: VSwitch_VSwitch,VTextField: VTextField_VTextField,VTextarea: VTextarea_VTextarea})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=00868f59&scoped=true&
-var IFXBillingRecordListvue_type_template_id_00868f59_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',{staticClass:"text-no-wrap"},[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between align-center",attrs:{"dense":""}},[_c('v-col',{staticClass:"pa-2"},[(_vm.useDefaultMailButton)?_c('IFXMailButton',{attrs:{"disabled":!_vm.filteredItems.length,"toolTip":"Notify Lab Managers"},on:{"input":function($event){return _vm.defaultNotifyLabManagers()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}}):_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=25be9528&scoped=true&
+var IFXBillingRecordListvue_type_template_id_25be9528_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between w-full"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',{staticClass:"text-no-wrap"},[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between align-center",attrs:{"dense":""}},[_c('v-col',{staticClass:"pa-2"},[(_vm.useDefaultMailButton)?_c('IFXMailButton',{attrs:{"disabled":!_vm.filteredItems.length,"toolTip":"Notify Lab Managers"},on:{"input":function($event){return _vm.defaultNotifyLabManagers()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}}):_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"small":"","fab":"","color":"green"},on:{"click":_vm.openNotifyDialog}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":"","color":"white"}},[_vm._v("mdi-email-send-outline")])],1),_c('v-dialog',_vm._b({attrs:{"max-width":"600px"},model:{value:(_vm.notifyDialog),callback:function ($$v) {_vm.notifyDialog=$$v},expression:"notifyDialog"}},'v-dialog',attrs,false),[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Notify Lab Managers")])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',{staticClass:"text-body-1"},[(_vm.selected.length)?_c('v-col',[_c('div',{staticClass:"mb-2"},[_vm._v("Send to the managers for the following labs:")]),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.getSelectedOrgs()),function(org){return _c('li',{key:org,staticClass:"font-weight-medium"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(org).name)+" ")])}),0)]):_c('v-col',[_c('div',{staticClass:"font-weight-medium"},[_vm._v("Send to all lab managers")])])],1),_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"12"}},[_c('div',{staticClass:"text-divider font-italic text-center"},[_vm._v(" Or specify email addresses directly ")]),_c('IFXContactablesCombobox',{attrs:{"label":"To:","contactables":_vm.contactables},model:{value:(_vm.selectedContactables),callback:function ($$v) {_vm.selectedContactables=$$v},expression:"selectedContactables"}})],1)],1),(_vm.sendingNotifications)?_c('div',[_vm._v(" Sending emails... "),_c('v-progress-linear',{attrs:{"indeterminate":""}})],1):_vm._e(),(_vm.emailResponse)?_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{staticClass:"text-body-1 results-section",attrs:{"cols":"12"}},[_c('div',{staticClass:"text-body-1 font-weight-medium text-center"},[_vm._v(" Email Notification Results ")]),_c('div',{staticClass:"text-body-2 font-weight-regular text-center"},[_vm._v(" Sent to "+_vm._s(_vm.buildNotificationlList())+" ")]),(_vm.emailResponse.successes.length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" Successfully "),_c('span',{staticClass:"green--text"},[_vm._v("sent")]),_vm._v(" for the following organizations: "),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.emailResponse.successes),function(value){return _c('li',{key:value},[_c('span',[_vm._v(_vm._s(value))])])}),0)]):_vm._e(),(Object.keys(_vm.emailResponse.errors).length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" The following "),_c('span',{staticClass:"red--text"},[_vm._v("errors")]),_vm._v(" occurred trying to send emails: "),_c('ul',{staticClass:"list-style-none mt-1"},_vm._l((_vm.emailResponse.errors),function(value,key){return _c('li',{key:key},[_c('span',[_vm._v("To the "+_vm._s(key))]),_c('ul',{staticClass:"error-list"},_vm._l((value),function(error){return _c('li',{key:error},[_vm._v(" "+_vm._s(error)+" ")])}),0)])}),0)]):_vm._e(),(_vm.emailResponse.nobrs.length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" The following organizations had "),_c('span',{staticClass:"yellow--text text--darken-3"},[_vm._v("no billing records")]),_vm._v(" : "),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.emailResponse.nobrs),function(value){return _c('li',{key:value},[_c('span',[_vm._v(_vm._s(value))])])}),0)]):_vm._e()])],1):_vm._e()],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":function($event){_vm.notifyDialog = false}}},[_vm._v(" "+_vm._s(_vm.emailResponse ? 'Close' : 'Cancel')+" ")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":_vm.notifyLabManagers}},[_vm._v(" Notify ")])],1)],1)],1)],1)]}}])},[_c('span',[_vm._v("Notify Lab Managers")])])],1),(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
@@ -85343,7 +85365,10 @@ var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.billingRecordsAreFinal(_vm.items) || _vm.isLoading || _vm.items.length == 0,"fab":"","small":"","color":"green"},on:{"click":function($event){return _vm.approve(true)}}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":""}},[_vm._v("done_all")])],1)],1)]}}],null,false,1924985094)},[_c('span',[_vm._v(_vm._s(_vm.approveAllToolTip))])])],1)],1)],1):_vm._e(),(_vm.allowDownloads)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
-return [_c('div',_vm._g({},on),[_c('download-csv',_vm._b({class:{ 'download-disabled': _vm.isLoading },attrs:{"labels":_vm.getLabelsForExport(),"data":_vm.getDataForExport(),"name":_vm.getNameForExport()}},'download-csv',attrs,false),[_c('IFXButton',{staticClass:"download-btn",attrs:{"disabled":_vm.isLoading,"small":"","btnType":"download"}})],1)],1)]}}],null,false,853389752)},[_c('span',[_vm._v("Download billing records in csv format")])])],1)],1)],1):_vm._e(),(_vm.allowInvoiceGeneration)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+return [_c('div',_vm._g({},on),[_c('download-csv',_vm._b({class:{ 'download-disabled': _vm.isLoading },attrs:{"labels":_vm.getLabelsForExport(),"data":_vm.getDataForExport(),"name":_vm.getNameForExport()}},'download-csv',attrs,false),[_c('IFXButton',{staticClass:"download-btn",attrs:{"disabled":_vm.isLoading,"small":"","btnType":"download"}})],1)],1)]}}],null,false,853389752)},[_c('span',[_vm._v("Download billing records in csv format")])])],1)],1)],1):_vm._e(),(_vm.allowChangeExpenseCode)?_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+var on = ref.on;
+var attrs = ref.attrs;
+return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.selected.length == 0 || _vm.billingRecordsAreFinal(_vm.selected),"fab":"","small":"","color":"green"},on:{"click":function($event){return _vm.openChangeExpenseCodeDialog()}}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":""}},[_vm._v("mdi-playlist-edit")])],1)],1)]}}],null,false,1233450272)},[_c('span',[_vm._v(_vm._s(_vm.approveSelectedToolTip))])])],1):_vm._e(),(_vm.allowInvoiceGeneration)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.isLoading ||
@@ -85375,11 +85400,11 @@ return [(item.productUsageLinkText)?_c('span',{staticClass:"text-no-wrap"},[_c('
                                 var item = ref.item;
 return [_c('div',{staticClass:"d-flex flex-row"},[(_vm.allowAddingTransactions(item))?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(item)}}}):_vm._e(),(_vm.allowEditingRecords(item))?_c('IFXButton',{staticClass:"ml-2",attrs:{"iconString":"edit","btnType":"edit","xSmall":""},on:{"action":function($event){return _vm.openEditDialog(item)}}}):_vm._e()],1)]}},{key:"expanded-item",fn:function(ref){
                                 var item = ref.item;
-return [_c('IFXBillingRecordTransactions',{attrs:{"billingRecord":item}})]}}],null,false,2678976559),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.txnDialog),callback:function ($$v) {_vm.txnDialog=$$v},expression:"txnDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:"py-2 text-h6 font-weight-medium"},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidTxn),callback:function ($$v) {_vm.isValidTxn=$$v},expression:"isValidTxn"}},[_c('v-row',[_c('v-col',[_c('v-currency-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$","allow-negative":""},model:{value:(_vm.editedItem.charge),callback:function ($$v) {_vm.$set(_vm.editedItem, "charge", $$v)},expression:"editedItem.charge"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidTxn},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.editDialog),callback:function ($$v) {_vm.editDialog=$$v},expression:"editDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Edit Billing Record "+_vm._s(_vm.editedRecord.id))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidEdit),callback:function ($$v) {_vm.isValidEdit=$$v},expression:"isValidEdit"}},[_c('v-row',[_c('v-col',[_c('v-autocomplete',{attrs:{"required":"","items":_vm.expenseCodes,"item-text":"slug","label":"Expense Code / PO","error-messages":_vm.errors[_vm.newExpenseCode],"rules":_vm.formRules.generic,"return-object":""},model:{value:(_vm.newExpenseCode),callback:function ($$v) {_vm.newExpenseCode=$$v},expression:"newExpenseCode"}})],1),_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Billing Record description","error-messages":_vm.errors[_vm.description],"rules":_vm.formRules.generic,"disabled":""},model:{value:(_vm.editedRecord.description),callback:function ($$v) {_vm.$set(_vm.editedRecord, "description", $$v)},expression:"editedRecord.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeEditDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidEdit},on:{"click":function($event){return _vm.updateSpecificRecord(_vm.editedRecord)}}},[_vm._v(" Save ")])],1)],1)],1)],1)],1)],1)],1)}
-var IFXBillingRecordListvue_type_template_id_00868f59_scoped_true_staticRenderFns = []
+return [_c('IFXBillingRecordTransactions',{attrs:{"billingRecord":item}})]}}],null,false,2678976559),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.txnDialog),callback:function ($$v) {_vm.txnDialog=$$v},expression:"txnDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:"py-2 text-h6 font-weight-medium"},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidTxn),callback:function ($$v) {_vm.isValidTxn=$$v},expression:"isValidTxn"}},[_c('v-row',[_c('v-col',[_c('v-currency-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$","allow-negative":""},model:{value:(_vm.editedItem.charge),callback:function ($$v) {_vm.$set(_vm.editedItem, "charge", $$v)},expression:"editedItem.charge"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidTxn},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.editDialog),callback:function ($$v) {_vm.editDialog=$$v},expression:"editDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Edit Billing Record "+_vm._s(_vm.editedRecord.id))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidEdit),callback:function ($$v) {_vm.isValidEdit=$$v},expression:"isValidEdit"}},[_c('v-row',[_c('v-col',[_c('v-autocomplete',{attrs:{"required":"","items":_vm.expenseCodes,"item-text":"slug","label":"Expense Code / PO","error-messages":_vm.errors[_vm.newExpenseCode],"rules":_vm.formRules.generic,"return-object":""},model:{value:(_vm.newExpenseCode),callback:function ($$v) {_vm.newExpenseCode=$$v},expression:"newExpenseCode"}})],1),_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Billing Record description","error-messages":_vm.errors[_vm.description],"rules":_vm.formRules.generic,"disabled":""},model:{value:(_vm.editedRecord.description),callback:function ($$v) {_vm.$set(_vm.editedRecord, "description", $$v)},expression:"editedRecord.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeEditDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidEdit},on:{"click":function($event){return _vm.updateSpecificRecord(_vm.editedRecord)}}},[_vm._v(" Save ")])],1)],1)],1),(_vm.showChangeExpenseCodeDialog)?_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.showChangeExpenseCodeDialog),callback:function ($$v) {_vm.showChangeExpenseCodeDialog=$$v},expression:"showChangeExpenseCodeDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Edit Selected Billing Records")])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidBulkEdit),callback:function ($$v) {_vm.isValidBulkEdit=$$v},expression:"isValidBulkEdit"}},[_c('v-row',[_c('v-col',[_c('v-autocomplete',{attrs:{"required":"","items":_vm.expenseCodes,"item-text":"slug","label":"New Expense Code / PO","error-messages":_vm.errors[_vm.newExpenseCode],"rules":_vm.formRules.generic,"return-object":""},model:{value:(_vm.newExpenseCode),callback:function ($$v) {_vm.newExpenseCode=$$v},expression:"newExpenseCode"}})],1)],1),_c('v-row',{staticClass:"records-container"},[_c('v-col',{attrs:{"cols":"12"}},[_c('ul',{staticClass:"text-body-1"},_vm._l((_vm.selected),function(record){return _c('li',{key:record.id},[_c('div',{staticClass:"font-weight-medium mr-3"},[_vm._v(" Billing Record #"+_vm._s(record.id)+" "),_c('span',{staticClass:"font-weight-regular"},[_vm._v("("+_vm._s(record.account.name)+")\"")])]),_c('div',{staticClass:"font-weight-light mb-5"},[_vm._v("("+_vm._s(record.description)+")\"")])])}),0)])],1)],1)],1),_c('v-divider'),_c('v-card-actions',[(_vm.updating)?_c('div',[_c('span',{staticClass:"mr-3"},[_vm._v("Updating billing records...")]),_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_vm._e(),_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeChangeExpenseCodeDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidBulkEdit},on:{"click":_vm.changeExpenseCode}},[_vm._v("Save")])],1)],1)],1):_vm._e()],1)],1)],1)],1)}
+var IFXBillingRecordListvue_type_template_id_25be9528_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=00868f59&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=template&id=25be9528&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.values.js
 var es_object_values = __webpack_require__("07ac");
@@ -85403,12 +85428,12 @@ var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
     };
   }
 });
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordHeader.vue?vue&type=template&id=2afe34bc&scoped=true&
-var IFXBillingRecordHeadervue_type_template_id_2afe34bc_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('td',{staticClass:"py-2",attrs:{"colspan":_vm.colSpan}},[_c('v-row',[(_vm.showCheckboxes)?_c('v-checkbox',{staticClass:"shrink ml-3 mt-0",attrs:{"value":_vm.group,"hide-details":"","multiple":"","indeterminate":_vm.rowSelectionToggleIndeterminateGroup},on:{"update:indeterminate":function($event){_vm.rowSelectionToggleIndeterminateGroup=$event},"change":function($event){return _vm.syncData()}},model:{value:(_vm.localRowSelectionToggle),callback:function ($$v) {_vm.localRowSelectionToggle=$$v},expression:"localRowSelectionToggle"}}):_vm._e(),_c('div',[_c('v-btn',{attrs:{"icon":"","small":""},on:{"click":_vm.toggle}},[_c('v-icon',{class:{'active' : _vm.isOpen}},[_vm._v("mdi-menu-right")])],1),_c('span',{staticClass:"group-header"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(_vm.group).name)+" ")]),_c('span',{staticClass:"ml-3 font-weight-medium"},[_vm._v("Total charges: "+_vm._s(_vm._f("centsToDollars")(_vm.summaryCharges)))]),_c('v-btn',{staticClass:"ml-2",attrs:{"small":"","text":""},on:{"click":_vm.toggleSummaryDetail}},[_vm._v(_vm._s(_vm.summaryButtonText)+" Acct Summary")])],1)],1),(_vm.showSummaryDetail)?_c('v-row',[_c('v-col',{staticClass:"py-1 ml-9"},_vm._l((_vm.summaryDetails),function(entry){return _c('v-row',{key:(_vm.group + "-" + (entry[0])),staticClass:"text-body-2"},[_c('v-col',{staticClass:"ml-3",attrs:{"cols":"5"}},[_vm._v(_vm._s(entry[0]))]),_c('v-col',{staticClass:"text-xs-left ml-3 font-weight-medium"},[_vm._v(_vm._s(_vm._f("centsToDollars")(entry[1]))+" ")])],1)}),1)],1):_vm._e()],1)}
-var IFXBillingRecordHeadervue_type_template_id_2afe34bc_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordHeader.vue?vue&type=template&id=7814bf60&scoped=true&
+var IFXBillingRecordHeadervue_type_template_id_7814bf60_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('td',{staticClass:"py-2",attrs:{"colspan":_vm.colSpan}},[_c('v-row',[(_vm.showCheckboxes)?_c('v-checkbox',{staticClass:"shrink ml-3 mt-0",attrs:{"value":_vm.group,"hide-details":"","multiple":"","indeterminate":_vm.rowSelectionToggleIndeterminateGroup},on:{"update:indeterminate":function($event){_vm.rowSelectionToggleIndeterminateGroup=$event},"change":function($event){return _vm.syncData()}},model:{value:(_vm.localRowSelectionToggle),callback:function ($$v) {_vm.localRowSelectionToggle=$$v},expression:"localRowSelectionToggle"}}):_vm._e(),_c('div',[_c('v-btn',{attrs:{"icon":"","small":""},on:{"click":_vm.toggle}},[_c('v-icon',{class:{ active: _vm.isOpen }},[_vm._v("mdi-menu-right")])],1),_c('span',{staticClass:"group-header"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(_vm.group).name)+" ")]),_c('span',{staticClass:"ml-3 font-weight-medium"},[_vm._v("Total charges: "+_vm._s(_vm._f("centsToDollars")(_vm.summaryCharges)))]),_c('v-btn',{staticClass:"ml-2",attrs:{"small":"","text":""},on:{"click":_vm.toggleSummaryDetail}},[_vm._v(_vm._s(_vm.summaryButtonText)+" Acct Summary")])],1)],1),(_vm.showSummaryDetail)?_c('v-row',[_c('v-col',{staticClass:"py-1 ml-9"},_vm._l((_vm.summaryDetails),function(entry){return _c('v-row',{key:(_vm.group + "-" + (entry[0])),staticClass:"text-body-2"},[_c('v-col',{staticClass:"ml-3",attrs:{"cols":"5"}},[_vm._v(_vm._s(entry[0]))]),_c('v-col',{staticClass:"text-xs-left ml-3 font-weight-medium"},[_vm._v(_vm._s(_vm._f("centsToDollars")(entry[1])))])],1)}),1)],1):_vm._e()],1)}
+var IFXBillingRecordHeadervue_type_template_id_7814bf60_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordHeader.vue?vue&type=template&id=2afe34bc&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordHeader.vue?vue&type=template&id=7814bf60&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordHeader.vue?vue&type=script&lang=js&
 
@@ -85494,8 +85519,8 @@ var IFXBillingRecordHeadervue_type_template_id_2afe34bc_scoped_true_staticRender
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordHeader.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordHeadervue_type_script_lang_js_ = (IFXBillingRecordHeadervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordHeader.vue?vue&type=style&index=0&id=2afe34bc&scoped=true&lang=scss&
-var IFXBillingRecordHeadervue_type_style_index_0_id_2afe34bc_scoped_true_lang_scss_ = __webpack_require__("fe8a");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordHeader.vue?vue&type=style&index=0&id=7814bf60&scoped=true&lang=scss&
+var IFXBillingRecordHeadervue_type_style_index_0_id_7814bf60_scoped_true_lang_scss_ = __webpack_require__("200f");
 
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordHeader.vue
 
@@ -85508,11 +85533,11 @@ var IFXBillingRecordHeadervue_type_style_index_0_id_2afe34bc_scoped_true_lang_sc
 
 var IFXBillingRecordHeader_component = normalizeComponent(
   billingRecord_IFXBillingRecordHeadervue_type_script_lang_js_,
-  IFXBillingRecordHeadervue_type_template_id_2afe34bc_scoped_true_render,
-  IFXBillingRecordHeadervue_type_template_id_2afe34bc_scoped_true_staticRenderFns,
+  IFXBillingRecordHeadervue_type_template_id_7814bf60_scoped_true_render,
+  IFXBillingRecordHeadervue_type_template_id_7814bf60_scoped_true_staticRenderFns,
   false,
   null,
-  "2afe34bc",
+  "7814bf60",
   null
   
 )
@@ -85706,6 +85731,11 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
       required: false,
       default: false
     },
+    allowChangeExpenseCode: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     useDefaultMailButton: {
       type: Boolean,
       required: false,
@@ -85735,7 +85765,24 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 
       _this.messageType = 'error';
       _this.message = "Error loading ".concat(_this.facility.name, " billing records: ").concat(errorMessage);
-    }).finally(function () {
+    }).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return _this.$api.account.getList();
+
+            case 2:
+              _this.expenseCodes = _context.sent;
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))).finally(function () {
       return _this.isLoading = false;
     });
   },
@@ -85833,6 +85880,7 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
       search: null,
       isValidTxn: false,
       isValidEdit: false,
+      isValidBulkEdit: false,
       txnDialog: false,
       editDialog: false,
       notifyDialog: false,
@@ -85859,7 +85907,9 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
       contactables: [],
       sendingNotifications: false,
       emailResponse: null,
-      newExpenseCode: null
+      newExpenseCode: null,
+      showChangeExpenseCodeDialog: false,
+      recordIDsToBeChanged: []
     };
   },
   computed: {
@@ -85915,49 +85965,49 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
     getFullBillingRecordByItemIndex: function getFullBillingRecordByItemIndex(index) {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         var _br$billingRecordStat;
 
         var br;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 br = _this3.items[index];
 
                 if (!((_br$billingRecordStat = br.billingRecordStates) !== null && _br$billingRecordStat !== void 0 && _br$billingRecordStat.length)) {
-                  _context.next = 3;
+                  _context2.next = 3;
                   break;
                 }
 
-                return _context.abrupt("return", br);
+                return _context2.abrupt("return", br);
 
               case 3:
                 if (!br.id) {
-                  _context.next = 9;
+                  _context2.next = 9;
                   break;
                 }
 
-                _context.next = 6;
+                _context2.next = 6;
                 return _this3.apiRef.getByID(_this3.facility.invoicePrefix, br.id);
 
               case 6:
-                br = _context.sent;
+                br = _context2.sent;
 
                 _this3.$set(_this3.items, index, br);
 
-                return _context.abrupt("return", br);
+                return _context2.abrupt("return", br);
 
               case 9:
                 console.log("Billing record with id not found at item index ".concat(index));
-                return _context.abrupt("return", null);
+                return _context2.abrupt("return", null);
 
               case 11:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     },
     billingRecordsAreFinal: function billingRecordsAreFinal(items) {
@@ -86082,11 +86132,11 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
     setState: function setState(items, state) {
       var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var promises, toBeUpdated, i, item, results;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 promises = [];
                 toBeUpdated = [];
@@ -86094,31 +86144,31 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 
               case 3:
                 if (!(i < items.length)) {
-                  _context2.next = 17;
+                  _context3.next = 17;
                   break;
                 }
 
                 item = items[i];
 
                 if (item.billingRecordStates) {
-                  _context2.next = 12;
+                  _context3.next = 12;
                   break;
                 }
 
                 promises.push(_this7.apiRef.getByID(_this7.facility.invoicePrefix, item.id));
 
                 if (!(i !== 0 && i % _this7.promiseBatchSize === 0)) {
-                  _context2.next = 10;
+                  _context3.next = 10;
                   break;
                 }
 
-                _context2.next = 10;
+                _context3.next = 10;
                 return new Promise(function (r) {
                   return setTimeout(r, 500);
                 });
 
               case 10:
-                _context2.next = 14;
+                _context3.next = 14;
                 break;
 
               case 12:
@@ -86132,15 +86182,15 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 
               case 14:
                 i += 1;
-                _context2.next = 3;
+                _context3.next = 3;
                 break;
 
               case 17:
-                _context2.next = 19;
+                _context3.next = 19;
                 return Promise.all(promises);
 
               case 19:
-                results = _context2.sent;
+                results = _context3.sent;
                 results.forEach(function (item) {
                   item.billingRecordStates.push({
                     name: state,
@@ -86150,14 +86200,14 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
                   });
                   toBeUpdated.push(item);
                 });
-                return _context2.abrupt("return", _this7.$api.billingRecord.bulkUpdate(toBeUpdated, _this7.facility.applicationUsername));
+                return _context3.abrupt("return", _this7.$api.billingRecord.bulkUpdate(toBeUpdated, _this7.facility.applicationUsername));
 
               case 22:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     approve: function approve(all) {
@@ -86197,11 +86247,11 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
     generateInvoices: function generateInvoices() {
       var _this9 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var allFinal, orgSet, selectedOrgs;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this9.updating = true;
                 _this9.message = '';
@@ -86210,11 +86260,11 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
                 });
 
                 if (allFinal) {
-                  _context3.next = 6;
+                  _context4.next = 6;
                   break;
                 }
 
-                _context3.next = 6;
+                _context4.next = 6;
                 return _this9.setState(_this9.selected, 'FINAL');
 
               case 6:
@@ -86270,10 +86320,10 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 
               case 10:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }))();
     },
     toggleGroup: function toggleGroup(group) {
@@ -86303,7 +86353,7 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
         return item.account.organization === group;
       });
       var summary = records.reduce(function (prev, current) {
-        return prev + current.charge;
+        return prev + parseInt(current.decimalCharge, 10);
       }, 0);
       return summary;
     },
@@ -86354,9 +86404,9 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
         }
       }
     },
-    toggleSelectAll: function toggleSelectAll(_ref) {
-      var items = _ref.items,
-          value = _ref.value;
+    toggleSelectAll: function toggleSelectAll(_ref2) {
+      var items = _ref2.items,
+          value = _ref2.value;
       var orgSet = new Set();
       items.forEach(function (item) {
         orgSet.add(item.account.organization);
@@ -86399,20 +86449,20 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
     openTxnDialog: function openTxnDialog(item) {
       var _this12 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var index, br;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 index = _this12.items.findIndex(function (rec) {
                   return rec.id === item.id;
                 });
-                _context4.next = 3;
+                _context5.next = 3;
                 return _this12.getFullBillingRecordByItemIndex(index);
 
               case 3:
-                br = _context4.sent;
+                br = _context5.sent;
 
                 if (index !== -1) {
                   _this12.editedItem = _objectSpread2({}, _this12.defaultItem);
@@ -86428,10 +86478,10 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 
               case 5:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
     addNewTransaction: function addNewTransaction(item) {
@@ -86474,47 +86524,42 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
         _this13.updating = false;
         _this13.txnDialog = false;
         _this13.editDialog = false;
+        _this13.showChangeExpenseCodeDialog = false;
       });
     },
     openEditDialog: function openEditDialog(item) {
       var _this14 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var index;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 index = _this14.items.findIndex(function (rec) {
                   return rec.id === item.id;
                 });
 
                 if (!(index !== -1)) {
-                  _context5.next = 12;
+                  _context6.next = 8;
                   break;
                 }
 
-                _context5.next = 4;
-                return _this14.$api.account.getList();
-
-              case 4:
-                _this14.expenseCodes = _context5.sent;
-                console.log('got codes ', _this14.expenseCodes);
                 _this14.editingIndex = index;
                 _this14.editedRecord = cloneDeep_default()(item);
-                _context5.next = 10;
+                _context6.next = 6;
                 return _this14.$api.account.create(item.account);
 
-              case 10:
-                _this14.newExpenseCode = _context5.sent;
+              case 6:
+                _this14.newExpenseCode = _context6.sent;
                 _this14.editDialog = true;
 
-              case 12:
+              case 8:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5);
+        }, _callee6);
       }))();
     },
     closeEditDialog: function closeEditDialog() {
@@ -86525,20 +86570,20 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
     updateSpecificRecord: function updateSpecificRecord(billingRec) {
       var _this15 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         var index, newBillingRec;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 index = _this15.items.findIndex(function (rec) {
                   return rec.id === billingRec.id;
                 });
-                _context6.next = 3;
+                _context7.next = 3;
                 return _this15.getFullBillingRecordByItemIndex(index);
 
               case 3:
-                newBillingRec = _context6.sent;
+                newBillingRec = _context7.sent;
                 newBillingRec.account = _this15.newExpenseCode.data;
 
                 _this15.updateBillingRecord(newBillingRec, _this15.editingIndex);
@@ -86547,10 +86592,10 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 
               case 7:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6);
+        }, _callee7);
       }))();
     },
     navigateToDetail: function navigateToDetail(id) {
@@ -86580,11 +86625,11 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
     notifyLabManagers: function notifyLabManagers() {
       var _this16 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         var orgs, orgSlugs, response, message;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 _this16.emailResponse = null;
                 _this16.sendingNotifications = true;
@@ -86592,21 +86637,21 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
                 orgSlugs = orgs.map(function (item) {
                   return item.account.organization;
                 });
-                _context7.prev = 4;
-                _context7.next = 7;
+                _context8.prev = 4;
+                _context8.next = 7;
                 return _this16.$api.reviewLabManagerNotifications(_toConsumableArray(new Set(orgSlugs)), _this16.selectedContactables, _this16.facility, _this16.year, _this16.month);
 
               case 7:
-                response = _context7.sent;
+                response = _context8.sent;
                 _this16.emailResponse = response.data;
-                _context7.next = 16;
+                _context8.next = 16;
                 break;
 
               case 11:
-                _context7.prev = 11;
-                _context7.t0 = _context7["catch"](4);
+                _context8.prev = 11;
+                _context8.t0 = _context8["catch"](4);
                 _this16.emailResponse = null;
-                message = _this16.getErrorMessage(_context7.t0);
+                message = _this16.getErrorMessage(_context8.t0);
 
                 _this16.showMessage(message);
 
@@ -86615,10 +86660,10 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 
               case 17:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, null, [[4, 11]]);
+        }, _callee8, null, [[4, 11]]);
       }))();
     },
     getSelectedOrgs: function getSelectedOrgs() {
@@ -86655,6 +86700,167 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
       }
 
       return list;
+    },
+    openChangeExpenseCodeDialog: function openChangeExpenseCodeDialog() {
+      var _this18 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                // Assume they want to change all records they've selected
+                _this18.recordIDsToBeChanged = _this18.selected.map(function (record) {
+                  return record.id;
+                });
+                _this18.showChangeExpenseCodeDialog = true;
+
+              case 2:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    closeChangeExpenseCodeDialog: function closeChangeExpenseCodeDialog() {
+      this.recordIDsToBeChanged = [];
+      this.showChangeExpenseCodeDialog = false;
+    },
+    changeExpenseCode: function changeExpenseCode() {
+      var _this19 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+        var recordsToChange, groups, _loop2, i;
+
+        return regeneratorRuntime.wrap(function _callee10$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                recordsToChange = [];
+                groups = new Set();
+                _this19.updating = true;
+                _loop2 = /*#__PURE__*/regeneratorRuntime.mark(function _loop2(i) {
+                  var index, newBillingRec;
+                  return regeneratorRuntime.wrap(function _loop2$(_context10) {
+                    while (1) {
+                      switch (_context10.prev = _context10.next) {
+                        case 0:
+                          index = _this19.items.findIndex(function (rec) {
+                            return rec.id === _this19.recordIDsToBeChanged[i];
+                          });
+                          _context10.t0 = cloneDeep_default.a;
+                          _context10.next = 4;
+                          return _this19.getFullBillingRecordByItemIndex(index);
+
+                        case 4:
+                          _context10.t1 = _context10.sent;
+                          newBillingRec = (0, _context10.t0)(_context10.t1);
+                          newBillingRec.account = _this19.newExpenseCode.data;
+                          recordsToChange.push(newBillingRec);
+
+                        case 8:
+                        case "end":
+                          return _context10.stop();
+                      }
+                    }
+                  }, _loop2);
+                });
+                i = 0;
+
+              case 5:
+                if (!(i < _this19.recordIDsToBeChanged.length)) {
+                  _context11.next = 10;
+                  break;
+                }
+
+                return _context11.delegateYield(_loop2(i), "t0", 7);
+
+              case 7:
+                i++;
+                _context11.next = 5;
+                break;
+
+              case 10:
+                _this19.$api.billingRecord.bulkUpdate(recordsToChange, _this19.facility.applicationUsername).then(function (response) {
+                  if (response.error) {
+                    _this19.showMessage(response.error);
+                  } else {
+                    // Replace all the new billing records
+                    response.data.forEach(function (record) {
+                      var newBillingRec = _this19.$api.billingRecord.create(record);
+
+                      var index = _this19.items.findIndex(function (rec) {
+                        return rec.id === record.id;
+                      });
+
+                      _this19.items.splice(index, 1, newBillingRec); // Now replace the records in the selected array
+
+
+                      index = _this19.selected.findIndex(function (rec) {
+                        return rec.id === record.id;
+                      }); // Save potentially old org
+
+                      groups.add(_this19.selected[index].account.organization);
+
+                      _this19.selected.splice(index, 1, newBillingRec); // Save the (deduped) org for setting the header checkboxes
+
+
+                      groups.add(newBillingRec.account.organization);
+                    }); // Now set the header checkboxes
+
+                    Array.from(groups).forEach(function (org) {
+                      _this19.setHeaderCheckBoxState(org);
+                    });
+
+                    _this19.showMessage("Successfully updated ".concat(response.data.length, " billing record(s)"));
+                  }
+                }).catch(function (error) {
+                  var message = _this19.getErrorMessage(error);
+
+                  _this19.showMessage(message);
+                }).finally(function () {
+                  _this19.isLoading = false;
+                  _this19.updating = false;
+
+                  _this19.closeChangeExpenseCodeDialog();
+                });
+
+              case 11:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    setHeaderCheckBoxState: function setHeaderCheckBoxState(group) {
+      var records = this.filteredItems.filter(function (item) {
+        return item.account.organization === group;
+      });
+      var checked = this.selected.filter(function (item) {
+        return item.account.organization === group;
+      }).length;
+      var state = checked !== 0 && checked < records.length;
+      this.$set(this.rowSelectionToggleIndeterminate, group, state); // Now set the checkbox model to the correct state
+
+      if (checked) {
+        if (checked === records.length) {
+          // All are checked so add this if it isn't already there
+          var index = this.rowSelectionToggle.indexOf(group);
+
+          if (index === -1) {
+            this.rowSelectionToggle.push(group);
+          }
+        }
+      } else {
+        // None are checked so remove this group
+        var _index2 = this.rowSelectionToggle.indexOf(group);
+
+        if (_index2 !== -1) {
+          this.rowSelectionToggle.splice(_index2, 1);
+        }
+      }
     }
   }),
   watch: {
@@ -86668,8 +86874,8 @@ installComponents_default()(IFXBillingRecordTransactions_component, {VDataTable:
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordListvue_type_script_lang_js_ = (IFXBillingRecordListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=0&id=00868f59&lang=scss&scoped=true&
-var IFXBillingRecordListvue_type_style_index_0_id_00868f59_lang_scss_scoped_true_ = __webpack_require__("e3b8");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=0&id=25be9528&lang=scss&scoped=true&
+var IFXBillingRecordListvue_type_style_index_0_id_25be9528_lang_scss_scoped_true_ = __webpack_require__("7c7b");
 
 // EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordList.vue?vue&type=style&index=1&lang=css&
 var IFXBillingRecordListvue_type_style_index_1_lang_css_ = __webpack_require__("2457");
@@ -86686,11 +86892,11 @@ var IFXBillingRecordListvue_type_style_index_1_lang_css_ = __webpack_require__("
 
 var IFXBillingRecordList_component = normalizeComponent(
   billingRecord_IFXBillingRecordListvue_type_script_lang_js_,
-  IFXBillingRecordListvue_type_template_id_00868f59_scoped_true_render,
-  IFXBillingRecordListvue_type_template_id_00868f59_scoped_true_staticRenderFns,
+  IFXBillingRecordListvue_type_template_id_25be9528_scoped_true_render,
+  IFXBillingRecordListvue_type_template_id_25be9528_scoped_true_staticRenderFns,
   false,
   null,
-  "00868f59",
+  "25be9528",
   null
   
 )
@@ -86719,13 +86925,14 @@ var IFXBillingRecordList_component = normalizeComponent(
 
 
 
-installComponents_default()(IFXBillingRecordList_component, {VAlert: VAlert_VAlert,VAutocomplete: VAutocomplete_VAutocomplete,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VForm: VForm,VIcon: components_VIcon_VIcon,VProgressCircular: VProgressCircular_VProgressCircular,VProgressLinear: VProgressLinear_VProgressLinear,VRow: VRow,VSpacer: VSpacer,VTextarea: VTextarea_VTextarea,VTooltip: VTooltip_VTooltip})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordListDecimal.vue?vue&type=template&id=52567e7d&scoped=true&
-var IFXBillingRecordListDecimalvue_type_template_id_52567e7d_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',{staticClass:"text-no-wrap"},[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between align-center",attrs:{"dense":""}},[_c('v-col',{staticClass:"pa-2"},[(_vm.useDefaultMailButton)?_c('IFXMailButton',{attrs:{"disabled":!_vm.filteredItems.length,"toolTip":"Notify Lab Managers"},on:{"input":function($event){return _vm.defaultNotifyLabManagers()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}}):_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+installComponents_default()(IFXBillingRecordList_component, {VAlert: VAlert_VAlert,VAutocomplete: VAutocomplete_VAutocomplete,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VDivider: VDivider_VDivider,VForm: VForm,VIcon: components_VIcon_VIcon,VProgressCircular: VProgressCircular_VProgressCircular,VProgressLinear: VProgressLinear_VProgressLinear,VRow: VRow,VSpacer: VSpacer,VTextarea: VTextarea_VTextarea,VTooltip: VTooltip_VTooltip})
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordListDecimal.vue?vue&type=template&id=949277d0&scoped=true&
+var IFXBillingRecordListDecimalvue_type_template_id_949277d0_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-card',[_c('v-card-title',[_c('v-row',{staticClass:"d-flex justify-space-between w-full"},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',{staticClass:"text-no-wrap"},[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])]),_c('v-col',{attrs:{"cols":"3"}},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('IFXSearchField',{attrs:{"search":_vm.search},on:{"update:search":function($event){_vm.search=$event}}})],1)],1)],1),_c('v-col',{attrs:{"cols":"4"}},[_c('v-row',{staticClass:"d-flex flex-nowrap justify-end align-start",attrs:{"dense":""}},[(_vm.updating)?_c('v-col',[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_c('v-col',[_c('v-row',{staticClass:"d-flex justify-space-between align-center",attrs:{"dense":""}},[_c('v-col',{staticClass:"pa-2"},[(_vm.useDefaultMailButton)?_c('IFXMailButton',{attrs:{"disabled":!_vm.filteredItems.length,"toolTip":"Notify Lab Managers"},on:{"input":function($event){return _vm.defaultNotifyLabManagers()}},model:{value:(_vm.recipientField),callback:function ($$v) {_vm.recipientField=$$v},expression:"recipientField"}}):_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
-return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"small":"","fab":"","color":"green"},on:{"click":_vm.openNotifyDialog}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":"","color":"white"}},[_vm._v("mdi-email-send-outline")])],1),_c('v-dialog',_vm._b({attrs:{"max-width":"600px"},model:{value:(_vm.notifyDialog),callback:function ($$v) {_vm.notifyDialog=$$v},expression:"notifyDialog"}},'v-dialog',attrs,false),[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Notify Lab Managers")])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',{staticClass:"text-body-1"},[(_vm.selected.length)?_c('v-col',[_c('div',{staticClass:"mb-2"},[_vm._v("Send to the managers for the following labs:")]),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.getSelectedOrgs()),function(org){return _c('li',{key:org,staticClass:"font-weight-medium"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(org).name)+" ")])}),0)]):_c('v-col',[_c('div',{staticClass:"font-weight-medium"},[_vm._v("Send to all lab managers")])])],1),_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"12"}},[_c('div',{staticClass:"text-divider font-italic text-center"},[_vm._v(" Or specify email addresses directly ")]),_c('IFXContactablesCombobox',{attrs:{"label":"To:","contactables":_vm.contactables},model:{value:(_vm.selectedContactables),callback:function ($$v) {_vm.selectedContactables=$$v},expression:"selectedContactables"}})],1)],1),(_vm.sendingNotifications)?_c('div',[_vm._v(" Sending emails... "),_c('v-progress-linear',{attrs:{"indeterminate":""}})],1):_vm._e(),(_vm.emailResponse)?_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{staticClass:"text-body-1 results-section",attrs:{"cols":"12"}},[_c('div',{staticClass:"text-body-1 font-weight-medium text-center"},[_vm._v(" Email Notification Results ")]),_c('div',{staticClass:"text-body-2 font-weight-regular text-center"},[_vm._v(" Sent to "+_vm._s(_vm.buildNotificationlList())+" ")]),(_vm.emailResponse.successes.length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" Successfully "),_c('span',{staticClass:"green--text"},[_vm._v("sent")]),_vm._v(" for the following organizations: "),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.emailResponse.successes),function(value){return _c('li',{key:value},[_c('span',[_vm._v(_vm._s(value))])])}),0)]):_vm._e(),(Object.keys(_vm.emailResponse.errors).length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" The following "),_c('span',{staticClass:"red--text"},[_vm._v("errors")]),_vm._v(" occurred trying to send emails: "),_c('ul',{staticClass:"list-style-none mt-1"},_vm._l((_vm.emailResponse.errors),function(value,key){return _c('li',{key:key},[_c('span',[_vm._v("To the "+_vm._s(key))]),_c('ul',{staticClass:"error-list"},_vm._l((value),function(error){return _c('li',{key:error},[_vm._v(" "+_vm._s(error)+" ")])}),0)])}),0)]):_vm._e(),(_vm.emailResponse.nobrs.length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" The following organizations had "),_c('span',{staticClass:"yellow--text text--darken-3"},[_vm._v("no billing records")]),_vm._v(" : "),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.emailResponse.nobrs),function(value){return _c('li',{key:value},[_c('span',[_vm._v(_vm._s(value))])])}),0)]):_vm._e()])],1):_vm._e()],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":function($event){_vm.notifyDialog = false}}},[_vm._v(_vm._s(_vm.emailResponse ? "Close" : "Cancel"))]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":_vm.notifyLabManagers}},[_vm._v(" Notify ")])],1)],1)],1)],1)]}}])},[_c('span',[_vm._v("Notify Lab Managers")])])],1),(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"small":"","fab":"","color":"green"},on:{"click":_vm.openNotifyDialog}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":"","color":"white"}},[_vm._v("mdi-email-send-outline")])],1),_c('v-dialog',_vm._b({attrs:{"max-width":"600px"},model:{value:(_vm.notifyDialog),callback:function ($$v) {_vm.notifyDialog=$$v},expression:"notifyDialog"}},'v-dialog',attrs,false),[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Notify Lab Managers")])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',{staticClass:"text-body-1"},[(_vm.selected.length)?_c('v-col',[_c('div',{staticClass:"mb-2"},[_vm._v("Send to the managers for the following labs:")]),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.getSelectedOrgs()),function(org){return _c('li',{key:org,staticClass:"font-weight-medium"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(org).name)+" ")])}),0)]):_c('v-col',[_c('div',{staticClass:"font-weight-medium"},[_vm._v("Send to all lab managers")])])],1),_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"12"}},[_c('div',{staticClass:"text-divider font-italic text-center"},[_vm._v(" Or specify email addresses directly ")]),_c('IFXContactablesCombobox',{attrs:{"label":"To:","contactables":_vm.contactables},model:{value:(_vm.selectedContactables),callback:function ($$v) {_vm.selectedContactables=$$v},expression:"selectedContactables"}})],1)],1),(_vm.sendingNotifications)?_c('div',[_vm._v(" Sending emails... "),_c('v-progress-linear',{attrs:{"indeterminate":""}})],1):_vm._e(),(_vm.emailResponse)?_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{staticClass:"text-body-1 results-section",attrs:{"cols":"12"}},[_c('div',{staticClass:"text-body-1 font-weight-medium text-center"},[_vm._v(" Email Notification Results ")]),_c('div',{staticClass:"text-body-2 font-weight-regular text-center"},[_vm._v(" Sent to "+_vm._s(_vm.buildNotificationlList())+" ")]),(_vm.emailResponse.successes.length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" Successfully "),_c('span',{staticClass:"green--text"},[_vm._v("sent")]),_vm._v(" for the following organizations: "),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.emailResponse.successes),function(value){return _c('li',{key:value},[_c('span',[_vm._v(_vm._s(value))])])}),0)]):_vm._e(),(Object.keys(_vm.emailResponse.errors).length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" The following "),_c('span',{staticClass:"red--text"},[_vm._v("errors")]),_vm._v(" occurred trying to send emails: "),_c('ul',{staticClass:"list-style-none mt-1"},_vm._l((_vm.emailResponse.errors),function(value,key){return _c('li',{key:key},[_c('span',[_vm._v("To the "+_vm._s(key))]),_c('ul',{staticClass:"error-list"},_vm._l((value),function(error){return _c('li',{key:error},[_vm._v(" "+_vm._s(error)+" ")])}),0)])}),0)]):_vm._e(),(_vm.emailResponse.nobrs.length)?_c('div',{staticClass:"my-3 pb-2 border-bottom"},[_vm._v(" The following organizations had "),_c('span',{staticClass:"yellow--text text--darken-3"},[_vm._v("no billing records")]),_vm._v(" : "),_c('ul',{staticClass:"lab-manager-list"},_vm._l((_vm.emailResponse.nobrs),function(value){return _c('li',{key:value},[_c('span',[_vm._v(_vm._s(value))])])}),0)]):_vm._e()])],1):_vm._e()],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":function($event){_vm.notifyDialog = false}}},[_vm._v(" "+_vm._s(_vm.emailResponse ? 'Close' : 'Cancel')+" ")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":_vm.notifyLabManagers}},[_vm._v(" Notify ")])],1)],1)],1)],1)]}}])},[_c('span',[_vm._v("Notify Lab Managers")])])],1),(_vm.allowApprovals)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{staticClass:"d-flex flex-nowrap",attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.selected.length == 0 || _vm.billingRecordsAreFinal(_vm.selected),"fab":"","small":"","color":"green"},on:{"click":function($event){return _vm.approve()}}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":""}},[_vm._v("done")])],1)],1)]}}],null,false,594938130)},[_c('span',[_vm._v(_vm._s(_vm.approveSelectedToolTip))])])],1),_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
@@ -86734,12 +86941,15 @@ var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.billingRecordsAreFinal(_vm.items) || _vm.isLoading || _vm.items.length == 0,"fab":"","small":"","color":"green"},on:{"click":function($event){return _vm.approve(true)}}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":""}},[_vm._v("done_all")])],1)],1)]}}],null,false,1924985094)},[_c('span',[_vm._v(_vm._s(_vm.approveAllToolTip))])])],1)],1)],1):_vm._e(),(_vm.allowDownloads)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
-return [_c('div',_vm._g({},on),[_c('download-csv',_vm._b({class:{ 'download-disabled': _vm.isLoading },attrs:{"labels":_vm.getLabelsForExport(),"data":_vm.getDataForExport(),"name":_vm.getNameForExport()}},'download-csv',attrs,false),[_c('IFXButton',{staticClass:"download-btn",attrs:{"disabled":_vm.isLoading,"small":"","btnType":"download"}})],1)],1)]}}],null,false,853389752)},[_c('span',[_vm._v("Download billing records in csv format")])])],1)],1)],1):_vm._e(),(_vm.allowInvoiceGeneration)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+return [_c('div',_vm._g({},on),[_c('download-csv',_vm._b({class:{ 'download-disabled': _vm.isLoading },attrs:{"labels":_vm.getLabelsForExport(),"data":_vm.getDataForExport(),"name":_vm.getNameForExport()}},'download-csv',attrs,false),[_c('IFXButton',{staticClass:"download-btn",attrs:{"disabled":_vm.isLoading,"small":"","btnType":"download"}})],1)],1)]}}],null,false,853389752)},[_c('span',[_vm._v("Download billing records in csv format")])])],1)],1)],1):_vm._e(),(_vm.allowChangeExpenseCode)?_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+var on = ref.on;
+var attrs = ref.attrs;
+return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.selected.length == 0 || _vm.billingRecordsAreFinal(_vm.selected),"fab":"","small":"","color":"green"},on:{"click":function($event){return _vm.openChangeExpenseCodeDialog()}}},'v-btn',attrs,false),[_c('v-icon',{attrs:{"dark":""}},[_vm._v("mdi-playlist-edit")])],1)],1)]}}],null,false,1233450272)},[_c('span',[_vm._v("Edit billing record account")])])],1):_vm._e(),(_vm.allowInvoiceGeneration)?_c('v-col',{staticClass:"pa-2"},[_c('v-row',{attrs:{"dense":""}},[_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":_vm.isLoading ||
                                 _vm.selected.length == 0 ||
-                                !_vm.$api.auth.can('generate-invoices', _vm.$api.authUser),"color":_vm.billingRecordsAreFinal(_vm.selected) ? 'error' : 'blue',"small":"","fab":""},on:{"click":function($event){return _vm.generateInvoices()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("payments")])],1)],1)]}}],null,false,1462392466)},[_c('span',[_vm._v(_vm._s(_vm.generateInvoicesToolTip))])])],1)],1)],1):_vm._e()],1)],1)],1)],1)],1),_c('v-row',{staticClass:"d-flex justify-space-around",attrs:{"dense":""}},[(_vm.message)?_c('v-col',{staticClass:"d-flex flex-grow-1",attrs:{"cols":"12"}},[_c('v-alert',{attrs:{"dismissible":"","type":_vm.messageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.message)}})])],1):_vm._e()],1)],1),_c('v-row',[_c('v-col',{attrs:{"id":"data-table"}},[(_vm.filteredItems)?_c('v-data-table',{ref:"table",attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"show-select":_vm.showCheckboxes,"show-expand":"","expand-icon":"mdi-menu-right","itemKey":_vm.itemKey,"loading":_vm.isLoading,"items-per-page":-1,"group-by":"account.organization","sort-by":_vm.sortBy},on:{"item-selected":_vm.determineGroupState,"toggle-select-all":_vm.toggleSelectAll},scopedSlots:_vm._u([{key:"group.header",fn:function(ref){
+                                !_vm.$api.auth.can('generate-invoices', _vm.$api.authUser),"color":_vm.billingRecordsAreFinal(_vm.selected) ? 'error' : 'blue',"small":"","fab":""},on:{"click":function($event){return _vm.generateInvoices()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("payments")])],1)],1)]}}],null,false,1462392466)},[_c('span',[_vm._v(_vm._s(_vm.generateInvoicesToolTip))])])],1)],1)],1):_vm._e()],1)],1)],1)],1)],1),_c('v-row',{staticClass:"d-flex justify-space-around",attrs:{"dense":""}},[(_vm.message)?_c('v-col',{staticClass:"d-flex flex-grow-1",attrs:{"cols":"12"}},[_c('v-alert',{attrs:{"dismissible":"","type":_vm.messageType,"border":"left","elevation":"2","colored-border":""}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.message)}})])],1):_vm._e()],1)],1),_c('v-row',[_c('v-col',{attrs:{"id":"data-table"}},[(_vm.filteredItems)?_c('v-data-table',{ref:"table",attrs:{"items":_vm.filteredItems,"headers":_vm.headers,"show-select":_vm.showCheckboxes,"show-expand":"","expand-icon":"mdi-menu-right","itemKey":_vm.itemKey,"loading":_vm.isLoading,"items-per-page":-1,"sort-by":_vm.sortBy,"group-by":"account.organization"},on:{"item-selected":_vm.determineGroupState,"toggle-select-all":_vm.toggleSelectAll},scopedSlots:_vm._u([{key:"group.header",fn:function(ref){
                                 var group = ref.group;
                                 var headers = ref.headers;
                                 var isOpen = ref.isOpen;
@@ -86766,18 +86976,18 @@ return [(item.productUsageLinkText)?_c('span',{staticClass:"text-no-wrap"},[_c('
                                 var item = ref.item;
 return [_c('div',{staticClass:"d-flex flex-row"},[(_vm.allowAddingTransactions(item))?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(item)}}}):_vm._e(),(_vm.allowEditingRecords(item))?_c('IFXButton',{staticClass:"ml-2",attrs:{"iconString":"edit","btnType":"edit","xSmall":""},on:{"action":function($event){return _vm.openEditDialog(item)}}}):_vm._e()],1)]}},{key:"expanded-item",fn:function(ref){
                                 var item = ref.item;
-return [_c('IFXBillingRecordTransactionsDecimal',{attrs:{"billingRecord":item}})]}}],null,false,3625805762),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.txnDialog),callback:function ($$v) {_vm.txnDialog=$$v},expression:"txnDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:"py-2 text-h6 font-weight-medium"},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidTxn),callback:function ($$v) {_vm.isValidTxn=$$v},expression:"isValidTxn"}},[_c('v-row',[_c('v-col',[_c('v-currency-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$","allow-negative":""},model:{value:(_vm.editedItem.charge),callback:function ($$v) {_vm.$set(_vm.editedItem, "charge", $$v)},expression:"editedItem.charge"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidTxn},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.editDialog),callback:function ($$v) {_vm.editDialog=$$v},expression:"editDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Edit Billing Record "+_vm._s(_vm.editedRecord.id))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidEdit),callback:function ($$v) {_vm.isValidEdit=$$v},expression:"isValidEdit"}},[_c('v-row',[_c('v-col',[_c('v-autocomplete',{attrs:{"required":"","items":_vm.expenseCodes,"item-text":"slug","label":"Expense Code / PO","error-messages":_vm.errors[_vm.newExpenseCode],"rules":_vm.formRules.generic,"return-object":""},model:{value:(_vm.newExpenseCode),callback:function ($$v) {_vm.newExpenseCode=$$v},expression:"newExpenseCode"}})],1),_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Billing Record description","error-messages":_vm.errors[_vm.description],"rules":_vm.formRules.generic,"disabled":""},model:{value:(_vm.editedRecord.description),callback:function ($$v) {_vm.$set(_vm.editedRecord, "description", $$v)},expression:"editedRecord.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeEditDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidEdit},on:{"click":function($event){return _vm.updateSpecificRecord(_vm.editedRecord)}}},[_vm._v(" Save ")])],1)],1)],1)],1)],1)],1)],1)}
-var IFXBillingRecordListDecimalvue_type_template_id_52567e7d_scoped_true_staticRenderFns = []
+return [_c('IFXBillingRecordTransactionsDecimal',{attrs:{"billingRecord":item}})]}}],null,false,3625805762),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}}):_vm._e(),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.txnDialog),callback:function ($$v) {_vm.txnDialog=$$v},expression:"txnDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.editedItem.orgRec.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:"py-2 text-h6 font-weight-medium"},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidTxn),callback:function ($$v) {_vm.isValidTxn=$$v},expression:"isValidTxn"}},[_c('v-row',[_c('v-col',[_c('v-currency-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$","allow-negative":""},model:{value:(_vm.editedItem.charge),callback:function ($$v) {_vm.$set(_vm.editedItem, "charge", $$v)},expression:"editedItem.charge"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidTxn},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v(" Save ")])],1)],1)],1),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.editDialog),callback:function ($$v) {_vm.editDialog=$$v},expression:"editDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Edit Billing Record "+_vm._s(_vm.editedRecord.id))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidEdit),callback:function ($$v) {_vm.isValidEdit=$$v},expression:"isValidEdit"}},[_c('v-row',[_c('v-col',[_c('v-autocomplete',{attrs:{"required":"","items":_vm.expenseCodes,"item-text":"slug","label":"Expense Code / PO","error-messages":_vm.errors[_vm.newExpenseCode],"rules":_vm.formRules.generic,"return-object":""},model:{value:(_vm.newExpenseCode),callback:function ($$v) {_vm.newExpenseCode=$$v},expression:"newExpenseCode"}})],1),_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Billing Record description","error-messages":_vm.errors[_vm.description],"rules":_vm.formRules.generic,"disabled":""},model:{value:(_vm.editedRecord.description),callback:function ($$v) {_vm.$set(_vm.editedRecord, "description", $$v)},expression:"editedRecord.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeEditDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidEdit},on:{"click":function($event){return _vm.updateSpecificRecord(_vm.editedRecord)}}},[_vm._v(" Save ")])],1)],1)],1),(_vm.showChangeExpenseCodeDialog)?_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.showChangeExpenseCodeDialog),callback:function ($$v) {_vm.showChangeExpenseCodeDialog=$$v},expression:"showChangeExpenseCodeDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Edit Selected Billing Records")])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidBulkEdit),callback:function ($$v) {_vm.isValidBulkEdit=$$v},expression:"isValidBulkEdit"}},[_c('v-row',[_c('v-col',[_c('v-autocomplete',{attrs:{"required":"","items":_vm.expenseCodes,"item-text":"slug","label":"New Expense Code / PO","error-messages":_vm.errors[_vm.newExpenseCode],"rules":_vm.formRules.generic,"return-object":""},model:{value:(_vm.newExpenseCode),callback:function ($$v) {_vm.newExpenseCode=$$v},expression:"newExpenseCode"}})],1)],1),_c('v-row',{staticClass:"records-container"},[_c('v-col',{attrs:{"cols":"12"}},[_c('ul',{staticClass:"text-body-1"},_vm._l((_vm.selected),function(record){return _c('li',{key:record.id},[_c('div',{staticClass:"font-weight-medium mr-3"},[_vm._v(" Billing Record #"+_vm._s(record.id)+" "),_c('span',{staticClass:"font-weight-regular"},[_vm._v("("+_vm._s(record.account.name)+")\"")])]),_c('div',{staticClass:"font-weight-light mb-5"},[_vm._v("("+_vm._s(record.description)+")\"")])])}),0)])],1)],1)],1),_c('v-divider'),_c('v-card-actions',[(_vm.updating)?_c('div',[_c('span',{staticClass:"mr-3"},[_vm._v("Updating billing records...")]),_c('v-progress-circular',{attrs:{"indeterminate":"","color":"primary"}})],1):_vm._e(),_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeChangeExpenseCodeDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidBulkEdit},on:{"click":_vm.changeExpenseCode}},[_vm._v("Save")])],1)],1)],1):_vm._e()],1)],1)],1)],1)}
+var IFXBillingRecordListDecimalvue_type_template_id_949277d0_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordListDecimal.vue?vue&type=template&id=52567e7d&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordListDecimal.vue?vue&type=template&id=949277d0&scoped=true&
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue?vue&type=template&id=0c5373de&scoped=true&
-var IFXBillingRecordHeaderDecimalvue_type_template_id_0c5373de_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('td',{staticClass:"py-2",attrs:{"colspan":_vm.colSpan}},[_c('v-row',[(_vm.showCheckboxes)?_c('v-checkbox',{staticClass:"shrink ml-3 mt-0",attrs:{"value":_vm.group,"hide-details":"","multiple":"","indeterminate":_vm.rowSelectionToggleIndeterminateGroup},on:{"update:indeterminate":function($event){_vm.rowSelectionToggleIndeterminateGroup=$event},"change":function($event){return _vm.syncData()}},model:{value:(_vm.localRowSelectionToggle),callback:function ($$v) {_vm.localRowSelectionToggle=$$v},expression:"localRowSelectionToggle"}}):_vm._e(),_c('div',[_c('v-btn',{attrs:{"icon":"","small":""},on:{"click":_vm.toggle}},[_c('v-icon',{class:{'active' : _vm.isOpen}},[_vm._v("mdi-menu-right")])],1),_c('span',{staticClass:"group-header"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(_vm.group).name)+" ")]),_c('span',{staticClass:"ml-3 font-weight-medium"},[_vm._v("Total charges: "+_vm._s(_vm._f("dollars")(_vm.summaryCharges)))]),_c('v-btn',{staticClass:"ml-2",attrs:{"small":"","text":""},on:{"click":_vm.toggleSummaryDetail}},[_vm._v(_vm._s(_vm.summaryButtonText)+" Acct Summary")])],1)],1),(_vm.showSummaryDetail)?_c('v-row',[_c('v-col',{staticClass:"py-1 ml-9"},_vm._l((_vm.summaryDetails),function(entry){return _c('v-row',{key:(_vm.group + "-" + (entry[0])),staticClass:"text-body-2"},[_c('v-col',{staticClass:"ml-3",attrs:{"cols":"5"}},[_vm._v(_vm._s(entry[0]))]),_c('v-col',{staticClass:"text-xs-left ml-3 font-weight-medium"},[_vm._v(_vm._s(_vm._f("dollars")(entry[1]))+" ")])],1)}),1)],1):_vm._e()],1)}
-var IFXBillingRecordHeaderDecimalvue_type_template_id_0c5373de_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue?vue&type=template&id=c0419e94&scoped=true&
+var IFXBillingRecordHeaderDecimalvue_type_template_id_c0419e94_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('td',{staticClass:"py-2",attrs:{"colspan":_vm.colSpan}},[_c('v-row',[(_vm.showCheckboxes)?_c('v-checkbox',{staticClass:"shrink ml-3 mt-0",attrs:{"value":_vm.group,"hide-details":"","multiple":"","indeterminate":_vm.rowSelectionToggleIndeterminateGroup},on:{"update:indeterminate":function($event){_vm.rowSelectionToggleIndeterminateGroup=$event},"change":function($event){return _vm.syncData()}},model:{value:(_vm.localRowSelectionToggle),callback:function ($$v) {_vm.localRowSelectionToggle=$$v},expression:"localRowSelectionToggle"}}):_vm._e(),_c('div',[_c('v-btn',{attrs:{"icon":"","small":""},on:{"click":_vm.toggle}},[_c('v-icon',{class:{ active: _vm.isOpen }},[_vm._v("mdi-menu-right")])],1),_c('span',{staticClass:"group-header"},[_vm._v(" "+_vm._s(_vm.$api.organization.parseSlug(_vm.group).name)+" ")]),_c('span',{staticClass:"ml-3 font-weight-medium"},[_vm._v("Total charges: "+_vm._s(_vm._f("dollars")(_vm.summaryCharges)))]),_c('v-btn',{staticClass:"ml-2",attrs:{"small":"","text":""},on:{"click":_vm.toggleSummaryDetail}},[_vm._v(_vm._s(_vm.summaryButtonText)+" Acct Summary")])],1)],1),(_vm.showSummaryDetail)?_c('v-row',[_c('v-col',{staticClass:"py-1 ml-9"},_vm._l((_vm.summaryDetails),function(entry){return _c('v-row',{key:(_vm.group + "-" + (entry[0])),staticClass:"text-body-2"},[_c('v-col',{staticClass:"ml-3",attrs:{"cols":"5"}},[_vm._v(_vm._s(entry[0]))]),_c('v-col',{staticClass:"text-xs-left ml-3 font-weight-medium"},[_vm._v(_vm._s(_vm._f("dollars")(entry[1])))])],1)}),1)],1):_vm._e()],1)}
+var IFXBillingRecordHeaderDecimalvue_type_template_id_c0419e94_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue?vue&type=template&id=0c5373de&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue?vue&type=template&id=c0419e94&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue?vue&type=script&lang=js&
 
@@ -86863,8 +87073,8 @@ var IFXBillingRecordHeaderDecimalvue_type_template_id_0c5373de_scoped_true_stati
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordHeaderDecimalvue_type_script_lang_js_ = (IFXBillingRecordHeaderDecimalvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue?vue&type=style&index=0&id=0c5373de&scoped=true&lang=scss&
-var IFXBillingRecordHeaderDecimalvue_type_style_index_0_id_0c5373de_scoped_true_lang_scss_ = __webpack_require__("9005");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue?vue&type=style&index=0&id=c0419e94&scoped=true&lang=scss&
+var IFXBillingRecordHeaderDecimalvue_type_style_index_0_id_c0419e94_scoped_true_lang_scss_ = __webpack_require__("800a");
 
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordHeaderDecimal.vue
 
@@ -86877,11 +87087,11 @@ var IFXBillingRecordHeaderDecimalvue_type_style_index_0_id_0c5373de_scoped_true_
 
 var IFXBillingRecordHeaderDecimal_component = normalizeComponent(
   billingRecord_IFXBillingRecordHeaderDecimalvue_type_script_lang_js_,
-  IFXBillingRecordHeaderDecimalvue_type_template_id_0c5373de_scoped_true_render,
-  IFXBillingRecordHeaderDecimalvue_type_template_id_0c5373de_scoped_true_staticRenderFns,
+  IFXBillingRecordHeaderDecimalvue_type_template_id_c0419e94_scoped_true_render,
+  IFXBillingRecordHeaderDecimalvue_type_template_id_c0419e94_scoped_true_staticRenderFns,
   false,
   null,
-  "0c5373de",
+  "c0419e94",
   null
   
 )
@@ -87029,6 +87239,7 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 
 
 
+
 /* harmony default export */ var IFXBillingRecordListDecimalvue_type_script_lang_js_ = ({
   name: 'IFXBillingRecordListDecimal',
   components: {
@@ -87074,6 +87285,11 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
       required: false,
       default: false
     },
+    allowChangeExpenseCode: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     useDefaultMailButton: {
       type: Boolean,
       required: false,
@@ -87103,7 +87319,24 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 
       _this.messageType = 'error';
       _this.message = "Error loading ".concat(_this.facility.name, " billing records: ").concat(errorMessage);
-    }).finally(function () {
+    }).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return _this.$api.account.getList();
+
+            case 2:
+              _this.expenseCodes = _context.sent;
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))).finally(function () {
       return _this.isLoading = false;
     });
   },
@@ -87172,8 +87405,19 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
       }, {
         text: 'Usage id',
         value: 'productUsage',
+        namedSlot: true,
         sortable: true,
-        namedSlot: true
+        sort: function sort(a, b) {
+          if (a.productUsageLinkText) {
+            return a.productUsageLinkText.localeCompare(b.productUsageLinkText);
+          }
+
+          if (a.productUsage) {
+            return a.productUsage.id - b.productUsage.id;
+          }
+
+          return 0;
+        }
       }, {
         text: 'Transaction description',
         value: 'transactions',
@@ -87190,6 +87434,7 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
       search: null,
       isValidTxn: false,
       isValidEdit: false,
+      isValidBulkEdit: false,
       txnDialog: false,
       editDialog: false,
       notifyDialog: false,
@@ -87218,7 +87463,9 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
       contactables: [],
       sendingNotifications: false,
       emailResponse: null,
-      newExpenseCode: null
+      newExpenseCode: null,
+      showChangeExpenseCodeDialog: false,
+      recordIDsToBeChanged: []
     };
   },
   computed: {
@@ -87274,49 +87521,49 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
     getFullBillingRecordByItemIndex: function getFullBillingRecordByItemIndex(index) {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         var _br$billingRecordStat;
 
         var br;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 br = _this3.items[index];
 
                 if (!((_br$billingRecordStat = br.billingRecordStates) !== null && _br$billingRecordStat !== void 0 && _br$billingRecordStat.length)) {
-                  _context.next = 3;
+                  _context2.next = 3;
                   break;
                 }
 
-                return _context.abrupt("return", br);
+                return _context2.abrupt("return", br);
 
               case 3:
                 if (!br.id) {
-                  _context.next = 9;
+                  _context2.next = 9;
                   break;
                 }
 
-                _context.next = 6;
+                _context2.next = 6;
                 return _this3.apiRef.getByID(_this3.facility.invoicePrefix, br.id);
 
               case 6:
-                br = _context.sent;
+                br = _context2.sent;
 
                 _this3.$set(_this3.items, index, br);
 
-                return _context.abrupt("return", br);
+                return _context2.abrupt("return", br);
 
               case 9:
                 console.log("Billing record with id not found at item index ".concat(index));
-                return _context.abrupt("return", null);
+                return _context2.abrupt("return", null);
 
               case 11:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     },
     billingRecordsAreFinal: function billingRecordsAreFinal(items) {
@@ -87399,7 +87646,9 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
           if (!value && value !== false) return "continue"; // TODO: make this check more generalized for multiple item types
           // Check for different item types
 
-          if (header.value.toLowerCase().includes('date')) {
+          if (header.value === 'startDate' || header.value === 'endDate') {
+            value = moment_default()(String(value)).format('M/DD/YYYY h:mm A');
+          } else if (header.value.toLowerCase().includes('date')) {
             value = value.substring(0, 10);
           } else if (header.value === 'account.organization') {
             value = _this5.$api.organization.parseSlug(value).name;
@@ -87439,11 +87688,11 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
     setState: function setState(items, state) {
       var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var promises, toBeUpdated, i, item, results;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 promises = [];
                 toBeUpdated = [];
@@ -87451,31 +87700,31 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 
               case 3:
                 if (!(i < items.length)) {
-                  _context2.next = 17;
+                  _context3.next = 17;
                   break;
                 }
 
                 item = items[i];
 
                 if (item.billingRecordStates) {
-                  _context2.next = 12;
+                  _context3.next = 12;
                   break;
                 }
 
                 promises.push(_this7.apiRef.getByID(_this7.facility.invoicePrefix, item.id));
 
                 if (!(i !== 0 && i % _this7.promiseBatchSize === 0)) {
-                  _context2.next = 10;
+                  _context3.next = 10;
                   break;
                 }
 
-                _context2.next = 10;
+                _context3.next = 10;
                 return new Promise(function (r) {
                   return setTimeout(r, 500);
                 });
 
               case 10:
-                _context2.next = 14;
+                _context3.next = 14;
                 break;
 
               case 12:
@@ -87489,15 +87738,15 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 
               case 14:
                 i += 1;
-                _context2.next = 3;
+                _context3.next = 3;
                 break;
 
               case 17:
-                _context2.next = 19;
+                _context3.next = 19;
                 return Promise.all(promises);
 
               case 19:
-                results = _context2.sent;
+                results = _context3.sent;
                 results.forEach(function (item) {
                   item.billingRecordStates.push({
                     name: state,
@@ -87507,14 +87756,14 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
                   });
                   toBeUpdated.push(item);
                 });
-                return _context2.abrupt("return", _this7.$api.billingRecord.bulkUpdate(toBeUpdated, _this7.facility.applicationUsername));
+                return _context3.abrupt("return", _this7.$api.billingRecord.bulkUpdate(toBeUpdated, _this7.facility.applicationUsername));
 
               case 22:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     approve: function approve(all) {
@@ -87554,11 +87803,11 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
     generateInvoices: function generateInvoices() {
       var _this9 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var allFinal, orgSet, selectedOrgs;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this9.updating = true;
                 _this9.message = '';
@@ -87567,11 +87816,11 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
                 });
 
                 if (allFinal) {
-                  _context3.next = 6;
+                  _context4.next = 6;
                   break;
                 }
 
-                _context3.next = 6;
+                _context4.next = 6;
                 return _this9.setState(_this9.selected, 'FINAL');
 
               case 6:
@@ -87627,10 +87876,10 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 
               case 10:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }))();
     },
     toggleGroup: function toggleGroup(group) {
@@ -87660,7 +87909,7 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
         return item.account.organization === group;
       });
       var summary = records.reduce(function (prev, current) {
-        return prev + current.decimalCharge;
+        return prev + parseInt(current.decimalCharge, 10);
       }, 0);
       return summary;
     },
@@ -87711,9 +87960,9 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
         }
       }
     },
-    toggleSelectAll: function toggleSelectAll(_ref) {
-      var items = _ref.items,
-          value = _ref.value;
+    toggleSelectAll: function toggleSelectAll(_ref2) {
+      var items = _ref2.items,
+          value = _ref2.value;
       var orgSet = new Set();
       items.forEach(function (item) {
         orgSet.add(item.account.organization);
@@ -87756,20 +88005,20 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
     openTxnDialog: function openTxnDialog(item) {
       var _this12 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var index, br;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 index = _this12.items.findIndex(function (rec) {
                   return rec.id === item.id;
                 });
-                _context4.next = 3;
+                _context5.next = 3;
                 return _this12.getFullBillingRecordByItemIndex(index);
 
               case 3:
-                br = _context4.sent;
+                br = _context5.sent;
 
                 if (index !== -1) {
                   _this12.editedItem = _objectSpread2({}, _this12.defaultItem);
@@ -87785,10 +88034,10 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 
               case 5:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
     addNewTransaction: function addNewTransaction(item) {
@@ -87833,46 +88082,42 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
         _this13.updating = false;
         _this13.txnDialog = false;
         _this13.editDialog = false;
+        _this13.showChangeExpenseCodeDialog = false;
       });
     },
     openEditDialog: function openEditDialog(item) {
       var _this14 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var index;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 index = _this14.items.findIndex(function (rec) {
                   return rec.id === item.id;
                 });
 
                 if (!(index !== -1)) {
-                  _context5.next = 11;
+                  _context6.next = 8;
                   break;
                 }
 
-                _context5.next = 4;
-                return _this14.$api.account.getList();
-
-              case 4:
-                _this14.expenseCodes = _context5.sent;
                 _this14.editingIndex = index;
                 _this14.editedRecord = cloneDeep_default()(item);
-                _context5.next = 9;
+                _context6.next = 6;
                 return _this14.$api.account.create(item.account);
 
-              case 9:
-                _this14.newExpenseCode = _context5.sent;
+              case 6:
+                _this14.newExpenseCode = _context6.sent;
                 _this14.editDialog = true;
 
-              case 11:
+              case 8:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5);
+        }, _callee6);
       }))();
     },
     closeEditDialog: function closeEditDialog() {
@@ -87883,20 +88128,20 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
     updateSpecificRecord: function updateSpecificRecord(billingRec) {
       var _this15 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         var index, newBillingRec;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 index = _this15.items.findIndex(function (rec) {
                   return rec.id === billingRec.id;
                 });
-                _context6.next = 3;
+                _context7.next = 3;
                 return _this15.getFullBillingRecordByItemIndex(index);
 
               case 3:
-                newBillingRec = _context6.sent;
+                newBillingRec = _context7.sent;
                 newBillingRec.account = _this15.newExpenseCode.data;
 
                 _this15.updateBillingRecord(newBillingRec, _this15.editingIndex);
@@ -87905,10 +88150,10 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 
               case 7:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6);
+        }, _callee7);
       }))();
     },
     navigateToDetail: function navigateToDetail(id) {
@@ -87924,7 +88169,7 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
       });
     },
     allowAddingTransactions: function allowAddingTransactions(item) {
-      return this.$api.auth.can('add-transactions', this.$api.authUser) && item.currentState !== 'FINAL';
+      return item.currentState !== 'FINAL';
     },
     allowEditingRecords: function allowEditingRecords(item) {
       return item.currentState !== 'FINAL';
@@ -87938,11 +88183,11 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
     notifyLabManagers: function notifyLabManagers() {
       var _this16 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         var orgs, orgSlugs, response, message;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 _this16.emailResponse = null;
                 _this16.sendingNotifications = true;
@@ -87950,21 +88195,21 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
                 orgSlugs = orgs.map(function (item) {
                   return item.account.organization;
                 });
-                _context7.prev = 4;
-                _context7.next = 7;
+                _context8.prev = 4;
+                _context8.next = 7;
                 return _this16.$api.reviewLabManagerNotifications(_toConsumableArray(new Set(orgSlugs)), _this16.selectedContactables, _this16.facility, _this16.year, _this16.month);
 
               case 7:
-                response = _context7.sent;
+                response = _context8.sent;
                 _this16.emailResponse = response.data;
-                _context7.next = 16;
+                _context8.next = 16;
                 break;
 
               case 11:
-                _context7.prev = 11;
-                _context7.t0 = _context7["catch"](4);
+                _context8.prev = 11;
+                _context8.t0 = _context8["catch"](4);
                 _this16.emailResponse = null;
-                message = _this16.getErrorMessage(_context7.t0);
+                message = _this16.getErrorMessage(_context8.t0);
 
                 _this16.showMessage(message);
 
@@ -87973,10 +88218,10 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 
               case 17:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, null, [[4, 11]]);
+        }, _callee8, null, [[4, 11]]);
       }))();
     },
     getSelectedOrgs: function getSelectedOrgs() {
@@ -88013,6 +88258,167 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
       }
 
       return list;
+    },
+    openChangeExpenseCodeDialog: function openChangeExpenseCodeDialog() {
+      var _this18 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                // Assume they want to change all records they've selected
+                _this18.recordIDsToBeChanged = _this18.selected.map(function (record) {
+                  return record.id;
+                });
+                _this18.showChangeExpenseCodeDialog = true;
+
+              case 2:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    closeChangeExpenseCodeDialog: function closeChangeExpenseCodeDialog() {
+      this.recordIDsToBeChanged = [];
+      this.showChangeExpenseCodeDialog = false;
+    },
+    changeExpenseCode: function changeExpenseCode() {
+      var _this19 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+        var recordsToChange, groups, _loop2, i;
+
+        return regeneratorRuntime.wrap(function _callee10$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                recordsToChange = [];
+                groups = new Set();
+                _this19.updating = true;
+                _loop2 = /*#__PURE__*/regeneratorRuntime.mark(function _loop2(i) {
+                  var index, newBillingRec;
+                  return regeneratorRuntime.wrap(function _loop2$(_context10) {
+                    while (1) {
+                      switch (_context10.prev = _context10.next) {
+                        case 0:
+                          index = _this19.items.findIndex(function (rec) {
+                            return rec.id === _this19.recordIDsToBeChanged[i];
+                          });
+                          _context10.t0 = cloneDeep_default.a;
+                          _context10.next = 4;
+                          return _this19.getFullBillingRecordByItemIndex(index);
+
+                        case 4:
+                          _context10.t1 = _context10.sent;
+                          newBillingRec = (0, _context10.t0)(_context10.t1);
+                          newBillingRec.account = _this19.newExpenseCode.data;
+                          recordsToChange.push(newBillingRec);
+
+                        case 8:
+                        case "end":
+                          return _context10.stop();
+                      }
+                    }
+                  }, _loop2);
+                });
+                i = 0;
+
+              case 5:
+                if (!(i < _this19.recordIDsToBeChanged.length)) {
+                  _context11.next = 10;
+                  break;
+                }
+
+                return _context11.delegateYield(_loop2(i), "t0", 7);
+
+              case 7:
+                i++;
+                _context11.next = 5;
+                break;
+
+              case 10:
+                _this19.$api.billingRecord.bulkUpdate(recordsToChange, _this19.facility.applicationUsername).then(function (response) {
+                  if (response.error) {
+                    _this19.showMessage(response.error);
+                  } else {
+                    // Replace all the new billing records
+                    response.data.forEach(function (record) {
+                      var newBillingRec = _this19.$api.billingRecord.create(record);
+
+                      var index = _this19.items.findIndex(function (rec) {
+                        return rec.id === record.id;
+                      });
+
+                      _this19.items.splice(index, 1, newBillingRec); // Now replace the records in the selected array
+
+
+                      index = _this19.selected.findIndex(function (rec) {
+                        return rec.id === record.id;
+                      }); // Save potentially old org
+
+                      groups.add(_this19.selected[index].account.organization);
+
+                      _this19.selected.splice(index, 1, newBillingRec); // Save the (deduped) org for setting the header checkboxes
+
+
+                      groups.add(newBillingRec.account.organization);
+                    }); // Now set the header checkboxes
+
+                    Array.from(groups).forEach(function (org) {
+                      _this19.setHeaderCheckBoxState(org);
+                    });
+
+                    _this19.showMessage("Successfully updated ".concat(response.data.length, " billing record(s)"));
+                  }
+                }).catch(function (error) {
+                  var message = _this19.getErrorMessage(error);
+
+                  _this19.showMessage(message);
+                }).finally(function () {
+                  _this19.isLoading = false;
+                  _this19.updating = false;
+
+                  _this19.closeChangeExpenseCodeDialog();
+                });
+
+              case 11:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    setHeaderCheckBoxState: function setHeaderCheckBoxState(group) {
+      var records = this.filteredItems.filter(function (item) {
+        return item.account.organization === group;
+      });
+      var checked = this.selected.filter(function (item) {
+        return item.account.organization === group;
+      }).length;
+      var state = checked !== 0 && checked < records.length;
+      this.$set(this.rowSelectionToggleIndeterminate, group, state); // Now set the checkbox model to the correct state
+
+      if (checked) {
+        if (checked === records.length) {
+          // All are checked so add this if it isn't already there
+          var index = this.rowSelectionToggle.indexOf(group);
+
+          if (index === -1) {
+            this.rowSelectionToggle.push(group);
+          }
+        }
+      } else {
+        // None are checked so remove this group
+        var _index2 = this.rowSelectionToggle.indexOf(group);
+
+        if (_index2 !== -1) {
+          this.rowSelectionToggle.splice(_index2, 1);
+        }
+      }
     }
   }),
   watch: {
@@ -88026,8 +88432,8 @@ installComponents_default()(IFXBillingRecordTransactionsDecimal_component, {VDat
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordListDecimal.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordListDecimalvue_type_script_lang_js_ = (IFXBillingRecordListDecimalvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordListDecimal.vue?vue&type=style&index=0&id=52567e7d&lang=scss&scoped=true&
-var IFXBillingRecordListDecimalvue_type_style_index_0_id_52567e7d_lang_scss_scoped_true_ = __webpack_require__("535c");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordListDecimal.vue?vue&type=style&index=0&id=949277d0&lang=scss&scoped=true&
+var IFXBillingRecordListDecimalvue_type_style_index_0_id_949277d0_lang_scss_scoped_true_ = __webpack_require__("a0298");
 
 // EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordListDecimal.vue?vue&type=style&index=1&lang=css&
 var IFXBillingRecordListDecimalvue_type_style_index_1_lang_css_ = __webpack_require__("c9ee");
@@ -88044,11 +88450,11 @@ var IFXBillingRecordListDecimalvue_type_style_index_1_lang_css_ = __webpack_requ
 
 var IFXBillingRecordListDecimal_component = normalizeComponent(
   billingRecord_IFXBillingRecordListDecimalvue_type_script_lang_js_,
-  IFXBillingRecordListDecimalvue_type_template_id_52567e7d_scoped_true_render,
-  IFXBillingRecordListDecimalvue_type_template_id_52567e7d_scoped_true_staticRenderFns,
+  IFXBillingRecordListDecimalvue_type_template_id_949277d0_scoped_true_render,
+  IFXBillingRecordListDecimalvue_type_template_id_949277d0_scoped_true_staticRenderFns,
   false,
   null,
-  "52567e7d",
+  "949277d0",
   null
   
 )
@@ -88077,7 +88483,8 @@ var IFXBillingRecordListDecimal_component = normalizeComponent(
 
 
 
-installComponents_default()(IFXBillingRecordListDecimal_component, {VAlert: VAlert_VAlert,VAutocomplete: VAutocomplete_VAutocomplete,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VForm: VForm,VIcon: components_VIcon_VIcon,VProgressCircular: VProgressCircular_VProgressCircular,VProgressLinear: VProgressLinear_VProgressLinear,VRow: VRow,VSpacer: VSpacer,VTextarea: VTextarea_VTextarea,VTooltip: VTooltip_VTooltip})
+
+installComponents_default()(IFXBillingRecordListDecimal_component, {VAlert: VAlert_VAlert,VAutocomplete: VAutocomplete_VAutocomplete,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VDivider: VDivider_VDivider,VForm: VForm,VIcon: components_VIcon_VIcon,VProgressCircular: VProgressCircular_VProgressCircular,VProgressLinear: VProgressLinear_VProgressLinear,VRow: VRow,VSpacer: VSpacer,VTextarea: VTextarea_VTextarea,VTooltip: VTooltip_VTooltip})
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecords.vue?vue&type=template&id=4143a7b2&
 var IFXBillingRecordsvue_type_template_id_4143a7b2_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-card',[_c('v-card-title',[_c('v-container',[_c('v-row',{staticClass:"d-flex align-center"},[_c('v-col',[_c('h2',{attrs:{"data-cy":"header-title"}},[_vm._v("Billing Records")])]),_c('v-col',{attrs:{"cols":"4"}},[_c('v-menu',{attrs:{"close-on-content-click":false,"nudge-right":40,"transition":"scale-transition","offset-y":"","min-width":"auto"},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
@@ -90397,18 +90804,18 @@ var IFXBillingRecords_component = normalizeComponent(
 
 installComponents_default()(IFXBillingRecords_component, {VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDatePicker: VDatePicker,VMenu: VMenu_VMenu,VRow: VRow,VTextField: VTextField_VTextField})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=template&id=7dd436c3&scoped=true&
-var IFXBillingRecordDetailvue_type_template_id_7dd436c3_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v("Billing Record "+_vm._s(_vm.item.id))]},proxy:true},{key:"actions",fn:function(){return [(_vm.canEdit)?_c('IFXButton',{attrs:{"btnType":"edit","xSmall":""},on:{"action":function($event){return _vm.openEditDialog()}}}):_vm._e()]},proxy:true}],null,false,3458140123)}),_c('v-container',{attrs:{"px-5":"","py-0":""}},[(_vm.updating)?_c('v-progress-linear',{attrs:{"indeterminate":""}}):_vm._e(),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Organization")])]),(_vm.item.account)?_c('v-col',[_vm._v(" "+_vm._s(_vm.getOrgName(_vm.item))+" ")]):_vm._e()],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Facility")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Charge")])]),(_vm.$api.facility.isDecimalFacility(_vm.facility.name))?_c('v-col',[_vm._v(" "+_vm._s(_vm._f("dollars")(_vm.item.decimalCharge))+" ")]):_c('v-col',[_vm._v(" "+_vm._s(_vm._f("centsToDollars")(_vm.item.charge))+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v(_vm._s(_vm.item.account.account_type))])]),_c('v-col',[_c('span',[_vm._v(_vm._s(_vm.item.account.slug))]),(_vm.item.account.active)?_c('span',{staticClass:"ml-2 text-body-1 green--text text--darken-1"},[_vm._v(" ✓ Active ")]):_c('span',{staticClass:"ml-2 text-body-1 red--text"},[_vm._v("✗ Inactive")])])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Billing year")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.item.year)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Billing month")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.item.month)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Description")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.item.description)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("State")])]),(_vm.hasMultipleTransactions)?_c('v-btn',{staticClass:"expand-icon",attrs:{"icon":"","small":""},on:{"click":_vm.toggleState}},[_c('v-icon',{class:{ active: _vm.stateOpen }},[_vm._v("mdi-menu-right")])],1):_vm._e(),_c('span',{staticClass:"ml-1"},[_vm._v(_vm._s(_vm.item.currentState))])],1),(_vm.stateOpen)?_c('v-row',[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("State History")])]),_c('v-col',[_c('v-data-table',{attrs:{"headers":_vm.stateHeaders,"items":_vm.item.billingRecordStates,"items-per-page":-1,"hide-default-footer":""},scopedSlots:_vm._u([{key:"item.updated",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=template&id=26da1a01&scoped=true&
+var IFXBillingRecordDetailvue_type_template_id_26da1a01_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isLoading)?_c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v("Billing Record "+_vm._s(_vm.item.id))]},proxy:true},{key:"actions",fn:function(){return [(_vm.canEdit())?_c('IFXButton',{attrs:{"btnType":"edit","xSmall":""},on:{"action":function($event){return _vm.openEditDialog()}}}):_vm._e()]},proxy:true}],null,false,2063414778)}),_c('v-container',{attrs:{"px-5":"","py-0":""}},[(_vm.updating)?_c('v-progress-linear',{attrs:{"indeterminate":""}}):_vm._e(),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Organization")])]),(_vm.item.account)?_c('v-col',[_vm._v(" "+_vm._s(_vm.getOrgName(_vm.item))+" ")]):_vm._e()],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Facility")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.facility.name)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Charge")])]),(_vm.$api.facility.isDecimalFacility(_vm.facility.name))?_c('v-col',[_vm._v(" "+_vm._s(_vm._f("dollars")(_vm.item.decimalCharge))+" ")]):_c('v-col',[_vm._v(" "+_vm._s(_vm._f("centsToDollars")(_vm.item.charge))+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v(_vm._s(_vm.item.account.account_type))])]),_c('v-col',[_c('span',[_vm._v(_vm._s(_vm.item.account.slug))]),(_vm.item.account.active)?_c('span',{staticClass:"ml-2 text-body-1 green--text text--darken-1"},[_vm._v(" ✓ Active ")]):_c('span',{staticClass:"ml-2 text-body-1 red--text"},[_vm._v("✗ Inactive")])])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Billing year")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.item.year)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Billing month")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.item.month)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Description")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm.item.description)+" ")])],1),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("State")])]),(_vm.hasMultipleTransactions)?_c('v-btn',{staticClass:"expand-icon",attrs:{"icon":"","small":""},on:{"click":_vm.toggleState}},[_c('v-icon',{class:{ active: _vm.stateOpen }},[_vm._v("mdi-menu-right")])],1):_vm._e(),_c('span',{staticClass:"ml-1"},[_vm._v(_vm._s(_vm.item.currentState))])],1),(_vm.stateOpen)?_c('v-row',[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("State History")])]),_c('v-col',[_c('v-data-table',{attrs:{"headers":_vm.stateHeaders,"items":_vm.item.billingRecordStates,"items-per-page":-1,"hide-default-footer":""},scopedSlots:_vm._u([{key:"item.updated",fn:function(ref){
 var item = ref.item;
-return [_vm._v(" "+_vm._s(_vm._f("humanDatetime")(item.updated))+" ")]}}],null,false,1649712072)})],1)],1):_vm._e(),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Updated")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm._f("humanDatetime")(_vm.item.updated))+" ")])],1),_c('v-row',[_c('v-col',[_c('div',{staticClass:"d-flex justify-space-between"},[_c('h3',[_vm._v("Transactions")]),(_vm.canAddTransaction)?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(_vm.item)}}}):_vm._e()],1)])],1),_c('v-row',[_c('v-col',{attrs:{"offset":"2"}},[(_vm.item.transactions && _vm.item.transactions.length)?_c('v-data-table',{attrs:{"items":_vm.item.transactions,"headers":_vm.headers,"hide-default-footer":"","items-per-page":-1},scopedSlots:_vm._u([{key:"item.charge",fn:function(ref){
+return [_vm._v(" "+_vm._s(_vm._f("humanDatetime")(item.updated))+" ")]}}],null,false,1649712072)})],1)],1):_vm._e(),_c('v-row',{attrs:{"justify":"start","align":"center","dense":""}},[_c('v-col',{attrs:{"sm":"2"}},[_c('h3',[_vm._v("Updated")])]),_c('v-col',[_vm._v(" "+_vm._s(_vm._f("humanDatetime")(_vm.item.updated))+" ")])],1),_c('v-row',[_c('v-col',[_c('div',{staticClass:"d-flex justify-space-between"},[_c('h3',[_vm._v("Transactions")]),(_vm.canAddTransaction())?_c('IFXButton',{attrs:{"iconString":"add","btnType":"add","xSmall":""},on:{"action":function($event){return _vm.openTxnDialog(_vm.item)}}}):_vm._e()],1)])],1),_c('v-row',[_c('v-col',{attrs:{"offset":"2"}},[(_vm.item.transactions && _vm.item.transactions.length)?_c('v-data-table',{attrs:{"items":_vm.item.transactions,"headers":_vm.headers,"hide-default-footer":"","items-per-page":-1},scopedSlots:_vm._u([{key:"item.charge",fn:function(ref){
 var item = ref.item;
 return [(_vm.$api.facility.isDecimalFacility(_vm.facility.name))?_c('span',[_vm._v(" "+_vm._s(_vm._f("dollars")(item.decimalCharge))+" ")]):_c('span',[_vm._v(" "+_vm._s(_vm._f("centsToDollars")(item.charge))+" ")])]}},{key:"item.rate",fn:function(ref){
 var item = ref.item;
 return [_vm._v(" "+_vm._s(item.rate)+" ")]}}],null,false,747457782)}):_c('span',[_vm._v("None")])],1),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v},expression:"dialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Add a new transaction to Billing Record "+_vm._s(_vm.item.id))])]),_c('v-card-subtitle',[_c('div',{staticClass:"py-2 text-h6 font-weight-medium"},[_vm._v("Rate is "+_vm._s(_vm.editedItem.rate))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValid),callback:function ($$v) {_vm.isValid=$$v},expression:"isValid"}},[_c('v-row',[_c('v-col',[_c('v-currency-field',{attrs:{"required":"","label":"Charge","error-messages":_vm.errors[_vm.editedItem.charge],"rules":_vm.formRules.currency,"prefix":"$","allow-negative":""},model:{value:(_vm.editedItem.charge),callback:function ($$v) {_vm.$set(_vm.editedItem, "charge", $$v)},expression:"editedItem.charge"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Transaction description","error-messages":_vm.errors[_vm.editedItem.description],"rules":_vm.formRules.generic},model:{value:(_vm.editedItem.description),callback:function ($$v) {_vm.$set(_vm.editedItem, "description", $$v)},expression:"editedItem.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeTxnDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValid},on:{"click":function($event){return _vm.addNewTransaction(_vm.editedItem)}}},[_vm._v("Save")])],1)],1)],1),_c('v-dialog',{attrs:{"max-width":"600px"},model:{value:(_vm.editDialog),callback:function ($$v) {_vm.editDialog=$$v},expression:"editDialog"}},[_c('v-card',[_c('v-card-title',[_c('span',{staticClass:"text-h5"},[_vm._v("Edit Billing Record "+_vm._s(_vm.item.id))])]),_c('v-card-text',[_c('v-form',{model:{value:(_vm.isValidEdit),callback:function ($$v) {_vm.isValidEdit=$$v},expression:"isValidEdit"}},[_c('v-row',[_c('v-col',[_c('v-autocomplete',{attrs:{"required":"","items":_vm.expenseCodes,"item-text":"slug","item-value":"slug","label":"Expense Code / PO","error-messages":_vm.errors[_vm.newExpenseCode],"rules":_vm.formRules.generic,"return-object":""},model:{value:(_vm.newExpenseCode),callback:function ($$v) {_vm.newExpenseCode=$$v},expression:"newExpenseCode"}})],1)],1),_c('v-row',[_c('v-col',{attrs:{"cols":"12"}},[_c('v-textarea',{attrs:{"required":"","label":"Billing Record description","error-messages":_vm.errors[_vm.item.description],"rules":_vm.formRules.generic,"disabled":""},model:{value:(_vm.item.description),callback:function ($$v) {_vm.$set(_vm.item, "description", $$v)},expression:"item.description"}})],1)],1)],1)],1),_c('v-card-actions',[_c('v-spacer'),_c('v-btn',{attrs:{"color":"secondary","text":""},on:{"click":_vm.closeEditDialog}},[_vm._v("Cancel")]),_c('v-btn',{attrs:{"color":"blue darken-1","text":"","disabled":!_vm.isValidEdit},on:{"click":_vm.updateRecord}},[_vm._v("Save")])],1)],1)],1)],1)],1)],1):_vm._e()}
-var IFXBillingRecordDetailvue_type_template_id_7dd436c3_scoped_true_staticRenderFns = []
+var IFXBillingRecordDetailvue_type_template_id_26da1a01_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=template&id=7dd436c3&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=template&id=26da1a01&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=script&lang=js&
 
@@ -90713,8 +91120,8 @@ var IFXBillingRecordDetailvue_type_template_id_7dd436c3_scoped_true_staticRender
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXBillingRecordDetailvue_type_script_lang_js_ = (IFXBillingRecordDetailvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=style&index=0&id=7dd436c3&scoped=true&lang=scss&
-var IFXBillingRecordDetailvue_type_style_index_0_id_7dd436c3_scoped_true_lang_scss_ = __webpack_require__("5c39");
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue?vue&type=style&index=0&id=26da1a01&scoped=true&lang=scss&
+var IFXBillingRecordDetailvue_type_style_index_0_id_26da1a01_scoped_true_lang_scss_ = __webpack_require__("84a6");
 
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXBillingRecordDetail.vue
 
@@ -90727,11 +91134,11 @@ var IFXBillingRecordDetailvue_type_style_index_0_id_7dd436c3_scoped_true_lang_sc
 
 var IFXBillingRecordDetail_component = normalizeComponent(
   billingRecord_IFXBillingRecordDetailvue_type_script_lang_js_,
-  IFXBillingRecordDetailvue_type_template_id_7dd436c3_scoped_true_render,
-  IFXBillingRecordDetailvue_type_template_id_7dd436c3_scoped_true_staticRenderFns,
+  IFXBillingRecordDetailvue_type_template_id_26da1a01_scoped_true_render,
+  IFXBillingRecordDetailvue_type_template_id_26da1a01_scoped_true_staticRenderFns,
   false,
   null,
-  "7dd436c3",
+  "26da1a01",
   null
   
 )
@@ -90759,26 +91166,33 @@ var IFXBillingRecordDetail_component = normalizeComponent(
 
 installComponents_default()(IFXBillingRecordDetail_component, {VAutocomplete: VAutocomplete_VAutocomplete,VBtn: VBtn_VBtn,VCard: VCard_VCard,VCardActions: VCardActions,VCardSubtitle: VCardSubtitle,VCardText: VCardText,VCardTitle: VCardTitle,VCol: VCol,VContainer: VContainer,VDataTable: VDataTable_VDataTable,VDialog: VDialog_VDialog,VForm: VForm,VIcon: components_VIcon_VIcon,VProgressLinear: VProgressLinear_VProgressLinear,VRow: VRow,VSpacer: VSpacer,VTextarea: VTextarea_VTextarea})
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=template&id=3c387cf4&scoped=true&
-var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v("Calculate billing month")]},proxy:true}])}),_c('v-row',{attrs:{"align":"center"}},[_c('v-col',[_c('v-menu',{attrs:{"close-on-content-click":false,"nudge-right":40,"transition":"scale-transition","offset-y":"","min-width":"auto"},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"46e7fb22-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=template&id=0f5f177d&scoped=true&
+var IFXCalculateBillingMonthvue_type_template_id_0f5f177d_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('IFXPageHeader',{scopedSlots:_vm._u([{key:"title",fn:function(){return [_vm._v("Calculate billing month")]},proxy:true}])}),_c('v-row',{attrs:{"align":"center","dense":""}},[_c('v-col',[_c('v-menu',{attrs:{"close-on-content-click":false,"nudge-right":40,"transition":"scale-transition","offset-y":"","min-width":"auto"},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
 return [_c('v-text-field',_vm._g(_vm._b({attrs:{"label":"Month *","prepend-icon":"mdi-calendar","readonly":"","hint":"YYYY-MM format","persistent-hint":""},model:{value:(_vm.selectedDate),callback:function ($$v) {_vm.selectedDate=$$v},expression:"selectedDate"}},'v-text-field',attrs,false),on))]}}]),model:{value:(_vm.dateMenu),callback:function ($$v) {_vm.dateMenu=$$v},expression:"dateMenu"}},[_c('v-date-picker',{attrs:{"type":"month"},on:{"input":function($event){_vm.dateMenu = false}},model:{value:(_vm.selectedDate),callback:function ($$v) {_vm.selectedDate=$$v},expression:"selectedDate"}})],1)],1),_c('v-col',[_c('v-select',{attrs:{"items":_vm.facilities,"item-text":"name","label":"Facility","return-object":""},on:{"change":function($event){return _vm.getUsages()}},model:{value:(_vm.facility),callback:function ($$v) {_vm.facility=$$v},expression:"facility"}})],1),_c('v-col',[_c('v-row',{attrs:{"align":"center","nowrap":""}},[_c('v-col',[_c('v-checkbox',{attrs:{"label":"Recalculate"},model:{value:(_vm.recalculate),callback:function ($$v) {_vm.recalculate=$$v},expression:"recalculate"}})],1),_c('v-col',[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
-return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":!_vm.canCalculate(),"fab":"","small":"","color":_vm.recalculate ? 'red' : 'primary'},on:{"click":function($event){return _vm.calculateBillingMonth()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("autorenew")])],1)],1)]}}])},[_c('span',[_vm._v(_vm._s(_vm.calculateBillingMonthToolTip))])])],1)],1)],1),_c('v-col')],1),_c('v-row',[_c('v-col',[_c('IFXItemDataTable',{attrs:{"headers":_vm.headers,"items":_vm.usages,"showSelect":false,"selected":_vm.selected,"loading":_vm.isLoading,"itemType":"ProductUsage"},scopedSlots:_vm._u([{key:"productUser",fn:function(ref){
+return [_c('div',_vm._g({},on),[_c('v-btn',_vm._b({attrs:{"disabled":!_vm.canCalculate(),"fab":"","small":"","color":_vm.recalculate ? 'red' : 'primary'},on:{"click":function($event){return _vm.calculateBillingMonth()}}},'v-btn',attrs,false),[_c('v-icon',[_vm._v("autorenew")])],1)],1)]}}])},[_c('span',[_vm._v(_vm._s(_vm.calculateBillingMonthToolTip))])])],1)],1)],1)],1),_c('v-row',{attrs:{"align":"start","dense":""}},[_c('v-col',[_c('v-text-field',{staticClass:"search-field",attrs:{"label":"Search","single-line":"","hide-details":"","clearable":true,"prepend-icon":"search","data-cy":"ifx-search-field"},model:{value:(_vm.search),callback:function ($$v) {_vm.search=$$v},expression:"search"}})],1),_c('v-col',[_c('v-checkbox',{attrs:{"label":"Only errors"},model:{value:(_vm.onlyErrors),callback:function ($$v) {_vm.onlyErrors=$$v},expression:"onlyErrors"}})],1),_c('v-col')],1),_c('v-row',[_c('v-col',[_c('IFXItemDataTable',{attrs:{"headers":_vm.headers,"items":_vm.filteredItems,"showSelect":false,"selected":_vm.selected,"loading":_vm.isLoading,"itemType":"ProductUsage"},scopedSlots:_vm._u([{key:"productUser",fn:function(ref){
 var item = ref.item;
 return [_vm._v(" "+_vm._s(item.productUser.fullName)+" ")]}},{key:"organization",fn:function(ref){
 var item = ref.item;
 return [_vm._v(" "+_vm._s(_vm._f("orgNameFromSlug")(item.organization))+" ")]}},{key:"processing",fn:function(ref){
 var item = ref.item;
-return [(item.processing && item.processing && !item.processing.resolved)?_c('span',{staticStyle:{"color":"red"}},[_vm._v(" "+_vm._s(item.processing.errorMessage)+" ")]):(item.processing)?_c('span',[_vm._v(" OK ")]):_c('span')]}}])})],1)],1)],1)}
-var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRenderFns = []
+return [(item.processing && !item.processing.resolved)?_c('span',{staticClass:"billing-error"},[_vm._v(" "+_vm._s(item.processing.errorMessage)+" ")]):(item.processing && item.processing.resolved)?_c('span',[_vm._v(" "+_vm._s(item.processing.errorMessage)+" ")]):_c('span')]}}])})],1)],1)],1)}
+var IFXCalculateBillingMonthvue_type_template_id_0f5f177d_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=template&id=3c387cf4&scoped=true&
+// CONCATENATED MODULE: ./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=template&id=0f5f177d&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=script&lang=js&
+
+
+
+
+
+
+
 
 
 
@@ -90818,6 +91232,8 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
   data: function data() {
     return {
       dateMenu: false,
+      selectedDateKey: 'billingRecordListDate',
+      // Coordinates with billing record list page
       selectedDate: null,
       localMonth: null,
       localYear: null,
@@ -90829,8 +91245,27 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
       isLoading: true,
       apiName: null,
       selected: [],
-      recalculate: false
+      recalculate: false,
+      searchStorageKey: 'calculate-billing-month-search',
+      search: null,
+      onlyErrorsStorageKey: 'calculate-billing-month-onlyErrors',
+      onlyErrors: false
     };
+  },
+  watch: {
+    search: function search(val) {
+      this.$api.storage.setItem(this.searchStorageKey, val, 'session');
+    },
+    onlyErrors: function onlyErrors(val) {
+      this.$api.storage.setItem(this.onlyErrorsStorageKey, val, 'session');
+    },
+    selectedDate: function selectedDate(val) {
+      this.$api.storage.setItem(this.selectedDateKey, val, 'session');
+
+      if (val) {
+        this.getUsages();
+      }
+    }
   },
   computed: {
     headers: function headers() {
@@ -90844,7 +91279,8 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
         text: 'User',
         value: 'productUser',
         sortable: true,
-        namedSlot: true
+        namedSlot: true,
+        key: 'fullName'
       }, {
         text: 'Year',
         value: 'year',
@@ -90884,15 +91320,78 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
       }
 
       return 'Calculate billing records';
+    },
+    filteredItems: function filteredItems() {
+      return this.getItemsFilteredBySearch();
     }
   },
   methods: _objectSpread2(_objectSpread2({}, Object(vuex_esm["a" /* mapActions */])(['showMessage'])), {}, {
+    getItemsFilteredBySearch: function getItemsFilteredBySearch() {
+      var _this2 = this;
+
+      var items = this.usages;
+
+      if (this.search) {
+        var search = this.search.toString().toLowerCase();
+        items = items.filter(function (i) {
+          var item = i;
+
+          if (i.data) {
+            item = i.data;
+          }
+
+          return Object.keys(item).some(function (j) {
+            return _this2.filterSearch(item[j], search);
+          });
+        });
+      }
+
+      if (this.onlyErrors) {
+        items = items.filter(function (i) {
+          return i.processing && !i.processing.resolved;
+        });
+      }
+
+      return items;
+    },
+    // TODO: this is inefficient because it's checking all attributes
+    // Make it check only relevant fields
+    // Taken almost directly from the Vuetify docs
+    filterSearch: function filterSearch(v, s) {
+      var _this3 = this;
+
+      var search = s;
+
+      if (v && _typeof(v) === 'object' && !Array.isArray(v) && v.data) {
+        var item = v.data;
+        return Object.keys(item).some(function (j) {
+          return _this3.filterSearch(item[j], search);
+        });
+      }
+
+      if (search && v) {
+        var val = v.toString().toLowerCase();
+
+        if (v.hasOwnProperty('errorMessage')) {
+          val = v.errorMessage.toLowerCase();
+        } // If search is number, remove any decimal places, as values are stored as integers
+
+
+        if (Number.parseFloat(search)) {
+          search = search.replace('.', '');
+        }
+
+        return val !== null && ['undefined', 'boolean'].indexOf(_typeof(val)) === -1 && val.indexOf(search) !== -1;
+      }
+
+      return false;
+    },
     canCalculate: function canCalculate() {
       var _this$usages,
-          _this2 = this;
+          _this4 = this;
 
       if ((_this$usages = this.usages) !== null && _this$usages !== void 0 && _this$usages.some(function (usage) {
-        return _this2.hasFinalBillingRecord(usage);
+        return _this4.hasFinalBillingRecord(usage);
       })) {
         return false;
       }
@@ -90926,7 +91425,7 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
       };
     },
     calculateBillingMonth: function calculateBillingMonth() {
-      var _this3 = this;
+      var _this5 = this;
 
       if (this.selectedDate) {
         var me = this;
@@ -90940,22 +91439,22 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
         this.$api.calculateBillingMonth(this.facility, yearMonth.year, yearMonth.month, this.recalculate).then(function (response) {
           var message = "".concat(response.data.successes, " usages successfully processed (of ").concat(totalUsages, ")");
 
-          _this3.showMessage(message);
+          _this5.showMessage(message);
 
-          clearInterval(_this3.interval);
+          clearInterval(_this5.interval);
 
-          _this3.getUsages();
+          _this5.getUsages();
         }).catch(function (error) {
-          clearInterval(_this3.interval);
+          clearInterval(_this5.interval);
 
-          _this3.showMessage(error);
+          _this5.showMessage(error);
         }).finally(function () {
-          return _this3.isLoading = false;
+          return _this5.isLoading = false;
         });
       }
     },
     getUsages: function getUsages() {
-      var _this4 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var yearMonth;
@@ -90963,19 +91462,19 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this4.selectedDate && _this4.facility)) {
+                if (!(_this6.selectedDate && _this6.facility)) {
                   _context.next = 7;
                   break;
                 }
 
-                _this4.isLoading = true;
-                yearMonth = _this4.getYearMonth();
+                _this6.isLoading = true;
+                yearMonth = _this6.getYearMonth();
                 _context.next = 5;
-                return _this4.$api.getUsagesForFacility(_this4.facility, yearMonth.year, yearMonth.month);
+                return _this6.$api.getUsagesForFacility(_this6.facility, yearMonth.year, yearMonth.month);
 
               case 5:
-                _this4.usages = _context.sent;
-                _this4.isLoading = false;
+                _this6.usages = _context.sent;
+                _this6.isLoading = false;
 
               case 7:
               case "end":
@@ -90986,7 +91485,7 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
       }))();
     },
     setFacility: function setFacility() {
-      var _this5 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -90994,29 +91493,29 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this5.$api.facility.getList();
+                return _this7.$api.facility.getList();
 
               case 2:
-                _this5.facilities = _context2.sent;
+                _this7.facilities = _context2.sent;
 
-                if (!(_this5.facilities && _this5.facilityId)) {
+                if (!(_this7.facilities && _this7.facilityId)) {
                   _context2.next = 9;
                   break;
                 }
 
                 _context2.next = 6;
-                return _this5.$api.facility.getByID(_this5.facilityId).catch(function (response) {
-                  _this5.showMessage(response.data);
+                return _this7.$api.facility.getByID(_this7.facilityId).catch(function (response) {
+                  _this7.showMessage(response.data);
                 });
 
               case 6:
-                _this5.facility = _context2.sent;
+                _this7.facility = _context2.sent;
                 _context2.next = 10;
                 break;
 
               case 9:
-                if (_this5.facilities && _this5.facilities.length === 1) {
-                  _this5.facility = _this5.facilities[0];
+                if (_this7.facilities && _this7.facilities.length === 1) {
+                  _this7.facility = _this7.facilities[0];
                 }
 
               case 10:
@@ -91032,29 +91531,24 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
     clearInterval(this.interval);
     next();
   },
-  watch: {
-    selectedDate: function selectedDate() {
-      if (this.selectedDate) {
-        this.getUsages();
-      }
-    }
-  },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this8 = this;
 
     if (this.month && this.year) {
       this.selectedDate = "".concat(this.year, "-").concat(this.month);
+    } else {
+      this.selectedDate = this.$api.storage.getItem(this.selectedDateKey, 'session') || null;
     }
 
+    this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || '';
+    this.onlyErrors = this.$api.storage.getItem(this.searchStorageKey, 'session') === 'true';
     this.localOrganization = this.organization;
     this.setFacility().then(function () {
-      _this6.isLoading = false;
+      _this8.isLoading = false;
 
-      if (_this6.selectedDate) {
-        _this6.getUsages().then(function () {
-          return _this6.calculateBillingMonth();
-        }).catch(function (error) {
-          _this6.showMessage(error);
+      if (_this8.selectedDate) {
+        _this8.getUsages().catch(function (error) {
+          _this8.showMessage(error);
         });
       }
     });
@@ -91062,7 +91556,11 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
 });
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=script&lang=js&
  /* harmony default export */ var billingRecord_IFXCalculateBillingMonthvue_type_script_lang_js_ = (IFXCalculateBillingMonthvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./src/components/billingRecord/IFXCalculateBillingMonth.vue?vue&type=style&index=0&id=0f5f177d&scoped=true&lang=css&
+var IFXCalculateBillingMonthvue_type_style_index_0_id_0f5f177d_scoped_true_lang_css_ = __webpack_require__("d440");
+
 // CONCATENATED MODULE: ./src/components/billingRecord/IFXCalculateBillingMonth.vue
+
 
 
 
@@ -91072,11 +91570,11 @@ var IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRend
 
 var IFXCalculateBillingMonth_component = normalizeComponent(
   billingRecord_IFXCalculateBillingMonthvue_type_script_lang_js_,
-  IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_render,
-  IFXCalculateBillingMonthvue_type_template_id_3c387cf4_scoped_true_staticRenderFns,
+  IFXCalculateBillingMonthvue_type_template_id_0f5f177d_scoped_true_render,
+  IFXCalculateBillingMonthvue_type_template_id_0f5f177d_scoped_true_staticRenderFns,
   false,
   null,
-  "3c387cf4",
+  "0f5f177d",
   null
   
 )
@@ -99323,17 +99821,6 @@ module.exports = NATIVE_SYMBOL
   /* global Symbol -- safe */
   && !Symbol.sham
   && typeof Symbol.iterator == 'symbol';
-
-
-/***/ }),
-
-/***/ "fe8a":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeader_vue_vue_type_style_index_0_id_2afe34bc_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("714d");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeader_vue_vue_type_style_index_0_id_2afe34bc_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXBillingRecordHeader_vue_vue_type_style_index_0_id_2afe34bc_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
