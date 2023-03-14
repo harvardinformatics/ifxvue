@@ -51,7 +51,7 @@ export default {
       localRowSelectionToggle: [],
       showSummaryDetail: false,
       summaryButtonText: 'Show',
-      summaryDetails: []
+      summaryDetails: [],
     }
   },
   computed: {},
@@ -87,19 +87,20 @@ export default {
       ></v-checkbox>
       <div>
         <v-btn icon small @click="toggle">
-          <v-icon :class="{'active' : isOpen}">mdi-menu-right</v-icon>
+          <v-icon :class="{ active: isOpen }">mdi-menu-right</v-icon>
         </v-btn>
         <span class="group-header">
           {{ $api.organization.parseSlug(group).name }}
         </span>
         <span class="ml-3 font-weight-medium">Total charges: {{ summaryCharges | centsToDollars }}</span>
-        <v-btn small text @click="toggleSummaryDetail" class="ml-2">{{summaryButtonText}} Acct Summary</v-btn>
+        <v-btn small text @click="toggleSummaryDetail" class="ml-2">{{ summaryButtonText }} Acct Summary</v-btn>
       </div>
     </v-row>
     <v-row v-if="showSummaryDetail">
       <v-col class="py-1 ml-9">
         <v-row v-for="entry in summaryDetails" :key="`${group}-${entry[0]}`" class="text-body-2">
-          <v-col cols="5" class="ml-3">{{entry[0]}}</v-col><v-col class="text-xs-left ml-3 font-weight-medium">{{ entry[1] | centsToDollars}} </v-col>
+          <v-col cols="5" class="ml-3">{{ entry[0] }}</v-col>
+          <v-col class="text-xs-left ml-3 font-weight-medium">{{ entry[1] | centsToDollars }}</v-col>
         </v-row>
       </v-col>
     </v-row>
