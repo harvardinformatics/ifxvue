@@ -214,6 +214,7 @@ export default {
         this.isLoading = false
         if (this.selectedDate) {
           this.getUsages()
+            .catch((error) => { this.showMessage(error) })
         }
       })
   }
