@@ -112,8 +112,11 @@ export default {
     // Taken almost directly from the Vuetify docs
     filterSearch(v, s) {
       let search = s
+      if (v && typeof v === 'object' && !Array.isArray(v) && v.data) {
+        const item = v.data
+        return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+      }
       if (search && v) {
-        console.log(v)
         let val = v.toString().toLowerCase()
         if (v.hasOwnProperty('errorMessage')) {
           val = v.errorMessage.toLowerCase()
@@ -330,7 +333,7 @@ export default {
             {{ item.organization|orgNameFromSlug }}
           </template>
           <template v-slot:processing="{ item }">
-            <span style="color: red;" v-if="item.processing && !item.processing.resolved">
+            <span class="billing-error" v-if="item.processing && !item.processing.resolved">
               {{ item.processing.errorMessage }}
             </span>
             <span v-else-if="item.processing && item.processing.resolved">
@@ -345,5 +348,7 @@ export default {
 </template>
 
 <style scoped>
-
+  .billing-error {
+    color: red;
+  }
 </style>
