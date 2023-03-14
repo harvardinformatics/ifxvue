@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       dateMenu: false,
+      selectedDateKey: 'billingRecordListDate', // Coordinates with billing record list page
       selectedDate: null,
       localMonth: null,
       localYear: null,
@@ -41,13 +42,31 @@ export default {
       apiName: null,
       selected: [],
       recalculate: false,
+      searchStorageKey: 'calculate-billing-month-search',
+      search: null,
+      onlyErrorsStorageKey: 'calculate-billing-month-onlyErrors',
+      onlyErrors: false,
     }
+  },
+  watch: {
+    search(val) {
+      this.$api.storage.setItem(this.searchStorageKey, val, 'session')
+    },
+    onlyErrors(val) {
+      this.$api.storage.setItem(this.onlyErrorsStorageKey, val, 'session')
+    },
+    selectedDate(val) {
+      this.$api.storage.setItem(this.selectedDateKey, val, 'session')
+      if (val) {
+        this.getUsages()
+      }
+    },
   },
   computed: {
     headers() {
       const headers = [
         { text: 'ID', value: 'id', sortable: true },
-        { text: 'User', value: 'productUser', sortable: true, namedSlot: true },
+        { text: 'User', value: 'productUser', sortable: true, namedSlot: true, key: 'fullName' },
         { text: 'Year', value: 'year', slot: true, sortable: true },
         { text: 'Month', value: 'month', slot: true, sortable: true },
         { text: 'Organization', value: 'organization', namedSlot: true, sortable: true },
@@ -64,10 +83,52 @@ export default {
         return 'Recalculate billing records'
       }
       return 'Calculate billing records'
-    }
+    },
+    filteredItems: function () {
+      return this.getItemsFilteredBySearch()
+    },
   },
   methods: {
     ...mapActions(['showMessage']),
+    getItemsFilteredBySearch() {
+      let items = this.usages
+      if (this.search) {
+        const search = this.search.toString().toLowerCase()
+        items = items.filter((i) => {
+          let item = i
+          if (i.data) {
+            item = i.data
+          }
+          return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+        })
+      }
+      if (this.onlyErrors) {
+        items = items.filter((i) => i.processing && !i.processing.resolved)
+      }
+      return items
+    },
+    // TODO: this is inefficient because it's checking all attributes
+    // Make it check only relevant fields
+    // Taken almost directly from the Vuetify docs
+    filterSearch(v, s) {
+      let search = s
+      if (v && typeof v === 'object' && !Array.isArray(v) && v.data) {
+        const item = v.data
+        return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+      }
+      if (search && v) {
+        let val = v.toString().toLowerCase()
+        if (v.hasOwnProperty('errorMessage')) {
+          val = v.errorMessage.toLowerCase()
+        }
+        // If search is number, remove any decimal places, as values are stored as integers
+        if (Number.parseFloat(search)) {
+          search = search.replace('.', '')
+        }
+        return val !== null && ['undefined', 'boolean'].indexOf(typeof val) === -1 && val.indexOf(search) !== -1
+      }
+      return false
+    },
     canCalculate() {
       if (this.usages?.some((usage) => this.hasFinalBillingRecord(usage))) {
         return false
@@ -139,25 +200,20 @@ export default {
     clearInterval(this.interval)
     next()
   },
-  watch: {
-    selectedDate() {
-      if (this.selectedDate) {
-        this.getUsages()
-      }
-    }
-  },
   mounted() {
     if (this.month && this.year) {
       this.selectedDate = `${this.year}-${this.month}`
+    } else {
+      this.selectedDate = this.$api.storage.getItem(this.selectedDateKey, 'session') || null
     }
+    this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || ''
+    this.onlyErrors = this.$api.storage.getItem(this.searchStorageKey, 'session') === 'true'
     this.localOrganization = this.organization
     this.setFacility()
       .then(() => {
         this.isLoading = false
         if (this.selectedDate) {
           this.getUsages()
-            .then(() => this.calculateBillingMonth())
-            .catch((error) => { this.showMessage(error) })
         }
       })
   }
@@ -169,7 +225,7 @@ export default {
     <IFXPageHeader>
       <template #title>Calculate billing month</template>
     </IFXPageHeader>
-    <v-row align="center">
+    <v-row align="center" dense>
       <v-col>
         <v-menu
           v-model="dateMenu"
@@ -235,6 +291,28 @@ export default {
           </v-col>
         </v-row>
       </v-col>
+    </v-row>
+    <v-row align="start" dense>
+      <v-col>
+        <v-text-field
+          v-model="search"
+          class="search-field"
+          label="Search"
+          single-line
+          hide-details
+          :clearable="true"
+          prepend-icon="search"
+          data-cy="ifx-search-field"
+        >
+        </v-text-field>
+      </v-col>
+      <v-col>
+        <v-checkbox
+          v-model="onlyErrors"
+          label="Only errors"
+        >
+        </v-checkbox>
+      </v-col>
       <v-col>
       </v-col>
     </v-row>
@@ -242,7 +320,7 @@ export default {
       <v-col>
         <IFXItemDataTable
           :headers="headers"
-          :items="usages"
+          :items="filteredItems"
           :showSelect="false"
           :selected="selected"
           :loading="isLoading"
@@ -255,11 +333,11 @@ export default {
             {{ item.organization|orgNameFromSlug }}
           </template>
           <template v-slot:processing="{ item }">
-            <span style="color: red;" v-if="item.processing && item.processing && !item.processing.resolved">
+            <span class="billing-error" v-if="item.processing && !item.processing.resolved">
               {{ item.processing.errorMessage }}
             </span>
-            <span v-else-if="item.processing">
-              OK
+            <span v-else-if="item.processing && item.processing.resolved">
+              {{ item.processing.errorMessage }}
             </span>
             <span v-else>&nbsp;</span>
           </template>
@@ -270,5 +348,7 @@ export default {
 </template>
 
 <style scoped>
-
+  .billing-error {
+    color: red;
+  }
 </style>

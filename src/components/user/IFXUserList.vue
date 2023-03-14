@@ -89,7 +89,6 @@ export default {
         { text: 'IfxId', value: 'ifxid', hide: 'mdAndDown', sortable: true },
         { text: 'Groups', value: 'groups', sortable: true },
         { text: `${this.$api.vars.appNameFormatted} Login`, value: 'isLoginActive', sortable: true },
-        { text: '', value: 'rowActionDetailEdit', sortable: false },
       ]
       const headers = this.headers || defaultHeaders
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
