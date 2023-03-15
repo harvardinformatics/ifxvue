@@ -783,7 +783,7 @@ export default {
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-col>
               <v-col v-else>
-                <v-row dense class="d-flex justify-space-between align-center">
+                <v-row dense class="d-flex justify-start align-center">
                   <v-col class="pa-2">
                     <IFXMailButton
                       v-if="useDefaultMailButton"

@@ -257,7 +257,7 @@ export default {
           <h3>Start date</h3>
         </v-col>
         <v-col>
-          {{ item.startDate }}
+          {{ item.startDate | humanDatetime }}
         </v-col>
       </v-row>
       <v-row v-if="item.endDate" justify="start" align="center" dense>
@@ -265,7 +265,7 @@ export default {
           <h3>End date</h3>
         </v-col>
         <v-col>
-          {{ item.endDate }}
+          {{ item.endDate | humanDatetime }}
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
