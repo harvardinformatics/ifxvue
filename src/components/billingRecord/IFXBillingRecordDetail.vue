@@ -276,6 +276,14 @@ export default {
           {{ item.description }}
         </v-col>
       </v-row>
+      <v-row v-if="item.productUsageLinkText" justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Usage</h3>
+        </v-col>
+        <v-col>
+          <a :href="item.productUsageUrl">{{ item.productUsageLinkText }}</a>
+        </v-col>
+      </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
           <h3>State</h3>
