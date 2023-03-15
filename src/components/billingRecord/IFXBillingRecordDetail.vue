@@ -254,6 +254,22 @@ export default {
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
+          <h3>Start date</h3>
+        </v-col>
+        <v-col>
+          {{ item.startDate }}
+        </v-col>
+      </v-row>
+      <v-row v-if="item.endDate" justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>End date</h3>
+        </v-col>
+        <v-col>
+          {{ item.endDate }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Description</h3>
         </v-col>
         <v-col>
