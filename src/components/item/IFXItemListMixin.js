@@ -96,7 +96,7 @@ export default {
     },
     filterSearch(v, s) {
       let search = s
-      if (v && typeof v === 'object' && !Array.isArray(v) && v.data && this.deepSearch) {
+      if (this.deepSearch && v && typeof v === 'object' && !Array.isArray(v) && v.data) {
         const item = v.data
         return Object.keys(item).some((j) => this.filterSearch(item[j], search))
       }
