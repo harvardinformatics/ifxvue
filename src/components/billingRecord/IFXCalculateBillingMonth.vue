@@ -334,10 +334,7 @@ export default {
             {{ item.organization|orgNameFromSlug }}
           </template>
           <template v-slot:processing="{ item }">
-            <span class="billing-error" v-if="item.processing && !item.processing.resolved">
-              {{ item.processing.errorMessage }}
-            </span>
-            <span v-else-if="item.processing && item.processing.resolved">
+            <span v-if="item.processing" :class="{'billing-error': !item.processing.resolved}">
               {{ item.processing.errorMessage }}
             </span>
             <span v-else>&nbsp;</span>
