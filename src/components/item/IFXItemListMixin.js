@@ -10,6 +10,7 @@ export default {
       items: [],
       selected: [],
       search: this.$api.storage.getItem(this.searchStorageKey, 'session') || '',
+      deepSearch: false,
     }
   },
   methods: {
@@ -93,13 +94,17 @@ export default {
       }
       return items
     },
-    // TODO: this is inefficient because it's checking all attributes
-    // Make it check only relevant fields
-    // Taken almost directly from the Vuetify docs
     filterSearch(v, s) {
       let search = s
+      if (this.deepSearch && v && typeof v === 'object' && !Array.isArray(v) && v.data) {
+        const item = v.data
+        return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+      }
       if (search && v) {
-        const val = v.toString().toLowerCase()
+        let val = v.toString().toLowerCase()
+        if (v.hasOwnProperty('errorMessage')) {
+          val = v.errorMessage.toLowerCase()
+        }
         // If search is number, remove any decimal places, as values are stored as integers
         if (Number.parseFloat(search)) {
           search = search.replace('.', '')
