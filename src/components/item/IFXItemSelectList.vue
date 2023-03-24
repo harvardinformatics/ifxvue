@@ -5,24 +5,29 @@ export default {
     title: {
       type: String,
       required: false,
-      default: () => 'Items'
+      default: () => 'Items',
     },
     items: {
       type: Array,
       required: false,
-      default: () => []
+      default: () => [],
     },
     // Function for creating an empty item, usually an empty version of the item type itself
     getEmptyItem: {
       type: Function,
       required: false,
-      default: () => () => null
+      default: () => () => null,
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
+    noItemsString: {
+      type: String,
+      required: false,
+      default: () => `There are no ${this.title.toLowerCase()}.`,
+    },
   },
   data() {
     return {
@@ -46,7 +51,7 @@ export default {
     },
     checkValidForm() {
       this.$emit('check-valid-form')
-    }
+    },
   },
   computed: {
     itemsLocal: {
@@ -55,8 +60,8 @@ export default {
       },
       set(items) {
         this.$emit('update:items', items)
-      }
-    }
+      },
+    },
   },
 }
 </script>
@@ -64,14 +69,26 @@ export default {
 <template>
   <div class="data-ctr">
     <div class="data-header-active">
-      <div class="data-title">{{title}}</div>
-      <IFXButton class='add-btn' xSmall v-if='!disabled' :disabled='!canEdit' @action='addItem' btnType='add'></IFXButton>
+      <div class="data-title">{{ title }}</div>
+      <IFXButton
+        class="add-btn"
+        xSmall
+        v-if="!disabled"
+        :disabled="!canEdit"
+        @action="addItem"
+        btnType="add"
+      ></IFXButton>
     </div>
-    <div v-if="!itemsLocal.length" class="items-warning">
-      There are no {{title.toLowerCase()}}.
-    </div>
+    <div v-if="!itemsLocal.length" class="items-warning">{{ noItemsString }}</div>
     <v-card :key="item.id" v-for="(item, index) in itemsLocal" class="data-card">
-      <IFXButton class='delete-btn' v-if='!disabled' :disabled='!canEdit' xSmall @action='removeItem(index)' btnType='remove'></IFXButton>
+      <IFXButton
+        class="delete-btn"
+        v-if="!disabled"
+        :disabled="!canEdit"
+        xSmall
+        @action="removeItem(index)"
+        btnType="remove"
+      ></IFXButton>
       <!-- TODO: Notice that there is no updateItem handler passed in - this means the item prop is being mutated directly in child -->
       <!-- NOTE: this slot occurs in a for loop, i.e. a new slot is being generated for each item instance -->
       <slot :item="item"></slot>
