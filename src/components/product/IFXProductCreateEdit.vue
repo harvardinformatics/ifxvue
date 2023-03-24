@@ -26,18 +26,29 @@ export default {
     ...mapActions(['showMessage']),
     async init() {
       this.item = await this.getItem()
+      this.item.rates.forEach((rate) => {
+        // Save the original active state so we can filter out deactivated rates
+        // eslint-disable-next-line no-param-reassign
+        rate.originalActive = rate.active
+      })
+
       this.allFacilities = await this.$api.facility.getList()
       this.cachedItem = JSON.stringify(this.apiRef.decompose(this.item))
     },
     hasItemChanged() {
-      const initial = JSON.stringify(this.apiRef.decompose(this.item))
+      const current = JSON.stringify(this.apiRef.decompose(this.item))
       // cachedProduct should already be decomposed and stringified
-      return initial !== this.cachedItem || this.newRates.length > 0
+      return current !== this.cachedItem || this.newRates.length > 0
     },
     priceHint(item) {
       return `Price per ${item.units ? `${item.units}` : 'unit'} in dollars`
     },
     submit() {
+      // Remove the orginal active state
+      this.item.rates.forEach((rate) => {
+        // eslint-disable-next-line no-param-reassign
+        delete rate.originalActive
+      })
       // Append any new rates to the end
       this.item.rates = this.item.rates.concat(this.newRates)
       if (this.isEditing) this.submitUpdate()
@@ -67,7 +78,7 @@ export default {
     },
     filteredRates() {
       if (this.item?.rates) {
-        return this.item.rates.filter((r) => r.active || this.showDeactivatedRates)
+        return this.item.rates.filter((r) => r.originalActive || this.showDeactivatedRates)
       }
       return []
     },
@@ -195,6 +206,7 @@ export default {
             <v-row>
               <v-col class="d-flex justify-end">
                 <v-checkbox
+                  class="mt-0 pt-0"
                   v-model="showDeactivatedRates"
                   label="Show deactivated rates"
                   data-cy="show-deactivated-rates"
@@ -209,7 +221,12 @@ export default {
               :showSelect="false"
             >
               <template #active="{ item }">
-                <v-switch v-if="item.active" v-model="item.active" label="Active" data-cy="rate-active"></v-switch>
+                <v-switch
+                  v-if="item.originalActive"
+                  v-model="item.active"
+                  label="Active"
+                  data-cy="rate-active-toggle"
+                ></v-switch>
                 <span v-else>Deactivated</span>
               </template>
               <template #maxQty="{ item }">
