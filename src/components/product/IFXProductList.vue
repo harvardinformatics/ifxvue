@@ -28,7 +28,13 @@ export default {
   },
   methods: {
     displayRateNames(item) {
-      return item.rates.length ? item.rates.map((rate) => rate.name).join(', ') : 'None'
+      // Only display names for active rates
+      return item.rates.length
+        ? item.rates
+          .filter((rate) => rate.active)
+          .map((rate) => rate.name)
+          .join(', ')
+        : 'None'
     },
   },
 }
