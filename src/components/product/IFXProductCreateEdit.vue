@@ -4,6 +4,7 @@ import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXProductMixin from '@/components/product/IFXProductMixin'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
+import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 
 export default {
   name: 'IFXProductCreateEdit',
@@ -11,10 +12,14 @@ export default {
   components: {
     IFXItemSelectList,
     IFXPageActionBar,
+    IFXItemDataTable,
   },
   data() {
     return {
       allFacilities: [],
+      newRates: [],
+      selected: [],
+      showDeactivatedRates: false,
     }
   },
   methods: {
@@ -27,19 +32,44 @@ export default {
     hasItemChanged() {
       const initial = JSON.stringify(this.apiRef.decompose(this.item))
       // cachedProduct should already be decomposed and stringified
-      return initial !== this.cachedItem
+      return initial !== this.cachedItem || this.newRates.length > 0
     },
     priceHint(item) {
       return `Price per ${item.units ? `${item.units}` : 'unit'} in dollars`
     },
+    submit() {
+      // Append any new rates to the end
+      this.item.rates = this.item.rates.concat(this.newRates)
+      if (this.isEditing) this.submitUpdate()
+      else this.submitSave()
+    },
+    pluralize(count, string) {
+      return `${count} ${string}${count === 1 ? '' : 's'}`
+    },
   },
   computed: {
+    headers() {
+      const headers = [
+        { text: 'Name', value: 'name', sortable: true },
+        { text: 'Price', value: 'price', sortable: true },
+        { text: 'Units', value: 'units', sortable: true, slot: true },
+        { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
+        { text: 'Active', value: 'active', sortable: true, namedSlot: true },
+      ]
+      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+    },
     title() {
       const itemTitle = this.splitOnCapitals(this.itemType).join(' ')
       if (this.isEditing) {
         return `Edit ${itemTitle} ${this.item.name}`
       }
       return `Create ${itemTitle}`
+    },
+    filteredRates() {
+      if (this.item?.rates) {
+        return this.item.rates.filter((r) => r.active || this.showDeactivatedRates)
+      }
+      return []
     },
   },
 }
@@ -98,7 +128,12 @@ export default {
         </v-row>
         <v-row>
           <v-col>
-            <IFXItemSelectList title="Rates" :items.sync="item.rates" :getEmptyItem="$api.productRate.create">
+            <IFXItemSelectList
+              title="Rates"
+              :items.sync="newRates"
+              :getEmptyItem="$api.productRate.create"
+              noItemsString=""
+            >
               <template v-slot="{ item }">
                 <v-container>
                   <v-row>
@@ -157,6 +192,30 @@ export default {
                 </v-container>
               </template>
             </IFXItemSelectList>
+            <v-row>
+              <v-col class="d-flex justify-end">
+                <v-checkbox
+                  v-model="showDeactivatedRates"
+                  label="Show deactivated rates"
+                  data-cy="show-deactivated-rates"
+                ></v-checkbox>
+              </v-col>
+            </v-row>
+            <IFXItemDataTable
+              :items="filteredRates"
+              :headers="headers"
+              :selected.sync="selected"
+              itemType="ProductRate"
+              :showSelect="false"
+            >
+              <template #active="{ item }">
+                <v-switch v-if="item.active" v-model="item.active" label="Active" data-cy="rate-active"></v-switch>
+                <span v-else>Deactivated</span>
+              </template>
+              <template #maxQty="{ item }">
+                {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
+              </template>
+            </IFXItemDataTable>
           </v-col>
         </v-row>
         <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
