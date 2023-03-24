@@ -12,6 +12,7 @@ export default {
   data() {
     return {
       selected: [],
+      showDeactivatedRates: false,
     }
   },
   computed: {
@@ -24,6 +25,12 @@ export default {
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+    },
+    filteredRates() {
+      if (this.item?.rates) {
+        return this.item.rates.filter((r) => r.active || this.showDeactivatedRates)
+      }
+      return []
     },
   },
   methods: {
@@ -70,10 +77,18 @@ export default {
       </v-row>
       <v-row>
         <v-col>
-          <h3>Rates</h3>
+          <div class="d-flex justify-space-between">
+            <h3>Rates</h3>
+            <v-checkbox
+              class="pt-0 mt-0"
+              v-model="showDeactivatedRates"
+              label="Show deactivated rates"
+              data-cy="show-deactivated-rates"
+            ></v-checkbox>
+          </div>
           <IFXItemDataTable
-            v-if="item.rates && item.rates.length"
-            :items="item.rates"
+            v-if="filteredRates.length"
+            :items="filteredRates"
             :headers="headers"
             :selected.sync="selected"
             itemType="ProductRate"
