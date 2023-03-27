@@ -26,7 +26,6 @@ export default {
     noItemsString: {
       type: String,
       required: false,
-      default: () => `There are no ${this.title.toLowerCase()}.`,
     },
   },
   data() {
@@ -54,6 +53,9 @@ export default {
     },
   },
   computed: {
+    noItemsText() {
+      return this.noItemsString !== undefined ? this.noItemsString : `There are no ${this.title.toLowerCase()}.`
+    },
     itemsLocal: {
       get() {
         return this.items
@@ -79,7 +81,7 @@ export default {
         btnType="add"
       ></IFXButton>
     </div>
-    <div v-if="!itemsLocal.length" class="items-warning">{{ noItemsString }}</div>
+    <div v-if="!itemsLocal.length" class="items-warning">{{ noItemsText }}</div>
     <v-card :key="item.id" v-for="(item, index) in itemsLocal" class="data-card">
       <IFXButton
         class="delete-btn"
