@@ -95,7 +95,18 @@ export default {
             :showSelect="false"
           >
             <template #active="{ item }">
-              {{ item.active ? 'Yes' : 'No' }}
+              <v-tooltip v-if="item.active" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon v-on="on" v-bind="attrs" color="#fcbd01">lightbulb</v-icon>
+                </template>
+                <span>Active rate</span>
+              </v-tooltip>
+              <v-tooltip v-else top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon v-on="on" v-bind="attrs" color="#ccc">lightbulb</v-icon>
+                </template>
+                <span>Inactive rate</span>
+              </v-tooltip>
             </template>
             <template #maxQty="{ item }">
               {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
