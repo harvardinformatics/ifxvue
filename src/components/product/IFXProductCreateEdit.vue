@@ -44,11 +44,6 @@ export default {
       return `Price per ${item.units ? `${item.units}` : 'unit'} in dollars`
     },
     submit() {
-      // Remove the orginal active state
-      this.item.rates.forEach((rate) => {
-        // eslint-disable-next-line no-param-reassign
-        delete rate.originalActive
-      })
       // Append any new rates to the end
       this.item.rates = this.item.rates.concat(this.newRates)
       if (this.isEditing) this.submitUpdate()
