@@ -217,7 +217,7 @@ export default {
               :items="filteredRates"
               :headers="headers"
               :selected.sync="selected"
-              itemType="ProductRate"
+              :itemType="itemType"
               :showSelect="false"
             >
               <template #active="{ item }">
