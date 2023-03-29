@@ -44,13 +44,28 @@ export default {
       return `Price per ${item.units ? `${item.units}` : 'unit'} in dollars`
     },
     submit() {
+      const rateLength = this.item.rates.length
       // Append any new rates to the end
       this.item.rates = this.item.rates.concat(this.newRates)
       if (this.isEditing) this.submitUpdate()
       else this.submitSave()
+      // Since we appended the new rates, we should remove them here in case the submit failed.
+      this.item.rates.splice(rateLength)
     },
     pluralize(count, string) {
       return `${count} ${string}${count === 1 ? '' : 's'}`
+    },
+    canUpdateRate() {
+      return this.$api.auth.can('update-rate', this.$api.authUser)
+    },
+    updateRate(item) {
+      // Clone this rate
+      const newRate = this.$api.productRate.create({ ...item.data })
+      // Remove the id and other properties
+      newRate.data.id = null
+      // Deactivate the old rate
+      item.active = false
+      this.newRates.push(newRate)
     },
   },
   computed: {
@@ -61,6 +76,7 @@ export default {
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
+        { text: '', value: 'actions', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
@@ -226,6 +242,16 @@ export default {
               </template>
               <template #maxQty="{ item }">
                 {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
+              </template>
+              <template #actions="{ item }">
+                <IFXButton
+                  v-if="canUpdateRate()"
+                  btnType="other"
+                  x-small
+                  data-cy="update-rate"
+                  btnText="Update"
+                  @action="updateRate(item)"
+                ></IFXButton>
               </template>
             </IFXItemDataTable>
           </v-col>
