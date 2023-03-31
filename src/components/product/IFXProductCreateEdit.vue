@@ -245,7 +245,7 @@ export default {
               </template>
               <template #actions="{ item }">
                 <IFXButton
-                  v-if="canUpdateRate()"
+                  v-if="item.active && canUpdateRate()"
                   btnType="other"
                   x-small
                   data-cy="update-rate"
