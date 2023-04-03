@@ -4,6 +4,7 @@ import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXProductMixin from '@/components/product/IFXProductMixin'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
+import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 
 export default {
   name: 'IFXProductCreateEdit',
@@ -11,35 +12,86 @@ export default {
   components: {
     IFXItemSelectList,
     IFXPageActionBar,
+    IFXItemDataTable,
   },
   data() {
     return {
       allFacilities: [],
+      newRates: [],
+      selected: [],
+      showDeactivatedRates: false,
     }
   },
   methods: {
     ...mapActions(['showMessage']),
     async init() {
       this.item = await this.getItem()
+      this.item.rates.forEach((rate) => {
+        // Save the original active state so we can filter out deactivated rates
+        // eslint-disable-next-line no-param-reassign
+        rate.originalActive = rate.active
+      })
+
       this.allFacilities = await this.$api.facility.getList()
       this.cachedItem = JSON.stringify(this.apiRef.decompose(this.item))
     },
     hasItemChanged() {
-      const initial = JSON.stringify(this.apiRef.decompose(this.item))
+      const current = JSON.stringify(this.apiRef.decompose(this.item))
       // cachedProduct should already be decomposed and stringified
-      return initial !== this.cachedItem
+      return current !== this.cachedItem || this.newRates.length > 0
     },
     priceHint(item) {
       return `Price per ${item.units ? `${item.units}` : 'unit'} in dollars`
     },
+    submit() {
+      const rateLength = this.item.rates.length
+      // Append any new rates to the end
+      this.item.rates = this.item.rates.concat(this.newRates)
+      if (this.isEditing) this.submitUpdate()
+      else this.submitSave()
+      // Since we appended the new rates, we should remove them here in case the submit failed.
+      this.item.rates.splice(rateLength)
+    },
+    pluralize(count, string) {
+      return `${count} ${string}${count === 1 ? '' : 's'}`
+    },
+    canUpdateRate() {
+      return this.$api.auth.can('update-rate', this.$api.authUser)
+    },
+    updateRate(item) {
+      // Clone this rate
+      const newRate = this.$api.productRate.create({ ...item.data })
+      // Remove the id and other properties
+      newRate.data.id = null
+      // Deactivate the old rate
+      item.active = false
+      this.newRates.push(newRate)
+    },
   },
   computed: {
+    headers() {
+      const headers = [
+        { text: 'Name', value: 'name', sortable: true },
+        { text: 'Price', value: 'price', sortable: true },
+        { text: 'Units', value: 'units', sortable: true, slot: true },
+        { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
+        { text: 'Active', value: 'active', sortable: true, namedSlot: true },
+        { text: '', value: 'actions', namedSlot: true, sortable: false },
+      ]
+      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+    },
     title() {
       const itemTitle = this.splitOnCapitals(this.itemType).join(' ')
       if (this.isEditing) {
         return `Edit ${itemTitle} ${this.item.name}`
       }
       return `Create ${itemTitle}`
+    },
+    filteredRates() {
+      if (this.item?.rates) {
+        return this.item.rates.filter((r) => r.originalActive || this.showDeactivatedRates)
+      }
+      return []
     },
   },
 }
@@ -98,7 +150,12 @@ export default {
         </v-row>
         <v-row>
           <v-col>
-            <IFXItemSelectList title="Rates" :items.sync="item.rates" :getEmptyItem="$api.productRate.create">
+            <IFXItemSelectList
+              title="Rates"
+              :items.sync="newRates"
+              :getEmptyItem="$api.productRate.create"
+              noItemsString=""
+            >
               <template v-slot="{ item }">
                 <v-container>
                   <v-row>
@@ -157,6 +214,46 @@ export default {
                 </v-container>
               </template>
             </IFXItemSelectList>
+            <v-row>
+              <v-col class="d-flex justify-end">
+                <v-checkbox
+                  class="mt-0 pt-0"
+                  v-model="showDeactivatedRates"
+                  label="Show deactivated rates"
+                  data-cy="show-deactivated-rates"
+                ></v-checkbox>
+              </v-col>
+            </v-row>
+            <IFXItemDataTable
+              :items="filteredRates"
+              :headers="headers"
+              :selected.sync="selected"
+              :itemType="itemType"
+              :showSelect="false"
+            >
+              <template #active="{ item }">
+                <v-switch
+                  v-if="item.originalActive"
+                  v-model="item.active"
+                  label="Active"
+                  data-cy="rate-active-toggle"
+                ></v-switch>
+                <span v-else>Deactivated</span>
+              </template>
+              <template #maxQty="{ item }">
+                {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
+              </template>
+              <template #actions="{ item }">
+                <IFXButton
+                  v-if="canUpdateRate()"
+                  btnType="other"
+                  x-small
+                  data-cy="update-rate"
+                  btnText="Update"
+                  @action="updateRate(item)"
+                ></IFXButton>
+              </template>
+            </IFXItemDataTable>
           </v-col>
         </v-row>
         <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
