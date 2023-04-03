@@ -16,6 +16,7 @@ import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
 import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
 import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
+import { ReportRun } from '@/components/report/IFXReport'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -875,6 +876,11 @@ export default class IFXAPIService {
 
   get billingTransaction() {
     return this.genericAPI(null, BillingTransaction)
+  }
+
+  get reportRun() {
+    const baseURL = `${this.urls.REPORT_RUNS}`
+    return this.genericAPI(baseURL, ReportRun)
   }
 
   mockError(code) {

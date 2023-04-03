@@ -109,6 +109,8 @@ import IFXBillingRecordDetail from '@/components/billingRecord/IFXBillingRecordD
 import IFXCalculateBillingMonth from '@/components/billingRecord/IFXCalculateBillingMonth'
 import IFXBillableMixin from '@/components/billingRecord/IFXBillableMixin'
 
+// Reports
+import IFXReportRunList from '@/components/report/IFXReportRunList'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
@@ -206,6 +208,7 @@ export {
   IFXCalculateBillingMonth,
   IFXBillableMixin,
   IFXCalendarList,
+  IFXReportRunList,
 }
 
 // Registered globally
@@ -268,7 +271,7 @@ export default function install(Vue, options = {}) {
     min: null,
     max: null,
     defaultValue: null,
-    valueAsInteger: true,
+    valueAsInteger: false,
     allowNegative: false,
     prefix: '$',
   })
