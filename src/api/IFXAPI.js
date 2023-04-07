@@ -16,7 +16,7 @@ import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
 import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
 import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
-import { ReportRun } from '@/components/report/IFXReport'
+import { ReportRun, Report } from '@/components/report/IFXReport'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -881,6 +881,16 @@ export default class IFXAPIService {
   get reportRun() {
     const baseURL = `${this.urls.REPORT_RUNS}`
     return this.genericAPI(baseURL, ReportRun)
+  }
+
+  get report() {
+    const baseURL = `${this.urls.REPORTS}`
+    const api = this.genericAPI(baseURL, Report)
+    api.runReport = (params) => {
+      const runReportURL = `${this.urls.RUN_REPORT}`
+      return this.axios.post(runReportURL, params, { headers: { 'Content-Type': 'application/json' } })
+    }
+    return api
   }
 
   mockError(code) {
