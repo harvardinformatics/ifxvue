@@ -194,6 +194,7 @@ export default {
                   </template>
                   <v-date-picker
                     :max="currentMonth"
+                    :min="endMonth"
                     v-model="startMonth"
                     type="month"
                     @input="startDateMenu = false"
@@ -248,14 +249,6 @@ export default {
               Running {{ selectedReport.name }}...
               <v-progress-linear indeterminate></v-progress-linear>
             </div>
-            <!-- <v-row no-gutters v-if="reportResponse && reportResponse.id">
-              <v-col cols="12" class="text-body-1 mt-2">
-                <div class="text-body-1 font-weight-medium text-center">{{ selectedReport.name }} Report Results</div>
-                <div class="text-body-1 mt-1">
-                  Report id {{ reportResponse.id }} completed at {{ reportResponse.updated | humanDatetime }}
-                </div>
-              </v-col>
-            </v-row> -->
           </v-form>
         </v-card-text>
         <v-card-actions>
