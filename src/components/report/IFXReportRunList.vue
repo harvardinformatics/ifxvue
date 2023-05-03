@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      reportTypes: [],
+      reports: [],
       showReportDialog: false,
       startMonth: '',
       endMonth: '',
@@ -42,6 +42,22 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    getRootUrl() {
+      // If ROOT_URL is a thing, clip off the application name at the end because the file url has that already
+      let root_url = this.$api.urls.ROOT_URL
+      if (root_url) {
+        root_url = root_url.replace(/\/[^/]+\/$/, '')
+      }
+      return root_url
+    },
+    getXlsUrl(item) {
+      const root_url = this.getRootUrl()
+      return `${root_url}${item.xlsFileUrl}`
+    },
+    getTextUrl(item) {
+      const root_url = this.getRootUrl()
+      return `${root_url}${item.textFileUrl}`
+    },
     getSetItems() {
       return (
         this.apiRef
@@ -50,10 +66,10 @@ export default {
             this.items = items
             // Get all available reports
             this.$api.report.getList().then((reports) => {
-              this.reportTypes = Array.from(reports)
-              if (this.reportTypes.length === 1) {
+              this.reports = Array.from(reports)
+              if (this.reports.length === 1) {
                 // If only one report, preload it
-                this.selectedReport = this.reportTypes[0]
+                this.selectedReport = this.reports[0]
               }
             })
           })
@@ -125,7 +141,7 @@ export default {
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <div v-on="on">
-                  <v-btn v-if="reportTypes.length" v-bind="attrs" fab small color="green" @click="openReportDialog()">
+                  <v-btn v-if="reports.length" v-bind="attrs" fab small color="green" @click="openReportDialog()">
                     <v-icon dark>mdi-text-box-plus-outline</v-icon>
                   </v-btn>
                 </div>
@@ -138,10 +154,10 @@ export default {
     </IFXPageHeader>
     <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
       <template #xlsFilePath="{ item }">
-        <a :href="item.xlsFileUrl">{{ item.xlsFilePath }}</a>
+        <a :href="getXlsUrl(item)">{{ item.xlsFilePath }}</a>
       </template>
       <template #textFilePath="{ item }">
-        <a :href="item.textFileUrl">{{ item.textFilePath }}</a>
+        <a :href="getTextUrl(item)">{{ item.textFilePath }}</a>
       </template>
       <template #updated="{ item }">
         {{ item.updated | humanDatetime }}
@@ -158,7 +174,7 @@ export default {
               <v-col align="center">
                 <v-autocomplete
                   v-model="selectedReport"
-                  :items="reportTypes"
+                  :items="reports"
                   item-text="name"
                   item-value="id"
                   label="Select Report"
