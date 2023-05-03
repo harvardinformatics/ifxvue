@@ -1138,7 +1138,7 @@ export default {
                     :items="allowedExpenseCodes"
                     v-model="expenseCode"
                     :rules="[isBillableRule]"
-                    :disabled="cantBeEdited || resourceNotSelected || !expenseCodeEnabled"
+                    :disabled="resourceNotSelected || !expenseCodeEnabled"
                     data-cy="expense-code"
                   >
                     <template #no-data>
