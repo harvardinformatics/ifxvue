@@ -1,5 +1,10 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
+class Report extends IFXItemBase {
+  get name() {
+    return this.data.name
+  }
+}
 class ReportRun extends IFXItemBase {
   get report() {
     return this.data.report
@@ -29,4 +34,4 @@ class ReportRun extends IFXItemBase {
     return this.data.updated
   }
 }
-export { ReportRun }
+export { ReportRun, Report }
