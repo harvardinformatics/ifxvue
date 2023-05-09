@@ -123,7 +123,7 @@ export default {
             ></IFXMailButton>
           </v-col>
           <v-col>
-            <v-tooltip>
+            <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <div v-on="on">
                   <v-btn v-bind="attrs" small fab @click="updateAuthorizations()" color="secondary">
