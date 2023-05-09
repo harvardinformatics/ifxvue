@@ -203,6 +203,7 @@ export default {
     @click.prevent="clickHandler"
     :data-cy="dataCyString"
     :text="inDialog"
+    :aria-label="btnTextComputed ? btnTextComputed : btnType"
   >
     <v-icon v-if="iconStringComputed" :color="iconColor" :class="{ 'mr-2': btnTextComputed }">
       {{ iconStringComputed }}
