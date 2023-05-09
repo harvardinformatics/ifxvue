@@ -61,9 +61,7 @@ export default {
     },
     showIDSlot() {
       // Only show id H1 if the slot has something in it (for accessibility)
-      const result = { ...this.headerClass }
-      result['d-none'] = !this.$scopedSlots.id
-      return result
+      return !this.$scopedSlots.id
     },
   },
 }
@@ -83,8 +81,7 @@ export default {
       <v-row v-if="hasTitle" justify="space-between" align="center" class="my-0">
         <div class="title-ctr">
           <h1 data-cy="header-title" :class="headerClass"><slot name="title"></slot></h1>
-          <h1 data-cy="header-id" :class="showIDSlot"><slot name="id"></slot></h1>
-          {{ foo }}
+          <h1 v-if="showIDSlot" data-cy="header-id"><slot name="id"></slot></h1>
           <span data-cy="header-id" class="d-none"><slot name="cypress"></slot></span>
         </div>
         <div class="actions-ctr" :class="actionsContainerClass">
