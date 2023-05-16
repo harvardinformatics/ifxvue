@@ -25,7 +25,7 @@ export default {
         <slot>
           <p>
             If you think this is an error, please contact
-            <a class="mail-to" href="mailto:rchelp@rc.fas.harvard.edu">rchelp@rc.fas.harvard.edu</a>
+            <a class="mail-to" href="mailto:informatics@rc.fas.harvard.edu">informatics@rc.fas.harvard.edu</a>
             .
           </p>
           <IFXButton btnType="home" btnText="Home" @action="navigateToHome" />
