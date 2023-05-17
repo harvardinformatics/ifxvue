@@ -59,9 +59,10 @@ export default {
         'back-small': this.$vuetify.breakpoint.smAndDown,
       }
     },
-    showIDSlot() {
+    hasID() {
       // Only show id H1 if the slot has something in it (for accessibility)
-      return !this.$scopedSlots.id
+      console.log(this.$slots, this.$scopedSlots)
+      return !!this.$scopedSlots.id
     },
   },
 }
@@ -81,7 +82,7 @@ export default {
       <v-row v-if="hasTitle" justify="space-between" align="center" class="my-0">
         <div class="title-ctr">
           <h1 data-cy="header-title" :class="headerClass"><slot name="title"></slot></h1>
-          <h1 v-if="showIDSlot" data-cy="header-id"><slot name="id"></slot></h1>
+          <h1 v-if="hasID" data-cy="header-id"><slot name="id"></slot></h1>
           <span data-cy="header-id" class="d-none"><slot name="cypress"></slot></span>
         </div>
         <div class="actions-ctr" :class="actionsContainerClass">
