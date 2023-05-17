@@ -65,6 +65,12 @@ export default {
       }
       return null
     },
+    checkboxState(value, indeterminate) {
+      if (indeterminate) {
+        return 'mixed'
+      }
+      return value.toString()
+    },
   },
   computed: {
     // Checks if user has specified a click event for the row
@@ -127,6 +133,31 @@ export default {
     :loading="loading"
   >
     <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
+    <template #header.data-table-select="{ props, on }">
+      <v-simple-checkbox
+        role="checkbox"
+        :aria-checked="checkboxState(props.value, props.indeterminate)"
+        :aria-label="`${props.value ? 'Deselect' : 'Select'} all rows`"
+        :value="props.value"
+        :indeterminate="props.indeterminate"
+        v-on="on"
+      ></v-simple-checkbox>
+    </template>
+
+    <template #header.rowActionEdit="{ header }">
+      <span class="d-sr-only" v-bind:key="header.value">Buttons to go to the Edit page for the item in each row</span>
+    </template>
+
+    <template #header.rowActionCopy="{ header }">
+      <span class="d-sr-only" v-bind:key="header.value">Buttons to Copy an item in each row</span>
+    </template>
+
+    <template #header.rowActionDetailEdit="{ header }">
+      <span class="d-sr-only" v-bind:key="header.value">
+        Buttons to go to the editable Detail page for the item in each row"
+      </span>
+    </template>
+
     <template v-for="header in headers" #[`item.${header.value}`]="{ item }">
       <span v-if="header.namedSlot" v-bind:key="header.value">
         <slot :name="header.value" :item="item"></slot>
