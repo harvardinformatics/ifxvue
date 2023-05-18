@@ -61,7 +61,6 @@ export default {
     },
     hasID() {
       // Only show id H1 if the slot has something in it (for accessibility)
-      console.log(this.$slots, this.$scopedSlots)
       return !!this.$scopedSlots.id
     },
   },
