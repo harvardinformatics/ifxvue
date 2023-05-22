@@ -1211,7 +1211,7 @@ export default {
                   </v-menu>
                   <v-row>
                     <v-col>
-                      <v-select
+                      <v-autocomplete
                         label="Length of reservation"
                         v-model="durationValue"
                         :items="duration"
@@ -1223,7 +1223,7 @@ export default {
                         <template #no-data>
                           <div class="mx-3 my-1">No options (you must select a resource)</div>
                         </template>
-                      </v-select>
+                      </v-autocomplete>
                     </v-col>
                   </v-row>
                   <v-row>
