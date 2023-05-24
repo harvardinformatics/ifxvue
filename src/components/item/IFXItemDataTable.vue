@@ -154,8 +154,12 @@ export default {
 
     <template #header.rowActionDetailEdit="{ header }">
       <span class="d-sr-only" v-bind:key="header.value">
-        Buttons to go to the editable Detail page for the item in each row"
+        Buttons to go to the editable Detail page for the item in each row
       </span>
+    </template>
+
+    <template #no-data>
+      <span class="grey--text text--darken-1">No data available</span>
     </template>
 
     <template v-for="header in headers" #[`item.${header.value}`]="{ item }">
