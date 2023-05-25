@@ -162,6 +162,10 @@ export default {
       <span class="grey--text text--darken-1">No data available</span>
     </template>
 
+    <template #loading>
+      <span class="grey--text text--darken-1">Loading items...</span>
+    </template>
+
     <template v-for="header in headers" #[`item.${header.value}`]="{ item }">
       <span v-if="header.namedSlot" v-bind:key="header.value">
         <slot :name="header.value" :item="item"></slot>
