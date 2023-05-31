@@ -1,26 +1,48 @@
 <script>
 export default {
   name: 'IFXForbidden',
+  props: {
+    msg: {
+      type: String,
+      required: false,
+      default: 'You are not authorized to view this page.',
+    },
+  },
   methods: {
     navigateToHome() {
       this.rtr.push({ name: 'Home' })
-    }
-  }
+    },
+  },
 }
 </script>
 
 <template>
   <v-container fill-height fluid>
-    <v-row align='center' justify='center'>
-      <v-col align='center' justify='center' :cols="8">
-        <h1 class="display-1" style="color: #db564c">Forbidden!</h1>
-        <h3>You are not authorized to view this page.</h3>
-        <p>If you think this is an error, please contact
-          <a style="color: #1976d2" href="mailto:rchelp@rc.fas.harvard.edu">rchelp@rc.fas.harvard.edu</a>.
-          To navigate to the home page, please click on the button below.
-        </p>
-        <IFXButton btnType="home" btnText="Home" @action="navigateToHome"/>
+    <v-row>
+      <v-col>
+        <h1 class="text-h1 font-weight-medium forbidden pb-3">Forbidden</h1>
+        <h2 class="text-h2 font-weight-medium msg pb-2">{{ msg }}</h2>
+        <slot>
+          <p>
+            If you think this is an error, please contact
+            <a class="mail-to" href="mailto:informatics@rc.fas.harvard.edu">informatics@rc.fas.harvard.edu</a>
+            .
+          </p>
+          <IFXButton btnType="home" btnText="Home" @action="navigateToHome" />
+        </slot>
       </v-col>
     </v-row>
   </v-container>
 </template>
+<style lang="scss" scoped>
+.forbidden {
+  color: #db564c;
+}
+.msg {
+  font-size: 1.17em;
+  font-weight: bold;
+}
+.mail-to {
+  color: #1976d2;
+}
+</style>

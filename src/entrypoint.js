@@ -5,6 +5,7 @@ import IFXAPIService from '@/api/IFXAPI'
 
 import IFXMessageDisplay from '@/components/IFXMessageDisplay'
 import IFXButton from '@/components/IFXButton'
+import IFXTooltip from '@/components/IFXTooltip'
 // Page
 import IFXNotFound from '@/components/page/IFXNotFound'
 import IFXForbidden from '@/components/page/IFXForbidden'
@@ -214,6 +215,7 @@ export {
 // Registered globally
 export const ifxcomponents = {
   IFXButton,
+  IFXTooltip,
   IFXNotFound,
   IFXForbidden,
   IFXPageHeader,

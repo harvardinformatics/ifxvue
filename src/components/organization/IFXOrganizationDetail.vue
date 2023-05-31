@@ -150,9 +150,6 @@ export default {
     },
   },
   computed: {
-    filteredContacts() {
-      return this.allContacts.filter((c) => !this.item.contacts?.some((item) => item.contact.id === c.id))
-    },
     userListHeaders() {
       const headers = [
         { text: 'Full Name', value: 'fullName', sortable: true, namedSlot: true, click: true },
@@ -363,7 +360,7 @@ export default {
         </v-card-title>
         <v-card-text class="pb-0">
           <IFXSelectCreateContact
-            :allItems="filteredContacts"
+            :allItems="allContacts"
             :allRoles="allRoles"
             :filterRoles="false"
             :item.sync="currentContact"
