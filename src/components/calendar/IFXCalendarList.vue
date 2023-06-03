@@ -1728,4 +1728,19 @@ export default {
     margin-left: 0;
   }
 }
+.theme--light.v-calendar-weekly {
+  .v-calendar-weekly__head-weekday[role='columnheader'] {
+    &.v-past {
+      color: #767676;
+      &.v-outside {
+        color: #717171;
+      }
+    }
+    &.v-present {
+      &.primary--text {
+        color: #1f80a1;
+      }
+    }
+  }
+}
 </style>
