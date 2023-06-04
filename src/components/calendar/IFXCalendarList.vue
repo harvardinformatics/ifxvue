@@ -1738,7 +1738,21 @@ export default {
     }
     &.v-present {
       &.primary--text {
-        color: #1f80a1;
+        color: #1f80a1 !important;
+      }
+    }
+  }
+}
+.theme--light.v-calendar-daily {
+  .v-calendar-daily_head-day {
+    &.v-past {
+      .v-calendar-daily_head-weekday {
+        color: #767676 !important;
+      }
+    }
+    &.v-present {
+      .v-calendar-daily_head-weekday.primary--text {
+        color: #1f80a1 !important;
       }
     }
   }
