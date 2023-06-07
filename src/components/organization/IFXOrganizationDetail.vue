@@ -38,6 +38,7 @@ export default {
       allRoles: [
         { name: 'PI', editable: false },
         { name: 'Lab Manager', editable: false },
+        { name: 'Facility Primary Contact', editable: true },
         { name: 'Facility Invoice', editable: true },
         { name: 'Facility Invoice CC', editable: true },
       ],
