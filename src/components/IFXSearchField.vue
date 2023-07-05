@@ -1,15 +1,15 @@
 <template>
   <v-text-field
     v-model="searchLocal"
-    class='search-field'
-    :label='label'
+    class="search-field"
+    :label="label"
+    :aria-label="ariaLabel"
     single-line
     hide-details
-    :clearable='clearable'
+    :clearable="clearable"
     :disabled="disabled"
-    data-cy='ifx-search-field'
-  >
-  </v-text-field>
+    data-cy="ifx-search-field"
+  ></v-text-field>
 </template>
 
 <script>
@@ -20,23 +20,23 @@ export default {
     search: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
     label: {
       type: String,
       required: false,
-      default: 'Search'
+      default: 'Search',
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     clearable: {
       type: Boolean,
       required: false,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
     searchLocal: {
@@ -45,15 +45,18 @@ export default {
       },
       set(search) {
         this.$emit('update:search', search)
-      }
-    }
-  }
+      },
+    },
+    ariaLabel() {
+      return this.label ? this.label : 'Filter List'
+    },
+  },
 }
 </script>
 
 <style scoped>
-  .search-field {
-    width: 350px;
-    display: inline-block !important;
-  }
+.search-field {
+  width: 350px;
+  display: inline-block !important;
+}
 </style>
