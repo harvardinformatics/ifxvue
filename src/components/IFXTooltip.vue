@@ -7,7 +7,7 @@
         :color="color"
         v-on="on"
         v-bind="getAttrs"
-        @click="handleClick"
+        @click.prevent="handleClick"
         :disabled="disabled"
       >
         <v-icon :dark="dark" :color="iconColor">{{ icon }}</v-icon>
