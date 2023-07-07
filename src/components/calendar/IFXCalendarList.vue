@@ -1211,7 +1211,7 @@ export default {
                   </v-menu>
                   <v-row>
                     <v-col>
-                      <v-select
+                      <v-autocomplete
                         label="Length of reservation"
                         v-model="durationValue"
                         :items="duration"
@@ -1223,7 +1223,7 @@ export default {
                         <template #no-data>
                           <div class="mx-3 my-1">No options (you must select a resource)</div>
                         </template>
-                      </v-select>
+                      </v-autocomplete>
                     </v-col>
                   </v-row>
                   <v-row>
@@ -1726,6 +1726,35 @@ export default {
     min-width: 100% !important;
     left: 0 !important;
     margin-left: 0;
+  }
+}
+.theme--light.v-calendar-weekly {
+  .v-calendar-weekly__head-weekday[role='columnheader'] {
+    &.v-past {
+      color: #767676;
+      &.v-outside {
+        color: #717171;
+      }
+    }
+    &.v-present {
+      &.primary--text {
+        color: #1f80a1 !important;
+      }
+    }
+  }
+}
+.theme--light.v-calendar-daily {
+  .v-calendar-daily_head-day {
+    &.v-past {
+      .v-calendar-daily_head-weekday {
+        color: #767676 !important;
+      }
+    }
+    &.v-present {
+      .v-calendar-daily_head-weekday.primary--text {
+        color: #1f80a1 !important;
+      }
+    }
   }
 }
 </style>
