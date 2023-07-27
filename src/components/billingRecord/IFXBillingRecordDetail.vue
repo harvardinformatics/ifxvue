@@ -215,6 +215,14 @@ export default {
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
+          <h3>Product</h3>
+        </v-col>
+        <v-col>
+          {{ item.productUsage.product }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Charge</h3>
         </v-col>
         <v-col v-if="$api.facility.isDecimalFacility(facility.name)">
