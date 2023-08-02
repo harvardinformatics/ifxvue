@@ -72,6 +72,7 @@ export default {
     headers() {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
+        { text: 'Description', value: 'description', sortable: true, namedSlot: true },
         { text: 'Price', value: 'price', sortable: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
@@ -207,6 +208,15 @@ export default {
                         persistent-hint
                       ></v-text-field>
                     </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="item.description"
+                        label="Description"
+                        data-cy="rate-description"
+                        :error-messages="errors.description"
+                        persistent-hint
+                      ></v-text-field>
+                    </v-col>
                     <v-col>
                       <v-switch v-model="item.active" label="Active" data-cy="rate-active"></v-switch>
                     </v-col>
@@ -242,6 +252,12 @@ export default {
               </template>
               <template #maxQty="{ item }">
                 {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
+              </template>
+              <template #description="{ item }">
+                <span v-if="item.description">
+                  {{ item.description }}
+                </span>
+                <span v-else class="grey--text">None</span>
               </template>
               <template #actions="{ item }">
                 <IFXButton
