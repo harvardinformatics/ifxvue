@@ -90,7 +90,11 @@ class ProductRate extends IFXItemBase {
   }
 
   get description() {
-    return `${this.price} per ${this.units}`
+    return this.data.description
+  }
+
+  set description(description) {
+    this.data.description = description
   }
 }
 
