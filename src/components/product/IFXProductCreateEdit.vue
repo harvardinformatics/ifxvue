@@ -137,7 +137,7 @@ export default {
             <v-checkbox
               class="mt-0 pt-0"
               v-model="item.billable"
-              label="Billable ?"
+              label="Billable"
               data-cy="billable"
             ></v-checkbox>
           </v-col>
@@ -222,11 +222,13 @@ export default {
                         label="Description"
                         data-cy="rate-description"
                         :error-messages="errors.description"
+                        hint="Rate description, e.g. fy23"
                         persistent-hint
                       ></v-text-field>
                     </v-col>
-                    <v-col>
-                      <v-switch v-model="item.active" :disabled="true" label="Active" data-cy="rate-active"></v-switch>
+                    <v-col class="grey--text">
+                      <span v-if="item.active">Active</span>
+                      <span v-else>Not active</span>
                     </v-col>
                   </v-row>
                 </v-container>
