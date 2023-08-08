@@ -76,6 +76,15 @@ export default {
           {{ item.description }}
         </v-col>
       </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Billable</h3>
+        </v-col>
+        <v-col>
+          <span v-if="item.billable">Yes</span>
+          <span v-else>No</span>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col>
           <div class="d-flex justify-space-between">

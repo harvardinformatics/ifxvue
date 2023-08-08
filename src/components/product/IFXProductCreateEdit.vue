@@ -105,8 +105,8 @@ export default {
       <template #content>{{ description }}</template>
     </IFXPageHeader>
     <v-container>
-      <v-form v-model="isValid" :ref="productForm">
-        <v-row>
+      <v-form v-model="isValid" ref="productForm">
+        <v-row class="d-flex align-end">
           <v-col>
             <v-text-field
               v-model="item.name"
@@ -132,6 +132,14 @@ export default {
               required
               @focus="clearError('facility')"
             ></v-select>
+          </v-col>
+          <v-col>
+            <v-checkbox
+              class="mt-0 pt-0"
+              v-model="item.billable"
+              label="Billable ?"
+              data-cy="billable"
+            ></v-checkbox>
           </v-col>
         </v-row>
         <v-row>
@@ -218,7 +226,7 @@ export default {
                       ></v-text-field>
                     </v-col>
                     <v-col>
-                      <v-switch v-model="item.active" label="Active" data-cy="rate-active"></v-switch>
+                      <v-switch v-model="item.active" :disabled="true" label="Active" data-cy="rate-active"></v-switch>
                     </v-col>
                   </v-row>
                 </v-container>
