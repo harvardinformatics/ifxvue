@@ -59776,11 +59776,14 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         var _newProductUsageData$;
 
         var decompose = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        var newProductUsageData = cloneDeep_default()(productUsageData) || {};
-
-        if (productUsageData.product) {
-          newProductUsageData.product = decompose ? productUsageData.product.data : _this20.product.create(productUsageData.product);
-        }
+        var newProductUsageData = cloneDeep_default()(productUsageData) || {}; // Serializer actually returns just a string (name) for the product
+        // Only discovered this because, I think, Helium is the only one using a generic product usage
+        // retrieval
+        // if (productUsageData.product) {
+        //   newProductUsageData.product = decompose
+        //     ? productUsageData.product.data
+        //     : this.product.create(productUsageData.product)
+        // }
 
         if (productUsageData.product_user) {
           newProductUsageData.product_user = decompose ? productUsageData.productUser.data : _this20.user.create(productUsageData.product_user);
