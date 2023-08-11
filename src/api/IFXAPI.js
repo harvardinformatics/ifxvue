@@ -776,11 +776,14 @@ export default class IFXAPIService {
     const baseUrl = this.urls.PRODUCT_USAGES
     const createFunc = (productUsageData, decompose = false) => {
       const newProductUsageData = cloneDeep(productUsageData) || {}
-      if (productUsageData.product) {
-        newProductUsageData.product = decompose
-          ? productUsageData.product.data
-          : this.product.create(productUsageData.product)
-      }
+      // Serializer actually returns just a string (name) for the product
+      // Only discovered this because, I think, Helium is the only one using a generic product usage
+      // retrieval
+      // if (productUsageData.product) {
+      //   newProductUsageData.product = decompose
+      //     ? productUsageData.product.data
+      //     : this.product.create(productUsageData.product)
+      // }
       if (productUsageData.product_user) {
         newProductUsageData.product_user = decompose
           ? productUsageData.productUser.data
