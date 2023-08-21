@@ -9,7 +9,7 @@ export default {
       isLoading: false,
       items: [],
       selected: [],
-      search: this.$api.storage.getItem(this.searchStorageKey, 'session') || '',
+      search: '',
       deepSearch: false,
     }
   },
@@ -131,6 +131,7 @@ export default {
     },
   },
   mounted() {
+    this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || ''
     this.isLoading = true
     this.getSetItems().then(() => (this.isLoading = false))
   },
