@@ -997,6 +997,7 @@ export default {
         </v-sheet>
         <v-sheet :min-height="calHeight" class="d-flex justify-middle relative">
           <span class="flex-grow-1">
+            <v-progress-linear v-if="eventsAreLoading" indeterminate></v-progress-linear>
             <v-calendar
               ref="calendar"
               v-model="calModel"
@@ -1044,7 +1045,6 @@ export default {
                 <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY() }"></div>
               </template>
             </v-calendar>
-            <v-progress-linear v-if="eventsAreLoading" indeterminate></v-progress-linear>
           </span>
           <v-expand-x-transition>
             <v-card color="grey lighten-4 ml-4 " min-width="350px" max-width="550px" v-show="reservationOpen">
