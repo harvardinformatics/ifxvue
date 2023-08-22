@@ -1542,13 +1542,6 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ "0ad7":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "0b07":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4596,6 +4589,17 @@ module.exports = function (METHOD_NAME) {
     return array[METHOD_NAME](Boolean).foo !== 1;
   });
 };
+
+
+/***/ }),
+
+/***/ "1e0b":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalendarList_vue_vue_type_style_index_0_id_7484c31f_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a174");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalendarList_vue_vue_type_style_index_0_id_7484c31f_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalendarList_vue_vue_type_style_index_0_id_7484c31f_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -37050,17 +37054,6 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ "8eb1":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalendarList_vue_vue_type_style_index_0_id_7bebcaca_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("0ad7");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalendarList_vue_vue_type_style_index_0_id_7bebcaca_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_cli_service_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IFXCalendarList_vue_vue_type_style_index_0_id_7bebcaca_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "8eeb":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39870,6 +39863,13 @@ $({ target: 'Array', proto: true, forced: ES3_STRINGS || !STRICT_METHOD }, {
   }
 });
 
+
+/***/ }),
+
+/***/ "a174":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -67471,7 +67471,7 @@ var es_number_parse_float = __webpack_require__("c35a");
       isLoading: false,
       items: [],
       selected: [],
-      search: this.$api.storage.getItem(this.searchStorageKey, 'session') || '',
+      search: '',
       deepSearch: false
     };
   },
@@ -67621,6 +67621,7 @@ var es_number_parse_float = __webpack_require__("c35a");
   mounted: function mounted() {
     var _this4 = this;
 
+    this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || '';
     this.isLoading = true;
     this.getSetItems().then(function () {
       return _this4.isLoading = false;
@@ -94777,22 +94778,22 @@ var mailing_mutations = {
   actions: mailing_actions,
   mutations: mailing_mutations
 });
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"865a6ea4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar/IFXCalendarList.vue?vue&type=template&id=7bebcaca&scoped=true&
-var IFXCalendarListvue_type_template_id_7bebcaca_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"fill-height"},[_c('v-row',[_c('v-col',[_c('v-alert',{attrs:{"type":"error","dismissible":""},model:{value:(_vm.showErrorMsg),callback:function ($$v) {_vm.showErrorMsg=$$v},expression:"showErrorMsg"}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.errorMsg)}})])],1)],1),_c('v-row',[_c('v-col',{staticClass:"d-flex justify-center"},[_c('v-spacer'),_c('v-autocomplete',{attrs:{"label":"Select resources to view","hint":"Only show reservations for the selected resources. If empty, show all reservations","persistent-hint":"","items":_vm.allResources,"item-text":"name","return-object":"","clearable":"","clear-icon":"mdi-close-circle","multiple":"","hide-selected":"","data-cy":"filter-resources"},scopedSlots:_vm._u([{key:"selection",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"865a6ea4-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar/IFXCalendarList.vue?vue&type=template&id=7484c31f&scoped=true&
+var IFXCalendarListvue_type_template_id_7484c31f_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"fill-height"},[_c('v-row',[_c('v-col',[_c('v-alert',{attrs:{"type":"error","dismissible":""},model:{value:(_vm.showErrorMsg),callback:function ($$v) {_vm.showErrorMsg=$$v},expression:"showErrorMsg"}},[_c('span',{domProps:{"innerHTML":_vm._s(_vm.errorMsg)}})])],1)],1),_c('v-row',[_c('v-col',{staticClass:"d-flex justify-center"},[_c('v-spacer'),_c('v-autocomplete',{attrs:{"label":"Select resources to view","hint":"Only show reservations for the selected resources. If empty, show all reservations","persistent-hint":"","items":_vm.allResources,"item-text":"name","return-object":"","clearable":"","clear-icon":"mdi-close-circle","multiple":"","hide-selected":"","data-cy":"filter-resources"},scopedSlots:_vm._u([{key:"selection",fn:function(ref){
 var item = ref.item;
 return [_c('v-chip',{attrs:{"color":item.color,"text-color":"black","close":""},on:{"click:close":function($event){return _vm.removeFromFiltered(item)}}},[_vm._v(" "+_vm._s(item.name)+" ")])]}},{key:"item",fn:function(ref){
 var item = ref.item;
 return [_c('div',{staticClass:"mr-2",style:(_vm.$api.resource.resourceColorBox(item))}),_vm._v(" "+_vm._s(item.name)+" ")]}}]),model:{value:(_vm.filteredResources),callback:function ($$v) {_vm.filteredResources=$$v},expression:"filteredResources"}}),_c('v-spacer')],1)],1),_c('v-row',[_c('v-col',[_c('v-sheet',{attrs:{"height":"64"}},[_c('v-toolbar',{attrs:{"flat":""}},[_c('v-btn',{staticClass:"mr-4",attrs:{"outlined":"","color":"grey darken-2","data-cy":"calendar-today"},on:{"click":_vm.setToday}},[_vm._v("Today")]),_c('v-btn',{attrs:{"fab":"","text":"","small":"","color":"grey darken-2","data-cy":"calendar-prev"},on:{"click":_vm.prev}},[_c('v-icon',{attrs:{"small":""}},[_vm._v("mdi-chevron-left")])],1),_c('v-btn',{attrs:{"fab":"","text":"","small":"","color":"grey darken-2","data-cy":"calendar-next"},on:{"click":_vm.next}},[_c('v-icon',{attrs:{"small":""}},[_vm._v("mdi-chevron-right")])],1),(_vm.$refs.calendar)?_c('v-toolbar-title',[_vm._v(" "+_vm._s(_vm.$refs.calendar.title)+" ")]):_vm._e(),_c('v-spacer'),_c('span',{staticClass:"font-weight-light"},[_vm._v("(All times Eastern)")]),_c('v-spacer'),_c('v-switch',{staticClass:"mt-5 mr-4",attrs:{"color":"primary","label":"Show reservation panel","data-cy":"show-reservation-panel"},model:{value:(_vm.reservationOpen),callback:function ($$v) {_vm.reservationOpen=$$v},expression:"reservationOpen"}}),_c('v-menu',{attrs:{"bottom":"","right":"","data-cy":"calendar-type"},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
 var on = ref.on;
 var attrs = ref.attrs;
-return [_c('v-btn',_vm._g(_vm._b({attrs:{"outlined":"","color":"grey darken-2"}},'v-btn',attrs,false),on),[_c('span',[_vm._v(_vm._s(_vm.typeToLabel[_vm.type]))]),_c('v-icon',{attrs:{"right":""}},[_vm._v("mdi-menu-down")])],1)]}}])},[_c('v-list',[_c('v-list-item',{on:{"click":function($event){return _vm.setCalendarType('day')}}},[_c('v-list-item-title',[_vm._v("Day")])],1),_c('v-list-item',{on:{"click":function($event){return _vm.setCalendarType('week')}}},[_c('v-list-item-title',[_vm._v("Week")])],1),_c('v-list-item',{on:{"click":function($event){return _vm.setCalendarType('month')}}},[_c('v-list-item-title',[_vm._v("Month")])],1)],1)],1)],1)],1),_c('v-sheet',{staticClass:"d-flex justify-middle relative",attrs:{"min-height":_vm.calHeight}},[_c('span',{staticClass:"flex-grow-1"},[_c('v-calendar',{ref:"calendar",attrs:{"color":"primary","events":_vm.filteredEvents,"event-start":"startDate","event-end":"endDate","event-color":_vm.getEventColor,"event-timed":_vm.isEventTimed,"type":_vm.type,"interval-height":"60","event-text-color":"black","start":_vm.startingDate,"data-cy":"calendar","first-interval":_vm.startTime,"interval-count":24 - _vm.startTime},on:{"click:event":_vm.showEvent,"click:more":_vm.viewDay,"click:date":_vm.viewDay,"click:day":_vm.handleDayClick,"click:interval":_vm.handleDayClick,"click:time":_vm.handleDayClick,"moved":_vm.moved},scopedSlots:_vm._u([{key:"event",fn:function(item){return [_c('div',{class:{
+return [_c('v-btn',_vm._g(_vm._b({attrs:{"outlined":"","color":"grey darken-2"}},'v-btn',attrs,false),on),[_c('span',[_vm._v(_vm._s(_vm.typeToLabel[_vm.type]))]),_c('v-icon',{attrs:{"right":""}},[_vm._v("mdi-menu-down")])],1)]}}])},[_c('v-list',[_c('v-list-item',{on:{"click":function($event){return _vm.setCalendarType('day')}}},[_c('v-list-item-title',[_vm._v("Day")])],1),_c('v-list-item',{on:{"click":function($event){return _vm.setCalendarType('week')}}},[_c('v-list-item-title',[_vm._v("Week")])],1),_c('v-list-item',{on:{"click":function($event){return _vm.setCalendarType('month')}}},[_c('v-list-item-title',[_vm._v("Month")])],1)],1)],1)],1)],1),_c('v-sheet',{staticClass:"d-flex justify-middle relative",attrs:{"min-height":_vm.calHeight}},[_c('span',{staticClass:"flex-grow-1"},[(_vm.eventsAreLoading)?_c('v-progress-linear',{attrs:{"indeterminate":""}}):_vm._e(),_c('v-calendar',{ref:"calendar",attrs:{"color":"primary","events":_vm.filteredEvents,"event-start":"startDate","event-end":"endDate","event-color":_vm.getEventColor,"event-timed":_vm.isEventTimed,"type":_vm.type,"interval-height":"60","event-text-color":"black","start":_vm.startingDate,"data-cy":"calendar","first-interval":_vm.startTime,"interval-count":24 - _vm.startTime},on:{"click:event":_vm.showEvent,"click:more":_vm.viewDay,"click:date":_vm.viewDay,"click:day":_vm.handleDayClick,"click:interval":_vm.handleDayClick,"click:time":_vm.handleDayClick,"moved":_vm.moved},scopedSlots:_vm._u([{key:"event",fn:function(item){return [_c('div',{class:{
                   'in-the-past': _vm.isInThePast(item.event),
                 },attrs:{"data-cy":("event-" + (item.event.id))}},[_c('strong',{staticClass:"ml-1"},[_vm._v(_vm._s(item.formatTime(item.eventParsed.start, true)))]),_c('span',{class:{
                     'text-decoration-line-through': item.event && item.event.cancelled,
                   }},[_vm._v(" "+_vm._s(_vm.shortenLabName(item.event.organization))+" ")]),_c('div',{staticClass:"ml-1"},[_vm._v(_vm._s(item.event.productUser.fullName))]),_c('div',{staticClass:"ml-1"},[_vm._v(_vm._s(item.event.reservation.comment))])])]}},{key:"day-body",fn:function(ref){
                   var date = ref.date;
                   var week = ref.week;
-return [_c('div',{staticClass:"v-current-time",class:{ first: date === week[0].date },style:({ top: _vm.nowY() })})]}}]),model:{value:(_vm.calModel),callback:function ($$v) {_vm.calModel=$$v},expression:"calModel"}}),(_vm.eventsAreLoading)?_c('v-progress-linear',{attrs:{"indeterminate":""}}):_vm._e()],1),_c('v-expand-x-transition',[_c('v-card',{directives:[{name:"show",rawName:"v-show",value:(_vm.reservationOpen),expression:"reservationOpen"}],attrs:{"color":"grey lighten-4 ml-4 ","min-width":"350px","max-width":"550px"}},[_c('v-card-title',{staticClass:"d-flex justify-space-between"},[_vm._v(" Reserve an instrument or location "),_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
+return [_c('div',{staticClass:"v-current-time",class:{ first: date === week[0].date },style:({ top: _vm.nowY() })})]}}]),model:{value:(_vm.calModel),callback:function ($$v) {_vm.calModel=$$v},expression:"calModel"}})],1),_c('v-expand-x-transition',[_c('v-card',{directives:[{name:"show",rawName:"v-show",value:(_vm.reservationOpen),expression:"reservationOpen"}],attrs:{"color":"grey lighten-4 ml-4 ","min-width":"350px","max-width":"550px"}},[_c('v-card-title',{staticClass:"d-flex justify-space-between"},[_vm._v(" Reserve an instrument or location "),_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
                   var on = ref.on;
 return [_c('v-btn',_vm._g({attrs:{"icon":"","small":"","data-cy":"close-reservation-panel"},on:{"click":_vm.closeReservation}},on),[_c('v-icon',[_vm._v("mdi-close")])],1)]}}])},[_c('span',[_vm._v("Close reservation panel")])])],1),_c('v-card-text',[_c('v-form',{ref:"reserveForm",model:{value:(_vm.formIsValid),callback:function ($$v) {_vm.formIsValid=$$v},expression:"formIsValid"}},[_c('v-autocomplete',{attrs:{"label":"Select Resource","required":"","items":_vm.justSelectedResources,"item-text":"name","return-object":"","auto-select-first":"","rules":_vm.formRules.generic,"disabled":_vm.weAreEditing,"data-cy":"select-resources"},on:{"change":_vm.handleResourceChange},model:{value:(_vm.resource),callback:function ($$v) {_vm.resource=$$v},expression:"resource"}}),(_vm.useTrial || _vm.useMaintenance)?_c('v-row',{attrs:{"no-gutters":""}},[(_vm.useTrial)?_c('v-col',{attrs:{"cols":"8"}},[_c('v-checkbox',{staticClass:"dense-checkbox",attrs:{"dense":"","label":"Testing / Pilot","disabled":_vm.resourceNotSelected,"data-cy":"trial-checkbox"},on:{"change":_vm.toggleIsTrial},model:{value:(_vm.trial),callback:function ($$v) {_vm.trial=$$v},expression:"trial"}})],1):_vm._e(),(_vm.useMaintenance)?_c('v-col',{attrs:{"cols":"4"}},[(_vm.canSetMaintanence())?_c('v-checkbox',{staticClass:"dense-checkbox",attrs:{"dense":"","label":"Unavailable","data-cy":"maintenance-checkbox"},model:{value:(_vm.isMaintenance),callback:function ($$v) {_vm.isMaintenance=$$v},expression:"isMaintenance"}}):_vm._e()],1):_vm._e()],1):_vm._e(),(_vm.canReserveForOthers())?_c('v-autocomplete',{attrs:{"label":"User","hint":"User on whose behalf this reservation is being made","persistent-hint":"","required":"","items":_vm.users,"rules":_vm.formRules.generic,"item-text":"fullName","return-object":"","disabled":_vm.resourceNotSelected,"data-cy":"user"},on:{"change":function($event){return _vm.getAllOrgs($event)}},model:{value:(_vm.user),callback:function ($$v) {_vm.user=$$v},expression:"user"}}):_vm._e(),_c('v-autocomplete',{attrs:{"label":"Organizaton","required":"","items":_vm.allowedOrgs,"rules":_vm.formRules.generic,"disabled":_vm.cantBeEdited || _vm.resourceNotSelected,"data-cy":"organizaton"},on:{"change":function($event){return _vm.getAllExpenseCodes(_vm.user)}},scopedSlots:_vm._u([{key:"item",fn:function(ref){
                   var item = ref.item;
@@ -94807,10 +94808,10 @@ return [_c('v-chip',{attrs:{"color":"transparent","close":""},on:{"click:close":
               },attrs:{"color":_vm.getEventColor(_vm.selectedEvent),"dense":""}},[_c('v-tooltip',{attrs:{"top":""},scopedSlots:_vm._u([{key:"activator",fn:function(ref){
               var on = ref.on;
 return [_c('v-btn',_vm._g({attrs:{"icon":"","small":"","data-cy":"popup-edit"},on:{"click":function($event){return _vm.editReservation(_vm.selectedEvent)}}},on),[_c('v-icon',[_vm._v("mdi-pencil")])],1)]}}],null,false,3260718299)},[_c('span',[_vm._v("Edit reservation")])]),_c('v-toolbar-title',{class:{ 'text-decoration-line-through': _vm.selectedEvent.cancelled }},[_c('span',{staticClass:"ml-2"},[_vm._v(_vm._s(_vm.selectedEvent.product.name))]),(_vm.useMaintenance && _vm.selectedEvent.reservation.isMaintenance)?_c('v-icon',{staticClass:"mb-1 ml-2",attrs:{"color":"red darken-1"}},[_vm._v(" mdi-minus-circle ")]):_vm._e(),(!_vm.selectedEvent.reservation.approved)?_c('v-icon',{staticClass:"mb-1 ml-2",attrs:{"color":"blue darken-2"}},[_vm._v(" mdi-test-tube ")]):_vm._e()],1),_c('v-spacer'),_c('v-btn',{attrs:{"icon":"","small":"","data-cy":"popup-close"},on:{"click":_vm.closePopup}},[_c('v-icon',[_vm._v("mdi-close")])],1)],1),(Object.keys(_vm.selectedEvent).length)?_c('v-card-text',{staticClass:"text-body-1"},[_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v("User")])]),_c('v-col',[_c('span',{staticClass:"font-weight-medium",attrs:{"data-cy":"popup-user"}},[_vm._v(" "+_vm._s(_vm.selectedEvent.productUser.fullName)+" "),_c('v-icon',{staticClass:"ml-1 mb-1",attrs:{"color":_vm.$api.reservation.getUserIconColor(_vm.selectedEvent.productUser),"small":""}},[_vm._v(" "+_vm._s(_vm.$api.reservation.getUserIcon())+" ")])],1)])],1),_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v("Organization")])]),_c('v-col',[_c('span',{staticClass:"font-weight-medium",attrs:{"data-cy":"popup-organization"}},[_vm._v(" "+_vm._s(_vm._f("orgNameFromSlug")(_vm.selectedEvent.organization))+" ")])])],1),(_vm.showAccountDisplay(_vm.selectedEvent))?_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v("Exp Code/ PO")])]),_c('v-col',[_c('span',{staticClass:"font-weight-medium",attrs:{"data-cy":"popup-expense-code"}},[_vm._v(" "+_vm._s(_vm.getAccountDisplay(_vm.selectedEvent))+" ")])])],1):_vm._e(),_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v("Time")])]),_c('v-col',[_c('div',[_c('span',{staticClass:"font-weight-medium",attrs:{"data-cy":"popup-start-date"}},[_vm._v(" "+_vm._s(_vm.selectedEvent.startDateAsMoment.format('M/DD/YYYY h:mm A'))+" ")]),_vm._v(" to ")]),_c('span',{staticClass:"font-weight-medium",attrs:{"data-cy":"popup-end-date"}},[_vm._v(" "+_vm._s(_vm.selectedEvent.endDateAsMoment.format('M/DD/YYYY h:mm A'))+" ")])])],1),(_vm.selectedEvent.reservation.attendants.length)?_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v("Attendants")])]),_c('v-col',_vm._l((_vm.selectedEvent.reservation.attendants),function(attendant){return _c('span',{key:attendant.id,staticClass:"font-weight-medium",attrs:{"data-cy":("popup-attendant-" + (attendant.id))}},[_c('v-chip',{staticClass:"badge-adjust",attrs:{"color":"transparent mr-2"}},[_c('v-icon',{staticClass:"mr-2",attrs:{"color":_vm.$api.reservation.getUserIconColor(attendant)}},[_vm._v(" "+_vm._s(_vm.$api.reservation.getUserIcon())+" ")]),_vm._v(" "+_vm._s(attendant.fullName)+" ")],1)],1)}),0)],1):_vm._e(),(_vm.$api.reservation.useSpecialMsg(_vm.selectedEvent.product, _vm.selectedEvent.reservation.attendants))?_c('div',{staticClass:"mt-2 red--text",attrs:{"data-cy":"popup-special-message"}},[_vm._v(" "+_vm._s(_vm.$api.reservation.getSpecialMessage())+" ")]):_vm._e(),(_vm.selectedEvent.cancelled)?_c('div',{staticClass:"mt-2 red--text",attrs:{"data-cy":"popup-cancelled"}},[_vm._v(" This reservation is cancelled. ")]):_vm._e(),(_vm.selectedEvent.reservation.comment)?_c('v-row',{staticClass:"mt-3",attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('div',[_vm._v("Comments")])]),_c('v-col',{attrs:{"data-cy":"popup-comment"}},[_vm._v(_vm._s(_vm.selectedEvent.reservation.comment))])],1):_vm._e(),(_vm.useMaintenance && _vm.selectedEvent.reservation.isMaintenance)?_c('v-row',{staticClass:"mt-3",attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"data-cy":"popup-unavailable"}},[_vm._v("This time slot is marked Unavailable")])],1):_vm._e(),(_vm.useTrial && _vm.selectedEvent.reservation.trial)?_c('v-row',{staticClass:"mt-3",attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"data-cy":"popup-trial"}},[_vm._v(" "+_vm._s(("This is a" + (_vm.selectedEvent.reservation.approved ? '' : 'n unapproved') + " Testing / Pilot reservation"))+" ")])],1):_vm._e()],1):_vm._e(),_c('v-card-actions',{staticClass:"d-flex justify-end"},[(_vm.canDeleteReservation(_vm.selectedEvent))?_c('v-btn',{attrs:{"text":"","color":"secondary","data-cy":"popup-delete-btn"},on:{"click":function($event){return _vm.deleteReservation(_vm.selectedEvent)}}},[_vm._v(" Delete Reservation ")]):_vm._e(),_c('v-spacer'),(_vm.canCancelReservation(_vm.selectedEvent))?_c('v-btn',{staticClass:"ml-2",attrs:{"color":"secondary","text":"","data-cy":"popup-cancel-btn"},on:{"click":function($event){return _vm.cancelReservation(_vm.selectedEvent)}}},[_vm._v(" Cancel Reservation ")]):_vm._e()],1)],1)],1):_vm._e()],1)],1)],1)],1)}
-var IFXCalendarListvue_type_template_id_7bebcaca_scoped_true_staticRenderFns = []
+var IFXCalendarListvue_type_template_id_7484c31f_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/calendar/IFXCalendarList.vue?vue&type=template&id=7bebcaca&scoped=true&
+// CONCATENATED MODULE: ./src/components/calendar/IFXCalendarList.vue?vue&type=template&id=7484c31f&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.sort.js
 var es_array_sort = __webpack_require__("4e82");
@@ -96115,8 +96116,8 @@ var moment_timezone_default = /*#__PURE__*/__webpack_require__.n(moment_timezone
 });
 // CONCATENATED MODULE: ./src/components/calendar/IFXCalendarList.vue?vue&type=script&lang=js&
  /* harmony default export */ var calendar_IFXCalendarListvue_type_script_lang_js_ = (IFXCalendarListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/calendar/IFXCalendarList.vue?vue&type=style&index=0&id=7bebcaca&scoped=true&lang=scss&
-var IFXCalendarListvue_type_style_index_0_id_7bebcaca_scoped_true_lang_scss_ = __webpack_require__("8eb1");
+// EXTERNAL MODULE: ./src/components/calendar/IFXCalendarList.vue?vue&type=style&index=0&id=7484c31f&scoped=true&lang=scss&
+var IFXCalendarListvue_type_style_index_0_id_7484c31f_scoped_true_lang_scss_ = __webpack_require__("1e0b");
 
 // EXTERNAL MODULE: ./src/components/calendar/IFXCalendarList.vue?vue&type=style&index=1&lang=scss&
 var IFXCalendarListvue_type_style_index_1_lang_scss_ = __webpack_require__("2ee5");
@@ -100100,11 +100101,11 @@ const VToolbarItems = createSimpleFunctional('v-toolbar__items');
 
 var IFXCalendarList_component = normalizeComponent(
   calendar_IFXCalendarListvue_type_script_lang_js_,
-  IFXCalendarListvue_type_template_id_7bebcaca_scoped_true_render,
-  IFXCalendarListvue_type_template_id_7bebcaca_scoped_true_staticRenderFns,
+  IFXCalendarListvue_type_template_id_7484c31f_scoped_true_render,
+  IFXCalendarListvue_type_template_id_7484c31f_scoped_true_staticRenderFns,
   false,
   null,
-  "7bebcaca",
+  "7484c31f",
   null
   
 )
