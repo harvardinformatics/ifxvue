@@ -55,6 +55,20 @@ export default {
       required: false,
       default: false,
     },
+    trackPageNum: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  data: () => ({
+    currentPage: 1,
+  }),
+  mounted() {
+    if (this.trackPageNum && this.rt?.query?.page) {
+      const num = parseInt(this.rt.query.page, 10)
+      this.currentPage = Number.isNaN(num) ? 1 : num
+    }
   },
   methods: {
     // Method for handling click events on rows
@@ -70,6 +84,14 @@ export default {
         return 'mixed'
       }
       return value.toString()
+    },
+    // Method for handling page changes
+    pageChange(item) {
+      this.$emit('update:page', item)
+      if (this.trackPageNum) {
+        this.currentPage = item
+      }
+      return null
     },
   },
   computed: {
@@ -110,6 +132,9 @@ export default {
     itemsPerPageStorageKey() {
       return `${this.itemType}TableItemsPerPage`
     },
+    permissionCheckedHeaders() {
+      return this.headers.filter((h) => (h.permission !== undefined ? h.permission : true))
+    },
   },
 }
 </script>
@@ -117,7 +142,7 @@ export default {
 <template>
   <!-- NOTE: default search is not used. Items should be filtered by search and any other params before they are passed in -->
   <v-data-table
-    :headers="headers"
+    :headers="permissionCheckedHeaders"
     v-model="selectedLocal"
     :items="items"
     :sort-by="sortBy"
@@ -131,6 +156,8 @@ export default {
     :item-key="itemKey"
     :hide-default-footer="hideDefaultFooter"
     :loading="loading"
+    @update:page="pageChange"
+    :page="currentPage"
   >
     <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
     <template #header.data-table-select="{ props, on }">
@@ -166,7 +193,7 @@ export default {
       <span class="grey--text text--darken-1">Loading items...</span>
     </template>
 
-    <template v-for="header in headers" #[`item.${header.value}`]="{ item }">
+    <template v-for="header in permissionCheckedHeaders" #[`item.${header.value}`]="{ item }">
       <span v-if="header.namedSlot" v-bind:key="header.value">
         <slot :name="header.value" :item="item"></slot>
       </span>
@@ -177,6 +204,7 @@ export default {
         :type="itemType"
         :key="header.value"
         :custom="header.custom"
+        :page="currentPage"
       ></IFXDataTableCell>
     </template>
   </v-data-table>
