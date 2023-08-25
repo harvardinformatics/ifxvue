@@ -67,7 +67,11 @@ export default {
           this.showMessage(message)
           await this.sleep(this.routeDelay)
           if (this.$route.query.next) {
-            this.$router.push({ path: this.$route.query.next })
+            const query = {}
+            if (this.$route.query.page) {
+              query.page = this.$route.query.page
+            }
+            this.$router.push({ path: this.$route.query.next, query })
           } else {
             this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
           }
@@ -88,7 +92,11 @@ export default {
           this.showMessage(message)
           await this.sleep(this.routeDelay)
           if (this.$route.query.next) {
-            this.$router.push({ path: this.$route.query.next })
+            const query = {}
+            if (this.$route.query.page) {
+              query.page = this.$route.query.page
+            }
+            this.$router.push({ path: this.$route.query.next, query })
           } else {
             this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
           }
