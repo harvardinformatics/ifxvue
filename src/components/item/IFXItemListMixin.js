@@ -89,7 +89,14 @@ export default {
           if (i.data) {
             item = i.data
           }
-          return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+          return Object.keys(item).some((j) => {
+            let thingToBeSearched = item[j]
+            if (typeof item[j] === 'boolean' && item[j]) {
+              // If this is a boolean and true, search the key name instead
+              thingToBeSearched = j
+            }
+            return this.filterSearch(thingToBeSearched, search)
+          })
         })
       }
       return items
