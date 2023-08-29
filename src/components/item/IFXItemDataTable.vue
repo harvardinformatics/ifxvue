@@ -58,7 +58,7 @@ export default {
     trackPageNum: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
   },
   data: () => ({
