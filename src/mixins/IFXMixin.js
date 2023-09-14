@@ -315,7 +315,11 @@ export default {
          * @param {any} v
          * @returns {boolean | string}
          */
-        phone: [baseRule, (v) => /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g.test(v) || 'Phone number must be, digits, hyphens or parens only'],
+        phone: [
+          baseRule,
+          (v) => /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g.test(v)
+            || 'Phone number must be, digits, hyphens or parens only',
+        ],
         /**
          * Checks if value is valid currency
          * @param {any} v
