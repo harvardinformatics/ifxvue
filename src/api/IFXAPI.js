@@ -7,7 +7,12 @@ import Contact from '@/components/contact/IFXContact'
 import { User, UserContact, UserAccount } from '@/components/user/IFXUser'
 import Address from '@/components/address/IFXAddress'
 import Affiliation from '@/components/affiliation/IFXAffiliation'
-import { Organization, OrganizationContact, OrganizationUser } from '@/components/organization/IFXOrganization'
+import {
+  Organization,
+  OrganizationContact,
+  OrganizationUser,
+  OrganizationRate,
+} from '@/components/organization/IFXOrganization'
 import IFXMailing from '@/components/mailing/IFXMailing'
 import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
@@ -367,6 +372,7 @@ export default class IFXAPIService {
       // Initialize contacts and users as empty arrays - will be filled in if incoming orgData has contacts or users
       newOrgData.contacts = []
       newOrgData.users = []
+      newOrgData.organization_rates = []
 
       // Check if incoming orgData has contacts
       if (orgData.contacts && orgData.contacts.length) {
@@ -399,6 +405,12 @@ export default class IFXAPIService {
           return decompose ? newUserData : this.organizationUser.create(newUserData)
         })
         newOrgData.users = organizationUserDataObjs
+      }
+
+      // Check if incoming orgData has rates
+      if (orgData.organization_rates && orgData.organization_rates.length) {
+        const organizationRateDataObjs = orgData.organization_rates.map((orgRate) => (decompose ? orgRate.data : this.organizationRate.create(orgRate)))
+        newOrgData.organization_rates = organizationRateDataObjs
       }
       // If decomposing, do not create a dynamic organization object
       return decompose ? newOrgData : new Organization(newOrgData)
@@ -546,6 +558,16 @@ export default class IFXAPIService {
       return new OrganizationUser(data)
     }
     return this.genericAPI(null, OrganizationUser, createFunc, null)
+  }
+
+  get organizationRate() {
+    const createFunc = (data = {}) => {
+      if (!data.rate) {
+        data.rate = this.rate.create({})
+      }
+      return new OrganizationRate(data)
+    }
+    return this.genericAPI(null, OrganizationRate, createFunc, null)
   }
 
   // this.$api.contactables.getList(search)
@@ -816,7 +838,7 @@ export default class IFXAPIService {
     }
     api.isFacilityWithDates = (facility_name) => {
       const result = ['Center for Brain Science Neuroimaging'].includes(facility_name)
-      console.log(`result of date check is ${result}`)
+      // console.log(`result of date check is ${result}`)
       return result
     }
     return api
