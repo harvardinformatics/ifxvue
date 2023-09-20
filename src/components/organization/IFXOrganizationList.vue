@@ -100,6 +100,6 @@ export default {
       :loading="isLoading"
       @update:selected="updateSelected"
     />
-    <slot name="content"></slot>
+    <slot name="extra-content"></slot>
   </v-container>
 </template>

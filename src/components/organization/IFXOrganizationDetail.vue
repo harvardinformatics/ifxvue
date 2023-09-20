@@ -330,7 +330,7 @@ export default {
             <v-divider></v-divider>
           </div>
         </v-row>
-        <slot name="content" :item="item"></slot>
+        <slot name="extra-content" :item="item"></slot>
       </v-col>
     </v-row>
     <IFXPageActionBar
