@@ -601,7 +601,12 @@ export default {
       }
       // Check if there is a ?next queryParam and go there if there is
       if (!this.showErrorMsg && this.$route.query.next) {
-        this.$router.push({ path: this.$route.query.next })
+        const query = {}
+        if (this.$route.query.page) {
+          query.page = this.$route.query.page
+        }
+
+        this.$router.push({ path: this.$route.query.next, query })
       } else {
         this.$nextTick(() => {
           this.$refs.calendar.checkChange()
@@ -868,7 +873,11 @@ export default {
     closePopup() {
       this.selectedOpen = false
       if (this.showPopup && this.$route.query.next) {
-        this.$router.push({ path: this.$route.query.next })
+        const query = {}
+        if (this.$route.query.page) {
+          query.page = this.$route.query.page
+        }
+        this.$router.push({ path: this.$route.query.next, query })
       }
     },
     toggleIsTrial(value) {
