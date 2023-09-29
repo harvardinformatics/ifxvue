@@ -108,7 +108,7 @@ export default class IFXAPIService {
       console.error('Either the item class or the createFunc must be defined')
     }
     if (!createFunc) {
-      createFunc = (data) => new ItemClass(data)
+      createFunc = (data, decompose = false) => new ItemClass(data, decompose)
     }
     if (!decomposeFunc) {
       decomposeFunc = (item) => item
@@ -116,7 +116,7 @@ export default class IFXAPIService {
     return {
       // Create and decompose are synchronous - this is important for the more complex apis, like Organization
       // As organization creation is assumed to be sync, so if users, contacts creation is async, things break
-      create: (data) => createFunc(data),
+      create: (data, decompose = false) => createFunc(data, decompose),
       decompose: (item) => decomposeFunc(item),
       getList: async (params = {}) => this.axios.get(baseURL, { params }).then((res) => res.data.map((item) => createFunc(item))),
       getByID: async (id) => {
@@ -409,7 +409,7 @@ export default class IFXAPIService {
 
       // Check if incoming orgData has rates
       if (orgData.organization_rates && orgData.organization_rates.length) {
-        const organizationRateDataObjs = orgData.organization_rates.map((orgRate) => (decompose ? orgRate.data : this.organizationRate.create(orgRate)))
+        const organizationRateDataObjs = orgData.organization_rates.map((orgRate) => this.organizationRate.create(orgRate, decompose))
         newOrgData.organization_rates = organizationRateDataObjs
       }
       // If decomposing, do not create a dynamic organization object
@@ -561,13 +561,19 @@ export default class IFXAPIService {
   }
 
   get organizationRate() {
-    const createFunc = (data = {}) => {
-      if (!data.rate) {
-        data.rate = this.rate.create({})
+    const createFunc = (orgRateData = {}, decompose = false) => {
+      // Handle the product rate
+      if (!orgRateData.rate) {
+        orgRateData.rate = decompose ? null : this.productRate.create({})
+      } else {
+        orgRateData.rate = decompose ? orgRateData.rate.data : this.productRate.create(orgRateData.rate)
       }
-      return new OrganizationRate(data)
+      return decompose ? orgRateData.data : new OrganizationRate(orgRateData)
     }
-    return this.genericAPI(null, OrganizationRate, createFunc, null)
+    const decomposeFunc = (data) => {
+      this.createFunc(data, true)
+    }
+    return this.genericAPI(null, OrganizationRate, createFunc, decomposeFunc)
   }
 
   // this.$api.contactables.getList(search)
