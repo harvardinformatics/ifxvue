@@ -445,7 +445,7 @@ export default {
     },
     summaryCharges(group) {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      const summary = records.reduce((prev, current) => prev + parseInt(current.decimalCharge, 10), 0)
+      const summary = records.reduce((prev, current) => prev + parseInt(current.charge, 10), 0)
       return summary
     },
     getSummaryDetails(group) {
