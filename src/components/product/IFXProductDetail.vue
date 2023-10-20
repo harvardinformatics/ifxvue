@@ -19,6 +19,7 @@ export default {
     headers() {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
+        { text: 'Description', value: 'description', sortable: true, namedSlot: true },
         { text: 'Price', value: 'price', sortable: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
@@ -75,6 +76,15 @@ export default {
           {{ item.description }}
         </v-col>
       </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Billable</h3>
+        </v-col>
+        <v-col>
+          <span v-if="item.billable">Yes</span>
+          <span v-else>No</span>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col>
           <div class="d-flex justify-space-between">
@@ -107,6 +117,12 @@ export default {
                 </template>
                 <span>Inactive rate</span>
               </v-tooltip>
+            </template>
+            <template #description="{ item }">
+              <span v-if="item.description">
+                {{ item.description }}
+              </span>
+              <span v-else class="grey--text">None</span>
             </template>
             <template #maxQty="{ item }">
               {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}

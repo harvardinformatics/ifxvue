@@ -193,9 +193,14 @@ export default {
      * Helper function for navigating to edit page of item type
      * @param {string} type of item
      * @param {string} id of item
+     * @param {string} page number to add to the query string
      */
-    navigateToEdit(type, id) {
-      this.rtr.push({ name: `${type}Edit`, params: { id }, query: { next: this.$route.path } })
+    navigateToEdit(type, id, page = null) {
+      const query = { next: this.$route.path }
+      if (page) {
+        query.page = page
+      }
+      this.rtr.push({ name: `${type}Edit`, params: { id }, query })
     },
     /**
      * Helper function for navigating to edit page of item type
@@ -209,9 +214,14 @@ export default {
      * Helper function for navigating to detail page of item type
      * @param {string} type of item
      * @param {string} id of item
+     * @param {string} page number to add to the query string
      */
-    navigateToDetail(type, id) {
-      this.rtr.push({ name: `${type}Detail`, params: { id }, query: { next: this.$route.path } })
+    navigateToDetail(type, id, page = null) {
+      const query = { next: this.$route.path }
+      if (page) {
+        query.page = page
+      }
+      this.rtr.push({ name: `${type}Detail`, params: { id }, query })
     },
     /**
      * Helper function for navigating to create page of item type

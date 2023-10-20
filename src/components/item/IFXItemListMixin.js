@@ -9,8 +9,9 @@ export default {
       isLoading: false,
       items: [],
       selected: [],
-      search: this.$api.storage.getItem(this.searchStorageKey, 'session') || '',
+      search: '',
       deepSearch: false,
+      searchBooleans: false,
     }
   },
   methods: {
@@ -89,7 +90,14 @@ export default {
           if (i.data) {
             item = i.data
           }
-          return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+          return Object.keys(item).some((j) => {
+            let thingToBeSearched = item[j]
+            if (this.searchBooleans && typeof item[j] === 'boolean' && item[j]) {
+              // If this is a boolean and true, search the key name instead
+              thingToBeSearched = j
+            }
+            return this.filterSearch(thingToBeSearched, search)
+          })
         })
       }
       return items
@@ -98,7 +106,14 @@ export default {
       let search = s
       if (this.deepSearch && v && typeof v === 'object' && !Array.isArray(v) && v.data) {
         const item = v.data
-        return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+        return Object.keys(item).some((j) => {
+          let thingToBeSearched = item[j]
+          if (this.searchBooleans && typeof item[j] === 'boolean' && item[j]) {
+            // If this is a boolean and true, search the key name instead
+            thingToBeSearched = j
+          }
+          return this.filterSearch(thingToBeSearched, search)
+        })
       }
       if (search && v) {
         let val = v.toString().toLowerCase()
@@ -109,7 +124,7 @@ export default {
         if (Number.parseFloat(search)) {
           search = search.replace('.', '')
         }
-        return val !== null && ['undefined', 'boolean'].indexOf(typeof val) === -1 && val.indexOf(search) !== -1
+        return val !== null && ['undefined', 'boolean'].indexOf(typeof v) === -1 && val.indexOf(search) !== -1
       }
       return false
     },
@@ -131,6 +146,7 @@ export default {
     },
   },
   mounted() {
+    this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || ''
     this.isLoading = true
     this.getSetItems().then(() => (this.isLoading = false))
   },

@@ -76,4 +76,11 @@ $icon-sizes: (
   font-weight: bold;
 }
 
+// Force progress bars to always animate
+[role='progressbar'] {
+  & .long,
+  & .short {
+    animation-play-state: running !important;
+  }
+}
 @import '~vuetify/src/styles/styles.sass';

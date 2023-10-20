@@ -72,6 +72,7 @@ export default {
     headers() {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
+        { text: 'Description', value: 'description', sortable: true, namedSlot: true },
         { text: 'Price', value: 'price', sortable: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
@@ -104,8 +105,8 @@ export default {
       <template #content>{{ description }}</template>
     </IFXPageHeader>
     <v-container>
-      <v-form v-model="isValid" :ref="productForm">
-        <v-row>
+      <v-form v-model="isValid" ref="productForm">
+        <v-row class="d-flex align-end">
           <v-col>
             <v-text-field
               v-model="item.name"
@@ -131,6 +132,14 @@ export default {
               required
               @focus="clearError('facility')"
             ></v-select>
+          </v-col>
+          <v-col>
+            <v-checkbox
+              class="mt-0 pt-0"
+              v-model="item.billable"
+              label="Billable"
+              data-cy="billable"
+            ></v-checkbox>
           </v-col>
         </v-row>
         <v-row>
@@ -207,8 +216,19 @@ export default {
                         persistent-hint
                       ></v-text-field>
                     </v-col>
-                    <v-col>
-                      <v-switch v-model="item.active" label="Active" data-cy="rate-active"></v-switch>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="item.description"
+                        label="Description"
+                        data-cy="rate-description"
+                        :error-messages="errors.description"
+                        hint="Rate description, e.g. fy23"
+                        persistent-hint
+                      ></v-text-field>
+                    </v-col>
+                    <v-col class="grey--text">
+                      <span v-if="item.active">Active</span>
+                      <span v-else>Not active</span>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -242,6 +262,12 @@ export default {
               </template>
               <template #maxQty="{ item }">
                 {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
+              </template>
+              <template #description="{ item }">
+                <span v-if="item.description">
+                  {{ item.description }}
+                </span>
+                <span v-else class="grey--text">None</span>
               </template>
               <template #actions="{ item }">
                 <IFXButton
