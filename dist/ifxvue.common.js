@@ -58114,6 +58114,14 @@ var IFXProduct_ProductUsage = /*#__PURE__*/function (_IFXItemBase4) {
       this.data.organization = organization;
     }
   }, {
+    key: "units",
+    get: function get() {
+      return this.data.units;
+    },
+    set: function set(units) {
+      this.data.units = units;
+    }
+  }, {
     key: "processing",
     get: function get() {
       return this.data.processing;
