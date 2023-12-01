@@ -258,6 +258,14 @@ class ProductUsage extends IFXItemBase {
     this.data.organization = organization
   }
 
+  get units() {
+    return this.data.units
+  }
+
+  set units(units) {
+    this.data.units = units
+  }
+
   get processing() {
     return this.data.processing
   }
