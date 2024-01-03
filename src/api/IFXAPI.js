@@ -111,8 +111,8 @@ export default class IFXAPIService {
     return {
       // Create and decompose are synchronous - this is important for the more complex apis, like Organization
       // As organization creation is assumed to be sync, so if users, contacts creation is async, things break
-      create: (data) => createFunc(data),
-      decompose: (item) => decomposeFunc(item),
+      create: (data) => createFunc(data, false),
+      decompose: (item) => decomposeFunc(item, true),
       getList: async (params = {}) => this.axios.get(baseURL, { params }).then((res) => res.data.map((item) => createFunc(item))),
       getByID: async (id) => {
         const url = `${baseURL}${id}/`

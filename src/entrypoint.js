@@ -16,6 +16,7 @@ import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 // Item
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
+import IFXItemEditableDetailMixin from '@/components/item/IFXItemEditableDetailMixin'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 import IFXItemSelectableMixin from '@/components/item/IFXItemSelectableMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
@@ -146,6 +147,7 @@ export {
   IFXItemSelectList,
   IFXItemCreateEditMixin,
   IFXItemDetailMixin,
+  IFXItemEditableDetailMixin,
   IFXItemListMixin,
   IFXItemSelectableMixin,
   IFXItemHistoryDisplay,
