@@ -116,6 +116,14 @@ export default class BillingRecord extends IFXItemBase {
     this.data.decimal_charge = decimalCharge
   }
 
+  get decimalQuantity() {
+    return this.data.decimal_quantity
+  }
+
+  set decimalQuantity(decimalQuantity) {
+    this.data.decimal_quantity = decimalQuantity
+  }
+
   get description() {
     return this.data.description
   }
