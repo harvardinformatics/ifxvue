@@ -81,6 +81,16 @@ export default {
       required: false,
       default: null,
     },
+    showTotals: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    totalUnits: {
+      type: String,
+      required: false,
+      default: 'hours',
+    },
   },
   mounted() {
     this.facilityBillingRecords()
@@ -461,6 +471,14 @@ export default {
         }
       })
       return expenseMap
+    },
+    totalCharges() {
+      const total = this.filteredItems.reduce((prev, current) => prev + current.charge, 0)
+      return total
+    },
+    totalHours() {
+      const total = this.filteredItems.reduce((prev, current) => prev + current.decimalQuantity, 0)
+      return total
     },
     determineGroupState(e) {
       const group = e.item.account.organization
@@ -1136,6 +1154,14 @@ export default {
             </template>
             <template v-slot:expanded-item="{ item }">
               <IFXBillingRecordTransactions :billingRecord="item" />
+            </template>
+            <template v-slot:footer.prepend v-if="showTotals">
+              <span class="text-body-1">
+                {{ facility.name }} total charges for {{ date }} are
+                <span class="font-weight-medium">{{ totalCharges() | centsToDollars }}</span>
+                for
+                <span class="font-weight-medium">{{ totalHours() }} {{ totalUnits }}</span>
+              </span>
             </template>
           </v-data-table>
           <v-dialog v-model="txnDialog" max-width="600px">
