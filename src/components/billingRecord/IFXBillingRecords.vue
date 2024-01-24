@@ -27,6 +27,16 @@ export default {
       required: false,
       default: false,
     },
+    showTotals: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    totalUnits: {
+      type: String,
+      required: false,
+      default: 'hours',
+    },
   },
   data() {
     return {
@@ -60,12 +70,8 @@ export default {
     getInitialDate() {
       let initialDate = this.$api.storage.getItem('billingRecordListDate', 'session')
       if (!initialDate) {
-        let year = moment()
-          .subtract(1, 'months')
-          .year()
-        let month = moment()
-          .subtract(1, 'months')
-          .format('MM')
+        let year = moment().subtract(1, 'months').year()
+        let month = moment().subtract(1, 'months').format('MM')
         if (this.$route.query.year && /^[0-9]{4}$/.test(this.$route.query.year.trim())) {
           year = this.$route.query.year.trim()
         }
@@ -150,6 +156,8 @@ export default {
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
             :showDates="showDates"
+            :showTotals="showTotals"
+            :totalUnits="totalUnits"
           />
           <IFXBillingRecordList
             v-else
@@ -161,6 +169,8 @@ export default {
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
             :showDates="showDates"
+            :showTotals="showTotals"
+            :totalUnits="totalUnits"
           />
         </v-col>
       </v-row>
