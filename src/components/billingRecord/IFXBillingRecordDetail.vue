@@ -225,11 +225,8 @@ export default {
         <v-col sm="2">
           <h3>Charge</h3>
         </v-col>
-        <v-col v-if="$api.facility.isDecimalFacility(facility.name)">
+        <v-col>
           {{ item.decimalCharge | dollars }}
-        </v-col>
-        <v-col v-else>
-          {{ item.charge | centsToDollars }}
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
@@ -344,11 +341,8 @@ export default {
             :items-per-page="-1"
           >
             <template v-slot:item.charge="{ item }">
-              <span v-if="$api.facility.isDecimalFacility(facility.name)">
+              <span>
                 {{ item.decimalCharge | dollars }}
-              </span>
-              <span v-else>
-                {{ item.charge | centsToDollars }}
               </span>
             </template>
             <template v-slot:item.rate="{ item }">
