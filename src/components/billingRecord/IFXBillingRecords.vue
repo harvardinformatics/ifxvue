@@ -1,7 +1,6 @@
 <script>
 import moment from 'moment'
 import { mapActions } from 'vuex'
-import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
 import IFXBillingRecordListDecimal from '@/components/billingRecord/IFXBillingRecordListDecimal'
 
 export default {
@@ -62,7 +61,6 @@ export default {
     }
   },
   components: {
-    IFXBillingRecordList,
     IFXBillingRecordListDecimal,
   },
   methods: {
@@ -147,20 +145,6 @@ export default {
       <v-row v-for="facility in facilities" :key="facility.id + keyModifier">
         <v-col>
           <IFXBillingRecordListDecimal
-            v-if="$api.facility.isDecimalFacility(facility.name)"
-            :facility="facility"
-            :date="date"
-            :organization="organization"
-            :allowInvoiceGeneration="false"
-            :allowApprovals="false"
-            :allowDownloads="allowDownloads"
-            :useDefaultMailButton="useDefaultMailButton"
-            :showDates="showDates"
-            :showTotals="showTotals"
-            :totalUnits="totalUnits"
-          />
-          <IFXBillingRecordList
-            v-else
             :facility="facility"
             :date="date"
             :organization="organization"
