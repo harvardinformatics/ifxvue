@@ -216,6 +216,7 @@ export default class IFXAPIService {
         const userData = {}
         this.authUser = new IFXAuthUser(userData)
         this.storage.removeItem('user')
+        this.storage.clear('session')
         return 'You have been logged out successfully.'
       },
     }
