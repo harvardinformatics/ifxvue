@@ -19,6 +19,17 @@ export default {
       required: false,
       default: null,
     },
+    /* An array of buttons to put in the page header
+    * Each button should be an object with the following properties:
+    *   - icon: The icon to display on the button
+    *   - tooltip: The tooltip to display when the button is hovered over
+    *   - action: The method to call when the button is clicked
+    */
+    buttons: {
+      type: Array,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -132,6 +143,18 @@ export default {
                 </div>
               </template>
               <span>Update Expense code / PO authorizations</span>
+            </v-tooltip>
+          </v-col>
+          <v-col v-if="buttons.length" class="d-flex flex-row flex-nowrap">
+            <v-tooltip top v-for="(button, index) in buttons" :key="index">
+              <template v-slot:activator="{ on, attrs }">
+                <div v-on="on">
+                  <v-btn v-bind="attrs" small fab @click="button.action(selected)" color="primary" :disabled="!selected.length" class="ml-2">
+                    <v-icon>{{button.icon}}</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              <span>{{ button.tooltip}}</span>
             </v-tooltip>
           </v-col>
         </v-row>
