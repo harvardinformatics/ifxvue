@@ -128,6 +128,10 @@ export default {
       }
       return false
     },
+    getAdditionalData() {
+      // This is a placeholder that gets overridden in the component if it needs to load extra data
+      return Promise.resolve()
+    }
   },
   computed: {
     listTitle() {
@@ -148,6 +152,8 @@ export default {
   mounted() {
     this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || ''
     this.isLoading = true
-    this.getSetItems().then(() => (this.isLoading = false))
+    this.getAdditionalData().then(() => {
+      this.getSetItems().then(() => (this.isLoading = false))
+    })
   },
 }
