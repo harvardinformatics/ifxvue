@@ -11,6 +11,7 @@ export default {
     return {
       isLoading: false,
       isValid: false,
+      isEditing: true,
       item: {},
       cachedItem: {},
       errors: {},
@@ -20,6 +21,9 @@ export default {
     ...mapActions(['showMessage']),
     can(ability, user = this.$api.authUser) {
       return this.$api.auth.can(ability, user)
+    },
+    getItem() {
+      return this.apiRef.getByID(this.id)
     },
     async init() {
       try {
