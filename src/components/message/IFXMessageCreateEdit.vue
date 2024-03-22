@@ -15,8 +15,12 @@ export default {
     selectedMessage: Object,
   },
   computed: {
+    apiKey() {
+      return process.env.VUE_APP_TINYMCE_API_KEY
+    },
     editorInit() {
       return {
+
         height: 300,
         menubar: false,
         statusbar: false,
@@ -70,6 +74,7 @@ export default {
         <v-row>
           <v-col>
             <Editor
+              :api-key="apiKey"
               v-model="item.message"
               :init="editorInit"
             ></Editor>
