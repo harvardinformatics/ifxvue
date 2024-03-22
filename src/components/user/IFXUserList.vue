@@ -28,7 +28,7 @@ export default {
     buttons: {
       type: Array,
       required: false,
-      default: null,
+      default: () => [],
     },
   },
   data() {
@@ -145,7 +145,7 @@ export default {
               <span>Update Expense code / PO authorizations</span>
             </v-tooltip>
           </v-col>
-          <v-col v-if="buttons.length" class="d-flex flex-row flex-nowrap">
+          <v-col v-if="buttons && buttons.length" class="d-flex flex-row flex-nowrap">
             <v-tooltip top v-for="(button, index) in buttons" :key="index">
               <template v-slot:activator="{ on, attrs }">
                 <div v-on="on">

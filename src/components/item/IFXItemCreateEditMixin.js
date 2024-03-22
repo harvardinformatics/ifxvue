@@ -39,6 +39,10 @@ export default {
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
       // this.cachedItem = JSON.parse(JSON.stringify(this.apiRef.decompose(this.item)))
     },
+    getAdditionalData() {
+      // This is a placeholder that gets overridden in the component if it needs to load extra data
+      return Promise.resolve()
+    },
     can(ability, user = this.$api.authUser) {
       // if (!user) {
       //   // eslint-disable-next-line no-param-reassign
@@ -154,11 +158,13 @@ export default {
   },
   mounted() {
     this.isLoading = true
-    this.init()
-      .then(() => this.$nextTick(() => (this.isLoading = false)))
-      .catch((error) => {
-        this.showMessage(error)
-        this.rtr.replace({ name: 'Home' })
-      })
+    this.getAdditionalData().then(() => {
+      this.init()
+        .then(() => this.$nextTick(() => (this.isLoading = false)))
+        .catch((error) => {
+          this.showMessage(error)
+          this.rtr.replace({ name: 'Home' })
+        })
+    })
   },
 }
