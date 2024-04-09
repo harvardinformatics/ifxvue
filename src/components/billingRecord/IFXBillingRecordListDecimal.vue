@@ -61,6 +61,11 @@ export default {
       required: false,
       default: true,
     },
+    allowDeleteBillingRecords: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     useDefaultMailButton: {
       type: Boolean,
       required: false,
@@ -212,6 +217,11 @@ export default {
         ? 'Cannot approve billing records that are FINAL'
         : 'Approve selected billing records'
     },
+    deleteSelectedToolTip: function () {
+      return this.billingRecordsAreFinal(this.selected)
+        ? 'Can only delete billing records that are INIT or PENDING_LAB_APPROVAL'
+        : 'Delete selected billing records'
+    },
     showCheckboxes: function () {
       return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration
     },
@@ -258,6 +268,16 @@ export default {
         return false
       }
       const result = items.some((record) => record?.currentState === 'FINAL')
+      return result
+    },
+    billingRecordsAreInitOrPending(items) {
+      // Returns true if all records in the list are either in INIT or PENDING_LAB_APPROVAL state
+      if (!items || !items.length) {
+        return false
+      }
+      const result = items.every(
+        (record) => record?.currentState === 'INIT' || record?.currentState === 'PENDING_LAB_APPROVAL'
+      )
       return result
     },
     getItemsFilteredBySearch() {
@@ -592,6 +612,31 @@ export default {
           this.txnDialog = false
           this.editDialog = false
           this.showChangeExpenseCodeDialog = false
+        })
+    },
+    deleteSelectedBillingRecords() {
+      this.updating = true
+      const promises = []
+      for (let i = 0; i < this.selected.length; i++) {
+        promises.push(this.$api.billingRecord.delete(this.selected[i]))
+      }
+      Promise.all(promises)
+        .then((response) => {
+          const errors = response.filter((resp) => resp.error)
+          if (errors.length) {
+            this.showMessage(response.error)
+          }
+          this.showMessage(`Successfully deleted ${response.length - errors.length} billing record(s)`)
+          this.items = this.items.filter((item) => !this.selected.includes(item))
+          this.selected = []
+        })
+        .catch((error) => {
+          this.isLoading = false
+          const message = this.getErrorMessage(error)
+          this.showMessage(message)
+        })
+        .finally(() => {
+          this.updating = false
         })
     },
     async openEditDialog(item) {
@@ -1034,6 +1079,25 @@ export default {
                         </v-tooltip>
                       </v-col>
                     </v-row>
+                  </v-col>
+                  <v-col v-if="allowDeleteBillingRecords">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn
+                            :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selected)"
+                            v-bind="attrs"
+                            fab
+                            small
+                            color="red"
+                            @click="deleteSelectedBillingRecords()"
+                          >
+                            <v-icon dark>mdi-trash-can-outline</v-icon>
+                          </v-btn>
+                        </div>
+                      </template>
+                      <span>{{ deleteSelectedToolTip }}</span>
+                    </v-tooltip>
                   </v-col>
                 </v-row>
               </v-col>
