@@ -21,6 +21,16 @@ export default {
       required: false,
       default: false,
     },
+    allowChangeExpenseCode: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    allowDeleteBillingRecords: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     showDates: {
       type: Boolean,
       required: false,
@@ -152,6 +162,8 @@ export default {
             :allowApprovals="false"
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
+            :allowChangeExpenseCode="allowChangeExpenseCode"
+            :allowDeleteBillingRecords="allowDeleteBillingRecords"
             :showDates="showDates"
             :showTotals="showTotals"
             :totalUnits="totalUnits"
