@@ -609,30 +609,24 @@ export default {
           this.showChangeExpenseCodeDialog = false
         })
     },
-    deleteSelectedBillingRecords() {
+    async deleteSelectedBillingRecords() {
       this.updating = true
-      const promises = []
+      let successCount = 0
       for (let i = 0; i < this.selected.length; i++) {
-        promises.push(this.$api.billingRecord.delete(this.selected[i]))
-      }
-      Promise.all(promises)
-        .then((response) => {
-          const errors = response.filter((resp) => resp.error)
-          if (errors.length) {
-            this.showMessage(response.error)
-          }
-          this.showMessage(`Successfully deleted ${response.data.length - errors.length} billing record(s)`)
-          this.items = this.items.filter((item) => !this.selected.includes(item))
-          this.selected = []
-        })
-        .catch((error) => {
-          this.isLoading = false
+        try {
+          await this.$api.billingRecord.delete(this.selected[i])
+          this.items = this.items.filter((item) => !(item.id === this.selected[i].id))
+          successCount++
+        } catch (error) {
           const message = this.getErrorMessage(error)
           this.showMessage(message)
-        })
-        .finally(() => {
-          this.updating = false
-        })
+        }
+      }
+      this.showMessage(`Successfully deleted ${successCount} billing record(s)`)
+      this.selected = []
+
+      this.isLoading = false
+      this.updating = false
     },
     async openEditDialog(item) {
       const index = this.items.findIndex((rec) => rec.id === item.id)
