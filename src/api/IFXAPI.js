@@ -851,7 +851,6 @@ export default class IFXAPIService {
       const url = `${baseURL}${id}/`
       return this.axios.get(url).then((res) => createFunc(res.data))
     }
-    api.delete = () => ({ status: 501, message: 'Not implemented' })
     // eslint-disable-next-line no-unused-vars
     api.bulkUpdate = async (recs, app = null) => {
       const url = `${baseURL}bulk_update/`
