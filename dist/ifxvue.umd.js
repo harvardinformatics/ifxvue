@@ -58017,6 +58017,14 @@ var IFXProduct_Product = /*#__PURE__*/function (_IFXItemBase3) {
       this.data.reporting_group = reportingGroup;
     }
   }, {
+    key: "productCategory",
+    get: function get() {
+      return this.data.product_category;
+    },
+    set: function set(productCategory) {
+      this.data.product_category = productCategory;
+    }
+  }, {
     key: "rates",
     get: function get() {
       return this.data.rates;
