@@ -34,6 +34,11 @@ export default {
       default: false,
       required: false,
     },
+    pageSections: [
+      'UserInfo',
+      'Contacts',
+      'Affiliations',
+    ]
   },
   data() {
     return {
