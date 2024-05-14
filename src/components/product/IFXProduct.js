@@ -161,6 +161,14 @@ class Product extends IFXItemBase {
     this.data.reporting_group = reportingGroup
   }
 
+  get productCategory() {
+    return this.data.product_category
+  }
+
+  set productCategory(productCategory) {
+    this.data.product_category = productCategory
+  }
+
   get rates() {
     return this.data.rates
   }
