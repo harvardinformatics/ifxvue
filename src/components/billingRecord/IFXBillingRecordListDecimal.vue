@@ -500,7 +500,7 @@ export default {
     },
     totalHours() {
       const total = this.filteredItems.reduce((prev, current) => prev + current.decimalQuantity, 0)
-      return total
+      return Math.round(total * 100) / 100
     },
     determineGroupState(e) {
       const group = e.item.account.organization
