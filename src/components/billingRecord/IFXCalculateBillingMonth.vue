@@ -70,6 +70,7 @@ export default {
         { text: 'Year', value: 'year', slot: true, sortable: true },
         { text: 'Month', value: 'month', slot: true, sortable: true },
         { text: 'Organization', value: 'organization', namedSlot: true, sortable: true },
+        { text: 'Product', value: 'product', slot: true, sortable: true },
         { text: 'Description', value: 'description', slot: true },
         { text: 'Processing', value: 'processing', sortable: true, namedSlot: true },
       ]
@@ -338,6 +339,9 @@ export default {
               {{ item.processing.errorMessage }}
             </span>
             <span v-else>&nbsp;</span>
+          </template>
+          <template v-slot:product="{ item }">
+            {{ item.product.product_name }}
           </template>
         </IFXItemDataTable>
       </v-col>
