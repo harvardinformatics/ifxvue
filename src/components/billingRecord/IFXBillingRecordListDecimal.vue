@@ -1192,13 +1192,6 @@ export default {
             <template v-slot:item.actions="{ item }">
               <div class="d-flex flex-row">
                 <IFXButton
-                  v-if="allowAddingTransactions(item)"
-                  iconString="add"
-                  btnType="add"
-                  xSmall
-                  @action="openTxnDialog(item)"
-                />
-                <IFXButton
                   class="ml-2"
                   v-if="allowEditingRecords(item)"
                   iconString="edit"
