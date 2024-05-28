@@ -56198,6 +56198,32 @@ var es_string_includes = __webpack_require__("2532");
 
 
 
+var IFXUser_UserFile = /*#__PURE__*/function (_IFXItemBase) {
+  _inherits(UserFile, _IFXItemBase);
+  var _super = _createSuper(UserFile);
+  function UserFile() {
+    _classCallCheck(this, UserFile);
+    return _super.apply(this, arguments);
+  }
+  _createClass(UserFile, [{
+    key: "file",
+    get: function get() {
+      return this.data.file;
+    },
+    set: function set(file) {
+      this.data.file = file;
+    }
+  }, {
+    key: "category",
+    get: function get() {
+      return this.data.category;
+    },
+    set: function set(category) {
+      this.data.category = category;
+    }
+  }]);
+  return UserFile;
+}(IFXItemBase_ItemBase);
 var IFXUser_UserContact = /*#__PURE__*/function () {
   function UserContact(data) {
     _classCallCheck(this, UserContact);
@@ -56287,12 +56313,12 @@ var IFXUser_UserContact = /*#__PURE__*/function () {
   }]);
   return UserContact;
 }();
-var IFXUser_UserAccount = /*#__PURE__*/function (_IFXItemBase) {
-  _inherits(UserAccount, _IFXItemBase);
-  var _super = _createSuper(UserAccount);
+var IFXUser_UserAccount = /*#__PURE__*/function (_IFXItemBase2) {
+  _inherits(UserAccount, _IFXItemBase2);
+  var _super2 = _createSuper(UserAccount);
   function UserAccount() {
     _classCallCheck(this, UserAccount);
-    return _super.apply(this, arguments);
+    return _super2.apply(this, arguments);
   }
   _createClass(UserAccount, [{
     key: "account",
@@ -56384,13 +56410,13 @@ var IFXUser_UserAccount = /*#__PURE__*/function (_IFXItemBase) {
 }(IFXItemBase_ItemBase);
 
 // export class User extends Contactable {
-var IFXUser_User = /*#__PURE__*/function (_IFXItemBase2) {
-  _inherits(User, _IFXItemBase2);
-  var _super2 = _createSuper(User);
+var IFXUser_User = /*#__PURE__*/function (_IFXItemBase3) {
+  _inherits(User, _IFXItemBase3);
+  var _super3 = _createSuper(User);
   function User(data) {
     var _this;
     _classCallCheck(this, User);
-    _this = _super2.call(this, data);
+    _this = _super3.call(this, data);
     // Setting primary email so that when updates are done, the correct Person field is updated
     _this.data.primary_email = data.email;
     // NOTE: values must be set here explicitly for nested forms to be reactive
@@ -56582,6 +56608,14 @@ var IFXUser_User = /*#__PURE__*/function (_IFXItemBase2) {
     },
     set: function set(contacts) {
       this.data.contacts = contacts;
+    }
+  }, {
+    key: "userFiles",
+    get: function get() {
+      return this.data.user_files;
+    },
+    set: function set(userFiles) {
+      this.data.user_files = userFiles;
     }
   }, {
     key: "hasGroup",
@@ -58738,6 +58772,11 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
       return this.genericAPI(null, IFXUser_UserAccount, createFunc, null);
     }
   }, {
+    key: "userFile",
+    get: function get() {
+      return this.genericAPI(null, IFXUser_UserFile);
+    }
+  }, {
     key: "user",
     get: function get() {
       var _this8 = this;
@@ -58801,6 +58840,12 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
             return decompose ? pa : _this8.productAccount.create(pa);
           });
           newUserData.product_accounts = productAccountDataObjs;
+        }
+        if (userData.user_files && userData.user_files.length) {
+          var userFileObjs = userData.user_files.map(function (uf) {
+            return decompose ? uf : _this8.userFile.create(uf);
+          });
+          newUserData.user_files = userFileObjs;
         }
         return decompose ? newUserData : new IFXUser_User(newUserData);
       };
