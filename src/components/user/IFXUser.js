@@ -1,5 +1,23 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
+export class UserFile extends IFXItemBase {
+  get file() {
+    return this.data.file
+  }
+
+  set file(file) {
+    this.data.file = file
+  }
+
+  get category() {
+    return this.data.category
+  }
+
+  set category(category) {
+    this.data.category = category
+  }
+}
+
 export class UserContact {
   constructor(data) {
     this.data = data
@@ -362,6 +380,14 @@ export class User extends IFXItemBase {
 
   set contacts(contacts) {
     this.data.contacts = contacts
+  }
+
+  get userFiles() {
+    return this.data.user_files
+  }
+
+  set userFiles(userFiles) {
+    this.data.user_files = userFiles
   }
 
   hasGroup(group) {

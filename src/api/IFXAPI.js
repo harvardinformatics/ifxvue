@@ -4,7 +4,7 @@ import has from 'lodash/has'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import Contact from '@/components/contact/IFXContact'
-import { User, UserContact, UserAccount } from '@/components/user/IFXUser'
+import { UserFile, User, UserContact, UserAccount } from '@/components/user/IFXUser'
 import Address from '@/components/address/IFXAddress'
 import Affiliation from '@/components/affiliation/IFXAffiliation'
 import { Organization, OrganizationContact, OrganizationUser } from '@/components/organization/IFXOrganization'
@@ -260,6 +260,10 @@ export default class IFXAPIService {
     return this.genericAPI(null, UserAccount, createFunc, null)
   }
 
+  get userFile() {
+    return this.genericAPI(null, UserFile)
+  }
+
   get user() {
     const baseURL = this.urls.USERS
     const createFunc = (userData, decompose = false) => {
@@ -311,6 +315,11 @@ export default class IFXAPIService {
       if (userData.product_accounts && userData.product_accounts.length) {
         const productAccountDataObjs = userData.product_accounts.map((pa) => (decompose ? pa : this.productAccount.create(pa)))
         newUserData.product_accounts = productAccountDataObjs
+      }
+
+      if (userData.user_files && userData.user_files.length) {
+        const userFileObjs = userData.user_files.map((uf) => (decompose ? uf : this.userFile.create(uf)))
+        newUserData.user_files = userFileObjs
       }
       return decompose ? newUserData : new User(newUserData)
     }
