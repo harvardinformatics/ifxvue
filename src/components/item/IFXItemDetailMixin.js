@@ -16,7 +16,11 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     navigateToItemEdit(id) {
-      this.rtr.push({ name: `${this.itemType}Edit`, params: { id }, query: { next: this.$route.path } })
+      const query = { next: this.$route.path }
+      if (this.$route.query.page) {
+        query.page = this.$route.query.page
+      }
+      this.rtr.push({ name: `${this.itemType}Edit`, params: { id }, query })
     },
     can(ability, user = this.$api.authUser) {
       // if (!user) {

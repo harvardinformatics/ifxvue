@@ -4,7 +4,7 @@ import has from 'lodash/has'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import Contact from '@/components/contact/IFXContact'
-import { User, UserContact, UserAccount } from '@/components/user/IFXUser'
+import { UserFile, User, UserContact, UserAccount } from '@/components/user/IFXUser'
 import Address from '@/components/address/IFXAddress'
 import Affiliation from '@/components/affiliation/IFXAffiliation'
 import { Organization, OrganizationContact, OrganizationUser } from '@/components/organization/IFXOrganization'
@@ -111,8 +111,8 @@ export default class IFXAPIService {
     return {
       // Create and decompose are synchronous - this is important for the more complex apis, like Organization
       // As organization creation is assumed to be sync, so if users, contacts creation is async, things break
-      create: (data) => createFunc(data),
-      decompose: (item) => decomposeFunc(item),
+      create: (data) => createFunc(data, false),
+      decompose: (item) => decomposeFunc(item, true),
       getList: async (params = {}) => this.axios.get(baseURL, { params }).then((res) => res.data.map((item) => createFunc(item))),
       getByID: async (id) => {
         const url = `${baseURL}${id}/`
@@ -216,6 +216,7 @@ export default class IFXAPIService {
         const userData = {}
         this.authUser = new IFXAuthUser(userData)
         this.storage.removeItem('user')
+        this.storage.clear('session')
         return 'You have been logged out successfully.'
       },
     }
@@ -257,6 +258,10 @@ export default class IFXAPIService {
       return new UserAccount(data)
     }
     return this.genericAPI(null, UserAccount, createFunc, null)
+  }
+
+  get userFile() {
+    return this.genericAPI(null, UserFile)
   }
 
   get user() {
@@ -310,6 +315,11 @@ export default class IFXAPIService {
       if (userData.product_accounts && userData.product_accounts.length) {
         const productAccountDataObjs = userData.product_accounts.map((pa) => (decompose ? pa : this.productAccount.create(pa)))
         newUserData.product_accounts = productAccountDataObjs
+      }
+
+      if (userData.user_files && userData.user_files.length) {
+        const userFileObjs = userData.user_files.map((uf) => (decompose ? uf : this.userFile.create(uf)))
+        newUserData.user_files = userFileObjs
       }
       return decompose ? newUserData : new User(newUserData)
     }
@@ -776,11 +786,14 @@ export default class IFXAPIService {
     const baseUrl = this.urls.PRODUCT_USAGES
     const createFunc = (productUsageData, decompose = false) => {
       const newProductUsageData = cloneDeep(productUsageData) || {}
-      if (productUsageData.product) {
-        newProductUsageData.product = decompose
-          ? productUsageData.product.data
-          : this.product.create(productUsageData.product)
-      }
+      // Serializer actually returns just a string (name) for the product
+      // Only discovered this because, I think, Helium is the only one using a generic product usage
+      // retrieval
+      // if (productUsageData.product) {
+      //   newProductUsageData.product = decompose
+      //     ? productUsageData.product.data
+      //     : this.product.create(productUsageData.product)
+      // }
       if (productUsageData.product_user) {
         newProductUsageData.product_user = decompose
           ? productUsageData.productUser.data
@@ -847,7 +860,6 @@ export default class IFXAPIService {
       const url = `${baseURL}${id}/`
       return this.axios.get(url).then((res) => createFunc(res.data))
     }
-    api.delete = () => ({ status: 501, message: 'Not implemented' })
     // eslint-disable-next-line no-unused-vars
     api.bulkUpdate = async (recs, app = null) => {
       const url = `${baseURL}bulk_update/`

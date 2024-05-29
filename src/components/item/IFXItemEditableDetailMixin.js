@@ -11,6 +11,7 @@ export default {
     return {
       isLoading: false,
       isValid: false,
+      isEditing: true,
       item: {},
       cachedItem: {},
       errors: {},
@@ -20,6 +21,13 @@ export default {
     ...mapActions(['showMessage']),
     can(ability, user = this.$api.authUser) {
       return this.$api.auth.can(ability, user)
+    },
+    getAdditionalData() {
+      // This is a placeholder that gets overridden in the component if it needs to load extra data
+      return Promise.resolve()
+    },
+    getItem() {
+      return this.apiRef.getByID(this.id)
     },
     async init() {
       try {
@@ -91,11 +99,13 @@ export default {
   },
   mounted() {
     this.isLoading = true
-    this.init()
-      .then(() => (this.isLoading = false))
-      .catch((err) => {
-        this.showMessage(err)
-        this.rtr.replace({ name: `${this.itemType}List` })
-      })
+    this.getAdditionalData().then(() => {
+      this.init()
+        .then(() => (this.isLoading = false))
+        .catch((err) => {
+          this.showMessage(err)
+          this.rtr.replace({ name: `${this.itemType}List` })
+        })
+    })
   },
 }

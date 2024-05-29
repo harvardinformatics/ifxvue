@@ -215,13 +215,18 @@ export default {
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
+          <h3>Product</h3>
+        </v-col>
+        <v-col>
+          {{ item.productUsage.product }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Charge</h3>
         </v-col>
-        <v-col v-if="$api.facility.isDecimalFacility(facility.name)">
+        <v-col>
           {{ item.decimalCharge | dollars }}
-        </v-col>
-        <v-col v-else>
-          {{ item.charge | centsToDollars }}
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
@@ -319,80 +324,6 @@ export default {
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
-          <div class="d-flex justify-space-between">
-            <h3>Transactions</h3>
-            <IFXButton v-if="canAddTransaction()" iconString="add" btnType="add" xSmall @action="openTxnDialog(item)" />
-          </div>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col offset="2">
-          <v-data-table
-            v-if="item.transactions && item.transactions.length"
-            :items="item.transactions"
-            :headers="headers"
-            hide-default-footer
-            :items-per-page="-1"
-          >
-            <template v-slot:item.charge="{ item }">
-              <span v-if="$api.facility.isDecimalFacility(facility.name)">
-                {{ item.decimalCharge | dollars }}
-              </span>
-              <span v-else>
-                {{ item.charge | centsToDollars }}
-              </span>
-            </template>
-            <template v-slot:item.rate="{ item }">
-              {{ item.rate }}
-            </template>
-          </v-data-table>
-          <span v-else>None</span>
-        </v-col>
-        <v-dialog v-model="dialog" max-width="600px">
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">Add a new transaction to Billing Record {{ item.id }}</span>
-            </v-card-title>
-            <v-card-subtitle>
-              <div class="py-2 text-h6 font-weight-medium">Rate is {{ editedItem.rate }}</div>
-            </v-card-subtitle>
-            <v-card-text>
-              <v-form v-model="isValid">
-                <v-row>
-                  <v-col>
-                    <v-currency-field
-                      required
-                      v-model="editedItem.charge"
-                      label="Charge"
-                      :error-messages="errors[editedItem.charge]"
-                      :rules="formRules.currency"
-                      prefix="$"
-                      allow-negative
-                    ></v-currency-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <v-textarea
-                      required
-                      v-model="editedItem.description"
-                      label="Transaction description"
-                      :error-messages="errors[editedItem.description]"
-                      :rules="formRules.generic"
-                    ></v-textarea>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="secondary" text @click="closeTxnDialog">Cancel</v-btn>
-              <v-btn color="blue darken-1" text :disabled="!isValid" @click="addNewTransaction(editedItem)">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
         <v-dialog v-model="editDialog" max-width="600px">
           <v-card>
             <v-card-title>

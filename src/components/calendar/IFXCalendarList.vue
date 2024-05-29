@@ -601,7 +601,12 @@ export default {
       }
       // Check if there is a ?next queryParam and go there if there is
       if (!this.showErrorMsg && this.$route.query.next) {
-        this.$router.push({ path: this.$route.query.next })
+        const query = {}
+        if (this.$route.query.page) {
+          query.page = this.$route.query.page
+        }
+
+        this.$router.push({ path: this.$route.query.next, query })
       } else {
         this.$nextTick(() => {
           this.$refs.calendar.checkChange()
@@ -868,7 +873,11 @@ export default {
     closePopup() {
       this.selectedOpen = false
       if (this.showPopup && this.$route.query.next) {
-        this.$router.push({ path: this.$route.query.next })
+        const query = {}
+        if (this.$route.query.page) {
+          query.page = this.$route.query.page
+        }
+        this.$router.push({ path: this.$route.query.next, query })
       }
     },
     toggleIsTrial(value) {
@@ -997,6 +1006,7 @@ export default {
         </v-sheet>
         <v-sheet :min-height="calHeight" class="d-flex justify-middle relative">
           <span class="flex-grow-1">
+            <v-progress-linear v-if="eventsAreLoading" indeterminate></v-progress-linear>
             <v-calendar
               ref="calendar"
               v-model="calModel"
@@ -1044,7 +1054,6 @@ export default {
                 <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY() }"></div>
               </template>
             </v-calendar>
-            <v-progress-linear v-if="eventsAreLoading" indeterminate></v-progress-linear>
           </span>
           <v-expand-x-transition>
             <v-card color="grey lighten-4 ml-4 " min-width="350px" max-width="550px" v-show="reservationOpen">

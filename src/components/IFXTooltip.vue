@@ -7,7 +7,7 @@
         :color="color"
         v-on="on"
         v-bind="getAttrs"
-        @click="action"
+        @click="handleClick"
         :disabled="disabled"
       >
         <v-icon :dark="dark" :color="iconColor">{{ icon }}</v-icon>
@@ -40,10 +40,6 @@ export default {
       type: String,
       required: true,
     },
-    action: {
-      type: String,
-      required: true,
-    },
     dark: {
       type: Boolean,
       required: false,
@@ -62,6 +58,12 @@ export default {
   },
   data() {
     return {}
+  },
+  methods: {
+    handleClick() {
+      // The button was clicked. Emit the action event.
+      this.$emit('action')
+    },
   },
   computed: {
     getAttrs() {

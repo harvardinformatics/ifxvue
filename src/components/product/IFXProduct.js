@@ -90,7 +90,11 @@ class ProductRate extends IFXItemBase {
   }
 
   get description() {
-    return `${this.price} per ${this.units}`
+    return this.data.description
+  }
+
+  set description(description) {
+    this.data.description = description
   }
 }
 
@@ -100,6 +104,9 @@ class Product extends IFXItemBase {
     this.data = data
     this.rates = data.rates || []
     this.data.billing_calculator = data.billing_calculator || 'ifxbilling.calculator.BasicBillingCalculator'
+    if (!this.data.billable) {
+      this.data.billable = false
+    }
   }
 
   get productNumber() {
@@ -112,6 +119,14 @@ class Product extends IFXItemBase {
 
   set name(name) {
     this.data.product_name = name
+  }
+
+  get billable() {
+    return this.data.billable
+  }
+
+  set billable(billable) {
+    this.data.billable = billable
   }
 
   get description() {
@@ -144,6 +159,14 @@ class Product extends IFXItemBase {
 
   set reportingGroup(reportingGroup) {
     this.data.reporting_group = reportingGroup
+  }
+
+  get productCategory() {
+    return this.data.product_category
+  }
+
+  set productCategory(productCategory) {
+    this.data.product_category = productCategory
   }
 
   get rates() {
@@ -241,6 +264,14 @@ class ProductUsage extends IFXItemBase {
 
   set organization(organization) {
     this.data.organization = organization
+  }
+
+  get units() {
+    return this.data.units
+  }
+
+  set units(units) {
+    this.data.units = units
   }
 
   get processing() {

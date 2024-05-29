@@ -73,7 +73,7 @@ export default {
 }
 </script>
 <template>
-  <td :colspan="colSpan" class="py-2">
+  <td :colspan="colSpan" class="py-4">
     <v-row>
       <v-checkbox
         v-if="showCheckboxes"

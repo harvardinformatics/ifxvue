@@ -1,7 +1,6 @@
 <script>
 import moment from 'moment'
 import { mapActions } from 'vuex'
-import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
 import IFXBillingRecordListDecimal from '@/components/billingRecord/IFXBillingRecordListDecimal'
 
 export default {
@@ -22,10 +21,30 @@ export default {
       required: false,
       default: false,
     },
+    allowChangeExpenseCode: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    allowDeleteBillingRecords: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     showDates: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    showTotals: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    totalUnits: {
+      type: String,
+      required: false,
+      default: 'hours',
     },
   },
   data() {
@@ -52,7 +71,6 @@ export default {
     }
   },
   components: {
-    IFXBillingRecordList,
     IFXBillingRecordListDecimal,
   },
   methods: {
@@ -60,12 +78,8 @@ export default {
     getInitialDate() {
       let initialDate = this.$api.storage.getItem('billingRecordListDate', 'session')
       if (!initialDate) {
-        let year = moment()
-          .subtract(1, 'months')
-          .year()
-        let month = moment()
-          .subtract(1, 'months')
-          .format('MM')
+        let year = moment().subtract(1, 'months').year()
+        let month = moment().subtract(1, 'months').format('MM')
         if (this.$route.query.year && /^[0-9]{4}$/.test(this.$route.query.year.trim())) {
           year = this.$route.query.year.trim()
         }
@@ -141,7 +155,6 @@ export default {
       <v-row v-for="facility in facilities" :key="facility.id + keyModifier">
         <v-col>
           <IFXBillingRecordListDecimal
-            v-if="$api.facility.isDecimalFacility(facility.name)"
             :facility="facility"
             :date="date"
             :organization="organization"
@@ -149,18 +162,11 @@ export default {
             :allowApprovals="false"
             :allowDownloads="allowDownloads"
             :useDefaultMailButton="useDefaultMailButton"
+            :allowChangeExpenseCode="allowChangeExpenseCode"
+            :allowDeleteBillingRecords="allowDeleteBillingRecords"
             :showDates="showDates"
-          />
-          <IFXBillingRecordList
-            v-else
-            :facility="facility"
-            :date="date"
-            :organization="organization"
-            :allowInvoiceGeneration="false"
-            :allowApprovals="false"
-            :allowDownloads="allowDownloads"
-            :useDefaultMailButton="useDefaultMailButton"
-            :showDates="showDates"
+            :showTotals="showTotals"
+            :totalUnits="totalUnits"
           />
         </v-col>
       </v-row>

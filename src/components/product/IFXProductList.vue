@@ -20,7 +20,6 @@ export default {
         { text: 'Description', value: 'description', sortable: true, width: '150px' },
         { text: 'Facility', value: 'facility', sortable: true, slot: true },
         { text: 'Rates', value: 'rates', sortable: false, namedSlot: true },
-        { text: 'Reporting Group', value: 'reportingGroup', sortable: true, slot: true },
         { text: '', value: 'rowActionEdit', slot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])

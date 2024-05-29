@@ -21,6 +21,11 @@ export default {
       type: String,
       required: true,
     },
+    page: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
     // User can define their own custom display
     custom: {
       type: Boolean,
@@ -46,32 +51,41 @@ export default {
   <span v-else-if="name === 'expenseCode'">
     <div>{{ item.expenseCode ? item.expenseCode : 'N/A' }}</div>
   </span>
-  <span v-else-if="name === 'id'" data-cy="navigate-to-detail" @click.prevent="() => navigateToDetail(type, item.id)">
+  <span
+    v-else-if="name === 'id'"
+    data-cy="navigate-to-detail"
+    @click.prevent="() => navigateToDetail(type, item.id, page)"
+  >
     <a class="data-table-id">{{ item.id }}</a>
   </span>
   <span
     v-else-if="name === 'loggedBy'"
     data-cy="navigate-to-detail"
-    @click.prevent="() => navigateToDetail('User', item.loggedBy.id)"
+    @click.prevent="() => navigateToDetail('User', item.loggedBy.id, page)"
   >
     <a class="data-table-id">{{ item.loggedBy.fullName }}</a>
   </span>
   <span
     v-else-if="name === 'user'"
     data-cy="navigate-to-detail"
-    @click.prevent="() => navigateToDetail('User', item.user.id)"
+    @click.prevent="() => navigateToDetail('User', item.user.id, page)"
   >
     <a class="data-table-id">{{ item.user.fullName }}</a>
   </span>
   <span v-else-if="name === 'rowActionEdit'">
-    <IFXButton btnType="edit" x-small data-cy="navigate-to-edit" @action="navigateToEdit(type, item.id)"></IFXButton>
+    <IFXButton
+      btnType="edit"
+      x-small
+      data-cy="navigate-to-edit"
+      @action="navigateToEdit(type, item.id, page)"
+    ></IFXButton>
   </span>
   <span v-else-if="name === 'rowActionDetailEdit'">
     <IFXButton
       btnType="edit"
       x-small
       data-cy="navigate-to-detail"
-      @action="navigateToDetail(type, item.id)"
+      @action="navigateToDetail(type, item.id, page)"
     ></IFXButton>
   </span>
   <span v-else-if="name === 'rowActionCopy'">

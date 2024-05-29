@@ -16,6 +16,7 @@ import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 // Item
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
+import IFXItemEditableDetailMixin from '@/components/item/IFXItemEditableDetailMixin'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 import IFXItemSelectableMixin from '@/components/item/IFXItemSelectableMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
@@ -127,6 +128,17 @@ import mailing from '@/vuex/mailing'
 // Calendars
 import IFXCalendarList from '@/components/calendar/IFXCalendarList'
 
+// Account Request
+import IFXAccountRequestDetail from '@/components/request/IFXAccountRequestDetail'
+import IFXAccountRequestStateList from '@/components/request/IFXAccountRequestStateList'
+import IFXAccountRequestTrackDetail from '@/components/request/IFXAccountRequestTrackDetail'
+import IFXDisplayAddressList from '@/components/request/IFXDisplayAddressList'
+import IFXDisplayContactList from '@/components/request/IFXDisplayContactList'
+import IFXDisplayHarvardKey from '@/components/request/IFXDisplayHarvardKey'
+import IFXDisplayOnboardStep from '@/components/request/IFXDisplayOnboardStep'
+import IFXRequestCommentList from '@/components/request/IFXRequestCommentList'
+import IFXRequestList from '@/components/request/IFXRequestList'
+
 // These components/mixins must be import individually in host application
 export {
   IFXAPIService,
@@ -135,6 +147,7 @@ export {
   IFXItemSelectList,
   IFXItemCreateEditMixin,
   IFXItemDetailMixin,
+  IFXItemEditableDetailMixin,
   IFXItemListMixin,
   IFXItemSelectableMixin,
   IFXItemHistoryDisplay,
@@ -210,6 +223,15 @@ export {
   IFXBillableMixin,
   IFXCalendarList,
   IFXReportRunList,
+  IFXAccountRequestDetail,
+  IFXAccountRequestStateList,
+  IFXAccountRequestTrackDetail,
+  IFXDisplayAddressList,
+  IFXDisplayContactList,
+  IFXDisplayHarvardKey,
+  IFXDisplayOnboardStep,
+  IFXRequestCommentList,
+  IFXRequestList,
 }
 
 // Registered globally
