@@ -34,6 +34,11 @@ export default {
       default: false,
       required: false,
     },
+    additionalSaveFunction: {
+      type: Function,
+      default: null,
+      required: false,
+    },
   },
   data() {
     return {
@@ -73,6 +78,7 @@ export default {
     },
     completeAction() {
       this.submitUpdate()
+      if (this.additionalSaveFunction) this.additionalSaveFunction(this.item)
       this.changeDialogActive = false
     },
     openUserInfoDialog() {
@@ -358,6 +364,7 @@ export default {
           </span>
         </v-col>
       </v-row>
+      <slot name="additionalItems" :item="item"></slot>
       <IFXPageActionBar
         class="mt-0"
         btnType="submit"
@@ -392,6 +399,7 @@ export default {
               :allGroupNames="allGroupNames"
               :valid.sync="userInfoDialogValid"
             />
+            <slot name="additionalUserInfoEdit" :item="itemCopy"></slot>
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
             <v-btn small class="mr-2" text color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
