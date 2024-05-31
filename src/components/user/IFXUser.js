@@ -9,6 +9,14 @@ export class UserFile extends IFXItemBase {
     this.data.file = file
   }
 
+  get user() {
+    return this.data.user
+  }
+
+  set user(user) {
+    this.data.user = user
+  }
+
   get category() {
     return this.data.category
   }
