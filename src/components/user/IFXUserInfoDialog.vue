@@ -9,6 +9,7 @@
           label="Please enter change comment"
           :rules="formRules.generic"
           required
+          @keydown.enter.prevent="$emit('complete-action')"
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
