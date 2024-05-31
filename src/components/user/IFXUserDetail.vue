@@ -275,7 +275,7 @@ export default {
           </v-row>
         </v-col>
         <v-col sm="12" md="5">
-          <slot name="additionalUserInfo" :item="item">test</slot>
+          <slot name="additionalUserInfo" :item="item"></slot>
         </v-col>
         <v-col sm="1" align="end">
           <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable" />
