@@ -78,7 +78,9 @@ export default {
     },
     completeAction() {
       this.submitUpdate()
-      if (this.additionalSaveFunction) this.additionalSaveFunction(this.item)
+      if (this.additionalSaveFunction) {
+        this.additionalSaveFunction(this.item)
+      }
       this.changeDialogActive = false
     },
     openUserInfoDialog() {
