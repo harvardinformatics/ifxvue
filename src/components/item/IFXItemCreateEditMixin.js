@@ -12,6 +12,10 @@ export default {
       default: false,
       type: Boolean,
     },
+    emitNavigate: {
+      default: false,
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -70,7 +74,9 @@ export default {
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
-          if (this.$route.query.next) {
+          if (this.emitNavigate) {
+            this.$emit('navigate', this.item)
+          } else if (this.$route.query.next) {
             const query = {}
             if (this.$route.query.page) {
               query.page = this.$route.query.page
@@ -95,7 +101,9 @@ export default {
           const message = `${this.itemType} created with ID: ${res.data.id}.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
-          if (this.$route.query.next) {
+          if (this.emitNavigate) {
+            this.$emit('navigate', this.item)
+          } else if (this.$route.query.next) {
             const query = {}
             if (this.$route.query.page) {
               query.page = this.$route.query.page

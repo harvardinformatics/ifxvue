@@ -93,7 +93,8 @@ export default {
     getContactIndicesByRole(role) {
       const indices = []
       this.item.contacts.forEach((contact, index) => {
-        if (contact.role === role) {
+        // Respect the showInactive setting
+        if (contact.role === role && (this.showInactive ? true : contact.active)) {
           indices.push(index)
         }
       })
@@ -326,7 +327,7 @@ export default {
               />
             </div>
           </v-col>
-          <div class="w-full">
+          <div class="w-full" v-if="getContactIndicesByRole(contactGroupName).length !== 0">
             <v-divider></v-divider>
           </div>
         </v-row>

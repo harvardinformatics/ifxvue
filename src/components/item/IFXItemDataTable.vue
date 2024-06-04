@@ -168,6 +168,7 @@ export default {
         :value="props.value"
         :indeterminate="props.indeterminate"
         v-on="on"
+        :ripple="false"
       ></v-simple-checkbox>
     </template>
 
