@@ -204,7 +204,6 @@ export class User extends IFXItemBase {
   constructor(data) {
     super(data)
     // Setting primary email so that when updates are done, the correct Person field is updated
-    this.data.primary_email = data.email
     // NOTE: values must be set here explicitly for nested forms to be reactive
     this.addresses = data.addresses || []
     this.contacts = data.contacts || []
@@ -263,19 +262,19 @@ export class User extends IFXItemBase {
   }
 
   get email() {
-    return this.data.primary_email
+    return this.data.email
   }
 
   set email(email) {
-    this.data.primary_email = email
+    this.data.email = email
   }
 
   get primaryEmail() {
-    return this.data.primary_email
+    return this.data.email
   }
 
   set primaryEmail(primaryEmail) {
-    this.data.primary_email = primaryEmail
+    this.data.email = primaryEmail
   }
 
   get primaryAffiliation() {
