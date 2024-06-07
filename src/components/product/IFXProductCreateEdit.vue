@@ -14,6 +14,24 @@ export default {
     IFXPageActionBar,
     IFXItemDataTable,
   },
+  props: {
+    parentProducts: {
+      type: Array,
+      required: false,
+    },
+    id: {
+      default: '',
+      type: String,
+    },
+    isEditing: {
+      default: false,
+      type: Boolean,
+    },
+    emitNavigate: {
+      default: false,
+      type: Boolean,
+    },
+  },
   data() {
     return {
       allFacilities: [],
@@ -77,6 +95,7 @@ export default {
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
+        { text: 'Parent', value: 'parent', sortable: true, namedSlot: true },
         { text: '', value: 'actions', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
@@ -155,6 +174,20 @@ export default {
               auto-grow
               rows="2"
             ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row v-if="parentProducts">
+          <v-col>
+            <v-autocomplete
+              v-model="item.parent"
+              label="Parent product"
+              :items="parentProducts"
+              :error-messages="errors['parent']"
+              return-object
+              :rules="formRules.generic"
+              @focus="clearError('parent')"
+            >
+            </v-autocomplete>
           </v-col>
         </v-row>
         <v-row>
