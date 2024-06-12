@@ -21,6 +21,11 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    fetchInterval: {
+      type: Number,
+      required: false,
+      default: 1000
     }
   },
   components: {
@@ -161,7 +166,7 @@ export default {
         // Keep refreshing the usages until the calculation is finished
         this.interval = setInterval(() => {
           me.getUsages()
-        }, 1000)
+        }, this.fetchInterval)
         const yearMonth = this.getYearMonth()
         this.$api.calculateBillingMonth(this.facility, yearMonth.year, yearMonth.month, this.recalculate)
           .then((response) => {

@@ -19,6 +19,7 @@ export default {
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Description', value: 'description', sortable: true, width: '150px' },
         { text: 'Facility', value: 'facility', sortable: true, slot: true },
+        { text: 'Parent', value: 'parent', sortable: true, namedSlot: true },
         { text: 'Rates', value: 'rates', sortable: false, namedSlot: true },
         { text: '', value: 'rowActionEdit', slot: true, sortable: false },
       ]
@@ -51,6 +52,9 @@ export default {
     <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
       <template #rates="{ item }">
         {{ displayRateNames(item) }}
+      </template>
+      <template #parent="{ item }">
+        <span v-if="item.parent">{{ item.parent.name }}</span>
       </template>
     </IFXItemDataTable>
   </v-container>

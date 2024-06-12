@@ -766,6 +766,10 @@ export default class IFXAPIService {
         newProductData.rates = productRateDataObjs
       }
 
+      if (productData.parent) {
+        newProductData.parent = decompose ? productData.parent.data : new Product(productData.parent)
+      }
+
       // If decomposing, do not create a dynamic product object
       return decompose ? newProductData : new Product(newProductData)
     }
