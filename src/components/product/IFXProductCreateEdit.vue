@@ -14,6 +14,24 @@ export default {
     IFXPageActionBar,
     IFXItemDataTable,
   },
+  props: {
+    parentProducts: {
+      type: Array,
+      required: false,
+    },
+    id: {
+      default: '',
+      type: String,
+    },
+    isEditing: {
+      default: false,
+      type: Boolean,
+    },
+    emitNavigate: {
+      default: false,
+      type: Boolean,
+    },
+  },
   data() {
     return {
       allFacilities: [],
@@ -155,6 +173,20 @@ export default {
               auto-grow
               rows="2"
             ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row v-if="parentProducts">
+          <v-col>
+            <v-autocomplete
+              v-model="item.parent"
+              label="Parent product"
+              :items="parentProducts"
+              :error-messages="errors['parent']"
+              return-object
+              :rules="formRules.generic"
+              @focus="clearError('parent')"
+            >
+            </v-autocomplete>
           </v-col>
         </v-row>
         <v-row>

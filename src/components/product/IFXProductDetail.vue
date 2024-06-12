@@ -85,6 +85,14 @@ export default {
           <span v-else>No</span>
         </v-col>
       </v-row>
+      <v-row v-if="item.parent" justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Parent product</h3>
+        </v-col>
+        <v-col>
+          {{ item.parent.name }}
+        </v-col>
+      </v-row>
       <v-row>
         <v-col>
           <div class="d-flex justify-space-between">

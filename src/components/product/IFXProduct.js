@@ -121,6 +121,14 @@ class Product extends IFXItemBase {
     this.data.product_name = name
   }
 
+  get productName() {
+    return this.data.product_name
+  }
+
+  set productName(productName) {
+    this.data.product_name = productName
+  }
+
   get billable() {
     return this.data.billable
   }
@@ -135,6 +143,14 @@ class Product extends IFXItemBase {
 
   set description(description) {
     this.data.product_description = description
+  }
+
+  get productDescription() {
+    return this.data.product_description
+  }
+
+  set productDescription(productDescription) {
+    this.data.product_description = productDescription
   }
 
   get billingCalculator() {
@@ -175,6 +191,14 @@ class Product extends IFXItemBase {
 
   set rates(rates) {
     this.data.rates = rates
+  }
+
+  get parent() {
+    return this.data.parent
+  }
+
+  set parent(parent) {
+    this.data.parent = parent
   }
 
   addRate(rate) {
