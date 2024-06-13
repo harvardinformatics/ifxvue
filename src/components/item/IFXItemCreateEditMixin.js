@@ -108,6 +108,9 @@ export default {
             if (this.$route.query.page) {
               query.page = this.$route.query.page
             }
+            if (this.$route.query.tab) {
+              query.tab = this.$route.query.tab
+            }
             this.$router.push({ path: this.$route.query.next, query })
           } else {
             this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
