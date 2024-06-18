@@ -3,6 +3,7 @@ import IFXAccountMixin from '@/components/account/IFXAccountMixin'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
+import { orgNameFromSlug } from '../../filters/IFXFilters';
 
 export default {
   name: 'AccountList',
@@ -44,8 +45,8 @@ export default {
         <v-icon v-if="item.active" color="green">check</v-icon>
         <v-icon v-else color="red">close</v-icon>
       </template>
-      <template v-slot:lab="{ item }">
-        {{ item.organization }}
+      <template v-slot:organization="{ item }">
+        {{ item.organization | orgNameFromSlug}}
       </template>
       <template v-slot:code="{ item }">
         <span style="white-space: nowrap">{{ item.code }}</span>
