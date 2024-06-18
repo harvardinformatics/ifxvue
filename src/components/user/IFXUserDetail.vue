@@ -2,11 +2,10 @@
 import { mapActions } from 'vuex'
 
 import IFXUserMixin from '@/components/user/IFXUserMixin'
-import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
+import IFXItemEditableDetailMixin from '@/components/item/IFXItemEditableDetailMixin'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXUserInfoEdit from '@/components/user/IFXUserInfoEdit'
 
-import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXUserInfoDialog from '@/components/user/IFXUserInfoDialog'
 import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
 import IFXSelectAffiliation from '@/components/affiliation/IFXSelectAffiliation'
@@ -17,7 +16,7 @@ import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'IFXUserDetail',
-  mixins: [IFXUserMixin, IFXItemDetailMixin, IFXItemCreateEditMixin],
+  mixins: [IFXUserMixin, IFXItemEditableDetailMixin],
   components: {
     IFXLoginIcon,
     IFXUserInfoEdit,
