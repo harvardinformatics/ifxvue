@@ -64,14 +64,6 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
-    // async init() {
-    //   this.item = await this.apiRef.getByID(this.id, true)
-    //   this.cacheItem()
-    //   this.allContacts = await this.$api.contact.getList({ has_name: false })
-    //   this.allGroupNames = await this.$api.group.getNames()
-    //   const organizations = await this.$api.organization.getNames()
-    //   this.allOrganizationSlugs = organizations.map((o) => o.slug)
-    // },
     async getAdditionalData() {
       this.allContacts = await this.$api.contact.getList({ has_name: false })
       this.allGroupNames = await this.$api.group.getNames()
