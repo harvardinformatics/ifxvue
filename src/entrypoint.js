@@ -132,10 +132,13 @@ import IFXCalendarList from '@/components/calendar/IFXCalendarList'
 import IFXAccountRequestDetail from '@/components/request/IFXAccountRequestDetail'
 import IFXAccountRequestStateList from '@/components/request/IFXAccountRequestStateList'
 import IFXAccountRequestTrackDetail from '@/components/request/IFXAccountRequestTrackDetail'
+import IFXAccountRequestFile from '@/components/request/IFXAccountRequestFile'
+import IFXDisplayMOU from '@/components/request/IFXDisplayMOU'
 import IFXDisplayAddressList from '@/components/request/IFXDisplayAddressList'
 import IFXDisplayContactList from '@/components/request/IFXDisplayContactList'
 import IFXDisplayHarvardKey from '@/components/request/IFXDisplayHarvardKey'
 import IFXDisplayOnboardStep from '@/components/request/IFXDisplayOnboardStep'
+import IFXDisplayDemographicData from '@/components/request/IFXDisplayDemographicData'
 import IFXRequestCommentList from '@/components/request/IFXRequestCommentList'
 import IFXRequestList from '@/components/request/IFXRequestList'
 
@@ -226,10 +229,13 @@ export {
   IFXAccountRequestDetail,
   IFXAccountRequestStateList,
   IFXAccountRequestTrackDetail,
+  IFXAccountRequestFile,
   IFXDisplayAddressList,
   IFXDisplayContactList,
   IFXDisplayHarvardKey,
   IFXDisplayOnboardStep,
+  IFXDisplayDemographicData,
+  IFXDisplayMOU,
   IFXRequestCommentList,
   IFXRequestList,
 }
