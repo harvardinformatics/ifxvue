@@ -338,6 +338,7 @@ export default {
       btnType="submit"
       :disabled="!isSubmittable"
       @action="updateUsersAndSubmit"
+      :submitting="submitting"
     ></IFXPageActionBar>
     <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
       <v-card>

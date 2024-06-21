@@ -24,8 +24,7 @@ export default {
     IFXSelectableAffiliation,
     IFXPageActionBar,
   },
-  props: {
-  },
+  props: {},
   data() {
     return {
       isDialogActive: false,
@@ -282,7 +281,7 @@ export default {
               </IFXItemSelectList>
             </v-col>
           </v-row>
-          <IFXPageActionBar btnType="submit" @action="openDialog" :disabled="!isSubmittable"></IFXPageActionBar>
+          <IFXPageActionBar btnType="submit" @action="openDialog" :disabled="!isSubmittable" :submitting="submitting" />
         </v-form>
       </v-container>
       <IFXUserEditWarning v-else :user="item" />
