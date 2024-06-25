@@ -3,6 +3,11 @@
 import DisplayAddressList from './IFXDisplayAddressList'
 import DisplayContactList from './IFXDisplayContactList'
 import DisplayHarvardKey from './IFXDisplayHarvardKey'
+import DisplayDemographicData from './IFXDisplayDemographicData'
+import DisplayMOU from './IFXDisplayMOU'
+import DisplayProject from './IFXDisplayProject'
+import DisplayPO from './IFXDisplayPO'
+import DisplayLabInfo from './IFXDisplayLabInfo'
 
 export default {
   name: 'IFXAccountRequestTrackDetail',
@@ -15,6 +20,11 @@ export default {
     DisplayAddressList,
     DisplayContactList,
     DisplayHarvardKey,
+    DisplayDemographicData,
+    DisplayMOU,
+    DisplayPO,
+    DisplayProject,
+    DisplayLabInfo,
   },
   data() {
     return {}
@@ -37,9 +47,14 @@ export default {
           </v-flex>
           <v-flex xs12 md9 v-if="accountRequestData.tracks[track].fields[field].display_component">
             <component
-              v-if="field == 'harvard_key'"
+              v-if="['harvard_key', 'project', 'lab_info'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData[field]"
+            ></component>
+            <component
+              v-else-if="field == 'demographic_data'"
+              :is="accountRequestData.tracks[track].fields[field].display_component"
+              :data="accountRequestData.person"
             ></component>
             <component
               v-else
@@ -47,10 +62,11 @@ export default {
               :data="accountRequestData.person[field]"
             ></component>
           </v-flex>
-          <v-flex xs12 md9 v-else>
+          <v-flex xs12 md9 v-else-if="!['mou', 'po'].includes(field)">
             <span v-if="accountRequestData.person[field]">{{ accountRequestData.person[field] }}</span>
             <span v-else>{{ accountRequestData[field] }}</span>
           </v-flex>
+          <v-flex v-else></v-flex>
           <v-flex></v-flex>
         </v-layout>
       </v-flex>

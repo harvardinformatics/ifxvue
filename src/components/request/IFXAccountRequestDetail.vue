@@ -6,6 +6,7 @@ import IFXAccountRequestTrackDetail from './IFXAccountRequestTrackDetail'
 import IFXAccountRequestStateList from './IFXAccountRequestStateList'
 import IFXDisplayOnboardStep from './IFXDisplayOnboardStep'
 import IFXRequestCommentList from './IFXRequestCommentList'
+import IFXAccountRequestFile from './IFXAccountRequestFile'
 
 /* Tracks prop should be of the form:
 
@@ -21,6 +22,7 @@ export default {
     IFXAccountRequestTrackDetail,
     IFXAccountRequestStateList,
     IFXRequestCommentList,
+    IFXAccountRequestFile,
     IFXDisplayOnboardStep,
   },
   props: {
@@ -304,6 +306,16 @@ export default {
                       :track="track"
                       :trackTitle="getTrackDisplayName(track)"
                       :accountRequestData="request.onBoardRequest.data"
+                    />
+                  </v-flex>
+                </v-layout>
+                <v-layout column>
+                  <v-flex>
+                    <span class="title">Request Files</span>
+                  </v-flex>
+                  <v-flex v-for="accountRequestFileData in request.requestData.request_files" :key="accountRequestFileData.id">
+                    <IFXAccountRequestFile
+                      :accountRequestFileData="accountRequestFileData"
                     />
                   </v-flex>
                 </v-layout>
