@@ -1,5 +1,6 @@
 <script>
 import IFXButton from '@/components/IFXButton'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IFXPageActionBar',
@@ -18,16 +19,13 @@ export default {
       type: String,
       required: false,
     },
-    submitting: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   data() {
     return {}
   },
-  computed: {},
+  computed: {
+    ...mapGetters('submit', ['isSubmitting']),
+  },
   methods: {
     /**
      * Emits event, triggering the action defined by the user.
@@ -46,7 +44,7 @@ export default {
         <IFXButton :btnType="btnType" :disabled="disabled" :btnText="btnText" @action="handleAction" />
       </slot>
     </v-col>
-    <v-overlay :value="submitting">
+    <v-overlay :value="isSubmitting">
       <span class="d-flex align-center elevation-2 pa-4 rounded-lg grey darken-1">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
         <em class="ml-4 text-body-1">Our network minions are carrying data to the server...</em>
