@@ -124,6 +124,7 @@ import IFXMixin from '@/mixins/IFXMixin'
 import IFXFilters from '@/filters/IFXFilters'
 import message from '@/vuex/message'
 import mailing from '@/vuex/mailing'
+import submit from '@/vuex/submit'
 
 // Calendars
 import IFXCalendarList from '@/components/calendar/IFXCalendarList'
@@ -247,6 +248,7 @@ export const ifxcomponents = {
 export const ifxmodules = {
   message,
   mailing,
+  submit,
 }
 
 /**
