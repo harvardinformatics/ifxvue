@@ -281,7 +281,7 @@ export default {
               </IFXItemSelectList>
             </v-col>
           </v-row>
-          <IFXPageActionBar btnType="submit" @action="openDialog" :disabled="!isSubmittable" :submitting="submitting" />
+          <IFXPageActionBar btnType="submit" @action="openDialog" :disabled="!isSubmittable" />
         </v-form>
       </v-container>
       <IFXUserEditWarning v-else :user="item" />
