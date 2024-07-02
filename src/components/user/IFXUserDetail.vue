@@ -372,6 +372,7 @@ export default {
         btnType="submit"
         @action="openCommentDialog"
         :disabled="!isSubmittable"
+        :submitting="submitting"
       ></IFXPageActionBar>
       <v-dialog v-model="userInfoDialogOpen" v-if="userInfoDialogOpen" max-width="80vw" persistent>
         <v-card>

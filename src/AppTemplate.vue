@@ -23,9 +23,7 @@ export default {
           <v-card>
             <v-card-title>
               <v-row>
-                <v-col>
-                  Local App
-                </v-col>
+                <v-col>Local App</v-col>
               </v-row>
             </v-card-title>
             <v-card-text class="text-body-1">
@@ -58,7 +56,7 @@ export default {
             <v-card-actions>
               <v-row>
                 <v-col>
-                  <IFXPageActionBar btnType="submit" btnText="Click me!" :disabled="false" />
+                  <IFXPageActionBar btnType="submit" btnText="Click me!" :disabled="false" :submitting="submitting" />
                 </v-col>
               </v-row>
             </v-card-actions>

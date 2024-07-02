@@ -26,15 +26,15 @@ export default {
 }
 </script>
 <template>
-  <v-form v-if='!isLoading' v-model='isValid'>
+  <v-form v-if="!isLoading" v-model="isValid">
     <v-row dense>
       <v-col>
         <v-text-field
-          v-model='item.name'
-          label='Name'
-          data-cy='name'
-          :rules='formRules.generic'
-          :error-messages='errors.name'
+          v-model="item.name"
+          label="Name"
+          data-cy="name"
+          :rules="formRules.generic"
+          :error-messages="errors.name"
           required
         ></v-text-field>
       </v-col>
@@ -42,18 +42,18 @@ export default {
     <v-row dense>
       <v-col>
         <v-text-field
-          v-model='item.detail'
-          label='Email'
-          data-cy='email'
-          :rules='formRules.email'
-          :error-messages='errors.detail'
+          v-model="item.detail"
+          label="Email"
+          data-cy="email"
+          :rules="formRules.email"
+          :error-messages="errors.detail"
           required
         ></v-text-field>
       </v-col>
     </v-row>
     <v-row dense>
       <v-col>
-        <IFXPageActionBar :disabled="!isSubmittable" btnType="submit" @action="submit" />
+        <IFXPageActionBar :disabled="!isSubmittable" btnType="submit" @action="submit" :submitting="submitting" />
       </v-col>
     </v-row>
   </v-form>

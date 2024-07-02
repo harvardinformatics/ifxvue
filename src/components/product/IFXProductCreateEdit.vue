@@ -152,12 +152,7 @@ export default {
             ></v-select>
           </v-col>
           <v-col>
-            <v-checkbox
-              class="mt-0 pt-0"
-              v-model="item.billable"
-              label="Billable"
-              data-cy="billable"
-            ></v-checkbox>
+            <v-checkbox class="mt-0 pt-0" v-model="item.billable" label="Billable" data-cy="billable"></v-checkbox>
           </v-col>
         </v-row>
         <v-row>
@@ -185,8 +180,7 @@ export default {
               return-object
               :rules="formRules.generic"
               @focus="clearError('parent')"
-            >
-            </v-autocomplete>
+            ></v-autocomplete>
           </v-col>
         </v-row>
         <v-row>
@@ -314,7 +308,7 @@ export default {
             </IFXItemDataTable>
           </v-col>
         </v-row>
-        <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
+        <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" :submitting="submitting" />
       </v-form>
     </v-container>
   </v-container>

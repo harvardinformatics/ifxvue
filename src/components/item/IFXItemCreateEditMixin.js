@@ -24,6 +24,7 @@ export default {
       item: {},
       cachedItem: {},
       errors: {},
+      submitting: false,
     }
   },
   methods: {
@@ -68,9 +69,11 @@ export default {
       }
     },
     submitUpdate() {
+      this.submitting = true
       this.apiRef
         .update(this.item)
         .then(async (res) => {
+          this.submitting = false
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
@@ -87,6 +90,7 @@ export default {
           }
         })
         .catch((error) => {
+          this.submitting = false
           const { response } = error
           if (response) {
             this.errors = response.data
@@ -95,9 +99,11 @@ export default {
         })
     },
     submitSave() {
+      this.submitting = true
       this.apiRef
         .save(this.item)
         .then(async (res) => {
+          this.submitting = false
           const message = `${this.itemType} created with ID: ${res.data.id}.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
@@ -117,6 +123,7 @@ export default {
           }
         })
         .catch((error) => {
+          this.submitting = false
           const { response } = error
           if (response) {
             this.errors = response.data

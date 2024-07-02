@@ -24,14 +24,15 @@ export default {
           'advlist autolink lists link image charmap',
           'searchreplace visualblocks fullscreen',
           'print preview anchor insertdatetime media',
-          'paste code help wordcount table'
+          'paste code help wordcount table',
         ],
-        toolbar: 'undo redo | code | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+        toolbar:
+          'undo redo | code | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
       }
     },
     messageTitle() {
       return this.item.displayName ? `Edit ${this.item.displayName}` : `Edit Message ${this.item.id}`
-    }
+    },
   },
   methods: {
     async getItem() {
@@ -69,15 +70,12 @@ export default {
         </v-row>
         <v-row>
           <v-col>
-            <Editor
-              v-model="item.message"
-              :init="editorInit"
-            ></Editor>
+            <Editor v-model="item.message" :init="editorInit"></Editor>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <IFXPageActionBar :disabled="!isValid" btnType="submit" @action="submit" />
+            <IFXPageActionBar :disabled="!isValid" btnType="submit" @action="submit" :submitting="submitting" />
           </v-col>
         </v-row>
       </v-form>
