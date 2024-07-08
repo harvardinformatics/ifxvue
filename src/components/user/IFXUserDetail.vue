@@ -2,11 +2,10 @@
 import { mapActions } from 'vuex'
 
 import IFXUserMixin from '@/components/user/IFXUserMixin'
-import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
+import IFXItemEditableDetailMixin from '@/components/item/IFXItemEditableDetailMixin'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXUserInfoEdit from '@/components/user/IFXUserInfoEdit'
 
-import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXUserInfoDialog from '@/components/user/IFXUserInfoDialog'
 import IFXSelectCreateContact from '@/components/contact/IFXSelectCreateContact'
 import IFXSelectAffiliation from '@/components/affiliation/IFXSelectAffiliation'
@@ -17,7 +16,7 @@ import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'IFXUserDetail',
-  mixins: [IFXUserMixin, IFXItemDetailMixin, IFXItemCreateEditMixin],
+  mixins: [IFXUserMixin, IFXItemEditableDetailMixin],
   components: {
     IFXLoginIcon,
     IFXUserInfoEdit,
@@ -65,9 +64,7 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
-    async init() {
-      this.item = await this.apiRef.getByID(this.id, true)
-      this.cacheItem()
+    async getAdditionalData() {
       this.allContacts = await this.$api.contact.getList({ has_name: false })
       this.allGroupNames = await this.$api.group.getNames()
       const organizations = await this.$api.organization.getNames()
@@ -372,6 +369,7 @@ export default {
         btnType="submit"
         @action="openCommentDialog"
         :disabled="!isSubmittable"
+        :submitting="submitting"
       ></IFXPageActionBar>
       <v-dialog v-model="userInfoDialogOpen" v-if="userInfoDialogOpen" max-width="80vw" persistent>
         <v-card>
