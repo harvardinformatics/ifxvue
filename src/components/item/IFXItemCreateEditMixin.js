@@ -69,7 +69,9 @@ export default {
       }
     },
     submitUpdate() {
-      this.submitting = true
+      this.$nextTick(() => {
+        this.submitting = true
+      })
       this.apiRef
         .update(this.item)
         .then(async (res) => {
@@ -100,9 +102,14 @@ export default {
           }
           this.showMessage(error)
         })
+        .finally(() => {
+          this.submitting = false
+        })
     },
     submitSave() {
-      this.submitting = true
+      this.$nextTick(() => {
+        this.submitting = true
+      })
       this.apiRef
         .save(this.item)
         .then(async (res) => {

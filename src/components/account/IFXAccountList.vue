@@ -3,7 +3,6 @@ import IFXAccountMixin from '@/components/account/IFXAccountMixin'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
-import { orgNameFromSlug } from '../../filters/IFXFilters';
 
 export default {
   name: 'AccountList',
