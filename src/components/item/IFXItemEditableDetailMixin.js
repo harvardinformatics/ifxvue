@@ -59,13 +59,12 @@ export default {
       }
     },
     submitUpdate() {
-      const submitting_timer = setTimeout(() => {
+      this.$nextTick(() => {
         this.submitting = true
-      }, 100)
+      })
       this.apiRef
         .update(this.item)
         .then(async (res) => {
-          clearTimeout(submitting_timer)
           this.submitting = false
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
@@ -77,7 +76,6 @@ export default {
           }
         })
         .catch((error) => {
-          clearTimeout(submitting_timer)
           this.submitting = false
           const { response } = error
           if (response) {
