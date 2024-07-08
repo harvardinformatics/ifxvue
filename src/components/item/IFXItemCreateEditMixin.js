@@ -69,10 +69,13 @@ export default {
       }
     },
     submitUpdate() {
-      this.submitting = true
+      const submitting_timer = setTimeout(() => {
+        this.submitting = true
+      }, 500)
       this.apiRef
         .update(this.item)
         .then(async (res) => {
+          clearTimeout(submitting_timer)
           this.submitting = false
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
@@ -93,6 +96,7 @@ export default {
           }
         })
         .catch((error) => {
+          clearTimeout(submitting_timer)
           this.submitting = false
           const { response } = error
           if (response) {
@@ -100,12 +104,19 @@ export default {
           }
           this.showMessage(error)
         })
+        .finally(() => {
+          clearTimeout(submitting_timer)
+          this.submitting = false
+        })
     },
     submitSave() {
-      this.submitting = true
+      const submitting_timer = setTimeout(() => {
+        this.submitting = true
+      }, 500)
       this.apiRef
         .save(this.item)
         .then(async (res) => {
+          clearTimeout(submitting_timer)
           this.submitting = false
           const message = `${this.itemType} created with ID: ${res.data.id}.`
           this.showMessage(message)
@@ -126,6 +137,7 @@ export default {
           }
         })
         .catch((error) => {
+          clearTimeout(submitting_timer)
           this.submitting = false
           const { response } = error
           if (response) {
