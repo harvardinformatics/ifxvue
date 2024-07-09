@@ -1,7 +1,10 @@
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'IFXPageHeader',
   computed: {
+    ...mapGetters('submit', ['isSubmitting']),
     /**
      * Determines if title slot is filled
      * @returns {boolean}
@@ -98,6 +101,12 @@ export default {
       </v-row>
     </v-col>
     <v-divider></v-divider>
+    <v-overlay :value="isSubmitting">
+      <span class="d-flex align-center elevation-2 pa-4 rounded-lg grey darken-1">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+        <em class="ml-4 text-body-1">Updating...</em>
+      </span>
+    </v-overlay>
   </v-container>
 </template>
 
