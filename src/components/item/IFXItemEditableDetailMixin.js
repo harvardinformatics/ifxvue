@@ -18,7 +18,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['showMessage']),
+    ...mapActions(['showMessage', 'submit/setSubmitting']),
     can(ability, user = this.$api.authUser) {
       return this.$api.auth.can(ability, user)
     },
@@ -58,11 +58,11 @@ export default {
       }
     },
     submitUpdate() {
-      this.$store.commit('submit/submitting', true)
+      this.$store.dispatch('submit/setSubmitting', true)
       this.apiRef
         .update(this.item)
         .then(async (res) => {
-          this.$store.commit('submit/submitting', false)
+          this.$store.dispatch('submit/setSubmitting', false)
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
@@ -73,7 +73,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.$store.commit('submit/submitting', false)
+          this.$store.dispatch('submit/setSubmitting', false)
           const { response } = error
           if (response) {
             this.errors = response.data
