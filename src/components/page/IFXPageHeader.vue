@@ -101,7 +101,7 @@ export default {
       </v-row>
     </v-col>
     <v-divider></v-divider>
-    <v-overlay :value="isSubmitting">
+    <v-overlay :value="isSubmitting" z-index="300">
       <span class="d-flex align-center elevation-2 pa-4 rounded-lg grey darken-1">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
         <em class="ml-4 text-body-1">Updating...</em>
