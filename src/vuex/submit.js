@@ -3,17 +3,26 @@
 
 const getDefaultState = () => ({
   submitting: false,
+  timer: null,
 })
 
 const state = getDefaultState()
 
 const getters = {
   isSubmitting: (state) => state.submitting,
+  getTimer: (state) => state.timer,
 }
 
 const actions = {
   setSubmitting({ commit }, payload) {
-    commit('submitting', payload)
+    let timer = getters.getTimer
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      commit('submitting', payload)
+    }, 333)
+    commit('setValue', { key: 'timer', value: timer })
   },
   setValue({ commit }, payload) {
     commit('setValue', payload)
