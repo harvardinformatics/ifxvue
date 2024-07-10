@@ -109,7 +109,7 @@ export default {
         </template>
         <span>Reactivate affiliation</span>
       </v-tooltip>
-      <v-tooltip v-if="itemLocal.active">
+      <v-tooltip v-if="itemLocal.active" top>
         <template v-slot:activator="{ on, attrs }">
           <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
         </template>
