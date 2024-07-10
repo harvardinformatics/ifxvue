@@ -6,6 +6,8 @@ const getDefaultState = () => ({
   timer: null,
 })
 
+const DELAY = 333
+
 const state = getDefaultState()
 
 const getters = {
@@ -14,14 +16,19 @@ const getters = {
 }
 
 const actions = {
-  setSubmitting({ commit }, payload) {
-    let timer = getters.getTimer
+  setSubmitting({ commit, state }, payload) {
+    let timer = state.timer
     if (timer) {
       clearTimeout(timer)
+      commit('setValue', { key: 'timer', value: null })
+    }
+    if (payload === false) {
+      commit('submitting', payload)
+      return
     }
     timer = setTimeout(() => {
       commit('submitting', payload)
-    }, 333)
+    }, DELAY)
     commit('setValue', { key: 'timer', value: timer })
   },
   setValue({ commit }, payload) {
