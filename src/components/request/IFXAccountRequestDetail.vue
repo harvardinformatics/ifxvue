@@ -197,7 +197,7 @@ export default {
   <v-container grid-list-md>
     <v-layout row>
       <v-flex xs12>
-        <v-card v-if="request">
+        <v-card v-if="request" flat>
           <v-card-title>
             <v-layout row wrap justify-start align-center>
               <v-flex>

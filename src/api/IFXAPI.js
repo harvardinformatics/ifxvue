@@ -994,4 +994,9 @@ export default class IFXAPIService {
     }
     return this.axios.post(url, data, { headers: { 'Content-Type': 'application/json' } })
   }
+
+  updateAccountRequest(request) {
+    const url = `${this.urls.UPDATE_ACCOUNT_REQUEST}/${request.id}/`
+    return this.axios.put(url, request, { headers: { 'Content-Type': 'application/json' } })
+  }
 }

@@ -27,7 +27,18 @@ export default {
     DisplayLabInfo,
   },
   data() {
-    return {}
+    return {
+      localData: this.accountRequestData,
+    }
+  },
+  watch: {
+    localData: {
+      handler() {
+        console.log('watch accountRequestData in AccountRequestTrackDetail.vue', this.localData)
+        this.$api.updateAccountRequest(this.localData)
+      },
+      deep: true,
+    },
   },
 }
 </script>
@@ -38,7 +49,7 @@ export default {
         <span class="title">{{ trackTitle }}</span>
       </v-flex>
       <v-flex v-for="field in accountRequestData.tracks[track].fields.order" :key="field">
-        <v-layout row wrap v-if="accountRequestData.tracks[track].fields[field]" justify-start>
+        <v-layout row wrap v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)" justify-start>
           <v-flex class="field-label" xs12 md3 v-if="accountRequestData.tracks[track].fields[field].display_name">
             {{ accountRequestData.tracks[track].fields[field].display_name }}
           </v-flex>
@@ -47,9 +58,15 @@ export default {
           </v-flex>
           <v-flex xs12 md9 v-if="accountRequestData.tracks[track].fields[field].display_component">
             <component
-              v-if="['harvard_key', 'project', 'lab_info'].includes(field)"
+              v-if="['harvard_key', 'project'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData[field]"
+            ></component>
+            <component
+              v-if="field == 'lab_info'"
+              :is="accountRequestData.tracks[track].fields[field].display_component"
+              v-model="localData"
+              @change="updateData"
             ></component>
             <component
               v-else-if="field == 'demographic_data'"
@@ -61,10 +78,6 @@ export default {
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData.person[field]"
             ></component>
-          </v-flex>
-          <v-flex xs12 md9 v-else-if="!['mou', 'po'].includes(field)">
-            <span v-if="accountRequestData.person[field]">{{ accountRequestData.person[field] }}</span>
-            <span v-else>{{ accountRequestData[field] }}</span>
           </v-flex>
           <v-flex v-else></v-flex>
           <v-flex></v-flex>
