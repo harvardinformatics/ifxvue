@@ -15,7 +15,8 @@ import { Account, UserProductAccount } from '@/components/account/IFXAccount'
 import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
 import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
-import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
+import { Product, ProductRate, Processing } from '@/components/product/IFXProduct'
+import ProductUsage from '@/components/productUsage/IFXProductUsage'
 import { ReportRun, Report } from '@/components/report/IFXReport'
 
 function isNumeric(val) {
