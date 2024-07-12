@@ -804,6 +804,11 @@ export default class IFXAPIService {
           ? productUsageData.productUser.data
           : this.user.create(productUsageData.product_user)
       }
+      if (productUsageData.logged_by) {
+        newProductUsageData.logged_by = decompose
+          ? productUsageData.loggedBy.data
+          : this.user.create(productUsageData.logged_by)
+      }
       if (newProductUsageData.processing?.length) {
         newProductUsageData.processing = decompose
           ? newProductUsageData.processing.data
