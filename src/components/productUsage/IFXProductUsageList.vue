@@ -21,7 +21,7 @@ export default {
         { text: 'Description', value: 'description', sortable: true, width: '150px' },
         { text: 'Organization', value: 'organization', sortable: true, slot: true, namedSlot: true },
         { text: 'Product User', value: 'productUser', sortable: true, slot: true, namedSlot: true },
-        { text: 'Logged By', value: 'loggedBy', sortable: true, slot: true },
+        { text: 'Logged By', value: 'loggedBy', sortable: true, slot: true, namedSlot: true },
         { text: 'Start Date', value: 'startDate', sortable: true, namedSlot: true },
         { text: 'End Date', value: 'endDate', sortable: false, namedSlot: true },
         { text: '', value: 'rowActionEdit', slot: true, sortable: false },
@@ -37,8 +37,11 @@ export default {
     pluralize(count, string) {
       return `${count} ${string}${count === 1 ? '' : 's'}`
     },
-    getFullName(item) {
-      return item.fullName ? item.fullName : `${item.firstName} ${item.lastName}`
+    getFullName(user) {
+      return user.fullName ? user.fullName : `${user.firstName} ${user.lastName}`
+    },
+    goToUserDetailPage(user) {
+      this.$router.push({ name: 'UserDetail', params: { id: user.id } })
     },
   },
 }
@@ -61,7 +64,14 @@ export default {
         {{ item.organization | orgNameFromSlug }}
       </template>
       <template #productUser="{ item }">
-        {{ item.organization | orgNameFromSlug }}
+        <span class="hand-pointer" color="primary" @click="goToUserDetailPage(item.productUser.user)">
+          {{ getFullName(item.productUser.user) }}
+        </span>
+      </template>
+      <template #loggedBy="{ item }">
+        <span class="hand-pointer" color="primary" @click="goToUserDetailPage(item.loggedBy.user)">
+          {{ getFullName(item.loggedBy.user) }}
+        </span>
       </template>
       <template #startDate="{ item }">
         {{ item.startDate | humanDatetime }}
@@ -72,3 +82,8 @@ export default {
     </IFXItemDataTable>
   </v-container>
 </template>
+<style lang="scss" scoped>
+.hand-pointer {
+  cursor: pointer;
+}
+</style>
