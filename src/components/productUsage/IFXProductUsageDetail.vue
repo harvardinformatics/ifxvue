@@ -11,17 +11,23 @@ export default {
       selected: [],
     }
   },
-  computed: {
-    filteredRates() {
-      if (this.item?.rates) {
-        return this.item.rates.filter((r) => r.active || this.showDeactivatedRates)
-      }
-      return []
-    },
+  created() {
+    this.isLoading = true
   },
+  computed: {},
   methods: {
+    displayQuantityWithUnits(item) {
+      const quantity = parseInt(item.decimalQuantity, 10)?.toFixed(2)
+      return this.pluralize(quantity, item.units)
+    },
     pluralize(count, string) {
       return `${count} ${string}${count === 1 ? '' : 's'}`
+    },
+    getFullName(user) {
+      return user.fullName ? user.fullName : `${user.firstName} ${user.lastName}`
+    },
+    goToUserDetailPage(user) {
+      this.$router.push({ name: 'UserDetail', params: { id: user.id } })
     },
   },
 }
@@ -30,7 +36,12 @@ export default {
 <template>
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{ item.name }}</template>
+      <template #title>
+        {{ item.name }}
+        <div class="text-body-2">Created {{ item.created | humanDatetime }}</div>
+        <div class="text-body-2">Updated {{ item.updated | humanDatetime }}</div>
+      </template>
+      <template #subtitle></template>
       <template #cypress>{{ item.id }}</template>
       <template #actions>
         <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)" />
@@ -39,19 +50,37 @@ export default {
     <v-container px-5 py-0>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
-          <h3>Product Number</h3>
+          <h3>Product</h3>
         </v-col>
         <v-col>
-          {{ item.productNumber }}
+          {{ item.product }}
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
-          <h3>Facility</h3>
+          <h3>Quantity</h3>
         </v-col>
         <v-col>
-          {{ item.facility }}
+          {{ displayQuantityWithUnits(item) }}
         </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Year / Month</h3>
+        </v-col>
+        <v-col>{{ item.year }} / {{ item.month }}</v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Start Date/Time</h3>
+        </v-col>
+        <v-col>{{ item.startDate | humanDatetime }}</v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>End Date/Time</h3>
+        </v-col>
+        <v-col>{{ item.endDate | humanDatetime }}</v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
@@ -63,19 +92,30 @@ export default {
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
-          <h3>Billable</h3>
+          <h3>Organization</h3>
         </v-col>
         <v-col>
-          <span v-if="item.billable">Yes</span>
-          <span v-else>No</span>
+          {{ item.organization }}
         </v-col>
       </v-row>
-      <v-row v-if="item.parent" justify="start" align="center" dense>
+      <v-row justify="start" align="center" dense>
         <v-col sm="2">
-          <h3>Parent product</h3>
+          <h3>Product User</h3>
         </v-col>
         <v-col>
-          {{ item.parent.name }}
+          <router-link :to="{ name: 'UserDetail', params: { id: item.productUser.user.id } }">
+            {{ getFullName(item.productUser.user) }}
+          </router-link>
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Logged By</h3>
+        </v-col>
+        <v-col>
+          <router-link :to="{ name: 'UserDetail', params: { id: item.loggedBy.user.id } }">
+            {{ getFullName(item.loggedBy.user) }}
+          </router-link>
         </v-col>
       </v-row>
     </v-container>
