@@ -60,6 +60,14 @@ class ProductUsage extends IFXItemBase {
     this.data.start_date = startDate
   }
 
+  get endDate() {
+    return this.data.end_date
+  }
+
+  set endDate(endDate) {
+    this.data.end_date = endDate
+  }
+
   get description() {
     return this.data.description
   }
