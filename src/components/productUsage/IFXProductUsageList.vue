@@ -16,7 +16,7 @@ export default {
       const headers = [
         { text: 'ID', value: 'id', sortable: true, slot: true, click: true, width: '60px' },
         // { text: 'Product Number', value: 'productNumber', sortable: true, slot: true, width: '150px' },
-        { text: 'Product Name', value: 'ProductName', sortable: true },
+        { text: 'Product', value: 'product', sortable: true },
         { text: 'Quantity', value: 'decimalQuantity', sortable: true, namedSlot: true },
         { text: 'Description', value: 'description', sortable: true, width: '150px' },
         { text: 'Organization', value: 'organization', sortable: true, slot: true, namedSlot: true },
@@ -31,8 +31,8 @@ export default {
   },
   methods: {
     displayQuantityWithUnits(item) {
-      const units = this.pluralize(item.decimalQuantity, item.units)
-      return `${item.decimalQuantity} ${units}`
+      const quantity = parseInt(item.decimalQuantity, 10)?.toFixed(2)
+      return this.pluralize(quantity, item.units)
     },
     pluralize(count, string) {
       return `${count} ${string}${count === 1 ? '' : 's'}`
@@ -64,14 +64,14 @@ export default {
         {{ item.organization | orgNameFromSlug }}
       </template>
       <template #productUser="{ item }">
-        <span class="hand-pointer" color="primary" @click="goToUserDetailPage(item.productUser.user)">
+        <router-link :to="{ name: 'UserDetail', params: { id: item.productUser.user.id } }">
           {{ getFullName(item.productUser.user) }}
-        </span>
+        </router-link>
       </template>
       <template #loggedBy="{ item }">
-        <span class="hand-pointer" color="primary" @click="goToUserDetailPage(item.loggedBy.user)">
+        <router-link :to="{ name: 'UserDetail', params: { id: item.loggedBy.user.id } }">
           {{ getFullName(item.loggedBy.user) }}
-        </span>
+        </router-link>
       </template>
       <template #startDate="{ item }">
         {{ item.startDate | humanDatetime }}
