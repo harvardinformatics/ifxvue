@@ -2,22 +2,18 @@
 import { mapActions } from 'vuex'
 import moment from 'moment-timezone'
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
-import IFXItemSelectList from '@/components/item/IFXItemSelectList'
 import IFXProductUsageMixin from '@/components/productUsage/IFXProductUsageMixin'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
-import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 
 export default {
   name: 'IFXProductCreateEdit',
   mixins: [IFXProductUsageMixin, IFXItemCreateEditMixin],
   components: {
-    IFXItemSelectList,
     IFXPageActionBar,
-    IFXItemDataTable,
   },
   props: {
     productCategory: {
-      type: Array,
+      type: String,
       required: false,
     },
     id: {
@@ -41,7 +37,14 @@ export default {
       pickerDate: '',
       pickerTime: '',
       startDateMenu: false,
-      duration: [],
+      duration: [
+        { value: 30, text: '30 minutes' },
+        { value: 60, text: '1 hour' },
+        { value: 90, text: '90 minutes' },
+        { value: 120, text: '2 hours' },
+        { value: 180, text: '3 hours' },
+        { value: 240, text: '4 hours' },
+      ],
       durationValue: null,
       parseFormats: ['M/DD/YYYY h:mm A', 'M/DD/YYYY h:mmA'],
     }
@@ -61,42 +64,22 @@ export default {
       }
     },
     setProductWithObject(product) {
-      this.selectedProduct = cloneDeep(product)
-      const decomposed = this.$api.product.decompose(product.data)
-      this.item = this.$api.productUsage.create(decomposed)
+      if (!product) {
+        this.item = this.$api.productUsage.create({})
+        return
+      }
       this.item.product = product.productName
-      this.item.name = `${product.productName} Usage`
       this.item.description = product.productDescription
-      this.loggedBy = cloneDeep(this.$api.authUser)
+      const currentUser = this.allUsers.find((u) => u.id === parseInt(this.$api.authUser.id, 10))
+      this.item.loggedBy = this.$api.user.decompose(currentUser)
       // Set a default start date/time of now
       this.item.startDate = moment.tz('America/New_York').toISOString()
+      // Get the units from the product rate
+      this.item.units = product.rates[0]?.units ? product.rates[0].units : 'ea'
     },
-    minDate() {
-      return new Date().toISOString()
-    },
-    humanStartDate() {
-      return this.startDate ? moment(this.startDate).format('M/DD/YYYY') : ''
-    },
-    humanEndDate() {
-      return this.endDate ? moment(this.endDate).format('M/DD/YYYY') : ''
-    },
-    revalidateTimes() {
-      this.$refs.startDate.validate(true)
-      this.$refs.endDate.validate(true)
-    },
-    setEndTime(value, validate = true) {
-      this.item.endDate = moment.tz(this.newEvent.startDate, 'America/New_York').add(value, 'minutes').toISOString()
-      if (validate) {
-        this.revalidateTimes()
-      }
-    },
-    addValuesFromDatepicker(pickerDate, pickerTime) {
-      const dateObject = moment.tz(`${pickerDate}T${pickerTime}:00`, 'America/New_York')
-      const newValue = dateObject.toISOString()
-      // Force startTime to be reactive
-      this.item.startDate = newValue
-      this.startDateMenu = false
-    },
+    // minDate() {
+    //   return new Date().toISOString()
+    // },
     dateTimeRule(v) {
       return (
         /^(\d{1,2})\/(\d{1,2})\/(\d{4}) (1?\d):(\d{2}) ([aA]|[pP])[mM]$/.test(v)
@@ -107,75 +90,92 @@ export default {
       return (
         moment
           .tz(v, this.parseFormats, 'America/New_York')
-          .isAfter(moment.tz(this.newEvent.startDate, 'America/New_York')) || 'Usage end must be after start'
+          .isAfter(moment.tz(this.item.startDate, 'America/New_York')) || 'Usage end must be after start'
       )
     },
     checkIsBeforeEnd(v) {
-      if (this.newEvent.endDate) {
+      if (this.item.endDate) {
         return (
           moment
             .tz(v, this.parseFormats, 'America/New_York')
-            .isBefore(moment.tz(this.newEvent.endDate, 'America/New_York')) || 'Usage start must be before end'
+            .isBefore(moment.tz(this.item.endDate, 'America/New_York')) || 'Usage start must be before end'
         )
       }
       return true
     },
-    checkInPast(v) {
-      return (
-        moment.tz(v, this.parseFormats, 'America/New_York').isAfter(moment.tz('America/New_York'))
-        || this.$api.auth.can('add-usages-in-the-past')
-        || 'Cannot set usages in the past'
-      )
-    },
-    openPickers() {
-      if (this.item.startTime) {
-        const theDateTime = moment.tz(this.item.startTime, 'America/New_York')
-        this.pickerDate = theDateTime.format('YYYY-MM-DD')
-        this.pickerTime = theDateTime.format('HH:mm')
+    // checkInPast(v) {
+    //   return (
+    //     moment.tz(v, this.parseFormats, 'America/New_York').isAfter(moment.tz('America/New_York'))
+    //     || this.$api.auth.can('add-usages-in-the-past')
+    //     || 'Cannot set usages in the past'
+    //   )
+    // },
+    openPickers(type = 'startDate') {
+      let theDateTime
+      if (type === 'startDate' && this.item.startDate) {
+        theDateTime = moment.tz(this.item.startDate, 'America/New_York')
+      } else if (type === 'endDate' && this.item.endDate) {
+        theDateTime = moment.tz(this.item.endDate, 'America/New_York')
+      } else {
+        theDateTime = moment.tz('America/New_York')
       }
-      this.startDateMenu = true
+      this.pickerDate = theDateTime.format('YYYY-MM-DD')
+      this.pickerTime = theDateTime.format('HH:MM')
+      if (type === 'endDate') {
+        this.endDateMenu = true
+      } else {
+        this.startDateMenu = true
+      }
     },
-    updateDate(value) {
+    updateDate(value, type = 'startDate') {
       const theDateTime = moment.tz(value, this.parseFormats, 'America/New_York')
-      // Force startTime to be reactive
-      this.item.startTime = theDateTime.toISOString()
+      this.item[type] = theDateTime.toISOString()
+      if (type === 'startDate' && this.durationValue) {
+        this.setEndTime(this.durationValue, false)
+      } else {
+        this.revalidateTimes()
+      }
+      this.startDateMenu = false
+      this.endDateMenu = false
     },
-    priceHint(item) {
-      return `Price per ${item.units ? `${item.units}` : 'unit'} in dollars`
+    addValuesFromDatepicker(type = 'startDate', pickerDate, pickerTime) {
+      const dateObject = moment.tz(`${pickerDate}T${pickerTime}:00`, 'America/New_York')
+      const newValue = dateObject.toISOString()
+      this.item[type] = newValue
+      if (type === 'startDate' && this.durationValue) {
+        this.setEndTime(this.durationValue, false)
+      }
+      this.startDateMenu = false
+      this.endDateMenu = false
+    },
+    revalidateTimes() {
+      this.$refs.startDate.validate(true)
+      this.$refs.endDate.validate(true)
+    },
+    setEndTime(value, validate = true) {
+      this.item.endDate = moment.tz(this.item.startDate, 'America/New_York').add(value, 'minutes').toISOString()
+      if (validate) {
+        this.revalidateTimes()
+      }
     },
     pluralize(count, string) {
       return `${count} ${string}${count === 1 ? '' : 's'}`
     },
   },
   computed: {
-    // headers() {
-    //   const headers = [
-    //     { text: 'Name', value: 'name', sortable: true },
-    //     { text: 'Description', value: 'description', sortable: true, namedSlot: true },
-    //     { text: 'Price', value: 'price', sortable: true },
-    //     { text: 'Units', value: 'units', sortable: true, slot: true },
-    //     { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
-    //     { text: 'Active', value: 'active', sortable: true, namedSlot: true },
-    //     { text: '', value: 'actions', namedSlot: true, sortable: false },
-    //   ]
-    //   return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
-    // },
     title() {
       const itemTitle = this.splitOnCapitals(this.itemType).join(' ')
       if (this.isEditing) {
-        return `Edit ${itemTitle} ${this.item.name}`
+        return `Edit ${itemTitle} for ${this.item.product}`
       }
-      return `Create ${itemTitle}`
+      return `Create ${itemTitle} ${this.item.product ? `for ${this.item.product}` : ''}`
     },
-    productNotSelected() {
-      return !(this.product && Object.keys(this.product).length)
+    humanStartDate() {
+      return this.item.startDate ? moment(this.item.startDate).format('M/DD/YYYY h:mm A') : ''
     },
-    // filteredRates() {
-    //   if (this.item?.rates) {
-    //     return this.item.rates.filter((r) => r.originalActive || this.showDeactivatedRates)
-    //   }
-    //   return []
-    // },
+    humanEndDate() {
+      return this.item.endDate ? moment(this.item.endDate).format('M/DD/YYYY h:mm A') : ''
+    },
   },
 }
 </script>
@@ -188,18 +188,18 @@ export default {
     </IFXPageHeader>
     <v-container>
       <v-form v-model="isValid" ref="productUsageForm">
-        <v-row v-if="item.course">
+        <!-- <v-row v-if="item.product">
           <v-col>
             <v-alert dismissible type="info">
               <p class="text-body-1">
                 {{ isEditing ? 'Editing' : 'Creating' }} a product usage for the
-                <strong>{{ item.productName }}</strong>
+                <strong>{{ item.product }}</strong>
                 product in the
-                <strong>{{ item.organization.name }}</strong>
+                <strong>{{ item.organization | orgNameFromSlug }}</strong>
                 organization
                 <br />
-                The usage is
-                {{ item.scheduleAsNeeded ? ' scheduled as needed and ' : '' }}
+                The usage is from
+                {{ item.startDate | humanDatetime }} to {{ item.endDate | humanDatetime }}
                 {{
                   item.billable
                     ? `billable and the rate is ${
@@ -210,14 +210,13 @@ export default {
               </p>
             </v-alert>
           </v-col>
-        </v-row>
+        </v-row> -->
         <v-row>
           <v-col>
             <v-autocomplete
               v-model="item.product"
               :items="filteredProducts"
               item-text="productName"
-              item-value="productNumber"
               label="Product"
               :rules="formRules.generic"
               data-cy="product"
@@ -227,35 +226,35 @@ export default {
               clearable
               return-object
               clear-icon="mdi-close-circle"
-              @change="setCourseWithObject($event)"
+              @change="setProductWithObject($event)"
+              @focus="clearAllErrors()"
+            ></v-autocomplete>
+          </v-col>
+          <v-col>
+            <v-autocomplete
+              v-model="item.organization"
+              :items="allOrganizations"
+              item-text="name"
+              item-value="slug"
+              label="Organization"
+              :rules="formRules.generic"
+              data-cy="organization"
+              :error-messages="errors.organization"
+              class="required"
+              required
+              clearable
+              clear-icon="mdi-close-circle"
               @focus="clearAllErrors()"
             ></v-autocomplete>
           </v-col>
         </v-row>
-        <v-col>
-          <v-autocomplete
-            v-model="item.organization"
-            :items="allOrganizations"
-            item-text="name"
-            item-value="slug"
-            label="Organization"
-            :rules="formRules.generic"
-            data-cy="organization"
-            :error-messages="errors.organization"
-            class="required"
-            required
-            clearable
-            clear-icon="mdi-close-circle"
-            @focus="clearAllErrors()"
-          ></v-autocomplete>
-        </v-col>
         <v-row>
           <v-col>
             <v-autocomplete
               v-model="item.productUser"
               :items="allUsers"
-              item-text="allUsers.fullName"
-              item-value="allUsers.fullName"
+              item-text="fullName"
+              item-value="fullName"
               label="Product User"
               :rules="formRules.generic"
               data-cy="product-user"
@@ -263,7 +262,6 @@ export default {
               class="required"
               required
               return-object
-              multiple
               clearable
               clear-icon="mdi-close-circle"
               @focus="clearAllErrors()"
@@ -273,8 +271,8 @@ export default {
             <v-autocomplete
               v-model="item.loggedBy"
               :items="allUsers"
-              item-text="allUsers.fullName"
-              item-value="allUsers.fullName"
+              item-text="fullName"
+              item-value="fullName"
               label="Logged By"
               :rules="formRules.generic"
               data-cy="logged-by"
@@ -282,7 +280,6 @@ export default {
               class="required"
               required
               return-object
-              multiple
               clearable
               clear-icon="mdi-close-circle"
               @focus="clearAllErrors()"
@@ -291,81 +288,96 @@ export default {
         </v-row>
         <v-row>
           <v-col>
-            <v-text-field
-              ref="startDate"
-              class="startDate required"
-              :value="humanStartDateTime"
-              @change="updateDate($event)"
-              label="Start Date and Time"
-              prepend-icon="mdi-calendar"
-              required
-              hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
-              persistent-hint
-              @click:prepend.stop="openPickers()"
-              :rules="[dateTimeRule, checkInPast]"
-              :error-messages="errors.start_date"
-              data-cy="start-date"
-              @focus="clearAllErrors()"
-            ></v-text-field>
-            <v-dialog v-model="startDateMenu" v-if="startDateMenu" max-width="670px">
-              <div class="d-flex flex-row menu-background">
-                <div class="d-flex flex-column">
-                  <v-date-picker
-                    v-model="pickerDate"
-                    no-title
-                    scrollable
-                    show-adjacent-months
-                    :min="minDate()"
-                    data-cy="start-date-picker"
-                  ></v-date-picker>
-                  <div class="text-center">
-                    <v-btn text color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
-                      Cancel
-                    </v-btn>
-                    <v-btn
-                      text
-                      color="primary"
-                      :disabled="!pickerTime"
-                      @click="addValuesFromDatepicker(pickerDate, pickerTime)"
-                      data-cy="start-date-ok"
-                    >
-                      OK
-                    </v-btn>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  ref="startDate"
+                  class="startDate required"
+                  :value="humanStartDate"
+                  @change="updateDate($event, 'startDate')"
+                  label="Start Date and Time"
+                  prepend-icon="mdi-calendar"
+                  required
+                  hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
+                  persistent-hint
+                  @click:prepend.stop="openPickers()"
+                  :rules="[dateTimeRule]"
+                  :error-messages="errors.start_date"
+                  data-cy="start-date"
+                  @focus="clearAllErrors()"
+                ></v-text-field>
+                <v-dialog v-model="startDateMenu" v-if="startDateMenu" max-width="670px">
+                  <div class="d-flex flex-row menu-background">
+                    <div class="d-flex flex-column">
+                      <v-date-picker
+                        v-model="pickerDate"
+                        no-title
+                        scrollable
+                        show-adjacent-months
+                        data-cy="start-date-picker"
+                      ></v-date-picker>
+                      <div class="text-center">
+                        <v-btn text color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
+                          Cancel
+                        </v-btn>
+                        <v-btn
+                          text
+                          color="primary"
+                          :disabled="!pickerTime"
+                          @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
+                          data-cy="start-date-ok"
+                        >
+                          OK
+                        </v-btn>
+                      </div>
+                    </div>
+                    <v-spacer></v-spacer>
+                    <v-time-picker
+                      v-model="pickerTime"
+                      scrollable
+                      ampm-in-title
+                      format="ampm"
+                      :allowed-minutes="allowedMinutes"
+                      data-cy="start-date-time-picker"
+                    ></v-time-picker>
                   </div>
-                </div>
-                <v-spacer></v-spacer>
-                <v-time-picker
-                  v-model="pickerTime"
-                  scrollable
-                  ampm-in-title
-                  format="ampm"
-                  :allowed-minutes="allowedMinutes"
-                  data-cy="start-date-time-picker"
-                ></v-time-picker>
-              </div>
-            </v-dialog>
+                </v-dialog>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model.number="item.decimalQuantity"
+                  class="required"
+                  type="number"
+                  label="Quantity"
+                  :rules="formRules.generic"
+                  data-cy="quantity"
+                  :hint="`Enter the quantity used in ${item.units}`"
+                  persistent-hint
+                  :error-messages="errors.quantity"
+                  @focus="clearError('quantity')"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col>
             <v-row>
               <v-col>
                 <v-autocomplete
-                  label="Length of usage (minutes) *"
+                  label="Length of usage"
                   v-model="durationValue"
                   :items="duration"
                   @change="setEndTime($event, true)"
                   class="my-2"
-                  :disabled="productNotSelected"
                   data-cy="length-select"
-                >
-                  <template #no-data>
-                    <div class="mx-3 my-1">No options (you must select a product)</div>
-                  </template>
-                </v-autocomplete>
+                ></v-autocomplete>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <div class="text-divider font-italic text-center">Or set End time directly</div>
+                <div class="text-divider font-italic text-center">Or set End Date/Time directly</div>
               </v-col>
             </v-row>
             <v-row>
@@ -380,32 +392,13 @@ export default {
                 persistent-hint
                 required
                 @click:prepend.stop="openPickers('endDate')"
-                :rules="[dateTimeRule, checkInPast, checkIsAfterStart, checkSpansMonth]"
-                :disabled="productNotSelected"
+                :rules="[dateTimeRule, checkIsAfterStart]"
                 data-cy="end-date"
               ></v-text-field>
-              <v-menu
-                v-model="endDateMenu"
-                :close-on-content-click="false"
-                :return-value.sync="endDateMenu"
-                transition="scale-transition"
-                :offset-overflow="true"
-                min-width="580px"
-                left
-                offset-x
-                nudge-bottom="20"
-                attach=".endDate"
-                :internal-activator="true"
-              >
+              <v-dialog v-model="endDateMenu" v-if="endDateMenu" max-width="670px">
                 <div class="d-flex flex-row menu-background">
                   <div class="d-flow flow-column">
-                    <v-date-picker
-                      v-model="pickerDate"
-                      no-title
-                      scrollable
-                      show-adjacent-months
-                      :min="minDate()"
-                    ></v-date-picker>
+                    <v-date-picker v-model="pickerDate" no-title scrollable show-adjacent-months></v-date-picker>
                     <div class="text-center">
                       <v-btn text color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">
                         Cancel
@@ -430,7 +423,7 @@ export default {
                     data-cy="end-date-time-picker"
                   ></v-time-picker>
                 </div>
-              </v-menu>
+              </v-dialog>
             </v-row>
           </v-col>
         </v-row>
@@ -460,5 +453,27 @@ export default {
 }
 .startDate {
   cursor: pointer;
+}
+.text-divider {
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1em;
+  --text-divider-gap: 1rem;
+
+  &::before,
+  &::after {
+    content: '';
+    height: 1px;
+    background-color: silver;
+    flex-grow: 1;
+  }
+
+  &::before {
+    margin-right: var(--text-divider-gap);
+  }
+
+  &::after {
+    margin-left: var(--text-divider-gap);
+  }
 }
 </style>
