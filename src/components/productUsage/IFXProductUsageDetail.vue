@@ -37,7 +37,7 @@ export default {
   <v-container v-if="!isLoading">
     <IFXPageHeader>
       <template #title>
-        {{ item.name }}
+        {{ item.product }}
         <div class="text-body-2">Created {{ item.created | humanDatetime }}</div>
         <div class="text-body-2">Updated {{ item.updated | humanDatetime }}</div>
       </template>
