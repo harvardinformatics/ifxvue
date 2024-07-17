@@ -188,29 +188,6 @@ export default {
     </IFXPageHeader>
     <v-container>
       <v-form v-model="isValid" ref="productUsageForm">
-        <!-- <v-row v-if="item.product">
-          <v-col>
-            <v-alert dismissible type="info">
-              <p class="text-body-1">
-                {{ isEditing ? 'Editing' : 'Creating' }} a product usage for the
-                <strong>{{ item.product }}</strong>
-                product in the
-                <strong>{{ item.organization | orgNameFromSlug }}</strong>
-                organization
-                <br />
-                The usage is from
-                {{ item.startDate | humanDatetime }} to {{ item.endDate | humanDatetime }}
-                {{
-                  item.billable
-                    ? `billable and the rate is ${
-                        item.rates.length ? `"${$api.course.getRatesList(item)}"` : 'not set'
-                      }`
-                    : 'not billable'
-                }}.
-              </p>
-            </v-alert>
-          </v-col>
-        </v-row> -->
         <v-row>
           <v-col>
             <v-autocomplete
