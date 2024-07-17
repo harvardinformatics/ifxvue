@@ -103,8 +103,8 @@ export default {
           <h3>Product User</h3>
         </v-col>
         <v-col>
-          <router-link :to="{ name: 'UserDetail', params: { id: item.productUser.user.id } }">
-            {{ getFullName(item.productUser.user) }}
+          <router-link :to="{ name: 'UserDetail', params: { id: item.productUser.id } }">
+            {{ getFullName(item.productUser) }}
           </router-link>
         </v-col>
       </v-row>
@@ -113,8 +113,8 @@ export default {
           <h3>Logged By</h3>
         </v-col>
         <v-col>
-          <router-link :to="{ name: 'UserDetail', params: { id: item.loggedBy.user.id } }">
-            {{ getFullName(item.loggedBy.user) }}
+          <router-link :to="{ name: 'UserDetail', params: { id: item.loggedBy.id } }">
+            {{ getFullName(item.loggedBy) }}
           </router-link>
         </v-col>
       </v-row>

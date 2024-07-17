@@ -56,7 +56,13 @@ export default {
         <IFXButton btnType="add" small @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
+    <IFXItemDataTable
+      :items="filteredItems"
+      :headers="headers"
+      :selected.sync="selected"
+      :show-select="false"
+      :itemType="itemType"
+    >
       <template #decimalQuantity="{ item }">
         {{ displayQuantityWithUnits(item) }}
       </template>
@@ -64,13 +70,13 @@ export default {
         {{ item.organization | orgNameFromSlug }}
       </template>
       <template #productUser="{ item }">
-        <router-link :to="{ name: 'UserDetail', params: { id: item.productUser.user.id } }">
-          {{ getFullName(item.productUser.user) }}
+        <router-link :to="{ name: 'UserDetail', params: { id: item.productUser.id } }">
+          {{ getFullName(item.productUser) }}
         </router-link>
       </template>
       <template #loggedBy="{ item }">
-        <router-link :to="{ name: 'UserDetail', params: { id: item.loggedBy.user.id } }">
-          {{ getFullName(item.loggedBy.user) }}
+        <router-link :to="{ name: 'UserDetail', params: { id: item.loggedBy.id } }">
+          {{ getFullName(item.loggedBy) }}
         </router-link>
       </template>
       <template #startDate="{ item }">
