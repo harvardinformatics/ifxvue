@@ -13,8 +13,10 @@ export default {
   name: 'IFXAccountRequestTrackDetail',
   props: {
     accountRequestData: Object,
+    accountRequest: Object, // Sorry about having to pass this in, but it's needed for the updateAccountRequest call
     track: String,
     trackTitle: String,
+    organizations: Array,
   },
   components: {
     DisplayAddressList,
@@ -29,21 +31,31 @@ export default {
   data() {
     return {
       localData: this.accountRequestData,
+      localAccountRequest: this.accountRequest,
     }
   },
   watch: {
     localData: {
       handler() {
-        console.log('watch accountRequestData in AccountRequestTrackDetail.vue', this.localData)
-        this.$api.updateAccountRequest(this.localData)
+        console.log('watch accountRequestData in AccountRequestTrackDetail.vue', this.localAccountRequest)
       },
       deep: true,
+    },
+  },
+  methods: {
+    updateData() {
+      console.log('updateData in AccountRequestTrackDetail.vue', this.localAccountRequest)
+      if (this.localAccountRequest.onBoardRequest) {
+        this.localAccountRequest.onBoardRequest.data = this.localData
+        this.$requestApi.updateAccountRequest(this.localAccountRequest)
+        console.log('updated the data in AccountRequestTrackDetail.vue', this.localAccountRequest)
+      }
     },
   },
 }
 </script>
 <template>
-  <v-container v-if="accountRequestData">
+  <v-container v-if="accountRequestData && organizations">
     <v-layout column>
       <v-flex>
         <span class="title">{{ trackTitle }}</span>
@@ -66,7 +78,8 @@ export default {
               v-if="field == 'lab_info'"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               v-model="localData"
-              @change="updateData"
+              :organizations="organizations"
+              @change="updateData()"
             ></component>
             <component
               v-else-if="field == 'demographic_data'"

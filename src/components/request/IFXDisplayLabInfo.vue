@@ -2,19 +2,26 @@
 
 export default {
   name: 'IFXDisplayLabInfo',
-  props: ['value'],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    organizations: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       data: this.value,
     }
   },
   methods: {
-    /**
-     * Update the data property when the modelValue prop changes.
-     */
     updateData() {
       console.log('updateData in DisplayLabInfo.vue', this.data.lab_info)
-      this.$emit('input', this.data)
+      this.$emit('change', this.data)
+      return true // This is needed to make the v-text-field work.  Don't know why
     },
   },
   mounted() {
@@ -71,11 +78,13 @@ export default {
                   Selected Organization
                 </v-flex>
                 <v-flex>
-                  <v-text-field
-                    v-model="data.lab_info.organization"
-                    @change="updateData"
-                  >
-                  </v-text-field>
+                  <v-autocomplete v-if="organizations"
+                    v-model.trim="data.lab_info.organization"
+                    :items="organizations"
+                    item-text="name"
+                    item-value="slug"
+                    @change="updateData()"
+                  ></v-autocomplete>
                 </v-flex>
               </v-layout>
             </v-flex>
