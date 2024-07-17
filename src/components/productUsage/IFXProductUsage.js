@@ -100,6 +100,10 @@ class ProductUsage extends IFXItemBase {
     return this.data.logged_by
   }
 
+  set loggedBy(val) {
+    this.data.logged_by = val
+  }
+
   get created() {
     return this.data.created
   }
