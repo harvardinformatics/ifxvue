@@ -20,6 +20,11 @@ export default {
       required: false,
     },
   },
+  data() {
+    return {
+      page: 1,
+    }
+  },
   computed: {
     headers() {
       const headers = [
@@ -70,16 +75,6 @@ export default {
     goToUserDetailPage(user) {
       this.$router.push({ name: 'UserDetail', params: { id: user.id } })
     },
-    async handleBulkDelete() {
-      try {
-        const promises = this.selected.map((item) => this.apiRef.delete(item))
-        const responses = await Promise.all(promises)
-        this.showMessage(`${responses.length} Product Usages deleted successfully`)
-        this.getSetItems()
-      } catch (error) {
-        this.showMessage(error)
-      }
-    },
     async handleDelete(item) {
       try {
         await this.apiRef.delete(item)
@@ -88,6 +83,11 @@ export default {
       } catch (error) {
         this.showMessage(error)
       }
+    },
+    // Method for handling page changes
+    pageChange(item) {
+      this.page = item
+      return null
     },
   },
 }
@@ -114,6 +114,8 @@ export default {
       :selected.sync="selected"
       :show-select="true"
       :itemType="itemType"
+      @update:page="pageChange"
+      :page="page"
     >
       <template #decimalQuantity="{ item }">
         {{ displayQuantityWithUnits(item) }}
@@ -149,7 +151,7 @@ export default {
             tooltip="Delete this Product Usage"
             :disabled="bulkDeleteDisabled"
           ></IFXTooltip>
-          <IFXButton class="ml-2" btnType="edit" xSmall @action="navigateToItemEdit(item.id)" />
+          <IFXButton class="ml-2" btnType="edit" xSmall @action="navigateToEdit(itemType, item.id, page)" />
         </span>
       </template>
     </IFXItemDataTable>
