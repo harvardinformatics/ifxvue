@@ -152,6 +152,18 @@ export default {
             ></v-select>
           </v-col>
           <v-col>
+            <v-text-field
+              v-model="item.productCategory"
+              label="Product Category"
+              data-cy="product-category"
+              :rules="formRules.generic"
+              :error-messages="errors.product_category"
+              @keyup="$refs.productForm.resetValidation()"
+              required
+              @focus="clearError('product_category')"
+            ></v-text-field>
+          </v-col>
+          <v-col>
             <v-checkbox class="mt-0 pt-0" v-model="item.billable" label="Billable" data-cy="billable"></v-checkbox>
           </v-col>
         </v-row>
