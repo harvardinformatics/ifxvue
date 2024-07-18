@@ -246,8 +246,6 @@ export default {
         </v-row>
         <v-row>
           <v-col>
-            <!-- <v-row>
-              <v-col> -->
             <v-text-field
               ref="startDate"
               class="startDate required"
