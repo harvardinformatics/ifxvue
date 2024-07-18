@@ -37,15 +37,7 @@ export default {
       pickerDate: '',
       pickerTime: '',
       startDateMenu: false,
-      duration: [
-        { value: 30, text: '30 minutes' },
-        { value: 60, text: '1 hour' },
-        { value: 90, text: '90 minutes' },
-        { value: 120, text: '2 hours' },
-        { value: 180, text: '3 hours' },
-        { value: 240, text: '4 hours' },
-      ],
-      durationValue: null,
+      endDateMenu: false,
       parseFormats: ['M/DD/YYYY h:mm A', 'M/DD/YYYY h:mmA'],
     }
   },
@@ -54,8 +46,10 @@ export default {
     async getAdditionalData() {
       const allProducts = await this.$api.product.getList()
       this.allUsers = await this.$api.user.getList()
-      this.allOrganizations = await this.$api.organization.getList()
-      this.filteredProducts = allProducts.filter((product) => product.productCategory === this.productCategory)
+      this.allOrganizations = await this.$api.organization.getNames()
+      this.filteredProducts = allProducts.filter(
+        (product) => this.productCategory === null || product.productCategory === this.productCategory
+      )
     },
     setProductWithNumber(productNumber) {
       const product = this.filteredProducts.find((c) => c.productNumber === productNumber)
@@ -130,11 +124,7 @@ export default {
     updateDate(value, type = 'startDate') {
       const theDateTime = moment.tz(value, this.parseFormats, 'America/New_York')
       this.item[type] = theDateTime.toISOString()
-      if (type === 'startDate' && this.durationValue) {
-        this.setEndTime(this.durationValue, false)
-      } else {
-        this.revalidateTimes()
-      }
+      this.revalidateTimes()
       this.startDateMenu = false
       this.endDateMenu = false
     },
@@ -142,21 +132,12 @@ export default {
       const dateObject = moment.tz(`${pickerDate}T${pickerTime}:00`, 'America/New_York')
       const newValue = dateObject.toISOString()
       this.item[type] = newValue
-      if (type === 'startDate' && this.durationValue) {
-        this.setEndTime(this.durationValue, false)
-      }
       this.startDateMenu = false
       this.endDateMenu = false
     },
     revalidateTimes() {
       this.$refs.startDate.validate(true)
       this.$refs.endDate.validate(true)
-    },
-    setEndTime(value, validate = true) {
-      this.item.endDate = moment.tz(this.item.startDate, 'America/New_York').add(value, 'minutes').toISOString()
-      if (validate) {
-        this.revalidateTimes()
-      }
     },
     pluralize(count, string) {
       return `${count} ${string}${count === 1 ? '' : 's'}`
@@ -265,143 +246,117 @@ export default {
         </v-row>
         <v-row>
           <v-col>
-            <v-row>
-              <v-col>
-                <v-text-field
-                  ref="startDate"
-                  class="startDate required"
-                  :value="humanStartDate"
-                  @change="updateDate($event, 'startDate')"
-                  label="Start Date and Time"
-                  prepend-icon="mdi-calendar"
-                  required
-                  hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
-                  persistent-hint
-                  @click:prepend.stop="openPickers()"
-                  :rules="[dateTimeRule]"
-                  :error-messages="errors.start_date"
-                  data-cy="start-date"
-                  @focus="clearAllErrors()"
-                ></v-text-field>
-                <v-dialog v-model="startDateMenu" v-if="startDateMenu" max-width="670px">
-                  <div class="d-flex flex-row menu-background">
-                    <div class="d-flex flex-column">
-                      <v-date-picker
-                        v-model="pickerDate"
-                        no-title
-                        scrollable
-                        show-adjacent-months
-                        data-cy="start-date-picker"
-                      ></v-date-picker>
-                      <div class="text-center">
-                        <v-btn text color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
-                          Cancel
-                        </v-btn>
-                        <v-btn
-                          text
-                          color="primary"
-                          :disabled="!pickerTime"
-                          @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
-                          data-cy="start-date-ok"
-                        >
-                          OK
-                        </v-btn>
-                      </div>
-                    </div>
-                    <v-spacer></v-spacer>
-                    <v-time-picker
-                      v-model="pickerTime"
-                      scrollable
-                      ampm-in-title
-                      format="ampm"
-                      :allowed-minutes="allowedMinutes"
-                      data-cy="start-date-time-picker"
-                    ></v-time-picker>
+            <!-- <v-row>
+              <v-col> -->
+            <v-text-field
+              ref="startDate"
+              class="startDate required"
+              :value="humanStartDate"
+              @change="updateDate($event, 'startDate')"
+              label="Start Date and Time"
+              prepend-icon="mdi-calendar"
+              required
+              hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
+              persistent-hint
+              @click:prepend.stop="openPickers()"
+              :rules="[dateTimeRule]"
+              :error-messages="errors.start_date"
+              data-cy="start-date"
+              @focus="clearAllErrors()"
+            ></v-text-field>
+            <v-dialog v-model="startDateMenu" v-if="startDateMenu" max-width="670px">
+              <div class="d-flex flex-row menu-background">
+                <div class="d-flex flex-column">
+                  <v-date-picker
+                    v-model="pickerDate"
+                    no-title
+                    scrollable
+                    show-adjacent-months
+                    data-cy="start-date-picker"
+                  ></v-date-picker>
+                  <div class="text-center">
+                    <v-btn text color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      :disabled="!pickerTime"
+                      @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
+                      data-cy="start-date-ok"
+                    >
+                      OK
+                    </v-btn>
                   </div>
-                </v-dialog>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field
-                  v-model.number="item.decimalQuantity"
-                  class="required"
-                  type="number"
-                  label="Quantity"
-                  :rules="formRules.generic"
-                  data-cy="quantity"
-                  :hint="`Enter the quantity used in ${item.units}`"
-                  persistent-hint
-                  :error-messages="errors.quantity"
-                  @focus="clearError('quantity')"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
+                </div>
+                <v-spacer></v-spacer>
+                <v-time-picker
+                  v-model="pickerTime"
+                  scrollable
+                  ampm-in-title
+                  format="ampm"
+                  :allowed-minutes="allowedMinutes"
+                  data-cy="start-date-time-picker"
+                ></v-time-picker>
+              </div>
+            </v-dialog>
           </v-col>
           <v-col>
-            <v-row>
-              <v-col>
-                <v-autocomplete
-                  label="Length of usage"
-                  v-model="durationValue"
-                  :items="duration"
-                  @change="setEndTime($event, true)"
-                  class="my-2"
-                  data-cy="length-select"
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <div class="text-divider font-italic text-center">Or set End Date/Time directly</div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-text-field
-                ref="endDate"
-                class="endDate"
-                :value="humanEndDate"
-                @change="updateDate($event, 'endDate')"
-                label="End Date and Time *"
-                prepend-icon="mdi-calendar"
-                hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
-                persistent-hint
-                required
-                @click:prepend.stop="openPickers('endDate')"
-                :rules="[dateTimeRule, checkIsAfterStart]"
-                data-cy="end-date"
-              ></v-text-field>
-              <v-dialog v-model="endDateMenu" v-if="endDateMenu" max-width="670px">
-                <div class="d-flex flex-row menu-background">
-                  <div class="d-flow flow-column">
-                    <v-date-picker v-model="pickerDate" no-title scrollable show-adjacent-months></v-date-picker>
-                    <div class="text-center">
-                      <v-btn text color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">
-                        Cancel
-                      </v-btn>
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
-                        data-cy="end-date-ok"
-                      >
-                        OK
-                      </v-btn>
-                    </div>
+            <v-text-field
+              ref="endDate"
+              :value="humanEndDate"
+              @change="updateDate($event, 'endDate')"
+              label="End Date and Time"
+              prepend-icon="mdi-calendar"
+              hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
+              persistent-hint
+              @click:prepend.stop="openPickers('endDate')"
+              data-cy="end-date"
+            ></v-text-field>
+            <v-dialog v-model="endDateMenu" v-if="endDateMenu" max-width="670px">
+              <div class="d-flex flex-row menu-background">
+                <div class="d-flow flow-column">
+                  <v-date-picker v-model="pickerDate" no-title scrollable show-adjacent-months></v-date-picker>
+                  <div class="text-center">
+                    <v-btn text color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">Cancel</v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
+                      data-cy="end-date-ok"
+                    >
+                      OK
+                    </v-btn>
                   </div>
-                  <v-spacer></v-spacer>
-                  <v-time-picker
-                    v-model="pickerTime"
-                    scrollable
-                    ampm-in-title
-                    format="ampm"
-                    :allowed-minutes="allowedMinutes"
-                    data-cy="end-date-time-picker"
-                  ></v-time-picker>
                 </div>
-              </v-dialog>
-            </v-row>
+                <v-spacer></v-spacer>
+                <v-time-picker
+                  v-model="pickerTime"
+                  scrollable
+                  ampm-in-title
+                  format="ampm"
+                  :allowed-minutes="allowedMinutes"
+                  data-cy="end-date-time-picker"
+                ></v-time-picker>
+              </div>
+            </v-dialog>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model.number="item.decimalQuantity"
+              class="required"
+              type="number"
+              label="Quantity"
+              :rules="formRules.generic"
+              data-cy="quantity"
+              :hint="`Enter the quantity used${item.units ? ` in ${item.units}` : ''}`"
+              persistent-hint
+              :error-messages="errors.quantity"
+              @focus="clearError('quantity')"
+              required
+            ></v-text-field>
           </v-col>
         </v-row>
         <v-row>
