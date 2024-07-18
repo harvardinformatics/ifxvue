@@ -80,7 +80,10 @@ export default {
         <v-col sm="2">
           <h3>End Date/Time</h3>
         </v-col>
-        <v-col>{{ item.endDate | humanDatetime }}</v-col>
+        <v-col>
+          <span v-if="item.endDate">{{ item.endDate | humanDatetime }}</span>
+          <span v-else class="grey--text text--darken-1">None</span>
+        </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
