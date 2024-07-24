@@ -97,11 +97,18 @@ import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 import IFXFacility from '@/components/facility/IFXFacility'
 
 // Product
-import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
+import { Product, ProductRate, Processing } from '@/components/product/IFXProduct'
 import IFXProductList from '@/components/product/IFXProductList'
 import IFXProductDetail from '@/components/product/IFXProductDetail'
 import IFXProductCreateEdit from '@/components/product/IFXProductCreateEdit'
 import IFXProductMixin from '@/components/product/IFXProductMixin'
+
+// Product Usage
+import ProductUsage from '@/components/productUsage/IFXProductUsage'
+import IFXProductUsageList from '@/components/productUsage/IFXProductUsageList'
+import IFXProductUsageDetail from '@/components/productUsage/IFXProductUsageDetail'
+import IFXProductUsageCreateEdit from '@/components/productUsage/IFXProductUsageCreateEdit'
+import IFXProductUsageMixin from '@/components/productUsage/IFXProductUsageMixin'
 
 // Billing
 import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
@@ -219,6 +226,10 @@ export {
   IFXProductList,
   IFXProductMixin,
   IFXProductCreateEdit,
+  IFXProductUsageDetail,
+  IFXProductUsageMixin,
+  IFXProductUsageCreateEdit,
+  IFXProductUsageList,
   IFXPageActionBar,
   IFXBillingRecordList,
   IFXBillingRecordListDecimal,
