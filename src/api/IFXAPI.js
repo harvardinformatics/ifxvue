@@ -15,7 +15,8 @@ import { Account, UserProductAccount } from '@/components/account/IFXAccount'
 import ProductAccount from '@/components/account/IFXProductAccount'
 import Facility from '@/components/facility/IFXFacility'
 import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IFXBillingRecord'
-import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
+import { Product, ProductRate, Processing } from '@/components/product/IFXProduct'
+import ProductUsage from '@/components/productUsage/IFXProductUsage'
 import { ReportRun, Report } from '@/components/report/IFXReport'
 
 function isNumeric(val) {
@@ -793,20 +794,37 @@ export default class IFXAPIService {
       // Serializer actually returns just a string (name) for the product
       // Only discovered this because, I think, Helium is the only one using a generic product usage
       // retrieval
-      // if (productUsageData.product) {
-      //   newProductUsageData.product = decompose
-      //     ? productUsageData.product.data
-      //     : this.product.create(productUsageData.product)
-      // }
+      if (!productUsageData.product) {
+        newProductUsageData.product = null
+      }
       if (productUsageData.product_user) {
         newProductUsageData.product_user = decompose
-          ? productUsageData.productUser.data
+          ? productUsageData.product_user.data
           : this.user.create(productUsageData.product_user)
+      }
+      if (productUsageData.logged_by) {
+        newProductUsageData.logged_by = decompose
+          ? productUsageData.logged_by.data
+          : this.user.create(productUsageData.logged_by)
       }
       if (newProductUsageData.processing?.length) {
         newProductUsageData.processing = decompose
           ? newProductUsageData.processing.data
           : this.processing.create(newProductUsageData.processing[0]) // There should be only one of these
+      }
+      if (!newProductUsageData.start_date) {
+        // Make start date reactive
+        newProductUsageData.start_date = null
+      }
+
+      if (!newProductUsageData.end_date) {
+        // Make end date reactive
+        newProductUsageData.end_date = null
+      }
+
+      if (!newProductUsageData.organization) {
+        // Make end date reactive
+        newProductUsageData.organization = null
       }
 
       // If decomposing, do not create a dynamic product object
