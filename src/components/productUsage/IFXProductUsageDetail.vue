@@ -17,7 +17,7 @@ export default {
   computed: {},
   methods: {
     displayQuantityWithUnits(item) {
-      const quantity = parseInt(item.decimalQuantity, 10)?.toFixed(2)
+      const quantity = Number.parseFloat(item.decimalQuantity).toFixed(2)
       return this.pluralize(quantity, item.units)
     },
     pluralize(count, string) {

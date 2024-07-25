@@ -63,11 +63,11 @@ export default {
       )
     },
     displayQuantityWithUnits(item) {
-      const quantity = parseInt(item.decimalQuantity, 10)?.toFixed(2)
+      const quantity = Number.parseFloat(item.decimalQuantity).toFixed(2)
       return this.pluralize(quantity, item.units)
     },
     pluralize(count, string) {
-      return `${count} ${string}${count === 1 ? '' : 's'}`
+      return `${count} ${string}${count === 1 || string === 'ea' ? '' : 's'}`
     },
     getFullName(user) {
       return user.fullName ? user.fullName : `${user.firstName} ${user.lastName}`
