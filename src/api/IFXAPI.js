@@ -831,7 +831,12 @@ export default class IFXAPIService {
       return decompose ? newProductUsageData : new ProductUsage(newProductUsageData)
     }
     const decomposeFunc = (newProductUsageData) => createFunc(newProductUsageData, true)
-    return this.genericAPI(baseUrl, ProductUsage, createFunc, decomposeFunc)
+    const api = this.genericAPI(baseUrl, ProductUsage, createFunc, decomposeFunc)
+    api.getProductUsageList = async (params) => {
+      const url = this.urls.GET_PRODUCT_USAGE_LIST
+      return this.axios.get(url, { params }).then((res) => res.data.map((productUsageData) => createFunc(productUsageData)))
+    }
+    return api
   }
 
   get facility() {
