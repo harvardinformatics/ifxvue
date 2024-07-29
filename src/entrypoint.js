@@ -151,6 +151,7 @@ import IFXDisplayLabInfo from '@/components/request/IFXDisplayLabInfo'
 import IFXDisplayScientificArea from '@/components/request/IFXDisplayScientificArea'
 import IFXDisplayExpenseCode from '@/components/request/IFXDisplayExpenseCode'
 import IFXDisplayTermsAndConditions from '@/components/request/IFXDisplayTermsAndConditions'
+import IFXDisplayAffiliations from '@/components/request/IFXDisplayAffiliations'
 import IFXRequestCommentList from '@/components/request/IFXRequestCommentList'
 import IFXRequestList from '@/components/request/IFXRequestList'
 
@@ -257,6 +258,7 @@ export {
   IFXDisplayScientificArea,
   IFXDisplayExpenseCode,
   IFXDisplayTermsAndConditions,
+  IFXDisplayAffiliations,
   IFXRequestCommentList,
   IFXRequestList,
 }

@@ -11,6 +11,7 @@ import DisplayLabInfo from './IFXDisplayLabInfo'
 import DisplayScientificArea from './IFXDisplayScientificArea'
 import DisplayExpenseCode from './IFXDisplayExpenseCode'
 import DisplayTermsAndConditions from './IFXDisplayTermsAndConditions'
+import DisplayAffiliations from './IFXDisplayAffiliations'
 
 export default {
   name: 'IFXAccountRequestTrackDetail',
@@ -31,6 +32,7 @@ export default {
     DisplayScientificArea,
     DisplayExpenseCode,
     DisplayTermsAndConditions,
+    DisplayAffiliations,
   },
   data() {
     return {}
@@ -58,7 +60,7 @@ export default {
               :data="accountRequestData[field]"
             ></component>
             <component
-              v-else-if="field === 'demographic_data'"
+              v-else-if="['demographic_data', 'primary_affiliation'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData.person"
             ></component>
