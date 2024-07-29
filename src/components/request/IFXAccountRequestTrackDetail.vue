@@ -100,7 +100,7 @@ export default {
               :data="accountRequestData.person[field]"
             ></component>
           </v-flex>
-          <v-flex v-else></v-flex>
+          <v-flex v-else>{{ accountRequestData.person[field] }}</v-flex>
           <v-flex></v-flex>
         </v-layout>
       </v-flex>
