@@ -8,6 +8,9 @@ import DisplayMOU from './IFXDisplayMOU'
 import DisplayProject from './IFXDisplayProject'
 import DisplayPO from './IFXDisplayPO'
 import DisplayLabInfo from './IFXDisplayLabInfo'
+import DisplayScientificArea from './IFXDisplayScientificArea'
+import DisplayExpenseCode from './IFXDisplayExpenseCode'
+import DisplayTermsAndConditions from './IFXDisplayTermsAndConditions'
 
 export default {
   name: 'IFXAccountRequestTrackDetail',
@@ -25,6 +28,9 @@ export default {
     DisplayPO,
     DisplayProject,
     DisplayLabInfo,
+    DisplayScientificArea,
+    DisplayExpenseCode,
+    DisplayTermsAndConditions,
   },
   data() {
     return {}
@@ -47,12 +53,12 @@ export default {
           </v-flex>
           <v-flex xs12 md9 v-if="accountRequestData.tracks[track].fields[field].display_component">
             <component
-              v-if="['harvard_key', 'project', 'lab_info'].includes(field)"
+              v-if="['harvard_key', 'project', 'lab_info', 'scientific_area', 'expense_code', 'terms_and_conditions'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData[field]"
             ></component>
             <component
-              v-else-if="field == 'demographic_data'"
+              v-else-if="field === 'demographic_data'"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData.person"
             ></component>
