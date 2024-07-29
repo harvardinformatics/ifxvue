@@ -36,6 +36,8 @@ export default {
       refresh_timer: null,
       updating_expiration_date: false,
       expiration_date_menu: false,
+      organizations: [], // Needed for IFXAccountRequestTrackDetail and IFXDisplayLabInfo
+      loading: true,
     }
   },
   methods: {
@@ -181,9 +183,11 @@ export default {
     clearInterval(this.refresh_timer)
     next()
   },
-  mounted() {
+  async mounted() {
     const me = this
-    this.getRequest(me.$route.params.id)
+    await this.getRequest(me.$route.params.id)
+    this.organizations = await this.$api.organization.getNames()
+    this.loading = false
     this.refresh_timer = null
     this.refresh_timer = setInterval(() => {
       if (me.$route.params.id) {
@@ -194,10 +198,10 @@ export default {
 }
 </script>
 <template>
-  <v-container grid-list-md>
+  <v-container grid-list-md v-if="!loading">
     <v-layout row>
       <v-flex xs12>
-        <v-card v-if="request">
+        <v-card v-if="request" flat>
           <v-card-title>
             <v-layout row wrap justify-start align-center>
               <v-flex>
@@ -306,6 +310,8 @@ export default {
                       :track="track"
                       :trackTitle="getTrackDisplayName(track)"
                       :accountRequestData="request.onBoardRequest.data"
+                      :accountRequest="request"
+                      :organizations="organizations"
                     />
                   </v-flex>
                 </v-layout>
