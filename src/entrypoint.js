@@ -148,6 +148,10 @@ import IFXDisplayHarvardKey from '@/components/request/IFXDisplayHarvardKey'
 import IFXDisplayOnboardStep from '@/components/request/IFXDisplayOnboardStep'
 import IFXDisplayDemographicData from '@/components/request/IFXDisplayDemographicData'
 import IFXDisplayLabInfo from '@/components/request/IFXDisplayLabInfo'
+import IFXDisplayScientificArea from '@/components/request/IFXDisplayScientificArea'
+import IFXDisplayExpenseCode from '@/components/request/IFXDisplayExpenseCode'
+import IFXDisplayTermsAndConditions from '@/components/request/IFXDisplayTermsAndConditions'
+import IFXDisplayAffiliations from '@/components/request/IFXDisplayAffiliations'
 import IFXRequestCommentList from '@/components/request/IFXRequestCommentList'
 import IFXRequestList from '@/components/request/IFXRequestList'
 
@@ -251,6 +255,10 @@ export {
   IFXDisplayMOU,
   IFXDisplayPO,
   IFXDisplayLabInfo,
+  IFXDisplayScientificArea,
+  IFXDisplayExpenseCode,
+  IFXDisplayTermsAndConditions,
+  IFXDisplayAffiliations,
   IFXRequestCommentList,
   IFXRequestList,
 }
