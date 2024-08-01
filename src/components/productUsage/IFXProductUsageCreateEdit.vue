@@ -45,7 +45,7 @@ export default {
     ...mapActions(['showMessage']),
     async getAdditionalData() {
       const allProducts = await this.$api.product.getList()
-      this.allUsers = await this.$api.user.getList()
+      this.allUsers = await this.$api.skinnyUser.getList()
       this.allOrganizations = await this.$api.organization.getNames()
       this.filteredProducts = allProducts.filter(
         (product) => this.productCategory === null || product.productCategory === this.productCategory

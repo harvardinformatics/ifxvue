@@ -56,6 +56,9 @@ export default {
       })
 
       this.allFacilities = await this.$api.facility.getList()
+      if (this.allFacilities.length === 1 && !this.item.facility) {
+        this.item.facility = this.allFacilities[0].name
+      }
       this.cachedItem = JSON.stringify(this.apiRef.decompose(this.item))
     },
     hasItemChanged() {
@@ -140,6 +143,7 @@ export default {
               @keyup="$refs.productForm.resetValidation()"
               required
               @focus="clearError('product_name')"
+              class="required"
             ></v-text-field>
           </v-col>
           <v-col>
@@ -154,6 +158,7 @@ export default {
               item-value="name"
               required
               @focus="clearError('facility')"
+              class="required"
             ></v-select>
           </v-col>
           <v-col>
@@ -161,6 +166,15 @@ export default {
           </v-col>
         </v-row>
         <v-row>
+          <v-col>
+            <v-select
+              :items="objectCodeCategories"
+              v-model="item.objectCodeCategory"
+              label="Object Code Category"
+              class="required"
+            >
+            </v-select>
+          </v-col>
           <v-col>
             <v-text-field
               v-model="item.productCategory"
@@ -171,14 +185,6 @@ export default {
               @focus="clearError('product_category')"
               hint="General grouping of products. May have significance in billing or reporting."
             ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-select
-              :items="objectCodeCategories"
-              v-model="item.objectCodeCategory"
-              label="Object Code Category"
-            >
-            </v-select>
           </v-col>
           <v-col>
             &nbsp;
@@ -196,6 +202,7 @@ export default {
               required
               auto-grow
               rows="2"
+              class="required"
             ></v-textarea>
           </v-col>
         </v-row>
