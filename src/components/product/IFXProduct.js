@@ -201,6 +201,14 @@ class Product extends IFXItemBase {
     this.data.parent = parent
   }
 
+  get objectCodeCategory() {
+    return this.data.object_code_category
+  }
+
+  set objectCodeCategory(objectCodeCategory) {
+    this.data.object_code_category = objectCodeCategory
+  }
+
   addRate(rate) {
     this.data.rates.push(rate)
   }

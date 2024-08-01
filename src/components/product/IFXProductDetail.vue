@@ -78,6 +78,14 @@ export default {
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
+          <h3>Object Code Category</h3>
+        </v-col>
+        <v-col>
+          {{ item.objectCodeCategory }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Billable</h3>
         </v-col>
         <v-col>
