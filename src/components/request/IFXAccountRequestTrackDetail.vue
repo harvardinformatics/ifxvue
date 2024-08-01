@@ -42,14 +42,6 @@ export default {
       localAccountRequest: this.accountRequest,
     }
   },
-  watch: {
-    localData: {
-      handler() {
-        console.log('watch accountRequestData in AccountRequestTrackDetail.vue', this.localAccountRequest)
-      },
-      deep: true,
-    },
-  },
   methods: {
     updateData() {
       if (this.localAccountRequest.onBoardRequest) {
