@@ -52,11 +52,9 @@ export default {
   },
   methods: {
     updateData() {
-      console.log('updateData in AccountRequestTrackDetail.vue', this.localAccountRequest)
       if (this.localAccountRequest.onBoardRequest) {
         this.localAccountRequest.onBoardRequest.data = this.localData
         this.$requestApi.updateAccountRequest(this.localAccountRequest)
-        console.log('updated the data in AccountRequestTrackDetail.vue', this.localAccountRequest)
       }
     },
   },

@@ -73,7 +73,7 @@ export default {
           </v-layout>
           <v-layout column>
             <v-flex>
-              <v-layout row>
+              <v-layout row align-center>
                 <v-flex xs4>
                   Selected Organization
                 </v-flex>
