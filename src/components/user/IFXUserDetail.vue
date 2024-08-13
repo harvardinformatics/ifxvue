@@ -145,6 +145,10 @@ export default {
     isDjangoStaff() {
       return this.$api.auth.isStaff
     },
+    showUserFilesSection() {
+      const userFiles = this.item.userFiles?.filter((file) => file.category !== 'User Photo')
+      return userFiles && userFiles.length
+    },
   },
   computed: {
     django_admin_url() {
@@ -175,6 +179,15 @@ export default {
     },
     isUserInfoEdittable() {
       return this.item && this.item.username && !!this.item.ifxid && !this.djangoEditOnly
+    },
+    userCategories() {
+      return this.item.userFiles?.reduce((acc, file) => {
+        if (!acc[file.category]) {
+          acc[file.category] = []
+        }
+        acc[file.category].push(file)
+        return acc
+      }, {})
     },
   },
 }
@@ -332,6 +345,26 @@ export default {
         </v-row>
       </span>
       <v-divider class="my-2"></v-divider>
+      <span v-if="showUserFilesSection(item)">
+        <v-row dense class="">
+          <v-col sm="4" md="3">
+            <h3>User Files</h3>
+          </v-col>
+          <v-col>
+            <div v-for="category in Object.keys(userCategories)" :key="category">
+              <details class="font-weight-medium">
+                <summary>
+                  <span class="ml-1">{{ category }}s</span>
+                </summary>
+                <div v-for="file in userCategories[category]" :key="`${category}${file.id}`" class="ml-4">
+                  <a :href="file.file" target="_blank">{{ file.file }}</a>
+                </div>
+              </details>
+            </div>
+          </v-col>
+        </v-row>
+        <v-divider class="my-2"></v-divider>
+      </span>
       <v-row dense v-if="areAnyAccountsPresent">
         <v-col sm="4" md="3">
           <h3>Expense code / PO Authorizations</h3>
@@ -357,7 +390,10 @@ export default {
                     $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
                 }"
               >
-                {{ account.account.slug }} for {{ account.product.name }}
+                {{ account.account.slug }} for
+                <span class="font-weight-medium">{{ account.product.name }}</span>
+                at
+                <span class="font-weight-medium">{{ account.percent }}%</span>
               </span>
             </div>
           </span>
