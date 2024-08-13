@@ -390,7 +390,10 @@ export default {
                     $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
                 }"
               >
-                {{ account.account.slug }} for {{ account.product.name }}
+                {{ account.account.slug }} for
+                <span class="font-weight-medium">{{ account.product.name }}</span>
+                at
+                <span class="font-weight-medium">{{ account.percent }}%</span>
               </span>
             </div>
           </span>
