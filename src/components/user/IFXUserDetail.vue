@@ -285,9 +285,10 @@ export default {
               {{ item.lastUpdate | humanDatetime }}
             </v-col>
           </v-row>
+          <slot name="additionalUserInfoCol1" :item="item"></slot>
         </v-col>
         <v-col sm="12" md="5">
-          <slot name="additionalUserInfo" :item="item"></slot>
+          <slot name="additionalUserInfoCol2" :item="item"></slot>
         </v-col>
         <v-col sm="1" align="end">
           <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable" />
