@@ -436,7 +436,7 @@ export default {
               :allGroupNames="allGroupNames"
               :valid.sync="userInfoDialogValid"
             />
-            <slot name="additionalUserInfoEdit" :item="itemCopy"></slot>
+            <slot name="additionalUserInfoEdit" :item="itemCopy" :errors="errors"></slot>
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
             <v-btn small class="mr-2" text color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
