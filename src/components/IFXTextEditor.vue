@@ -1,7 +1,8 @@
 <template>
   <Editor
-    v-model='text'
+    v-model="text"
     :init="init"
+    tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.4/tinymce.min.js"
   ></Editor>
 </template>
 
@@ -15,7 +16,7 @@ export default {
   name: 'IFXTextEditor',
   // extends: VInput,
   components: {
-    Editor
+    Editor,
   },
   props: {
     value: null,
@@ -29,7 +30,7 @@ export default {
   methods: {
     initCallback() {
       this.isLoading = false
-    }
+    },
   },
   computed: {
     init() {
@@ -37,14 +38,13 @@ export default {
         height: 300,
         menubar: false,
         statusbar: false,
-        plugins: [
-          'advlist autolink lists link image charmap',
-          'searchreplace visualblocks code fullscreen',
-          'print preview anchor insertdatetime media',
-          'paste code help wordcount table'
-        ],
-        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
-        setup: editor => { editor.on('init', () => this.initCallback()) }
+        plugins:
+          'advlist autolink lists link image charmap searchreplace visualblocks fullscreen preview anchor insertdatetime media code help wordcount table',
+        toolbar:
+          'undo redo | blocks fontfamily fontsize | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+        setup: (editor) => {
+          editor.on('init', () => this.initCallback())
+        },
       }
     },
   },
@@ -53,13 +53,13 @@ export default {
   },
   mounted() {
     this.content = this.value
-  }
+  },
 }
 </script>
 
 <style>
-  /* TODO: register domain */
-  .tox-notifications-container {
-    display: none !important;
-  }
+/* TODO: register domain */
+.tox-notifications-container {
+  display: none !important;
+}
 </style>
