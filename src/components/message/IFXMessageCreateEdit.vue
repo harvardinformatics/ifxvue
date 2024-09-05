@@ -20,14 +20,11 @@ export default {
         height: 300,
         menubar: false,
         statusbar: false,
-        plugins: [
-          'advlist autolink lists link image charmap',
-          'searchreplace visualblocks fullscreen',
-          'print preview anchor insertdatetime media',
-          'paste code help wordcount table',
-        ],
+        plugins:
+          'advlist autolink lists link image charmap searchreplace visualblocks fullscreen preview anchor insertdatetime media code help wordcount table',
         toolbar:
-          'undo redo | code | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+          'undo redo | code | blocks fontfamily fontsize | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+        quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
       }
     },
     messageTitle() {
@@ -70,7 +67,11 @@ export default {
         </v-row>
         <v-row>
           <v-col>
-            <Editor v-model="item.message" :init="editorInit"></Editor>
+            <Editor
+              v-model="item.message"
+              :init="editorInit"
+              tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.4/tinymce.min.js"
+            ></Editor>
           </v-col>
         </v-row>
         <v-row>
