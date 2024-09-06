@@ -36,6 +36,11 @@ export default {
       required: false,
       default: false,
     },
+    showStartDate: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     showTotals: {
       type: Boolean,
       required: false,
@@ -165,6 +170,7 @@ export default {
             :allowChangeExpenseCode="allowChangeExpenseCode"
             :allowDeleteBillingRecords="allowDeleteBillingRecords"
             :showDates="showDates"
+            :showStartDate="showStartDate"
             :showTotals="showTotals"
             :totalUnits="totalUnits"
           />
