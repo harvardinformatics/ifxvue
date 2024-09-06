@@ -223,7 +223,7 @@ export default {
         : 'Delete selected billing records'
     },
     showCheckboxes: function () {
-      return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration
+      return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration || this.allowDeleteBillingRecords
     },
   },
   methods: {
