@@ -9,14 +9,12 @@ import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
 import IFXBillingRecordHeaderDecimal from '@/components/billingRecord/IFXBillingRecordHeaderDecimal'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
-import IFXBillingRecordTransactionsDecimal from './IFXBillingRecordTransactionsDecimal'
 
 export default {
   name: 'IFXBillingRecordListDecimal',
   components: {
     IFXButton,
     IFXSearchField,
-    IFXBillingRecordTransactionsDecimal,
     IFXContactablesCombobox,
     IFXMailButton,
     IFXBillingRecordHeaderDecimal,
@@ -81,6 +79,11 @@ export default {
       required: false,
       default: false,
     },
+    showStartDate: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     sortBy: {
       type: String,
       required: false,
@@ -126,7 +129,7 @@ export default {
         { text: 'Lab', value: 'account.organization', sortable: true },
         { text: 'Expense Code / PO', value: 'account.slug', sortable: true },
         { text: 'Product', value: 'product', sortable: true },
-        { text: 'Start Date', value: 'startDate', sortable: true, hide: !this.showDates, namedSlot: true },
+        { text: 'Start Date', value: 'startDate', sortable: true, hide: !this.showDates && !this.showStartDate, namedSlot: true },
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
@@ -575,20 +578,6 @@ export default {
         })
       }
     },
-    addNewTransaction(item) {
-      const orgBillingRec = item.orgRec
-      const { charge, decimalCharge, rate, description, author } = item
-      const newTransactionData = {
-        charge,
-        decimalCharge,
-        rate,
-        description,
-        author,
-      }
-      const newTransaction = this.$api.billingTransaction.create(newTransactionData)
-      orgBillingRec.addTransaction(newTransaction)
-      this.updateBillingRecord(orgBillingRec, item.index)
-    },
     updateBillingRecord(newRecord, index) {
       this.updating = true
       this.$api.billingRecord
@@ -661,9 +650,6 @@ export default {
         params: { id, facility_id: this.facility.id },
         query: { next: this.$route.path },
       })
-    },
-    allowAddingTransactions(item) {
-      return item.currentState !== 'FINAL'
     },
     allowEditingRecords(item) {
       return item.currentState !== 'FINAL'
@@ -1201,9 +1187,6 @@ export default {
                 />
               </div>
             </template>
-            <template v-slot:expanded-item="{ item }">
-              <IFXBillingRecordTransactionsDecimal :billingRecord="item" />
-            </template>
             <template v-slot:footer.prepend v-if="showTotals">
               <span class="text-body-1">
                 {{ facility.name }} total charges for {{ date }} are
@@ -1213,53 +1196,6 @@ export default {
               </span>
             </template>
           </v-data-table>
-          <v-dialog v-model="txnDialog" max-width="600px">
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">Add a new transaction to Billing Record {{ editedItem.orgRec.id }}</span>
-              </v-card-title>
-              <v-card-subtitle>
-                <div class="py-2 text-h6 font-weight-medium">Rate is {{ editedItem.rate }}</div>
-              </v-card-subtitle>
-
-              <v-card-text>
-                <v-form v-model="isValidTxn">
-                  <v-row>
-                    <v-col>
-                      <v-currency-field
-                        required
-                        v-model="editedItem.charge"
-                        label="Charge"
-                        :error-messages="errors[editedItem.charge]"
-                        :rules="formRules.currency"
-                        prefix="$"
-                        allow-negative
-                      ></v-currency-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12">
-                      <v-textarea
-                        required
-                        v-model="editedItem.description"
-                        label="Transaction description"
-                        :error-messages="errors[editedItem.description]"
-                        :rules="formRules.generic"
-                      ></v-textarea>
-                    </v-col>
-                  </v-row>
-                </v-form>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="secondary" text @click="closeTxnDialog">Cancel</v-btn>
-                <v-btn color="blue darken-1" text :disabled="!isValidTxn" @click="addNewTransaction(editedItem)">
-                  Save
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
           <v-dialog v-model="editDialog" max-width="600px">
             <v-card>
               <v-card-title>
