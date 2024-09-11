@@ -67,7 +67,7 @@ export default {
 </script>
 <template>
   <v-container fluid v-if="!isLoading && !!item">
-    <v-container fluid v-if="hasIFXID">
+    <div fluid v-if="hasIFXID">
       <v-row no-gutters>
         <v-col>
           <p>
@@ -155,7 +155,7 @@ export default {
           </v-col>
         </v-row>
       </v-form>
-    </v-container>
+    </div>
     <v-container v-else>
       <v-alert :value="true" type="error" outlined>
         Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms
