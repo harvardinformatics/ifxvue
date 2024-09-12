@@ -28,7 +28,12 @@ export default {
       }
     },
     messageTitle() {
-      return this.item.displayName ? `Edit ${this.item.displayName}` : `Edit Message ${this.item.id}`
+      // eslint-disable-next-line no-nested-ternary
+      return this.isEditing
+        ? this.item.displayName
+          ? `Edit ${this.item.displayName}`
+          : `Edit Message ${this.item.id}`
+        : 'Create Message'
     },
   },
   methods: {
