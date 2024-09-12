@@ -285,9 +285,10 @@ export default {
               {{ item.lastUpdate | humanDatetime }}
             </v-col>
           </v-row>
+          <slot name="additionalUserInfoCol1" :item="item"></slot>
         </v-col>
         <v-col sm="12" md="5">
-          <slot name="additionalUserInfo" :item="item"></slot>
+          <slot name="additionalUserInfoCol2" :item="item"></slot>
         </v-col>
         <v-col sm="1" align="end">
           <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable" />
@@ -435,7 +436,7 @@ export default {
               :allGroupNames="allGroupNames"
               :valid.sync="userInfoDialogValid"
             />
-            <slot name="additionalUserInfoEdit" :item="itemCopy"></slot>
+            <slot name="additionalUserInfoEdit" :item="itemCopy" :errors="errors"></slot>
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
             <v-btn small class="mr-2" text color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
