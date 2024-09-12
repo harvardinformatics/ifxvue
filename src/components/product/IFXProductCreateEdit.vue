@@ -344,7 +344,7 @@ export default {
             </IFXItemDataTable>
           </v-col>
         </v-row>
-        <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" :submitting="submitting" />
+        <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
       </v-form>
     </v-container>
   </v-container>

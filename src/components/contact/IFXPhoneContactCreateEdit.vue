@@ -54,7 +54,7 @@ export default {
       </v-row>
       <v-row>
         <v-col>
-          <IFXPageActionBar :disabled="!isSubmittable" btnType="submit" @action="submit" :submitting="submitting" />
+          <IFXPageActionBar :disabled="!isSubmittable" btnType="submit" @action="submit" />
         </v-col>
       </v-row>
     </v-form>

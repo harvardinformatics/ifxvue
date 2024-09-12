@@ -151,7 +151,7 @@ export default {
         <v-row justify="end">
           <v-col class="flex flex-grow-1 flex-grow-0">&nbsp;</v-col>
           <v-col>
-            <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" :submitting="submitting" />
+            <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
           </v-col>
         </v-row>
       </v-form>

@@ -56,7 +56,7 @@ export default {
             <v-card-actions>
               <v-row>
                 <v-col>
-                  <IFXPageActionBar btnType="submit" btnText="Click me!" :disabled="false" :submitting="submitting" />
+                  <IFXPageActionBar btnType="submit" btnText="Click me!" :disabled="false"/>
                 </v-col>
               </v-row>
             </v-card-actions>
