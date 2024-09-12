@@ -72,7 +72,7 @@ export default {
           if (this.$route.query.next) {
             this.$router.push({ path: this.$route.query.next })
           } else {
-            this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
+            this.rtr.push({ name: this.itemDetail, params: { id: res.data.id }, query: { t: new Date().getTime() } })
           }
         })
         .catch((error) => {
