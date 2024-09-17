@@ -223,6 +223,29 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container>
+      <v-row dense v-if="Object.keys(this.errors).length">
+        <v-col>
+          <v-alert elevation="2" dense colored-border border="left" color="error" icon="mdi-alert-circle-outline">
+            <v-row dense>
+              <v-col>
+                <h3 class="font-weight-medium">Please correct the following errors</h3>
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col>
+                <ul>
+                  <li v-for="(error, key) in errors" :key="key">
+                    {{ key }}:
+                    <span v-for="errorText in error" :key="errorText">
+                      {{ errorText }}
+                    </span>
+                  </li>
+                </ul>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-col>
+      </v-row>
       <v-row dense>
         <v-col sm="12" md="6">
           <v-row dense wrap>
