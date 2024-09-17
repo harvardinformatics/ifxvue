@@ -113,7 +113,7 @@ export default {
               :rules="formRules.generic"
               required
             ></v-text-field>
-            <v-combobox
+            <v-autocomplete
               v-if="canEdit('User.groups')"
               v-model="itemLocal.groups"
               :items="allGroupNames"
@@ -123,13 +123,14 @@ export default {
               hint="Groups to which this user belongs."
               persistent-hint
               :error-messages="errors.groups"
+              @focus="clearError('groups')"
             >
               <template #selection="{ item }">
                 <v-chip :color="getChipColorForGroup(item)" close @click:close="removeGroup(item)">
                   <strong>{{ item }}</strong>
                 </v-chip>
               </template>
-            </v-combobox>
+            </v-autocomplete>
             <div class="items-warning" v-else>{{ itemLocal.groups.join(', ') || 'No groups' }}</div>
           </v-col>
         </v-row>

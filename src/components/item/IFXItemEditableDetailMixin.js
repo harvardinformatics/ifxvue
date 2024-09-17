@@ -64,15 +64,15 @@ export default {
       })
       this.apiRef
         .update(this.item)
-        .then(async (res) => {
+        .then(async () => {
           this.submitting = false
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
-          await this.sleep(this.routeDelay)
           if (this.$route.query.next) {
+            await this.sleep(this.routeDelay)
             this.$router.push({ path: this.$route.query.next })
           } else {
-            this.rtr.push({ name: this.itemDetail, params: { id: res.data.id }, query: { t: new Date().getTime() } })
+            this.init()
           }
         })
         .catch((error) => {
