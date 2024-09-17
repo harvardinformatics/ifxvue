@@ -72,7 +72,7 @@ export default {
             await this.sleep(this.routeDelay)
             this.$router.push({ path: this.$route.query.next })
           } else {
-            this.getItem()
+            this.init()
           }
         })
         .catch((error) => {
