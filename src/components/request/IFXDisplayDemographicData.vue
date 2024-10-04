@@ -68,16 +68,6 @@ export default {
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
-              National Origin
-            </v-flex>
-            <v-flex>
-              {{ data.origin }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
       </v-layout>
     </v-flex>
   </v-layout>
