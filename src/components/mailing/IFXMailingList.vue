@@ -119,10 +119,10 @@ export default {
             v-bind="attrs"
             v-on="on"
           >
-          {{item.message}}
+            {{item.message}}
           </span>
         </template>
-        <span>{{item.message}}</span>
+        <span v-html="item.message"></span>
       </v-tooltip>
     </template>
     <template #action="{ item }">
