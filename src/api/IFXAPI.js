@@ -1019,4 +1019,16 @@ export default class IFXAPIService {
     }
     return this.axios.post(url, data, { headers: { 'Content-Type': 'application/json' } })
   }
+
+  getLabChargeHistory(facility, startMonth, startYear, endMonth, endYear) {
+    const params = {
+      start_month: startMonth,
+      start_year: startYear,
+      end_month: endMonth,
+      end_year: endYear,
+      invoice_prefix: facility.invoicePrefix,
+    }
+    const url = this.urls.GET_CHARGE_HISTORY
+    return this.axios.get(url, { params })
+  }
 }
