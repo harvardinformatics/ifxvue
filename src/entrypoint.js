@@ -118,6 +118,9 @@ import IFXBillingRecordDetail from '@/components/billingRecord/IFXBillingRecordD
 import IFXCalculateBillingMonth from '@/components/billingRecord/IFXCalculateBillingMonth'
 import IFXBillableMixin from '@/components/billingRecord/IFXBillableMixin'
 
+// Billing Summaries
+import IFXLabBillingSummaryList from '@/components/billingSummary/IFXLabBillingSummaryList'
+
 // Reports
 import IFXReportRunList from '@/components/report/IFXReportRunList'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
@@ -261,6 +264,7 @@ export {
   IFXDisplayAffiliations,
   IFXRequestCommentList,
   IFXRequestList,
+  IFXLabBillingSummaryList,
 }
 
 // Registered globally
