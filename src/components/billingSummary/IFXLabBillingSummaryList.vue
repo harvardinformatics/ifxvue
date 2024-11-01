@@ -137,8 +137,7 @@ export default {
           <v-switch
             class="ml-3"
             v-model="onlyShowSuspiciousRows"
-            label="Show potential issues"
-            hint="Show labs that had months with no charges but other months with charges"
+            label="Only labs with gaps"
             data-cy="suspicious-labs"
           ></v-switch>
         </span>
