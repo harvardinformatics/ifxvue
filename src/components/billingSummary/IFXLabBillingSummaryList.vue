@@ -149,7 +149,6 @@ export default {
           ref="startMenu"
           v-model="startMenu"
           :close-on-content-click="false"
-          :return-value.sync="startMonthAndYear"
           transition="scale-transition"
           offset-y
           max-width="290px"
@@ -165,10 +164,7 @@ export default {
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="startMonthAndYear" type="month" no-title scrollable :max="endMonthAndYear">
-            <v-spacer></v-spacer>
-            <v-btn text color="secondary" @click="startMenu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.startMenu.save(startMonthAndYear)">OK</v-btn>
+          <v-date-picker v-model="startMonthAndYear" type="month" no-title scrollable :max="endMonthAndYear" @input="startMenu = false">
           </v-date-picker>
         </v-menu>
       </v-col>
@@ -177,7 +173,6 @@ export default {
           ref="endMenu"
           v-model="endMenu"
           :close-on-content-click="false"
-          :return-value.sync="endMonthAndYear"
           transition="scale-transition"
           offset-y
           max-width="290px"
@@ -200,10 +195,8 @@ export default {
             scrollable
             :max="maxDate"
             :min="startMonthAndYear"
+            @input="endMenu = false"
           >
-            <v-spacer></v-spacer>
-            <v-btn text color="secondary" @click="endMenu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.endMenu.save(endMonthAndYear)">OK</v-btn>
           </v-date-picker>
         </v-menu>
       </v-col>
