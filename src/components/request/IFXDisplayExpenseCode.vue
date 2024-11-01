@@ -5,7 +5,10 @@ export default {
 }
 </script>
 <template>
-  <v-layout column>
+  <v-layout row>
+    <v-flex xs4>
+      Expense Code
+    </v-flex>
     <v-flex>
       {{ data }}
     </v-flex>
