@@ -1,7 +1,7 @@
 <script>
-
+// Show the "Entered" text and allow primary affiliation to be selected
 export default {
-  name: 'IFXDisplayLabInfo',
+  name: 'IFXDisplayEnteredAffiliation',
   props: {
     value: {
       type: Object,
@@ -29,40 +29,15 @@ export default {
   <v-layout column>
     <v-flex>
       <v-layout>
-        <v-flex v-if="data && data.lab_info && data.lab_info.lab_name">
+        <v-flex v-if="data && data.entered_affiliation">
           <v-layout column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
-                  Lab / Company Name
+                  Entered Affiliation
                 </v-flex>
                 <v-flex>
-                  {{ data.lab_info.lab_name }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-          <v-layout column>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
-                  PI / Manager
-                </v-flex>
-                <v-flex>
-                  {{ data.lab_info.pi_name }}, {{ data.lab_info.pi_email }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-          <v-layout column>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
-                  Billing Contact
-                </v-flex>
-                <v-flex>
-                  <span v-if="data.lab_info.billing_contact_name">{{ data.lab_info.billing_contact_name }}</span>
-                  <span v-else>{{ data.lab_info.pi_name }}</span>, {{ data.lab_info.billing_contact_email }}
+                  {{ data.entered_affiliation }}
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -75,7 +50,7 @@ export default {
                 </v-flex>
                 <v-flex>
                   <v-autocomplete v-if="organizations"
-                    v-model.trim="data.lab_info.organization"
+                    v-model.trim="data.primary_affiliation"
                     :items="organizations"
                     item-text="name"
                     item-value="slug"

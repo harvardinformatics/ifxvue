@@ -80,7 +80,7 @@ export default {
               @change="updateData()"
             ></component>
             <component
-              v-else-if="['demographic_data', 'primary_affiliation'].includes(field)"
+              v-else-if="['demographic_data', 'primary_affiliation', 'entered_affiliation'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData.person"
             ></component>
