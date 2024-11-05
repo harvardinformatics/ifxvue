@@ -13,6 +13,7 @@ import DisplayExpenseCode from './IFXDisplayExpenseCode'
 import DisplayTermsAndConditions from './IFXDisplayTermsAndConditions'
 import DisplayAffiliations from './IFXDisplayAffiliations'
 import DisplayEnteredAffiliation from './IFXDisplayEnteredAffiliation'
+import DisplaySimpleText from './IFXDisplaySimpleText'
 
 export default {
   name: 'IFXAccountRequestTrackDetail',
@@ -37,6 +38,7 @@ export default {
     DisplayTermsAndConditions,
     DisplayAffiliations,
     DisplayEnteredAffiliation,
+    DisplaySimpleText,
   },
   data() {
     return {
@@ -70,7 +72,7 @@ export default {
           </v-flex>
           <v-flex xs12 md9 v-if="accountRequestData.tracks[track].fields[field].display_component">
             <component
-              v-if="['harvard_key', 'project', 'scientific_area', 'expense_code', 'terms_and_conditions'].includes(field)"
+              v-if="['harvard_key', 'project', 'scientific_area', 'expense_code', 'terms_and_conditions', 'nnin_admin_username'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData[field]"
             ></component>
