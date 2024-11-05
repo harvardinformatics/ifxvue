@@ -381,7 +381,7 @@ export default {
                   <span class="ml-1">{{ category }}s</span>
                 </summary>
                 <div v-for="file in userCategories[category]" :key="`${category}${file.id}`" class="ml-4">
-                  <a :href="file.file" target="_blank">{{ file.file }}</a>
+                  <a :href="file.file" target="_blank">{{ file.file | fileNameFromUrl }}</a>
                 </div>
               </details>
             </div>
