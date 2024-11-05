@@ -50,7 +50,7 @@ export default {
                 </v-flex>
                 <v-flex>
                   <v-autocomplete v-if="organizations"
-                    v-model.trim="data.primary_affiliation"
+                    v-model.trim="data.person.primary_affiliation"
                     :items="organizations"
                     item-text="name"
                     item-value="slug"
