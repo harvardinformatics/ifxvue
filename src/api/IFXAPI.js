@@ -418,56 +418,56 @@ export default class IFXAPIService {
     const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
     api.validRanks = [
       {
-        value: 'school',
-        text: 'School',
+        value: 'center',
+        text: 'Center',
+      },
+      {
+        value: 'company',
+        text: 'Company',
       },
       {
         value: 'department',
         text: 'Department',
       },
       {
-        value: 'center',
-        text: 'Center',
-      },
-      {
-        value: 'lab',
-        text: 'Laboratory',
-      },
-      {
-        value: 'institute',
-        text: 'Institute',
-      },
-      {
-        value: 'museum',
-        text: 'Museum',
-      },
-      {
-        value: 'institution',
-        text: 'Institution',
+        value: 'division',
+        text: 'Division',
       },
       {
         value: 'facility',
         text: 'Facility',
       },
       {
-        value: 'program',
-        text: 'Program',
-      },
-      {
-        value: 'division',
-        text: 'Division',
-      },
-      {
         value: 'group',
         text: 'Group',
+      },
+      {
+        value: 'institute',
+        text: 'Institute',
+      },
+      {
+        value: 'institution',
+        text: 'Institution',
+      },
+      {
+        value: 'lab',
+        text: 'Laboratory',
+      },
+      {
+        value: 'museum',
+        text: 'Museum',
       },
       {
         value: 'office',
         text: 'Office',
       },
       {
-        value: 'company',
-        text: 'Company',
+        value: 'program',
+        text: 'Program',
+      },
+      {
+        value: 'school',
+        text: 'School',
       },
     ]
     api.getValidRankByValue = (value) => api.validRanks.find((r) => r.value === value)

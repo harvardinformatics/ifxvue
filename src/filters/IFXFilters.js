@@ -133,6 +133,13 @@ export function orgNameFromSlug(slug) {
   return result
 }
 
+export function fileNameFromUrl(url) {
+  if (!url) return '';
+
+  // Split the URL by '/' and return the last element
+  return url.split('/').pop();
+}
+
 export default {
   humanDatetime,
   centsToDollars,
@@ -144,4 +151,5 @@ export default {
   affiliationRoleDisplay,
   commaSpace,
   orgNameFromSlug,
+  fileNameFromUrl,
 }
