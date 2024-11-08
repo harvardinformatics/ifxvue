@@ -43,9 +43,7 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    this.localRowSelectionToggle = this.rowSelectionToggle.concat()
-  },
+  mounted() {},
   data() {
     return {
       localRowSelectionToggle: [],
@@ -69,7 +67,14 @@ export default {
       this.showSummaryDetail = !this.showSummaryDetail
     },
   },
-  watch: {},
+  watch: {
+    rowSelectionToggle: {
+      handler(value) {
+        this.localRowSelectionToggle = value.concat()
+      },
+      immediate: true,
+    },
+  },
 }
 </script>
 <template>
