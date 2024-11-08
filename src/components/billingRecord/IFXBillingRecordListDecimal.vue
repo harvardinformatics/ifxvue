@@ -129,7 +129,13 @@ export default {
         { text: 'Lab', value: 'account.organization', sortable: true },
         { text: 'Expense Code / PO', value: 'account.slug', sortable: true },
         { text: 'Product', value: 'product', sortable: true },
-        { text: 'Start Date', value: 'startDate', sortable: true, hide: !this.showDates && !this.showStartDate, namedSlot: true },
+        {
+          text: 'Start Date',
+          value: 'startDate',
+          sortable: true,
+          hide: !this.showDates && !this.showStartDate,
+          namedSlot: true,
+        },
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
@@ -813,14 +819,14 @@ export default {
               {{ facility.name }}
             </div>
           </v-col>
-          <v-col cols="3">
+          <v-col class="flex-grow-2">
             <v-row dense>
               <v-col>
                 <IFXSearchField :search.sync="search" />
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="4">
+          <v-col>
             <v-row dense class="d-flex flex-nowrap justify-end align-start">
               <v-col v-if="updating">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -864,7 +870,7 @@ export default {
                                   </v-row>
                                   <v-row no-gutters>
                                     <v-col cols="12">
-                                      <div class="text-divider font-italic text-center">
+                                      <div class="text-divider font-italic text-center mt-2">
                                         Or specify email addresses directly
                                       </div>
                                       <IFXContactablesCombobox
@@ -1345,6 +1351,12 @@ export default {
 }
 .border-bottom {
   border-bottom: 1px solid #ccc;
+}
+.flex-grow-2 {
+  flex-grow: 2;
+}
+.search-field {
+  width: 100%;
 }
 </style>
 <style>
