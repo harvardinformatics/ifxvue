@@ -949,6 +949,27 @@ export default {
                       </template>
                       <span>Notify Lab Managers</span>
                     </v-tooltip>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-speed-dial :direction="direction" v-model="mailFab" v-bind="attrs">
+                            <template v-slot:activator>
+                              <v-btn v-model="mailFab" small color="green" fab>
+                                <v-icon color="white" v-if="mailFab">mdi-close</v-icon>
+                                <v-icon color="white" v-else>mdi-email-send-outline</v-icon>
+                              </v-btn>
+                            </template>
+                            <v-btn xSmall fab color="green" @click="openNotifyDialog()">
+                              Notify that billing records are available
+                            </v-btn>
+                            <v-btn xSmall fab color="#A4F323" @click="setRecipientField('to')">to:</v-btn>
+                            <v-btn xSmall fab color="#86C61D" @click="setRecipientField('cc')">cc:</v-btn>
+                            <v-btn xSmall fab color="#669617" @click="setRecipientField('bcc')">bcc:</v-btn>
+                          </v-speed-dial>
+                        </div>
+                      </template>
+                      <span>Notify Lab Managers</span>
+                    </v-tooltip>
                   </v-col>
                   <v-col class="pa-2" v-if="allowApprovals">
                     <v-row dense class="d-flex flex-nowrap">
