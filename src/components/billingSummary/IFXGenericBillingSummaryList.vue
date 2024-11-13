@@ -44,6 +44,8 @@ export default {
   data() {
     return {
       fetchingData: false,
+      message: '',
+      messageType: 'info',
     }
   },
   mounted() {},
@@ -57,8 +59,31 @@ export default {
         invoice_prefix: this.facility.invoicePrefix,
         ...this.extraParams,
       }
-      this.items = await this.$api[this.apiString].getList(params)
+      try {
+        this.items = await this.$api[this.apiString].getList(params)
+      } catch (error) {
+        const errorMessage = this.getErrorMessage(error)
+        this.messageType = 'error'
+        this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
+      }
       this.fetchingData = false
+    },
+    getErrorMessage(error) {
+      // Regular showMessage is not getting the response data properly
+      let message = 'Unknown error'
+      if (error) {
+        if (
+          error.hasOwnProperty('response')
+          && error.response
+          && error.response.hasOwnProperty('data')
+          && error.response.data
+        ) {
+          message = Object.values(error.response.data).join('\n')
+        } else {
+          message = error
+        }
+      }
+      return message
     },
   },
   computed: {
@@ -71,6 +96,13 @@ export default {
 
 <template>
   <v-container v-if="!isLoading">
+    <v-row dense class="d-flex justify-space-around" v-if="message">
+      <v-col cols="12" class="d-flex flex-grow-1">
+        <v-alert dismissible :type="messageType" border="left" elevation="2" colored-border>
+          <span v-html="message"></span>
+        </v-alert>
+      </v-col>
+    </v-row>
     <IFXItemDataTable
       :items="items"
       :headers="filteredHeaders"
