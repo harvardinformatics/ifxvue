@@ -95,27 +95,44 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
-    <v-row dense class="d-flex justify-space-around" v-if="message">
-      <v-col cols="12" class="d-flex flex-grow-1">
-        <v-alert dismissible :type="messageType" border="left" elevation="2" colored-border>
-          <span v-html="message"></span>
-        </v-alert>
-      </v-col>
-    </v-row>
-    <IFXItemDataTable
-      :items="items"
-      :headers="filteredHeaders"
-      :selected.sync="selected"
-      :itemType="itemType"
-      :showSelect="false"
-    >
-      <template #totalDecimalCharge="{ item }">
-        <span v-if="item.totalDecimalCharge">
-          {{ item.totalDecimalCharge | dollars }}
-        </span>
-        <span v-else class="grey--text text--darken-1">No Charges</span>
-      </template>
-    </IFXItemDataTable>
+  <v-container class="fit-content" v-if="!isLoading">
+    <v-card>
+      <v-card-title>
+        <v-row class="d-flex justify-space-between w-full">
+          <v-col cols="4">
+            <div class="text-no-wrap">
+              {{ facility.name }}
+            </div>
+          </v-col>
+        </v-row>
+      </v-card-title>
+      <v-row dense class="d-flex justify-space-around" v-if="message">
+        <v-col cols="12" class="d-flex flex-grow-1">
+          <v-alert dismissible :type="messageType" border="left" elevation="2" colored-border>
+            <span v-html="message"></span>
+          </v-alert>
+        </v-col>
+      </v-row>
+      <IFXItemDataTable
+        :items="items"
+        :headers="filteredHeaders"
+        :selected.sync="selected"
+        :itemType="itemType"
+        :showSelect="false"
+      >
+        <template #totalDecimalCharge="{ item }">
+          <span v-if="item.totalDecimalCharge">
+            {{ item.totalDecimalCharge | dollars }}
+          </span>
+          <span v-else class="grey--text text--darken-1">No Charges</span>
+        </template>
+      </IFXItemDataTable>
+    </v-card>
   </v-container>
 </template>
+<style lang="scss" scoped>
+.fit-content {
+  width: fit-content;
+  margin-left: 0;
+}
+</style>
