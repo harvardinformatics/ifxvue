@@ -201,7 +201,14 @@ export default {
                   :headers="[
                     { text: 'Account Name', value: 'name', sortable: true },
                     { text: 'Expense Code / PO', value: 'code', sortable: true },
-                    { text: 'Charges', value: 'totalDecimalCharge', sortable: true, namedSlot: true, align: 'end' },
+                    {
+                      text: 'Charges',
+                      value: 'totalDecimalCharge',
+                      sortable: true,
+                      namedSlot: true,
+                      width: '20rem',
+                      align: 'end',
+                    },
                   ]"
                 />
               </v-tab-item>
@@ -214,7 +221,14 @@ export default {
                   apiString="userBillingSummary"
                   :headers="[
                     { text: 'User', value: 'productUserFullName', sortable: true },
-                    { text: 'Charges', value: 'totalDecimalCharge', sortable: true, namedSlot: true, align: 'end' },
+                    {
+                      text: 'Charges',
+                      value: 'totalDecimalCharge',
+                      sortable: true,
+                      namedSlot: true,
+                      width: '20rem',
+                      align: 'end',
+                    },
                   ]"
                 />
               </v-tab-item>
@@ -225,10 +239,18 @@ export default {
                   :year="getYear()"
                   itemType="genericBillingSummary"
                   apiString="productRateBillingSummary"
+                  :extraParams="{ facility: facility.name }"
                   :headers="[
                     { text: 'Product', value: 'productName', sortable: true },
                     { text: 'Rate', value: 'rateName', sortable: true },
-                    { text: 'Charges', value: 'totalDecimalCharge', sortable: true, namedSlot: true, align: 'end' },
+                    {
+                      text: 'Charges',
+                      value: 'totalDecimalCharge',
+                      sortable: true,
+                      namedSlot: true,
+                      width: '20rem',
+                      align: 'end',
+                    },
                   ]"
                 />
               </v-tab-item>
