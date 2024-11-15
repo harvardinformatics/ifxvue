@@ -119,6 +119,7 @@ export default {
         :selected.sync="selected"
         :itemType="itemType"
         :showSelect="false"
+        :defaultItemsPerPage="-1"
       >
         <template #totalDecimalCharge="{ item }">
           <span v-if="item.totalDecimalCharge">
