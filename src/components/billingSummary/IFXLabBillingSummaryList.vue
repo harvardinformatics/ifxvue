@@ -128,7 +128,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>Lab Billing Summary</template>
       <template #actions>
