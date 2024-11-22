@@ -129,7 +129,13 @@ export default {
         { text: 'Lab', value: 'account.organization', sortable: true },
         { text: 'Expense Code / PO', value: 'account.slug', sortable: true },
         { text: 'Product', value: 'product', sortable: true },
-        { text: 'Start Date', value: 'startDate', sortable: true, hide: !this.showDates && !this.showStartDate, namedSlot: true },
+        {
+          text: 'Start Date',
+          value: 'startDate',
+          sortable: true,
+          hide: !this.showDates && !this.showStartDate,
+          namedSlot: true,
+        },
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
@@ -654,6 +660,20 @@ export default {
     allowEditingRecords(item) {
       return item.currentState !== 'FINAL'
     },
+    goToComposeMessage(field) {
+      this.recipientField = field
+      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgSlugs = orgs.map((item) => item.account.organization)
+      this.$router.push({
+        name: 'MailingCompose',
+        params: {
+          labManagerOrgSlugs: [...new Set(orgSlugs)],
+          message: null,
+          subject: null,
+          recipientField: this.recipientField,
+        },
+      })
+    },
     defaultNotifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
       this.$api.notifyLabManagers(
@@ -838,9 +858,41 @@ export default {
                     <v-tooltip top v-else>
                       <template v-slot:activator="{ on, attrs }">
                         <div v-on="on">
-                          <v-btn small fab color="green" v-bind="attrs" @click="openNotifyDialog">
-                            <v-icon dark color="white">mdi-email-send-outline</v-icon>
-                          </v-btn>
+                          <v-speed-dial direction="bottom" v-model="mailFab" v-bind="attrs">
+                            <template v-slot:activator>
+                              <v-btn v-model="mailFab" small color="green" fab>
+                                <v-icon color="white" dark v-if="mailFab">mdi-close</v-icon>
+                                <v-icon color="white" dark v-else>mdi-email-send-outline</v-icon>
+                              </v-btn>
+                            </template>
+                            <v-btn small color="teal" class="white--text" @click="openNotifyDialog">
+                              Notify Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#A4F323"
+                              @click="goToComposeMessage('to')"
+                              :disabled="!filteredItems.length"
+                            >
+                              Send a message to selected Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#86C61D"
+                              @click="goToComposeMessage('cc')"
+                              :disabled="!filteredItems.length"
+                            >
+                              CC selected Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#669617"
+                              @click="goToComposeMessage('bcc')"
+                              :disabled="!filteredItems.length"
+                            >
+                              BCC selected Lab Managers
+                            </v-btn>
+                          </v-speed-dial>
 
                           <v-dialog v-bind="attrs" v-model="notifyDialog" max-width="600px">
                             <v-card>
