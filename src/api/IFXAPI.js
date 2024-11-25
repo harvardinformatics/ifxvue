@@ -18,6 +18,9 @@ import BillingRecord, { BillingTransaction } from '@/components/billingRecord/IF
 import { Product, ProductRate, Processing } from '@/components/product/IFXProduct'
 import ProductUsage from '@/components/productUsage/IFXProductUsage'
 import { ReportRun, Report } from '@/components/report/IFXReport'
+import AccountBillingSummary from '@/components/billingSummary/IFXAccountBillingSummary'
+import UserBillingSummary from '@/components/billingSummary/IFXUserBillingSummary'
+import ProductRateBillingSummary from '@/components/billingSummary/IFXProductRateBillingSummary'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -1018,6 +1021,41 @@ export default class IFXAPIService {
       data.ifxids = ifxids
     }
     return this.axios.post(url, data, { headers: { 'Content-Type': 'application/json' } })
+  }
+
+  get accountBillingSummary() {
+    const baseURL = this.urls.GET_SUMMARY_BY_ACCOUNT
+    const createFunc = (accountBillingSummaryData, decompose = false) => {
+      const newAccountBillingSummaryData = cloneDeep(accountBillingSummaryData) || {}
+      // If decomposing, do not create a new object
+      return decompose ? newAccountBillingSummaryData : new AccountBillingSummary(newAccountBillingSummaryData)
+    }
+    const decomposeFunc = (newAccountBillingSummaryData) => createFunc(newAccountBillingSummaryData, true)
+    return this.genericAPI(baseURL, AccountBillingSummary, createFunc, decomposeFunc)
+  }
+
+  get userBillingSummary() {
+    const baseURL = this.urls.GET_SUMMARY_BY_USER
+    const createFunc = (userBillingSummaryData, decompose = false) => {
+      const newUserBillingSummaryData = cloneDeep(userBillingSummaryData) || {}
+      // If decomposing, do not create a new object
+      return decompose ? newUserBillingSummaryData : new UserBillingSummary(newUserBillingSummaryData)
+    }
+    const decomposeFunc = (newUserBillingSummaryData) => createFunc(newUserBillingSummaryData, true)
+    return this.genericAPI(baseURL, UserBillingSummary, createFunc, decomposeFunc)
+  }
+
+  get productRateBillingSummary() {
+    const baseURL = this.urls.GET_SUMMARY_BY_PRODUCT_RATE
+    const createFunc = (productRateBillingSummaryData, decompose = false) => {
+      const newProductRateBillingSummaryData = cloneDeep(productRateBillingSummaryData) || {}
+      // If decomposing, do not create a new object
+      return decompose
+        ? newProductRateBillingSummaryData
+        : new ProductRateBillingSummary(newProductRateBillingSummaryData)
+    }
+    const decomposeFunc = (newProductRateBillingSummaryData) => createFunc(newProductRateBillingSummaryData, true)
+    return this.genericAPI(baseURL, ProductRateBillingSummary, createFunc, decomposeFunc)
   }
 
   getLabChargeHistory(facility, startMonth, startYear, endMonth, endYear) {

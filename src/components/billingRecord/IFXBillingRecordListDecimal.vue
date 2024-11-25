@@ -129,7 +129,13 @@ export default {
         { text: 'Lab', value: 'account.organization', sortable: true },
         { text: 'Expense Code / PO', value: 'account.slug', sortable: true },
         { text: 'Product', value: 'product', sortable: true },
-        { text: 'Start Date', value: 'startDate', sortable: true, hide: !this.showDates && !this.showStartDate, namedSlot: true },
+        {
+          text: 'Start Date',
+          value: 'startDate',
+          sortable: true,
+          hide: !this.showDates && !this.showStartDate,
+          namedSlot: true,
+        },
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
@@ -482,20 +488,6 @@ export default {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
       const summary = records.reduce((prev, current) => prev + current.decimalCharge, 0)
       return summary
-    },
-    getSummaryDetails(group) {
-      const records = this.filteredItems.filter((item) => item.account.organization === group)
-      const expenseMap = new Map()
-      records.forEach((item) => {
-        const charge = item.decimalCharge
-        if (expenseMap.has(item.account.slug)) {
-          const value = expenseMap.get(item.account.slug)
-          expenseMap.set(item.account.slug, value + charge)
-        } else {
-          expenseMap.set(item.account.slug, charge)
-        }
-      })
-      return expenseMap
     },
     totalCharges() {
       const total = this.filteredItems.reduce((prev, current) => prev + current.decimalCharge, 0)
@@ -1127,7 +1119,6 @@ export default {
                 :rowSelectionToggleIndeterminateGroup.sync="rowSelectionToggleIndeterminate[group]"
                 :summaryCharges="summaryCharges(group)"
                 :toggleGroup="toggleGroup"
-                :getSummaryDetails="getSummaryDetails"
                 @
               />
             </template>
