@@ -269,10 +269,6 @@ export default {
     rt() {
       return this.$route
     },
-    // Default items displayed on list components
-    defaultItemsPerPage() {
-      return 10
-    },
     // Default page options for list components
     defaultItemsPerPageOptions() {
       return [10, 20, { text: 'All', value: -1 }]

@@ -120,6 +120,7 @@ import IFXBillableMixin from '@/components/billingRecord/IFXBillableMixin'
 
 // Billing Summaries
 import IFXLabBillingSummaryList from '@/components/billingSummary/IFXLabBillingSummaryList'
+import IFXGenericBillingSummaryList from '@/components/billingSummary/IFXGenericBillingSummaryList'
 
 // Reports
 import IFXReportRunList from '@/components/report/IFXReportRunList'
@@ -269,6 +270,7 @@ export {
   IFXRequestCommentList,
   IFXRequestList,
   IFXLabBillingSummaryList,
+  IFXGenericBillingSummaryList,
 }
 
 // Registered globally

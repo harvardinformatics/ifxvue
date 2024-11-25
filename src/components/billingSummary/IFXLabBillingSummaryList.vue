@@ -59,7 +59,7 @@ export default {
         monthRange += 12 * (this.endYear - this.startYear)
       }
 
-      for (let i = 0; i < monthRange; i++) {
+      for (let i = 0; i <= monthRange; i++) {
         // Add a header for this month
         const thisMonth = (this.startMonth + i) % 12
         // the keys that come back from Django are padded to 2 digits for month.
@@ -128,9 +128,12 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>Lab Billing Summary</template>
+      <template #subtitle>
+        <span>{{ facility.name }}</span>
+      </template>
       <template #actions>
         <span class="d-flex flex-row flex-nowrap">
           <IFXSearchField :search.sync="search" />
@@ -211,6 +214,7 @@ export default {
       :showSelect="false"
       itemType="labBillingSummary"
       :loading="fetchingData"
+      :defaultItemsPerPage="-1"
     >
       <template v-for="header in headers" #[header.value]="{ item }">
         <span :key="header.text">
