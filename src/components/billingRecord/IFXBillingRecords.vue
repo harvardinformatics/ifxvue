@@ -100,8 +100,8 @@ export default {
     },
     async getFacilities() {
       this.facilities = await this.$api.facility.getList({ application_username: this.$api.vars.appName })
-      this.facilities.forEach((facility) => {
-        this.currentTabs.push(facility.id)
+      this.facilities.forEach(() => {
+        this.currentTabs.push(0)
       })
     },
     resetShowBillingRecords() {
@@ -169,14 +169,14 @@ export default {
       </v-container>
     </v-card-title>
     <v-container v-if="showBillingRecords">
-      <v-row v-for="facility in facilities" :key="facility.id + keyModifier">
+      <v-row v-for="(facility, i) in facilities" :key="facility.id + keyModifier">
         <v-col>
-          <v-tabs v-model="currentTabs[facility.id]">
+          <v-tabs v-model="currentTabs[i]">
             <v-tab>Billing Records</v-tab>
             <v-tab>Summary by Account</v-tab>
             <v-tab>Summary by User</v-tab>
             <v-tab>Summary by Product Rate</v-tab>
-            <v-tabs-items v-model="currentTabs[facility.id]">
+            <v-tabs-items v-model="currentTabs[i]">
               <v-tab-item>
                 <IFXBillingRecordListDecimal
                   :facility="facility"
