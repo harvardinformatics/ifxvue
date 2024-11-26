@@ -646,6 +646,20 @@ export default {
     allowEditingRecords(item) {
       return item.currentState !== 'FINAL'
     },
+    goToComposeMessage(field) {
+      this.recipientField = field
+      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgSlugs = orgs.map((item) => item.account.organization)
+      this.$router.push({
+        name: 'MailingCompose',
+        params: {
+          labManagerOrgSlugs: [...new Set(orgSlugs)],
+          message: null,
+          subject: null,
+          recipientField: this.recipientField,
+        },
+      })
+    },
     defaultNotifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
       this.$api.notifyLabManagers(
@@ -805,14 +819,14 @@ export default {
               {{ facility.name }}
             </div>
           </v-col>
-          <v-col cols="3">
+          <v-col class="flex-grow-2">
             <v-row dense>
               <v-col>
                 <IFXSearchField :search.sync="search" />
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="4">
+          <v-col>
             <v-row dense class="d-flex flex-nowrap justify-end align-start">
               <v-col v-if="updating">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -830,9 +844,41 @@ export default {
                     <v-tooltip top v-else>
                       <template v-slot:activator="{ on, attrs }">
                         <div v-on="on">
-                          <v-btn small fab color="green" v-bind="attrs" @click="openNotifyDialog">
-                            <v-icon dark color="white">mdi-email-send-outline</v-icon>
-                          </v-btn>
+                          <v-speed-dial direction="bottom" v-model="mailFab" v-bind="attrs">
+                            <template v-slot:activator>
+                              <v-btn v-model="mailFab" small color="green" fab>
+                                <v-icon color="white" dark v-if="mailFab">mdi-close</v-icon>
+                                <v-icon color="white" dark v-else>mdi-email-send-outline</v-icon>
+                              </v-btn>
+                            </template>
+                            <v-btn small color="teal" class="white--text" @click="openNotifyDialog">
+                              Notify Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#A4F323"
+                              @click="goToComposeMessage('to')"
+                              :disabled="!filteredItems.length"
+                            >
+                              Send a message to selected Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#86C61D"
+                              @click="goToComposeMessage('cc')"
+                              :disabled="!filteredItems.length"
+                            >
+                              CC selected Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#669617"
+                              @click="goToComposeMessage('bcc')"
+                              :disabled="!filteredItems.length"
+                            >
+                              BCC selected Lab Managers
+                            </v-btn>
+                          </v-speed-dial>
 
                           <v-dialog v-bind="attrs" v-model="notifyDialog" max-width="600px">
                             <v-card>
@@ -856,7 +902,7 @@ export default {
                                   </v-row>
                                   <v-row no-gutters>
                                     <v-col cols="12">
-                                      <div class="text-divider font-italic text-center">
+                                      <div class="text-divider font-italic text-center mt-2">
                                         Or specify email addresses directly
                                       </div>
                                       <IFXContactablesCombobox
@@ -1336,6 +1382,12 @@ export default {
 }
 .border-bottom {
   border-bottom: 1px solid #ccc;
+}
+.flex-grow-2 {
+  flex-grow: 2;
+}
+.search-field {
+  width: 100%;
 }
 </style>
 <style>
