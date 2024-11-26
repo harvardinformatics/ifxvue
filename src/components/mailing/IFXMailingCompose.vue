@@ -304,6 +304,7 @@ export default {
           v-model="fromAddr"
           :rules="formRules.generic"
           :error-messages="fieldErrors.fromAddr"
+          required
           class="required"
         ></v-text-field>
         <IFXContactablesCombobox
@@ -345,7 +346,7 @@ export default {
         </span>
       </v-form>
       <div class="mt-3">
-        <IFXPageActionBar :disabled="false" btnType="submit" btnText="Send" @action="sendMailing"></IFXPageActionBar>
+        <IFXPageActionBar :disabled="!isValid" btnType="submit" btnText="Send" @action="sendMailing"></IFXPageActionBar>
       </div>
     </v-container>
   </v-container>

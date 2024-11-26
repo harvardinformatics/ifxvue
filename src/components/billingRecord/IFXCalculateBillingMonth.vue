@@ -86,7 +86,7 @@ export default {
         return 'To create new billing for usages that have billing records, check Recalculate'
       }
       if (this.recalculate) {
-        return 'Recalculate billing records'
+        return 'Remove existing billing records and recalculate'
       }
       return 'Calculate billing records'
     },
@@ -273,7 +273,7 @@ export default {
           <v-col>
             <v-checkbox
               v-model="recalculate"
-              label="Recalculate"
+              label="Remove existing billing records and recalculate"
             >
             </v-checkbox>
           </v-col>
