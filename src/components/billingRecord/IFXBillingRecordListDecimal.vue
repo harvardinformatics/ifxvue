@@ -832,7 +832,7 @@ export default {
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-col>
               <v-col v-else>
-                <v-row dense class="d-flex justify-start align-center">
+                <v-row dense class="d-flex justify-start align-center nowrap">
                   <v-col class="pa-2">
                     <IFXMailButton
                       v-if="useDefaultMailButton"
@@ -1001,25 +1001,6 @@ export default {
                             </div>
                           </template>
                           <span>{{ approveSelectedToolTip }}</span>
-                        </v-tooltip>
-                      </v-col>
-                      <v-col>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <div v-on="on">
-                              <v-btn
-                                :disabled="billingRecordsAreFinal(items) || isLoading || items.length == 0"
-                                v-bind="attrs"
-                                fab
-                                small
-                                color="green"
-                                @click="approve(true)"
-                              >
-                                <v-icon dark>done_all</v-icon>
-                              </v-btn>
-                            </div>
-                          </template>
-                          <span>{{ approveAllToolTip }}</span>
                         </v-tooltip>
                       </v-col>
                     </v-row>
