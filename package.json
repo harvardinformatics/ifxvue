@@ -15,11 +15,11 @@
   ],
   "dependencies": {
     "@tinymce/tinymce-vue": "3.2.5",
-    "axios": "0.21.2",
+    "axios": "1.7.8",
     "caniuse-lite": "^1.0.30001625",
     "coa": "2.0.2",
     "core-js": "3.9.1",
-    "follow-redirects": "1.15.4",
+    "follow-redirects": "1.15.9",
     "lodash": "4.17.21",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.37",
