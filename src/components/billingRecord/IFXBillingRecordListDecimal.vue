@@ -280,12 +280,12 @@ export default {
       return result
     },
     billingRecordsAreInitOrPending(items) {
-      // Returns true if all records in the list are either in INIT or PENDING_LAB_APPROVAL state
+      // Returns true if all records in the list are either in INIT, PENDING_LAB_APPROVAL, or LAB_APPROVED state
       if (!items || !items.length) {
         return false
       }
       const result = items.every(
-        (record) => record?.currentState === 'INIT' || record?.currentState === 'PENDING_LAB_APPROVAL'
+        (record) => record?.currentState === 'INIT' || record?.currentState === 'PENDING_LAB_APPROVAL' || record?.currentState === 'LAB_APPROVED'
       )
       return result
     },
