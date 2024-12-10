@@ -1069,4 +1069,16 @@ export default class IFXAPIService {
     const url = this.urls.GET_CHARGE_HISTORY
     return this.axios.get(url, { params })
   }
+
+  getBillingContacts(orgSlugs, invoicePrefix) {
+    const data = {
+      org_slugs: orgSlugs,
+      invoice_prefix: invoicePrefix,
+    }
+    const headers = {
+      'Content-Type': 'application/json'
+    }
+    const url = this.urls.GET_BILLING_CONTACTS
+    return this.axios.post(url, data, { headers: headers })
+  }
 }
