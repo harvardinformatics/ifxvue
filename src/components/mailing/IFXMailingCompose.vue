@@ -55,6 +55,11 @@ export default {
       required: false,
       default: null,
     },
+    invoicePrefix: {
+      type: String,
+      required: false,
+      default: null,
+    },
     recipients: {
       type: String,
       required: false,
@@ -102,6 +107,10 @@ export default {
       return result
     },
     sendMailing() {
+      if (!this.content) {
+        this.showMessage('Please enter a message before sending.')
+        return
+      }
       const toMailStr = (contactable) => {
         if (contactable.name) {
           return `${contactable.name} <${contactable.detail}>`
@@ -160,15 +169,15 @@ export default {
         this.contactables = result
         // If we're doing the lab manager notification thing
         if (this.labManagerOrgSlugs) {
-          this.$api.contactables
-            .getList({ role: 'Lab Manager', org_slugs: this.labManagerOrgSlugs })
-            .then((result2) => {
+          this.$api.getBillingContacts(this.labManagerOrgSlugs, this.invoicePrefix)
+            .then((res) => {
+              const result2 = res.data
               // If a contact for one of the orgs cannot be found, raise an error
               const orgContactNotFound = []
               me.labManagerOrgSlugs.forEach((slug) => {
                 const name = this.$api.organization.parseSlug(slug).name
                 // Check if org name is in the contactable label
-                if (!result2.some((contactable) => contactable.label.indexOf(name) !== -1)) {
+                if (!result2.some((contactable) => contactable?.label?.indexOf(name) !== -1)) {
                   orgContactNotFound.push(name)
                 }
               })
@@ -196,6 +205,9 @@ export default {
                 const message = `Unable to find lab manager contact for ${names}`
                 me.showMessage(message)
               }
+            })
+            .catch((error) => {
+              this.showMessage(error)
             })
         } else {
           this.isLoading = false
