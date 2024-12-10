@@ -657,6 +657,7 @@ export default {
           message: null,
           subject: null,
           recipientField: this.recipientField,
+          invoicePrefix: this.facility.invoicePrefix,
         },
       })
     },
