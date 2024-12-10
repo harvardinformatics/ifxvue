@@ -107,6 +107,10 @@ export default {
       return result
     },
     sendMailing() {
+      if (!this.content) {
+        this.showMessage('Please enter a message before sending.')
+        return
+      }
       const toMailStr = (contactable) => {
         if (contactable.name) {
           return `${contactable.name} <${contactable.detail}>`
