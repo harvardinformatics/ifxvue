@@ -168,8 +168,6 @@ export default {
           this.$api.getBillingContacts(this.labManagerOrgSlugs, this.invoicePrefix)
             .then((res) => {
               const result2 = res.data
-              console.log('result2', result2)
-              console.log('res', res)
               // If a contact for one of the orgs cannot be found, raise an error
               const orgContactNotFound = []
               me.labManagerOrgSlugs.forEach((slug) => {

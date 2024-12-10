@@ -647,7 +647,6 @@ export default {
       return item.currentState !== 'FINAL'
     },
     goToComposeMessage(field) {
-      console.log('facility is ', this.facility.invoicePrefix)
       this.recipientField = field
       const orgs = this.selected.length ? this.selected : this.filteredItems
       const orgSlugs = orgs.map((item) => item.account.organization)
