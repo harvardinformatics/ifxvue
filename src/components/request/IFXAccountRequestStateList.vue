@@ -69,7 +69,7 @@ export default {
           :headers="this.headers"
           :items="request.requestStates"
           class="elevation-1 mb-3"
-          hide-default-footer
+          :hide-default-footer="request.requestStates.length < 10"
         >
           <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
           <template slot="no-data">
