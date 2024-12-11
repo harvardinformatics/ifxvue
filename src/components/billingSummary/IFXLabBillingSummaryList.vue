@@ -55,14 +55,7 @@ export default {
       this.fetchingData = true
 
       let monthRange = this.endMonth - this.startMonth
-      // if (monthRange < 0) {
       monthRange += 12 * (this.endYear - this.startYear)
-      // }
-      // const startingDate = new Date(this.startYear, this.startMonth - 1)
-      // const endingDate = new Date(this.endYear, this.endMonth - 1)
-      // const monthRange = (endingDate.getFullYear() - startingDate.getFullYear()) * 12
-      //   + endingDate.getMonth()
-      //   - startingDate.getMonth()
 
       for (let i = 0; i <= monthRange; i++) {
         const curMonth = this.startMonth + i
