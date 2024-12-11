@@ -27,7 +27,7 @@ export default {
       theHeaders: [{ text: 'Lab Name', value: 'organization', sortable: true }],
       startMonth: null,
       startYear: null,
-      endMonth: new Date().getMonth() + 1,
+      endMonth: new Date().getMonth(), // Start on the previous month since getMonth() is zero-based
       endYear: new Date().getFullYear(),
       startMenu: false,
       startMonthAndYear: null,
@@ -38,6 +38,12 @@ export default {
     }
   },
   mounted() {
+    if (!this.startMonth) {
+      // If we're at the start of the year, we need to go back to the previous year
+      // Since getMonth() is zero-based, we're using that to go to the previous month
+      this.startMonth = 12
+      this.endYear--
+    }
     this.startYear = this.endYear
     this.startMonth = this.endMonth - this.DEFAULT_RANGE
     if (this.startMonth < 1) {
@@ -55,16 +61,15 @@ export default {
       this.fetchingData = true
 
       let monthRange = this.endMonth - this.startMonth
-      if (monthRange < 0) {
-        monthRange += 12 * (this.endYear - this.startYear)
-      }
+      monthRange += 12 * (this.endYear - this.startYear)
 
       for (let i = 0; i <= monthRange; i++) {
+        const curMonth = this.startMonth + i
         // Add a header for this month
-        const thisMonth = (this.startMonth + i) % 12
+        const thisMonth = curMonth % 12 || 12
         // the keys that come back from Django are padded to 2 digits for month.
-        const paddedMonth = thisMonth < 10 ? `0${thisMonth}` : thisMonth.toString()
-        const thisYear = this.startYear + Math.floor(i / 12)
+        const paddedMonth = thisMonth.toString().padStart(2, '0')
+        const thisYear = this.startYear + Math.floor((curMonth - 1) / 12)
         this.theHeaders.push({
           text: `${thisMonth} / ${thisYear}`,
           value: `${thisYear}-${paddedMonth}`,
@@ -167,8 +172,14 @@ export default {
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="startMonthAndYear" type="month" no-title scrollable :max="endMonthAndYear" @input="startMenu = false">
-          </v-date-picker>
+          <v-date-picker
+            v-model="startMonthAndYear"
+            type="month"
+            no-title
+            scrollable
+            :max="endMonthAndYear"
+            @input="startMenu = false"
+          ></v-date-picker>
         </v-menu>
       </v-col>
       <v-col class="flex-grow-1 flex-shrink-0">
@@ -199,8 +210,7 @@ export default {
             :max="maxDate"
             :min="startMonthAndYear"
             @input="endMenu = false"
-          >
-          </v-date-picker>
+          ></v-date-picker>
         </v-menu>
       </v-col>
       <v-col class="d-flex flex-row align-center flex-grow-0 flex-shrink-1">
