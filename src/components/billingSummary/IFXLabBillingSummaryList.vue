@@ -27,7 +27,7 @@ export default {
       theHeaders: [{ text: 'Lab Name', value: 'organization', sortable: true }],
       startMonth: null,
       startYear: null,
-      endMonth: new Date().getMonth() + 1,
+      endMonth: new Date().getMonth(), // Start on the previous month since getMonth() is zero-based
       endYear: new Date().getFullYear(),
       startMenu: false,
       startMonthAndYear: null,
@@ -38,6 +38,12 @@ export default {
     }
   },
   mounted() {
+    if (!this.startMonth) {
+      // If we're at the start of the year, we need to go back to the previous year
+      // Since getMonth() is zero-based, we're using that to go to the previous month
+      this.startMonth = 12
+      this.endYear--
+    }
     this.startYear = this.endYear
     this.startMonth = this.endMonth - this.DEFAULT_RANGE
     if (this.startMonth < 1) {
