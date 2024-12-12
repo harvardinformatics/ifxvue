@@ -11,6 +11,16 @@ export default {
         <v-flex>
           <v-layout row>
             <v-flex xs4>
+              Scholar Type
+            </v-flex>
+            <v-flex>
+              {{ data.scholar_type }}
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex>
+          <v-layout row>
+            <v-flex xs4>
               Race
             </v-flex>
             <v-flex>
