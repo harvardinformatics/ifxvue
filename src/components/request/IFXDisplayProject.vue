@@ -33,6 +33,30 @@ export default {
               </v-layout>
             </v-flex>
           </v-layout>
+          <v-layout column>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  Estimated Start Date
+                </v-flex>
+                <v-flex>
+                  {{ data.estimated_start_date }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+          <v-layout column>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  Estimated duration
+                </v-flex>
+                <v-flex>
+                  {{ data.estimated_duration }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-flex>

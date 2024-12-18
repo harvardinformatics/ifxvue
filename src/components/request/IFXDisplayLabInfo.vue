@@ -44,12 +44,72 @@ export default {
           </v-layout>
           <v-layout column>
             <v-flex>
+              <v-layout row align-center>
+                <v-flex xs4>
+                  Selected Organization
+                </v-flex>
+                <v-flex>
+                  <v-autocomplete v-if="organizations"
+                    v-model.trim="data.lab_info.organization"
+                    :items="organizations"
+                    item-text="name"
+                    item-value="slug"
+                    @change="updateData()"
+                  ></v-autocomplete>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+          <v-layout column>
+            <v-flex>
               <v-layout row>
                 <v-flex xs4>
                   PI / Manager
                 </v-flex>
                 <v-flex>
                   {{ data.lab_info.pi_name }}, {{ data.lab_info.pi_email }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+          <v-layout column>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex>
+                  {{ data.lab_info.pi_street1 }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex>
+                  {{ data.lab_info.pi_city }}, {{ data.lab_info.pi_state }} {{ data.lab_info.pi_postal_code }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex v-if="data.lab_info.pi_contact_country != 'United States'">
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex>
+                  {{ data.lab_info.pi_contact_country }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex>
+                  {{ data.lab_info.pi_phone }}
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -69,18 +129,42 @@ export default {
           </v-layout>
           <v-layout column>
             <v-flex>
-              <v-layout row align-center>
+              <v-layout row>
                 <v-flex xs4>
-                  Selected Organization
+                  &nbsp;
                 </v-flex>
                 <v-flex>
-                  <v-autocomplete v-if="organizations"
-                    v-model.trim="data.lab_info.organization"
-                    :items="organizations"
-                    item-text="name"
-                    item-value="slug"
-                    @change="updateData()"
-                  ></v-autocomplete>
+                  {{ data.lab_info.billing_contact_street1 }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex>
+                  {{ data.lab_info.billing_contact_city }}, {{ data.lab_info.billing_contact_state }} {{ data.lab_info.billing_contact_postal_code }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex v-if="data.lab_info.billing_contact_country != 'United States'">
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex>
+                  {{ data.lab_info.billing_contact_country }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex>
+                  {{ data.lab_info.billing_contact_phone }}
                 </v-flex>
               </v-layout>
             </v-flex>

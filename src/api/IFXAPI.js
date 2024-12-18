@@ -509,7 +509,7 @@ export default class IFXAPIService {
     api.getNames = async (selector = null) => {
       const url = this.urls.ORGANIZATION_NAMES
       const orgNames = await this.axios
-        .get(url)
+        .get(url, { params: { org_trees: 'Harvard' } })
         .then((res) => res.data)
         .then((objs) => {
           if (selector) {
