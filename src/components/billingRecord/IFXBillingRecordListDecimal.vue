@@ -1133,7 +1133,7 @@ export default {
                       <span>{{ deleteSelectedToolTip }}</span>
                     </v-tooltip>
                   </v-col>
-                  <v-col v-if="allowUsageReport">
+                  <v-col v-if="allowUsageReport && facility.hasUsageReport">
                     <v-tooltip top>
                       <template v-slot:activator="{ on, attrs }">
                         <div v-on="on">
