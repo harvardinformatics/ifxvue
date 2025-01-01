@@ -64,6 +64,11 @@ export default {
       required: false,
       default: false,
     },
+    allowUsageReport: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     useDefaultMailButton: {
       type: Boolean,
       required: false,
@@ -196,6 +201,8 @@ export default {
       newExpenseCode: null,
       showChangeExpenseCodeDialog: false,
       recordIDsToBeChanged: [],
+      showUsageReportDialog: false,
+      loadingUsageReport: false,
     }
   },
   computed: {
@@ -730,6 +737,33 @@ export default {
       this.recordIDsToBeChanged = []
       this.showChangeExpenseCodeDialog = false
     },
+    getUsageReport() {
+      this.usageReportHref = ''
+      this.usageReportFileName = ''
+      this.usageReportMessage = ''
+      this.loadingUsageReport = true
+      const organization_slug = this.organization
+      this.$api.getUsageReport(
+        this.facility.invoicePrefix,
+        this.year,
+        this.month,
+        organization_slug,
+      ).then((response) => {
+        this.usageReportHref = response.data.url
+        this.usageReportFileName = response.data.filename
+      }).catch((error) => {
+        this.usageReportMessage = error?.response?.data?.error || 'An error occurred while generating the usage report'
+      }).finally(() => {
+        this.loadingUsageReport = false
+      })
+    },
+    openGetUsageReportDialog() {
+      this.getUsageReport()
+      this.showUsageReportDialog = true
+    },
+    closeGetUsageReportDialog() {
+      this.showUsageReportDialog = false
+    },
     async changeExpenseCode() {
       const recordsToChange = []
       const groups = new Set()
@@ -1099,6 +1133,26 @@ export default {
                       <span>{{ deleteSelectedToolTip }}</span>
                     </v-tooltip>
                   </v-col>
+                  <v-col v-if="allowUsageReport">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn
+                            :disabled="!organization"
+                            v-bind="attrs"
+                            fab
+                            small
+                            color="yellow"
+                            @click="openGetUsageReportDialog()"
+                          >
+                            <!-- <v-icon dark>mdi-file-replace-outline</v-icon> -->
+                            <v-icon dark>mdi-hammer-wrench</v-icon>
+                          </v-btn>
+                        </div>
+                      </template>
+                      <span>Get usage report</span>
+                    </v-tooltip>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -1302,6 +1356,38 @@ export default {
                 <v-spacer></v-spacer>
                 <v-btn color="secondary" text @click="closeChangeExpenseCodeDialog">Cancel</v-btn>
                 <v-btn color="blue darken-1" text :disabled="!isValidBulkEdit" @click="changeExpenseCode">Save</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog v-model="showUsageReportDialog" v-if="showUsageReportDialog" max-width="600px">
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">Get Usage Report</span>
+              </v-card-title>
+              <v-card-text>
+                <div v-if="loadingUsageReport">
+                  <span class="mr-3">Running report...</span>
+                  <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                </div>
+                <div v-else>
+                  <v-row>
+                    <v-col>
+                      <a v-if="usageReportHref"
+                        :href="usageReportHref"
+                      >
+                        {{ usageReportFileName }}
+                      </a>
+                      <span v-else>
+                        {{ usageReportMessage }}
+                      </span>
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="closeGetUsageReportDialog()">Close</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>

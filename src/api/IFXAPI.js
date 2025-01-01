@@ -942,6 +942,12 @@ export default class IFXAPIService {
     return api
   }
 
+  getUsageReport(invoice_prefix, year, month, organization_slug) {
+    const url = this.urls.GET_USAGE_REPORT
+    const params = { invoice_prefix, year, month, organization_slug }
+    return this.axios.post(url, params, { headers: { 'Content-Type': 'application/json' } })
+  }
+
   mockError(code) {
     let url = this.urls.MOCK_ERRORS
     if (code) {
