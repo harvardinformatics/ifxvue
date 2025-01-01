@@ -36,4 +36,12 @@ export default class Facility extends IFXItemBase {
   set invoicePrefix(invoicePrefix) {
     this.data.invoice_prefix = invoicePrefix
   }
+
+  get hasUsageReport() {
+    return this.data.has_usage_report
+  }
+
+  set hasUsageReport(hasUsageReport) {
+    this.data.has_usage_report = hasUsageReport
+  }
 }
