@@ -15,13 +15,29 @@ export default {
   data() {
     return {
       data: this.value,
+      piContact: {},
+      billingContact: {},
     }
   },
   methods: {
     updateData() {
+      this.piContact = {}
+      this.billingContact = {}
       this.$emit('change', this.data)
       return true // This is needed to make the v-text-field work.  Don't know why
     },
+  },
+  mounted: function () {
+    if (this.data?.lab_info?.organization) {
+      const piOrgContact = this.data.lab_info.organization.contacts.find(orgContact => orgContact.role === 'PI')
+      if (piOrgContact) {
+        this.piContact = piOrgContact.contact
+      }
+      const billingOrgContact = this.data.lab_info.organization.contacts.find(orgContact => orgContact.role === 'Billing')
+      if (billingOrgContact) {
+        this.billingContact = billingOrgContact.contact
+      }
+    }
   },
 }
 </script>
@@ -60,7 +76,7 @@ export default {
               </v-layout>
             </v-flex>
           </v-layout>
-          <v-layout column>
+          <v-layout v-if="!piContact" column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
@@ -71,8 +87,6 @@ export default {
                 </v-flex>
               </v-layout>
             </v-flex>
-          </v-layout>
-          <v-layout column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
@@ -114,7 +128,30 @@ export default {
               </v-layout>
             </v-flex>
           </v-layout>
-          <v-layout column>
+          <v-layout v-else column>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  PI / Manager
+                </v-flex>
+                <v-flex>
+                  {{ piContact.name }}, {{ piContact.detail }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex class="address">
+                  {{ piContact.address}}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+
+          </v-layout>
+          <v-layout v-if="!billingContact" column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
@@ -126,8 +163,6 @@ export default {
                 </v-flex>
               </v-layout>
             </v-flex>
-          </v-layout>
-          <v-layout column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
@@ -169,9 +204,35 @@ export default {
               </v-layout>
             </v-flex>
           </v-layout>
+          <v-layout v-else column>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  Billing Contact
+                </v-flex>
+                <v-flex>
+                  {{ billingContact.name }}, {{ billingContact.detail }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <v-layout row>
+                <v-flex xs4>
+                  &nbsp;
+                </v-flex>
+                <v-flex class="address">
+                  {{ billingContact.address }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-flex>
   </v-layout>
 </template>
-<style scoped></style>
+<style scoped>
+  .address {
+    white-space: pre-line;
+  }
+</style>
