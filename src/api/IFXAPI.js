@@ -509,7 +509,7 @@ export default class IFXAPIService {
     api.getNames = async (selector = null) => {
       const url = this.urls.ORGANIZATION_NAMES
       const orgNames = await this.axios
-        .get(url)
+        .get(url, { params: { org_trees: 'Harvard' } })
         .then((res) => res.data)
         .then((objs) => {
           if (selector) {
@@ -940,6 +940,12 @@ export default class IFXAPIService {
       return this.axios.post(runReportURL, params, { headers: { 'Content-Type': 'application/json' } })
     }
     return api
+  }
+
+  getUsageReport(invoice_prefix, year, month, organization_slug) {
+    const url = this.urls.GET_USAGE_REPORT
+    const params = { invoice_prefix, year, month, organization_slug }
+    return this.axios.post(url, params, { headers: { 'Content-Type': 'application/json' } })
   }
 
   mockError(code) {
