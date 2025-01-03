@@ -19,8 +19,6 @@ export default {
         { text: 'Subject', value: 'subject', sortable: true, width: '200px' },
         { text: 'From', hide: 'mdAndDown', value: 'fromstr' },
         { text: 'To', value: 'tostr', namedSlot: true, width: '300px' },
-        { text: 'CC', hide: 'mdAndDown', value: 'ccstr', namedSlot: true, width: '300px' },
-        { text: 'BCC', hide: 'mdAndDown', value: 'bccstr', namedSlot: true, width: '300px' },
         { text: 'Message', value: 'message', namedSlot: true },
         { text: 'Status', hide: 'mdAndDown', value: 'status' },
         { text: '', value: 'action', namedSlot: true, sortable: false },
@@ -56,7 +54,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>{{listTitle}}</template>
       <template #actions>
@@ -69,6 +67,7 @@ export default {
       :headers='headers'
       :selected.sync='selected'
       :itemType='itemType'
+      :loading='isLoading'
     >
     <template #id="{ item }">
       <a href="" @click.prevent="navigateToDetail(item.id)">{{item.id}}</a>
@@ -86,40 +85,14 @@ export default {
         <span>{{item.tostr | commaSpace}}</span>
       </v-tooltip>
     </template>
-    <template #ccstr="{ item }">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <span class="ellipse"
-            v-bind="attrs"
-            v-on="on"
-          >
-            {{item.ccstr | commaSpace}}
-          </span>
-        </template>
-        <span>{{item.ccstr | commaSpace}}</span>
-      </v-tooltip>
-    </template>
-    <template #bccstr="{ item }">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <span class="ellipse"
-            v-bind="attrs"
-            v-on="on"
-          >
-            {{item.bccstr | commaSpace}}
-          </span>
-        </template>
-        <span>{{item.bccstr | commaSpace}}</span>
-      </v-tooltip>
-    </template>
     <template #message="{ item }">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <span class="ellipse"
             v-bind="attrs"
             v-on="on"
+            v-html="item.message"
           >
-            {{item.message}}
           </span>
         </template>
         <span v-html="item.message"></span>
