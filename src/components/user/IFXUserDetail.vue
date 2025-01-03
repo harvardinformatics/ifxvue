@@ -246,6 +246,17 @@ export default {
           </v-alert>
         </v-col>
       </v-row>
+      <v-row dense v-if="isSubmittable">
+        <v-col>
+          <v-alert elevation="2" dense border="left" light color="warning" icon="mdi-alert-circle-outline">
+            <v-row dense>
+              <v-col>
+                <h3 class="font-weight-medium">You have unsaved changes!</h3>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-col>
+      </v-row>
       <v-row dense>
         <v-col sm="12" md="6">
           <v-row dense wrap>
