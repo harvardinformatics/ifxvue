@@ -108,7 +108,7 @@ export default {
       </v-card-text>
     </span>
     <span v-else>
-      <div class="empty-contact"></div>
+      <div class="empty-contact">(select from list to see contact info)</div>
     </span>
   </v-card>
 </template>
