@@ -60,9 +60,6 @@ export default {
       addContactFormIsValid: false,
       affiliationDialogOpen: false,
       addAffiliationFormIsValid: false,
-      leaveDialogOpen: false,
-      leaveDialogPromiseResolve: null,
-      leaveDialogPromiseReject: null,
     }
   },
   methods: {
@@ -77,24 +74,11 @@ export default {
       this.changeDialogActive = true
     },
     completeAction() {
-      try {
-        this.leaveDialogOpen = false
-        this.submitUpdate()
-        if (this.additionalSaveFunction) {
-          this.additionalSaveFunction(this.item)
-        }
-        this.changeDialogActive = false
-        if (this.leaveDialogPromiseResolve) {
-          this.leaveDialogPromiseResolve()
-        }
-      } catch (error) {
-        if (this.leaveDialogPromiseReject) {
-          this.leaveDialogPromiseReject()
-        }
-      } finally {
-        this.leaveDialogPromisResolve = null
-        this.leaveDialogPromisReject = null
+      this.submitUpdate()
+      if (this.additionalSaveFunction) {
+        this.additionalSaveFunction(this.item)
       }
+      this.changeDialogActive = false
     },
     openUserInfoDialog() {
       this.itemCopy = cloneDeep(this.item)
@@ -165,25 +149,6 @@ export default {
       const userFiles = this.item.userFiles?.filter((file) => file.category !== 'User Photo')
       return userFiles && userFiles.length
     },
-    confirmLeave() {
-      return new Promise((resolve, reject) => {
-        this.leaveDialogOpen = true
-        this.leaveDialogPromisResolve = resolve
-        this.leaveDialogPromisReject = reject
-      })
-    },
-    cancelLeave() {
-      this.leaveDialogOpen = false
-      this.leaveDialogPromisReject()
-      this.leaveDialogPromisResolve = null
-      this.leaveDialogPromisReject = null
-    },
-    leavePage() {
-      this.leaveDialogOpen = false
-      this.leaveDialogPromisResolve()
-      this.leaveDialogPromisResolve = null
-      this.leaveDialogPromisReject = null
-    },
   },
   computed: {
     django_admin_url() {
@@ -224,20 +189,6 @@ export default {
         return acc
       }, {})
     },
-  },
-  beforeRouteLeave(to, from, next) {
-    // eslint-disable-line
-    if (this.hasItemChanged()) {
-      this.confirmLeave()
-        .then(() => {
-          next()
-        })
-        .catch(() => {
-          next(false)
-        })
-    } else {
-      next()
-    }
   },
 }
 </script>
@@ -620,30 +571,6 @@ export default {
             >
               Add
             </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="leaveDialogOpen" v-if="leaveDialogOpen" max-width="600px" @keydown.esc="cancel">
-        <v-card>
-          <v-toolbar dark color="warning" flat>
-            <v-toolbar-title class="black--text">Save changes?</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn icon small @click="cancelLeave" data-cy="leave-dialog-close" v-on="on" v-bind="attrs">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </template>
-              <span>Cancel</span>
-            </v-tooltip>
-          </v-toolbar>
-          <v-card-text class="pa-4 black--text text-body-1">
-            You have unsaved changes. Do you want to save them before leaving the page?
-          </v-card-text>
-          <v-card-actions class="pt-3">
-            <v-spacer></v-spacer>
-            <v-btn color="secondary" text class="" @click.native="leavePage">Leave</v-btn>
-            <v-btn color="primary" text class="" @click.native="openCommentDialog">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
