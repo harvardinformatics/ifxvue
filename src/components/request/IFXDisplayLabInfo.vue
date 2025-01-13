@@ -28,7 +28,7 @@ export default {
     },
   },
   mounted: function () {
-    if (this.data?.lab_info?.organization) {
+    if (this.data?.lab_info?.organization?.contacts) {
       const piOrgContact = this.data.lab_info.organization.contacts.find(orgContact => orgContact.role === 'PI')
       if (piOrgContact) {
         this.piContact = piOrgContact.contact
@@ -76,14 +76,14 @@ export default {
               </v-layout>
             </v-flex>
           </v-layout>
-          <v-layout v-if="!piContact" column>
+          <v-layout v-if="!data.lab_info.organization" column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
                   PI / Manager
                 </v-flex>
                 <v-flex>
-                  {{ data.lab_info.pi_name }}, {{ data.lab_info.pi_email }}
+                  {{ data.lab_info.pi_name }}, {{ data.lab_info.pi_email }}lskdfj
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -128,30 +128,7 @@ export default {
               </v-layout>
             </v-flex>
           </v-layout>
-          <v-layout v-else column>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
-                  PI / Manager
-                </v-flex>
-                <v-flex>
-                  {{ piContact.name }}, {{ piContact.detail }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
-                  &nbsp;
-                </v-flex>
-                <v-flex class="address">
-                  {{ piContact.address}}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-
-          </v-layout>
-          <v-layout v-if="!billingContact" column>
+          <v-layout v-if="!data.lab_info.organization" column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
@@ -200,28 +177,6 @@ export default {
                 </v-flex>
                 <v-flex>
                   {{ data.lab_info.billing_contact_phone }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-          <v-layout v-else column>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
-                  Billing Contact
-                </v-flex>
-                <v-flex>
-                  {{ billingContact.name }}, {{ billingContact.detail }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
-                  &nbsp;
-                </v-flex>
-                <v-flex class="address">
-                  {{ billingContact.address }}
                 </v-flex>
               </v-layout>
             </v-flex>
