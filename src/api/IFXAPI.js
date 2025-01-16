@@ -513,22 +513,26 @@ export default class IFXAPIService {
     api.getValidRankByText = (text) => api.validRanks.find((r) => r.text === text)
 
     // Wrap old update/save/delete methods to clear cache
+    // Note that we nuke both the regular and the skinny organizations
     const orgUpdate = api.update
     const orgSave = api.save
     const orgDelete = api.delete
     api.update = async (organization) => {
       const result = await orgUpdate(organization)
       this.cache.clear('organization')
+      this.cache.clear('skinnyOrganization')
       return result
     }
     api.save = async (organization) => {
       const result = await orgSave(organization)
       this.cache.clear('organization')
+      this.cache.clear('skinnyOrganization')
       return result
     }
     api.delete = async (organization) => {
       const result = await orgDelete(organization)
       this.cache.clear('organization')
+      this.cache.clear('skinnyOrganization')
       return result
     }
 
