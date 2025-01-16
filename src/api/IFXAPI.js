@@ -549,7 +549,7 @@ export default class IFXAPIService {
           .get(baseUrl, { params })
           .then((res) => {
             // Cache raw data
-            this.cache.add('organization', params, organizations)
+            this.cache.add('organization', params, res.data)
             return Promise.all(res.data.map((orgData) => this.organization.create(orgData)))
           })
           .catch((err) => {
