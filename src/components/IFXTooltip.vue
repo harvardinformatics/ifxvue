@@ -13,7 +13,8 @@
         <v-icon :dark="dark" :color="iconColor">{{ icon }}</v-icon>
       </v-btn>
     </template>
-    <span>{{ tooltip }}</span>
+    <span v-if="!isHTML">{{ tooltip }}</span>
+    <span v-else v-html="tooltip"></span>
   </v-tooltip>
 </template>
 
@@ -51,6 +52,11 @@ export default {
       default: true,
     },
     disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isHTML: {
       type: Boolean,
       required: false,
       default: false,
