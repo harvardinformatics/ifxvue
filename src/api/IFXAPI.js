@@ -373,6 +373,40 @@ export default class IFXAPIService {
     return this.genericAPI(baseUrl, User)
   }
 
+  get cache() {
+    const api = {}
+
+    api.getParamList = (itemType) => {
+      // Get the list of params that have been saved for this itemType
+      const keys = Object.keys(window.sessionStorage)
+      if (!keys) return []
+      return keys.filter((key) => key.startsWith(itemType))
+    }
+
+    api.add = (itemType, params, data) => {
+      const key = `${itemType}_${JSON.stringify(params)}`
+      try {
+        this.storage.setItem(key, data, 'session')
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    api.get = (itemType, params) => {
+      const key = `${itemType}_${JSON.stringify(params)}`
+      const data = this.storage.getItem(key, 'session')
+      if (!data) return null
+      return data
+    }
+
+    api.clear = (itemType) => {
+      const keys = api.getParamList(itemType)
+      keys.forEach((key) => this.storage.removeItem(key, 'session'))
+    }
+
+    return api
+  }
+
   get organization() {
     const baseUrl = this.urls.ORGANIZATIONS
     const skinnyListUrl = this.urls.SKINNY_ORGANIZATIONS
@@ -476,18 +510,49 @@ export default class IFXAPIService {
     api.getValidRankByValue = (value) => api.validRanks.find((r) => r.value === value)
     api.getValidRankByText = (text) => api.validRanks.find((r) => r.text === text)
 
+    // Wrap old update/save/delete methods to clear cache
+    const orgUpdate = api.update
+    const orgSave = api.save
+    const orgDelete = api.delete
+    api.update = async (organization) => {
+      const result = await orgUpdate(organization)
+      this.cache.clear('organization')
+      return result
+    }
+    api.save = async (organization) => {
+      const result = await orgSave(organization)
+      this.cache.clear('organization')
+      return result
+    }
+    api.delete = async (organization) => {
+      const result = await orgDelete(organization)
+      this.cache.clear('organization')
+      return result
+    }
+
     api.getList = async (params = {}) => {
       const { orgTrees } = params
       if (orgTrees) {
         params.org_tree = orgTrees.join(',')
         delete params.orgTrees
       }
-      const organizations = await this.axios
-        .get(baseUrl, { params })
-        .then((res) => Promise.all(res.data.map((orgData) => this.organization.create(orgData))))
-        .catch((err) => {
-          throw new Error(err)
-        })
+      // Check cache for this item type and params
+      let organizations = this.cache.get('organization', params)
+      if (!organizations) {
+        organizations = await this.axios
+          .get(baseUrl, { params })
+          .then((res) => {
+            // Cache raw data
+            this.cache.add('organization', params, organizations)
+            return Promise.all(res.data.map((orgData) => this.organization.create(orgData)))
+          })
+          .catch((err) => {
+            throw new Error(err)
+          })
+      } else {
+        // Convert raw data to objects
+        organizations = organizations.map((orgData) => this.organization.create(orgData))
+      }
       return organizations || []
     }
     api.getSkinnyList = async (params = {}) => {
@@ -496,12 +561,22 @@ export default class IFXAPIService {
         params.org_tree = orgTrees.join(',')
         delete params.orgTrees
       }
-      const organizations = await this.axios
-        .get(skinnyListUrl, { params })
-        .then((res) => Promise.all(res.data.map((orgData) => this.organization.create(orgData))))
-        .catch((err) => {
-          throw new Error(err)
-        })
+      let organizations = this.cache.get('skinnyOrganization', params)
+      if (!organizations) {
+        organizations = await this.axios
+          .get(skinnyListUrl, { params })
+          .then((res) => {
+            // Cache raw data
+            this.cache.add('skinnyOrganization', params, res.data)
+            return Promise.all(res.data.map((orgData) => this.organization.create(orgData)))
+          })
+          .catch((err) => {
+            throw new Error(err)
+          })
+      } else {
+        // Convert raw data to objects
+        organizations = organizations.map((orgData) => this.organization.create(orgData))
+      }
       return organizations || []
     }
     // this has been added to the object itelf
@@ -1082,7 +1157,7 @@ export default class IFXAPIService {
       invoice_prefix: invoicePrefix,
     }
     const headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     }
     const url = this.urls.GET_BILLING_CONTACTS
     return this.axios.post(url, data, { headers: headers })
