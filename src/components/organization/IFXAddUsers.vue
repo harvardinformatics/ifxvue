@@ -38,7 +38,7 @@ export default {
     getPeople: debounce(function () {
       this.isLoading = true
       this.$api[this.itemType]
-        .getList(this.search)
+        .getList({ search: this.search })
         .then((response) => {
           this.people = response
         })
