@@ -380,7 +380,9 @@ export default class IFXAPIService {
       // Get the list of params that have been saved for this itemType
       const keys = Object.keys(window.sessionStorage)
       if (!keys) return []
-      return keys.filter((key) => key.startsWith(itemType))
+      const computedStart = `${this.vars.appKey}_${itemType}`
+      // Since the `clear` method is going to prepend the appKey to the itemType, we need to remove it here
+      return keys.filter((key) => key.startsWith(computedStart)).map((key) => key.slice(`${this.vars.appKey}_`.length))
     }
 
     api.add = (itemType, params, data) => {
