@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      DEFAULT_RANGE: 6,
+      DEFAULT_RANGE: 5,
       onlyShowSuspiciousRows: false,
       theHeaders: [{ text: 'Lab Name', value: 'organization', sortable: true }],
       startMonth: null,
