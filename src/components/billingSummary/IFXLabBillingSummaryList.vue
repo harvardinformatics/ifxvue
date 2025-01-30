@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      DEFAULT_RANGE: 6,
+      DEFAULT_RANGE: 5,
       onlyShowSuspiciousRows: false,
       theHeaders: [{ text: 'Lab Name', value: 'organization', sortable: true }],
       startMonth: null,
@@ -38,10 +38,10 @@ export default {
     }
   },
   mounted() {
-    if (!this.startMonth) {
+    if (!this.endMonth) {
       // If we're at the start of the year, we need to go back to the previous year
       // Since getMonth() is zero-based, we're using that to go to the previous month
-      this.startMonth = 12
+      this.endMonth = 12
       this.endYear--
     }
     this.startYear = this.endYear
