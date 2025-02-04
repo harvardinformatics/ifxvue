@@ -38,11 +38,6 @@ export default {
       newRates: [],
       selected: [],
       showDeactivatedRates: false,
-      objectCodeCategories: [
-        'Technical Services',
-        'Laboratory Consumables',
-        'Animal Per Diem Charges',
-      ],
     }
   },
   methods: {
@@ -168,7 +163,7 @@ export default {
         <v-row>
           <v-col>
             <v-select
-              :items="objectCodeCategories"
+              :items="apiRef.objectCodeCategories()"
               v-model="item.objectCodeCategory"
               label="Object Code Category"
               class="required"
