@@ -35,6 +35,7 @@ function isJSONString(str) {
   return true
 }
 
+const CACHE_TIMER = 1000 * 60 * 60 * 4 // 4 hours
 export default class IFXAPIService {
   constructor(store) {
     this._store = store
@@ -42,7 +43,6 @@ export default class IFXAPIService {
     this._authUser = null
     // We want to auto-clear the cache every 4 hours
     let cacheTimer = this.storage.getItem('cacheTimer', 'session')
-    console.log('Current cache timer', cacheTimer)
     if (cacheTimer) {
       try {
         // There is a left over cache timer
@@ -51,13 +51,9 @@ export default class IFXAPIService {
         console.error('Error clearing cache timer', e)
       }
     }
-    console.log('Setting cache timer')
     cacheTimer = setInterval(() => {
-      console.log('Clearing cache', cacheTimer)
       this.cache.clear('') // Clear all keys
-      // this.storage.removeItem('cacheTimer', 'session')
-    }, /* 1000 * 60 * 60 * 4 */ 1000 * 30)
-    console.log('Cache timer set', cacheTimer)
+    }, CACHE_TIMER)
     this.storage.setItem('cacheTimer', cacheTimer, 'session')
   }
 
@@ -890,11 +886,7 @@ export default class IFXAPIService {
     }
     const decomposeFunc = (newProductData) => createFunc(newProductData, true)
     const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
-    api.objectCodeCategories = () => [
-      'Technical Services',
-      'Laboratory Consumables',
-      'Animal Per Diem Charges',
-    ]
+    api.objectCodeCategories = () => ['Technical Services', 'Laboratory Consumables', 'Animal Per Diem Charges']
     return api
   }
 
