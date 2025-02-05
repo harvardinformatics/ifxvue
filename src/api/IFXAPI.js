@@ -890,6 +890,11 @@ export default class IFXAPIService {
     }
     const decomposeFunc = (newProductData) => createFunc(newProductData, true)
     const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
+    api.objectCodeCategories = () => [
+      'Technical Services',
+      'Laboratory Consumables',
+      'Animal Per Diem Charges',
+    ]
     return api
   }
 

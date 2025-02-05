@@ -401,7 +401,8 @@ export default {
       return false
     },
     canCancelReservation(item) {
-      return this.$api.auth.can('cancel-reservation', this.$api.authUser) && !item.cancelled
+      const canCancel = this.$api.auth.can('cancel-reservation', this.$api.authUser) || item.productUser.id === this.currentUser.id
+      return canCancel && !item.cancelled
     },
     canApprove() {
       return this.$api.auth.can('approve-reservation', this.$api.authUser)
