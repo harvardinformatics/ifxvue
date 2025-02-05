@@ -40,6 +40,25 @@ export default class IFXAPIService {
     this._store = store
     this._axios = axios.create()
     this._authUser = null
+    // We want to auto-clear the cache every 4 hours
+    let cacheTimer = this.storage.getItem('cacheTimer', 'session')
+    console.log('Current cache timer', cacheTimer)
+    if (cacheTimer) {
+      try {
+        // There is a left over cache timer
+        clearInterval(cacheTimer)
+      } catch (e) {
+        console.error('Error clearing cache timer', e)
+      }
+    }
+    console.log('Setting cache timer')
+    cacheTimer = setInterval(() => {
+      console.log('Clearing cache', cacheTimer)
+      this.cache.clear('') // Clear all keys
+      // this.storage.removeItem('cacheTimer', 'session')
+    }, /* 1000 * 60 * 60 * 4 */ 1000 * 30)
+    console.log('Cache timer set', cacheTimer)
+    this.storage.setItem('cacheTimer', cacheTimer, 'session')
   }
 
   get store() {
@@ -220,6 +239,15 @@ export default class IFXAPIService {
         const userData = {}
         this.authUser = new IFXAuthUser(userData)
         this.storage.removeItem('user')
+        const cacheTimer = this.storage.getItem('cacheTimer', 'session')
+        if (cacheTimer) {
+          try {
+            // Stop any cache clearing
+            clearInterval(cacheTimer)
+          } catch (e) {
+            console.error('Error clearing cache timer', e)
+          }
+        }
         this.storage.clear('session')
         return 'You have been logged out successfully.'
       },
@@ -380,13 +408,15 @@ export default class IFXAPIService {
       // Get the list of params that have been saved for this itemType
       const keys = Object.keys(window.sessionStorage)
       if (!keys) return []
-      const computedStart = `${this.vars.appKey}_${itemType}`
+      const computedStart = `${this.vars.appKey}_cache_${itemType}`
       // Since the `clear` method is going to prepend the appKey to the itemType, we need to remove it here
       return keys.filter((key) => key.startsWith(computedStart)).map((key) => key.slice(`${this.vars.appKey}_`.length))
     }
 
+    api.getKey = (itemType, params) => `cache_${itemType}_${JSON.stringify(params)}`
+
     api.add = (itemType, params, data) => {
-      const key = `${itemType}_${JSON.stringify(params)}`
+      const key = api.getKey(itemType, params)
       try {
         this.storage.setItem(key, data, 'session')
       } catch (e) {
@@ -395,7 +425,7 @@ export default class IFXAPIService {
     }
 
     api.get = (itemType, params) => {
-      const key = `${itemType}_${JSON.stringify(params)}`
+      const key = api.getKey(itemType, params)
       const data = this.storage.getItem(key, 'session')
       if (!data) return null
       return data
