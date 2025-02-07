@@ -35,11 +35,26 @@ function isJSONString(str) {
   return true
 }
 
+const CACHE_TIMER = 1000 * 60 * 60 * 4 // 4 hours
 export default class IFXAPIService {
   constructor(store) {
     this._store = store
     this._axios = axios.create()
     this._authUser = null
+    // We want to auto-clear the cache every 4 hours
+    let cacheTimer = this.storage.getItem('cacheTimer', 'session')
+    if (cacheTimer) {
+      try {
+        // There is a left over cache timer
+        clearInterval(cacheTimer)
+      } catch (e) {
+        console.error('Error clearing cache timer', e)
+      }
+    }
+    cacheTimer = setInterval(() => {
+      this.cache.clear('') // Clear all keys
+    }, CACHE_TIMER)
+    this.storage.setItem('cacheTimer', cacheTimer, 'session')
   }
 
   get store() {
@@ -220,6 +235,15 @@ export default class IFXAPIService {
         const userData = {}
         this.authUser = new IFXAuthUser(userData)
         this.storage.removeItem('user')
+        const cacheTimer = this.storage.getItem('cacheTimer', 'session')
+        if (cacheTimer) {
+          try {
+            // Stop any cache clearing
+            clearInterval(cacheTimer)
+          } catch (e) {
+            console.error('Error clearing cache timer', e)
+          }
+        }
         this.storage.clear('session')
         return 'You have been logged out successfully.'
       },
@@ -373,6 +397,44 @@ export default class IFXAPIService {
     return this.genericAPI(baseUrl, User)
   }
 
+  get cache() {
+    const api = {}
+
+    api.getParamList = (itemType) => {
+      // Get the list of params that have been saved for this itemType
+      const keys = Object.keys(window.sessionStorage)
+      if (!keys) return []
+      const computedStart = `${this.vars.appKey}_cache_${itemType}`
+      // Since the `clear` method is going to prepend the appKey to the itemType, we need to remove it here
+      return keys.filter((key) => key.startsWith(computedStart)).map((key) => key.slice(`${this.vars.appKey}_`.length))
+    }
+
+    api.getKey = (itemType, params) => `cache_${itemType}_${JSON.stringify(params)}`
+
+    api.add = (itemType, params, data) => {
+      const key = api.getKey(itemType, params)
+      try {
+        this.storage.setItem(key, data, 'session')
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    api.get = (itemType, params) => {
+      const key = api.getKey(itemType, params)
+      const data = this.storage.getItem(key, 'session')
+      if (!data) return null
+      return data
+    }
+
+    api.clear = (itemType) => {
+      const keys = api.getParamList(itemType)
+      keys.forEach((key) => this.storage.removeItem(key, 'session'))
+    }
+
+    return api
+  }
+
   get organization() {
     const baseUrl = this.urls.ORGANIZATIONS
     const skinnyListUrl = this.urls.SKINNY_ORGANIZATIONS
@@ -476,18 +538,53 @@ export default class IFXAPIService {
     api.getValidRankByValue = (value) => api.validRanks.find((r) => r.value === value)
     api.getValidRankByText = (text) => api.validRanks.find((r) => r.text === text)
 
+    // Wrap old update/save/delete methods to clear cache
+    // Note that we nuke both the regular and the skinny organizations
+    const orgUpdate = api.update
+    const orgSave = api.save
+    const orgDelete = api.delete
+    api.update = async (organization) => {
+      const result = await orgUpdate(organization)
+      this.cache.clear('organization')
+      this.cache.clear('skinnyOrganization')
+      return result
+    }
+    api.save = async (organization) => {
+      const result = await orgSave(organization)
+      this.cache.clear('organization')
+      this.cache.clear('skinnyOrganization')
+      return result
+    }
+    api.delete = async (organization) => {
+      const result = await orgDelete(organization)
+      this.cache.clear('organization')
+      this.cache.clear('skinnyOrganization')
+      return result
+    }
+
     api.getList = async (params = {}) => {
       const { orgTrees } = params
       if (orgTrees) {
         params.org_tree = orgTrees.join(',')
         delete params.orgTrees
       }
-      const organizations = await this.axios
-        .get(baseUrl, { params })
-        .then((res) => Promise.all(res.data.map((orgData) => this.organization.create(orgData))))
-        .catch((err) => {
-          throw new Error(err)
-        })
+      // Check cache for this item type and params
+      let organizations = this.cache.get('organization', params)
+      if (!organizations) {
+        organizations = await this.axios
+          .get(baseUrl, { params })
+          .then((res) => {
+            // Cache raw data
+            this.cache.add('organization', params, res.data)
+            return Promise.all(res.data.map((orgData) => this.organization.create(orgData)))
+          })
+          .catch((err) => {
+            throw new Error(err)
+          })
+      } else {
+        // Convert raw data to objects
+        organizations = organizations.map((orgData) => this.organization.create(orgData))
+      }
       return organizations || []
     }
     api.getSkinnyList = async (params = {}) => {
@@ -496,12 +593,22 @@ export default class IFXAPIService {
         params.org_tree = orgTrees.join(',')
         delete params.orgTrees
       }
-      const organizations = await this.axios
-        .get(skinnyListUrl, { params })
-        .then((res) => Promise.all(res.data.map((orgData) => this.organization.create(orgData))))
-        .catch((err) => {
-          throw new Error(err)
-        })
+      let organizations = this.cache.get('skinnyOrganization', params)
+      if (!organizations) {
+        organizations = await this.axios
+          .get(skinnyListUrl, { params })
+          .then((res) => {
+            // Cache raw data
+            this.cache.add('skinnyOrganization', params, res.data)
+            return Promise.all(res.data.map((orgData) => this.organization.create(orgData)))
+          })
+          .catch((err) => {
+            throw new Error(err)
+          })
+      } else {
+        // Convert raw data to objects
+        organizations = organizations.map((orgData) => this.organization.create(orgData))
+      }
       return organizations || []
     }
     // this has been added to the object itelf
@@ -779,11 +886,7 @@ export default class IFXAPIService {
     }
     const decomposeFunc = (newProductData) => createFunc(newProductData, true)
     const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
-    api.objectCodeCategories = () => [
-      'Technical Services',
-      'Laboratory Consumables',
-      'Animal Per Diem Charges',
-    ]
+    api.objectCodeCategories = () => ['Technical Services', 'Laboratory Consumables', 'Animal Per Diem Charges']
     return api
   }
 
@@ -1087,7 +1190,7 @@ export default class IFXAPIService {
       invoice_prefix: invoicePrefix,
     }
     const headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     }
     const url = this.urls.GET_BILLING_CONTACTS
     return this.axios.post(url, data, { headers: headers })
