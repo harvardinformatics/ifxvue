@@ -68,16 +68,6 @@ export default {
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
-              Visa details
-            </v-flex>
-            <v-flex>
-              {{ data.visa_details }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
       </v-layout>
     </v-flex>
   </v-layout>

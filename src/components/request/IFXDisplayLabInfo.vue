@@ -28,7 +28,7 @@ export default {
     },
   },
   mounted: function () {
-    if (this.data?.lab_info?.organization) {
+    if (this.data?.lab_info?.organization?.contacts) {
       const piOrgContact = this.data.lab_info.organization.contacts.find(orgContact => orgContact.role === 'PI')
       if (piOrgContact) {
         this.piContact = piOrgContact.contact
@@ -69,14 +69,14 @@ export default {
                     v-model.trim="data.lab_info.organization"
                     :items="organizations"
                     item-text="name"
-                    item-value="slug"
+                    return-object
                     @change="updateData()"
                   ></v-autocomplete>
                 </v-flex>
               </v-layout>
             </v-flex>
           </v-layout>
-          <v-layout v-if="!piContact" column>
+          <v-layout v-if="Object.keys(piContact).length === 0" column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
@@ -149,9 +149,8 @@ export default {
                 </v-flex>
               </v-layout>
             </v-flex>
-
           </v-layout>
-          <v-layout v-if="!billingContact" column>
+          <v-layout v-if="Object.keys(billingContact).length === 0" column>
             <v-flex>
               <v-layout row>
                 <v-flex xs4>
