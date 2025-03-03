@@ -569,7 +569,13 @@ export default {
           this.clearReservation()
         } catch (err) {
           const msg = `Could not update reservation of ${resUsage.product.name}.`
-          const reasons = err.response?.data?.reservation_usage
+          let reasons = ['Unable to update the reservation']
+          if (err.response?.data?.reservation_usage) {
+            reasons = err.response.data.reservation_usage
+          }
+          if (err.response?.data?.detail) {
+            reasons = [err.response?.data?.detail]
+          }
           this.errorMsg = `${msg} Please fix the following errors:<br/><br/>${reasons.join('<br/>')}`
           this.showErrorMsg = true
           this.$vuetify.goTo(0)
@@ -648,7 +654,7 @@ export default {
       const theResource = this.allResources.find((resource) => resource.id === newItem.product.id)
       this.resource = theResource
       this.comments = newItem.reservation.comment
-      const theUser = this.canReserveForOthers
+      const theUser = this.canReserveForOthers()
         ? this.users.find((user) => user.id === newItem.productUser.id)
         : this.currentUser
       this.user = theUser
