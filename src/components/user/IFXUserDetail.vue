@@ -468,6 +468,7 @@ export default {
               :item.sync="itemCopy"
               :errors="errors"
               :allGroupNames="allGroupNames"
+              :orgSlugs="allOrganizationSlugs"
               :valid.sync="userInfoDialogValid"
             />
             <slot name="additionalUserInfoEdit" :item="itemCopy" :errors="errors"></slot>
