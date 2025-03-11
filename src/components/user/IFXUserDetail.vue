@@ -152,7 +152,7 @@ export default {
   },
   computed: {
     django_admin_url() {
-      return [this.$api.urls.DJANGO_ADMIN_ROOT, 'ifxuser', 'ifxuser', this.item.id, 'change/'].join('/')
+      return `${this.$api.urls.DJANGO_ADMIN_ROOT}ifxuser/ifxuser/${this.item.id}/change/`
     },
     areAnyAccountsPresent() {
       return this.item.accounts?.length || this.item.productAccounts?.length
