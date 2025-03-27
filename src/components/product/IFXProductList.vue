@@ -42,7 +42,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>{{ listTitle }}</template>
       <template #actions>
@@ -50,7 +50,7 @@ export default {
         <IFXButton btnType="add" small @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
+    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
       <template #rates="{ item }">
         {{ displayRateNames(item) }}
       </template>

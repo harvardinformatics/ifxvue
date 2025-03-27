@@ -94,7 +94,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>{{ listTitle }} {{ productCategory ? `for ${productCategory}` : '' }}</template>
       <template #actions>
@@ -116,6 +116,7 @@ export default {
       :itemType="itemType"
       @update:page="pageChange"
       :page="page"
+      :loading="isLoading"
     >
       <template #decimalQuantity="{ item }">
         {{ displayQuantityWithUnits(item) }}
