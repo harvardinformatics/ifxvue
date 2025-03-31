@@ -430,10 +430,6 @@ export default {
     async generateInvoices() {
       this.updating = true
       this.message = ''
-      const allFinal = this.selected.every((record) => record.currentState === 'FINAL')
-      if (!allFinal) {
-        await this.setState(this.selected, 'FINAL')
-      }
       const orgSet = new Set()
       this.selected.forEach((item) => {
         orgSet.add(item.account.organization)
@@ -460,15 +456,6 @@ export default {
           if (this.messageType !== 'error') {
             this.message = `${this.message}<p><a href="${url}">Go to Invoices</a></p>`
           }
-          this.isLoading = true
-          this.facilityBillingRecords()
-            .catch((error) => {
-              const errorMessage = this.getErrorMessage(error)
-              this.showMessage(`Error loading ${this.facility.name} billing records: ${errorMessage}`)
-            })
-            .finally(() => {
-              this.isLoading = false
-            })
         })
         .catch((error) => {
           this.updating = false
