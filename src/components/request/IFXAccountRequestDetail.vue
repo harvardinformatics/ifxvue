@@ -176,7 +176,7 @@ export default {
   },
   computed: {
     django_admin_url: function () {
-      return [this.$api.urls.DJANGO_ADMIN_ROOT, 'ifxrequest', 'request', this.request.id, 'change/'].join('/')
+      return `${this.$api.urls.DJANGO_ADMIN_ROOT}ifxrequest/request/${this.request.id}/change/`
     },
   },
   beforeRouteLeave(to, from, next) {
@@ -291,9 +291,7 @@ export default {
               </v-flex>
               <v-flex xs6 v-if="canBeApproved()">
                 <v-layout row justify-end>
-                  <v-flex grow>
-                    &nbsp;
-                  </v-flex>
+                  <v-flex grow>&nbsp;</v-flex>
                   <v-flex shrink>
                     <v-radio-group :column="false" v-model="approval" @change="updateRequestState()">
                       <v-radio label="Approve" value="approve"></v-radio>
@@ -319,10 +317,11 @@ export default {
                   <v-flex>
                     <span class="title">Request Files</span>
                   </v-flex>
-                  <v-flex v-for="accountRequestFileData in request.requestData.request_files" :key="accountRequestFileData.id">
-                    <IFXAccountRequestFile
-                      :accountRequestFileData="accountRequestFileData"
-                    />
+                  <v-flex
+                    v-for="accountRequestFileData in request.requestData.request_files"
+                    :key="accountRequestFileData.id"
+                  >
+                    <IFXAccountRequestFile :accountRequestFileData="accountRequestFileData" />
                   </v-flex>
                 </v-layout>
               </v-flex>
