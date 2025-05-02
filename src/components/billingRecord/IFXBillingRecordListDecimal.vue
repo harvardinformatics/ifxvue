@@ -427,13 +427,17 @@ export default {
           this.showMessage(message)
         })
     },
-    async generateInvoices() {
+    async generateInvoices(wholeMonth = false) {
       this.updating = true
       this.message = ''
       const orgSet = new Set()
-      this.selected.forEach((item) => {
-        orgSet.add(item.account.organization)
-      })
+      if (!wholeMonth) {
+        this.selected.forEach((item) => {
+          orgSet.add(item.account.organization)
+        })
+      } else {
+        this.selected = []
+      }
       const selectedOrgs = Array.from(orgSet)
       this.$api.invoice
         .generate(this.facility.invoicePrefix, this.month, this.year, selectedOrgs)
@@ -1097,6 +1101,32 @@ export default {
                             </div>
                           </template>
                           <span>{{ generateInvoicesToolTip }}</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col class="pa-2" v-if="allowInvoiceGeneration">
+                    <v-row dense>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                :disabled="
+                                  isLoading ||
+                                  !$api.auth.can('generate-invoices', $api.authUser)
+                                "
+                                v-bind="attrs"
+                                color="blue"
+                                small
+                                fab
+                                @click="generateInvoices(wholeMonth = true)"
+                              >
+                                <v-icon>mdi-calendar-month</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>Deactivate any existing invoices and process the entire month</span>
                         </v-tooltip>
                       </v-col>
                     </v-row>
