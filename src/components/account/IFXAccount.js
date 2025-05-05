@@ -95,6 +95,10 @@ export class Account extends IFXItemBase {
     return this.data.slug
   }
 
+  get ifxacct() {
+    return this.data.ifxacct
+  }
+
   get created() {
     return this.data.created
   }
