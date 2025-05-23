@@ -209,6 +209,13 @@ class Product extends IFXItemBase {
     this.data.object_code_category = objectCodeCategory
   }
 
+  get productOrganization() {
+    return this.data.product_organization
+  }
+  set productOrganization(productOrganization) {
+    this.data.product_organization = productOrganization
+  }
+
   addRate(rate) {
     this.data.rates.push(rate)
   }
