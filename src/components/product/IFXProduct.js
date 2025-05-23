@@ -212,6 +212,7 @@ class Product extends IFXItemBase {
   get productOrganization() {
     return this.data.product_organization
   }
+
   set productOrganization(productOrganization) {
     this.data.product_organization = productOrganization
   }
