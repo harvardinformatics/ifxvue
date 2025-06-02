@@ -21,9 +21,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-dist/*
+# dist/*
 *.code-workspace
-yarn.lock
+# yarn.lock
 
 # files used for stand-alone app
 /src/App.vue
