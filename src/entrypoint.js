@@ -272,6 +272,7 @@ export {
   IFXGenericBillingSummaryList,
 }
 
+
 // Registered globally
 export const ifxcomponents = {
   IFXButton,
