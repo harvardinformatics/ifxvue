@@ -116,7 +116,7 @@ export default {
         </v-row>
         <v-row v-if="item.id">
           <v-col>
-            <IFXItemSelectList title="Users" :items.sync="item.users" :getEmptyItem="$api.organizationUser.create">
+            <IFXItemSelectList title="Users" v-model:items="item.users" :getEmptyItem="$api.organizationUser.create">
               <template v-slot="{ item }">
                 <IFXSelectableUser :allItems="allUsers" :item="item" :errors="errors" />
               </template>
@@ -127,7 +127,7 @@ export default {
           <v-col>
             <IFXItemSelectList
               title="Contacts"
-              :items.sync="item.contacts"
+              v-model:items="item.contacts"
               :getEmptyItem="$api.organizationContact.create"
             >
               <template v-slot="{ item }">

@@ -107,7 +107,7 @@ export default {
                 <v-autocomplete
                   :loading="isLoading"
                   v-model="member"
-                  :search-input.sync="search"
+                  v-model:search-input="search"
                   :items="people"
                   item-text="fullName"
                   label="People"

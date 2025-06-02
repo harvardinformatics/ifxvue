@@ -30,9 +30,9 @@ export default {
     headerClass() {
       return {
         'header-base': true,
-        'header-font-lg': this.$vuetify.breakpoint.mdAndUp,
-        'header-font-sm': this.$vuetify.breakpoint.sm,
-        'header-font-xs': this.$vuetify.breakpoint.xs,
+        'header-font-lg': this.$vuetify.display.mdAndUp,
+        'header-font-sm': this.$vuetify.display.sm,
+        'header-font-xs': this.$vuetify.display.xs,
       }
     },
     /**
@@ -49,14 +49,14 @@ export default {
      */
     actionsContainerClass() {
       return {
-        'actions-ctr-lg': this.$vuetify.breakpoint.mdAndUp,
-        'actions-ctr-sm': this.$vuetify.breakpoint.smAndDown,
+        'actions-ctr-lg': this.$vuetify.display.mdAndUp,
+        'actions-ctr-sm': this.$vuetify.display.smAndDown,
       }
     },
     backArrowClass() {
       return {
-        'back-medium': this.$vuetify.breakpoint.mdAndUp,
-        'back-small': this.$vuetify.breakpoint.smAndDown,
+        'back-medium': this.$vuetify.display.mdAndUp,
+        'back-small': this.$vuetify.display.smAndDown,
       }
     },
     hasID() {

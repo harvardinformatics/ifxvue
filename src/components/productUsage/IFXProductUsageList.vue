@@ -39,7 +39,7 @@ export default {
         { text: 'End Date', value: 'endDate', sortable: false, namedSlot: true },
         { text: '', value: 'rowAction', slot: true, sortable: false, namedSlot: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
   methods: {
@@ -98,12 +98,12 @@ export default {
     <IFXPageHeader>
       <template #title>{{ listTitle }} {{ productCategory ? `for ${productCategory}` : '' }}</template>
       <template #actions>
-        <IFXSearchField :search.sync="search" />
+        <IFXSearchField v-model:search="search" />
         <IFXActionSelect
           :actionKeys="['deleteItems']"
           :apiRef="apiRef"
           @get-set-items="getSetItems"
-          :selectedItems.sync="selected"
+          v-model:selectedItems="selected"
         />
         <IFXButton btnType="add" small @action="navigateToItemCreate" />
       </template>
@@ -111,7 +111,7 @@ export default {
     <IFXItemDataTable
       :items="filteredItems"
       :headers="headers"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :show-select="true"
       :itemType="itemType"
       @update:page="pageChange"
@@ -122,7 +122,7 @@ export default {
         {{ displayQuantityWithUnits(item) }}
       </template>
       <template #organization="{ item }">
-        {{ item.organization | orgNameFromSlug }}
+        {{ $orgNameFromSlug(item.organization) }}
       </template>
       <template #productUser="{ item }">
         <router-link :to="{ name: 'UserDetail', params: { id: item.productUser.id } }">
@@ -135,10 +135,10 @@ export default {
         </router-link>
       </template>
       <template #startDate="{ item }">
-        {{ item.startDate | humanDatetime }}
+        {{ $humanDatetime(item.startDate) }}
       </template>
       <template #endDate="{ item }">
-        {{ item.endDate | humanDatetime }}
+        {{ $humanDatetime(item.endDate) }}
       </template>
       <template #rowAction="{ item }">
         <span class="my-2 d-flex flex-row">

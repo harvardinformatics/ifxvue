@@ -196,8 +196,8 @@ export default {
 <template>
   <v-container v-if="!isLoading">
     <IFXUserInfoDialog
-      :isActive.sync="changeDialogActive"
-      :changeComment.sync="item.changeComment"
+      v-model:isActive="changeDialogActive"
+      v-model:changeComment="item.changeComment"
       @complete-action="completeAction"
     ></IFXUserInfoDialog>
     <IFXPageHeader>
@@ -206,7 +206,7 @@ export default {
         <v-row dense align="center">
           <v-col>
             <span class="text-no-wrap">
-              <IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
+              <IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" v-model:isActive="item.isActive" />
             </span>
           </v-col>
           <v-col v-if="isDjangoStaff()">
@@ -280,7 +280,7 @@ export default {
               <h3>Primary Affiliation</h3>
             </v-col>
             <v-col>
-              {{ item.primaryAffiliation | orgNameFromSlug }}
+              {{ $orgNameFromSlug(item.primaryAffiliation) }}
             </v-col>
           </v-row>
           <v-row dense v-if="areGroupsPresent">
@@ -308,7 +308,7 @@ export default {
               <h3>Created</h3>
             </v-col>
             <v-col>
-              {{ item.dateJoined | humanDatetime }}
+              {{ $humanDatetime(item.dateJoined) }}
             </v-col>
           </v-row>
           <v-row align="start" dense>
@@ -316,7 +316,7 @@ export default {
               <h3>Last Update</h3>
             </v-col>
             <v-col>
-              {{ item.lastUpdate | humanDatetime }}
+              {{ $humanDatetime(item.lastUpdate) }}
             </v-col>
           </v-row>
           <slot name="additionalUserInfoCol1" :item="item"></slot>
@@ -392,7 +392,7 @@ export default {
                   <span class="ml-1">{{ category }}s</span>
                 </summary>
                 <div v-for="file in userCategories[category]" :key="`${category}${file.id}`" class="ml-4">
-                  <a :href="file.file" target="_blank">{{ file.file | fileNameFromUrl }}</a>
+                  <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
                 </div>
               </details>
             </div>
@@ -465,11 +465,11 @@ export default {
           </v-card-title>
           <v-card-text>
             <IFXUserInfoEdit
-              :item.sync="itemCopy"
+              v-model:item="itemCopy"
               :errors="errors"
               :allGroupNames="allGroupNames"
               :orgSlugs="allOrganizationSlugs"
-              :valid.sync="userInfoDialogValid"
+              v-model:valid="userInfoDialogValid"
             />
             <slot name="additionalUserInfoEdit" :item="itemCopy" :errors="errors"></slot>
           </v-card-text>
@@ -514,9 +514,9 @@ export default {
               :allItems="filteredContacts"
               :allRoles="allRoles"
               :filterRoles="true"
-              :item.sync="currentContact"
+              v-model:item="currentContact"
               :errors="errors"
-              :valid.sync="addContactFormIsValid"
+              v-model:valid="addContactFormIsValid"
             />
           </v-card-text>
           <v-card-actions class="d-flex justify-start pb-3">
@@ -553,9 +553,9 @@ export default {
           <v-card-text class="pb-0">
             <IFXSelectAffiliation
               :allItems="filteredOrgSlugs"
-              :item.sync="newAffiliation"
+              v-model:item="newAffiliation"
               :errors="errors"
-              :valid.sync="addAffiliationFormIsValid"
+              v-model:valid="addAffiliationFormIsValid"
             />
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">

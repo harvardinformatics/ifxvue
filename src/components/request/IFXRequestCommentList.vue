@@ -43,7 +43,7 @@ export default {
               <v-flex v-if="requestComment.id" xs10 shrink md3 class="request-author" align-content-end>
                 <span>{{ requestComment.author }}</span>
                 &nbsp;
-                <span style="white-space: nowrap;">{{ requestComment.created | humanDatetime }}</span>
+                <span style="white-space: nowrap;">{{ $humanDatetime(requestComment.created) }}</span>
               </v-flex>
               <v-flex v-if="requestComment.id">
                 <v-tooltip top>

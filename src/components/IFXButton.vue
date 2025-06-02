@@ -113,21 +113,21 @@ export default {
      * @returns {string}
      */
     xSmallComputed() {
-      return this.$vuetify.breakpoint.xs || this.xSmall || (!this.btnTextComputed && !this.small && !this.large)
+      return this.$vuetify.display.xs || this.xSmall || (!this.btnTextComputed && !this.small && !this.large)
     },
     /**
      * Computes if button is small, based on breakpoint or boolean provided by user
      * @returns {string}
      */
     smallComputed() {
-      return this.$vuetify.breakpoint.small || this.small
+      return this.$vuetify.display.smAndDown || this.small
     },
     /**
      * Computes if button is large, based on breakpoint or boolean provided by user
      * @returns {string}
      */
     largeComputed() {
-      return this.$vuetify.breakpoint.large || this.large
+      return this.$vuetify.display.lgAndUp || this.large
     },
     /**
      * Computes string for icon
@@ -194,15 +194,13 @@ export default {
 
 <template>
   <v-btn
-    :fab="!btnTextComputed"
+    :icon="!btnTextComputed"
     :disabled="disabled"
-    :x-small="xSmallComputed"
-    :small="smallComputed"
-    :large="largeComputed"
+    :size="xSmallComputed ? 'x-small' : smallComputed ? 'small' : largeComputed ? 'large' : 'default'"
     :color="btnColorComputed"
     @click.prevent="clickHandler"
     :data-cy="dataCyString"
-    :text="inDialog"
+    :variant="inDialog ? 'text' : 'elevated'"
     :aria-label="btnTextComputed ? btnTextComputed : btnType"
   >
     <v-icon v-if="iconStringComputed" :color="iconColor" :class="{ 'mr-2': btnTextComputed }">

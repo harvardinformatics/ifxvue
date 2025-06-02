@@ -76,7 +76,7 @@ export default {
           <strong>To</strong>
         </v-col>
         <v-col>
-          {{item.tostr | commaSpace}}
+          {{ $commaSpace(item.tostr) }}
         </v-col>
       </v-row>
       <v-row row align-center justify-start dense>
@@ -84,7 +84,7 @@ export default {
           <strong>CC</strong>
         </v-col>
         <v-col>
-          {{item.ccstr | commaSpace}}
+          {{ $commaSpace(item.ccstr) }}
         </v-col>
       </v-row>
       <v-row row align-center justify-start dense>
@@ -92,7 +92,7 @@ export default {
           <strong>BCC</strong>
         </v-col>
         <v-col>
-          {{item.bccstr | commaSpace}}
+          {{ $commaSpace(item.bccstr) }}
         </v-col>
       </v-row>
       <v-row row align-center justify-start dense>
@@ -100,7 +100,7 @@ export default {
           <strong>Date Sent</strong>
         </v-col>
         <v-col>
-          {{item.sent | humanDatetime}}
+          {{ $humanDatetime(item.sent) }}
         </v-col>
       </v-row>
       <v-row column wrap>

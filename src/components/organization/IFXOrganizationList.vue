@@ -28,7 +28,7 @@ export default {
         { text: 'Parent(s)', value: 'parents', sortable: false, slot: true },
         { text: '', value: 'rowActionDetailEdit', sortable: false },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
       <template #actions>
         <v-row nowrap align="center">
           <v-col>
-            <IFXSearchField :search.sync="search" />
+            <IFXSearchField v-model:search="search" />
           </v-col>
           <v-col>
             <IFXMailButton
@@ -84,7 +84,7 @@ export default {
     <IFXItemDataTable
       :items="filteredItems"
       :headers="headers"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :itemType="itemType"
       :loading="isLoading"
     />

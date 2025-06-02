@@ -81,7 +81,7 @@ export default {
         :value="group"
         hide-details
         multiple
-        :indeterminate.sync="rowSelectionToggleIndeterminateGroup"
+        v-model:indeterminate="rowSelectionToggleIndeterminateGroup"
         class="shrink ml-3 mt-0"
         @change="syncData()"
       ></v-checkbox>
@@ -92,7 +92,7 @@ export default {
         <span class="group-header">
           {{ $api.organization.parseSlug(group).name }}
         </span>
-        <span class="ml-3 font-weight-medium">Total charges: {{ summaryCharges | centsToDollars }}</span>
+        <span class="ml-3 font-weight-medium">Total charges: {{ $centsToDollars(summaryCharges) }}</span>
         <v-btn small text @click="toggleSummaryDetail" class="ml-2">{{ summaryButtonText }} Acct Summary</v-btn>
       </div>
     </v-row>
@@ -100,7 +100,7 @@ export default {
       <v-col class="py-1 ml-9">
         <v-row v-for="entry in summaryDetails" :key="`${group}-${entry[0]}`" class="text-body-2">
           <v-col cols="5" class="ml-3">{{ entry[0] }}</v-col>
-          <v-col class="text-xs-left ml-3 font-weight-medium">{{ entry[1] | centsToDollars }}</v-col>
+          <v-col class="text-xs-left ml-3 font-weight-medium">{{ $centsToDollars(entry[1]) }}</v-col>
         </v-row>
       </v-col>
     </v-row>

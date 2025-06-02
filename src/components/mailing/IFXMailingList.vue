@@ -23,7 +23,7 @@ export default {
         { text: 'Status', hide: 'mdAndDown', value: 'status' },
         { text: '', value: 'action', namedSlot: true, sortable: false },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     }
   },
   methods: {
@@ -58,14 +58,14 @@ export default {
     <IFXPageHeader>
       <template #title>{{listTitle}}</template>
       <template #actions>
-        <IFXSearchField :search.sync='search'/>
+        <IFXSearchField v-model:search='search'/>
         <IFXButton small btnType="add" @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
       :items='filteredItems'
       :headers='headers'
-      :selected.sync='selected'
+      v-model:selected='selected'
       :itemType='itemType'
       :loading='isLoading'
     >
@@ -79,10 +79,10 @@ export default {
             v-bind="attrs"
             v-on="on"
           >
-            {{item.tostr | commaSpace}}
+            {{ $commaSpace(item.tostr) }}
           </span>
         </template>
-        <span>{{item.tostr | commaSpace}}</span>
+        <span>{{ $commaSpace(item.tostr) }}</span>
       </v-tooltip>
     </template>
     <template #message="{ item }">

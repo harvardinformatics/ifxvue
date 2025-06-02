@@ -4,7 +4,7 @@
     :ref='ref'
     v-model="selected"
     :items="contactables"
-    :search-input.sync="search"
+    v-model:search-input="search"
     @change="handleChange"
     :label="label | capitalizeFirstLetter"
     chips

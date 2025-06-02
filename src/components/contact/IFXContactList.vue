@@ -41,10 +41,10 @@ export default {
         { text: 'Detail', value: 'detail', slot: true, sortable: true },
         { text: 'Created', value: 'created', namedSlot: true, sortable: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
     isContactContentLarge() {
-      return !!this.$vuetify.breakpoint.mdAndUp
+      return !!this.$vuetify.display.mdAndUp
     },
   },
 }
@@ -61,7 +61,7 @@ export default {
       <template #actions>
         <v-row nowrap align="center">
           <v-col>
-            <IFXSearchField :search.sync="search" />
+            <IFXSearchField v-model:search="search" />
           </v-col>
           <v-col>
             <IFXMailButton
@@ -83,14 +83,14 @@ export default {
           class="full-width"
           :items="filteredItems"
           :headers="headers"
-          :selected.sync="selected"
+          v-model:selected="selected"
           :itemType="itemType"
           itemKey="key"
           @click-row="setFocusedContact"
           :loading="isLoading"
         >
           <template v-slot:created="{ item }">
-            <span style="white-space: nowrap">{{ item.created | humanDatetime }}</span>
+            <span style="white-space: nowrap">{{ $humanDatetime(item.created) }}</span>
           </template>
         </IFXItemDataTable>
       </div>

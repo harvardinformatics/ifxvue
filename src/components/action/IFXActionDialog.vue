@@ -83,7 +83,7 @@ export default {
       }
     },
     maxWidth() {
-      switch (this.$vuetify.breakpoint.name) {
+      switch (this.$vuetify.display.name) {
         case 'xs': return 220
         case 'sm': return 400
         case 'md': return 500

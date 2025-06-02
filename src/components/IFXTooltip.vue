@@ -1,11 +1,11 @@
 <template>
   <v-tooltip v-bind="getAttrs">
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ props }">
       <v-btn
         v-bind:aria-label="tooltip"
-        :fab="fab"
+        :size="fab ? 'default' : 'default'"
         :color="color"
-        v-on="on"
+        v-bind="props"
         v-bind="getAttrs"
         @click="handleClick"
         :disabled="disabled"

@@ -1,8 +1,7 @@
-import Vue from 'vue'
+import { createApp, reactive } from 'vue'
 /* eslint-disable import/no-extraneous-dependencies */
 import IFXFilters from '@/filters/IFXFilters'
 import IFXMixin from '@/mixins/IFXMixin'
-import VCurrencyField from 'v-currency-field'
 
 import MockAdapter from 'axios-mock-adapter'
 import APIService from './api/IFXAPI'
@@ -35,36 +34,24 @@ const APIStore = {
 const api = new APIService(APIStore)
 
 const mock = new MockAdapter(api.axios)
-Vue.prototype.$mock = mock
 
-Vue.prototype.$api = Vue.observable(api)
+const app = createApp(App)
+
+// Make API and mock available globally
+app.config.globalProperties.$api = reactive(api)
+app.config.globalProperties.$mock = mock
+
 api.auth.initAuthUser()
 
-// Add filters
+// Add filters as global properties
 Object.keys(IFXFilters).forEach((name) => {
-  Vue.filter(name, IFXFilters[name])
+  app.config.globalProperties[`$${name}`] = IFXFilters[name]
 })
 
 // Add top-level mixin
-Vue.mixin(IFXMixin)
+app.mixin(IFXMixin)
 
-// Add currencyField package
-Vue.use(VCurrencyField, {
-  locale: 'usd',
-  decimalLength: 2,
-  autoDecimalMode: true,
-  min: null,
-  max: null,
-  defaultValue: null,
-  valueAsInteger: true,
-  allowNegative: true,
-  prefix: '$',
-})
+// Add vuetify plugin
+app.use(vuetify)
 
-/* eslint-disable no-new */
-new Vue({
-  vuetify,
-  el: '#app',
-  components: { App },
-  render: (h) => h(App),
-})
+app.mount('#app')

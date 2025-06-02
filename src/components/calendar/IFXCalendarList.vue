@@ -254,7 +254,7 @@ export default {
     },
     shortenLabName(labSlug) {
       let eventString = ''
-      const orgName = this.$options.filters.orgNameFromSlug(labSlug)
+      const orgName = this.$orgNameFromSlug(labSlug)
       const orgNamePieces = orgName.split(' ')
       if (orgNamePieces.length > 2 && orgNamePieces[orgNamePieces.length - 1] === 'Lab') {
         eventString += orgNamePieces.slice(-2).join(' ')
@@ -1139,10 +1139,10 @@ export default {
                     data-cy="organizaton"
                   >
                     <template v-slot:item="{ item }">
-                      <span>{{ item | orgNameFromSlug }}</span>
+                      <span>{{ $orgNameFromSlug(item) }}</span>
                     </template>
                     <template v-slot:selection="{ item }">
-                      <span>{{ item | orgNameFromSlug }}</span>
+                      <span>{{ $orgNameFromSlug(item) }}</span>
                     </template>
                   </v-autocomplete>
                   <v-autocomplete
@@ -1557,7 +1557,7 @@ export default {
                   <v-col cols="4"><div>Organization</div></v-col>
                   <v-col>
                     <span class="font-weight-medium" data-cy="popup-organization">
-                      {{ selectedEvent.organization | orgNameFromSlug }}
+                      {{ $orgNameFromSlug(selectedEvent.organization) }}
                     </span>
                   </v-col>
                 </v-row>

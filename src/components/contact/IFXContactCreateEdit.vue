@@ -37,10 +37,10 @@ export default {
       this.allUsers = await this.$api.user.getList().catch((err) => this.showMessage(err))
     },
     updateContactUsers(users) {
-      this.$set(this.item.users, ...users)
+      this.item.users = users
     },
     updateContactOrganizations(organizations) {
-      this.$set(this.item.organizations, ...organizations)
+      this.item.organizations = organizations
     },
   },
   computed: {

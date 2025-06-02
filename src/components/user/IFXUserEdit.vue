@@ -41,7 +41,7 @@ export default {
       try {
         this.item = await this.getItem()
         const filteredContacts = this.item.contacts.filter((c) => c.contact.detail !== this.item.email)
-        this.$set(this.item, 'contacts', [])
+        this.item.contacts = []
         filteredContacts.forEach((fc) => this.item.contacts.push(fc))
       } catch (error) {
         this.showMessage(error)
@@ -162,14 +162,14 @@ export default {
     <!-- TODO: this dialog is not appearing properly -->
     <v-container fluid>
       <IFXUserInfoDialog
-        :isActive.sync="isDialogActive"
-        :changeComment.sync="item.changeComment"
+        v-model:isActive="isDialogActive"
+        v-model:changeComment="item.changeComment"
         @complete-action="completeAction"
       ></IFXUserInfoDialog>
       <IFXPageHeader>
         <template #title>{{ item.fullName }}</template>
         <template #actions>
-          <IFXLoginIcon v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
+          <IFXLoginIcon v-if="item.isActive !== undefined" v-model:isActive="item.isActive" />
         </template>
       </IFXPageHeader>
       <v-container fluid v-if="hasIFXID">
@@ -259,7 +259,7 @@ export default {
             <v-col>
               <IFXItemSelectList
                 title="Contacts"
-                :items.sync="item.contacts"
+                v-model:items="item.contacts"
                 :getEmptyItem="$api.organizationContact.create"
               >
                 <template v-slot="{ item }">
@@ -272,7 +272,7 @@ export default {
             <v-col>
               <IFXItemSelectList
                 title="Affiliations"
-                :items.sync="item.affiliations"
+                v-model:items="item.affiliations"
                 :getEmptyItem="$api.affiliation.create"
               >
                 <template v-slot="{ item }">

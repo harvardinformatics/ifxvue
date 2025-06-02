@@ -38,8 +38,8 @@ export default {
     <IFXPageHeader>
       <template #title>
         {{ item.product }}
-        <div class="text-body-2">Created {{ item.created | humanDatetime }}</div>
-        <div class="text-body-2">Updated {{ item.updated | humanDatetime }}</div>
+        <div class="text-body-2">Created {{ $humanDatetime(item.created) }}</div>
+        <div class="text-body-2">Updated {{ $humanDatetime(item.updated) }}</div>
       </template>
       <template #subtitle></template>
       <template #cypress>{{ item.id }}</template>
@@ -74,14 +74,14 @@ export default {
         <v-col sm="2">
           <h3>Start Date/Time</h3>
         </v-col>
-        <v-col>{{ item.startDate | humanDatetime }}</v-col>
+        <v-col>{{ $humanDatetime(item.startDate) }}</v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
           <h3>End Date/Time</h3>
         </v-col>
         <v-col>
-          <span v-if="item.endDate">{{ item.endDate | humanDatetime }}</span>
+          <span v-if="item.endDate">{{ $humanDatetime(item.endDate) }}</span>
           <span v-else class="grey--text text--darken-1">None</span>
         </v-col>
       </v-row>

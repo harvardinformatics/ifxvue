@@ -105,7 +105,7 @@ export default {
   },
   computed: {
     headers() {
-      return this.theHeaders.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return this.theHeaders.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
     refinedItems() {
       if (this.onlyShowSuspiciousRows) {
@@ -141,7 +141,7 @@ export default {
       </template>
       <template #actions>
         <span class="d-flex flex-row flex-nowrap">
-          <IFXSearchField :search.sync="search" />
+          <IFXSearchField v-model:search="search" />
           <v-switch
             class="ml-3"
             v-model="onlyShowSuspiciousRows"
@@ -220,7 +220,7 @@ export default {
     <IFXItemDataTable
       :items="refinedItems"
       :headers="headers"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :showSelect="false"
       itemType="labBillingSummary"
       :loading="fetchingData"
@@ -229,7 +229,7 @@ export default {
       <template v-for="header in headers" #[header.value]="{ item }">
         <span :key="header.text">
           <span v-if="item[header.value] !== undefined">
-            {{ item[header.value] | dollars }}
+            {{ $dollars(item[header.value]) }}
           </span>
           <span v-else class="grey--text text--darken-1">No Charges</span>
         </span>

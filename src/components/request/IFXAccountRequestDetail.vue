@@ -160,7 +160,7 @@ export default {
             .getValidProcessorStates(me.request.processor)
             .then((res) => {
               forEach(res.data, (state) => {
-                const display = me.$options.filters.stateDisplay(state)
+                const display = me.$stateDisplay(state)
                 me.valid_states.push({ display: display, value: state })
               })
             })
@@ -222,7 +222,7 @@ export default {
                 </span>
                 <span v-else>
                   <v-icon color="grey">cached</v-icon>
-                  &nbsp;{{ request.currentState | stateDisplay }}
+                  &nbsp;{{ $stateDisplay(request.currentState) }}
                 </span>
               </v-flex>
               <v-flex shrink>

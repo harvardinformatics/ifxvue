@@ -78,7 +78,7 @@ export default {
   <IFXActionDialog
     :selectedAction='action'
     :selectedItems='[item]'
-    :isActive.sync='isDialogActive'
+    v-model:isActive='isDialogActive'
     @cancel-action='cancelAction'
     @complete-action='completeAction'
   ></IFXActionDialog>

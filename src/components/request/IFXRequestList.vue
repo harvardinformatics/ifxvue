@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     computedHeaders() {
-      return this.headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return this.headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
   methods: {
@@ -112,7 +112,7 @@ export default {
             v-model="selected"
             :search="search"
             :headers="computedHeaders"
-            :items-per-page.sync="rowsPerPage"
+            v-model:items-per-page="rowsPerPage"
             :items="requests"
             :loading="loading"
             item-key="id"
@@ -135,16 +135,16 @@ export default {
               </router-link>
             </template>
             <template v-slot:[`item.requestType`]="{ item }">
-              {{ item.requestType | stateDisplay }}
+              {{ $stateDisplay(item.requestType) }}
             </template>
             <template v-slot:[`item.currentState`]="{ item }">
-              {{ item.currentState | stateDisplay }}
+              {{ $stateDisplay(item.currentState) }}
             </template>
             <template v-slot:[`item.created`]="{ item }">
-              {{ item.created | humanDatetime }}
+              {{ $humanDatetime(item.created) }}
             </template>
             <template v-slot:[`item.updated`]="{ item }">
-              {{ item.updated | humanDatetime }}
+              {{ $humanDatetime(item.updated) }}
             </template>
             <template
               v-for="header in headers.filter((n) => !lockedFieldTemplates.includes(n.value))"

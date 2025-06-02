@@ -25,7 +25,7 @@ export default {
         { text: 'Created', value: 'created', sortable: true, hide: 'mdAndDown', namedSlot: true },
         { text: 'Updated', value: 'updated', hide: 'mdAndDown', sortable: true, namedSlot: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
 }
@@ -36,31 +36,31 @@ export default {
     <IFXPageHeader>
       <template #title>Expense codes / POs</template>
       <template #actions>
-        <IFXSearchField :search.sync="search" />
+        <IFXSearchField v-model:search="search" />
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
+    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" v-model:selected="selected" :itemType="itemType">
       <template v-slot:active="{ item }">
         <v-icon v-if="item.active" color="green">check</v-icon>
         <v-icon v-else color="red">close</v-icon>
       </template>
       <template v-slot:organization="{ item }">
-        {{ item.organization | orgNameFromSlug}}
+        {{ $orgNameFromSlug(item.organization) }}
       </template>
       <template v-slot:code="{ item }">
         <span style="white-space: nowrap">{{ item.code }}</span>
       </template>
       <template v-slot:expirationDate="{ item }">
-        <span style="white-space: nowrap">{{ item.expirationDate | columnDate }}</span>
+        <span style="white-space: nowrap">{{ $columnDate(item.expirationDate) }}</span>
       </template>
       <template v-slot:validFrom="{ item }">
-        <span style="white-space: nowrap">{{ item.validFrom | columnDate }}</span>
+        <span style="white-space: nowrap">{{ $columnDate(item.validFrom) }}</span>
       </template>
       <template v-slot:created="{ item }">
-        {{ item.created | humanDatetime }}
+        {{ $humanDatetime(item.created) }}
       </template>
       <template v-slot:updated="{ item }">
-        {{ item.updated | humanDatetime }}
+        {{ $humanDatetime(item.updated) }}
       </template>
     </IFXItemDataTable>
   </v-container>

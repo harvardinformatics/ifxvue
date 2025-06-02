@@ -102,7 +102,7 @@ export default {
         { text: `${this.$api.vars.appNameFormatted} Login`, value: 'isLoginActive', sortable: true },
       ]
       const headers = this.headers || defaultHeaders
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
   watch: {
@@ -120,7 +120,7 @@ export default {
       <template #actions>
         <v-row nowrap align="center">
           <v-col>
-            <IFXSearchField :search.sync="search" />
+            <IFXSearchField v-model:search="search" />
           </v-col>
           <v-col>
             <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
@@ -175,7 +175,7 @@ export default {
         <IFXItemDataTable
           :items="filteredItems"
           :headers="computedHeaders"
-          :selected.sync="selected"
+          v-model:selected="selected"
           :itemType="itemType"
           :loading="isLoading"
         >

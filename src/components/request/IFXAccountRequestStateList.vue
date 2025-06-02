@@ -76,10 +76,10 @@ export default {
             <span class="no-data">No users returned</span>
           </template>
           <template v-slot:[`item.name`]="{ item }">
-            {{ item.name | stateDisplay }}
+            {{ $stateDisplay(item.name) }}
           </template>
           <template v-slot:[`item.created`]="{ item }">
-            {{ item.created | humanDatetime }}
+            {{ $humanDatetime(item.created) }}
           </template>
           <template v-slot:[`item.user`]="{ item }">
             {{ item.user.full_name == default_approver ? '' : item.user.full_name }}

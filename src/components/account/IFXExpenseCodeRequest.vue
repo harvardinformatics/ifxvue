@@ -85,7 +85,7 @@ export default {
         })
     },
     maxWidth() {
-      switch (this.$vuetify.breakpoint.name) {
+      switch (this.$vuetify.display.name) {
         case 'xs':
           return 220
         case 'sm':
@@ -133,7 +133,7 @@ export default {
           :items="items"
           item-text="name"
           item-value="detail"
-          :search-input.sync="search"
+          v-model:search-input="search"
           @change="clearSearch"
           :label="label | capitalizeFirstLetter"
           chips

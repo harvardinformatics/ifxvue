@@ -36,7 +36,7 @@ export default {
       dense
     >
       <template v-slot:item.decimalCharge="{ item }">
-        {{ item.decimalCharge | dollars }}
+        {{ $dollars(item.decimalCharge) }}
       </template>
       <template v-slot:item.rate="{ item }">
         {{ item.rate }}

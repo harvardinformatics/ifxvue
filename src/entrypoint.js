@@ -127,7 +127,6 @@ import IFXReportRunList from '@/components/report/IFXReportRunList'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
-import VCurrencyField from 'v-currency-field'
 import createPersistedState from 'vuex-persistedstate'
 import IFXTextEditor from '@/components/IFXTextEditor'
 import IFXSearchField from '@/components/IFXSearchField'
@@ -289,15 +288,15 @@ export const ifxmodules = {
 }
 
 /**
- * Dynamically adds components to Vue instance calling this function,
+ * Dynamically adds components to Vue app instance calling this function,
  * registers Vuex modules in its store, and makes auth module persistent.
- * @param {object} Vue the vue instance of the host application
+ * @param {object} app the Vue 3 app instance of the host application
  * @param {object} options the options for installation
  */
-export default function install(Vue, options = {}) {
+export default function install(app, options = {}) {
   // Loop through all components to be registered globally and registers them
   Object.keys(ifxcomponents).forEach((name) => {
-    Vue.component(name, ifxcomponents[name])
+    app.component(name, ifxcomponents[name])
   })
 
   // Making Vuex mailing module persistent
@@ -318,24 +317,12 @@ export default function install(Vue, options = {}) {
     options.vuexStore.registerModule(name, ifxmodules[name], { preserveState })
   })
 
-  // Add filters
+  // Add filters as global properties
   Object.keys(IFXFilters).forEach((name) => {
-    Vue.filter(name, IFXFilters[name])
+    app.config.globalProperties[`$${name}`] = IFXFilters[name]
   })
 
   // Add top-level mixin
-  Vue.mixin(IFXMixin)
+  app.mixin(IFXMixin)
 
-  // Add currencyField package
-  Vue.use(VCurrencyField, {
-    locale: 'usd',
-    decimalLength: 2,
-    autoDecimalMode: true,
-    min: null,
-    max: null,
-    defaultValue: null,
-    valueAsInteger: false,
-    allowNegative: false,
-    prefix: '$',
-  })
 }

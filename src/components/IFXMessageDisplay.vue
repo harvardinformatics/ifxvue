@@ -56,16 +56,13 @@ export default {
 
 <template>
   <v-snackbar
-    :value="isMessageActive"
+    :model-value="isMessageActive"
     :vertical="vertical"
-    :top="top"
-    :bottom="bottom"
-    :left="left"
-    :right="right"
+    :location="top ? 'top' : bottom ? 'bottom' : left ? 'left' : right ? 'right' : 'top'"
     :color="color"
     :multi-line="multiline"
     :timeout="messageTimeout"
-    @input="deactivate"
+    @update:model-value="deactivate"
     data-cy='ifx-message'
   >
     {{message}}

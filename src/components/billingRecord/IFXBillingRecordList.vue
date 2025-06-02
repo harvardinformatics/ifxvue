@@ -22,11 +22,6 @@ export default {
     IFXBillingRecordHeader,
   },
   mixins: [IFXBillingRecordMixin],
-  filters: {
-    transactionDisplay(txn) {
-      return `${txn.description}`
-    },
-  },
   props: {
     facility: {
       type: Object,
@@ -189,7 +184,7 @@ export default {
   },
   computed: {
     headers() {
-      return this.allHeaders.filter((h) => !h.hide).filter((h) => !this.$vuetify.breakpoint[h.hide])
+      return this.allHeaders.filter((h) => !h.hide).filter((h) => !this.$vuetify.display[h.hide])
     },
     month: function () {
       return Number(this.dateParts()[1])
@@ -254,7 +249,7 @@ export default {
       if (br.id) {
         // Go get it
         br = await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
-        this.$set(this.items, index, br)
+        this.items[index] = br
         return br
       }
       console.log(`Billing record with id not found at item index ${index}`)
@@ -469,7 +464,7 @@ export default {
           this.selected.push(record)
         }
       })
-      this.$set(this.rowSelectionToggleIndeterminate, group, false)
+      this.rowSelectionToggleIndeterminate[group] = false
     },
     summaryCharges(group) {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
@@ -504,7 +499,7 @@ export default {
       let checked = this.selected.filter((item) => item.account.organization === group).length
       checked += e.value ? 1 : -1
       const state = checked !== 0 && checked < records.length
-      this.$set(this.rowSelectionToggleIndeterminate, group, state)
+      this.rowSelectionToggleIndeterminate[group] = state
       // Now set the checkbox model to the correct state
       if (checked) {
         if (checked === records.length) {
@@ -542,10 +537,13 @@ export default {
       this.$nextTick(() => {
         const table = this.$refs.table
         if (table) {
-          const keys = Object.keys(table.$vnode.componentInstance.openCache)
-          keys.forEach((key) => {
-            table.$vnode.componentInstance.openCache[key] = false
-          })
+          // In Vue 3/Vuetify 3, use the component instance directly
+          if (table.openCache) {
+            const keys = Object.keys(table.openCache)
+            keys.forEach((key) => {
+              table.openCache[key] = false
+            })
+          }
         }
       })
     },
@@ -782,7 +780,7 @@ export default {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
       const checked = this.selected.filter((item) => item.account.organization === group).length
       const state = checked !== 0 && checked < records.length
-      this.$set(this.rowSelectionToggleIndeterminate, group, state)
+      this.rowSelectionToggleIndeterminate[group] = state
       // Now set the checkbox model to the correct state
       if (checked) {
         if (checked === records.length) {
@@ -799,6 +797,9 @@ export default {
           this.rowSelectionToggle.splice(index, 1)
         }
       }
+    },
+    transactionDisplay(txn) {
+      return `${txn.description}`
     },
   },
   watch: {
@@ -825,7 +826,7 @@ export default {
           <v-col cols="3">
             <v-row dense>
               <v-col>
-                <IFXSearchField :search.sync="search" />
+                <IFXSearchField v-model:search="search" />
               </v-col>
             </v-row>
           </v-col>
@@ -1132,8 +1133,8 @@ export default {
                 :isOpen="isOpen"
                 :showCheckboxes="showCheckboxes"
                 :toggle="toggle"
-                :rowSelectionToggle.sync="rowSelectionToggle"
-                :rowSelectionToggleIndeterminateGroup.sync="rowSelectionToggleIndeterminate[group]"
+                v-model:rowSelectionToggle="rowSelectionToggle"
+                v-model:rowSelectionToggleIndeterminateGroup="rowSelectionToggleIndeterminate[group]"
                 :summaryCharges="summaryCharges(group)"
                 :toggleGroup="toggleGroup"
                 :getSummaryDetails="getSummaryDetails"
@@ -1150,7 +1151,7 @@ export default {
               </span>
             </template>
             <template v-slot:item.currentState="{ item }">
-              <span class="state-display">{{ item.currentState | stateDisplay }}</span>
+              <span class="state-display">{{ $stateDisplay(item.currentState) }}</span>
             </template>
             <template v-slot:item.account.slug="{ item }">
               <span class="text-no-wrap">{{ item.account.code }}</span>
@@ -1159,26 +1160,26 @@ export default {
             <template v-slot:item.transactions="{ item }">
               <div style="min-width: 150px">
                 <div class="my-1" v-for="txn in item.transactions" :key="txn.id">
-                  {{ txn | transactionDisplay }}
+                  {{ transactionDisplay(txn) }}
                 </div>
               </div>
             </template>
             <template v-slot:item.charge="{ item }">
               <span v-if="$api.facility.isDecimalFacility(facility.name)">
-                {{ item.decimalCharge | dollars }}
+                {{ $dollars(item.decimalCharge) }}
               </span>
               <span v-else>
-                {{ item.charge | centsToDollars }}
+                {{ $centsToDollars(item.charge) }}
               </span>
             </template>
             <template v-slot:item.startDate="{ item }">
               <span class="text-no-wrap">
-                {{ item.startDate | humanDatetime }}
+                {{ $humanDatetime(item.startDate) }}
               </span>
             </template>
             <template v-slot:item.endDate="{ item }">
               <span class="text-no-wrap">
-                {{ item.endDate | humanDatetime }}
+                {{ $humanDatetime(item.endDate) }}
               </span>
             </template>
             <template v-slot:item.productUsage="{ item }">
@@ -1214,7 +1215,7 @@ export default {
             <template v-slot:footer.prepend v-if="showTotals">
               <span class="text-body-1">
                 {{ facility.name }} total charges for {{ date }} are
-                <span class="font-weight-medium">{{ totalCharges() | centsToDollars }}</span>
+                <span class="font-weight-medium">{{ $centsToDollars(totalCharges()) }}</span>
                 for
                 <span class="font-weight-medium">{{ totalHours() }} {{ totalUnits }}</span>
               </span>
@@ -1233,7 +1234,7 @@ export default {
                 <v-form v-model="isValidTxn">
                   <v-row>
                     <v-col>
-                      <v-currency-field
+                      <v-text-field
                         required
                         v-model="editedItem.charge"
                         label="Charge"
@@ -1241,7 +1242,7 @@ export default {
                         :rules="formRules.currency"
                         prefix="$"
                         allow-negative
-                      ></v-currency-field>
+                      ></v-text-field>
                     </v-col>
                   </v-row>
                   <v-row>

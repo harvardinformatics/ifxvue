@@ -157,7 +157,7 @@ export default {
         { text: 'Full Name', value: 'fullName', sortable: true, namedSlot: true, click: true },
         { text: 'Status', value: 'status', sortable: false, namedSlot: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
     contactRolesGroups() {
       const groups = []
@@ -267,7 +267,7 @@ export default {
               :showSelect="true"
               itemType="OrganizationUser"
               :hideDefaultFooter="filteredUsers.length < 20"
-              :selected.sync="selected"
+              v-model:selected="selected"
             >
               <template v-slot:fullName="{ item }">
                 <router-link :to="{ name: 'UserDetail', params: { id: item.user.id } }">
@@ -377,9 +377,9 @@ export default {
             :allItems="allContacts"
             :allRoles="allRoles"
             :filterRoles="false"
-            :item.sync="currentContact"
+            v-model:item="currentContact"
             :errors="errors"
-            :valid.sync="addContactFormIsValid"
+            v-model:valid="addContactFormIsValid"
           />
         </v-card-text>
         <v-card-actions class="d-flex justify-start pb-3">
@@ -395,7 +395,7 @@ export default {
     <IFXAddUsers
       v-if="showAddUserModal"
       v-model="item"
-      :showModal.sync="showAddUserModal"
+      v-model:showModal="showAddUserModal"
       :itemType="user"
       :allowSetPrimaryAffiliation="false"
       @close="closeMemberDialog()"

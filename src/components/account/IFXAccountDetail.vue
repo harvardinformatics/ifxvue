@@ -65,7 +65,7 @@ export default {
           <h3>Valid From</h3>
         </v-col>
         <v-col>
-          {{ item.validFrom | columnDate }}
+          {{ $columnDate(item.validFrom) }}
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
@@ -74,7 +74,7 @@ export default {
         </v-col>
         <v-col>
           <span v-if="item.expirationDate">
-            {{ item.expirationDate | columnDate }}
+            {{ $columnDate(item.expirationDate) }}
           </span>
           <span v-else>None</span>
         </v-col>

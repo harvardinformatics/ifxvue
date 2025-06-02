@@ -67,10 +67,10 @@ export default {
         <v-btn x-small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Cancel</v-btn>
         <v-btn x-small color="secondary" @click="updateAffiliation(itemLocal)">Accept</v-btn>
       </span>
-      <span class="ml-2">of {{ affiliation.organization | orgNameFromSlug }}</span>
+      <span class="ml-2">of {{ $orgNameFromSlug(affiliation.organization) }}</span>
     </v-col>
     <v-col md="8" v-else :class="{ 'text-decoration-line-through': !itemLocal.active }">
-      <span>{{ affiliation.role | affiliationRoleDisplay }} of {{ affiliation.organization | orgNameFromSlug }}</span>
+      <span>{{ $affiliationRoleDisplay(affiliation.role) }} of {{ $orgNameFromSlug(affiliation.organization) }}</span>
     </v-col>
     <v-col v-if="$api.auth.can('edit-affiliations')" md="4">
       <v-tooltip v-if="itemLocal.active" top>

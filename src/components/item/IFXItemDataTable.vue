@@ -102,7 +102,7 @@ export default {
   computed: {
     // Checks if user has specified a click event for the row
     hasRowClickEvent() {
-      return !!this.$listeners['click-row']
+      return !!this.$attrs['onClickRow']
     },
     // If the row has a click event, make the cursor into a pointer on hover
     rowClass() {
@@ -151,30 +151,27 @@ export default {
     v-model="selectedLocal"
     :items="items"
     :sort-by="sortBy"
-    :sort-desc="sortDesc"
     :multi-sort="multiSort"
-    :options.sync="options"
-    :footer-props="footerProps"
+    v-model:options="options"
     :class="rowClass"
     @click:row="clickRow"
     :show-select="showSelect"
-    :item-key="itemKey"
-    :hide-default-footer="hideDefaultFooter"
+    :item-value="itemKey"
     :loading="loading"
     @update:page="pageChange"
     :page="currentPage"
   >
     <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
     <template #header.data-table-select="{ props, on }">
-      <v-simple-checkbox
+      <v-checkbox-btn
         role="checkbox"
         :aria-checked="checkboxState(props.value, props.indeterminate)"
         :aria-label="`${props.value ? 'Deselect' : 'Select'} all rows`"
-        :value="props.value"
+        :model-value="props.value"
         :indeterminate="props.indeterminate"
         v-on="on"
         :ripple="false"
-      ></v-simple-checkbox>
+      ></v-checkbox-btn>
     </template>
 
     <template #header.rowActionEdit="{ header }">
@@ -218,7 +215,7 @@ export default {
 
 <style scoped>
 /* Deep selector for Vue/Vuetify to make row update on hover */
-.row-pointer >>> tbody tr :hover {
+.row-pointer :deep(tbody tr:hover) {
   cursor: pointer;
 }
 </style>

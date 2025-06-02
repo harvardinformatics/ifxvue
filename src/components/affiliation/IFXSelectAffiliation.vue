@@ -52,7 +52,7 @@ export default {
             clearable
             clear-icon="mdi-close-circle"
             hide-selected
-            :search-input.sync="search"
+            v-model:search-input="search"
             @change="search = ''"
             data-cy="select-organization"
             required
@@ -60,10 +60,10 @@ export default {
             :error-messages="errors['organization']"
           >
             <template #item="{ item }">
-              {{ item | orgNameFromSlug }}
+              {{ $orgNameFromSlug(item) }}
             </template>
             <template #selection="{ item }">
-              {{ item | orgNameFromSlug }}
+              {{ $orgNameFromSlug(item) }}
             </template>
           </v-autocomplete>
         </v-col>

@@ -83,7 +83,7 @@ export default {
         <span class="group-header">
           {{ $api.organization.parseSlug(group).name }}
         </span>
-        <span class="ml-3 font-weight-medium">Total charges: {{ summaryCharges | dollars }}</span>
+        <span class="ml-3 font-weight-medium">Total charges: {{ $dollars(summaryCharges) }}</span>
       </div>
     </v-row>
   </td>

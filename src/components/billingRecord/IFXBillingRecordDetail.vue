@@ -77,7 +77,7 @@ export default {
         { text: 'User', value: 'author.full_name', sortable: true },
         { text: 'Description', value: 'description', sortable: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
     hasMultipleTransactions() {
       return this.item.billingRecordStates.length > 1
@@ -226,7 +226,7 @@ export default {
           <h3>Charge</h3>
         </v-col>
         <v-col>
-          {{ item.decimalCharge | dollars }}
+          {{ $dollars(item.decimalCharge) }}
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
@@ -262,7 +262,7 @@ export default {
           <h3>Start date</h3>
         </v-col>
         <v-col>
-          {{ item.startDate | humanDatetime }}
+          {{ $humanDatetime(item.startDate) }}
         </v-col>
       </v-row>
       <v-row v-if="item.endDate" justify="start" align="center" dense>
@@ -270,7 +270,7 @@ export default {
           <h3>End date</h3>
         </v-col>
         <v-col>
-          {{ item.endDate | humanDatetime }}
+          {{ $humanDatetime(item.endDate) }}
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
@@ -310,7 +310,7 @@ export default {
             hide-default-footer
           >
             <template v-slot:item.updated="{ item }">
-              {{ item.updated | humanDatetime }}
+              {{ $humanDatetime(item.updated) }}
             </template>
           </v-data-table>
         </v-col>
@@ -320,7 +320,7 @@ export default {
           <h3>Updated</h3>
         </v-col>
         <v-col>
-          {{ item.updated | humanDatetime }}
+          {{ $humanDatetime(item.updated) }}
         </v-col>
       </v-row>
       <v-row>

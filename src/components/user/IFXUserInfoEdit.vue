@@ -41,7 +41,7 @@ export default {
     },
     clearError(key) {
       if (this.errors.hasOwnProperty(key)) {
-        this.$delete(this.errors, key)
+        delete this.errors[key]
       }
     },
     trimOrgName(slug) {

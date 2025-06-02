@@ -25,7 +25,7 @@ export default {
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
     filteredRates() {
       if (this.item?.rates) {
@@ -116,7 +116,7 @@ export default {
             v-if="filteredRates.length"
             :items="filteredRates"
             :headers="headers"
-            :selected.sync="selected"
+            v-model:selected="selected"
             itemType="ProductRate"
             :showSelect="false"
           >

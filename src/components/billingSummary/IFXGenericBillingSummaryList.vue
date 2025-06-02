@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     filteredHeaders() {
-      return this.headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return this.headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
 }
@@ -116,14 +116,14 @@ export default {
       <IFXItemDataTable
         :items="items"
         :headers="filteredHeaders"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :itemType="itemType"
         :showSelect="false"
         :defaultItemsPerPage="-1"
       >
         <template #totalDecimalCharge="{ item }">
           <span v-if="item.totalDecimalCharge">
-            {{ item.totalDecimalCharge | dollars }}
+            {{ $dollars(item.totalDecimalCharge) }}
           </span>
           <span v-else class="grey--text text--darken-1">No Charges</span>
         </template>

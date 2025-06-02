@@ -37,7 +37,7 @@ export default {
         { text: 'CSV', value: 'textFilePath', sortable: false, namedSlot: true, width: '150px' },
         { text: 'Last Run', value: 'updated', sortable: true, namedSlot: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
   methods: {
@@ -110,7 +110,7 @@ export default {
             // A new report so add it to the list
             this.items.push(this.reportResponse)
           }
-          const updatedTime = this.$options.filters.humanDatetime(this.reportResponse.updated)
+          const updatedTime = this.$humanDatetime(this.reportResponse.updated)
           const msg = `Report id ${this.reportResponse.id} completed at ${updatedTime}`
           this.showMessage(msg)
           this.closeReportDialog()
@@ -136,7 +136,7 @@ export default {
       <template #title>{{ listTitle }}</template>
       <template #actions>
         <v-row class="flex-nowrap">
-          <v-col><IFXSearchField :search.sync="search" /></v-col>
+          <v-col><IFXSearchField v-model:search="search" /></v-col>
           <v-col sm="2">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -152,7 +152,7 @@ export default {
         </v-row>
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
+    <IFXItemDataTable :items="filteredItems" :headers="headers" v-model:selected="selected" :itemType="itemType">
       <template #xlsFilePath="{ item }">
         <a :href="getXlsUrl(item)">{{ item.xlsFilePath }}</a>
       </template>
@@ -160,7 +160,7 @@ export default {
         <a :href="getTextUrl(item)">{{ item.textFilePath }}</a>
       </template>
       <template #updated="{ item }">
-        {{ item.updated | humanDatetime }}
+        {{ $humanDatetime(item.updated) }}
       </template>
     </IFXItemDataTable>
     <v-dialog v-bind="attrs" v-if="showReportDialog" v-model="showReportDialog" max-width="600px">

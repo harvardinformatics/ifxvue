@@ -92,22 +92,22 @@ export default {
     <IFXButton btnType="copy" x-small data-cy="navigate-to-copy" @action="navigateToCopy(type, item)"></IFXButton>
   </span>
   <span v-else-if="name === 'withdrawlDate'">
-    <div>{{ item.withdrawalDate | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.withdrawalDate) }}</div>
   </span>
   <span v-else-if="name === 'deliveryDate'">
-    <div>{{ item.deliveryDate | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.deliveryDate) }}</div>
   </span>
   <span v-else-if="name === 'created'">
-    <div>{{ item.created | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.created) }}</div>
   </span>
   <span v-else-if="name === 'updated'">
-    <div>{{ item.updated | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.updated) }}</div>
   </span>
   <span v-else-if="name === 'dateCreated'">
-    <div>{{ item.dateCreated | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.dateCreated) }}</div>
   </span>
   <span v-else-if="name === 'dateJoined'">
-    <div>{{ item.dateJoined | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.dateJoined) }}</div>
   </span>
   <span v-else-if="name === 'groups'">
     <div>{{ getGroupsString(item) }}</div>
@@ -122,31 +122,31 @@ export default {
     <a :href="`mailto:${item.email}`">{{ item.email }}</a>
   </span>
   <span v-else-if="name === 'dateModified'">
-    <div>{{ item.dateModified | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.dateModified) }}</div>
   </span>
   <span v-else-if="name === 'sent'">
-    <div>{{ item.sent | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.sent) }}</div>
   </span>
   <span v-else-if="name === 'readingDate'">
-    <div>{{ item.readingDate | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.readingDate) }}</div>
   </span>
   <span v-else-if="name === 'dateValid'">
-    <div>{{ item.dateValid | humanDatetime }}</div>
+    <div>{{ $humanDatetime(item.dateValid) }}</div>
   </span>
   <span v-else-if="name === 'pricePerLiter'">
-    <div>{{ item.pricePerLiter | centsToDollars }}</div>
+    <div>{{ $centsToDollars(item.pricePerLiter) }}</div>
   </span>
   <span v-else-if="name === 'creditPerLiter'">
-    <div>{{ item.creditPerLiter | centsToDollars }}</div>
+    <div>{{ $centsToDollars(item.creditPerLiter) }}</div>
   </span>
   <span v-else-if="name === 'scfPerLiter'">
-    <div>{{ item.scfPerLiter | centsToDollars }}</div>
+    <div>{{ $centsToDollars(item.scfPerLiter) }}</div>
   </span>
   <span v-else-if="name === 'price'">
-    <div>{{ item.price | centsToDollars }}</div>
+    <div>{{ $centsToDollars(item.price) }}</div>
   </span>
   <span v-else-if="name === 'active'">
-    <div>{{ item.active | capitalizeFirstLetter }}</div>
+    <div>{{ $capitalizeFirstLetter(item.active) }}</div>
   </span>
   <span v-else-if="['to', 'cc', 'bcc'].includes(name)">
     <div>{{ item.recipients[name].join(', ') }}</div>

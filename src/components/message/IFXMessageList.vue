@@ -21,7 +21,7 @@ export default {
         { text: '', value: 'rowActionEdit', slot: true },
         { text: '', value: 'actions', namedSlot: true, sortable: false },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
   methods: {
@@ -37,14 +37,14 @@ export default {
     <IFXPageHeader>
       <template #title>{{listTitle}}</template>
       <template #actions>
-        <IFXSearchField :search.sync='search'/>
+        <IFXSearchField v-model:search='search'/>
         <IFXButton small btnType="add" @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
       :items='filteredItems'
       :headers='headers'
-      :selected.sync='selected'
+      v-model:selected='selected'
       :itemType='itemType'
     >
       <template #actions="{ item }">

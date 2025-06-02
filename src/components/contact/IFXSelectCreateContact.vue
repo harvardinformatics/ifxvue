@@ -129,7 +129,7 @@ export default {
             clearable
             clear-icon="mdi-close-circle"
             hide-selected
-            :search-input.sync="search"
+            v-model:search-input="search"
             @change="selectContact"
             data-cy="select-contact"
             :menu-props="{ closeOnContentClick: true, closeOnClick: true }"

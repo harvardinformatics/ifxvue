@@ -24,7 +24,7 @@ export default {
         { text: 'Rates', value: 'rates', sortable: false, namedSlot: true },
         { text: '', value: 'rowActionEdit', slot: true, sortable: false },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
   methods: {
@@ -46,11 +46,11 @@ export default {
     <IFXPageHeader>
       <template #title>{{ listTitle }}</template>
       <template #actions>
-        <IFXSearchField :search.sync="search" />
+        <IFXSearchField v-model:search="search" />
         <IFXButton btnType="add" small @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
+    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" v-model:selected="selected" :itemType="itemType">
       <template #rates="{ item }">
         {{ displayRateNames(item) }}
       </template>

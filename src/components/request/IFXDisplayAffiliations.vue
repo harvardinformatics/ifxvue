@@ -7,7 +7,7 @@ export default {
       const names = []
       this.data.affiliations.forEach((affiliation) => {
         if (affiliation.slug !== this.data.primary_affiliation) {
-          names.push(this.$options.filters.orgNameFromSlug(affiliation.slug))
+          names.push(this.$orgNameFromSlug(affiliation.slug))
         }
       })
       return names.join(', ')
@@ -25,7 +25,7 @@ export default {
               Primary
             </v-flex>
             <v-flex>
-              {{ data.primary_affiliation | orgNameFromSlug }}
+              {{ $orgNameFromSlug(data.primary_affiliation) }}
             </v-flex>
           </v-layout>
         </v-flex>

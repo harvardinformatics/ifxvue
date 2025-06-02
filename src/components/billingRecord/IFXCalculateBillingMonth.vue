@@ -79,7 +79,7 @@ export default {
         { text: 'Description', value: 'description', slot: true },
         { text: 'Processing', value: 'processing', sortable: true, namedSlot: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
     calculateBillingMonthToolTip() {
       if (!this.canCalculate()) {
@@ -337,7 +337,7 @@ export default {
             {{ item.productUser.fullName }}
           </template>
           <template v-slot:organization="{ item }">
-            {{ item.organization|orgNameFromSlug }}
+            {{ $orgNameFromSlug(item.organization) }}
           </template>
           <template v-slot:processing="{ item }">
             <span v-if="item.processing" :class="{'billing-error': !item.processing.resolved}">

@@ -3,7 +3,7 @@
     <IFXActionDialog
       :selectedAction='selectedAction'
       :selectedItems='selectedItemsLocal'
-      :isActive.sync='isDialogActive'
+      v-model:isActive='isDialogActive'
       @cancel-action='cancelAction'
       @complete-action='completeAction'
     ></IFXActionDialog>

@@ -100,7 +100,7 @@ export default {
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
         { text: '', value: 'actions', namedSlot: true, sortable: false },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
     title() {
       const itemTitle = this.splitOnCapitals(this.itemType).join(' ')
@@ -218,7 +218,7 @@ export default {
           <v-col>
             <IFXItemSelectList
               title="Rates"
-              :items.sync="newRates"
+              v-model:items="newRates"
               :getEmptyItem="$api.productRate.create"
               noItemsString=""
             >
@@ -304,7 +304,7 @@ export default {
             <IFXItemDataTable
               :items="filteredRates"
               :headers="headers"
-              :selected.sync="selected"
+              v-model:selected="selected"
               :itemType="itemType"
               :showSelect="false"
             >
