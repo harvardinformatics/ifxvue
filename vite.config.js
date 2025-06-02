@@ -8,12 +8,13 @@ export default defineConfig({
     vue(),
     vuetify({
       autoImport: true,
-    }),
+    })
   ],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
     },
+    extensions: ['.js', '.vue', '.json', '.scss']
   },
   build: {
     lib: {
@@ -30,13 +31,20 @@ export default defineConfig({
           vuetify: 'Vuetify'
         }
       }
-    }
+    },
+    minify: 'terser',
+    sourcemap: true,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 1000
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/sass/variables.scss";`
+        additionalData: `@use "@/sass/variables.scss" as *;`
       }
     }
+  },
+  esbuild: {
+    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : []
   }
 })

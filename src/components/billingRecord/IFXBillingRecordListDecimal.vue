@@ -1112,14 +1112,14 @@ export default {
                     <v-row dense>
                       <v-col>
                         <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <div v-on="on">
+                          <template v-slot:activator="{ props }">
+                            <div>
                               <v-btn
                                 :disabled="
                                   isLoading ||
                                   !$api.auth.can('generate-invoices', $api.authUser)
                                 "
-                                v-bind="attrs"
+                                v-bind="props"
                                 color="blue"
                                 small
                                 fab
@@ -1136,11 +1136,11 @@ export default {
                   </v-col>
                   <v-col v-if="allowDeleteBillingRecords">
                     <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <div v-on="on">
+                      <template v-slot:activator="{ props }">
+                        <div>
                           <v-btn
                             :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selected)"
-                            v-bind="attrs"
+                            v-bind="props"
                             fab
                             small
                             color="red"
@@ -1155,11 +1155,11 @@ export default {
                   </v-col>
                   <v-col v-if="allowUsageReport && facility.hasUsageReport">
                     <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <div v-on="on">
+                      <template v-slot:activator="{ props }">
+                        <div >
                           <v-btn
                             :disabled="!organization"
-                            v-bind="attrs"
+                            v-bind="props"
                             fab
                             small
                             color="yellow"
@@ -1221,7 +1221,6 @@ export default {
                 v-model:rowSelectionToggleIndeterminateGroup="rowSelectionToggleIndeterminate[group]"
                 :summaryCharges="summaryCharges(group)"
                 :toggleGroup="toggleGroup"
-                @
               />
             </template>
             <template v-slot:item.id="{ item }">

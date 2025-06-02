@@ -81,7 +81,7 @@ export default {
         :value="group"
         hide-details
         multiple
-        v-model:indeterminate="rowSelectionToggleIndeterminateGroup"
+        :indeterminate="rowSelectionToggleIndeterminateGroup"
         class="shrink ml-3 mt-0"
         @change="syncData()"
       ></v-checkbox>

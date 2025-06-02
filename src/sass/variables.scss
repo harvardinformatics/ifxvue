@@ -1,5 +1,7 @@
 // src/sass/variables.scss
 
+@use 'vuetify/lib/styles/main.sass';
+
 // Globals
 $border-radius-root: 6px;
 $font-size-root: 14px;
@@ -83,4 +85,3 @@ $icon-sizes: (
     animation-play-state: running !important;
   }
 }
-@import '~vuetify/src/styles/styles.sass';

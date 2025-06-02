@@ -1138,7 +1138,6 @@ export default {
                 :summaryCharges="summaryCharges(group)"
                 :toggleGroup="toggleGroup"
                 :getSummaryDetails="getSummaryDetails"
-                @
               />
             </template>
             <template v-slot:item.id="{ item }">

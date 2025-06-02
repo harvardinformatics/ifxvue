@@ -6,7 +6,6 @@
         :size="fab ? 'default' : 'default'"
         :color="color"
         v-bind="props"
-        v-bind="getAttrs"
         @click="handleClick"
         :disabled="disabled"
       >
