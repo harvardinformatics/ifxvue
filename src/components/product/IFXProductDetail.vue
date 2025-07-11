@@ -13,6 +13,10 @@ export default {
     return {
       selected: [],
       showDeactivatedRates: false,
+      currencyFormatter: new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      })
     }
   },
   computed: {
@@ -20,7 +24,7 @@ export default {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Description', value: 'description', sortable: true, namedSlot: true },
-        { text: 'Price', value: 'price', sortable: true },
+        { text: 'Price', value: 'decimalPrice', sortable: true, namedSlot: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
@@ -142,6 +146,9 @@ export default {
             </template>
             <template #maxQty="{ item }">
               {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
+            </template>
+            <template #decimalPrice="{ item }">
+              {{ currencyFormatter.format(item.decimalPrice) }}
             </template>
           </IFXItemDataTable>
           <span v-else>None</span>
