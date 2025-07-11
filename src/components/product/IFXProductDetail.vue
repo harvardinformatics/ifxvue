@@ -20,7 +20,7 @@ export default {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Description', value: 'description', sortable: true, namedSlot: true },
-        { text: 'Price', value: 'price', sortable: true },
+        { text: 'Price', value: 'decimalPrice', sortable: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
