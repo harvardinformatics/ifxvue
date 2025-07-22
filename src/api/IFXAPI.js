@@ -21,6 +21,7 @@ import { ReportRun, Report } from '@/components/report/IFXReport'
 import AccountBillingSummary from '@/components/billingSummary/IFXAccountBillingSummary'
 import UserBillingSummary from '@/components/billingSummary/IFXUserBillingSummary'
 import ProductRateBillingSummary from '@/components/billingSummary/IFXProductRateBillingSummary'
+import Subscription from '@/components/subscription/IFXSubscription'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -1046,6 +1047,31 @@ export default class IFXAPIService {
     api.runReport = (params) => {
       const runReportURL = `${this.urls.RUN_REPORT}`
       return this.axios.post(runReportURL, params, { headers: { 'Content-Type': 'application/json' } })
+    }
+    return api
+  }
+
+  get subscription() {
+    const baseURL = this.urls.CHANNEL_SUBSCRIPTION_LIST
+    const createFunc = (data, decompose = false) => {
+      const newData = cloneDeep(data) || {}
+      // If decomposing, do not create a new object
+      return decompose ? newData : new Subscription(newData)
+    }
+    const decomposeFunc = (newData) => createFunc(newData, true)
+    const api = this.genericAPI(baseURL, Subscription, createFunc, decomposeFunc)
+    api.subscribeToChannel = (userId, channelId) => {
+      const url = this.urls.CHANNEL_SUBSCRIPTIONS
+      const data = {
+        channel: { id: channelId },
+        user: { id: userId },
+        send_email: true,
+      }
+      return this.axios.post(url, data, { headers: { 'Content-Type': 'application/json' } })
+    }
+    api.unsubscribeFromChannel = (subscriptionId) => {
+      const url = `${this.urls.CHANNEL_SUBSCRIPTIONS}${subscriptionId}/`
+      return this.axios.delete(url, { headers: { 'Content-Type': 'application/json' } })
     }
     return api
   }
