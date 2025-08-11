@@ -258,71 +258,73 @@ export default {
         </v-col>
       </v-row>
       <v-row dense>
-        <v-col sm="12" md="6">
-          <v-row dense wrap>
-            <v-col sm="4" md="3">
-              <h3>First Name</h3>
-            </v-col>
+        <v-col sm="12" md="11">
+          <v-row>
             <v-col>
-              {{ item.firstName }}
-            </v-col>
-          </v-row>
-          <v-row dense class="mt-n2">
-            <v-col sm="4" md="3">
-              <h3>Last Name</h3>
-            </v-col>
-            <v-col>
-              {{ item.lastName }}
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col sm="4" md="3">
-              <h3>Primary Affiliation</h3>
-            </v-col>
-            <v-col>
-              {{ item.primaryAffiliation | orgNameFromSlug }}
-            </v-col>
-          </v-row>
-          <v-row dense v-if="areGroupsPresent">
-            <v-col sm="4" md="3">
-              <h3>Authorization Groups</h3>
-            </v-col>
-            <v-col>
-              {{ item.groups.join(', ') }}
-            </v-col>
-          </v-row>
-          <v-row align="start" dense>
-            <v-col sm="4" md="3">
-              <h3>Primary Email</h3>
-            </v-col>
-            <v-col>
-              <v-row dense>
+              <v-row dense wrap>
+                <v-col sm="4" md="3">
+                  <h3>First Name</h3>
+                </v-col>
                 <v-col>
-                  <a :href="`mailto:${item.primaryEmail}`">{{ item.primaryEmail }}</a>
+                  {{ item.firstName }}
                 </v-col>
               </v-row>
+              <v-row dense class="mt-n2">
+                <v-col sm="4" md="3">
+                  <h3>Last Name</h3>
+                </v-col>
+                <v-col>
+                  {{ item.lastName }}
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col sm="4" md="3">
+                  <h3>Primary Affiliation</h3>
+                </v-col>
+                <v-col>
+                  {{ item.primaryAffiliation | orgNameFromSlug }}
+                </v-col>
+              </v-row>
+              <v-row dense v-if="areGroupsPresent">
+                <v-col sm="4" md="3">
+                  <h3>Authorization Groups</h3>
+                </v-col>
+                <v-col>
+                  {{ item.groups.join(', ') }}
+                </v-col>
+              </v-row>
+              <v-row align="start" dense>
+                <v-col sm="4" md="3">
+                  <h3>Primary Email</h3>
+                </v-col>
+                <v-col>
+                  <v-row dense>
+                    <v-col>
+                      <a :href="`mailto:${item.primaryEmail}`">{{ item.primaryEmail }}</a>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              <v-row align="start" dense>
+                <v-col sm="4" md="3">
+                  <h3>Created</h3>
+                </v-col>
+                <v-col>
+                  {{ item.dateJoined | humanDatetime }}
+                </v-col>
+              </v-row>
+              <v-row align="start" dense>
+                <v-col sm="4" md="3">
+                  <h3>Last Update</h3>
+                </v-col>
+                <v-col>
+                  {{ item.lastUpdate | humanDatetime }}
+                </v-col>
+              </v-row>
+              <slot name="additionalUserInfoCol1" :item="item"></slot>
             </v-col>
+            <slot name="additionalUserInfoCol2" :item="item"></slot>
           </v-row>
-          <v-row align="start" dense>
-            <v-col sm="4" md="3">
-              <h3>Created</h3>
-            </v-col>
-            <v-col>
-              {{ item.dateJoined | humanDatetime }}
-            </v-col>
-          </v-row>
-          <v-row align="start" dense>
-            <v-col sm="4" md="3">
-              <h3>Last Update</h3>
-            </v-col>
-            <v-col>
-              {{ item.lastUpdate | humanDatetime }}
-            </v-col>
-          </v-row>
-          <slot name="additionalUserInfoCol1" :item="item"></slot>
-        </v-col>
-        <v-col sm="12" md="5">
-          <slot name="additionalUserInfoCol2" :item="item"></slot>
         </v-col>
         <v-col sm="1" align="end">
           <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable" />
