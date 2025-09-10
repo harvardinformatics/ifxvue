@@ -138,6 +138,9 @@ import mailing from '@/vuex/mailing'
 // Calendars
 import IFXCalendarList from '@/components/calendar/IFXCalendarList'
 
+// Channel Subscriptions
+import IFXSubscriptionList from '@/components/subscription/IFXSubscriptionList'
+
 // Account Request
 import IFXAccountRequestDetail from '@/components/request/IFXAccountRequestDetail'
 import IFXAccountRequestStateList from '@/components/request/IFXAccountRequestStateList'
@@ -270,6 +273,7 @@ export {
   IFXRequestList,
   IFXLabBillingSummaryList,
   IFXGenericBillingSummaryList,
+  IFXSubscriptionList,
 }
 
 

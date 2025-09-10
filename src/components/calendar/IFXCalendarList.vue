@@ -244,6 +244,10 @@ export default {
       this.$api.storage.setItem('calendarType', type, 'local')
     },
     getEventColor(event) {
+      // Canceled events should always be grey
+      if (event.cancelled) {
+        return 'blue-grey lighten-3'
+      }
       if (this.useMaintenance && event.reservation.isMaintenance) {
         return this.$api.reservation.getMaintenanceColor()
       }
@@ -270,9 +274,6 @@ export default {
     },
     getResourceColor(RU) {
       const resId = RU.product.id
-      if (RU.cancelled) {
-        return 'blue-grey lighten-3'
-      }
       const theResource = this.allResources.find((resource) => resource.id === resId)
       return theResource ? theResource.color : 'grey'
     },
