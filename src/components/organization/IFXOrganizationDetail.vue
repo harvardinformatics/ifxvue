@@ -44,11 +44,14 @@ export default {
       ],
     }
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
     async init() {
       this.item = await this.apiRef.getByID(this.id, true)
       this.cacheItem()
+      console.log('alsdkjf', this.item.data)
+      console.log('alskdjf', this.item.applicationKey)
       this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
       const allFacilities = await this.$api.facility.getList()
       allFacilities.forEach((facility) => {
@@ -203,6 +206,11 @@ export default {
     </v-row>
     <v-row dense class="ml-2">
       <v-col>
+        <v-row v-if="item.applicationKey">
+          <v-col>
+            <strong>A/R Customer Number and Address ID</strong> {{ item.applicationKey }}
+          </v-col>
+        </v-row>
         <v-row>
           <v-col>
             <h2>Users</h2>
@@ -351,6 +359,81 @@ export default {
       @action="updateUsersAndSubmit"
       :submitting="submitting"
     ></IFXPageActionBar>
+      <v-dialog v-model="orgDetailDialogOpen" v-if="orgDetailDialogOpen" max-width="80vw" persistent>
+        <v-card>
+          <v-card-title>
+            Edit Organization Details
+            <v-spacer></v-spacer>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  small
+                  @click="cancelOrgDetailDialog"
+                  data-cy="org-detail-dialog-close"
+                  v-on="on"
+                  v-bind="attrs"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </template>
+              <span>Cancel</span>
+            </v-tooltip>
+          </v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent v-model="isValid" autocomplete="off" :ref="formName">
+              <v-row>
+                <v-col sm="6">
+                  <v-text-field
+                    v-model.trim="item.name"
+                    label="Name"
+                    :error-messages="errors.name"
+                    @focus="clearError('name')"
+                    :rules="formRules.generic"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model.trim="item.rank"
+                    label="Rank"
+                    :error-messages="errors.rank"
+                    @focus="clearError('rank')"
+                    :rules="formRules.generic"
+                    required
+                  ></v-text-field>
+                  <v-select>
+
+                  </v-select>
+                </v-col>
+                <v-col sm="6">
+                  <v-text-field
+                    v-model.trim="itemLocal.lastName"
+                    label="Last name"
+                    autocomplete="new-password"
+                    :error-messages="errors.lastName"
+                    @focus="clearError('last_name')"
+                    :disabled="!canEdit('User.lastName')"
+                    :rules="formRules.generic"
+                    required
+                  ></v-text-field>
+                  </v-col>
+                  </v-row>
+            </v-form>
+          </v-card-text>
+          <v-card-actions class="d-flex justify-end pb-3">
+            <v-btn small class="mr-2" text color="secondary" @click="cancelOrgDetailDialog">Close</v-btn>
+            <v-btn
+              small
+              class="mr-2"
+              text
+              :disabled="!orgDetailDialogValid"
+              color="primary"
+              @click="closeOrgDetailDialog"
+            >
+              Update
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
       <v-card>
         <v-card-title>

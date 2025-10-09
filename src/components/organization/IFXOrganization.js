@@ -224,7 +224,7 @@ export class Organization {
   }
 
   get applicationKey() {
-    return this.data.applicationKey
+    return this.data.application_key
   }
 
   set applicationKey(applicationKey) {

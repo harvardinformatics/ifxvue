@@ -56,9 +56,6 @@ export default {
       // Is this Organization from Nanites?
       return !!this.item.ifxOrg
     },
-    title() {
-      return `${this.item.name} (a ${this.item.orgTree} ${this.item.rank})`
-    },
     orgTreeRules() {
       return [
         (v) => !v || 'Org tree is required',
@@ -71,7 +68,8 @@ export default {
 <template>
   <v-container v-if="!isLoading">
     <IFXPageHeader>
-      <template #title>{{ title }}</template>
+      <template v-if="isEditing" #title>Update {{ item.name }}</template>
+      <template v-else #title>Create New Organization</template>
       <template #content>{{ description }}</template>
     </IFXPageHeader>
     <v-container>
@@ -112,6 +110,21 @@ export default {
               required
               class="required"
             ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="justify-start">
+          <v-col>
+            <v-text-field
+              v-model="item.applicationKey"
+              label="A/R Customer Number and Address ID"
+              data-cy="description"
+              :error-messages="errors.application_key"
+              hint="<A/R customer number>-<A/R address ID>"
+              persistent-hint
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            &nbsp;
           </v-col>
         </v-row>
         <v-row v-if="item.id">
