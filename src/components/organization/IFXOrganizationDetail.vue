@@ -42,6 +42,12 @@ export default {
         { name: 'Facility Invoice', editable: true },
         { name: 'Facility Invoice CC', editable: true },
       ],
+      orgTrees: [
+        'Harvard',
+        'Research Computing AD',
+        'Research Computing Storage Billing',
+        'CNS',
+      ],
     }
   },
   mounted() {
@@ -50,8 +56,6 @@ export default {
     async init() {
       this.item = await this.apiRef.getByID(this.id, true)
       this.cacheItem()
-      console.log('alsdkjf', this.item.data)
-      console.log('alskdjf', this.item.applicationKey)
       this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
       const allFacilities = await this.$api.facility.getList()
       allFacilities.forEach((facility) => {
@@ -65,6 +69,9 @@ export default {
       } else {
         this.showReactivateUserModal = true
       }
+    },
+    openOrgDetailDialog() {
+      this.orgDetailDialogOpen = true
     },
     addContact() {
       this.contactDialogOpen = false
@@ -369,7 +376,7 @@ export default {
                 <v-btn
                   icon
                   small
-                  @click="cancelOrgDetailDialog"
+                  @click="cancelOrgDetailDialog()"
                   data-cy="org-detail-dialog-close"
                   v-on="on"
                   v-bind="attrs"
@@ -392,16 +399,25 @@ export default {
                     :rules="formRules.generic"
                     required
                   ></v-text-field>
-                  <v-text-field
+                  <v-select
                     v-model.trim="item.rank"
                     label="Rank"
                     :error-messages="errors.rank"
                     @focus="clearError('rank')"
                     :rules="formRules.generic"
+                    :items="apiRef.validRanks"
                     required
-                  ></v-text-field>
-                  <v-select>
-
+                  ></v-select>
+                  <v-select
+                    :items="orgTrees"
+                    v-model="item.orgTree"
+                    @change="clearErrors()"
+                    label="Organization Tree"
+                    hint="Non-Harvard org trees are for specialized behavior.  Do not use anything other than Harvard unless instructed."
+                    persistent-hint
+                    required
+                    class="required"
+                  >
                   </v-select>
                 </v-col>
                 <v-col sm="6">
