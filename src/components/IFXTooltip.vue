@@ -3,13 +3,13 @@
     <template v-slot:activator="{ props }">
       <v-btn
         v-bind:aria-label="tooltip"
-        :size="fab ? 'default' : 'default'"
+        :size="buttonSize"
         :color="color"
         v-bind="props"
         @click="handleClick"
         :disabled="disabled"
+        :icon="icon"
       >
-        <v-icon :dark="dark" :color="iconColor">{{ icon }}</v-icon>
       </v-btn>
     </template>
     <span v-if="!isHTML">{{ tooltip }}</span>
@@ -50,6 +50,11 @@ export default {
       required: false,
       default: true,
     },
+    size: {
+      type: String,
+      required: false,
+      default: null,
+    },
     disabled: {
       type: Boolean,
       required: false,
@@ -61,9 +66,6 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {}
-  },
   methods: {
     handleClick() {
       // The button was clicked. Emit the action event.
@@ -71,6 +73,14 @@ export default {
     },
   },
   computed: {
+    buttonSize() {
+      // If size is explicitly set, use it (new Vue 3 way)
+      if (this.size) {
+        return this.size
+      }
+      // Otherwise map fab prop (old Vue 2 way)
+      return this.fab ? 'large' : 'default'
+    },
     getAttrs() {
       const result = { ...this.$attrs }
       return result

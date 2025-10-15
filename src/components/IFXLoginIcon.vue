@@ -1,16 +1,17 @@
 <template>
   <div class='action-item'>
     <span v-if="!disabled && $api.user.canEditField('User.isActive')">
+      <v-icon :color='color' class="mr-2">{{displayIcon}}</v-icon>
       <v-checkbox
         v-model="isActiveLocal"
         :label="label"
         :color="color"
-        :on-icon="onIcon"
-        :off-icon="offIcon"
+        hide-details
+        inline
       ></v-checkbox>
     </span>
-    <span v-else>
-      <v-icon :color='color' class="mr-1">{{displayIcon}}</v-icon>
+    <span v-else class="disabled-view">
+      <v-icon :color='color' size="small" style="vertical-align: middle;">{{displayIcon}}</v-icon>
       <span>{{label}}</span>
     </span>
   </div>
@@ -41,8 +42,8 @@ export default {
   data() {
     return {
       color: 'green',
-      offIcon: 'close',
-      onIcon: 'vpn_key'
+      offIcon: 'mdi-close',
+      onIcon: 'mdi-vpn-key'
     }
   },
   computed: {
@@ -68,8 +69,19 @@ export default {
 </script>
 
 <style scoped>
-  .action-item {
-    display: inline-block !important;
-    margin-right: 2rem;
-  }
+.action-item {
+  display: inline-block !important;
+  margin-right: 2rem;
+}
+
+.disabled-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.disabled-view .v-icon {
+  vertical-align: middle;
+  margin-top: -2px; /* Fine-tune if needed */
+}
 </style>

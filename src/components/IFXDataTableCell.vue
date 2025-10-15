@@ -2,6 +2,7 @@
 // Library of data table cell types
 // Assumes use with IFXDataTable component
 import IFXLoginIcon from '@/components/IFXLoginIcon'
+import IFXButton from '@/components/IFXButton'
 
 export default {
   name: 'IFXDataTableCell',

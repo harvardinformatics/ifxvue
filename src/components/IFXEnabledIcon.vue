@@ -1,16 +1,13 @@
 <template>
   <div class="action-item">
-    <span v-if="!disabled && $api.user.canEditField('User.isEnabled')">
-      <v-checkbox
-        v-model="isEnabledLocal"
-        :label="label"
-        :color="color"
-        :on-icon="onIcon"
-        :off-icon="offIcon"
-      ></v-checkbox>
+    <span v-if="!disabled && $api.user.canEditField('User.isEnabled')"
+          style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer;"
+          @click="toggleEnabled">
+      <v-icon :color='color'>{{displayIcon}}</v-icon>
+      <span>{{label}}</span>
     </span>
-    <span v-else>
-      <v-icon :color="color">{{displayIcon}}</v-icon>
+    <span v-else style="display: inline-flex; align-items: center; gap: 4px;">
+      <v-icon :color="color" size="small">{{displayIcon}}</v-icon>
       <span v-if='!iconOnly'>{{label}}</span>
     </span>
   </div>
@@ -40,9 +37,9 @@ export default {
   },
   data() {
     return {
-      color: 'green darken-3',
-      offIcon: 'close',
-      onIcon: 'mood'
+      color: 'green-darken-3',
+      offIcon: 'mdi-close',
+      onIcon: 'mdi-emoticon'
     }
   },
   computed: {
@@ -50,6 +47,9 @@ export default {
       return this.isEnabledLocal ? this.onIcon : this.offIcon
     },
     label() {
+      if (this.iconOnly) {
+        return ''
+      }
       return 'FAS User'
     },
     isEnabledLocal: {
@@ -60,13 +60,18 @@ export default {
         this.$emit('update:isEnabled', bool)
       }
     }
+  },
+  methods: {
+    toggleEnabled() {
+      this.isEnabledLocal = !this.isEnabledLocal
+    }
   }
 }
 </script>
 
 <style scoped>
-  .action-item {
-    display: inline-block !important;
-    margin-right: 2rem;
-  }
+.action-item {
+  display: inline-block !important;
+  margin-right: 2rem;
+}
 </style>

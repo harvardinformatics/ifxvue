@@ -143,10 +143,10 @@ export default {
           iconString = 'mdi-pencil'
           break
         case 'remove':
-          iconString = 'delete'
+          iconString = 'mdi-delete'
           break
         case 'add':
-          iconString = 'add'
+          iconString = 'mdi-plus'
           break
         case 'submit':
           iconString = ''
@@ -156,6 +156,9 @@ export default {
           break
         case 'copy':
           iconString = 'mdi-content-duplicate'
+          break
+        case 'close':
+          iconString = 'mdi-close'
           break
         default:
           iconString = ''

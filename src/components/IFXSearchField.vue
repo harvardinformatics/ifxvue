@@ -4,7 +4,8 @@
     class="search-field"
     :label="label"
     :aria-label="ariaLabel"
-    single-line
+    variant="underlined"
+    density="compact"
     hide-details
     :clearable="clearable"
     :disabled="disabled"
@@ -17,6 +18,13 @@
 export default {
   name: 'IFXSearchField',
   props: {
+    // Vue 3 standard
+    modelValue: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    // Vue 2 backward compatibility
     search: {
       type: String,
       required: false,
@@ -41,10 +49,13 @@ export default {
   computed: {
     searchLocal: {
       get() {
-        return this.search
+        // Prefer modelValue (Vue 3), fallback to search (Vue 2)
+        return this.modelValue || this.search
       },
-      set(search) {
-        this.$emit('update:search', search)
+      set(value) {
+        // Emit both events for compatibility
+        this.$emit('update:modelValue', value)
+        this.$emit('update:search', value)
       },
     },
     ariaLabel() {

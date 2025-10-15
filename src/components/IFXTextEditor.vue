@@ -1,6 +1,7 @@
 <template>
   <Editor
-    v-model="text"
+    :model-value="modelValue"
+    @update:model-value="handleUpdate"
     :init="init"
     tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.4/tinymce.min.js"
   ></Editor>
@@ -8,28 +9,31 @@
 
 <script>
 // https://www.tiny.cloud/docs/integrations/vue/
-// TODO: extend vuetify input to make this component swork better with forms
-// import VInput from 'vuetify/lib/components/VInput/VInput'
+// TODO: extend vuetify input to make this component work better with forms
 import Editor from '@tinymce/tinymce-vue'
 
 export default {
   name: 'IFXTextEditor',
-  // extends: VInput,
   components: {
     Editor,
   },
   props: {
-    value: null,
+    modelValue: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
       isLoading: false,
-      content: null,
     }
   },
   methods: {
     initCallback() {
       this.isLoading = false
+    },
+    handleUpdate(value) {
+      this.$emit('update:modelValue', value)
     },
   },
   computed: {
@@ -50,9 +54,6 @@ export default {
   },
   created() {
     this.isLoading = true
-  },
-  mounted() {
-    this.content = this.value
   },
 }
 </script>

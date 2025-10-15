@@ -1,37 +1,43 @@
 <template>
-<div class="dropdown">
-  <v-combobox
-    :ref='ref'
-    v-model="selected"
-    :items="contactables"
-    v-model:search-input="search"
-    @change="handleChange"
-    :label="label | capitalizeFirstLetter"
-    chips
-    clearable
-    multiple
-    hide-selected
-    :item-text='getItemText'
-    :item-value='getItemValue'
-    item-disabled='false'
-    :rules="rules"
-    :menu-props="{closeOnContentClick:true}"
-    :required='required'
-    :error-messages='errorMessage'
-    no-data-text="No new results match that query."
-    :class="{'required': required}"
-  >
-  <!-- Display the icons in different colors, based on their contactable type -->
-    <template #item="{item}">
-      <v-icon :color="item.color">{{item.icon}}</v-icon>
-      <v-list-item v-text='item.text'></v-list-item>
-    </template>
-    <template #selection="{item}">
-      <v-chip color="transparent" close @click:close="removeFromSelected(item)">
-        <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{item.label}}
-      </v-chip>
-    </template>
-  </v-combobox>
+  <div class="dropdown">
+    <v-combobox
+      :ref='ref'
+      v-model="selected"
+      :items="contactables"
+      v-model:search="search"
+      @update:model-value="handleChange"
+      :label="$capitalizeFirstLetter(label)"
+      chips
+      clearable
+      multiple
+      hide-selected
+      :item-title="getItemText"
+      :item-value="getItemValue"
+      :rules="rules"
+      :menu-props="{closeOnContentClick:true}"
+      :required='required'
+      :error-messages='errorMessage'
+      no-data-text="No new results match that query."
+      :class="{'required': required}"
+      return-object
+    >
+      <!-- Display the icons in different colors, based on their contactable type -->
+      <template v-slot:item="{ props, item }">
+        <v-list-item v-bind="props">
+          <template v-slot:prepend>
+            <v-icon :color="item.raw.color">{{ item.raw.icon }}</v-icon>
+          </template>
+        </v-list-item>
+      </template>
+      <template v-slot:chip="{ props, item }">
+        <v-chip v-bind="props" closable>
+          <template v-slot:prepend>
+            <v-icon :color="item.raw.color">{{ item.raw.icon }}</v-icon>
+          </template>
+          {{ item.raw.label }}
+        </v-chip>
+      </template>
+    </v-combobox>
   </div>
 </template>
 
@@ -66,7 +72,7 @@ export default {
       type: Array,
       required: true,
     },
-    value: {
+    modelValue: {
       type: Array,
       required: true,
     }
@@ -87,11 +93,8 @@ export default {
     getItemValue(item) {
       return item
     },
-    removeFromSelected(item) {
-      this.selected.splice(this.selected.findIndex((i) => i.id === item.id), 1)
-    },
     handleChange() {
-      this.$emit('input', this.selected)
+      this.$emit('update:modelValue', this.selected)
       this.search = null
     },
   },
@@ -116,16 +119,16 @@ export default {
     this.isLoading = true
   },
   mounted() {
-    if (this.value) {
-      this.selected = this.value.slice()
+    if (this.modelValue) {
+      this.selected = this.modelValue.slice()
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-  .dropdown {
-    max-height: 10rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
+.dropdown {
+  max-height: 10rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 </style>
