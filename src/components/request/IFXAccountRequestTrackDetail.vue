@@ -63,7 +63,12 @@ export default {
         <span class="title">{{ trackTitle }}</span>
       </v-flex>
       <v-flex v-for="field in accountRequestData.tracks[track].fields.order" :key="field">
-        <v-layout row wrap v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)" justify-start>
+        <v-layout
+          row
+          wrap
+          v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)"
+          justify-start
+        >
           <v-flex class="field-label" xs12 md3 v-if="accountRequestData.tracks[track].fields[field].display_name">
             {{ accountRequestData.tracks[track].fields[field].display_name }}
           </v-flex>
@@ -72,7 +77,16 @@ export default {
           </v-flex>
           <v-flex xs12 md9 v-if="accountRequestData.tracks[track].fields[field].display_component">
             <component
-              v-if="['harvard_key', 'project', 'scientific_area', 'expense_code', 'terms_and_conditions', 'nnin_admin_username'].includes(field)"
+              v-if="
+                [
+                  'harvard_key',
+                  'project',
+                  'scientific_area',
+                  'expense_code',
+                  'terms_and_conditions',
+                  'nnin_admin_username',
+                ].includes(field)
+              "
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData[field]"
             ></component>
@@ -84,7 +98,12 @@ export default {
               @change="updateData()"
             ></component>
             <component
-              v-else-if="['demographic_data', 'primary_affiliation'].includes(field)"
+              v-else-if="['primary_affiliation'].includes(field)"
+              :is="accountRequestData.tracks[track].fields[field].display_component"
+              :data="accountRequestData"
+            ></component>
+            <component
+              v-else-if="['demographic_data'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData.person"
             ></component>
