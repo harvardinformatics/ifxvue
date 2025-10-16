@@ -12,9 +12,7 @@ export default {
           <v-layout column>
             <v-flex>
               <v-layout row>
-                <v-flex xs4>
-                  Title
-                </v-flex>
+                <v-flex xs4>Title</v-flex>
                 <v-flex>
                   {{ data.title }}
                 </v-flex>
@@ -24,11 +22,9 @@ export default {
           <v-layout column>
             <v-flex>
               <v-layout row>
-                <v-flex xs4>
-                  Status
-                </v-flex>
+                <v-flex xs4>Current State</v-flex>
                 <v-flex>
-                  {{ data.status }}
+                  {{ data.current_state | stateDisplay }}
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -36,9 +32,7 @@ export default {
           <v-layout column>
             <v-flex>
               <v-layout row>
-                <v-flex xs4>
-                  Estimated Start Date
-                </v-flex>
+                <v-flex xs4>Estimated Start Date</v-flex>
                 <v-flex>
                   {{ data.estimated_start_date }}
                 </v-flex>
@@ -48,9 +42,7 @@ export default {
           <v-layout column>
             <v-flex>
               <v-layout row>
-                <v-flex xs4>
-                  Estimated duration
-                </v-flex>
+                <v-flex xs4>Estimated duration</v-flex>
                 <v-flex>
                   {{ data.estimated_duration }}
                 </v-flex>
