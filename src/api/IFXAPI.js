@@ -290,7 +290,29 @@ export default class IFXAPIService {
   }
 
   get userFile() {
-    return this.genericAPI(null, UserFile)
+    const baseURL = this.urls.USER_FILES
+    const api = this.genericAPI(baseURL, UserFile)
+    api.getUserCategoriesList = async () => {
+      const url = this.urls.USER_FILE_CATEGORIES
+      return this.axios.get(url).then((res) => res.data)
+    }
+    api.uploadUserFile = (userFileData) => {
+      const formdata = new FormData()
+      formdata.append('user', userFileData.user)
+      formdata.append('file', userFileData.file)
+      formdata.append('category', userFileData.category)
+      if (userFileData?.id) {
+        const userFileUrl = `${baseURL}${userFileData.id}/`
+        return this.axios.put(userFileUrl, formdata, {
+          'Content-Type': 'multipart/form-data',
+        })
+      }
+      return this.axios.post(baseURL, formdata, {
+        'Content-Type': 'multipart/form-data',
+      })
+    }
+    api.save = async (userFile) => api.uploadUserFile(userFile)
+    return api
   }
 
   get user() {
