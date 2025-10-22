@@ -81,7 +81,23 @@ export default {
       confirmationDialogOpen: false,
       newUserFile: {},
       fileToDelete: {},
+      showInactiveAffiliations: false,
+      affiliationRoleDisplayKeys: [],
+      showInactiveAccounts: false,
+
     }
+  },
+  watch: {
+    showInactiveAffiliations() {
+      this.affiliationRoleDisplayKeys.forEach((v, i, arr) => {
+        arr[i] = v + 1
+      })
+    },
+  },
+  mounted() {
+    this.item.affiliations.forEach(() => {
+      this.affiliationRoleDisplayKeys.push(0)
+    })
   },
   methods: {
     ...mapActions(['showMessage']),
@@ -443,26 +459,39 @@ export default {
       <span>
         <v-divider class="my-2"></v-divider>
         <v-row dense>
-          <v-col sm="4" md="3">
+          <v-col sm="3" md="3">
             <h3>Other Affiliations</h3>
           </v-col>
           <v-col>
             <span class="d-flex flex-column">
               <div v-for="(affiliation, index) in item.affiliations" :key="index" class="d-flex align-center mt-1">
                 <IFXAffiliationRoleDisplayEdit
+                  :key="affiliationRoleDisplayKeys[index]"
                   :affiliation="affiliation"
+                  :showInactive="showInactiveAffiliations"
                   @update="updateAffiliation(affiliation, index)"
                 />
               </div>
             </span>
           </v-col>
-          <v-col sm="1" align="end">
-            <v-tooltip top v-if="isUserInfoEdittable">
-              <template v-slot:activator="{ on, attrs }">
-                <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openAffiliationDialog()" />
-              </template>
-              <span>Add affiliation</span>
-            </v-tooltip>
+          <v-col sm="2" align="end">
+            <v-row dense justify="center" align="center" nowrap>
+             <v-col class="flex-grow-1 flex-shrink-0">
+                <v-checkbox
+                  v-model="showInactiveAffiliations"
+                  label="Show Inactive"
+                  class="small-checkbox"
+                ></v-checkbox>
+              </v-col>
+              <v-col class="flex-grow-0 flex-shrink-1">
+                <v-tooltip top v-if="isUserInfoEdittable">
+                  <template v-slot:activator="{ on, attrs }">
+                    <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openAffiliationDialog()" />
+                  </template>
+                  <span>Add affiliation</span>
+                </v-tooltip>
+              </v-col>
+             </v-row>
           </v-col>
         </v-row>
       </span>
@@ -551,7 +580,7 @@ export default {
         <v-col>
           <span v-if="areAccountsPresent" class="d-flex flex-column">
             <div v-for="account in item.accounts" :key="account.id" class="d-flex align-center mt-1">
-              <span
+              <span v-if="showInactiveAccounts || (account.data.is_valid && account.account.active)"
                 :class="{
                   'text-decoration-line-through':
                     $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
@@ -563,7 +592,7 @@ export default {
           </span>
           <span v-if="areProductAccountsPresent" class="d-flex flex-column">
             <div v-for="account in item.productAccounts" :key="account.id" class="d-flex align-center mt-1">
-              <span
+              <span  v-if="showInactiveAccounts || (account.data.is_valid && account.account.active)"
                 :class="{
                   'text-decoration-line-through':
                     $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
@@ -576,6 +605,20 @@ export default {
               </span>
             </div>
           </span>
+        </v-col>
+        <v-col sm="2" align="end">
+          <v-row dense justify="center" align="center" nowrap>
+            <v-col class="flex-grow-1 flex-shrink-0">
+            <v-checkbox
+              v-model="showInactiveAccounts"
+              label="Show Inactive"
+              class="small-checkbox"
+            ></v-checkbox>
+            </v-col>
+            <v-col class="flex-grow-0 flex-shrink-1">
+              <IFXButton btnType="add" xSmall style="visibility: hidden;"/> <!-- Placeholder for alignment -->
+            </v-col>
+            </v-row>
         </v-col>
       </v-row>
       <slot name="additionalItems" :item="item"></slot>
@@ -832,5 +875,8 @@ export default {
 .items-warning {
   font-style: italic;
   color: grey;
+}
+::v-deep .small-checkbox .v-label {
+  font-size: 8px;
 }
 </style>
