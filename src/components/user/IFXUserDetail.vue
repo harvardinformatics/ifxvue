@@ -267,13 +267,13 @@ export default {
     },
     userCategoriesToDisplay() {
       // Assume all categories are allowed
-      const categories = this.userFilesCategories.map((c) => c.name)
+      let categories = this.userFilesCategories.map((c) => c.name)
       // If we're only allowed one file per category, filter out categories that already have files
       if (categories.length && this.onlyOneFilePerCategory) {
         // Get all the existing categories in a set so they will be unique
         const existingCategories = new Set(Object.keys(this.userCategories))
         // Filter out any categories that already exist
-        return categories.filter((category) => !existingCategories.has(category))
+        categories = categories.filter((category) => !existingCategories.has(category))
       }
       return this.showPhotoInUserFiles ? categories : categories.filter((category) => category !== 'User Photo')
     },
@@ -482,7 +482,7 @@ export default {
           <v-col v-if="hasUserFiles()">
             <div v-for="category in Object.keys(userCategories)" :key="category">
               <span v-if="onlyOneFilePerCategory">
-                <v-row v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                <v-row dense v-for="file in userCategories[category]" :key="`${category}${file.id}`">
                   <v-col sm="12">
                     <div>
                       <span class="font-weight-medium">{{ category }}:&nbsp;</span>
@@ -511,7 +511,7 @@ export default {
                   <span class="ml-1">{{ category }}s</span>
                 </summary>
                 <span>
-                  <v-row v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                  <v-row dense v-for="file in userCategories[category]" :key="`${category}${file.id}`">
                     <v-col sm="11">
                       <div class="ml-4">
                         <a :href="file.file" target="_blank">{{ file.file | fileNameFromUrl }}</a>
@@ -845,12 +845,9 @@ export default {
   font-style: italic;
   color: grey;
 }
-::v-deep .small-checkbox {
+.small-checkbox {
   .v-messages {
     display: none;
-  }
-  .v-label {
-    font-size: 8px;
   }
 }
 </style>
