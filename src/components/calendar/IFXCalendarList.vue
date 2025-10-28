@@ -550,6 +550,7 @@ export default {
       // Check if there are two green-badged people, including the reserver
       // Put up a warning if not.
       const useSpecialMsg = this.$api.reservation.useSpecialMsg(this.resource, this.attendants)
+      const showExpenseCodeMsg = this.showExpenseCodeMsg(this.newEvent)
 
       if (this.newEvent.id) {
         // This is an existing event. Replace it
@@ -560,6 +561,9 @@ export default {
           let msg = `Updated reservation of ${resUsage.product.name} for ${resUsage.productUser.fullName}.`
           if (useSpecialMsg) {
             msg += ` ${this.$api.reservation.getSpecialMessage()}`
+          }
+          if (showExpenseCodeMsg) {
+            msg += ` ${this.getExpiredAccountMessage()}`
           }
           this.showMessage(msg)
           const returnedRU = await this.$api.reservationUsage.create(res.data)
@@ -914,23 +918,47 @@ export default {
       this.setApprovalBasedOnExpenseCode(true)
     },
     showExpenseCodeMsg(event) {
-      return !this.$api.reservation.willExpenseCodeStillBeValid(
+      return !this.willExpenseCodeStillBeValid(
         // Only check the first account since we don't allow splits
         event.reservation.accounts[0].account,
-        this.allowedExpenseCodes,
         event.startDate,
         event.endDate,
         false
       )
     },
     setApprovalBasedOnExpenseCode() {
-      this.approved = this.$api.reservation.willExpenseCodeStillBeValid(
+      this.approved = this.willExpenseCodeStillBeValid(
         this.expenseCode,
-        this.allowedExpenseCodes,
         this.newEvent.startDate,
         this.newEvent.endDate,
         true
       )
+    },
+    willExpenseCodeStillBeValid(expenseCode, startDate, endDate, showMessage = false) {
+      // Check if there is an existing expense code selected and, if so, make sure it will still be valid
+      // during this reservation. If the code will have expired, force approval
+      let isValid = true
+      if (expenseCode) {
+        const matchedCode = this.allowedExpenseCodes.find((code) => code.slug === expenseCode)
+
+        if (matchedCode && startDate && endDate) {
+          const startDateTime = new Date(startDate).getTime()
+          const endDateTime = new Date(endDate).getTime()
+          if (
+            startDateTime < new Date(matchedCode.validFrom).getTime()
+            || endDateTime > new Date(matchedCode.expirationDate).getTime()
+          ) {
+            isValid = false
+          }
+        }
+      }
+      if (!isValid && showMessage) {
+        this.showMessage(`${this.getExpiredAccountMessage()} The reservation has been marked as needing approval.`)
+      }
+      return isValid
+    },
+    getExpiredAccountMessage() {
+      return 'The selected account will not be valid for the selected reservation time.'
     },
   },
   watch: {
@@ -1630,12 +1658,8 @@ export default {
                 >
                   {{ $api.reservation.getSpecialMessage() }}
                 </div>
-                <div
-                  v-if="showExpenseCodeMsg(selectedEvent, false)"
-                  class="mt-2 red--text"
-                  data-cy="popup-expired-message"
-                >
-                  The selected expense code/PO will not be valid for the selected reservation time.
+                <div v-if="showExpenseCodeMsg(selectedEvent)" class="mt-2 red--text" data-cy="popup-expired-message">
+                  {{ getExpiredAccountMessage() }}
                 </div>
                 <div v-if="selectedEvent.cancelled" class="mt-2 red--text" data-cy="popup-cancelled">
                   This reservation is cancelled.
