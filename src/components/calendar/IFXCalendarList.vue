@@ -918,6 +918,9 @@ export default {
       this.setApprovalBasedOnExpenseCode(true)
     },
     showExpenseCodeMsg(event) {
+      if (!event.reservation.accounts || event.reservation.accounts.length === 0) {
+        return false
+      }
       return !this.willExpenseCodeStillBeValid(
         // Only check the first account since we don't allow splits
         event.reservation.accounts[0].account,
