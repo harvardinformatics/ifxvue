@@ -911,6 +911,26 @@ export default {
     revalidateTimes() {
       this.$refs.startDate.validate(true)
       this.$refs.endDate.validate(true)
+      this.setApprovalBasedOnExpenseCode(true)
+    },
+    showExpenseCodeMsg(event) {
+      return !this.$api.reservation.willExpenseCodeStillBeValid(
+        // Only check the first account since we don't allow splits
+        event.reservation.accounts[0].account,
+        this.allowedExpenseCodes,
+        event.startDate,
+        event.endDate,
+        false
+      )
+    },
+    setApprovalBasedOnExpenseCode() {
+      this.approved = this.$api.reservation.willExpenseCodeStillBeValid(
+        this.expenseCode,
+        this.allowedExpenseCodes,
+        this.newEvent.startDate,
+        this.newEvent.endDate,
+        true
+      )
     },
   },
   watch: {
@@ -1157,6 +1177,7 @@ export default {
                     :rules="[isBillableRule]"
                     :disabled="resourceNotSelected || !expenseCodeEnabled"
                     data-cy="expense-code"
+                    @change="setApprovalBasedOnExpenseCode(true)"
                   >
                     <template #no-data>
                       <div class="mx-3 my-1">No expense code or PO found for this organization and resource</div>
@@ -1243,7 +1264,7 @@ export default {
                       </v-autocomplete>
                     </v-col>
                   </v-row>
-                  <v-row>
+                  <v-row dense>
                     <v-col>
                       <div class="text-divider font-italic text-center">Or set End time directly</div>
                     </v-col>
@@ -1608,6 +1629,13 @@ export default {
                   data-cy="popup-special-message"
                 >
                   {{ $api.reservation.getSpecialMessage() }}
+                </div>
+                <div
+                  v-if="showExpenseCodeMsg(selectedEvent, false)"
+                  class="mt-2 red--text"
+                  data-cy="popup-expired-message"
+                >
+                  The selected expense code/PO will not be valid for the selected reservation time.
                 </div>
                 <div v-if="selectedEvent.cancelled" class="mt-2 red--text" data-cy="popup-cancelled">
                   This reservation is cancelled.
