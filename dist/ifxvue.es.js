@@ -1,4 +1,4 @@
-import { watch, effectScope, computed, reactive, capitalize, watchEffect, toRef, shallowRef, Fragment, isVNode, Comment, unref, getCurrentInstance as getCurrentInstance$1, ref, provide, inject, warn as warn$1, defineComponent as defineComponent$1, h, camelize, toRefs, onScopeDispose, nextTick, mergeProps, toValue, onMounted, toRaw, resolveDynamicComponent, readonly, TransitionGroup, Transition, onBeforeUnmount, createElementVNode, createVNode, Teleport, withDirectives, vShow, isRef, normalizeStyle, normalizeClass, resolveComponent, createBlock, openBlock, withCtx, createTextVNode, toDisplayString, useId, onUpdated, Text, withModifiers, createCommentVNode, createElementBlock, normalizeProps, guardReactiveProps, renderSlot, onBeforeMount, renderList, markRaw, onBeforeUpdate, onDeactivated, cloneVNode, createSlots, toHandlers, onActivated, vModelText, withKeys } from "vue";
+import { watch, effectScope, computed, reactive, capitalize, watchEffect, toRef, shallowRef, Fragment, isVNode, Comment, unref, warn as warn$1, getCurrentInstance as getCurrentInstance$1, ref, provide, inject, defineComponent as defineComponent$1, h, camelize, isRef, toValue, createElementVNode, normalizeClass, createVNode, normalizeStyle, onScopeDispose, toRaw, useId, onBeforeUnmount, onMounted, onUpdated, mergeProps, toRefs, Text, readonly, Transition, resolveDynamicComponent, nextTick, withDirectives, toDisplayString, createBlock, openBlock, withModifiers, withCtx, createCommentVNode, createElementBlock, createTextVNode, TransitionGroup, Teleport, vShow, resolveComponent, normalizeProps, guardReactiveProps, renderSlot, onBeforeMount, renderList, markRaw, onBeforeUpdate, onDeactivated, cloneVNode, createSlots, toHandlers, onActivated, vModelText, withKeys } from "vue";
 function _mergeNamespaces(n2, m) {
   for (var i2 = 0; i2 < m.length; i2++) {
     const e2 = m[i2];
@@ -6077,6 +6077,35 @@ class ProductRateBillingSummary extends ItemBase {
     this.data.total_decimal_charge = totalDecimalCharge;
   }
 }
+class Subscription extends ItemBase {
+  constructor(data = {}) {
+    super(data);
+  }
+  get channelId() {
+    return this.data.channel_id;
+  }
+  set channelId(channel_id) {
+    this.data.channel_id = channel_id;
+  }
+  get channelTitle() {
+    return this.data.channel_title;
+  }
+  set channelTitle(channel_title) {
+    this.data.channel_title = channel_title;
+  }
+  get organizationName() {
+    return this.data.organization_name;
+  }
+  set organizationName(organization_name) {
+    this.data.organization_name = organization_name;
+  }
+  get subscriptionId() {
+    return this.data.subscription_id;
+  }
+  set subscriptionId(subscription_id) {
+    this.data.subscription_id = subscription_id;
+  }
+}
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val);
 }
@@ -6935,6 +6964,29 @@ class IFXAPIService {
     api.runReport = (params) => {
       const runReportURL = `${this.urls.RUN_REPORT}`;
       return this.axios.post(runReportURL, params, { headers: { "Content-Type": "application/json" } });
+    };
+    return api;
+  }
+  get subscription() {
+    const baseURL = this.urls.CHANNEL_SUBSCRIPTION_LIST;
+    const createFunc = (data, decompose = false) => {
+      const newData = cloneDeep(data) || {};
+      return decompose ? newData : new Subscription(newData);
+    };
+    const decomposeFunc = (newData) => createFunc(newData, true);
+    const api = this.genericAPI(baseURL, Subscription, createFunc, decomposeFunc);
+    api.subscribeToChannel = (userId, channelId) => {
+      const url = this.urls.CHANNEL_SUBSCRIPTIONS;
+      const data = {
+        channel: { id: channelId },
+        user: { id: userId },
+        send_email: true
+      };
+      return this.axios.post(url, data, { headers: { "Content-Type": "application/json" } });
+    };
+    api.unsubscribeFromChannel = (subscriptionId) => {
+      const url = `${this.urls.CHANNEL_SUBSCRIPTIONS}${subscriptionId}/`;
+      return this.axios.delete(url, { headers: { "Content-Type": "application/json" } });
     };
     return api;
   }
@@ -8636,122 +8688,6 @@ function checkPrintable(e2) {
 function isPrimitive(value) {
   return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
 }
-function getCurrentInstance(name, message2) {
-  const vm = getCurrentInstance$1();
-  if (!vm) {
-    throw new Error(`[Vuetify] ${name} ${"must be called from inside a setup function"}`);
-  }
-  return vm;
-}
-function getCurrentInstanceName() {
-  let name = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "composables";
-  const vm = getCurrentInstance(name).type;
-  return toKebabCase((vm == null ? void 0 : vm.aliasName) || (vm == null ? void 0 : vm.name));
-}
-function injectSelf(key) {
-  let vm = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstance("injectSelf");
-  const {
-    provides
-  } = vm;
-  if (provides && key in provides) {
-    return provides[key];
-  }
-  return void 0;
-}
-const DefaultsSymbol = Symbol.for("vuetify:defaults");
-function injectDefaults() {
-  const defaults2 = inject(DefaultsSymbol);
-  if (!defaults2) throw new Error("[Vuetify] Could not find defaults instance");
-  return defaults2;
-}
-function provideDefaults(defaults2, options) {
-  const injectedDefaults = injectDefaults();
-  const providedDefaults = ref(defaults2);
-  const newDefaults = computed(() => {
-    const disabled = unref(options == null ? void 0 : options.disabled);
-    if (disabled) return injectedDefaults.value;
-    const scoped = unref(options == null ? void 0 : options.scoped);
-    const reset = unref(options == null ? void 0 : options.reset);
-    const root = unref(options == null ? void 0 : options.root);
-    if (providedDefaults.value == null && !(scoped || reset || root)) return injectedDefaults.value;
-    let properties = mergeDeep(providedDefaults.value, {
-      prev: injectedDefaults.value
-    });
-    if (scoped) return properties;
-    if (reset || root) {
-      const len = Number(reset || Infinity);
-      for (let i2 = 0; i2 <= len; i2++) {
-        if (!properties || !("prev" in properties)) {
-          break;
-        }
-        properties = properties.prev;
-      }
-      if (properties && typeof root === "string" && root in properties) {
-        properties = mergeDeep(mergeDeep(properties, {
-          prev: properties
-        }), properties[root]);
-      }
-      return properties;
-    }
-    return properties.prev ? mergeDeep(properties.prev, properties) : properties;
-  });
-  provide(DefaultsSymbol, newDefaults);
-  return newDefaults;
-}
-function propIsDefined(vnode, prop) {
-  return vnode.props && (typeof vnode.props[prop] !== "undefined" || typeof vnode.props[toKebabCase(prop)] !== "undefined");
-}
-function internalUseDefaults() {
-  let props = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-  let name = arguments.length > 1 ? arguments[1] : void 0;
-  let defaults2 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : injectDefaults();
-  const vm = getCurrentInstance("useDefaults");
-  name = name ?? vm.type.name ?? vm.type.__name;
-  if (!name) {
-    throw new Error("[Vuetify] Could not determine component name");
-  }
-  const componentDefaults = computed(() => {
-    var _a;
-    return (_a = defaults2.value) == null ? void 0 : _a[props._as ?? name];
-  });
-  const _props = new Proxy(props, {
-    get(target, prop) {
-      var _a, _b, _c, _d;
-      const propValue = Reflect.get(target, prop);
-      if (prop === "class" || prop === "style") {
-        return [(_a = componentDefaults.value) == null ? void 0 : _a[prop], propValue].filter((v) => v != null);
-      }
-      if (propIsDefined(vm.vnode, prop)) return propValue;
-      const _componentDefault = (_b = componentDefaults.value) == null ? void 0 : _b[prop];
-      if (_componentDefault !== void 0) return _componentDefault;
-      const _globalDefault = (_d = (_c = defaults2.value) == null ? void 0 : _c.global) == null ? void 0 : _d[prop];
-      if (_globalDefault !== void 0) return _globalDefault;
-      return propValue;
-    }
-  });
-  const _subcomponentDefaults = shallowRef();
-  watchEffect(() => {
-    if (componentDefaults.value) {
-      const subComponents = Object.entries(componentDefaults.value).filter((_ref) => {
-        let [key] = _ref;
-        return key.startsWith(key[0].toUpperCase());
-      });
-      _subcomponentDefaults.value = subComponents.length ? Object.fromEntries(subComponents) : void 0;
-    } else {
-      _subcomponentDefaults.value = void 0;
-    }
-  });
-  function provideSubDefaults() {
-    const injected = injectSelf(DefaultsSymbol, vm);
-    provide(DefaultsSymbol, computed(() => {
-      return _subcomponentDefaults.value ? mergeDeep((injected == null ? void 0 : injected.value) ?? {}, _subcomponentDefaults.value) : injected == null ? void 0 : injected.value;
-    }));
-  }
-  return {
-    props: _props,
-    provideSubDefaults
-  };
-}
 const block = ["top", "bottom"];
 const inline = ["start", "end", "left", "right"];
 function parseAnchor(anchor, isRtl) {
@@ -9224,6 +9160,122 @@ const makeComponentProps = propsFactory({
     default: null
   }
 }, "component");
+function getCurrentInstance(name, message2) {
+  const vm = getCurrentInstance$1();
+  if (!vm) {
+    throw new Error(`[Vuetify] ${name} ${"must be called from inside a setup function"}`);
+  }
+  return vm;
+}
+function getCurrentInstanceName() {
+  let name = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "composables";
+  const vm = getCurrentInstance(name).type;
+  return toKebabCase((vm == null ? void 0 : vm.aliasName) || (vm == null ? void 0 : vm.name));
+}
+function injectSelf(key) {
+  let vm = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstance("injectSelf");
+  const {
+    provides
+  } = vm;
+  if (provides && key in provides) {
+    return provides[key];
+  }
+  return void 0;
+}
+const DefaultsSymbol = Symbol.for("vuetify:defaults");
+function injectDefaults() {
+  const defaults2 = inject(DefaultsSymbol);
+  if (!defaults2) throw new Error("[Vuetify] Could not find defaults instance");
+  return defaults2;
+}
+function provideDefaults(defaults2, options) {
+  const injectedDefaults = injectDefaults();
+  const providedDefaults = ref(defaults2);
+  const newDefaults = computed(() => {
+    const disabled = unref(options == null ? void 0 : options.disabled);
+    if (disabled) return injectedDefaults.value;
+    const scoped = unref(options == null ? void 0 : options.scoped);
+    const reset = unref(options == null ? void 0 : options.reset);
+    const root = unref(options == null ? void 0 : options.root);
+    if (providedDefaults.value == null && !(scoped || reset || root)) return injectedDefaults.value;
+    let properties = mergeDeep(providedDefaults.value, {
+      prev: injectedDefaults.value
+    });
+    if (scoped) return properties;
+    if (reset || root) {
+      const len = Number(reset || Infinity);
+      for (let i2 = 0; i2 <= len; i2++) {
+        if (!properties || !("prev" in properties)) {
+          break;
+        }
+        properties = properties.prev;
+      }
+      if (properties && typeof root === "string" && root in properties) {
+        properties = mergeDeep(mergeDeep(properties, {
+          prev: properties
+        }), properties[root]);
+      }
+      return properties;
+    }
+    return properties.prev ? mergeDeep(properties.prev, properties) : properties;
+  });
+  provide(DefaultsSymbol, newDefaults);
+  return newDefaults;
+}
+function propIsDefined(vnode, prop) {
+  return vnode.props && (typeof vnode.props[prop] !== "undefined" || typeof vnode.props[toKebabCase(prop)] !== "undefined");
+}
+function internalUseDefaults() {
+  let props = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+  let name = arguments.length > 1 ? arguments[1] : void 0;
+  let defaults2 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : injectDefaults();
+  const vm = getCurrentInstance("useDefaults");
+  name = name ?? vm.type.name ?? vm.type.__name;
+  if (!name) {
+    throw new Error("[Vuetify] Could not determine component name");
+  }
+  const componentDefaults = computed(() => {
+    var _a;
+    return (_a = defaults2.value) == null ? void 0 : _a[props._as ?? name];
+  });
+  const _props = new Proxy(props, {
+    get(target, prop) {
+      var _a, _b, _c, _d;
+      const propValue = Reflect.get(target, prop);
+      if (prop === "class" || prop === "style") {
+        return [(_a = componentDefaults.value) == null ? void 0 : _a[prop], propValue].filter((v) => v != null);
+      }
+      if (propIsDefined(vm.vnode, prop)) return propValue;
+      const _componentDefault = (_b = componentDefaults.value) == null ? void 0 : _b[prop];
+      if (_componentDefault !== void 0) return _componentDefault;
+      const _globalDefault = (_d = (_c = defaults2.value) == null ? void 0 : _c.global) == null ? void 0 : _d[prop];
+      if (_globalDefault !== void 0) return _globalDefault;
+      return propValue;
+    }
+  });
+  const _subcomponentDefaults = shallowRef();
+  watchEffect(() => {
+    if (componentDefaults.value) {
+      const subComponents = Object.entries(componentDefaults.value).filter((_ref) => {
+        let [key] = _ref;
+        return key.startsWith(key[0].toUpperCase());
+      });
+      _subcomponentDefaults.value = subComponents.length ? Object.fromEntries(subComponents) : void 0;
+    } else {
+      _subcomponentDefaults.value = void 0;
+    }
+  });
+  function provideSubDefaults() {
+    const injected = injectSelf(DefaultsSymbol, vm);
+    provide(DefaultsSymbol, computed(() => {
+      return _subcomponentDefaults.value ? mergeDeep((injected == null ? void 0 : injected.value) ?? {}, _subcomponentDefaults.value) : injected == null ? void 0 : injected.value;
+    }));
+  }
+  return {
+    props: _props,
+    provideSubDefaults
+  };
+}
 function defineComponent(options) {
   options._setup = options._setup ?? options.setup;
   if (!options.name) {
@@ -9347,6 +9399,592 @@ function useRender(render) {
   const vm = getCurrentInstance("useRender");
   vm.render = render;
 }
+const makeBorderProps = propsFactory({
+  border: [Boolean, Number, String]
+}, "border");
+function useBorder(props) {
+  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
+  const borderClasses = computed(() => {
+    const border = props.border;
+    if (border === true || border === "") {
+      return `${name}--border`;
+    } else if (typeof border === "string" || border === 0) {
+      return String(border).split(" ").map((v) => `border-${v}`);
+    }
+    return [];
+  });
+  return {
+    borderClasses
+  };
+}
+const allowedDensities$1 = [null, "default", "comfortable", "compact"];
+const makeDensityProps = propsFactory({
+  density: {
+    type: String,
+    default: "default",
+    validator: (v) => allowedDensities$1.includes(v)
+  }
+}, "density");
+function useDensity(props) {
+  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
+  const densityClasses = toRef(() => {
+    return `${name}--density-${props.density}`;
+  });
+  return {
+    densityClasses
+  };
+}
+const makeElevationProps = propsFactory({
+  elevation: {
+    type: [Number, String],
+    validator(v) {
+      const value = parseInt(v);
+      return !isNaN(value) && value >= 0 && // Material Design has a maximum elevation of 24
+      // https://material.io/design/environment/elevation.html#default-elevations
+      value <= 24;
+    }
+  }
+}, "elevation");
+function useElevation(props) {
+  const elevationClasses = toRef(() => {
+    const elevation = isRef(props) ? props.value : props.elevation;
+    if (elevation == null) return [];
+    return [`elevation-${elevation}`];
+  });
+  return {
+    elevationClasses
+  };
+}
+const makeRoundedProps = propsFactory({
+  rounded: {
+    type: [Boolean, Number, String],
+    default: void 0
+  },
+  tile: Boolean
+}, "rounded");
+function useRounded(props) {
+  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
+  const roundedClasses = computed(() => {
+    const rounded = isRef(props) ? props.value : props.rounded;
+    const tile = isRef(props) ? props.value : props.tile;
+    const classes = [];
+    if (rounded === true || rounded === "") {
+      classes.push(`${name}--rounded`);
+    } else if (typeof rounded === "string" || rounded === 0) {
+      for (const value of String(rounded).split(" ")) {
+        classes.push(`rounded-${value}`);
+      }
+    } else if (tile || rounded === false) {
+      classes.push("rounded-0");
+    }
+    return classes;
+  });
+  return {
+    roundedClasses
+  };
+}
+const makeTagProps = propsFactory({
+  tag: {
+    type: [String, Object, Function],
+    default: "div"
+  }
+}, "tag");
+const ThemeSymbol = Symbol.for("vuetify:theme");
+const makeThemeProps = propsFactory({
+  theme: String
+}, "theme");
+function provideTheme(props) {
+  getCurrentInstance("provideTheme");
+  const theme = inject(ThemeSymbol, null);
+  if (!theme) throw new Error("Could not find Vuetify theme injection");
+  const name = toRef(() => props.theme ?? theme.name.value);
+  const current = toRef(() => theme.themes.value[name.value]);
+  const themeClasses = toRef(() => theme.isDisabled ? void 0 : `v-theme--${name.value}`);
+  const newTheme = {
+    ...theme,
+    name,
+    current,
+    themeClasses
+  };
+  provide(ThemeSymbol, newTheme);
+  return newTheme;
+}
+function useTheme() {
+  getCurrentInstance("useTheme");
+  const theme = inject(ThemeSymbol, null);
+  if (!theme) throw new Error("Could not find Vuetify theme injection");
+  return theme;
+}
+function useColor(colors) {
+  return destructComputed(() => {
+    const _colors = toValue(colors);
+    const classes = [];
+    const styles = {};
+    if (_colors.background) {
+      if (isCssColor(_colors.background)) {
+        styles.backgroundColor = _colors.background;
+        if (!_colors.text && isParsableColor(_colors.background)) {
+          const backgroundColor = parseColor(_colors.background);
+          if (backgroundColor.a == null || backgroundColor.a === 1) {
+            const textColor = getForeground(backgroundColor);
+            styles.color = textColor;
+            styles.caretColor = textColor;
+          }
+        }
+      } else {
+        classes.push(`bg-${_colors.background}`);
+      }
+    }
+    if (_colors.text) {
+      if (isCssColor(_colors.text)) {
+        styles.color = _colors.text;
+        styles.caretColor = _colors.text;
+      } else {
+        classes.push(`text-${_colors.text}`);
+      }
+    }
+    return {
+      colorClasses: classes,
+      colorStyles: styles
+    };
+  });
+}
+function useTextColor(color) {
+  const {
+    colorClasses: textColorClasses,
+    colorStyles: textColorStyles
+  } = useColor(() => ({
+    text: toValue(color)
+  }));
+  return {
+    textColorClasses,
+    textColorStyles
+  };
+}
+function useBackgroundColor(color) {
+  const {
+    colorClasses: backgroundColorClasses,
+    colorStyles: backgroundColorStyles
+  } = useColor(() => ({
+    background: toValue(color)
+  }));
+  return {
+    backgroundColorClasses,
+    backgroundColorStyles
+  };
+}
+const allowedVariants$1 = ["elevated", "flat", "tonal", "outlined", "text", "plain"];
+function genOverlays(isClickable, name) {
+  return createElementVNode(Fragment, null, [isClickable && createElementVNode("span", {
+    "key": "overlay",
+    "class": normalizeClass(`${name}__overlay`)
+  }, null), createElementVNode("span", {
+    "key": "underlay",
+    "class": normalizeClass(`${name}__underlay`)
+  }, null)]);
+}
+const makeVariantProps = propsFactory({
+  color: String,
+  variant: {
+    type: String,
+    default: "elevated",
+    validator: (v) => allowedVariants$1.includes(v)
+  }
+}, "variant");
+function useVariant(props) {
+  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
+  const variantClasses = toRef(() => {
+    const {
+      variant
+    } = toValue(props);
+    return `${name}--variant-${variant}`;
+  });
+  const {
+    colorClasses,
+    colorStyles
+  } = useColor(() => {
+    const {
+      variant,
+      color
+    } = toValue(props);
+    return {
+      [["elevated", "flat"].includes(variant) ? "background" : "text"]: color
+    };
+  });
+  return {
+    colorClasses,
+    colorStyles,
+    variantClasses
+  };
+}
+const makeVBtnGroupProps = propsFactory({
+  baseColor: String,
+  divided: Boolean,
+  ...makeBorderProps(),
+  ...makeComponentProps(),
+  ...makeDensityProps(),
+  ...makeElevationProps(),
+  ...makeRoundedProps(),
+  ...makeTagProps(),
+  ...makeThemeProps(),
+  ...makeVariantProps()
+}, "VBtnGroup");
+const VBtnGroup = genericComponent()({
+  name: "VBtnGroup",
+  props: makeVBtnGroupProps(),
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      densityClasses
+    } = useDensity(props);
+    const {
+      borderClasses
+    } = useBorder(props);
+    const {
+      elevationClasses
+    } = useElevation(props);
+    const {
+      roundedClasses
+    } = useRounded(props);
+    provideDefaults({
+      VBtn: {
+        height: "auto",
+        baseColor: toRef(() => props.baseColor),
+        color: toRef(() => props.color),
+        density: toRef(() => props.density),
+        flat: true,
+        variant: toRef(() => props.variant)
+      }
+    });
+    useRender(() => {
+      return createVNode(props.tag, {
+        "class": normalizeClass(["v-btn-group", {
+          "v-btn-group--divided": props.divided
+        }, themeClasses.value, borderClasses.value, densityClasses.value, elevationClasses.value, roundedClasses.value, props.class]),
+        "style": normalizeStyle(props.style)
+      }, slots);
+    });
+  }
+});
+function useToggleScope(source, fn) {
+  let scope;
+  function start() {
+    scope = effectScope();
+    scope.run(() => fn.length ? fn(() => {
+      scope == null ? void 0 : scope.stop();
+      start();
+    }) : fn());
+  }
+  watch(source, (active) => {
+    if (active && !scope) {
+      start();
+    } else if (!active) {
+      scope == null ? void 0 : scope.stop();
+      scope = void 0;
+    }
+  }, {
+    immediate: true
+  });
+  onScopeDispose(() => {
+    scope == null ? void 0 : scope.stop();
+  });
+}
+function useProxiedModel(props, prop, defaultValue) {
+  let transformIn = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : (v) => v;
+  let transformOut = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : (v) => v;
+  const vm = getCurrentInstance("useProxiedModel");
+  const internal = ref(props[prop] !== void 0 ? props[prop] : defaultValue);
+  const kebabProp = toKebabCase(prop);
+  const checkKebab = kebabProp !== prop;
+  const isControlled = checkKebab ? computed(() => {
+    var _a, _b, _c, _d;
+    void props[prop];
+    return !!((((_a = vm.vnode.props) == null ? void 0 : _a.hasOwnProperty(prop)) || ((_b = vm.vnode.props) == null ? void 0 : _b.hasOwnProperty(kebabProp))) && (((_c = vm.vnode.props) == null ? void 0 : _c.hasOwnProperty(`onUpdate:${prop}`)) || ((_d = vm.vnode.props) == null ? void 0 : _d.hasOwnProperty(`onUpdate:${kebabProp}`))));
+  }) : computed(() => {
+    var _a, _b;
+    void props[prop];
+    return !!(((_a = vm.vnode.props) == null ? void 0 : _a.hasOwnProperty(prop)) && ((_b = vm.vnode.props) == null ? void 0 : _b.hasOwnProperty(`onUpdate:${prop}`)));
+  });
+  useToggleScope(() => !isControlled.value, () => {
+    watch(() => props[prop], (val) => {
+      internal.value = val;
+    });
+  });
+  const model = computed({
+    get() {
+      const externalValue = props[prop];
+      return transformIn(isControlled.value ? externalValue : internal.value);
+    },
+    set(internalValue) {
+      const newValue = transformOut(internalValue);
+      const value = toRaw(isControlled.value ? props[prop] : internal.value);
+      if (value === newValue || transformIn(value) === internalValue) {
+        return;
+      }
+      internal.value = newValue;
+      vm == null ? void 0 : vm.emit(`update:${prop}`, newValue);
+    }
+  });
+  Object.defineProperty(model, "externalValue", {
+    get: () => isControlled.value ? props[prop] : internal.value
+  });
+  return model;
+}
+const makeGroupProps = propsFactory({
+  modelValue: {
+    type: null,
+    default: void 0
+  },
+  multiple: Boolean,
+  mandatory: [Boolean, String],
+  max: Number,
+  selectedClass: String,
+  disabled: Boolean
+}, "group");
+const makeGroupItemProps = propsFactory({
+  value: null,
+  disabled: Boolean,
+  selectedClass: String
+}, "group-item");
+function useGroupItem(props, injectKey) {
+  let required = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true;
+  const vm = getCurrentInstance("useGroupItem");
+  if (!vm) {
+    throw new Error("[Vuetify] useGroupItem composable must be used inside a component setup function");
+  }
+  const id = useId();
+  provide(Symbol.for(`${injectKey.description}:id`), id);
+  const group = inject(injectKey, null);
+  if (!group) {
+    if (!required) return group;
+    throw new Error(`[Vuetify] Could not find useGroup injection with symbol ${injectKey.description}`);
+  }
+  const value = toRef(() => props.value);
+  const disabled = computed(() => !!(group.disabled.value || props.disabled));
+  group.register({
+    id,
+    value,
+    disabled
+  }, vm);
+  onBeforeUnmount(() => {
+    group.unregister(id);
+  });
+  const isSelected = computed(() => {
+    return group.isSelected(id);
+  });
+  const isFirst = computed(() => {
+    return group.items.value[0].id === id;
+  });
+  const isLast = computed(() => {
+    return group.items.value[group.items.value.length - 1].id === id;
+  });
+  const selectedClass = computed(() => isSelected.value && [group.selectedClass.value, props.selectedClass]);
+  watch(isSelected, (value2) => {
+    vm.emit("group:selected", {
+      value: value2
+    });
+  }, {
+    flush: "sync"
+  });
+  return {
+    id,
+    isSelected,
+    isFirst,
+    isLast,
+    toggle: () => group.select(id, !isSelected.value),
+    select: (value2) => group.select(id, value2),
+    selectedClass,
+    value,
+    disabled,
+    group
+  };
+}
+function useGroup(props, injectKey) {
+  let isUnmounted = false;
+  const items = reactive([]);
+  const selected = useProxiedModel(props, "modelValue", [], (v) => {
+    if (v == null) return [];
+    return getIds(items, wrapInArray(v));
+  }, (v) => {
+    const arr = getValues(items, v);
+    return props.multiple ? arr : arr[0];
+  });
+  const groupVm = getCurrentInstance("useGroup");
+  function register2(item, vm) {
+    const unwrapped = item;
+    const key = Symbol.for(`${injectKey.description}:id`);
+    const children = findChildrenWithProvide(key, groupVm == null ? void 0 : groupVm.vnode);
+    const index = children.indexOf(vm);
+    if (unref(unwrapped.value) == null) {
+      unwrapped.value = index;
+      unwrapped.useIndexAsValue = true;
+    }
+    if (index > -1) {
+      items.splice(index, 0, unwrapped);
+    } else {
+      items.push(unwrapped);
+    }
+  }
+  function unregister2(id) {
+    if (isUnmounted) return;
+    forceMandatoryValue();
+    const index = items.findIndex((item) => item.id === id);
+    items.splice(index, 1);
+  }
+  function forceMandatoryValue() {
+    const item = items.find((item2) => !item2.disabled);
+    if (item && props.mandatory === "force" && !selected.value.length) {
+      selected.value = [item.id];
+    }
+  }
+  onMounted(() => {
+    forceMandatoryValue();
+  });
+  onBeforeUnmount(() => {
+    isUnmounted = true;
+  });
+  onUpdated(() => {
+    for (let i2 = 0; i2 < items.length; i2++) {
+      if (items[i2].useIndexAsValue) {
+        items[i2].value = i2;
+      }
+    }
+  });
+  function select(id, value) {
+    const item = items.find((item2) => item2.id === id);
+    if (value && (item == null ? void 0 : item.disabled)) return;
+    if (props.multiple) {
+      const internalValue = selected.value.slice();
+      const index = internalValue.findIndex((v) => v === id);
+      const isSelected = ~index;
+      value = value ?? !isSelected;
+      if (isSelected && props.mandatory && internalValue.length <= 1) return;
+      if (!isSelected && props.max != null && internalValue.length + 1 > props.max) return;
+      if (index < 0 && value) internalValue.push(id);
+      else if (index >= 0 && !value) internalValue.splice(index, 1);
+      selected.value = internalValue;
+    } else {
+      const isSelected = selected.value.includes(id);
+      if (props.mandatory && isSelected) return;
+      selected.value = value ?? !isSelected ? [id] : [];
+    }
+  }
+  function step(offset2) {
+    if (props.multiple) consoleWarn('This method is not supported when using "multiple" prop');
+    if (!selected.value.length) {
+      const item = items.find((item2) => !item2.disabled);
+      item && (selected.value = [item.id]);
+    } else {
+      const currentId = selected.value[0];
+      const currentIndex = items.findIndex((i2) => i2.id === currentId);
+      let newIndex = (currentIndex + offset2) % items.length;
+      let newItem = items[newIndex];
+      while (newItem.disabled && newIndex !== currentIndex) {
+        newIndex = (newIndex + offset2) % items.length;
+        newItem = items[newIndex];
+      }
+      if (newItem.disabled) return;
+      selected.value = [items[newIndex].id];
+    }
+  }
+  const state2 = {
+    register: register2,
+    unregister: unregister2,
+    selected,
+    select,
+    disabled: toRef(() => props.disabled),
+    prev: () => step(items.length - 1),
+    next: () => step(1),
+    isSelected: (id) => selected.value.includes(id),
+    selectedClass: toRef(() => props.selectedClass),
+    items: toRef(() => items),
+    getItemIndex: (value) => getItemIndex(items, value)
+  };
+  provide(injectKey, state2);
+  return state2;
+}
+function getItemIndex(items, value) {
+  const ids = getIds(items, [value]);
+  if (!ids.length) return -1;
+  return items.findIndex((item) => item.id === ids[0]);
+}
+function getIds(items, modelValue) {
+  const ids = [];
+  modelValue.forEach((value) => {
+    const item = items.find((item2) => deepEqual(value, item2.value));
+    const itemByIndex = items[value];
+    if ((item == null ? void 0 : item.value) != null) {
+      ids.push(item.id);
+    } else if (itemByIndex != null) {
+      ids.push(itemByIndex.id);
+    }
+  });
+  return ids;
+}
+function getValues(items, ids) {
+  const values = [];
+  ids.forEach((id) => {
+    const itemIndex = items.findIndex((item) => item.id === id);
+    if (~itemIndex) {
+      const item = items[itemIndex];
+      values.push(item.value != null ? item.value : itemIndex);
+    }
+  });
+  return values;
+}
+const VBtnToggleSymbol = Symbol.for("vuetify:v-btn-toggle");
+const makeVBtnToggleProps = propsFactory({
+  ...makeVBtnGroupProps(),
+  ...makeGroupProps()
+}, "VBtnToggle");
+const VBtnToggle = genericComponent()({
+  name: "VBtnToggle",
+  props: makeVBtnToggleProps(),
+  emits: {
+    "update:modelValue": (value) => true
+  },
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    const {
+      isSelected,
+      next,
+      prev,
+      select,
+      selected
+    } = useGroup(props, VBtnToggleSymbol);
+    useRender(() => {
+      const btnGroupProps = VBtnGroup.filterProps(props);
+      return createVNode(VBtnGroup, mergeProps({
+        "class": ["v-btn-toggle", props.class]
+      }, btnGroupProps, {
+        "style": props.style
+      }), {
+        default: () => {
+          var _a;
+          return [(_a = slots.default) == null ? void 0 : _a.call(slots, {
+            isSelected,
+            next,
+            prev,
+            select,
+            selected
+          })];
+        }
+      });
+    });
+    return {
+      next,
+      prev,
+      select
+    };
+  }
+});
 const makeVDefaultsProviderProps = propsFactory({
   defaults: Object,
   disabled: Boolean,
@@ -9380,29 +10018,1555 @@ const VDefaultsProvider = genericComponent(false)({
     };
   }
 });
-function useToggleScope(source, fn) {
-  let scope;
-  function start() {
-    scope = effectScope();
-    scope.run(() => fn.length ? fn(() => {
-      scope == null ? void 0 : scope.stop();
-      start();
-    }) : fn());
+const IconValue = [String, Function, Object, Array];
+const IconSymbol = Symbol.for("vuetify:icons");
+const makeIconProps = propsFactory({
+  icon: {
+    type: IconValue
+  },
+  // Could not remove this and use makeTagProps, types complained because it is not required
+  tag: {
+    type: [String, Object, Function],
+    required: true
   }
-  watch(source, (active) => {
-    if (active && !scope) {
-      start();
-    } else if (!active) {
-      scope == null ? void 0 : scope.stop();
-      scope = void 0;
+}, "icon");
+const VComponentIcon = genericComponent()({
+  name: "VComponentIcon",
+  props: makeIconProps(),
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    return () => {
+      const Icon = props.icon;
+      return createVNode(props.tag, null, {
+        default: () => {
+          var _a;
+          return [props.icon ? createVNode(Icon, null, null) : (_a = slots.default) == null ? void 0 : _a.call(slots)];
+        }
+      });
+    };
+  }
+});
+const VSvgIcon = defineComponent({
+  name: "VSvgIcon",
+  inheritAttrs: false,
+  props: makeIconProps(),
+  setup(props, _ref2) {
+    let {
+      attrs
+    } = _ref2;
+    return () => {
+      return createVNode(props.tag, mergeProps(attrs, {
+        "style": null
+      }), {
+        default: () => [createElementVNode("svg", {
+          "class": "v-icon__svg",
+          "xmlns": "http://www.w3.org/2000/svg",
+          "viewBox": "0 0 24 24",
+          "role": "img",
+          "aria-hidden": "true"
+        }, [Array.isArray(props.icon) ? props.icon.map((path) => Array.isArray(path) ? createElementVNode("path", {
+          "d": path[0],
+          "fill-opacity": path[1]
+        }, null) : createElementVNode("path", {
+          "d": path
+        }, null)) : createElementVNode("path", {
+          "d": props.icon
+        }, null)])]
+      });
+    };
+  }
+});
+defineComponent({
+  name: "VLigatureIcon",
+  props: makeIconProps(),
+  setup(props) {
+    return () => {
+      return createVNode(props.tag, null, {
+        default: () => [props.icon]
+      });
+    };
+  }
+});
+defineComponent({
+  name: "VClassIcon",
+  props: makeIconProps(),
+  setup(props) {
+    return () => {
+      return createVNode(props.tag, {
+        "class": normalizeClass(props.icon)
+      }, null);
+    };
+  }
+});
+const useIcon = (props) => {
+  const icons = inject(IconSymbol);
+  if (!icons) throw new Error("Missing Vuetify Icons provide!");
+  const iconData = computed(() => {
+    var _a;
+    const iconAlias = toValue(props);
+    if (!iconAlias) return {
+      component: VComponentIcon
+    };
+    let icon = iconAlias;
+    if (typeof icon === "string") {
+      icon = icon.trim();
+      if (icon.startsWith("$")) {
+        icon = (_a = icons.aliases) == null ? void 0 : _a[icon.slice(1)];
+      }
+    }
+    if (!icon) consoleWarn(`Could not find aliased icon "${iconAlias}"`);
+    if (Array.isArray(icon)) {
+      return {
+        component: VSvgIcon,
+        icon
+      };
+    } else if (typeof icon !== "string") {
+      return {
+        component: VComponentIcon,
+        icon
+      };
+    }
+    const iconSetName = Object.keys(icons.sets).find((setName) => typeof icon === "string" && icon.startsWith(`${setName}:`));
+    const iconName = iconSetName ? icon.slice(iconSetName.length + 1) : icon;
+    const iconSet = icons.sets[iconSetName ?? icons.defaultSet];
+    return {
+      component: iconSet.component,
+      icon: iconName
+    };
+  });
+  return {
+    iconData
+  };
+};
+const predefinedSizes = ["x-small", "small", "default", "large", "x-large"];
+const makeSizeProps = propsFactory({
+  size: {
+    type: [String, Number],
+    default: "default"
+  }
+}, "size");
+function useSize(props) {
+  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
+  return destructComputed(() => {
+    const size = props.size;
+    let sizeClasses;
+    let sizeStyles;
+    if (includes(predefinedSizes, size)) {
+      sizeClasses = `${name}--size-${size}`;
+    } else if (size) {
+      sizeStyles = {
+        width: convertToUnit(size),
+        height: convertToUnit(size)
+      };
+    }
+    return {
+      sizeClasses,
+      sizeStyles
+    };
+  });
+}
+const makeVIconProps = propsFactory({
+  color: String,
+  disabled: Boolean,
+  start: Boolean,
+  end: Boolean,
+  icon: IconValue,
+  opacity: [String, Number],
+  ...makeComponentProps(),
+  ...makeSizeProps(),
+  ...makeTagProps({
+    tag: "i"
+  }),
+  ...makeThemeProps()
+}, "VIcon");
+const VIcon = genericComponent()({
+  name: "VIcon",
+  props: makeVIconProps(),
+  setup(props, _ref) {
+    let {
+      attrs,
+      slots
+    } = _ref;
+    const slotIcon = shallowRef();
+    const {
+      themeClasses
+    } = useTheme();
+    const {
+      iconData
+    } = useIcon(() => slotIcon.value || props.icon);
+    const {
+      sizeClasses
+    } = useSize(props);
+    const {
+      textColorClasses,
+      textColorStyles
+    } = useTextColor(() => props.color);
+    useRender(() => {
+      var _a, _b;
+      const slotValue = (_a = slots.default) == null ? void 0 : _a.call(slots);
+      if (slotValue) {
+        slotIcon.value = (_b = flattenFragments(slotValue).filter((node) => node.type === Text && node.children && typeof node.children === "string")[0]) == null ? void 0 : _b.children;
+      }
+      const hasClick = !!(attrs.onClick || attrs.onClickOnce);
+      return createVNode(iconData.value.component, {
+        "tag": props.tag,
+        "icon": iconData.value.icon,
+        "class": normalizeClass(["v-icon", "notranslate", themeClasses.value, sizeClasses.value, textColorClasses.value, {
+          "v-icon--clickable": hasClick,
+          "v-icon--disabled": props.disabled,
+          "v-icon--start": props.start,
+          "v-icon--end": props.end
+        }, props.class]),
+        "style": normalizeStyle([{
+          "--v-icon-opacity": props.opacity
+        }, !sizeClasses.value ? {
+          fontSize: convertToUnit(props.size),
+          height: convertToUnit(props.size),
+          width: convertToUnit(props.size)
+        } : void 0, textColorStyles.value, props.style]),
+        "role": hasClick ? "button" : void 0,
+        "aria-hidden": !hasClick,
+        "tabindex": hasClick ? props.disabled ? -1 : 0 : void 0
+      }, {
+        default: () => [slotValue]
+      });
+    });
+    return {};
+  }
+});
+function useIntersectionObserver(callback, options) {
+  const intersectionRef = ref();
+  const isIntersecting = shallowRef(false);
+  if (SUPPORTS_INTERSECTION) {
+    const observer = new IntersectionObserver((entries) => {
+      isIntersecting.value = !!entries.find((entry) => entry.isIntersecting);
+    }, options);
+    onBeforeUnmount(() => {
+      observer.disconnect();
+    });
+    watch(intersectionRef, (newValue, oldValue) => {
+      if (oldValue) {
+        observer.unobserve(oldValue);
+        isIntersecting.value = false;
+      }
+      if (newValue) observer.observe(newValue);
+    }, {
+      flush: "post"
+    });
+  }
+  return {
+    intersectionRef,
+    isIntersecting
+  };
+}
+function useResizeObserver(callback) {
+  let box = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "content";
+  const resizeRef = templateRef();
+  const contentRect = ref();
+  if (IN_BROWSER) {
+    const observer = new ResizeObserver((entries) => {
+      callback == null ? void 0 : callback(entries, observer);
+      if (!entries.length) return;
+      if (box === "content") {
+        contentRect.value = entries[0].contentRect;
+      } else {
+        contentRect.value = entries[0].target.getBoundingClientRect();
+      }
+    });
+    onBeforeUnmount(() => {
+      observer.disconnect();
+    });
+    watch(() => resizeRef.el, (newValue, oldValue) => {
+      if (oldValue) {
+        observer.unobserve(oldValue);
+        contentRect.value = void 0;
+      }
+      if (newValue) observer.observe(newValue);
+    }, {
+      flush: "post"
+    });
+  }
+  return {
+    resizeRef,
+    contentRect: readonly(contentRect)
+  };
+}
+const makeVProgressCircularProps = propsFactory({
+  bgColor: String,
+  color: String,
+  indeterminate: [Boolean, String],
+  modelValue: {
+    type: [Number, String],
+    default: 0
+  },
+  rotate: {
+    type: [Number, String],
+    default: 0
+  },
+  width: {
+    type: [Number, String],
+    default: 4
+  },
+  ...makeComponentProps(),
+  ...makeSizeProps(),
+  ...makeTagProps({
+    tag: "div"
+  }),
+  ...makeThemeProps()
+}, "VProgressCircular");
+const VProgressCircular = genericComponent()({
+  name: "VProgressCircular",
+  props: makeVProgressCircularProps(),
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    const MAGIC_RADIUS_CONSTANT = 20;
+    const CIRCUMFERENCE = 2 * Math.PI * MAGIC_RADIUS_CONSTANT;
+    const root = ref();
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      sizeClasses,
+      sizeStyles
+    } = useSize(props);
+    const {
+      textColorClasses,
+      textColorStyles
+    } = useTextColor(() => props.color);
+    const {
+      textColorClasses: underlayColorClasses,
+      textColorStyles: underlayColorStyles
+    } = useTextColor(() => props.bgColor);
+    const {
+      intersectionRef,
+      isIntersecting
+    } = useIntersectionObserver();
+    const {
+      resizeRef,
+      contentRect
+    } = useResizeObserver();
+    const normalizedValue = toRef(() => clamp(parseFloat(props.modelValue), 0, 100));
+    const width = toRef(() => Number(props.width));
+    const size = toRef(() => {
+      return sizeStyles.value ? Number(props.size) : contentRect.value ? contentRect.value.width : Math.max(width.value, 32);
+    });
+    const diameter = toRef(() => MAGIC_RADIUS_CONSTANT / (1 - width.value / size.value) * 2);
+    const strokeWidth = toRef(() => width.value / size.value * diameter.value);
+    const strokeDashOffset = toRef(() => convertToUnit((100 - normalizedValue.value) / 100 * CIRCUMFERENCE));
+    watchEffect(() => {
+      intersectionRef.value = root.value;
+      resizeRef.value = root.value;
+    });
+    useRender(() => createVNode(props.tag, {
+      "ref": root,
+      "class": normalizeClass(["v-progress-circular", {
+        "v-progress-circular--indeterminate": !!props.indeterminate,
+        "v-progress-circular--visible": isIntersecting.value,
+        "v-progress-circular--disable-shrink": props.indeterminate === "disable-shrink"
+      }, themeClasses.value, sizeClasses.value, textColorClasses.value, props.class]),
+      "style": normalizeStyle([sizeStyles.value, textColorStyles.value, props.style]),
+      "role": "progressbar",
+      "aria-valuemin": "0",
+      "aria-valuemax": "100",
+      "aria-valuenow": props.indeterminate ? void 0 : normalizedValue.value
+    }, {
+      default: () => [createElementVNode("svg", {
+        "style": normalizeStyle({
+          transform: `rotate(calc(-90deg + ${Number(props.rotate)}deg))`
+        }),
+        "xmlns": "http://www.w3.org/2000/svg",
+        "viewBox": `0 0 ${diameter.value} ${diameter.value}`
+      }, [createElementVNode("circle", {
+        "class": normalizeClass(["v-progress-circular__underlay", underlayColorClasses.value]),
+        "style": normalizeStyle(underlayColorStyles.value),
+        "fill": "transparent",
+        "cx": "50%",
+        "cy": "50%",
+        "r": MAGIC_RADIUS_CONSTANT,
+        "stroke-width": strokeWidth.value,
+        "stroke-dasharray": CIRCUMFERENCE,
+        "stroke-dashoffset": 0
+      }, null), createElementVNode("circle", {
+        "class": "v-progress-circular__overlay",
+        "fill": "transparent",
+        "cx": "50%",
+        "cy": "50%",
+        "r": MAGIC_RADIUS_CONSTANT,
+        "stroke-width": strokeWidth.value,
+        "stroke-dasharray": CIRCUMFERENCE,
+        "stroke-dashoffset": strokeDashOffset.value
+      }, null)]), slots.default && createElementVNode("div", {
+        "class": "v-progress-circular__content"
+      }, [slots.default({
+        value: normalizedValue.value
+      })])]
+    }));
+    return {};
+  }
+});
+const makeDimensionProps = propsFactory({
+  height: [Number, String],
+  maxHeight: [Number, String],
+  maxWidth: [Number, String],
+  minHeight: [Number, String],
+  minWidth: [Number, String],
+  width: [Number, String]
+}, "dimension");
+function useDimension(props) {
+  const dimensionStyles = computed(() => {
+    const styles = {};
+    const height = convertToUnit(props.height);
+    const maxHeight = convertToUnit(props.maxHeight);
+    const maxWidth = convertToUnit(props.maxWidth);
+    const minHeight = convertToUnit(props.minHeight);
+    const minWidth = convertToUnit(props.minWidth);
+    const width = convertToUnit(props.width);
+    if (height != null) styles.height = height;
+    if (maxHeight != null) styles.maxHeight = maxHeight;
+    if (maxWidth != null) styles.maxWidth = maxWidth;
+    if (minHeight != null) styles.minHeight = minHeight;
+    if (minWidth != null) styles.minWidth = minWidth;
+    if (width != null) styles.width = width;
+    return styles;
+  });
+  return {
+    dimensionStyles
+  };
+}
+const LocaleSymbol = Symbol.for("vuetify:locale");
+function useLocale() {
+  const locale2 = inject(LocaleSymbol);
+  if (!locale2) throw new Error("[Vuetify] Could not find injected locale instance");
+  return locale2;
+}
+function useRtl() {
+  const locale2 = inject(LocaleSymbol);
+  if (!locale2) throw new Error("[Vuetify] Could not find injected rtl instance");
+  return {
+    isRtl: locale2.isRtl,
+    rtlClasses: locale2.rtlClasses
+  };
+}
+const oppositeMap = {
+  center: "center",
+  top: "bottom",
+  bottom: "top",
+  left: "right",
+  right: "left"
+};
+const makeLocationProps = propsFactory({
+  location: String
+}, "location");
+function useLocation(props) {
+  let opposite = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : false;
+  let offset2 = arguments.length > 2 ? arguments[2] : void 0;
+  const {
+    isRtl
+  } = useRtl();
+  const locationStyles = computed(() => {
+    if (!props.location) return {};
+    const {
+      side,
+      align
+    } = parseAnchor(props.location.split(" ").length > 1 ? props.location : `${props.location} center`, isRtl.value);
+    function getOffset2(side2) {
+      return offset2 ? offset2(side2) : 0;
+    }
+    const styles = {};
+    if (side !== "center") {
+      if (opposite) styles[oppositeMap[side]] = `calc(100% - ${getOffset2(side)}px)`;
+      else styles[side] = 0;
+    }
+    if (align !== "center") {
+      if (opposite) styles[oppositeMap[align]] = `calc(100% - ${getOffset2(align)}px)`;
+      else styles[align] = 0;
+    } else {
+      if (side === "center") styles.top = styles.left = "50%";
+      else {
+        styles[{
+          top: "left",
+          bottom: "left",
+          left: "top",
+          right: "top"
+        }[side]] = "50%";
+      }
+      styles.transform = {
+        top: "translateX(-50%)",
+        bottom: "translateX(-50%)",
+        left: "translateY(-50%)",
+        right: "translateY(-50%)",
+        center: "translate(-50%, -50%)"
+      }[side];
+    }
+    return styles;
+  });
+  return {
+    locationStyles
+  };
+}
+const makeVProgressLinearProps = propsFactory({
+  absolute: Boolean,
+  active: {
+    type: Boolean,
+    default: true
+  },
+  bgColor: String,
+  bgOpacity: [Number, String],
+  bufferValue: {
+    type: [Number, String],
+    default: 0
+  },
+  bufferColor: String,
+  bufferOpacity: [Number, String],
+  clickable: Boolean,
+  color: String,
+  height: {
+    type: [Number, String],
+    default: 4
+  },
+  indeterminate: Boolean,
+  max: {
+    type: [Number, String],
+    default: 100
+  },
+  modelValue: {
+    type: [Number, String],
+    default: 0
+  },
+  opacity: [Number, String],
+  reverse: Boolean,
+  stream: Boolean,
+  striped: Boolean,
+  roundedBar: Boolean,
+  ...makeComponentProps(),
+  ...makeLocationProps({
+    location: "top"
+  }),
+  ...makeRoundedProps(),
+  ...makeTagProps(),
+  ...makeThemeProps()
+}, "VProgressLinear");
+const VProgressLinear = genericComponent()({
+  name: "VProgressLinear",
+  props: makeVProgressLinearProps(),
+  emits: {
+    "update:modelValue": (value) => true
+  },
+  setup(props, _ref) {
+    var _a;
+    let {
+      slots
+    } = _ref;
+    const progress = useProxiedModel(props, "modelValue");
+    const {
+      isRtl,
+      rtlClasses
+    } = useRtl();
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      locationStyles
+    } = useLocation(props);
+    const {
+      textColorClasses,
+      textColorStyles
+    } = useTextColor(() => props.color);
+    const {
+      backgroundColorClasses,
+      backgroundColorStyles
+    } = useBackgroundColor(() => props.bgColor || props.color);
+    const {
+      backgroundColorClasses: bufferColorClasses,
+      backgroundColorStyles: bufferColorStyles
+    } = useBackgroundColor(() => props.bufferColor || props.bgColor || props.color);
+    const {
+      backgroundColorClasses: barColorClasses,
+      backgroundColorStyles: barColorStyles
+    } = useBackgroundColor(() => props.color);
+    const {
+      roundedClasses
+    } = useRounded(props);
+    const {
+      intersectionRef,
+      isIntersecting
+    } = useIntersectionObserver();
+    const max2 = computed(() => parseFloat(props.max));
+    const height = computed(() => parseFloat(props.height));
+    const normalizedBuffer = computed(() => clamp(parseFloat(props.bufferValue) / max2.value * 100, 0, 100));
+    const normalizedValue = computed(() => clamp(parseFloat(progress.value) / max2.value * 100, 0, 100));
+    const isReversed = computed(() => isRtl.value !== props.reverse);
+    const transition = computed(() => props.indeterminate ? "fade-transition" : "slide-x-transition");
+    const isForcedColorsModeActive = IN_BROWSER && ((_a = window.matchMedia) == null ? void 0 : _a.call(window, "(forced-colors: active)").matches);
+    function handleClick(e2) {
+      if (!intersectionRef.value) return;
+      const {
+        left,
+        right,
+        width
+      } = intersectionRef.value.getBoundingClientRect();
+      const value = isReversed.value ? width - e2.clientX + (right - width) : e2.clientX - left;
+      progress.value = Math.round(value / width * max2.value);
+    }
+    useRender(() => createVNode(props.tag, {
+      "ref": intersectionRef,
+      "class": normalizeClass(["v-progress-linear", {
+        "v-progress-linear--absolute": props.absolute,
+        "v-progress-linear--active": props.active && isIntersecting.value,
+        "v-progress-linear--reverse": isReversed.value,
+        "v-progress-linear--rounded": props.rounded,
+        "v-progress-linear--rounded-bar": props.roundedBar,
+        "v-progress-linear--striped": props.striped
+      }, roundedClasses.value, themeClasses.value, rtlClasses.value, props.class]),
+      "style": normalizeStyle([{
+        bottom: props.location === "bottom" ? 0 : void 0,
+        top: props.location === "top" ? 0 : void 0,
+        height: props.active ? convertToUnit(height.value) : 0,
+        "--v-progress-linear-height": convertToUnit(height.value),
+        ...props.absolute ? locationStyles.value : {}
+      }, props.style]),
+      "role": "progressbar",
+      "aria-hidden": props.active ? "false" : "true",
+      "aria-valuemin": "0",
+      "aria-valuemax": props.max,
+      "aria-valuenow": props.indeterminate ? void 0 : Math.min(parseFloat(progress.value), max2.value),
+      "onClick": props.clickable && handleClick
+    }, {
+      default: () => [props.stream && createElementVNode("div", {
+        "key": "stream",
+        "class": normalizeClass(["v-progress-linear__stream", textColorClasses.value]),
+        "style": normalizeStyle({
+          ...textColorStyles.value,
+          [isReversed.value ? "left" : "right"]: convertToUnit(-height.value),
+          borderTop: `${convertToUnit(height.value / 2)} dotted`,
+          opacity: parseFloat(props.bufferOpacity),
+          top: `calc(50% - ${convertToUnit(height.value / 4)})`,
+          width: convertToUnit(100 - normalizedBuffer.value, "%"),
+          "--v-progress-linear-stream-to": convertToUnit(height.value * (isReversed.value ? 1 : -1))
+        })
+      }, null), createElementVNode("div", {
+        "class": normalizeClass(["v-progress-linear__background", !isForcedColorsModeActive ? backgroundColorClasses.value : void 0]),
+        "style": normalizeStyle([backgroundColorStyles.value, {
+          opacity: parseFloat(props.bgOpacity),
+          width: props.stream ? 0 : void 0
+        }])
+      }, null), createElementVNode("div", {
+        "class": normalizeClass(["v-progress-linear__buffer", !isForcedColorsModeActive ? bufferColorClasses.value : void 0]),
+        "style": normalizeStyle([bufferColorStyles.value, {
+          opacity: parseFloat(props.bufferOpacity),
+          width: convertToUnit(normalizedBuffer.value, "%")
+        }])
+      }, null), createVNode(Transition, {
+        "name": transition.value
+      }, {
+        default: () => [!props.indeterminate ? createElementVNode("div", {
+          "class": normalizeClass(["v-progress-linear__determinate", !isForcedColorsModeActive ? barColorClasses.value : void 0]),
+          "style": normalizeStyle([barColorStyles.value, {
+            width: convertToUnit(normalizedValue.value, "%")
+          }])
+        }, null) : createElementVNode("div", {
+          "class": "v-progress-linear__indeterminate"
+        }, [["long", "short"].map((bar) => createElementVNode("div", {
+          "key": bar,
+          "class": normalizeClass(["v-progress-linear__indeterminate", bar, !isForcedColorsModeActive ? barColorClasses.value : void 0]),
+          "style": normalizeStyle(barColorStyles.value)
+        }, null))])]
+      }), slots.default && createElementVNode("div", {
+        "class": "v-progress-linear__content"
+      }, [slots.default({
+        value: normalizedValue.value,
+        buffer: normalizedBuffer.value
+      })])]
+    }));
+    return {};
+  }
+});
+const makeLoaderProps = propsFactory({
+  loading: [Boolean, String]
+}, "loader");
+function useLoader(props) {
+  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
+  const loaderClasses = toRef(() => ({
+    [`${name}--loading`]: props.loading
+  }));
+  return {
+    loaderClasses
+  };
+}
+function LoaderSlot(props, _ref) {
+  var _a;
+  let {
+    slots
+  } = _ref;
+  return createElementVNode("div", {
+    "class": normalizeClass(`${props.name}__loader`)
+  }, [((_a = slots.default) == null ? void 0 : _a.call(slots, {
+    color: props.color,
+    isActive: props.active
+  })) || createVNode(VProgressLinear, {
+    "absolute": props.absolute,
+    "active": props.active,
+    "color": props.color,
+    "height": "2",
+    "indeterminate": true
+  }, null)]);
+}
+const positionValues = ["static", "relative", "fixed", "absolute", "sticky"];
+const makePositionProps = propsFactory({
+  position: {
+    type: String,
+    validator: (
+      /* istanbul ignore next */
+      (v) => positionValues.includes(v)
+    )
+  }
+}, "position");
+function usePosition(props) {
+  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
+  const positionClasses = toRef(() => {
+    return props.position ? `${name}--${props.position}` : void 0;
+  });
+  return {
+    positionClasses
+  };
+}
+function useRoute() {
+  const vm = getCurrentInstance("useRoute");
+  return computed(() => {
+    var _a;
+    return (_a = vm == null ? void 0 : vm.proxy) == null ? void 0 : _a.$route;
+  });
+}
+function useRouter() {
+  var _a, _b;
+  return (_b = (_a = getCurrentInstance("useRouter")) == null ? void 0 : _a.proxy) == null ? void 0 : _b.$router;
+}
+function useLink(props, attrs) {
+  var _a, _b;
+  const RouterLink = resolveDynamicComponent("RouterLink");
+  const isLink = toRef(() => !!(props.href || props.to));
+  const isClickable = computed(() => {
+    return (isLink == null ? void 0 : isLink.value) || hasEvent(attrs, "click") || hasEvent(props, "click");
+  });
+  if (typeof RouterLink === "string" || !("useLink" in RouterLink)) {
+    const href2 = toRef(() => props.href);
+    return {
+      isLink,
+      isClickable,
+      href: href2,
+      linkProps: reactive({
+        href: href2
+      })
+    };
+  }
+  const routerLink = RouterLink.useLink({
+    to: toRef(() => props.to || ""),
+    replace: toRef(() => props.replace)
+  });
+  const link = computed(() => props.to ? routerLink : void 0);
+  const route = useRoute();
+  const isActive = computed(() => {
+    var _a2, _b2, _c;
+    if (!link.value) return false;
+    if (!props.exact) return ((_a2 = link.value.isActive) == null ? void 0 : _a2.value) ?? false;
+    if (!route.value) return ((_b2 = link.value.isExactActive) == null ? void 0 : _b2.value) ?? false;
+    return ((_c = link.value.isExactActive) == null ? void 0 : _c.value) && deepEqual(link.value.route.value.query, route.value.query);
+  });
+  const href = computed(() => {
+    var _a2;
+    return props.to ? (_a2 = link.value) == null ? void 0 : _a2.route.value.href : props.href;
+  });
+  return {
+    isLink,
+    isClickable,
+    isActive,
+    route: (_a = link.value) == null ? void 0 : _a.route,
+    navigate: (_b = link.value) == null ? void 0 : _b.navigate,
+    href,
+    linkProps: reactive({
+      href,
+      "aria-current": toRef(() => isActive.value ? "page" : void 0)
+    })
+  };
+}
+const makeRouterProps = propsFactory({
+  href: String,
+  replace: Boolean,
+  to: [String, Object],
+  exact: Boolean
+}, "router");
+let inTransition = false;
+function useBackButton(router, cb) {
+  let popped = false;
+  let removeBefore;
+  let removeAfter;
+  if (IN_BROWSER && (router == null ? void 0 : router.beforeEach)) {
+    nextTick(() => {
+      window.addEventListener("popstate", onPopstate);
+      removeBefore = router.beforeEach((to2, from2, next) => {
+        if (!inTransition) {
+          setTimeout(() => popped ? cb(next) : next());
+        } else {
+          popped ? cb(next) : next();
+        }
+        inTransition = true;
+      });
+      removeAfter = router == null ? void 0 : router.afterEach(() => {
+        inTransition = false;
+      });
+    });
+    onScopeDispose(() => {
+      window.removeEventListener("popstate", onPopstate);
+      removeBefore == null ? void 0 : removeBefore();
+      removeAfter == null ? void 0 : removeAfter();
+    });
+  }
+  function onPopstate(e2) {
+    var _a;
+    if ((_a = e2.state) == null ? void 0 : _a.replaced) return;
+    popped = true;
+    setTimeout(() => popped = false);
+  }
+}
+function useSelectLink(link, select) {
+  watch(() => {
+    var _a;
+    return (_a = link.isActive) == null ? void 0 : _a.value;
+  }, (isActive) => {
+    if (link.isLink.value && isActive && select) {
+      nextTick(() => {
+        select(true);
+      });
     }
   }, {
     immediate: true
   });
-  onScopeDispose(() => {
-    scope == null ? void 0 : scope.stop();
-  });
 }
+const stopSymbol = Symbol("rippleStop");
+const DELAY_RIPPLE = 80;
+function transform(el, value) {
+  el.style.transform = value;
+  el.style.webkitTransform = value;
+}
+function isTouchEvent(e2) {
+  return e2.constructor.name === "TouchEvent";
+}
+function isKeyboardEvent(e2) {
+  return e2.constructor.name === "KeyboardEvent";
+}
+const calculate = function(e2, el) {
+  var _a;
+  let value = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+  let localX = 0;
+  let localY = 0;
+  if (!isKeyboardEvent(e2)) {
+    const offset2 = el.getBoundingClientRect();
+    const target = isTouchEvent(e2) ? e2.touches[e2.touches.length - 1] : e2;
+    localX = target.clientX - offset2.left;
+    localY = target.clientY - offset2.top;
+  }
+  let radius = 0;
+  let scale = 0.3;
+  if ((_a = el._ripple) == null ? void 0 : _a.circle) {
+    scale = 0.15;
+    radius = el.clientWidth / 2;
+    radius = value.center ? radius : radius + Math.sqrt((localX - radius) ** 2 + (localY - radius) ** 2) / 4;
+  } else {
+    radius = Math.sqrt(el.clientWidth ** 2 + el.clientHeight ** 2) / 2;
+  }
+  const centerX = `${(el.clientWidth - radius * 2) / 2}px`;
+  const centerY = `${(el.clientHeight - radius * 2) / 2}px`;
+  const x = value.center ? centerX : `${localX - radius}px`;
+  const y = value.center ? centerY : `${localY - radius}px`;
+  return {
+    radius,
+    scale,
+    x,
+    y,
+    centerX,
+    centerY
+  };
+};
+const ripples = {
+  /* eslint-disable max-statements */
+  show(e2, el) {
+    var _a;
+    let value = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+    if (!((_a = el == null ? void 0 : el._ripple) == null ? void 0 : _a.enabled)) {
+      return;
+    }
+    const container = document.createElement("span");
+    const animation = document.createElement("span");
+    container.appendChild(animation);
+    container.className = "v-ripple__container";
+    if (value.class) {
+      container.className += ` ${value.class}`;
+    }
+    const {
+      radius,
+      scale,
+      x,
+      y,
+      centerX,
+      centerY
+    } = calculate(e2, el, value);
+    const size = `${radius * 2}px`;
+    animation.className = "v-ripple__animation";
+    animation.style.width = size;
+    animation.style.height = size;
+    el.appendChild(container);
+    const computed2 = window.getComputedStyle(el);
+    if (computed2 && computed2.position === "static") {
+      el.style.position = "relative";
+      el.dataset.previousPosition = "static";
+    }
+    animation.classList.add("v-ripple__animation--enter");
+    animation.classList.add("v-ripple__animation--visible");
+    transform(animation, `translate(${x}, ${y}) scale3d(${scale},${scale},${scale})`);
+    animation.dataset.activated = String(performance.now());
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        animation.classList.remove("v-ripple__animation--enter");
+        animation.classList.add("v-ripple__animation--in");
+        transform(animation, `translate(${centerX}, ${centerY}) scale3d(1,1,1)`);
+      });
+    });
+  },
+  hide(el) {
+    var _a;
+    if (!((_a = el == null ? void 0 : el._ripple) == null ? void 0 : _a.enabled)) return;
+    const ripples2 = el.getElementsByClassName("v-ripple__animation");
+    if (ripples2.length === 0) return;
+    const animation = ripples2[ripples2.length - 1];
+    if (animation.dataset.isHiding) return;
+    else animation.dataset.isHiding = "true";
+    const diff2 = performance.now() - Number(animation.dataset.activated);
+    const delay = Math.max(250 - diff2, 0);
+    setTimeout(() => {
+      animation.classList.remove("v-ripple__animation--in");
+      animation.classList.add("v-ripple__animation--out");
+      setTimeout(() => {
+        var _a2;
+        const ripples3 = el.getElementsByClassName("v-ripple__animation");
+        if (ripples3.length === 1 && el.dataset.previousPosition) {
+          el.style.position = el.dataset.previousPosition;
+          delete el.dataset.previousPosition;
+        }
+        if (((_a2 = animation.parentNode) == null ? void 0 : _a2.parentNode) === el) el.removeChild(animation.parentNode);
+      }, 300);
+    }, delay);
+  }
+};
+function isRippleEnabled(value) {
+  return typeof value === "undefined" || !!value;
+}
+function rippleShow(e2) {
+  const value = {};
+  const element = e2.currentTarget;
+  if (!(element == null ? void 0 : element._ripple) || element._ripple.touched || e2[stopSymbol]) return;
+  e2[stopSymbol] = true;
+  if (isTouchEvent(e2)) {
+    element._ripple.touched = true;
+    element._ripple.isTouch = true;
+  } else {
+    if (element._ripple.isTouch) return;
+  }
+  value.center = element._ripple.centered || isKeyboardEvent(e2);
+  if (element._ripple.class) {
+    value.class = element._ripple.class;
+  }
+  if (isTouchEvent(e2)) {
+    if (element._ripple.showTimerCommit) return;
+    element._ripple.showTimerCommit = () => {
+      ripples.show(e2, element, value);
+    };
+    element._ripple.showTimer = window.setTimeout(() => {
+      var _a;
+      if ((_a = element == null ? void 0 : element._ripple) == null ? void 0 : _a.showTimerCommit) {
+        element._ripple.showTimerCommit();
+        element._ripple.showTimerCommit = null;
+      }
+    }, DELAY_RIPPLE);
+  } else {
+    ripples.show(e2, element, value);
+  }
+}
+function rippleStop(e2) {
+  e2[stopSymbol] = true;
+}
+function rippleHide(e2) {
+  const element = e2.currentTarget;
+  if (!(element == null ? void 0 : element._ripple)) return;
+  window.clearTimeout(element._ripple.showTimer);
+  if (e2.type === "touchend" && element._ripple.showTimerCommit) {
+    element._ripple.showTimerCommit();
+    element._ripple.showTimerCommit = null;
+    element._ripple.showTimer = window.setTimeout(() => {
+      rippleHide(e2);
+    });
+    return;
+  }
+  window.setTimeout(() => {
+    if (element._ripple) {
+      element._ripple.touched = false;
+    }
+  });
+  ripples.hide(element);
+}
+function rippleCancelShow(e2) {
+  const element = e2.currentTarget;
+  if (!(element == null ? void 0 : element._ripple)) return;
+  if (element._ripple.showTimerCommit) {
+    element._ripple.showTimerCommit = null;
+  }
+  window.clearTimeout(element._ripple.showTimer);
+}
+let keyboardRipple = false;
+function keyboardRippleShow(e2) {
+  if (!keyboardRipple && (e2.keyCode === keyCodes.enter || e2.keyCode === keyCodes.space)) {
+    keyboardRipple = true;
+    rippleShow(e2);
+  }
+}
+function keyboardRippleHide(e2) {
+  keyboardRipple = false;
+  rippleHide(e2);
+}
+function focusRippleHide(e2) {
+  if (keyboardRipple) {
+    keyboardRipple = false;
+    rippleHide(e2);
+  }
+}
+function updateRipple(el, binding, wasEnabled) {
+  const {
+    value,
+    modifiers
+  } = binding;
+  const enabled = isRippleEnabled(value);
+  if (!enabled) {
+    ripples.hide(el);
+  }
+  el._ripple = el._ripple ?? {};
+  el._ripple.enabled = enabled;
+  el._ripple.centered = modifiers.center;
+  el._ripple.circle = modifiers.circle;
+  if (isObject$1(value) && value.class) {
+    el._ripple.class = value.class;
+  }
+  if (enabled && !wasEnabled) {
+    if (modifiers.stop) {
+      el.addEventListener("touchstart", rippleStop, {
+        passive: true
+      });
+      el.addEventListener("mousedown", rippleStop);
+      return;
+    }
+    el.addEventListener("touchstart", rippleShow, {
+      passive: true
+    });
+    el.addEventListener("touchend", rippleHide, {
+      passive: true
+    });
+    el.addEventListener("touchmove", rippleCancelShow, {
+      passive: true
+    });
+    el.addEventListener("touchcancel", rippleHide);
+    el.addEventListener("mousedown", rippleShow);
+    el.addEventListener("mouseup", rippleHide);
+    el.addEventListener("mouseleave", rippleHide);
+    el.addEventListener("keydown", keyboardRippleShow);
+    el.addEventListener("keyup", keyboardRippleHide);
+    el.addEventListener("blur", focusRippleHide);
+    el.addEventListener("dragstart", rippleHide, {
+      passive: true
+    });
+  } else if (!enabled && wasEnabled) {
+    removeListeners(el);
+  }
+}
+function removeListeners(el) {
+  el.removeEventListener("mousedown", rippleShow);
+  el.removeEventListener("touchstart", rippleShow);
+  el.removeEventListener("touchend", rippleHide);
+  el.removeEventListener("touchmove", rippleCancelShow);
+  el.removeEventListener("touchcancel", rippleHide);
+  el.removeEventListener("mouseup", rippleHide);
+  el.removeEventListener("mouseleave", rippleHide);
+  el.removeEventListener("keydown", keyboardRippleShow);
+  el.removeEventListener("keyup", keyboardRippleHide);
+  el.removeEventListener("dragstart", rippleHide);
+  el.removeEventListener("blur", focusRippleHide);
+}
+function mounted$2(el, binding) {
+  updateRipple(el, binding, false);
+}
+function unmounted$2(el) {
+  delete el._ripple;
+  removeListeners(el);
+}
+function updated(el, binding) {
+  if (binding.value === binding.oldValue) {
+    return;
+  }
+  const wasEnabled = isRippleEnabled(binding.oldValue);
+  updateRipple(el, binding, wasEnabled);
+}
+const Ripple = {
+  mounted: mounted$2,
+  unmounted: unmounted$2,
+  updated
+};
+const makeVBtnProps = propsFactory({
+  active: {
+    type: Boolean,
+    default: void 0
+  },
+  activeColor: String,
+  baseColor: String,
+  symbol: {
+    type: null,
+    default: VBtnToggleSymbol
+  },
+  flat: Boolean,
+  icon: [Boolean, String, Function, Object],
+  prependIcon: IconValue,
+  appendIcon: IconValue,
+  block: Boolean,
+  readonly: Boolean,
+  slim: Boolean,
+  stacked: Boolean,
+  ripple: {
+    type: [Boolean, Object],
+    default: true
+  },
+  text: {
+    type: [String, Number, Boolean],
+    default: void 0
+  },
+  ...makeBorderProps(),
+  ...makeComponentProps(),
+  ...makeDensityProps(),
+  ...makeDimensionProps(),
+  ...makeElevationProps(),
+  ...makeGroupItemProps(),
+  ...makeLoaderProps(),
+  ...makeLocationProps(),
+  ...makePositionProps(),
+  ...makeRoundedProps(),
+  ...makeRouterProps(),
+  ...makeSizeProps(),
+  ...makeTagProps({
+    tag: "button"
+  }),
+  ...makeThemeProps(),
+  ...makeVariantProps({
+    variant: "elevated"
+  })
+}, "VBtn");
+const VBtn = genericComponent()({
+  name: "VBtn",
+  props: makeVBtnProps(),
+  emits: {
+    "group:selected": (val) => true
+  },
+  setup(props, _ref) {
+    let {
+      attrs,
+      slots
+    } = _ref;
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      borderClasses
+    } = useBorder(props);
+    const {
+      densityClasses
+    } = useDensity(props);
+    const {
+      dimensionStyles
+    } = useDimension(props);
+    const {
+      elevationClasses
+    } = useElevation(props);
+    const {
+      loaderClasses
+    } = useLoader(props);
+    const {
+      locationStyles
+    } = useLocation(props);
+    const {
+      positionClasses
+    } = usePosition(props);
+    const {
+      roundedClasses
+    } = useRounded(props);
+    const {
+      sizeClasses,
+      sizeStyles
+    } = useSize(props);
+    const group = useGroupItem(props, props.symbol, false);
+    const link = useLink(props, attrs);
+    const isActive = computed(() => {
+      var _a;
+      if (props.active !== void 0) {
+        return props.active;
+      }
+      if (link.isLink.value) {
+        return (_a = link.isActive) == null ? void 0 : _a.value;
+      }
+      return group == null ? void 0 : group.isSelected.value;
+    });
+    const color = toRef(() => isActive.value ? props.activeColor ?? props.color : props.color);
+    const variantProps = computed(() => {
+      var _a, _b;
+      const showColor = (group == null ? void 0 : group.isSelected.value) && (!link.isLink.value || ((_a = link.isActive) == null ? void 0 : _a.value)) || !group || ((_b = link.isActive) == null ? void 0 : _b.value);
+      return {
+        color: showColor ? color.value ?? props.baseColor : props.baseColor,
+        variant: props.variant
+      };
+    });
+    const {
+      colorClasses,
+      colorStyles,
+      variantClasses
+    } = useVariant(variantProps);
+    const isDisabled = computed(() => (group == null ? void 0 : group.disabled.value) || props.disabled);
+    const isElevated = toRef(() => {
+      return props.variant === "elevated" && !(props.disabled || props.flat || props.border);
+    });
+    const valueAttr = computed(() => {
+      if (props.value === void 0 || typeof props.value === "symbol") return void 0;
+      return Object(props.value) === props.value ? JSON.stringify(props.value, null, 0) : props.value;
+    });
+    function onClick(e2) {
+      var _a;
+      if (isDisabled.value || link.isLink.value && (e2.metaKey || e2.ctrlKey || e2.shiftKey || e2.button !== 0 || attrs.target === "_blank")) return;
+      (_a = link.navigate) == null ? void 0 : _a.call(link, e2);
+      group == null ? void 0 : group.toggle();
+    }
+    useSelectLink(link, group == null ? void 0 : group.select);
+    useRender(() => {
+      const Tag = link.isLink.value ? "a" : props.tag;
+      const hasPrepend = !!(props.prependIcon || slots.prepend);
+      const hasAppend = !!(props.appendIcon || slots.append);
+      const hasIcon = !!(props.icon && props.icon !== true);
+      return withDirectives(createVNode(Tag, mergeProps({
+        "type": Tag === "a" ? void 0 : "button",
+        "class": ["v-btn", group == null ? void 0 : group.selectedClass.value, {
+          "v-btn--active": isActive.value,
+          "v-btn--block": props.block,
+          "v-btn--disabled": isDisabled.value,
+          "v-btn--elevated": isElevated.value,
+          "v-btn--flat": props.flat,
+          "v-btn--icon": !!props.icon,
+          "v-btn--loading": props.loading,
+          "v-btn--readonly": props.readonly,
+          "v-btn--slim": props.slim,
+          "v-btn--stacked": props.stacked
+        }, themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, loaderClasses.value, positionClasses.value, roundedClasses.value, sizeClasses.value, variantClasses.value, props.class],
+        "style": [colorStyles.value, dimensionStyles.value, locationStyles.value, sizeStyles.value, props.style],
+        "aria-busy": props.loading ? true : void 0,
+        "disabled": isDisabled.value || void 0,
+        "tabindex": props.loading || props.readonly ? -1 : void 0,
+        "onClick": onClick,
+        "value": valueAttr.value
+      }, link.linkProps), {
+        default: () => {
+          var _a;
+          return [genOverlays(true, "v-btn"), !props.icon && hasPrepend && createElementVNode("span", {
+            "key": "prepend",
+            "class": "v-btn__prepend"
+          }, [!slots.prepend ? createVNode(VIcon, {
+            "key": "prepend-icon",
+            "icon": props.prependIcon
+          }, null) : createVNode(VDefaultsProvider, {
+            "key": "prepend-defaults",
+            "disabled": !props.prependIcon,
+            "defaults": {
+              VIcon: {
+                icon: props.prependIcon
+              }
+            }
+          }, slots.prepend)]), createElementVNode("span", {
+            "class": "v-btn__content",
+            "data-no-activator": ""
+          }, [!slots.default && hasIcon ? createVNode(VIcon, {
+            "key": "content-icon",
+            "icon": props.icon
+          }, null) : createVNode(VDefaultsProvider, {
+            "key": "content-defaults",
+            "disabled": !hasIcon,
+            "defaults": {
+              VIcon: {
+                icon: props.icon
+              }
+            }
+          }, {
+            default: () => {
+              var _a2;
+              return [((_a2 = slots.default) == null ? void 0 : _a2.call(slots)) ?? toDisplayString(props.text)];
+            }
+          })]), !props.icon && hasAppend && createElementVNode("span", {
+            "key": "append",
+            "class": "v-btn__append"
+          }, [!slots.append ? createVNode(VIcon, {
+            "key": "append-icon",
+            "icon": props.appendIcon
+          }, null) : createVNode(VDefaultsProvider, {
+            "key": "append-defaults",
+            "disabled": !props.appendIcon,
+            "defaults": {
+              VIcon: {
+                icon: props.appendIcon
+              }
+            }
+          }, slots.append)]), !!props.loading && createElementVNode("span", {
+            "key": "loader",
+            "class": "v-btn__loader"
+          }, [((_a = slots.loader) == null ? void 0 : _a.call(slots)) ?? createVNode(VProgressCircular, {
+            "color": typeof props.loading === "boolean" ? void 0 : props.loading,
+            "indeterminate": true,
+            "width": "2"
+          }, null)])];
+        }
+      }), [[Ripple, !isDisabled.value && props.ripple, "", {
+        center: !!props.icon
+      }]]);
+    });
+    return {
+      group
+    };
+  }
+});
+const _sfc_main$1v = {
+  name: "IFXButton",
+  props: {
+    // The type of button, determines default icon and color
+    // Options: add, edit, delete, close, cancel, download, other
+    btnType: {
+      type: String,
+      required: true
+    },
+    // Color of the button, overrides default color determined by btnType
+    btnColor: {
+      type: String,
+      required: false
+    },
+    // Size of the button
+    xSmall: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    // Size of the button
+    small: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    // Size of the button
+    large: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    // The color of the icon
+    iconColor: {
+      type: String,
+      default: "white",
+      required: false
+    },
+    // String for icon, overrides default determined by btnType
+    iconString: {
+      type: String,
+      required: false
+    },
+    disabled: {
+      type: Boolean,
+      required: false
+    },
+    // Button text, determines if icon is FAB or not
+    btnText: {
+      type: String,
+      required: false
+    },
+    // If in a dialog, use text style buttons
+    inDialog: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  computed: {
+    /**
+     * Computes button color based on btnType. Priority is given to btnColor, if provided by user.
+     * @returns {string}
+     */
+    btnColorComputed() {
+      if (this.btnColor) {
+        return this.btnColor;
+      }
+      let btnColor = "";
+      switch (this.btnType) {
+        case "edit":
+          btnColor = "primary";
+          break;
+        case "add":
+          btnColor = "primary";
+          break;
+        case "download":
+          btnColor = "primary";
+          break;
+        case "remove":
+          btnColor = "red";
+          break;
+        case "reset":
+          btnColor = "yellow";
+          break;
+        case "submit":
+          btnColor = "primary";
+          break;
+        case "close":
+          btnColor = "secondary";
+          break;
+        case "cancel":
+          btnColor = "secondary";
+          break;
+        case "home":
+          btnColor = "primary";
+          break;
+        case "copy":
+          btnColor = "primary";
+          break;
+        case "other":
+          btnColor = "secondary";
+          break;
+        default:
+          btnColor = "secondary";
+          break;
+      }
+      return btnColor;
+    },
+    /**
+     * Computes if button is xSmall, based on breakpoint or boolean provided by user
+     * @returns {string}
+     */
+    xSmallComputed() {
+      return this.$vuetify.display.xs || this.xSmall || !this.btnTextComputed && !this.small && !this.large;
+    },
+    /**
+     * Computes if button is small, based on breakpoint or boolean provided by user
+     * @returns {string}
+     */
+    smallComputed() {
+      return this.$vuetify.display.smAndDown || this.small;
+    },
+    /**
+     * Computes if button is large, based on breakpoint or boolean provided by user
+     * @returns {string}
+     */
+    largeComputed() {
+      return this.$vuetify.display.lgAndUp || this.large;
+    },
+    /**
+     * Computes string for icon
+     * @returns {string}
+     */
+    iconStringComputed() {
+      if (this.iconString) {
+        return this.iconString;
+      }
+      let iconString = "";
+      switch (this.btnType) {
+        case "edit":
+          iconString = "mdi-pencil";
+          break;
+        case "remove":
+          iconString = "mdi-delete";
+          break;
+        case "add":
+          iconString = "mdi-plus";
+          break;
+        case "submit":
+          iconString = "";
+          break;
+        case "download":
+          iconString = "mdi-cloud-download";
+          break;
+        case "copy":
+          iconString = "mdi-content-duplicate";
+          break;
+        case "close":
+          iconString = "mdi-close";
+          break;
+        default:
+          iconString = "";
+          break;
+      }
+      return iconString;
+    },
+    btnTextComputed() {
+      if (this.btnText) {
+        return this.btnText;
+      }
+      let btnText = "";
+      if (this.btnType === "submit") {
+        btnText = "Save";
+      } else if (this.btnType === "close") {
+        btnText = "Close";
+      } else if (this.btnType === "cancel") {
+        btnText = "Cancel";
+      }
+      return btnText;
+    },
+    dataCyString() {
+      return `${this.btnType}-btn`;
+    }
+  },
+  methods: {
+    /**
+     * Emits event, triggering the action defined by the user.
+     */
+    clickHandler() {
+      this.$emit("action");
+    }
+  }
+};
+const _hoisted_1$R = { key: 1 };
+function _sfc_render$1v(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createBlock(VBtn, {
+    icon: !$options.btnTextComputed,
+    disabled: $props.disabled,
+    size: $options.xSmallComputed ? "x-small" : $options.smallComputed ? "small" : $options.largeComputed ? "large" : "default",
+    color: $options.btnColorComputed,
+    onClick: withModifiers($options.clickHandler, ["prevent"]),
+    "data-cy": $options.dataCyString,
+    variant: $props.inDialog ? "text" : "elevated",
+    "aria-label": $options.btnTextComputed ? $options.btnTextComputed : $props.btnType
+  }, {
+    default: withCtx(() => [
+      $options.iconStringComputed ? (openBlock(), createBlock(VIcon, {
+        key: 0,
+        color: $props.iconColor,
+        class: normalizeClass({ "mr-2": $options.btnTextComputed })
+      }, {
+        default: withCtx(() => [
+          createTextVNode(toDisplayString($options.iconStringComputed), 1)
+        ]),
+        _: 1
+      }, 8, ["color", "class"])) : createCommentVNode("", true),
+      $options.btnTextComputed ? (openBlock(), createElementBlock("span", _hoisted_1$R, toDisplayString($options.btnTextComputed), 1)) : createCommentVNode("", true)
+    ]),
+    _: 1
+  }, 8, ["icon", "disabled", "size", "color", "onClick", "data-cy", "variant", "aria-label"]);
+}
+const IFXButton = /* @__PURE__ */ _export_sfc(_sfc_main$1v, [["render", _sfc_render$1v]]);
 function elementToViewport(point, offset2) {
   return {
     x: point.x + offset2.x,
@@ -10254,93 +12418,6 @@ function getTarget$1(selector, vm) {
   }
   return target;
 }
-function useColor(colors) {
-  return destructComputed(() => {
-    const _colors = toValue(colors);
-    const classes = [];
-    const styles = {};
-    if (_colors.background) {
-      if (isCssColor(_colors.background)) {
-        styles.backgroundColor = _colors.background;
-        if (!_colors.text && isParsableColor(_colors.background)) {
-          const backgroundColor = parseColor(_colors.background);
-          if (backgroundColor.a == null || backgroundColor.a === 1) {
-            const textColor = getForeground(backgroundColor);
-            styles.color = textColor;
-            styles.caretColor = textColor;
-          }
-        }
-      } else {
-        classes.push(`bg-${_colors.background}`);
-      }
-    }
-    if (_colors.text) {
-      if (isCssColor(_colors.text)) {
-        styles.color = _colors.text;
-        styles.caretColor = _colors.text;
-      } else {
-        classes.push(`text-${_colors.text}`);
-      }
-    }
-    return {
-      colorClasses: classes,
-      colorStyles: styles
-    };
-  });
-}
-function useTextColor(color) {
-  const {
-    colorClasses: textColorClasses,
-    colorStyles: textColorStyles
-  } = useColor(() => ({
-    text: toValue(color)
-  }));
-  return {
-    textColorClasses,
-    textColorStyles
-  };
-}
-function useBackgroundColor(color) {
-  const {
-    colorClasses: backgroundColorClasses,
-    colorStyles: backgroundColorStyles
-  } = useColor(() => ({
-    background: toValue(color)
-  }));
-  return {
-    backgroundColorClasses,
-    backgroundColorStyles
-  };
-}
-const makeDimensionProps = propsFactory({
-  height: [Number, String],
-  maxHeight: [Number, String],
-  maxWidth: [Number, String],
-  minHeight: [Number, String],
-  minWidth: [Number, String],
-  width: [Number, String]
-}, "dimension");
-function useDimension(props) {
-  const dimensionStyles = computed(() => {
-    const styles = {};
-    const height = convertToUnit(props.height);
-    const maxHeight = convertToUnit(props.maxHeight);
-    const maxWidth = convertToUnit(props.maxWidth);
-    const minHeight = convertToUnit(props.minHeight);
-    const minWidth = convertToUnit(props.minWidth);
-    const width = convertToUnit(props.width);
-    if (height != null) styles.height = height;
-    if (maxHeight != null) styles.maxHeight = maxHeight;
-    if (maxWidth != null) styles.maxWidth = maxWidth;
-    if (minHeight != null) styles.minHeight = minHeight;
-    if (minWidth != null) styles.minWidth = minWidth;
-    if (width != null) styles.width = width;
-    return styles;
-  });
-  return {
-    dimensionStyles
-  };
-}
 const breakpoints = ["sm", "md", "lg", "xl", "xxl"];
 const DisplaySymbol = Symbol.for("vuetify:display");
 const makeDisplayProps = propsFactory({
@@ -10412,159 +12489,6 @@ function useLazy(props, active) {
     hasContent,
     onAfterLeave
   };
-}
-function useProxiedModel(props, prop, defaultValue) {
-  let transformIn = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : (v) => v;
-  let transformOut = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : (v) => v;
-  const vm = getCurrentInstance("useProxiedModel");
-  const internal = ref(props[prop] !== void 0 ? props[prop] : defaultValue);
-  const kebabProp = toKebabCase(prop);
-  const checkKebab = kebabProp !== prop;
-  const isControlled = checkKebab ? computed(() => {
-    var _a, _b, _c, _d;
-    void props[prop];
-    return !!((((_a = vm.vnode.props) == null ? void 0 : _a.hasOwnProperty(prop)) || ((_b = vm.vnode.props) == null ? void 0 : _b.hasOwnProperty(kebabProp))) && (((_c = vm.vnode.props) == null ? void 0 : _c.hasOwnProperty(`onUpdate:${prop}`)) || ((_d = vm.vnode.props) == null ? void 0 : _d.hasOwnProperty(`onUpdate:${kebabProp}`))));
-  }) : computed(() => {
-    var _a, _b;
-    void props[prop];
-    return !!(((_a = vm.vnode.props) == null ? void 0 : _a.hasOwnProperty(prop)) && ((_b = vm.vnode.props) == null ? void 0 : _b.hasOwnProperty(`onUpdate:${prop}`)));
-  });
-  useToggleScope(() => !isControlled.value, () => {
-    watch(() => props[prop], (val) => {
-      internal.value = val;
-    });
-  });
-  const model = computed({
-    get() {
-      const externalValue = props[prop];
-      return transformIn(isControlled.value ? externalValue : internal.value);
-    },
-    set(internalValue) {
-      const newValue = transformOut(internalValue);
-      const value = toRaw(isControlled.value ? props[prop] : internal.value);
-      if (value === newValue || transformIn(value) === internalValue) {
-        return;
-      }
-      internal.value = newValue;
-      vm == null ? void 0 : vm.emit(`update:${prop}`, newValue);
-    }
-  });
-  Object.defineProperty(model, "externalValue", {
-    get: () => isControlled.value ? props[prop] : internal.value
-  });
-  return model;
-}
-const LocaleSymbol = Symbol.for("vuetify:locale");
-function useLocale() {
-  const locale2 = inject(LocaleSymbol);
-  if (!locale2) throw new Error("[Vuetify] Could not find injected locale instance");
-  return locale2;
-}
-function useRtl() {
-  const locale2 = inject(LocaleSymbol);
-  if (!locale2) throw new Error("[Vuetify] Could not find injected rtl instance");
-  return {
-    isRtl: locale2.isRtl,
-    rtlClasses: locale2.rtlClasses
-  };
-}
-function useRoute() {
-  const vm = getCurrentInstance("useRoute");
-  return computed(() => {
-    var _a;
-    return (_a = vm == null ? void 0 : vm.proxy) == null ? void 0 : _a.$route;
-  });
-}
-function useRouter() {
-  var _a, _b;
-  return (_b = (_a = getCurrentInstance("useRouter")) == null ? void 0 : _a.proxy) == null ? void 0 : _b.$router;
-}
-function useLink(props, attrs) {
-  var _a, _b;
-  const RouterLink = resolveDynamicComponent("RouterLink");
-  const isLink = toRef(() => !!(props.href || props.to));
-  const isClickable = computed(() => {
-    return (isLink == null ? void 0 : isLink.value) || hasEvent(attrs, "click") || hasEvent(props, "click");
-  });
-  if (typeof RouterLink === "string" || !("useLink" in RouterLink)) {
-    const href2 = toRef(() => props.href);
-    return {
-      isLink,
-      isClickable,
-      href: href2,
-      linkProps: reactive({
-        href: href2
-      })
-    };
-  }
-  const routerLink = RouterLink.useLink({
-    to: toRef(() => props.to || ""),
-    replace: toRef(() => props.replace)
-  });
-  const link = computed(() => props.to ? routerLink : void 0);
-  const route = useRoute();
-  const isActive = computed(() => {
-    var _a2, _b2, _c;
-    if (!link.value) return false;
-    if (!props.exact) return ((_a2 = link.value.isActive) == null ? void 0 : _a2.value) ?? false;
-    if (!route.value) return ((_b2 = link.value.isExactActive) == null ? void 0 : _b2.value) ?? false;
-    return ((_c = link.value.isExactActive) == null ? void 0 : _c.value) && deepEqual(link.value.route.value.query, route.value.query);
-  });
-  const href = computed(() => {
-    var _a2;
-    return props.to ? (_a2 = link.value) == null ? void 0 : _a2.route.value.href : props.href;
-  });
-  return {
-    isLink,
-    isClickable,
-    isActive,
-    route: (_a = link.value) == null ? void 0 : _a.route,
-    navigate: (_b = link.value) == null ? void 0 : _b.navigate,
-    href,
-    linkProps: reactive({
-      href,
-      "aria-current": toRef(() => isActive.value ? "page" : void 0)
-    })
-  };
-}
-const makeRouterProps = propsFactory({
-  href: String,
-  replace: Boolean,
-  to: [String, Object],
-  exact: Boolean
-}, "router");
-let inTransition = false;
-function useBackButton(router, cb) {
-  let popped = false;
-  let removeBefore;
-  let removeAfter;
-  if (IN_BROWSER && (router == null ? void 0 : router.beforeEach)) {
-    nextTick(() => {
-      window.addEventListener("popstate", onPopstate);
-      removeBefore = router.beforeEach((to2, from2, next) => {
-        if (!inTransition) {
-          setTimeout(() => popped ? cb(next) : next());
-        } else {
-          popped ? cb(next) : next();
-        }
-        inTransition = true;
-      });
-      removeAfter = router == null ? void 0 : router.afterEach(() => {
-        inTransition = false;
-      });
-    });
-    onScopeDispose(() => {
-      window.removeEventListener("popstate", onPopstate);
-      removeBefore == null ? void 0 : removeBefore();
-      removeAfter == null ? void 0 : removeAfter();
-    });
-  }
-  function onPopstate(e2) {
-    var _a;
-    if ((_a = e2.state) == null ? void 0 : _a.replaced) return;
-    popped = true;
-    setTimeout(() => popped = false);
-  }
 }
 function useScopeId() {
   const vm = getCurrentInstance("useScopeId");
@@ -10639,32 +12563,6 @@ function useTeleport(target) {
   return {
     teleportTarget
   };
-}
-const ThemeSymbol = Symbol.for("vuetify:theme");
-const makeThemeProps = propsFactory({
-  theme: String
-}, "theme");
-function provideTheme(props) {
-  getCurrentInstance("provideTheme");
-  const theme = inject(ThemeSymbol, null);
-  if (!theme) throw new Error("Could not find Vuetify theme injection");
-  const name = toRef(() => props.theme ?? theme.name.value);
-  const current = toRef(() => theme.themes.value[name.value]);
-  const themeClasses = toRef(() => theme.isDisabled ? void 0 : `v-theme--${name.value}`);
-  const newTheme = {
-    ...theme,
-    name,
-    current,
-    themeClasses
-  };
-  provide(ThemeSymbol, newTheme);
-  return newTheme;
-}
-function useTheme() {
-  getCurrentInstance("useTheme");
-  const theme = inject(ThemeSymbol, null);
-  if (!theme) throw new Error("Could not find Vuetify theme injection");
-  return theme;
 }
 const makeTransitionProps$1 = propsFactory({
   transition: {
@@ -11066,299 +12964,6 @@ const VOverlay = genericComponent()({
     };
   }
 });
-function useIntersectionObserver(callback, options) {
-  const intersectionRef = ref();
-  const isIntersecting = shallowRef(false);
-  if (SUPPORTS_INTERSECTION) {
-    const observer = new IntersectionObserver((entries) => {
-      isIntersecting.value = !!entries.find((entry) => entry.isIntersecting);
-    }, options);
-    onBeforeUnmount(() => {
-      observer.disconnect();
-    });
-    watch(intersectionRef, (newValue, oldValue) => {
-      if (oldValue) {
-        observer.unobserve(oldValue);
-        isIntersecting.value = false;
-      }
-      if (newValue) observer.observe(newValue);
-    }, {
-      flush: "post"
-    });
-  }
-  return {
-    intersectionRef,
-    isIntersecting
-  };
-}
-const oppositeMap = {
-  center: "center",
-  top: "bottom",
-  bottom: "top",
-  left: "right",
-  right: "left"
-};
-const makeLocationProps = propsFactory({
-  location: String
-}, "location");
-function useLocation(props) {
-  let opposite = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : false;
-  let offset2 = arguments.length > 2 ? arguments[2] : void 0;
-  const {
-    isRtl
-  } = useRtl();
-  const locationStyles = computed(() => {
-    if (!props.location) return {};
-    const {
-      side,
-      align
-    } = parseAnchor(props.location.split(" ").length > 1 ? props.location : `${props.location} center`, isRtl.value);
-    function getOffset2(side2) {
-      return offset2 ? offset2(side2) : 0;
-    }
-    const styles = {};
-    if (side !== "center") {
-      if (opposite) styles[oppositeMap[side]] = `calc(100% - ${getOffset2(side)}px)`;
-      else styles[side] = 0;
-    }
-    if (align !== "center") {
-      if (opposite) styles[oppositeMap[align]] = `calc(100% - ${getOffset2(align)}px)`;
-      else styles[align] = 0;
-    } else {
-      if (side === "center") styles.top = styles.left = "50%";
-      else {
-        styles[{
-          top: "left",
-          bottom: "left",
-          left: "top",
-          right: "top"
-        }[side]] = "50%";
-      }
-      styles.transform = {
-        top: "translateX(-50%)",
-        bottom: "translateX(-50%)",
-        left: "translateY(-50%)",
-        right: "translateY(-50%)",
-        center: "translate(-50%, -50%)"
-      }[side];
-    }
-    return styles;
-  });
-  return {
-    locationStyles
-  };
-}
-const makeRoundedProps = propsFactory({
-  rounded: {
-    type: [Boolean, Number, String],
-    default: void 0
-  },
-  tile: Boolean
-}, "rounded");
-function useRounded(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  const roundedClasses = computed(() => {
-    const rounded = isRef(props) ? props.value : props.rounded;
-    const tile = isRef(props) ? props.value : props.tile;
-    const classes = [];
-    if (rounded === true || rounded === "") {
-      classes.push(`${name}--rounded`);
-    } else if (typeof rounded === "string" || rounded === 0) {
-      for (const value of String(rounded).split(" ")) {
-        classes.push(`rounded-${value}`);
-      }
-    } else if (tile || rounded === false) {
-      classes.push("rounded-0");
-    }
-    return classes;
-  });
-  return {
-    roundedClasses
-  };
-}
-const makeTagProps = propsFactory({
-  tag: {
-    type: [String, Object, Function],
-    default: "div"
-  }
-}, "tag");
-const makeVProgressLinearProps = propsFactory({
-  absolute: Boolean,
-  active: {
-    type: Boolean,
-    default: true
-  },
-  bgColor: String,
-  bgOpacity: [Number, String],
-  bufferValue: {
-    type: [Number, String],
-    default: 0
-  },
-  bufferColor: String,
-  bufferOpacity: [Number, String],
-  clickable: Boolean,
-  color: String,
-  height: {
-    type: [Number, String],
-    default: 4
-  },
-  indeterminate: Boolean,
-  max: {
-    type: [Number, String],
-    default: 100
-  },
-  modelValue: {
-    type: [Number, String],
-    default: 0
-  },
-  opacity: [Number, String],
-  reverse: Boolean,
-  stream: Boolean,
-  striped: Boolean,
-  roundedBar: Boolean,
-  ...makeComponentProps(),
-  ...makeLocationProps({
-    location: "top"
-  }),
-  ...makeRoundedProps(),
-  ...makeTagProps(),
-  ...makeThemeProps()
-}, "VProgressLinear");
-const VProgressLinear = genericComponent()({
-  name: "VProgressLinear",
-  props: makeVProgressLinearProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    var _a;
-    let {
-      slots
-    } = _ref;
-    const progress = useProxiedModel(props, "modelValue");
-    const {
-      isRtl,
-      rtlClasses
-    } = useRtl();
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      locationStyles
-    } = useLocation(props);
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(() => props.color);
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(() => props.bgColor || props.color);
-    const {
-      backgroundColorClasses: bufferColorClasses,
-      backgroundColorStyles: bufferColorStyles
-    } = useBackgroundColor(() => props.bufferColor || props.bgColor || props.color);
-    const {
-      backgroundColorClasses: barColorClasses,
-      backgroundColorStyles: barColorStyles
-    } = useBackgroundColor(() => props.color);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const {
-      intersectionRef,
-      isIntersecting
-    } = useIntersectionObserver();
-    const max2 = computed(() => parseFloat(props.max));
-    const height = computed(() => parseFloat(props.height));
-    const normalizedBuffer = computed(() => clamp(parseFloat(props.bufferValue) / max2.value * 100, 0, 100));
-    const normalizedValue = computed(() => clamp(parseFloat(progress.value) / max2.value * 100, 0, 100));
-    const isReversed = computed(() => isRtl.value !== props.reverse);
-    const transition = computed(() => props.indeterminate ? "fade-transition" : "slide-x-transition");
-    const isForcedColorsModeActive = IN_BROWSER && ((_a = window.matchMedia) == null ? void 0 : _a.call(window, "(forced-colors: active)").matches);
-    function handleClick(e2) {
-      if (!intersectionRef.value) return;
-      const {
-        left,
-        right,
-        width
-      } = intersectionRef.value.getBoundingClientRect();
-      const value = isReversed.value ? width - e2.clientX + (right - width) : e2.clientX - left;
-      progress.value = Math.round(value / width * max2.value);
-    }
-    useRender(() => createVNode(props.tag, {
-      "ref": intersectionRef,
-      "class": normalizeClass(["v-progress-linear", {
-        "v-progress-linear--absolute": props.absolute,
-        "v-progress-linear--active": props.active && isIntersecting.value,
-        "v-progress-linear--reverse": isReversed.value,
-        "v-progress-linear--rounded": props.rounded,
-        "v-progress-linear--rounded-bar": props.roundedBar,
-        "v-progress-linear--striped": props.striped
-      }, roundedClasses.value, themeClasses.value, rtlClasses.value, props.class]),
-      "style": normalizeStyle([{
-        bottom: props.location === "bottom" ? 0 : void 0,
-        top: props.location === "top" ? 0 : void 0,
-        height: props.active ? convertToUnit(height.value) : 0,
-        "--v-progress-linear-height": convertToUnit(height.value),
-        ...props.absolute ? locationStyles.value : {}
-      }, props.style]),
-      "role": "progressbar",
-      "aria-hidden": props.active ? "false" : "true",
-      "aria-valuemin": "0",
-      "aria-valuemax": props.max,
-      "aria-valuenow": props.indeterminate ? void 0 : Math.min(parseFloat(progress.value), max2.value),
-      "onClick": props.clickable && handleClick
-    }, {
-      default: () => [props.stream && createElementVNode("div", {
-        "key": "stream",
-        "class": normalizeClass(["v-progress-linear__stream", textColorClasses.value]),
-        "style": normalizeStyle({
-          ...textColorStyles.value,
-          [isReversed.value ? "left" : "right"]: convertToUnit(-height.value),
-          borderTop: `${convertToUnit(height.value / 2)} dotted`,
-          opacity: parseFloat(props.bufferOpacity),
-          top: `calc(50% - ${convertToUnit(height.value / 4)})`,
-          width: convertToUnit(100 - normalizedBuffer.value, "%"),
-          "--v-progress-linear-stream-to": convertToUnit(height.value * (isReversed.value ? 1 : -1))
-        })
-      }, null), createElementVNode("div", {
-        "class": normalizeClass(["v-progress-linear__background", !isForcedColorsModeActive ? backgroundColorClasses.value : void 0]),
-        "style": normalizeStyle([backgroundColorStyles.value, {
-          opacity: parseFloat(props.bgOpacity),
-          width: props.stream ? 0 : void 0
-        }])
-      }, null), createElementVNode("div", {
-        "class": normalizeClass(["v-progress-linear__buffer", !isForcedColorsModeActive ? bufferColorClasses.value : void 0]),
-        "style": normalizeStyle([bufferColorStyles.value, {
-          opacity: parseFloat(props.bufferOpacity),
-          width: convertToUnit(normalizedBuffer.value, "%")
-        }])
-      }, null), createVNode(Transition, {
-        "name": transition.value
-      }, {
-        default: () => [!props.indeterminate ? createElementVNode("div", {
-          "class": normalizeClass(["v-progress-linear__determinate", !isForcedColorsModeActive ? barColorClasses.value : void 0]),
-          "style": normalizeStyle([barColorStyles.value, {
-            width: convertToUnit(normalizedValue.value, "%")
-          }])
-        }, null) : createElementVNode("div", {
-          "class": "v-progress-linear__indeterminate"
-        }, [["long", "short"].map((bar) => createElementVNode("div", {
-          "key": bar,
-          "class": normalizeClass(["v-progress-linear__indeterminate", bar, !isForcedColorsModeActive ? barColorClasses.value : void 0]),
-          "style": normalizeStyle(barColorStyles.value)
-        }, null))])]
-      }), slots.default && createElementVNode("div", {
-        "class": "v-progress-linear__content"
-      }, [slots.default({
-        value: normalizedValue.value,
-        buffer: normalizedBuffer.value
-      })])]
-    }));
-    return {};
-  }
-});
 const DateOptionsSymbol = Symbol.for("vuetify:date-options");
 function createInstance(options, locale2) {
   const instance = reactive(typeof options.adapter === "function" ? new options.adapter({
@@ -11496,38 +13101,6 @@ function clampTarget(container, value, rtl, horizontal) {
     max2 = scrollHeight + -containerHeight;
   }
   return clamp(value, min2, max2);
-}
-function useResizeObserver(callback) {
-  let box = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "content";
-  const resizeRef = templateRef();
-  const contentRect = ref();
-  if (IN_BROWSER) {
-    const observer = new ResizeObserver((entries) => {
-      callback == null ? void 0 : callback(entries, observer);
-      if (!entries.length) return;
-      if (box === "content") {
-        contentRect.value = entries[0].contentRect;
-      } else {
-        contentRect.value = entries[0].target.getBoundingClientRect();
-      }
-    });
-    onBeforeUnmount(() => {
-      observer.disconnect();
-    });
-    watch(() => resizeRef.el, (newValue, oldValue) => {
-      if (oldValue) {
-        observer.unobserve(oldValue);
-        contentRect.value = void 0;
-      }
-      if (newValue) observer.observe(newValue);
-    }, {
-      flush: "post"
-    });
-  }
-  return {
-    resizeRef,
-    contentRect: readonly(contentRect)
-  };
 }
 const VuetifyLayoutKey = Symbol.for("vuetify:layout");
 const VuetifyLayoutItemKey = Symbol.for("vuetify:layout-item");
@@ -11842,69 +13415,6 @@ function forwardRefs(target) {
     }
   });
 }
-const positionValues = ["static", "relative", "fixed", "absolute", "sticky"];
-const makePositionProps = propsFactory({
-  position: {
-    type: String,
-    validator: (
-      /* istanbul ignore next */
-      (v) => positionValues.includes(v)
-    )
-  }
-}, "position");
-function usePosition(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  const positionClasses = toRef(() => {
-    return props.position ? `${name}--${props.position}` : void 0;
-  });
-  return {
-    positionClasses
-  };
-}
-const allowedVariants$1 = ["elevated", "flat", "tonal", "outlined", "text", "plain"];
-function genOverlays(isClickable, name) {
-  return createElementVNode(Fragment, null, [isClickable && createElementVNode("span", {
-    "key": "overlay",
-    "class": normalizeClass(`${name}__overlay`)
-  }, null), createElementVNode("span", {
-    "key": "underlay",
-    "class": normalizeClass(`${name}__underlay`)
-  }, null)]);
-}
-const makeVariantProps = propsFactory({
-  color: String,
-  variant: {
-    type: String,
-    default: "elevated",
-    validator: (v) => allowedVariants$1.includes(v)
-  }
-}, "variant");
-function useVariant(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  const variantClasses = toRef(() => {
-    const {
-      variant
-    } = toValue(props);
-    return `${name}--variant-${variant}`;
-  });
-  const {
-    colorClasses,
-    colorStyles
-  } = useColor(() => {
-    const {
-      variant,
-      color
-    } = toValue(props);
-    return {
-      [["elevated", "flat"].includes(variant) ? "background" : "text"]: color
-    };
-  });
-  return {
-    colorClasses,
-    colorStyles,
-    variantClasses
-  };
-}
 function useCountdown(milliseconds2) {
   const time = shallowRef(milliseconds2());
   let timer = -1;
@@ -12113,11 +13623,10 @@ const VSnackbar = genericComponent()({
 });
 const _sfc_main$1u = {
   name: "IFXMessageDisplay",
+  components: {
+    IFXButton
+  },
   props: {
-    vertical: {
-      default: true,
-      type: Boolean
-    },
     top: {
       default: true,
       type: Boolean
@@ -12135,7 +13644,7 @@ const _sfc_main$1u = {
       type: Boolean
     },
     color: {
-      default: "grey darken-4",
+      default: "grey-darken-4",
       type: String
     },
     multiline: {
@@ -12151,6 +13660,17 @@ const _sfc_main$1u = {
     ...mapGetters(["message", "isActionRequired", "isMessageActive"]),
     messageTimeout() {
       return this.isActionRequired ? 5e5 : this.message.length / 30 * 1e3 + 1e3;
+    },
+    // Compute proper Vuetify 3 location based on prop combinations
+    snackbarLocation() {
+      const vertical = this.top ? "top" : this.bottom ? "bottom" : "";
+      const horizontal = this.left ? "left" : this.right ? "right" : "";
+      if (vertical && horizontal) {
+        return `${vertical} ${horizontal}`;
+      }
+      if (vertical) return vertical;
+      if (horizontal) return `top ${horizontal}`;
+      return "top";
     }
   },
   methods: {
@@ -12164,15 +13684,14 @@ function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   return openBlock(), createBlock(VSnackbar, {
     "model-value": _ctx.isMessageActive,
-    vertical: $props.vertical,
-    location: $props.top ? "top" : $props.bottom ? "bottom" : $props.left ? "left" : $props.right ? "right" : "top",
+    location: $options.snackbarLocation,
     color: $props.color,
     "multi-line": $props.multiline,
     timeout: $options.messageTimeout,
     "onUpdate:modelValue": $options.deactivate,
     "data-cy": "ifx-message"
   }, {
-    action: withCtx(() => [
+    actions: withCtx(() => [
       createVNode(_component_IFXButton, {
         btnType: "close",
         small: "",
@@ -12183,1464 +13702,9 @@ function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
       createTextVNode(toDisplayString(_ctx.message) + " ", 1)
     ]),
     _: 1
-  }, 8, ["model-value", "vertical", "location", "color", "multi-line", "timeout", "onUpdate:modelValue"]);
+  }, 8, ["model-value", "location", "color", "multi-line", "timeout", "onUpdate:modelValue"]);
 }
 const IFXMessageDisplay = /* @__PURE__ */ _export_sfc(_sfc_main$1u, [["render", _sfc_render$1u]]);
-const makeBorderProps = propsFactory({
-  border: [Boolean, Number, String]
-}, "border");
-function useBorder(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  const borderClasses = computed(() => {
-    const border = props.border;
-    if (border === true || border === "") {
-      return `${name}--border`;
-    } else if (typeof border === "string" || border === 0) {
-      return String(border).split(" ").map((v) => `border-${v}`);
-    }
-    return [];
-  });
-  return {
-    borderClasses
-  };
-}
-const allowedDensities$1 = [null, "default", "comfortable", "compact"];
-const makeDensityProps = propsFactory({
-  density: {
-    type: String,
-    default: "default",
-    validator: (v) => allowedDensities$1.includes(v)
-  }
-}, "density");
-function useDensity(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  const densityClasses = toRef(() => {
-    return `${name}--density-${props.density}`;
-  });
-  return {
-    densityClasses
-  };
-}
-const makeElevationProps = propsFactory({
-  elevation: {
-    type: [Number, String],
-    validator(v) {
-      const value = parseInt(v);
-      return !isNaN(value) && value >= 0 && // Material Design has a maximum elevation of 24
-      // https://material.io/design/environment/elevation.html#default-elevations
-      value <= 24;
-    }
-  }
-}, "elevation");
-function useElevation(props) {
-  const elevationClasses = toRef(() => {
-    const elevation = isRef(props) ? props.value : props.elevation;
-    if (elevation == null) return [];
-    return [`elevation-${elevation}`];
-  });
-  return {
-    elevationClasses
-  };
-}
-const makeVBtnGroupProps = propsFactory({
-  baseColor: String,
-  divided: Boolean,
-  ...makeBorderProps(),
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeElevationProps(),
-  ...makeRoundedProps(),
-  ...makeTagProps(),
-  ...makeThemeProps(),
-  ...makeVariantProps()
-}, "VBtnGroup");
-const VBtnGroup = genericComponent()({
-  name: "VBtnGroup",
-  props: makeVBtnGroupProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      borderClasses
-    } = useBorder(props);
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    provideDefaults({
-      VBtn: {
-        height: "auto",
-        baseColor: toRef(() => props.baseColor),
-        color: toRef(() => props.color),
-        density: toRef(() => props.density),
-        flat: true,
-        variant: toRef(() => props.variant)
-      }
-    });
-    useRender(() => {
-      return createVNode(props.tag, {
-        "class": normalizeClass(["v-btn-group", {
-          "v-btn-group--divided": props.divided
-        }, themeClasses.value, borderClasses.value, densityClasses.value, elevationClasses.value, roundedClasses.value, props.class]),
-        "style": normalizeStyle(props.style)
-      }, slots);
-    });
-  }
-});
-const makeGroupProps = propsFactory({
-  modelValue: {
-    type: null,
-    default: void 0
-  },
-  multiple: Boolean,
-  mandatory: [Boolean, String],
-  max: Number,
-  selectedClass: String,
-  disabled: Boolean
-}, "group");
-const makeGroupItemProps = propsFactory({
-  value: null,
-  disabled: Boolean,
-  selectedClass: String
-}, "group-item");
-function useGroupItem(props, injectKey) {
-  let required = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true;
-  const vm = getCurrentInstance("useGroupItem");
-  if (!vm) {
-    throw new Error("[Vuetify] useGroupItem composable must be used inside a component setup function");
-  }
-  const id = useId();
-  provide(Symbol.for(`${injectKey.description}:id`), id);
-  const group = inject(injectKey, null);
-  if (!group) {
-    if (!required) return group;
-    throw new Error(`[Vuetify] Could not find useGroup injection with symbol ${injectKey.description}`);
-  }
-  const value = toRef(() => props.value);
-  const disabled = computed(() => !!(group.disabled.value || props.disabled));
-  group.register({
-    id,
-    value,
-    disabled
-  }, vm);
-  onBeforeUnmount(() => {
-    group.unregister(id);
-  });
-  const isSelected = computed(() => {
-    return group.isSelected(id);
-  });
-  const isFirst = computed(() => {
-    return group.items.value[0].id === id;
-  });
-  const isLast = computed(() => {
-    return group.items.value[group.items.value.length - 1].id === id;
-  });
-  const selectedClass = computed(() => isSelected.value && [group.selectedClass.value, props.selectedClass]);
-  watch(isSelected, (value2) => {
-    vm.emit("group:selected", {
-      value: value2
-    });
-  }, {
-    flush: "sync"
-  });
-  return {
-    id,
-    isSelected,
-    isFirst,
-    isLast,
-    toggle: () => group.select(id, !isSelected.value),
-    select: (value2) => group.select(id, value2),
-    selectedClass,
-    value,
-    disabled,
-    group
-  };
-}
-function useGroup(props, injectKey) {
-  let isUnmounted = false;
-  const items = reactive([]);
-  const selected = useProxiedModel(props, "modelValue", [], (v) => {
-    if (v == null) return [];
-    return getIds(items, wrapInArray(v));
-  }, (v) => {
-    const arr = getValues(items, v);
-    return props.multiple ? arr : arr[0];
-  });
-  const groupVm = getCurrentInstance("useGroup");
-  function register2(item, vm) {
-    const unwrapped = item;
-    const key = Symbol.for(`${injectKey.description}:id`);
-    const children = findChildrenWithProvide(key, groupVm == null ? void 0 : groupVm.vnode);
-    const index = children.indexOf(vm);
-    if (unref(unwrapped.value) == null) {
-      unwrapped.value = index;
-      unwrapped.useIndexAsValue = true;
-    }
-    if (index > -1) {
-      items.splice(index, 0, unwrapped);
-    } else {
-      items.push(unwrapped);
-    }
-  }
-  function unregister2(id) {
-    if (isUnmounted) return;
-    forceMandatoryValue();
-    const index = items.findIndex((item) => item.id === id);
-    items.splice(index, 1);
-  }
-  function forceMandatoryValue() {
-    const item = items.find((item2) => !item2.disabled);
-    if (item && props.mandatory === "force" && !selected.value.length) {
-      selected.value = [item.id];
-    }
-  }
-  onMounted(() => {
-    forceMandatoryValue();
-  });
-  onBeforeUnmount(() => {
-    isUnmounted = true;
-  });
-  onUpdated(() => {
-    for (let i2 = 0; i2 < items.length; i2++) {
-      if (items[i2].useIndexAsValue) {
-        items[i2].value = i2;
-      }
-    }
-  });
-  function select(id, value) {
-    const item = items.find((item2) => item2.id === id);
-    if (value && (item == null ? void 0 : item.disabled)) return;
-    if (props.multiple) {
-      const internalValue = selected.value.slice();
-      const index = internalValue.findIndex((v) => v === id);
-      const isSelected = ~index;
-      value = value ?? !isSelected;
-      if (isSelected && props.mandatory && internalValue.length <= 1) return;
-      if (!isSelected && props.max != null && internalValue.length + 1 > props.max) return;
-      if (index < 0 && value) internalValue.push(id);
-      else if (index >= 0 && !value) internalValue.splice(index, 1);
-      selected.value = internalValue;
-    } else {
-      const isSelected = selected.value.includes(id);
-      if (props.mandatory && isSelected) return;
-      selected.value = value ?? !isSelected ? [id] : [];
-    }
-  }
-  function step(offset2) {
-    if (props.multiple) consoleWarn('This method is not supported when using "multiple" prop');
-    if (!selected.value.length) {
-      const item = items.find((item2) => !item2.disabled);
-      item && (selected.value = [item.id]);
-    } else {
-      const currentId = selected.value[0];
-      const currentIndex = items.findIndex((i2) => i2.id === currentId);
-      let newIndex = (currentIndex + offset2) % items.length;
-      let newItem = items[newIndex];
-      while (newItem.disabled && newIndex !== currentIndex) {
-        newIndex = (newIndex + offset2) % items.length;
-        newItem = items[newIndex];
-      }
-      if (newItem.disabled) return;
-      selected.value = [items[newIndex].id];
-    }
-  }
-  const state2 = {
-    register: register2,
-    unregister: unregister2,
-    selected,
-    select,
-    disabled: toRef(() => props.disabled),
-    prev: () => step(items.length - 1),
-    next: () => step(1),
-    isSelected: (id) => selected.value.includes(id),
-    selectedClass: toRef(() => props.selectedClass),
-    items: toRef(() => items),
-    getItemIndex: (value) => getItemIndex(items, value)
-  };
-  provide(injectKey, state2);
-  return state2;
-}
-function getItemIndex(items, value) {
-  const ids = getIds(items, [value]);
-  if (!ids.length) return -1;
-  return items.findIndex((item) => item.id === ids[0]);
-}
-function getIds(items, modelValue) {
-  const ids = [];
-  modelValue.forEach((value) => {
-    const item = items.find((item2) => deepEqual(value, item2.value));
-    const itemByIndex = items[value];
-    if ((item == null ? void 0 : item.value) != null) {
-      ids.push(item.id);
-    } else if (itemByIndex != null) {
-      ids.push(itemByIndex.id);
-    }
-  });
-  return ids;
-}
-function getValues(items, ids) {
-  const values = [];
-  ids.forEach((id) => {
-    const itemIndex = items.findIndex((item) => item.id === id);
-    if (~itemIndex) {
-      const item = items[itemIndex];
-      values.push(item.value != null ? item.value : itemIndex);
-    }
-  });
-  return values;
-}
-const VBtnToggleSymbol = Symbol.for("vuetify:v-btn-toggle");
-const makeVBtnToggleProps = propsFactory({
-  ...makeVBtnGroupProps(),
-  ...makeGroupProps()
-}, "VBtnToggle");
-const VBtnToggle = genericComponent()({
-  name: "VBtnToggle",
-  props: makeVBtnToggleProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      isSelected,
-      next,
-      prev,
-      select,
-      selected
-    } = useGroup(props, VBtnToggleSymbol);
-    useRender(() => {
-      const btnGroupProps = VBtnGroup.filterProps(props);
-      return createVNode(VBtnGroup, mergeProps({
-        "class": ["v-btn-toggle", props.class]
-      }, btnGroupProps, {
-        "style": props.style
-      }), {
-        default: () => {
-          var _a;
-          return [(_a = slots.default) == null ? void 0 : _a.call(slots, {
-            isSelected,
-            next,
-            prev,
-            select,
-            selected
-          })];
-        }
-      });
-    });
-    return {
-      next,
-      prev,
-      select
-    };
-  }
-});
-const IconValue = [String, Function, Object, Array];
-const IconSymbol = Symbol.for("vuetify:icons");
-const makeIconProps = propsFactory({
-  icon: {
-    type: IconValue
-  },
-  // Could not remove this and use makeTagProps, types complained because it is not required
-  tag: {
-    type: [String, Object, Function],
-    required: true
-  }
-}, "icon");
-const VComponentIcon = genericComponent()({
-  name: "VComponentIcon",
-  props: makeIconProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    return () => {
-      const Icon = props.icon;
-      return createVNode(props.tag, null, {
-        default: () => {
-          var _a;
-          return [props.icon ? createVNode(Icon, null, null) : (_a = slots.default) == null ? void 0 : _a.call(slots)];
-        }
-      });
-    };
-  }
-});
-const VSvgIcon = defineComponent({
-  name: "VSvgIcon",
-  inheritAttrs: false,
-  props: makeIconProps(),
-  setup(props, _ref2) {
-    let {
-      attrs
-    } = _ref2;
-    return () => {
-      return createVNode(props.tag, mergeProps(attrs, {
-        "style": null
-      }), {
-        default: () => [createElementVNode("svg", {
-          "class": "v-icon__svg",
-          "xmlns": "http://www.w3.org/2000/svg",
-          "viewBox": "0 0 24 24",
-          "role": "img",
-          "aria-hidden": "true"
-        }, [Array.isArray(props.icon) ? props.icon.map((path) => Array.isArray(path) ? createElementVNode("path", {
-          "d": path[0],
-          "fill-opacity": path[1]
-        }, null) : createElementVNode("path", {
-          "d": path
-        }, null)) : createElementVNode("path", {
-          "d": props.icon
-        }, null)])]
-      });
-    };
-  }
-});
-defineComponent({
-  name: "VLigatureIcon",
-  props: makeIconProps(),
-  setup(props) {
-    return () => {
-      return createVNode(props.tag, null, {
-        default: () => [props.icon]
-      });
-    };
-  }
-});
-defineComponent({
-  name: "VClassIcon",
-  props: makeIconProps(),
-  setup(props) {
-    return () => {
-      return createVNode(props.tag, {
-        "class": normalizeClass(props.icon)
-      }, null);
-    };
-  }
-});
-const useIcon = (props) => {
-  const icons = inject(IconSymbol);
-  if (!icons) throw new Error("Missing Vuetify Icons provide!");
-  const iconData = computed(() => {
-    var _a;
-    const iconAlias = toValue(props);
-    if (!iconAlias) return {
-      component: VComponentIcon
-    };
-    let icon = iconAlias;
-    if (typeof icon === "string") {
-      icon = icon.trim();
-      if (icon.startsWith("$")) {
-        icon = (_a = icons.aliases) == null ? void 0 : _a[icon.slice(1)];
-      }
-    }
-    if (!icon) consoleWarn(`Could not find aliased icon "${iconAlias}"`);
-    if (Array.isArray(icon)) {
-      return {
-        component: VSvgIcon,
-        icon
-      };
-    } else if (typeof icon !== "string") {
-      return {
-        component: VComponentIcon,
-        icon
-      };
-    }
-    const iconSetName = Object.keys(icons.sets).find((setName) => typeof icon === "string" && icon.startsWith(`${setName}:`));
-    const iconName = iconSetName ? icon.slice(iconSetName.length + 1) : icon;
-    const iconSet = icons.sets[iconSetName ?? icons.defaultSet];
-    return {
-      component: iconSet.component,
-      icon: iconName
-    };
-  });
-  return {
-    iconData
-  };
-};
-const predefinedSizes = ["x-small", "small", "default", "large", "x-large"];
-const makeSizeProps = propsFactory({
-  size: {
-    type: [String, Number],
-    default: "default"
-  }
-}, "size");
-function useSize(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  return destructComputed(() => {
-    const size = props.size;
-    let sizeClasses;
-    let sizeStyles;
-    if (includes(predefinedSizes, size)) {
-      sizeClasses = `${name}--size-${size}`;
-    } else if (size) {
-      sizeStyles = {
-        width: convertToUnit(size),
-        height: convertToUnit(size)
-      };
-    }
-    return {
-      sizeClasses,
-      sizeStyles
-    };
-  });
-}
-const makeVIconProps = propsFactory({
-  color: String,
-  disabled: Boolean,
-  start: Boolean,
-  end: Boolean,
-  icon: IconValue,
-  opacity: [String, Number],
-  ...makeComponentProps(),
-  ...makeSizeProps(),
-  ...makeTagProps({
-    tag: "i"
-  }),
-  ...makeThemeProps()
-}, "VIcon");
-const VIcon = genericComponent()({
-  name: "VIcon",
-  props: makeVIconProps(),
-  setup(props, _ref) {
-    let {
-      attrs,
-      slots
-    } = _ref;
-    const slotIcon = shallowRef();
-    const {
-      themeClasses
-    } = useTheme();
-    const {
-      iconData
-    } = useIcon(() => slotIcon.value || props.icon);
-    const {
-      sizeClasses
-    } = useSize(props);
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(() => props.color);
-    useRender(() => {
-      var _a, _b;
-      const slotValue = (_a = slots.default) == null ? void 0 : _a.call(slots);
-      if (slotValue) {
-        slotIcon.value = (_b = flattenFragments(slotValue).filter((node) => node.type === Text && node.children && typeof node.children === "string")[0]) == null ? void 0 : _b.children;
-      }
-      const hasClick = !!(attrs.onClick || attrs.onClickOnce);
-      return createVNode(iconData.value.component, {
-        "tag": props.tag,
-        "icon": iconData.value.icon,
-        "class": normalizeClass(["v-icon", "notranslate", themeClasses.value, sizeClasses.value, textColorClasses.value, {
-          "v-icon--clickable": hasClick,
-          "v-icon--disabled": props.disabled,
-          "v-icon--start": props.start,
-          "v-icon--end": props.end
-        }, props.class]),
-        "style": normalizeStyle([{
-          "--v-icon-opacity": props.opacity
-        }, !sizeClasses.value ? {
-          fontSize: convertToUnit(props.size),
-          height: convertToUnit(props.size),
-          width: convertToUnit(props.size)
-        } : void 0, textColorStyles.value, props.style]),
-        "role": hasClick ? "button" : void 0,
-        "aria-hidden": !hasClick,
-        "tabindex": hasClick ? props.disabled ? -1 : 0 : void 0
-      }, {
-        default: () => [slotValue]
-      });
-    });
-    return {};
-  }
-});
-const makeVProgressCircularProps = propsFactory({
-  bgColor: String,
-  color: String,
-  indeterminate: [Boolean, String],
-  modelValue: {
-    type: [Number, String],
-    default: 0
-  },
-  rotate: {
-    type: [Number, String],
-    default: 0
-  },
-  width: {
-    type: [Number, String],
-    default: 4
-  },
-  ...makeComponentProps(),
-  ...makeSizeProps(),
-  ...makeTagProps({
-    tag: "div"
-  }),
-  ...makeThemeProps()
-}, "VProgressCircular");
-const VProgressCircular = genericComponent()({
-  name: "VProgressCircular",
-  props: makeVProgressCircularProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const MAGIC_RADIUS_CONSTANT = 20;
-    const CIRCUMFERENCE = 2 * Math.PI * MAGIC_RADIUS_CONSTANT;
-    const root = ref();
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      sizeClasses,
-      sizeStyles
-    } = useSize(props);
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(() => props.color);
-    const {
-      textColorClasses: underlayColorClasses,
-      textColorStyles: underlayColorStyles
-    } = useTextColor(() => props.bgColor);
-    const {
-      intersectionRef,
-      isIntersecting
-    } = useIntersectionObserver();
-    const {
-      resizeRef,
-      contentRect
-    } = useResizeObserver();
-    const normalizedValue = toRef(() => clamp(parseFloat(props.modelValue), 0, 100));
-    const width = toRef(() => Number(props.width));
-    const size = toRef(() => {
-      return sizeStyles.value ? Number(props.size) : contentRect.value ? contentRect.value.width : Math.max(width.value, 32);
-    });
-    const diameter = toRef(() => MAGIC_RADIUS_CONSTANT / (1 - width.value / size.value) * 2);
-    const strokeWidth = toRef(() => width.value / size.value * diameter.value);
-    const strokeDashOffset = toRef(() => convertToUnit((100 - normalizedValue.value) / 100 * CIRCUMFERENCE));
-    watchEffect(() => {
-      intersectionRef.value = root.value;
-      resizeRef.value = root.value;
-    });
-    useRender(() => createVNode(props.tag, {
-      "ref": root,
-      "class": normalizeClass(["v-progress-circular", {
-        "v-progress-circular--indeterminate": !!props.indeterminate,
-        "v-progress-circular--visible": isIntersecting.value,
-        "v-progress-circular--disable-shrink": props.indeterminate === "disable-shrink"
-      }, themeClasses.value, sizeClasses.value, textColorClasses.value, props.class]),
-      "style": normalizeStyle([sizeStyles.value, textColorStyles.value, props.style]),
-      "role": "progressbar",
-      "aria-valuemin": "0",
-      "aria-valuemax": "100",
-      "aria-valuenow": props.indeterminate ? void 0 : normalizedValue.value
-    }, {
-      default: () => [createElementVNode("svg", {
-        "style": normalizeStyle({
-          transform: `rotate(calc(-90deg + ${Number(props.rotate)}deg))`
-        }),
-        "xmlns": "http://www.w3.org/2000/svg",
-        "viewBox": `0 0 ${diameter.value} ${diameter.value}`
-      }, [createElementVNode("circle", {
-        "class": normalizeClass(["v-progress-circular__underlay", underlayColorClasses.value]),
-        "style": normalizeStyle(underlayColorStyles.value),
-        "fill": "transparent",
-        "cx": "50%",
-        "cy": "50%",
-        "r": MAGIC_RADIUS_CONSTANT,
-        "stroke-width": strokeWidth.value,
-        "stroke-dasharray": CIRCUMFERENCE,
-        "stroke-dashoffset": 0
-      }, null), createElementVNode("circle", {
-        "class": "v-progress-circular__overlay",
-        "fill": "transparent",
-        "cx": "50%",
-        "cy": "50%",
-        "r": MAGIC_RADIUS_CONSTANT,
-        "stroke-width": strokeWidth.value,
-        "stroke-dasharray": CIRCUMFERENCE,
-        "stroke-dashoffset": strokeDashOffset.value
-      }, null)]), slots.default && createElementVNode("div", {
-        "class": "v-progress-circular__content"
-      }, [slots.default({
-        value: normalizedValue.value
-      })])]
-    }));
-    return {};
-  }
-});
-const makeLoaderProps = propsFactory({
-  loading: [Boolean, String]
-}, "loader");
-function useLoader(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  const loaderClasses = toRef(() => ({
-    [`${name}--loading`]: props.loading
-  }));
-  return {
-    loaderClasses
-  };
-}
-function LoaderSlot(props, _ref) {
-  var _a;
-  let {
-    slots
-  } = _ref;
-  return createElementVNode("div", {
-    "class": normalizeClass(`${props.name}__loader`)
-  }, [((_a = slots.default) == null ? void 0 : _a.call(slots, {
-    color: props.color,
-    isActive: props.active
-  })) || createVNode(VProgressLinear, {
-    "absolute": props.absolute,
-    "active": props.active,
-    "color": props.color,
-    "height": "2",
-    "indeterminate": true
-  }, null)]);
-}
-function useSelectLink(link, select) {
-  watch(() => {
-    var _a;
-    return (_a = link.isActive) == null ? void 0 : _a.value;
-  }, (isActive) => {
-    if (link.isLink.value && isActive && select) {
-      nextTick(() => {
-        select(true);
-      });
-    }
-  }, {
-    immediate: true
-  });
-}
-const stopSymbol = Symbol("rippleStop");
-const DELAY_RIPPLE = 80;
-function transform(el, value) {
-  el.style.transform = value;
-  el.style.webkitTransform = value;
-}
-function isTouchEvent(e2) {
-  return e2.constructor.name === "TouchEvent";
-}
-function isKeyboardEvent(e2) {
-  return e2.constructor.name === "KeyboardEvent";
-}
-const calculate = function(e2, el) {
-  var _a;
-  let value = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-  let localX = 0;
-  let localY = 0;
-  if (!isKeyboardEvent(e2)) {
-    const offset2 = el.getBoundingClientRect();
-    const target = isTouchEvent(e2) ? e2.touches[e2.touches.length - 1] : e2;
-    localX = target.clientX - offset2.left;
-    localY = target.clientY - offset2.top;
-  }
-  let radius = 0;
-  let scale = 0.3;
-  if ((_a = el._ripple) == null ? void 0 : _a.circle) {
-    scale = 0.15;
-    radius = el.clientWidth / 2;
-    radius = value.center ? radius : radius + Math.sqrt((localX - radius) ** 2 + (localY - radius) ** 2) / 4;
-  } else {
-    radius = Math.sqrt(el.clientWidth ** 2 + el.clientHeight ** 2) / 2;
-  }
-  const centerX = `${(el.clientWidth - radius * 2) / 2}px`;
-  const centerY = `${(el.clientHeight - radius * 2) / 2}px`;
-  const x = value.center ? centerX : `${localX - radius}px`;
-  const y = value.center ? centerY : `${localY - radius}px`;
-  return {
-    radius,
-    scale,
-    x,
-    y,
-    centerX,
-    centerY
-  };
-};
-const ripples = {
-  /* eslint-disable max-statements */
-  show(e2, el) {
-    var _a;
-    let value = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-    if (!((_a = el == null ? void 0 : el._ripple) == null ? void 0 : _a.enabled)) {
-      return;
-    }
-    const container = document.createElement("span");
-    const animation = document.createElement("span");
-    container.appendChild(animation);
-    container.className = "v-ripple__container";
-    if (value.class) {
-      container.className += ` ${value.class}`;
-    }
-    const {
-      radius,
-      scale,
-      x,
-      y,
-      centerX,
-      centerY
-    } = calculate(e2, el, value);
-    const size = `${radius * 2}px`;
-    animation.className = "v-ripple__animation";
-    animation.style.width = size;
-    animation.style.height = size;
-    el.appendChild(container);
-    const computed2 = window.getComputedStyle(el);
-    if (computed2 && computed2.position === "static") {
-      el.style.position = "relative";
-      el.dataset.previousPosition = "static";
-    }
-    animation.classList.add("v-ripple__animation--enter");
-    animation.classList.add("v-ripple__animation--visible");
-    transform(animation, `translate(${x}, ${y}) scale3d(${scale},${scale},${scale})`);
-    animation.dataset.activated = String(performance.now());
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        animation.classList.remove("v-ripple__animation--enter");
-        animation.classList.add("v-ripple__animation--in");
-        transform(animation, `translate(${centerX}, ${centerY}) scale3d(1,1,1)`);
-      });
-    });
-  },
-  hide(el) {
-    var _a;
-    if (!((_a = el == null ? void 0 : el._ripple) == null ? void 0 : _a.enabled)) return;
-    const ripples2 = el.getElementsByClassName("v-ripple__animation");
-    if (ripples2.length === 0) return;
-    const animation = ripples2[ripples2.length - 1];
-    if (animation.dataset.isHiding) return;
-    else animation.dataset.isHiding = "true";
-    const diff2 = performance.now() - Number(animation.dataset.activated);
-    const delay = Math.max(250 - diff2, 0);
-    setTimeout(() => {
-      animation.classList.remove("v-ripple__animation--in");
-      animation.classList.add("v-ripple__animation--out");
-      setTimeout(() => {
-        var _a2;
-        const ripples3 = el.getElementsByClassName("v-ripple__animation");
-        if (ripples3.length === 1 && el.dataset.previousPosition) {
-          el.style.position = el.dataset.previousPosition;
-          delete el.dataset.previousPosition;
-        }
-        if (((_a2 = animation.parentNode) == null ? void 0 : _a2.parentNode) === el) el.removeChild(animation.parentNode);
-      }, 300);
-    }, delay);
-  }
-};
-function isRippleEnabled(value) {
-  return typeof value === "undefined" || !!value;
-}
-function rippleShow(e2) {
-  const value = {};
-  const element = e2.currentTarget;
-  if (!(element == null ? void 0 : element._ripple) || element._ripple.touched || e2[stopSymbol]) return;
-  e2[stopSymbol] = true;
-  if (isTouchEvent(e2)) {
-    element._ripple.touched = true;
-    element._ripple.isTouch = true;
-  } else {
-    if (element._ripple.isTouch) return;
-  }
-  value.center = element._ripple.centered || isKeyboardEvent(e2);
-  if (element._ripple.class) {
-    value.class = element._ripple.class;
-  }
-  if (isTouchEvent(e2)) {
-    if (element._ripple.showTimerCommit) return;
-    element._ripple.showTimerCommit = () => {
-      ripples.show(e2, element, value);
-    };
-    element._ripple.showTimer = window.setTimeout(() => {
-      var _a;
-      if ((_a = element == null ? void 0 : element._ripple) == null ? void 0 : _a.showTimerCommit) {
-        element._ripple.showTimerCommit();
-        element._ripple.showTimerCommit = null;
-      }
-    }, DELAY_RIPPLE);
-  } else {
-    ripples.show(e2, element, value);
-  }
-}
-function rippleStop(e2) {
-  e2[stopSymbol] = true;
-}
-function rippleHide(e2) {
-  const element = e2.currentTarget;
-  if (!(element == null ? void 0 : element._ripple)) return;
-  window.clearTimeout(element._ripple.showTimer);
-  if (e2.type === "touchend" && element._ripple.showTimerCommit) {
-    element._ripple.showTimerCommit();
-    element._ripple.showTimerCommit = null;
-    element._ripple.showTimer = window.setTimeout(() => {
-      rippleHide(e2);
-    });
-    return;
-  }
-  window.setTimeout(() => {
-    if (element._ripple) {
-      element._ripple.touched = false;
-    }
-  });
-  ripples.hide(element);
-}
-function rippleCancelShow(e2) {
-  const element = e2.currentTarget;
-  if (!(element == null ? void 0 : element._ripple)) return;
-  if (element._ripple.showTimerCommit) {
-    element._ripple.showTimerCommit = null;
-  }
-  window.clearTimeout(element._ripple.showTimer);
-}
-let keyboardRipple = false;
-function keyboardRippleShow(e2) {
-  if (!keyboardRipple && (e2.keyCode === keyCodes.enter || e2.keyCode === keyCodes.space)) {
-    keyboardRipple = true;
-    rippleShow(e2);
-  }
-}
-function keyboardRippleHide(e2) {
-  keyboardRipple = false;
-  rippleHide(e2);
-}
-function focusRippleHide(e2) {
-  if (keyboardRipple) {
-    keyboardRipple = false;
-    rippleHide(e2);
-  }
-}
-function updateRipple(el, binding, wasEnabled) {
-  const {
-    value,
-    modifiers
-  } = binding;
-  const enabled = isRippleEnabled(value);
-  if (!enabled) {
-    ripples.hide(el);
-  }
-  el._ripple = el._ripple ?? {};
-  el._ripple.enabled = enabled;
-  el._ripple.centered = modifiers.center;
-  el._ripple.circle = modifiers.circle;
-  if (isObject$1(value) && value.class) {
-    el._ripple.class = value.class;
-  }
-  if (enabled && !wasEnabled) {
-    if (modifiers.stop) {
-      el.addEventListener("touchstart", rippleStop, {
-        passive: true
-      });
-      el.addEventListener("mousedown", rippleStop);
-      return;
-    }
-    el.addEventListener("touchstart", rippleShow, {
-      passive: true
-    });
-    el.addEventListener("touchend", rippleHide, {
-      passive: true
-    });
-    el.addEventListener("touchmove", rippleCancelShow, {
-      passive: true
-    });
-    el.addEventListener("touchcancel", rippleHide);
-    el.addEventListener("mousedown", rippleShow);
-    el.addEventListener("mouseup", rippleHide);
-    el.addEventListener("mouseleave", rippleHide);
-    el.addEventListener("keydown", keyboardRippleShow);
-    el.addEventListener("keyup", keyboardRippleHide);
-    el.addEventListener("blur", focusRippleHide);
-    el.addEventListener("dragstart", rippleHide, {
-      passive: true
-    });
-  } else if (!enabled && wasEnabled) {
-    removeListeners(el);
-  }
-}
-function removeListeners(el) {
-  el.removeEventListener("mousedown", rippleShow);
-  el.removeEventListener("touchstart", rippleShow);
-  el.removeEventListener("touchend", rippleHide);
-  el.removeEventListener("touchmove", rippleCancelShow);
-  el.removeEventListener("touchcancel", rippleHide);
-  el.removeEventListener("mouseup", rippleHide);
-  el.removeEventListener("mouseleave", rippleHide);
-  el.removeEventListener("keydown", keyboardRippleShow);
-  el.removeEventListener("keyup", keyboardRippleHide);
-  el.removeEventListener("dragstart", rippleHide);
-  el.removeEventListener("blur", focusRippleHide);
-}
-function mounted$2(el, binding) {
-  updateRipple(el, binding, false);
-}
-function unmounted$2(el) {
-  delete el._ripple;
-  removeListeners(el);
-}
-function updated(el, binding) {
-  if (binding.value === binding.oldValue) {
-    return;
-  }
-  const wasEnabled = isRippleEnabled(binding.oldValue);
-  updateRipple(el, binding, wasEnabled);
-}
-const Ripple = {
-  mounted: mounted$2,
-  unmounted: unmounted$2,
-  updated
-};
-const makeVBtnProps = propsFactory({
-  active: {
-    type: Boolean,
-    default: void 0
-  },
-  activeColor: String,
-  baseColor: String,
-  symbol: {
-    type: null,
-    default: VBtnToggleSymbol
-  },
-  flat: Boolean,
-  icon: [Boolean, String, Function, Object],
-  prependIcon: IconValue,
-  appendIcon: IconValue,
-  block: Boolean,
-  readonly: Boolean,
-  slim: Boolean,
-  stacked: Boolean,
-  ripple: {
-    type: [Boolean, Object],
-    default: true
-  },
-  text: {
-    type: [String, Number, Boolean],
-    default: void 0
-  },
-  ...makeBorderProps(),
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeDimensionProps(),
-  ...makeElevationProps(),
-  ...makeGroupItemProps(),
-  ...makeLoaderProps(),
-  ...makeLocationProps(),
-  ...makePositionProps(),
-  ...makeRoundedProps(),
-  ...makeRouterProps(),
-  ...makeSizeProps(),
-  ...makeTagProps({
-    tag: "button"
-  }),
-  ...makeThemeProps(),
-  ...makeVariantProps({
-    variant: "elevated"
-  })
-}, "VBtn");
-const VBtn = genericComponent()({
-  name: "VBtn",
-  props: makeVBtnProps(),
-  emits: {
-    "group:selected": (val) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      borderClasses
-    } = useBorder(props);
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      dimensionStyles
-    } = useDimension(props);
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      loaderClasses
-    } = useLoader(props);
-    const {
-      locationStyles
-    } = useLocation(props);
-    const {
-      positionClasses
-    } = usePosition(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const {
-      sizeClasses,
-      sizeStyles
-    } = useSize(props);
-    const group = useGroupItem(props, props.symbol, false);
-    const link = useLink(props, attrs);
-    const isActive = computed(() => {
-      var _a;
-      if (props.active !== void 0) {
-        return props.active;
-      }
-      if (link.isLink.value) {
-        return (_a = link.isActive) == null ? void 0 : _a.value;
-      }
-      return group == null ? void 0 : group.isSelected.value;
-    });
-    const color = toRef(() => isActive.value ? props.activeColor ?? props.color : props.color);
-    const variantProps = computed(() => {
-      var _a, _b;
-      const showColor = (group == null ? void 0 : group.isSelected.value) && (!link.isLink.value || ((_a = link.isActive) == null ? void 0 : _a.value)) || !group || ((_b = link.isActive) == null ? void 0 : _b.value);
-      return {
-        color: showColor ? color.value ?? props.baseColor : props.baseColor,
-        variant: props.variant
-      };
-    });
-    const {
-      colorClasses,
-      colorStyles,
-      variantClasses
-    } = useVariant(variantProps);
-    const isDisabled = computed(() => (group == null ? void 0 : group.disabled.value) || props.disabled);
-    const isElevated = toRef(() => {
-      return props.variant === "elevated" && !(props.disabled || props.flat || props.border);
-    });
-    const valueAttr = computed(() => {
-      if (props.value === void 0 || typeof props.value === "symbol") return void 0;
-      return Object(props.value) === props.value ? JSON.stringify(props.value, null, 0) : props.value;
-    });
-    function onClick(e2) {
-      var _a;
-      if (isDisabled.value || link.isLink.value && (e2.metaKey || e2.ctrlKey || e2.shiftKey || e2.button !== 0 || attrs.target === "_blank")) return;
-      (_a = link.navigate) == null ? void 0 : _a.call(link, e2);
-      group == null ? void 0 : group.toggle();
-    }
-    useSelectLink(link, group == null ? void 0 : group.select);
-    useRender(() => {
-      const Tag = link.isLink.value ? "a" : props.tag;
-      const hasPrepend = !!(props.prependIcon || slots.prepend);
-      const hasAppend = !!(props.appendIcon || slots.append);
-      const hasIcon = !!(props.icon && props.icon !== true);
-      return withDirectives(createVNode(Tag, mergeProps({
-        "type": Tag === "a" ? void 0 : "button",
-        "class": ["v-btn", group == null ? void 0 : group.selectedClass.value, {
-          "v-btn--active": isActive.value,
-          "v-btn--block": props.block,
-          "v-btn--disabled": isDisabled.value,
-          "v-btn--elevated": isElevated.value,
-          "v-btn--flat": props.flat,
-          "v-btn--icon": !!props.icon,
-          "v-btn--loading": props.loading,
-          "v-btn--readonly": props.readonly,
-          "v-btn--slim": props.slim,
-          "v-btn--stacked": props.stacked
-        }, themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, loaderClasses.value, positionClasses.value, roundedClasses.value, sizeClasses.value, variantClasses.value, props.class],
-        "style": [colorStyles.value, dimensionStyles.value, locationStyles.value, sizeStyles.value, props.style],
-        "aria-busy": props.loading ? true : void 0,
-        "disabled": isDisabled.value || void 0,
-        "tabindex": props.loading || props.readonly ? -1 : void 0,
-        "onClick": onClick,
-        "value": valueAttr.value
-      }, link.linkProps), {
-        default: () => {
-          var _a;
-          return [genOverlays(true, "v-btn"), !props.icon && hasPrepend && createElementVNode("span", {
-            "key": "prepend",
-            "class": "v-btn__prepend"
-          }, [!slots.prepend ? createVNode(VIcon, {
-            "key": "prepend-icon",
-            "icon": props.prependIcon
-          }, null) : createVNode(VDefaultsProvider, {
-            "key": "prepend-defaults",
-            "disabled": !props.prependIcon,
-            "defaults": {
-              VIcon: {
-                icon: props.prependIcon
-              }
-            }
-          }, slots.prepend)]), createElementVNode("span", {
-            "class": "v-btn__content",
-            "data-no-activator": ""
-          }, [!slots.default && hasIcon ? createVNode(VIcon, {
-            "key": "content-icon",
-            "icon": props.icon
-          }, null) : createVNode(VDefaultsProvider, {
-            "key": "content-defaults",
-            "disabled": !hasIcon,
-            "defaults": {
-              VIcon: {
-                icon: props.icon
-              }
-            }
-          }, {
-            default: () => {
-              var _a2;
-              return [((_a2 = slots.default) == null ? void 0 : _a2.call(slots)) ?? toDisplayString(props.text)];
-            }
-          })]), !props.icon && hasAppend && createElementVNode("span", {
-            "key": "append",
-            "class": "v-btn__append"
-          }, [!slots.append ? createVNode(VIcon, {
-            "key": "append-icon",
-            "icon": props.appendIcon
-          }, null) : createVNode(VDefaultsProvider, {
-            "key": "append-defaults",
-            "disabled": !props.appendIcon,
-            "defaults": {
-              VIcon: {
-                icon: props.appendIcon
-              }
-            }
-          }, slots.append)]), !!props.loading && createElementVNode("span", {
-            "key": "loader",
-            "class": "v-btn__loader"
-          }, [((_a = slots.loader) == null ? void 0 : _a.call(slots)) ?? createVNode(VProgressCircular, {
-            "color": typeof props.loading === "boolean" ? void 0 : props.loading,
-            "indeterminate": true,
-            "width": "2"
-          }, null)])];
-        }
-      }), [[Ripple, !isDisabled.value && props.ripple, "", {
-        center: !!props.icon
-      }]]);
-    });
-    return {
-      group
-    };
-  }
-});
-const _sfc_main$1t = {
-  name: "IFXButton",
-  props: {
-    // The type of button, determines default icon and color
-    // Options: add, edit, delete, close, cancel, download, other
-    btnType: {
-      type: String,
-      required: true
-    },
-    // Color of the button, overrides default color determined by btnType
-    btnColor: {
-      type: String,
-      required: false
-    },
-    // Size of the button
-    xSmall: {
-      type: Boolean,
-      default: false,
-      required: false
-    },
-    // Size of the button
-    small: {
-      type: Boolean,
-      default: false,
-      required: false
-    },
-    // Size of the button
-    large: {
-      type: Boolean,
-      default: false,
-      required: false
-    },
-    // The color of the icon
-    iconColor: {
-      type: String,
-      default: "white",
-      required: false
-    },
-    // String for icon, overrides default determined by btnType
-    iconString: {
-      type: String,
-      required: false
-    },
-    disabled: {
-      type: Boolean,
-      required: false
-    },
-    // Button text, determines if icon is FAB or not
-    btnText: {
-      type: String,
-      required: false
-    },
-    // If in a dialog, use text style buttons
-    inDialog: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
-  },
-  computed: {
-    /**
-     * Computes button color based on btnType. Priority is given to btnColor, if provided by user.
-     * @returns {string}
-     */
-    btnColorComputed() {
-      if (this.btnColor) {
-        return this.btnColor;
-      }
-      let btnColor = "";
-      switch (this.btnType) {
-        case "edit":
-          btnColor = "primary";
-          break;
-        case "add":
-          btnColor = "primary";
-          break;
-        case "download":
-          btnColor = "primary";
-          break;
-        case "remove":
-          btnColor = "red";
-          break;
-        case "reset":
-          btnColor = "yellow";
-          break;
-        case "submit":
-          btnColor = "primary";
-          break;
-        case "close":
-          btnColor = "secondary";
-          break;
-        case "cancel":
-          btnColor = "secondary";
-          break;
-        case "home":
-          btnColor = "primary";
-          break;
-        case "copy":
-          btnColor = "primary";
-          break;
-        case "other":
-          btnColor = "secondary";
-          break;
-        default:
-          btnColor = "secondary";
-          break;
-      }
-      return btnColor;
-    },
-    /**
-     * Computes if button is xSmall, based on breakpoint or boolean provided by user
-     * @returns {string}
-     */
-    xSmallComputed() {
-      return this.$vuetify.display.xs || this.xSmall || !this.btnTextComputed && !this.small && !this.large;
-    },
-    /**
-     * Computes if button is small, based on breakpoint or boolean provided by user
-     * @returns {string}
-     */
-    smallComputed() {
-      return this.$vuetify.display.smAndDown || this.small;
-    },
-    /**
-     * Computes if button is large, based on breakpoint or boolean provided by user
-     * @returns {string}
-     */
-    largeComputed() {
-      return this.$vuetify.display.lgAndUp || this.large;
-    },
-    /**
-     * Computes string for icon
-     * @returns {string}
-     */
-    iconStringComputed() {
-      if (this.iconString) {
-        return this.iconString;
-      }
-      let iconString = "";
-      switch (this.btnType) {
-        case "edit":
-          iconString = "mdi-pencil";
-          break;
-        case "remove":
-          iconString = "delete";
-          break;
-        case "add":
-          iconString = "add";
-          break;
-        case "submit":
-          iconString = "";
-          break;
-        case "download":
-          iconString = "mdi-cloud-download";
-          break;
-        case "copy":
-          iconString = "mdi-content-duplicate";
-          break;
-        default:
-          iconString = "";
-          break;
-      }
-      return iconString;
-    },
-    btnTextComputed() {
-      if (this.btnText) {
-        return this.btnText;
-      }
-      let btnText = "";
-      if (this.btnType === "submit") {
-        btnText = "Save";
-      } else if (this.btnType === "close") {
-        btnText = "Close";
-      } else if (this.btnType === "cancel") {
-        btnText = "Cancel";
-      }
-      return btnText;
-    },
-    dataCyString() {
-      return `${this.btnType}-btn`;
-    }
-  },
-  methods: {
-    /**
-     * Emits event, triggering the action defined by the user.
-     */
-    clickHandler() {
-      this.$emit("action");
-    }
-  }
-};
-const _hoisted_1$R = { key: 1 };
-function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createBlock(VBtn, {
-    icon: !$options.btnTextComputed,
-    disabled: $props.disabled,
-    size: $options.xSmallComputed ? "x-small" : $options.smallComputed ? "small" : $options.largeComputed ? "large" : "default",
-    color: $options.btnColorComputed,
-    onClick: withModifiers($options.clickHandler, ["prevent"]),
-    "data-cy": $options.dataCyString,
-    variant: $props.inDialog ? "text" : "elevated",
-    "aria-label": $options.btnTextComputed ? $options.btnTextComputed : $props.btnType
-  }, {
-    default: withCtx(() => [
-      $options.iconStringComputed ? (openBlock(), createBlock(VIcon, {
-        key: 0,
-        color: $props.iconColor,
-        class: normalizeClass({ "mr-2": $options.btnTextComputed })
-      }, {
-        default: withCtx(() => [
-          createTextVNode(toDisplayString($options.iconStringComputed), 1)
-        ]),
-        _: 1
-      }, 8, ["color", "class"])) : createCommentVNode("", true),
-      $options.btnTextComputed ? (openBlock(), createElementBlock("span", _hoisted_1$R, toDisplayString($options.btnTextComputed), 1)) : createCommentVNode("", true)
-    ]),
-    _: 1
-  }, 8, ["icon", "disabled", "size", "color", "onClick", "data-cy", "variant", "aria-label"]);
-}
-const IFXButton = /* @__PURE__ */ _export_sfc(_sfc_main$1t, [["render", _sfc_render$1t]]);
 const makeVTooltipProps = propsFactory({
   id: String,
   interactive: Boolean,
@@ -13724,7 +13788,7 @@ const VTooltip = genericComponent()({
     return forwardRefs({}, overlay);
   }
 });
-const _sfc_main$1s = {
+const _sfc_main$1t = {
   name: "IFXTooltip",
   props: {
     color: {
@@ -13755,6 +13819,11 @@ const _sfc_main$1s = {
       required: false,
       default: true
     },
+    size: {
+      type: String,
+      required: false,
+      default: null
+    },
     disabled: {
       type: Boolean,
       required: false,
@@ -13766,15 +13835,18 @@ const _sfc_main$1s = {
       default: false
     }
   },
-  data() {
-    return {};
-  },
   methods: {
     handleClick() {
       this.$emit("action");
     }
   },
   computed: {
+    buttonSize() {
+      if (this.size) {
+        return this.size;
+      }
+      return this.fab ? "large" : "default";
+    },
     getAttrs() {
       const result = { ...this.$attrs };
       return result;
@@ -13783,30 +13855,18 @@ const _sfc_main$1s = {
 };
 const _hoisted_1$Q = { key: 0 };
 const _hoisted_2$A = ["innerHTML"];
-function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VTooltip, normalizeProps(guardReactiveProps($options.getAttrs)), {
     activator: withCtx(({ props }) => [
       createVNode(VBtn, mergeProps({
         "aria-label": $props.tooltip,
-        size: $props.fab ? "default" : "default",
+        size: $options.buttonSize,
         color: $props.color
       }, props, {
         onClick: $options.handleClick,
-        disabled: $props.disabled
-      }), {
-        default: withCtx(() => [
-          createVNode(VIcon, {
-            dark: $props.dark,
-            color: $props.iconColor
-          }, {
-            default: withCtx(() => [
-              createTextVNode(toDisplayString($props.icon), 1)
-            ]),
-            _: 1
-          }, 8, ["dark", "color"])
-        ]),
-        _: 2
-      }, 1040, ["aria-label", "size", "color", "onClick", "disabled"])
+        disabled: $props.disabled,
+        icon: $props.icon
+      }), null, 16, ["aria-label", "size", "color", "onClick", "disabled", "icon"])
     ]),
     default: withCtx(() => [
       !$props.isHTML ? (openBlock(), createElementBlock("span", _hoisted_1$Q, toDisplayString($props.tooltip), 1)) : (openBlock(), createElementBlock("span", {
@@ -13817,7 +13877,7 @@ function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 16);
 }
-const IFXTooltip = /* @__PURE__ */ _export_sfc(_sfc_main$1s, [["render", _sfc_render$1s]]);
+const IFXTooltip = /* @__PURE__ */ _export_sfc(_sfc_main$1t, [["render", _sfc_render$1t]]);
 const makeVContainerProps = propsFactory({
   fluid: {
     type: Boolean,
@@ -14075,7 +14135,7 @@ const VRow = genericComponent()({
   }
 });
 const VSpacer = createSimpleFunctional("v-spacer", "div", "VSpacer");
-const _sfc_main$1r = {
+const _sfc_main$1s = {
   name: "IFXNotFound",
   methods: {
     navigateToHome() {
@@ -14083,7 +14143,7 @@ const _sfc_main$1r = {
     }
   }
 };
-function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   return openBlock(), createBlock(VContainer, {
     "fill-height": "",
@@ -14130,8 +14190,8 @@ function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXNotFound = /* @__PURE__ */ _export_sfc(_sfc_main$1r, [["render", _sfc_render$1r]]);
-const _sfc_main$1q = {
+const IFXNotFound = /* @__PURE__ */ _export_sfc(_sfc_main$1s, [["render", _sfc_render$1s]]);
+const _sfc_main$1r = {
   name: "IFXForbidden",
   props: {
     msg: {
@@ -14147,7 +14207,7 @@ const _sfc_main$1q = {
   }
 };
 const _hoisted_1$P = { class: "text-h2 font-weight-medium msg pb-2" };
-function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   return openBlock(), createBlock(VContainer, {
     "fill-height": "",
@@ -14186,7 +14246,7 @@ function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-const IFXForbidden = /* @__PURE__ */ _export_sfc(_sfc_main$1q, [["render", _sfc_render$1q], ["__scopeId", "data-v-62375e8b"]]);
+const IFXForbidden = /* @__PURE__ */ _export_sfc(_sfc_main$1r, [["render", _sfc_render$1r], ["__scopeId", "data-v-62375e8b"]]);
 const makeVDividerProps = propsFactory({
   color: String,
   inset: Boolean,
@@ -14248,7 +14308,7 @@ const VDivider = genericComponent()({
     return {};
   }
 });
-const _sfc_main$1p = {
+const _sfc_main$1q = {
   name: "IFXPageHeader",
   computed: {
     /**
@@ -14318,7 +14378,7 @@ const _hoisted_2$z = {
   "data-cy": "header-id",
   class: "d-none"
 };
-function _sfc_render$1p(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
       createVNode(VCol, { class: "pt-0" }, {
@@ -14411,8 +14471,8 @@ function _sfc_render$1p(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-const IFXPageHeader = /* @__PURE__ */ _export_sfc(_sfc_main$1p, [["render", _sfc_render$1p], ["__scopeId", "data-v-5c6fcde3"]]);
-const _sfc_main$1o = {
+const IFXPageHeader = /* @__PURE__ */ _export_sfc(_sfc_main$1q, [["render", _sfc_render$1q], ["__scopeId", "data-v-5c6fcde3"]]);
+const _sfc_main$1p = {
   name: "IFXPageErrorDisplay",
   props: {
     errors: {
@@ -14427,7 +14487,7 @@ const _sfc_main$1o = {
   }
 };
 const _hoisted_1$N = { class: "v-messages__message error--text" };
-function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1p(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VContainer, { class: "non-field-container v-messages__wrapper" }, {
     default: withCtx(() => [
       createVNode(Transition, { name: "fade" }, {
@@ -14440,8 +14500,8 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXPageErrorDisplay = /* @__PURE__ */ _export_sfc(_sfc_main$1o, [["render", _sfc_render$1o]]);
-const _sfc_main$1n = {
+const IFXPageErrorDisplay = /* @__PURE__ */ _export_sfc(_sfc_main$1p, [["render", _sfc_render$1p]]);
+const _sfc_main$1o = {
   name: "IFXPageActionBar",
   components: { IFXButton },
   props: {
@@ -14478,7 +14538,7 @@ const _sfc_main$1n = {
   }
 };
 const _hoisted_1$M = { class: "d-flex align-center elevation-2 pa-4 rounded-lg grey darken-1" };
-function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   return openBlock(), createBlock(VRow, null, {
     default: withCtx(() => [
@@ -14511,7 +14571,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-const IFXPageActionBar = /* @__PURE__ */ _export_sfc(_sfc_main$1n, [["render", _sfc_render$1n]]);
+const IFXPageActionBar = /* @__PURE__ */ _export_sfc(_sfc_main$1o, [["render", _sfc_render$1o]]);
 const IFXItemCreateEditMixin = {
   props: {
     id: {
@@ -15807,7 +15867,7 @@ const VCard = genericComponent()({
     return {};
   }
 });
-const _sfc_main$1m = {
+const _sfc_main$1n = {
   name: "IFXItemSelectList",
   props: {
     title: {
@@ -15876,11 +15936,11 @@ const _sfc_main$1m = {
 const _hoisted_1$L = { class: "data-ctr" };
 const _hoisted_2$y = { class: "data-header-active" };
 const _hoisted_3$r = { class: "data-title" };
-const _hoisted_4$g = {
+const _hoisted_4$f = {
   key: 0,
   class: "items-warning"
 };
-function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   return openBlock(), createElementBlock("div", _hoisted_1$L, [
     createElementVNode("div", _hoisted_2$y, [
@@ -15894,7 +15954,7 @@ function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
         btnType: "add"
       }, null, 8, ["disabled", "onAction"])) : createCommentVNode("", true)
     ]),
-    !$options.itemsLocal.length ? (openBlock(), createElementBlock("div", _hoisted_4$g, toDisplayString($options.noItemsText), 1)) : createCommentVNode("", true),
+    !$options.itemsLocal.length ? (openBlock(), createElementBlock("div", _hoisted_4$f, toDisplayString($options.noItemsText), 1)) : createCommentVNode("", true),
     (openBlock(true), createElementBlock(Fragment, null, renderList($options.itemsLocal, (item, index) => {
       return openBlock(), createBlock(VCard, {
         key: item.id,
@@ -15916,8 +15976,8 @@ function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
     }), 128))
   ]);
 }
-const IFXItemSelectList = /* @__PURE__ */ _export_sfc(_sfc_main$1m, [["render", _sfc_render$1m], ["__scopeId", "data-v-9c6733cc"]]);
-const _sfc_main$1l = {
+const IFXItemSelectList = /* @__PURE__ */ _export_sfc(_sfc_main$1n, [["render", _sfc_render$1n], ["__scopeId", "data-v-9c6733cc"]]);
+const _sfc_main$1m = {
   name: "IFXItemHistoryDisplay",
   props: {
     item: {
@@ -15952,7 +16012,7 @@ const _sfc_main$1l = {
 };
 const _hoisted_1$K = { class: "text-body-2" };
 const _hoisted_2$x = { class: "text-body-2" };
-function _sfc_render$1l(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VRow, { "no-gutters": "" }, {
     default: withCtx(() => [
       createVNode(VCol, { class: "d-flex flex-column" }, {
@@ -15972,7 +16032,7 @@ function _sfc_render$1l(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXItemHistoryDisplay = /* @__PURE__ */ _export_sfc(_sfc_main$1l, [["render", _sfc_render$1l], ["__scopeId", "data-v-cb63a566"]]);
+const IFXItemHistoryDisplay = /* @__PURE__ */ _export_sfc(_sfc_main$1m, [["render", _sfc_render$1m], ["__scopeId", "data-v-cb63a566"]]);
 const makeVLabelProps = propsFactory({
   text: String,
   onClick: EventProp(),
@@ -23667,7 +23727,7 @@ const VDataTable = genericComponent()({
     return {};
   }
 });
-const _sfc_main$1k = {
+const _sfc_main$1l = {
   name: "IFXItemDataTable",
   props: {
     selected: {
@@ -23809,7 +23869,7 @@ const _sfc_main$1k = {
     }
   }
 };
-function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1l(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXDataTableCell = resolveComponent("IFXDataTableCell");
   return openBlock(), createBlock(VDataTable, {
     headers: $options.permissionCheckedHeaders,
@@ -23884,7 +23944,7 @@ function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ]), 1032, ["headers", "modelValue", "items", "sort-by", "multi-sort", "options", "class", "onClick:row", "show-select", "item-value", "loading", "onUpdate:page", "page"]);
 }
-const IFXItemDataTable = /* @__PURE__ */ _export_sfc(_sfc_main$1k, [["render", _sfc_render$1k], ["__scopeId", "data-v-59c1253f"]]);
+const IFXItemDataTable = /* @__PURE__ */ _export_sfc(_sfc_main$1l, [["render", _sfc_render$1l], ["__scopeId", "data-v-59c1253f"]]);
 const makeVDialogProps = propsFactory({
   fullscreen: Boolean,
   retainFocus: {
@@ -24017,7 +24077,7 @@ const VDialog = genericComponent()({
     return forwardRefs({}, overlay);
   }
 });
-const _sfc_main$1j = {
+const _sfc_main$1k = {
   name: "ActionDialog",
   props: {
     selectedAction: {
@@ -24084,7 +24144,7 @@ const _sfc_main$1j = {
 const _hoisted_1$J = { class: "dialog-item" };
 const _hoisted_2$w = { class: "dialog-label" };
 const _hoisted_3$q = { class: "dialog-text" };
-const _hoisted_4$f = { class: "dialog-item" };
+const _hoisted_4$e = { class: "dialog-item" };
 const _hoisted_5$c = { class: "dialog-label" };
 const _hoisted_6$9 = { class: "dialog-text" };
 const _hoisted_7$6 = {
@@ -24093,7 +24153,7 @@ const _hoisted_7$6 = {
 };
 const _hoisted_8$6 = { class: "dialog-label" };
 const _hoisted_9$5 = { class: "dialog-text" };
-function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VDialog, {
     modelValue: $options.isActiveLocal,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $options.isActiveLocal = $event),
@@ -24118,7 +24178,7 @@ function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
                   createElementVNode("span", _hoisted_3$q, toDisplayString($props.selectedAction.name), 1)
                 ])
               ]),
-              createElementVNode("div", _hoisted_4$f, [
+              createElementVNode("div", _hoisted_4$e, [
                 createElementVNode("span", _hoisted_5$c, [
                   _cache[5] || (_cache[5] = createElementVNode("strong", null, "Description: ", -1)),
                   createElementVNode("span", _hoisted_6$9, toDisplayString($props.selectedAction.description), 1)
@@ -24169,8 +24229,8 @@ function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue", "max-width"]);
 }
-const IFXActionDialog = /* @__PURE__ */ _export_sfc(_sfc_main$1j, [["render", _sfc_render$1j]]);
-const _sfc_main$1i = {
+const IFXActionDialog = /* @__PURE__ */ _export_sfc(_sfc_main$1k, [["render", _sfc_render$1k]]);
+const _sfc_main$1j = {
   name: "IFXDeleteItemButton",
   components: {
     IFXActionDialog
@@ -24236,7 +24296,7 @@ const _sfc_main$1i = {
     }
   }
 };
-function _sfc_render$1i(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXActionDialog = resolveComponent("IFXActionDialog");
   return openBlock(), createElementBlock("span", null, [
@@ -24256,7 +24316,7 @@ function _sfc_render$1i(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["selectedAction", "selectedItems", "isActive", "onCancelAction", "onCompleteAction"])
   ]);
 }
-const IFXDeleteItemButton = /* @__PURE__ */ _export_sfc(_sfc_main$1i, [["render", _sfc_render$1i]]);
+const IFXDeleteItemButton = /* @__PURE__ */ _export_sfc(_sfc_main$1j, [["render", _sfc_render$1j]]);
 class Contactable extends ItemBase {
   get name() {
     return this.data.name;
@@ -25116,7 +25176,7 @@ const VCombobox = genericComponent()({
     }, vTextFieldRef);
   }
 });
-const _sfc_main$1h = {
+const _sfc_main$1i = {
   name: "IFXContactablesCombobox",
   props: {
     label: {
@@ -25142,7 +25202,7 @@ const _sfc_main$1h = {
       type: Array,
       required: true
     },
-    value: {
+    modelValue: {
       type: Array,
       required: true
     }
@@ -25163,11 +25223,8 @@ const _sfc_main$1h = {
     getItemValue(item) {
       return item;
     },
-    removeFromSelected(item) {
-      this.selected.splice(this.selected.findIndex((i2) => i2.id === item.id), 1);
-    },
     handleChange() {
-      this.$emit("input", this.selected);
+      this.$emit("update:modelValue", this.selected);
       this.search = null;
     }
   },
@@ -25192,76 +25249,77 @@ const _sfc_main$1h = {
     this.isLoading = true;
   },
   mounted() {
-    if (this.value) {
-      this.selected = this.value.slice();
+    if (this.modelValue) {
+      this.selected = this.modelValue.slice();
     }
   }
 };
 const _hoisted_1$I = { class: "dropdown" };
-function _sfc_render$1h(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1i(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$I, [
     createVNode(VCombobox, {
       ref: $options.ref,
       modelValue: $data.selected,
-      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $data.selected = $event),
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $data.selected = $event),
+        $options.handleChange
+      ],
       items: $props.contactables,
-      "search-input": $data.search,
-      "onUpdate:searchInput": _cache[1] || (_cache[1] = ($event) => $data.search = $event),
-      onChange: $options.handleChange,
-      label: $props.label | _ctx.capitalizeFirstLetter,
+      search: $data.search,
+      "onUpdate:search": _cache[1] || (_cache[1] = ($event) => $data.search = $event),
+      label: _ctx.$capitalizeFirstLetter($props.label),
       chips: "",
       clearable: "",
       multiple: "",
       "hide-selected": "",
-      "item-text": $options.getItemText,
+      "item-title": $options.getItemText,
       "item-value": $options.getItemValue,
-      "item-disabled": "false",
       rules: $options.rules,
       "menu-props": { closeOnContentClick: true },
       required: $props.required,
       "error-messages": $data.errorMessage,
       "no-data-text": "No new results match that query.",
-      class: normalizeClass({ "required": $props.required })
+      class: normalizeClass({ "required": $props.required }),
+      "return-object": ""
     }, {
-      item: withCtx(({ item }) => [
-        createVNode(VIcon, {
-          color: item.color
-        }, {
-          default: withCtx(() => [
-            createTextVNode(toDisplayString(item.icon), 1)
-          ]),
-          _: 2
-        }, 1032, ["color"]),
-        createVNode(VListItem, {
-          textContent: toDisplayString(item.text)
-        }, null, 8, ["textContent"])
-      ]),
-      selection: withCtx(({ item }) => [
-        createVNode(VChip, {
-          color: "transparent",
-          close: "",
-          "onClick:close": ($event) => $options.removeFromSelected(item)
-        }, {
-          default: withCtx(() => [
+      item: withCtx(({ props, item }) => [
+        createVNode(VListItem, normalizeProps(guardReactiveProps(props)), {
+          prepend: withCtx(() => [
             createVNode(VIcon, {
-              color: item.color,
-              class: "mr-2"
+              color: item.raw.color
             }, {
               default: withCtx(() => [
-                createTextVNode(toDisplayString(item.icon), 1)
+                createTextVNode(toDisplayString(item.raw.icon), 1)
               ]),
               _: 2
-            }, 1032, ["color"]),
-            createTextVNode(toDisplayString(item.label), 1)
+            }, 1032, ["color"])
           ]),
           _: 2
-        }, 1032, ["onClick:close"])
+        }, 1040)
+      ]),
+      chip: withCtx(({ props, item }) => [
+        createVNode(VChip, mergeProps(props, { closable: "" }), {
+          prepend: withCtx(() => [
+            createVNode(VIcon, {
+              color: item.raw.color
+            }, {
+              default: withCtx(() => [
+                createTextVNode(toDisplayString(item.raw.icon), 1)
+              ]),
+              _: 2
+            }, 1032, ["color"])
+          ]),
+          default: withCtx(() => [
+            createTextVNode(" " + toDisplayString(item.raw.label), 1)
+          ]),
+          _: 2
+        }, 1040)
       ]),
       _: 1
-    }, 8, ["modelValue", "items", "search-input", "onChange", "label", "item-text", "item-value", "rules", "required", "error-messages", "class"])
+    }, 8, ["modelValue", "items", "search", "onUpdate:modelValue", "label", "item-title", "item-value", "rules", "required", "error-messages", "class"])
   ]);
 }
-const IFXContactablesCombobox = /* @__PURE__ */ _export_sfc(_sfc_main$1h, [["render", _sfc_render$1h], ["__scopeId", "data-v-7d554f90"]]);
+const IFXContactablesCombobox = /* @__PURE__ */ _export_sfc(_sfc_main$1i, [["render", _sfc_render$1i], ["__scopeId", "data-v-5c8a4cda"]]);
 const makeVFormProps = propsFactory({
   ...makeComponentProps(),
   ...makeFormProps()
@@ -25318,7 +25376,7 @@ const VForm = genericComponent()({
     return forwardRefs(form, formRef);
   }
 });
-const _sfc_main$1g = {
+const _sfc_main$1h = {
   name: "IFXMailingCompose",
   components: {
     Editor,
@@ -25602,7 +25660,7 @@ const _sfc_main$1g = {
   }
 };
 const _hoisted_1$H = { class: "mt-3" };
-function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1h(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXContactablesCombobox = resolveComponent("IFXContactablesCombobox");
   const _component_Editor = resolveComponent("Editor");
@@ -25696,7 +25754,7 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXMailingCompose = /* @__PURE__ */ _export_sfc(_sfc_main$1g, [["render", _sfc_render$1g]]);
+const IFXMailingCompose = /* @__PURE__ */ _export_sfc(_sfc_main$1h, [["render", _sfc_render$1h]]);
 const IFXMailingMixin = {
   data() {
     return {
@@ -25705,7 +25763,7 @@ const IFXMailingMixin = {
     };
   }
 };
-const _sfc_main$1f = {
+const _sfc_main$1g = {
   name: "IFXMailingDetail",
   mixins: [IFXMailingMixin, IFXItemDetailMixin],
   props: {
@@ -25747,7 +25805,7 @@ const _sfc_main$1f = {
   }
 };
 const _hoisted_1$G = ["innerHTML"];
-function _sfc_render$1f(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
@@ -25941,10 +25999,17 @@ function _sfc_render$1f(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXMailingDetail = /* @__PURE__ */ _export_sfc(_sfc_main$1f, [["render", _sfc_render$1f]]);
-const _sfc_main$1e = {
+const IFXMailingDetail = /* @__PURE__ */ _export_sfc(_sfc_main$1g, [["render", _sfc_render$1g]]);
+const _sfc_main$1f = {
   name: "IFXSearchField",
   props: {
+    // Vue 3 standard
+    modelValue: {
+      type: String,
+      required: false,
+      default: ""
+    },
+    // Vue 2 backward compatibility
     search: {
       type: String,
       required: false,
@@ -25969,10 +26034,11 @@ const _sfc_main$1e = {
   computed: {
     searchLocal: {
       get() {
-        return this.search;
+        return this.modelValue || this.search;
       },
-      set(search) {
-        this.$emit("update:search", search);
+      set(value) {
+        this.$emit("update:modelValue", value);
+        this.$emit("update:search", value);
       }
     },
     ariaLabel() {
@@ -25980,22 +26046,23 @@ const _sfc_main$1e = {
     }
   }
 };
-function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1f(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VTextField, {
     modelValue: $options.searchLocal,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $options.searchLocal = $event),
     class: "search-field",
     label: $props.label,
     "aria-label": $options.ariaLabel,
-    "single-line": "",
+    variant: "underlined",
+    density: "compact",
     "hide-details": "",
     clearable: $props.clearable,
     disabled: $props.disabled,
     "data-cy": "ifx-search-field"
   }, null, 8, ["modelValue", "label", "aria-label", "clearable", "disabled"]);
 }
-const IFXSearchField = /* @__PURE__ */ _export_sfc(_sfc_main$1e, [["render", _sfc_render$1e], ["__scopeId", "data-v-c42c3203"]]);
-const _sfc_main$1d = {
+const IFXSearchField = /* @__PURE__ */ _export_sfc(_sfc_main$1f, [["render", _sfc_render$1f], ["__scopeId", "data-v-9f5dc614"]]);
+const _sfc_main$1e = {
   name: "IFXMailingList",
   mixins: [IFXMailingMixin, IFXItemListMixin],
   components: {
@@ -26045,7 +26112,7 @@ const _sfc_main$1d = {
 const _hoisted_1$F = ["onClick"];
 const _hoisted_2$v = ["innerHTML"];
 const _hoisted_3$p = ["innerHTML"];
-function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
@@ -26145,7 +26212,7 @@ function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXMailingList = /* @__PURE__ */ _export_sfc(_sfc_main$1d, [["render", _sfc_render$1d], ["__scopeId", "data-v-4e7f7e6a"]]);
+const IFXMailingList = /* @__PURE__ */ _export_sfc(_sfc_main$1e, [["render", _sfc_render$1e], ["__scopeId", "data-v-4e7f7e6a"]]);
 const makeVSpeedDialProps = propsFactory({
   ...makeComponentProps(),
   ...makeVMenuProps({
@@ -26213,7 +26280,7 @@ const VSpeedDial = genericComponent()({
     return {};
   }
 });
-const _sfc_main$1c = {
+const _sfc_main$1d = {
   name: "IFXMailButton",
   props: {
     value: {
@@ -26257,7 +26324,7 @@ const _sfc_main$1c = {
     }
   }
 };
-function _sfc_render$1c(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VTooltip, { top: "" }, {
     activator: withCtx(({ on, attrs }) => [
       createElementVNode("div", toHandlers(on, true), [
@@ -26346,7 +26413,7 @@ function _sfc_render$1c(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXMailButton = /* @__PURE__ */ _export_sfc(_sfc_main$1c, [["render", _sfc_render$1c]]);
+const IFXMailButton = /* @__PURE__ */ _export_sfc(_sfc_main$1d, [["render", _sfc_render$1d]]);
 const IFXMessageMixin = {
   data() {
     return {
@@ -26355,7 +26422,7 @@ const IFXMessageMixin = {
     };
   }
 };
-const _sfc_main$1b = {
+const _sfc_main$1c = {
   name: "IFXMessageCreateEdit",
   mixins: [IFXMessageMixin, IFXItemCreateEditMixin],
   components: {
@@ -26392,7 +26459,7 @@ const _sfc_main$1b = {
     }
   }
 };
-function _sfc_render$1b(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1c(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_Editor = resolveComponent("Editor");
   const _component_IFXPageActionBar = resolveComponent("IFXPageActionBar");
@@ -26476,8 +26543,8 @@ function _sfc_render$1b(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXMessageCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$1b, [["render", _sfc_render$1b]]);
-const _sfc_main$1a = {
+const IFXMessageCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$1c, [["render", _sfc_render$1c]]);
+const _sfc_main$1b = {
   name: "IFXMessageDetail",
   mixins: [IFXMessageMixin, IFXItemDetailMixin],
   props: {
@@ -26498,7 +26565,7 @@ const _sfc_main$1a = {
   }
 };
 const _hoisted_1$E = ["innerHTML"];
-function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1b(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   return !_ctx.loading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
@@ -26558,8 +26625,8 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXMessageDetail = /* @__PURE__ */ _export_sfc(_sfc_main$1a, [["render", _sfc_render$1a]]);
-const _sfc_main$19 = {
+const IFXMessageDetail = /* @__PURE__ */ _export_sfc(_sfc_main$1b, [["render", _sfc_render$1b]]);
+const _sfc_main$1a = {
   name: "IFXMessageList",
   mixins: [IFXMessageMixin, IFXItemListMixin],
   components: {
@@ -26585,7 +26652,7 @@ const _sfc_main$19 = {
     }
   }
 };
-function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
@@ -26650,8 +26717,8 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXMessageList = /* @__PURE__ */ _export_sfc(_sfc_main$19, [["render", _sfc_render$19]]);
-const _sfc_main$18 = {
+const IFXMessageList = /* @__PURE__ */ _export_sfc(_sfc_main$1a, [["render", _sfc_render$1a]]);
+const _sfc_main$19 = {
   name: "IFXActionSelect",
   components: {
     IFXActionDialog
@@ -26915,7 +26982,7 @@ const _sfc_main$18 = {
     }
   }
 };
-function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXActionDialog = resolveComponent("IFXActionDialog");
   return openBlock(), createElementBlock("span", null, [
     createVNode(_component_IFXActionDialog, {
@@ -26942,7 +27009,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["items", "modelValue", "onChange", "disabled"])
   ]);
 }
-const IFXActionSelect = /* @__PURE__ */ _export_sfc(_sfc_main$18, [["render", _sfc_render$18], ["__scopeId", "data-v-28021a27"]]);
+const IFXActionSelect = /* @__PURE__ */ _export_sfc(_sfc_main$19, [["render", _sfc_render$19], ["__scopeId", "data-v-28021a27"]]);
 const IFXOrganizationMixin = {
   data() {
     return {
@@ -27781,7 +27848,7 @@ const VTextarea = genericComponent()({
     return forwardRefs({}, vInputRef, vFieldRef, textareaRef);
   }
 });
-const _sfc_main$17 = {
+const _sfc_main$18 = {
   name: "IFXSelectableContact",
   mixins: [IFXItemSelectableMixin],
   computed: {
@@ -27832,7 +27899,7 @@ const _sfc_main$17 = {
 const _hoisted_1$D = { key: 0 };
 const _hoisted_2$u = { key: 1 };
 const _hoisted_3$o = { key: 0 };
-function _sfc_render$17(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, {
     key: 0,
     fluid: ""
@@ -28145,12 +28212,12 @@ function _sfc_render$17(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXSelectableContact = /* @__PURE__ */ _export_sfc(_sfc_main$17, [["render", _sfc_render$17]]);
-const _sfc_main$16 = {
+const IFXSelectableContact = /* @__PURE__ */ _export_sfc(_sfc_main$18, [["render", _sfc_render$18]]);
+const _sfc_main$17 = {
   name: "IFXSelectableUser",
   mixins: [IFXItemSelectableMixin]
 };
-function _sfc_render$16(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$17(_ctx, _cache, $props, $setup, $data, $options) {
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
     default: withCtx(() => [
       _ctx.disabled ? (openBlock(), createBlock(VRow, { key: 0 }, {
@@ -28214,8 +28281,8 @@ function _sfc_render$16(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXSelectableUser = /* @__PURE__ */ _export_sfc(_sfc_main$16, [["render", _sfc_render$16]]);
-const _sfc_main$15 = {
+const IFXSelectableUser = /* @__PURE__ */ _export_sfc(_sfc_main$17, [["render", _sfc_render$17]]);
+const _sfc_main$16 = {
   name: "IFXOrganizationCreateEdit",
   mixins: [IFXOrganizationMixin, IFXItemCreateEditMixin],
   components: {
@@ -28271,7 +28338,7 @@ const _sfc_main$15 = {
     }
   }
 };
-function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$16(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXSelectableUser = resolveComponent("IFXSelectableUser");
   const _component_IFXItemSelectList = resolveComponent("IFXItemSelectList");
@@ -28433,7 +28500,7 @@ function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXOrganizationCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$15, [["render", _sfc_render$15]]);
+const IFXOrganizationCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$16, [["render", _sfc_render$16]]);
 var now_1;
 var hasRequiredNow;
 function requireNow() {
@@ -28600,7 +28667,7 @@ function requireDebounce() {
 }
 var debounceExports = requireDebounce();
 const debounce = /* @__PURE__ */ getDefaultExportFromCjs(debounceExports);
-const _sfc_main$14 = {
+const _sfc_main$15 = {
   name: "IFXAddUsers",
   props: {
     value: { type: Object, required: true },
@@ -28687,7 +28754,7 @@ const _sfc_main$14 = {
     this.org = this.value;
   }
 };
-function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
       createVNode(VDialog, {
@@ -28829,8 +28896,8 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXAddUsers = /* @__PURE__ */ _export_sfc(_sfc_main$14, [["render", _sfc_render$14]]);
-const _sfc_main$13 = {
+const IFXAddUsers = /* @__PURE__ */ _export_sfc(_sfc_main$15, [["render", _sfc_render$15]]);
+const _sfc_main$14 = {
   name: "IFXActivateDeactivateUsers.",
   props: {
     value: {
@@ -28904,7 +28971,7 @@ const _sfc_main$13 = {
     this.org = cloneDeep(this.organization);
   }
 };
-function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
       createVNode(VDialog, {
@@ -28990,8 +29057,8 @@ function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXActivateDeactivateUsers = /* @__PURE__ */ _export_sfc(_sfc_main$13, [["render", _sfc_render$13]]);
-const _sfc_main$12 = {
+const IFXActivateDeactivateUsers = /* @__PURE__ */ _export_sfc(_sfc_main$14, [["render", _sfc_render$14]]);
+const _sfc_main$13 = {
   name: "IFXSelectCreateContact",
   mixins: [IFXItemSelectableMixin],
   props: {
@@ -29103,7 +29170,7 @@ const _sfc_main$12 = {
 };
 const _hoisted_1$C = { class: "ml-2" };
 const _hoisted_2$t = { key: 0 };
-function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, {
     key: 0,
     fluid: ""
@@ -29298,8 +29365,8 @@ function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXSelectCreateContact = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12]]);
-const _sfc_main$11 = {
+const IFXSelectCreateContact = /* @__PURE__ */ _export_sfc(_sfc_main$13, [["render", _sfc_render$13]]);
+const _sfc_main$12 = {
   name: "IFXContactRoleDisplayEdit",
   mixins: [],
   components: {},
@@ -29382,7 +29449,7 @@ const _hoisted_1$B = {
 };
 const _hoisted_2$s = { key: 0 };
 const _hoisted_3$n = ["href"];
-function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VRow, {
     dense: "",
     key: $data.rowKey
@@ -29555,7 +29622,7 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXContactRoleDisplayEdit = /* @__PURE__ */ _export_sfc(_sfc_main$11, [["render", _sfc_render$11], ["__scopeId", "data-v-de2d3dfc"]]);
+const IFXContactRoleDisplayEdit = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["__scopeId", "data-v-de2d3dfc"]]);
 const VAlertTitle = createSimpleFunctional("v-alert-title");
 const allowedTypes = ["success", "info", "warning", "error"];
 const makeVAlertProps = propsFactory({
@@ -29744,7 +29811,7 @@ const VAlert = genericComponent()({
     };
   }
 });
-const _sfc_main$10 = {
+const _sfc_main$11 = {
   name: "IFXOrganizationDetail",
   mixins: [IFXOrganizationMixin, IFXItemEditableDetailMixin],
   components: {
@@ -29909,7 +29976,7 @@ const _hoisted_2$r = {
   key: 0,
   class: "w-full"
 };
-function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXDeleteItemButton = resolveComponent("IFXDeleteItemButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_router_link = resolveComponent("router-link");
@@ -30452,8 +30519,8 @@ function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXOrganizationDetail = /* @__PURE__ */ _export_sfc(_sfc_main$10, [["render", _sfc_render$10], ["__scopeId", "data-v-5129c33c"]]);
-const _sfc_main$$ = {
+const IFXOrganizationDetail = /* @__PURE__ */ _export_sfc(_sfc_main$11, [["render", _sfc_render$11], ["__scopeId", "data-v-5129c33c"]]);
+const _sfc_main$10 = {
   name: "IFXOrganizationList",
   mixins: [IFXOrganizationMixin, IFXItemListMixin],
   components: {
@@ -30497,7 +30564,7 @@ const _sfc_main$$ = {
     }
   }
 };
-function _sfc_render$$(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXMailButton = resolveComponent("IFXMailButton");
   const _component_IFXButton = resolveComponent("IFXButton");
@@ -30564,7 +30631,7 @@ function _sfc_render$$(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXOrganizationList = /* @__PURE__ */ _export_sfc(_sfc_main$$, [["render", _sfc_render$$]]);
+const IFXOrganizationList = /* @__PURE__ */ _export_sfc(_sfc_main$10, [["render", _sfc_render$10]]);
 const IFXContactMixin = {
   data() {
     return {
@@ -30573,7 +30640,7 @@ const IFXContactMixin = {
     };
   }
 };
-const _sfc_main$_ = {
+const _sfc_main$$ = {
   name: "IFXEmailContactCreateEdit",
   mixins: [IFXContactMixin, IFXItemCreateEditMixin],
   components: {
@@ -30593,7 +30660,7 @@ const _sfc_main$_ = {
     }
   }
 };
-function _sfc_render$_(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$$(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageActionBar = resolveComponent("IFXPageActionBar");
   return !_ctx.isLoading ? (openBlock(), createBlock(VForm, {
     key: 0,
@@ -30659,8 +30726,8 @@ function _sfc_render$_(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue"])) : createCommentVNode("", true);
 }
-const IFXEmailContactCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$_, [["render", _sfc_render$_]]);
-const _sfc_main$Z = {
+const IFXEmailContactCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$$, [["render", _sfc_render$$]]);
+const _sfc_main$_ = {
   name: "IFXPhoneContactCreateEdit",
   mixins: [IFXContactMixin, IFXItemCreateEditMixin],
   components: {
@@ -30680,7 +30747,7 @@ const _sfc_main$Z = {
     this.item.type = "Phone";
   }
 };
-function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$_(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageActionBar = resolveComponent("IFXPageActionBar");
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
@@ -30751,8 +30818,8 @@ function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXPhoneContactCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$Z, [["render", _sfc_render$Z]]);
-const _sfc_main$Y = {
+const IFXPhoneContactCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$_, [["render", _sfc_render$_]]);
+const _sfc_main$Z = {
   name: "IFXFullContactCreateEdit",
   mixins: [IFXContactMixin, IFXItemCreateEditMixin],
   components: {
@@ -30773,7 +30840,7 @@ const _sfc_main$Y = {
     }
   }
 };
-function _sfc_render$Y(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageActionBar = resolveComponent("IFXPageActionBar");
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
@@ -30874,8 +30941,8 @@ function _sfc_render$Y(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXFullContactCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$Y, [["render", _sfc_render$Y]]);
-const _sfc_main$X = {
+const IFXFullContactCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$Z, [["render", _sfc_render$Z]]);
+const _sfc_main$Y = {
   name: "IFXContactCreateEdit",
   components: {
     IFXEmailContactCreateEdit,
@@ -30945,7 +31012,7 @@ const _sfc_main$X = {
     }
   }
 };
-function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$Y(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXEmailContactCreateEdit = resolveComponent("IFXEmailContactCreateEdit");
   const _component_IFXPhoneContactCreateEdit = resolveComponent("IFXPhoneContactCreateEdit");
@@ -31033,8 +31100,8 @@ function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXContactCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$X, [["render", _sfc_render$X]]);
-const _sfc_main$W = {
+const IFXContactCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$Y, [["render", _sfc_render$Y]]);
+const _sfc_main$X = {
   name: "IFXContactCard",
   props: {
     contact: {
@@ -31076,10 +31143,10 @@ const _sfc_main$W = {
 const _hoisted_1$z = { key: 0 };
 const _hoisted_2$q = { class: "headline mr-8" };
 const _hoisted_3$m = { class: "headline mr-8" };
-const _hoisted_4$e = { key: 1 };
+const _hoisted_4$d = { key: 1 };
 const _hoisted_5$b = ["href"];
 const _hoisted_6$8 = { key: 1 };
-function _sfc_render$W(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_router_link = resolveComponent("router-link");
   return openBlock(), createBlock(VCard, {
@@ -31133,7 +31200,7 @@ function _sfc_render$W(_ctx, _cache, $props, $setup, $data, $options) {
                           createTextVNode(toDisplayString($options.contactData.name), 1)
                         ]),
                         _: 1
-                      }, 8, ["to"])) : (openBlock(), createElementBlock("div", _hoisted_4$e, toDisplayString($options.contactData.name), 1))
+                      }, 8, ["to"])) : (openBlock(), createElementBlock("div", _hoisted_4$d, toDisplayString($options.contactData.name), 1))
                     ])
                   ]),
                   _: 1
@@ -31248,8 +31315,8 @@ function _sfc_render$W(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["class"]);
 }
-const IFXContactCard = /* @__PURE__ */ _export_sfc(_sfc_main$W, [["render", _sfc_render$W], ["__scopeId", "data-v-e87a86ca"]]);
-const _sfc_main$V = {
+const IFXContactCard = /* @__PURE__ */ _export_sfc(_sfc_main$X, [["render", _sfc_render$X], ["__scopeId", "data-v-e87a86ca"]]);
+const _sfc_main$W = {
   name: "IFXContactDetail",
   mixins: [IFXContactMixin, IFXItemDetailMixin],
   components: {
@@ -31265,7 +31332,7 @@ const _sfc_main$V = {
     }
   }
 };
-function _sfc_render$V(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$W(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXDeleteItemButton = resolveComponent("IFXDeleteItemButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
@@ -31301,8 +31368,8 @@ function _sfc_render$V(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXContactDetail = /* @__PURE__ */ _export_sfc(_sfc_main$V, [["render", _sfc_render$V]]);
-const _sfc_main$U = {
+const IFXContactDetail = /* @__PURE__ */ _export_sfc(_sfc_main$W, [["render", _sfc_render$W]]);
+const _sfc_main$V = {
   name: "IFXContactList",
   mixins: [IFXItemListMixin, IFXContactMixin],
   components: {
@@ -31346,7 +31413,7 @@ const _sfc_main$U = {
 const _hoisted_1$y = { class: "d-flex flex-column-reverse flex-lg-row" };
 const _hoisted_2$p = { style: { "white-space": "nowrap" } };
 const _hoisted_3$l = { class: "contact-card ml-auto ml-lg-3 mr-3" };
-function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$V(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXMailButton = resolveComponent("IFXMailButton");
   const _component_IFXButton = resolveComponent("IFXButton");
@@ -31435,8 +31502,8 @@ function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXContactList = /* @__PURE__ */ _export_sfc(_sfc_main$U, [["render", _sfc_render$U], ["__scopeId", "data-v-5e1f0063"]]);
-const _sfc_main$T = {
+const IFXContactList = /* @__PURE__ */ _export_sfc(_sfc_main$V, [["render", _sfc_render$V], ["__scopeId", "data-v-5e1f0063"]]);
+const _sfc_main$U = {
   name: "IFXAffiliationRoleDisplayEdit",
   mixins: [],
   components: {},
@@ -31488,7 +31555,7 @@ const _sfc_main$T = {
   }
 };
 const _hoisted_1$x = { class: "ml-2" };
-function _sfc_render$T(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VRow, {
     dense: "",
     key: $data.rowKey
@@ -31630,8 +31697,8 @@ function _sfc_render$T(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXAffiliationRoleDisplayEdit = /* @__PURE__ */ _export_sfc(_sfc_main$T, [["render", _sfc_render$T]]);
-const _sfc_main$S = {
+const IFXAffiliationRoleDisplayEdit = /* @__PURE__ */ _export_sfc(_sfc_main$U, [["render", _sfc_render$U]]);
+const _sfc_main$T = {
   name: "IFXLoginIcon",
   props: {
     isActive: {
@@ -31653,8 +31720,8 @@ const _sfc_main$S = {
   data() {
     return {
       color: "green",
-      offIcon: "close",
-      onIcon: "vpn_key"
+      offIcon: "mdi-close",
+      onIcon: "mdi-vpn-key"
     };
   },
   computed: {
@@ -31679,22 +31746,35 @@ const _sfc_main$S = {
 };
 const _hoisted_1$w = { class: "action-item" };
 const _hoisted_2$o = { key: 0 };
-const _hoisted_3$k = { key: 1 };
-function _sfc_render$S(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_3$k = {
+  key: 1,
+  class: "disabled-view"
+};
+function _sfc_render$T(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$w, [
     !$props.disabled && _ctx.$api.user.canEditField("User.isActive") ? (openBlock(), createElementBlock("span", _hoisted_2$o, [
+      createVNode(VIcon, {
+        color: $data.color,
+        class: "mr-2"
+      }, {
+        default: withCtx(() => [
+          createTextVNode(toDisplayString($options.displayIcon), 1)
+        ]),
+        _: 1
+      }, 8, ["color"]),
       createVNode(VCheckbox, {
         modelValue: $options.isActiveLocal,
         "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $options.isActiveLocal = $event),
         label: $options.label,
         color: $data.color,
-        "on-icon": $data.onIcon,
-        "off-icon": $data.offIcon
-      }, null, 8, ["modelValue", "label", "color", "on-icon", "off-icon"])
+        "hide-details": "",
+        inline: ""
+      }, null, 8, ["modelValue", "label", "color"])
     ])) : (openBlock(), createElementBlock("span", _hoisted_3$k, [
       createVNode(VIcon, {
         color: $data.color,
-        class: "mr-1"
+        size: "small",
+        style: { "vertical-align": "middle" }
       }, {
         default: withCtx(() => [
           createTextVNode(toDisplayString($options.displayIcon), 1)
@@ -31705,7 +31785,7 @@ function _sfc_render$S(_ctx, _cache, $props, $setup, $data, $options) {
     ]))
   ]);
 }
-const IFXLoginIcon = /* @__PURE__ */ _export_sfc(_sfc_main$S, [["render", _sfc_render$S], ["__scopeId", "data-v-d78620dc"]]);
+const IFXLoginIcon = /* @__PURE__ */ _export_sfc(_sfc_main$T, [["render", _sfc_render$T], ["__scopeId", "data-v-f0bec642"]]);
 const IFXUserMixin = {
   data() {
     return {
@@ -31714,7 +31794,7 @@ const IFXUserMixin = {
     };
   }
 };
-const _sfc_main$R = {
+const _sfc_main$S = {
   name: "IFXUserEditWarning",
   props: {
     user: {
@@ -31723,7 +31803,7 @@ const _sfc_main$R = {
     }
   }
 };
-function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$S(_ctx, _cache, $props, $setup, $data, $options) {
   return $props.user && $props.user.username && !$props.user.ifxid ? (openBlock(), createBlock(VContainer, { key: 0 }, {
     default: withCtx(() => [
       createVNode(VCard, null, {
@@ -31757,8 +31837,8 @@ function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXUserEditWarning = /* @__PURE__ */ _export_sfc(_sfc_main$R, [["render", _sfc_render$R]]);
-const _sfc_main$Q = {
+const IFXUserEditWarning = /* @__PURE__ */ _export_sfc(_sfc_main$S, [["render", _sfc_render$S]]);
+const _sfc_main$R = {
   name: "IFXUserInfoDialog",
   props: {
     isActive: {
@@ -31795,7 +31875,7 @@ const _sfc_main$Q = {
     }
   }
 };
-function _sfc_render$Q(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   return openBlock(), createBlock(VDialog, {
     modelValue: $options.isActiveLocal,
@@ -31852,8 +31932,8 @@ function _sfc_render$Q(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue"]);
 }
-const IFXUserInfoDialog = /* @__PURE__ */ _export_sfc(_sfc_main$Q, [["render", _sfc_render$Q], ["__scopeId", "data-v-c74e3594"]]);
-const _sfc_main$P = {
+const IFXUserInfoDialog = /* @__PURE__ */ _export_sfc(_sfc_main$R, [["render", _sfc_render$R], ["__scopeId", "data-v-c74e3594"]]);
+const _sfc_main$Q = {
   name: "IFXSelectableAffiliation",
   mixins: [IFXItemSelectableMixin],
   computed: {
@@ -31864,7 +31944,7 @@ const _sfc_main$P = {
 };
 const _hoisted_1$v = { key: 0 };
 const _hoisted_2$n = { key: 1 };
-function _sfc_render$P(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$Q(_ctx, _cache, $props, $setup, $data, $options) {
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
     default: withCtx(() => [
       _ctx.disabled ? (openBlock(), createElementBlock("span", _hoisted_1$v, [
@@ -31930,8 +32010,8 @@ function _sfc_render$P(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXSelectableAffiliation = /* @__PURE__ */ _export_sfc(_sfc_main$P, [["render", _sfc_render$P]]);
-const _sfc_main$O = {
+const IFXSelectableAffiliation = /* @__PURE__ */ _export_sfc(_sfc_main$Q, [["render", _sfc_render$Q]]);
+const _sfc_main$P = {
   name: "IFXUserEdit",
   mixins: [IFXUserMixin, IFXItemCreateEditMixin],
   components: {
@@ -32047,7 +32127,7 @@ const _hoisted_1$u = {
   key: 1,
   class: "items-warning"
 };
-function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$P(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXUserInfoDialog = resolveComponent("IFXUserInfoDialog");
   const _component_IFXLoginIcon = resolveComponent("IFXLoginIcon");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
@@ -32296,7 +32376,7 @@ function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXUserEdit = /* @__PURE__ */ _export_sfc(_sfc_main$O, [["render", _sfc_render$O], ["__scopeId", "data-v-909856d6"]]);
+const IFXUserEdit = /* @__PURE__ */ _export_sfc(_sfc_main$P, [["render", _sfc_render$P], ["__scopeId", "data-v-909856d6"]]);
 const makeVSwitchProps = propsFactory({
   indeterminate: Boolean,
   inset: Boolean,
@@ -32465,7 +32545,7 @@ const VSwitch = genericComponent()({
     return {};
   }
 });
-const _sfc_main$N = {
+const _sfc_main$O = {
   name: "IFXUserInfoEdit",
   mixins: [IFXUserMixin],
   components: {},
@@ -32542,7 +32622,7 @@ const _hoisted_2$m = {
   key: 1,
   class: "items-warning"
 };
-function _sfc_render$N(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
   return !_ctx.isLoading && !!$props.item ? (openBlock(), createBlock(VContainer, {
     key: 0,
     fluid: ""
@@ -32745,8 +32825,8 @@ function _sfc_render$N(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXUserInfoEdit = /* @__PURE__ */ _export_sfc(_sfc_main$N, [["render", _sfc_render$N], ["__scopeId", "data-v-95a6334d"]]);
-const _sfc_main$M = {
+const IFXUserInfoEdit = /* @__PURE__ */ _export_sfc(_sfc_main$O, [["render", _sfc_render$O], ["__scopeId", "data-v-95a6334d"]]);
+const _sfc_main$N = {
   name: "IFXSelectAffiliation",
   mixins: [IFXItemSelectableMixin],
   data() {
@@ -32772,7 +32852,7 @@ const _sfc_main$M = {
     }
   }
 };
-function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$N(_ctx, _cache, $props, $setup, $data, $options) {
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, {
     key: 0,
     fluid: ""
@@ -32841,8 +32921,8 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXSelectAffiliation = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["render", _sfc_render$M]]);
-const _sfc_main$L = {
+const IFXSelectAffiliation = /* @__PURE__ */ _export_sfc(_sfc_main$N, [["render", _sfc_render$N]]);
+const _sfc_main$M = {
   name: "IFXUserDetail",
   mixins: [IFXUserMixin, IFXItemEditableDetailMixin],
   components: {
@@ -33034,7 +33114,7 @@ const _sfc_main$L = {
 const _hoisted_1$s = { class: "text-no-wrap" };
 const _hoisted_2$l = ["href"];
 const _hoisted_3$j = { class: "d-flex flex-column" };
-const _hoisted_4$d = { key: 2 };
+const _hoisted_4$c = { key: 2 };
 const _hoisted_5$a = { class: "font-weight-medium" };
 const _hoisted_6$7 = { class: "ml-1" };
 const _hoisted_7$5 = ["href"];
@@ -33048,7 +33128,7 @@ const _hoisted_9$4 = {
 };
 const _hoisted_10$4 = { class: "font-weight-medium" };
 const _hoisted_11$4 = { class: "font-weight-medium" };
-function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXUserInfoDialog = resolveComponent("IFXUserInfoDialog");
   const _component_IFXLoginIcon = resolveComponent("IFXLoginIcon");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
@@ -33228,196 +33308,198 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
             default: withCtx(() => [
               createVNode(VCol, {
                 sm: "12",
-                md: "6"
+                md: "11"
               }, {
                 default: withCtx(() => [
-                  createVNode(VRow, {
-                    dense: "",
-                    wrap: ""
-                  }, {
+                  createVNode(VRow, null, {
                     default: withCtx(() => [
-                      createVNode(VCol, {
-                        sm: "4",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => _cache[24] || (_cache[24] = [
-                          createElementVNode("h3", null, "First Name", -1)
-                        ])),
-                        _: 1,
-                        __: [24]
-                      }),
                       createVNode(VCol, null, {
                         default: withCtx(() => [
-                          createTextVNode(toDisplayString(_ctx.item.firstName), 1)
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VRow, {
-                    dense: "",
-                    class: "mt-n2"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        sm: "4",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => _cache[25] || (_cache[25] = [
-                          createElementVNode("h3", null, "Last Name", -1)
-                        ])),
-                        _: 1,
-                        __: [25]
-                      }),
-                      createVNode(VCol, null, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString(_ctx.item.lastName), 1)
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VRow, { dense: "" }, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        sm: "4",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => _cache[26] || (_cache[26] = [
-                          createElementVNode("h3", null, "Primary Affiliation", -1)
-                        ])),
-                        _: 1,
-                        __: [26]
-                      }),
-                      createVNode(VCol, null, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString(_ctx.$orgNameFromSlug(_ctx.item.primaryAffiliation)), 1)
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  $options.areGroupsPresent ? (openBlock(), createBlock(VRow, {
-                    key: 0,
-                    dense: ""
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        sm: "4",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => _cache[27] || (_cache[27] = [
-                          createElementVNode("h3", null, "Authorization Groups", -1)
-                        ])),
-                        _: 1,
-                        __: [27]
-                      }),
-                      createVNode(VCol, null, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString(_ctx.item.groups.join(", ")), 1)
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  })) : createCommentVNode("", true),
-                  createVNode(VRow, {
-                    align: "start",
-                    dense: ""
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        sm: "4",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => _cache[28] || (_cache[28] = [
-                          createElementVNode("h3", null, "Primary Email", -1)
-                        ])),
-                        _: 1,
-                        __: [28]
-                      }),
-                      createVNode(VCol, null, {
-                        default: withCtx(() => [
-                          createVNode(VRow, { dense: "" }, {
+                          createVNode(VRow, {
+                            dense: "",
+                            wrap: ""
+                          }, {
                             default: withCtx(() => [
+                              createVNode(VCol, {
+                                sm: "4",
+                                md: "3"
+                              }, {
+                                default: withCtx(() => _cache[24] || (_cache[24] = [
+                                  createElementVNode("h3", null, "First Name", -1)
+                                ])),
+                                _: 1,
+                                __: [24]
+                              }),
                               createVNode(VCol, null, {
                                 default: withCtx(() => [
-                                  createElementVNode("a", {
-                                    href: `mailto:${_ctx.item.primaryEmail}`
-                                  }, toDisplayString(_ctx.item.primaryEmail), 9, _hoisted_2$l)
+                                  createTextVNode(toDisplayString(_ctx.item.firstName), 1)
                                 ]),
                                 _: 1
                               })
                             ]),
                             _: 1
-                          })
+                          }),
+                          createVNode(VRow, {
+                            dense: "",
+                            class: "mt-n2"
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(VCol, {
+                                sm: "4",
+                                md: "3"
+                              }, {
+                                default: withCtx(() => _cache[25] || (_cache[25] = [
+                                  createElementVNode("h3", null, "Last Name", -1)
+                                ])),
+                                _: 1,
+                                __: [25]
+                              }),
+                              createVNode(VCol, null, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(_ctx.item.lastName), 1)
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(VRow, { dense: "" }, {
+                            default: withCtx(() => [
+                              createVNode(VCol, {
+                                sm: "4",
+                                md: "3"
+                              }, {
+                                default: withCtx(() => _cache[26] || (_cache[26] = [
+                                  createElementVNode("h3", null, "Primary Affiliation", -1)
+                                ])),
+                                _: 1,
+                                __: [26]
+                              }),
+                              createVNode(VCol, null, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(_ctx.item.primaryAffiliation | _ctx.orgNameFromSlug), 1)
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          $options.areGroupsPresent ? (openBlock(), createBlock(VRow, {
+                            key: 0,
+                            dense: ""
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(VCol, {
+                                sm: "4",
+                                md: "3"
+                              }, {
+                                default: withCtx(() => _cache[27] || (_cache[27] = [
+                                  createElementVNode("h3", null, "Authorization Groups", -1)
+                                ])),
+                                _: 1,
+                                __: [27]
+                              }),
+                              createVNode(VCol, null, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(_ctx.item.groups.join(", ")), 1)
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true),
+                          createVNode(VRow, {
+                            align: "start",
+                            dense: ""
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(VCol, {
+                                sm: "4",
+                                md: "3"
+                              }, {
+                                default: withCtx(() => _cache[28] || (_cache[28] = [
+                                  createElementVNode("h3", null, "Primary Email", -1)
+                                ])),
+                                _: 1,
+                                __: [28]
+                              }),
+                              createVNode(VCol, null, {
+                                default: withCtx(() => [
+                                  createVNode(VRow, { dense: "" }, {
+                                    default: withCtx(() => [
+                                      createVNode(VCol, null, {
+                                        default: withCtx(() => [
+                                          createElementVNode("a", {
+                                            href: `mailto:${_ctx.item.primaryEmail}`
+                                          }, toDisplayString(_ctx.item.primaryEmail), 9, _hoisted_2$l)
+                                        ]),
+                                        _: 1
+                                      })
+                                    ]),
+                                    _: 1
+                                  })
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(VRow, {
+                            align: "start",
+                            dense: ""
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(VCol, {
+                                sm: "4",
+                                md: "3"
+                              }, {
+                                default: withCtx(() => _cache[29] || (_cache[29] = [
+                                  createElementVNode("h3", null, "Created", -1)
+                                ])),
+                                _: 1,
+                                __: [29]
+                              }),
+                              createVNode(VCol, null, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(_ctx.item.dateJoined | _ctx.humanDatetime), 1)
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(VRow, {
+                            align: "start",
+                            dense: ""
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(VCol, {
+                                sm: "4",
+                                md: "3"
+                              }, {
+                                default: withCtx(() => _cache[30] || (_cache[30] = [
+                                  createElementVNode("h3", null, "Last Update", -1)
+                                ])),
+                                _: 1,
+                                __: [30]
+                              }),
+                              createVNode(VCol, null, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(_ctx.item.lastUpdate | _ctx.humanDatetime), 1)
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          }),
+                          renderSlot(_ctx.$slots, "additionalUserInfoCol1", { item: _ctx.item })
                         ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VRow, {
-                    align: "start",
-                    dense: ""
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        sm: "4",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => _cache[29] || (_cache[29] = [
-                          createElementVNode("h3", null, "Created", -1)
-                        ])),
-                        _: 1,
-                        __: [29]
+                        _: 3
                       }),
-                      createVNode(VCol, null, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString(_ctx.$humanDatetime(_ctx.item.dateJoined)), 1)
-                        ]),
-                        _: 1
-                      })
+                      renderSlot(_ctx.$slots, "additionalUserInfoCol2", { item: _ctx.item })
                     ]),
-                    _: 1
-                  }),
-                  createVNode(VRow, {
-                    align: "start",
-                    dense: ""
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        sm: "4",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => _cache[30] || (_cache[30] = [
-                          createElementVNode("h3", null, "Last Update", -1)
-                        ])),
-                        _: 1,
-                        __: [30]
-                      }),
-                      createVNode(VCol, null, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString(_ctx.$humanDatetime(_ctx.item.lastUpdate)), 1)
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  renderSlot(_ctx.$slots, "additionalUserInfoCol1", { item: _ctx.item })
-                ]),
-                _: 3
-              }),
-              createVNode(VCol, {
-                sm: "12",
-                md: "5"
-              }, {
-                default: withCtx(() => [
-                  renderSlot(_ctx.$slots, "additionalUserInfoCol2", { item: _ctx.item })
+                    _: 3
+                  })
                 ]),
                 _: 3
               }),
@@ -33557,7 +33639,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
             })
           ]),
           createVNode(VDivider, { class: "my-2" }),
-          $options.showUserFilesSection(_ctx.item) ? (openBlock(), createElementBlock("span", _hoisted_4$d, [
+          $options.showUserFilesSection(_ctx.item) ? (openBlock(), createElementBlock("span", _hoisted_4$c, [
             createVNode(VRow, {
               dense: "",
               class: ""
@@ -33994,8 +34076,8 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   })) : createCommentVNode("", true);
 }
-const IFXUserDetail = /* @__PURE__ */ _export_sfc(_sfc_main$L, [["render", _sfc_render$L]]);
-const _sfc_main$K = {
+const IFXUserDetail = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["render", _sfc_render$M]]);
+const _sfc_main$L = {
   name: "IFXUserList",
   mixins: [IFXUserMixin, IFXItemListMixin],
   components: {
@@ -34100,7 +34182,7 @@ const _sfc_main$K = {
   }
 };
 const _hoisted_1$r = ["innerHTML"];
-function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXMailButton = resolveComponent("IFXMailButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
@@ -34297,8 +34379,8 @@ function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-const IFXUserList = /* @__PURE__ */ _export_sfc(_sfc_main$K, [["render", _sfc_render$K], ["__scopeId", "data-v-73618f1f"]]);
-const _sfc_main$J = {
+const IFXUserList = /* @__PURE__ */ _export_sfc(_sfc_main$L, [["render", _sfc_render$L], ["__scopeId", "data-v-73618f1f"]]);
+const _sfc_main$K = {
   name: "IFXSelectableAddress",
   mixins: [IFXItemSelectableMixin],
   data() {
@@ -34346,7 +34428,7 @@ const _sfc_main$J = {
     this.init().then(() => this.isLoading = false);
   }
 };
-function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
     default: withCtx(() => [
       createVNode(VForm, { ref: "addressForm" }, {
@@ -34475,7 +34557,7 @@ function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXSelectableAddress = /* @__PURE__ */ _export_sfc(_sfc_main$J, [["render", _sfc_render$J]]);
+const IFXSelectableAddress = /* @__PURE__ */ _export_sfc(_sfc_main$K, [["render", _sfc_render$K]]);
 const IFXAccountMixin = {
   data() {
     return {
@@ -34484,7 +34566,7 @@ const IFXAccountMixin = {
     };
   }
 };
-const _sfc_main$I = {
+const _sfc_main$J = {
   name: "AccountList",
   mixins: [IFXItemListMixin, IFXAccountMixin],
   components: {
@@ -34512,7 +34594,7 @@ const _sfc_main$I = {
 const _hoisted_1$q = { style: { "white-space": "nowrap" } };
 const _hoisted_2$k = { style: { "white-space": "nowrap" } };
 const _hoisted_3$i = { style: { "white-space": "nowrap" } };
-function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXItemDataTable = resolveComponent("IFXItemDataTable");
@@ -34583,8 +34665,8 @@ function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXAccountList = /* @__PURE__ */ _export_sfc(_sfc_main$I, [["render", _sfc_render$I]]);
-const _sfc_main$H = {
+const IFXAccountList = /* @__PURE__ */ _export_sfc(_sfc_main$J, [["render", _sfc_render$J]]);
+const _sfc_main$I = {
   name: "AccountDetail",
   mixins: [IFXItemDetailMixin, IFXAccountMixin],
   components: {
@@ -34613,9 +34695,9 @@ const _hoisted_2$j = {
   class: "inactive-account d-flex align-center"
 };
 const _hoisted_3$h = { key: 0 };
-const _hoisted_4$c = { key: 1 };
+const _hoisted_4$b = { key: 1 };
 const _hoisted_5$9 = { key: 0 };
-function _sfc_render$H(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXItemHistoryDisplay = resolveComponent("IFXItemHistoryDisplay");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
@@ -34739,7 +34821,7 @@ function _sfc_render$H(_ctx, _cache, $props, $setup, $data, $options) {
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
-                  _ctx.item.expirationDate ? (openBlock(), createElementBlock("span", _hoisted_3$h, toDisplayString(_ctx.$columnDate(_ctx.item.expirationDate)), 1)) : (openBlock(), createElementBlock("span", _hoisted_4$c, "None"))
+                  _ctx.item.expirationDate ? (openBlock(), createElementBlock("span", _hoisted_3$h, toDisplayString(_ctx.$columnDate(_ctx.item.expirationDate)), 1)) : (openBlock(), createElementBlock("span", _hoisted_4$b, "None"))
                 ]),
                 _: 1
               })
@@ -34818,8 +34900,8 @@ function _sfc_render$H(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXAccountDetail = /* @__PURE__ */ _export_sfc(_sfc_main$H, [["render", _sfc_render$H], ["__scopeId", "data-v-7ffde770"]]);
-const _sfc_main$G = {
+const IFXAccountDetail = /* @__PURE__ */ _export_sfc(_sfc_main$I, [["render", _sfc_render$I], ["__scopeId", "data-v-7ffde770"]]);
+const _sfc_main$H = {
   name: "IFXExpenseCodeRequest",
   props: {
     facilityName: {
@@ -34927,7 +35009,7 @@ const _sfc_main$G = {
     }
   }
 };
-function _sfc_render$G(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$H(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_list_item_content = resolveComponent("v-list-item-content");
   const _component_IFXButton = resolveComponent("IFXButton");
   return openBlock(), createBlock(VDialog, {
@@ -35068,7 +35150,7 @@ function _sfc_render$G(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["modelValue", "max-width"]);
 }
-const IFXExpenseCodeRequest = /* @__PURE__ */ _export_sfc(_sfc_main$G, [["render", _sfc_render$G]]);
+const IFXExpenseCodeRequest = /* @__PURE__ */ _export_sfc(_sfc_main$H, [["render", _sfc_render$H]]);
 const IFXProductMixin = {
   data() {
     return {
@@ -35077,7 +35159,7 @@ const IFXProductMixin = {
     };
   }
 };
-const _sfc_main$F = {
+const _sfc_main$G = {
   name: "IFXProductList",
   mixins: [IFXProductMixin, IFXItemListMixin],
   components: {
@@ -35112,7 +35194,7 @@ const _hoisted_3$g = {
   key: 1,
   class: "grey--text text--darken-1"
 };
-function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$G(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
@@ -35159,8 +35241,8 @@ function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXProductList = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["render", _sfc_render$F]]);
-const _sfc_main$E = {
+const IFXProductList = /* @__PURE__ */ _export_sfc(_sfc_main$G, [["render", _sfc_render$G]]);
+const _sfc_main$F = {
   name: "IFXProductDetail",
   mixins: [IFXProductMixin, IFXItemDetailMixin],
   components: {
@@ -35169,7 +35251,11 @@ const _sfc_main$E = {
   data() {
     return {
       selected: [],
-      showDeactivatedRates: false
+      showDeactivatedRates: false,
+      currencyFormatter: new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+      })
     };
   },
   computed: {
@@ -35177,7 +35263,7 @@ const _sfc_main$E = {
       const headers = [
         { text: "Name", value: "name", sortable: true },
         { text: "Description", value: "description", sortable: true, namedSlot: true },
-        { text: "Price", value: "price", sortable: true },
+        { text: "Price", value: "decimalPrice", sortable: true, namedSlot: true },
         { text: "Units", value: "units", sortable: true, slot: true },
         { text: "Max Quantity", value: "maxQty", sortable: false, namedSlot: true },
         { text: "Active", value: "active", sortable: true, namedSlot: true }
@@ -35201,13 +35287,13 @@ const _sfc_main$E = {
 const _hoisted_1$n = { key: 0 };
 const _hoisted_2$h = { key: 1 };
 const _hoisted_3$f = { class: "d-flex justify-space-between" };
-const _hoisted_4$b = { key: 0 };
+const _hoisted_4$a = { key: 0 };
 const _hoisted_5$8 = {
   key: 1,
   class: "grey--text"
 };
 const _hoisted_6$6 = { key: 1 };
-function _sfc_render$E(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXItemDataTable = resolveComponent("IFXItemDataTable");
@@ -35430,10 +35516,13 @@ function _sfc_render$E(_ctx, _cache, $props, $setup, $data, $options) {
                       }))
                     ]),
                     description: withCtx(({ item }) => [
-                      item.description ? (openBlock(), createElementBlock("span", _hoisted_4$b, toDisplayString(item.description), 1)) : (openBlock(), createElementBlock("span", _hoisted_5$8, "None"))
+                      item.description ? (openBlock(), createElementBlock("span", _hoisted_4$a, toDisplayString(item.description), 1)) : (openBlock(), createElementBlock("span", _hoisted_5$8, "None"))
                     ]),
                     maxQty: withCtx(({ item }) => [
                       createTextVNode(toDisplayString(item.maxQty ? `${$options.pluralize(item.maxQty, item.units)}` : "∞"), 1)
+                    ]),
+                    decimalPrice: withCtx(({ item }) => [
+                      createTextVNode(toDisplayString($data.currencyFormatter.format(item.decimalPrice)), 1)
                     ]),
                     _: 1
                   }, 8, ["items", "headers", "selected"])) : (openBlock(), createElementBlock("span", _hoisted_6$6, "None"))
@@ -35450,8 +35539,8 @@ function _sfc_render$E(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXProductDetail = /* @__PURE__ */ _export_sfc(_sfc_main$E, [["render", _sfc_render$E]]);
-const _sfc_main$D = {
+const IFXProductDetail = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["render", _sfc_render$F]]);
+const _sfc_main$E = {
   name: "IFXProductCreateEdit",
   mixins: [IFXProductMixin, IFXItemCreateEditMixin],
   components: {
@@ -35482,7 +35571,11 @@ const _sfc_main$D = {
       allFacilities: [],
       newRates: [],
       selected: [],
-      showDeactivatedRates: false
+      showDeactivatedRates: false,
+      currencyFormatter: new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+      })
     };
   },
   methods: {
@@ -35530,7 +35623,7 @@ const _sfc_main$D = {
       const headers = [
         { text: "Name", value: "name", sortable: true },
         { text: "Description", value: "description", sortable: true, namedSlot: true },
-        { text: "Price", value: "price", sortable: true },
+        { text: "Price", value: "decimalPrice", sortable: true, namedSlot: true },
         { text: "Units", value: "units", sortable: true, slot: true },
         { text: "Max Quantity", value: "maxQty", sortable: false, namedSlot: true },
         { text: "Active", value: "active", sortable: true, namedSlot: true },
@@ -35557,12 +35650,12 @@ const _sfc_main$D = {
 const _hoisted_1$m = { key: 0 };
 const _hoisted_2$g = { key: 1 };
 const _hoisted_3$e = { key: 1 };
-const _hoisted_4$a = { key: 0 };
+const _hoisted_4$9 = { key: 0 };
 const _hoisted_5$7 = {
   key: 1,
   class: "grey--text"
 };
-function _sfc_render$D(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$E(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXItemSelectList = resolveComponent("IFXItemSelectList");
   const _component_IFXButton = resolveComponent("IFXButton");
@@ -35878,7 +35971,10 @@ function _sfc_render$D(_ctx, _cache, $props, $setup, $data, $options) {
                           createTextVNode(toDisplayString(item.maxQty ? `${$options.pluralize(item.maxQty, item.units)}` : "∞"), 1)
                         ]),
                         description: withCtx(({ item }) => [
-                          item.description ? (openBlock(), createElementBlock("span", _hoisted_4$a, toDisplayString(item.description), 1)) : (openBlock(), createElementBlock("span", _hoisted_5$7, "None"))
+                          item.description ? (openBlock(), createElementBlock("span", _hoisted_4$9, toDisplayString(item.description), 1)) : (openBlock(), createElementBlock("span", _hoisted_5$7, "None"))
+                        ]),
+                        decimalPrice: withCtx(({ item }) => [
+                          createTextVNode(toDisplayString($data.currencyFormatter.format(item.decimalPrice)), 1)
                         ]),
                         actions: withCtx(({ item }) => [
                           item.active && $options.canUpdateRate() ? (openBlock(), createBlock(_component_IFXButton, {
@@ -35914,7 +36010,7 @@ function _sfc_render$D(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXProductCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$D, [["render", _sfc_render$D]]);
+const IFXProductCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$E, [["render", _sfc_render$E]]);
 const IFXProductUsageMixin = {
   data() {
     return {
@@ -35923,7 +36019,7 @@ const IFXProductUsageMixin = {
     };
   }
 };
-const _sfc_main$C = {
+const _sfc_main$D = {
   name: "IFXProductUsageList",
   mixins: [IFXProductUsageMixin, IFXItemListMixin],
   components: {
@@ -36001,7 +36097,7 @@ const _sfc_main$C = {
   }
 };
 const _hoisted_1$l = { class: "my-2 d-flex flex-row" };
-function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$D(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXActionSelect = resolveComponent("IFXActionSelect");
   const _component_IFXButton = resolveComponent("IFXButton");
@@ -36104,8 +36200,8 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXProductUsageList = /* @__PURE__ */ _export_sfc(_sfc_main$C, [["render", _sfc_render$C], ["__scopeId", "data-v-981553fc"]]);
-const _sfc_main$B = {
+const IFXProductUsageList = /* @__PURE__ */ _export_sfc(_sfc_main$D, [["render", _sfc_render$D], ["__scopeId", "data-v-981553fc"]]);
+const _sfc_main$C = {
   name: "IFXProductDetail",
   mixins: [IFXProductUsageMixin, IFXItemDetailMixin],
   components: {},
@@ -36137,11 +36233,11 @@ const _sfc_main$B = {
 const _hoisted_1$k = { class: "text-body-2" };
 const _hoisted_2$f = { class: "text-body-2" };
 const _hoisted_3$d = { key: 0 };
-const _hoisted_4$9 = {
+const _hoisted_4$8 = {
   key: 1,
   class: "grey--text text--darken-1"
 };
-function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_router_link = resolveComponent("router-link");
@@ -36274,7 +36370,7 @@ function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
-                  _ctx.item.endDate ? (openBlock(), createElementBlock("span", _hoisted_3$d, toDisplayString(_ctx.$humanDatetime(_ctx.item.endDate)), 1)) : (openBlock(), createElementBlock("span", _hoisted_4$9, "None"))
+                  _ctx.item.endDate ? (openBlock(), createElementBlock("span", _hoisted_3$d, toDisplayString(_ctx.$humanDatetime(_ctx.item.endDate)), 1)) : (openBlock(), createElementBlock("span", _hoisted_4$8, "None"))
                 ]),
                 _: 1
               })
@@ -36390,7 +36486,7 @@ function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXProductUsageDetail = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["render", _sfc_render$B]]);
+const IFXProductUsageDetail = /* @__PURE__ */ _export_sfc(_sfc_main$C, [["render", _sfc_render$C]]);
 var momentTimezone$2 = { exports: {} };
 var momentTimezone$1 = { exports: {} };
 //! moment.js
@@ -41974,7 +42070,7 @@ const VDatePicker = genericComponent()({
     return {};
   }
 });
-const _sfc_main$A = {
+const _sfc_main$B = {
   name: "IFXProductCreateEdit",
   mixins: [IFXProductUsageMixin, IFXItemCreateEditMixin],
   components: {
@@ -42119,10 +42215,10 @@ const _sfc_main$A = {
 const _hoisted_1$j = { class: "d-flex flex-row menu-background" };
 const _hoisted_2$e = { class: "d-flex flex-column" };
 const _hoisted_3$c = { class: "text-center" };
-const _hoisted_4$8 = { class: "d-flex flex-row menu-background" };
+const _hoisted_4$7 = { class: "d-flex flex-row menu-background" };
 const _hoisted_5$6 = { class: "d-flow flow-column" };
 const _hoisted_6$5 = { class: "text-center" };
-function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_v_time_picker = resolveComponent("v-time-picker");
   const _component_IFXPageActionBar = resolveComponent("IFXPageActionBar");
@@ -42344,7 +42440,7 @@ function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
                         "max-width": "670px"
                       }, {
                         default: withCtx(() => [
-                          createElementVNode("div", _hoisted_4$8, [
+                          createElementVNode("div", _hoisted_4$7, [
                             createElementVNode("div", _hoisted_5$6, [
                               createVNode(VDatePicker, {
                                 modelValue: $data.pickerDate,
@@ -42463,7 +42559,7 @@ function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXProductUsageCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$A], ["__scopeId", "data-v-7a4e27a4"]]);
+const IFXProductUsageCreateEdit = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["render", _sfc_render$B], ["__scopeId", "data-v-7a4e27a4"]]);
 const IFXBillingRecordMixin = {
   data() {
     return {
@@ -42472,7 +42568,7 @@ const IFXBillingRecordMixin = {
     };
   }
 };
-const _sfc_main$z = {
+const _sfc_main$A = {
   name: "IFXBillingRecordHeader",
   props: {
     group: {
@@ -42547,7 +42643,7 @@ const _sfc_main$z = {
 const _hoisted_1$i = ["colspan"];
 const _hoisted_2$d = { class: "group-header" };
 const _hoisted_3$b = { class: "ml-3 font-weight-medium" };
-function _sfc_render$z(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("td", {
     colspan: $props.colSpan,
     class: "py-4"
@@ -42638,8 +42734,8 @@ function _sfc_render$z(_ctx, _cache, $props, $setup, $data, $options) {
     })) : createCommentVNode("", true)
   ], 8, _hoisted_1$i);
 }
-const IFXBillingRecordHeader = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["render", _sfc_render$z], ["__scopeId", "data-v-afa9e698"]]);
-const _sfc_main$y = {
+const IFXBillingRecordHeader = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$A], ["__scopeId", "data-v-afa9e698"]]);
+const _sfc_main$z = {
   name: "IFXBillingRecordTransactions",
   components: {},
   props: {
@@ -42669,7 +42765,7 @@ const _hoisted_1$h = {
   colspan: 12,
   class: "pl-10 pr-0 pb-1"
 };
-function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$z(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("td", _hoisted_1$h, [
     createVNode(VDataTable, {
       headers: $data.txnHeaders,
@@ -42688,8 +42784,8 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["headers", "items"])
   ]);
 }
-const IFXBillingRecordTransactions = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$y]]);
-const _sfc_main$x = {
+const IFXBillingRecordTransactions = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["render", _sfc_render$z]]);
+const _sfc_main$y = {
   name: "IFXBillingRecordList",
   components: {
     IFXButton,
@@ -43416,7 +43512,7 @@ const _sfc_main$x = {
 const _hoisted_1$g = { class: "text-no-wrap" };
 const _hoisted_2$c = { class: "lab-manager-list" };
 const _hoisted_3$a = { key: 0 };
-const _hoisted_4$7 = { class: "text-body-2 font-weight-regular text-center" };
+const _hoisted_4$6 = { class: "text-body-2 font-weight-regular text-center" };
 const _hoisted_5$5 = {
   key: 0,
   class: "my-3 pb-2 border-bottom"
@@ -43464,7 +43560,7 @@ const _hoisted_33$2 = { class: "font-weight-medium mr-3" };
 const _hoisted_34$2 = { class: "font-weight-regular" };
 const _hoisted_35$2 = { class: "font-weight-light mb-5" };
 const _hoisted_36$2 = { key: 0 };
-function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXMailButton = resolveComponent("IFXMailButton");
   const _component_IFXContactablesCombobox = resolveComponent("IFXContactablesCombobox");
@@ -43642,7 +43738,7 @@ function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
                                                                 }, {
                                                                   default: withCtx(() => [
                                                                     _cache[42] || (_cache[42] = createElementVNode("div", { class: "text-body-1 font-weight-medium text-center" }, " Email Notification Results ", -1)),
-                                                                    createElementVNode("div", _hoisted_4$7, " Sent to " + toDisplayString($options.buildNotificationlList()), 1),
+                                                                    createElementVNode("div", _hoisted_4$6, " Sent to " + toDisplayString($options.buildNotificationlList()), 1),
                                                                     $data.emailResponse.successes.length ? (openBlock(), createElementBlock("div", _hoisted_5$5, [
                                                                       _cache[33] || (_cache[33] = createTextVNode(" Successfully ")),
                                                                       _cache[34] || (_cache[34] = createElementVNode("span", { class: "green--text" }, "sent", -1)),
@@ -44484,8 +44580,8 @@ function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXBillingRecordList = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$x], ["__scopeId", "data-v-1cb27cbc"]]);
-const _sfc_main$w = {
+const IFXBillingRecordList = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$y], ["__scopeId", "data-v-1cb27cbc"]]);
+const _sfc_main$x = {
   name: "IFXBillingRecordHeaderDecimal",
   props: {
     group: {
@@ -44552,7 +44648,7 @@ const _sfc_main$w = {
 const _hoisted_1$f = ["colspan"];
 const _hoisted_2$b = { class: "group-header" };
 const _hoisted_3$9 = { class: "ml-3 font-weight-medium" };
-function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("td", {
     colspan: $props.colSpan,
     class: "py-4"
@@ -44597,8 +44693,8 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ], 8, _hoisted_1$f);
 }
-const IFXBillingRecordHeaderDecimal = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$w], ["__scopeId", "data-v-7b19d69c"]]);
-const _sfc_main$v = {
+const IFXBillingRecordHeaderDecimal = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$x], ["__scopeId", "data-v-7b19d69c"]]);
+const _sfc_main$w = {
   name: "IFXBillingRecordListDecimal",
   components: {
     IFXButton,
@@ -45354,7 +45450,7 @@ const _sfc_main$v = {
 const _hoisted_1$e = { class: "text-no-wrap" };
 const _hoisted_2$a = { class: "lab-manager-list" };
 const _hoisted_3$8 = { key: 0 };
-const _hoisted_4$6 = { class: "text-body-2 font-weight-regular text-center" };
+const _hoisted_4$5 = { class: "text-body-2 font-weight-regular text-center" };
 const _hoisted_5$4 = {
   key: 0,
   class: "my-3 pb-2 border-bottom"
@@ -45402,7 +45498,7 @@ const _hoisted_33$1 = { key: 0 };
 const _hoisted_34$1 = { key: 1 };
 const _hoisted_35$1 = ["href"];
 const _hoisted_36$1 = { key: 1 };
-function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXMailButton = resolveComponent("IFXMailButton");
   const _component_IFXContactablesCombobox = resolveComponent("IFXContactablesCombobox");
@@ -45651,7 +45747,7 @@ function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
                                                                 }, {
                                                                   default: withCtx(() => [
                                                                     _cache[50] || (_cache[50] = createElementVNode("div", { class: "text-body-1 font-weight-medium text-center" }, " Email Notification Results ", -1)),
-                                                                    createElementVNode("div", _hoisted_4$6, " Sent to " + toDisplayString($options.buildNotificationlList()), 1),
+                                                                    createElementVNode("div", _hoisted_4$5, " Sent to " + toDisplayString($options.buildNotificationlList()), 1),
                                                                     $data.emailResponse.successes.length ? (openBlock(), createElementBlock("div", _hoisted_5$4, [
                                                                       _cache[41] || (_cache[41] = createTextVNode(" Successfully ")),
                                                                       _cache[42] || (_cache[42] = createElementVNode("span", { class: "green--text" }, "sent", -1)),
@@ -46493,8 +46589,8 @@ function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXBillingRecordListDecimal = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$v], ["__scopeId", "data-v-9277d983"]]);
-const _sfc_main$u = {
+const IFXBillingRecordListDecimal = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$w], ["__scopeId", "data-v-9277d983"]]);
+const _sfc_main$v = {
   name: "GenericBillingSummaryList",
   mixins: [IFXItemListMixin],
   components: {
@@ -46582,11 +46678,11 @@ const _sfc_main$u = {
 const _hoisted_1$d = { class: "text-no-wrap" };
 const _hoisted_2$9 = ["innerHTML"];
 const _hoisted_3$7 = { key: 0 };
-const _hoisted_4$5 = {
+const _hoisted_4$4 = {
   key: 1,
   class: "grey--text text--darken-1"
 };
-function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXItemDataTable = resolveComponent("IFXItemDataTable");
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, {
     key: 0,
@@ -46650,7 +46746,7 @@ function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
             defaultItemsPerPage: -1
           }, {
             totalDecimalCharge: withCtx(({ item }) => [
-              item.totalDecimalCharge ? (openBlock(), createElementBlock("span", _hoisted_3$7, toDisplayString(_ctx.$dollars(item.totalDecimalCharge)), 1)) : (openBlock(), createElementBlock("span", _hoisted_4$5, "No Charges"))
+              item.totalDecimalCharge ? (openBlock(), createElementBlock("span", _hoisted_3$7, toDisplayString(_ctx.$dollars(item.totalDecimalCharge)), 1)) : (openBlock(), createElementBlock("span", _hoisted_4$4, "No Charges"))
             ]),
             _: 1
           }, 8, ["items", "headers", "selected", "itemType"])
@@ -46661,7 +46757,7 @@ function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXGenericBillingSummaryList = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$u], ["__scopeId", "data-v-81127f95"]]);
+const IFXGenericBillingSummaryList = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$v], ["__scopeId", "data-v-81127f95"]]);
 const VTabsSymbol = Symbol.for("vuetify:v-tabs");
 const makeVTabProps = propsFactory({
   fixed: Boolean,
@@ -47343,7 +47439,7 @@ const VTabs = genericComponent()({
     return {};
   }
 });
-const _sfc_main$t = {
+const _sfc_main$u = {
   name: "IFXBillingRecords",
   props: {
     organization: {
@@ -47468,7 +47564,7 @@ const _sfc_main$t = {
     this.isLoading = false;
   }
 };
-function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXBillingRecordListDecimal = resolveComponent("IFXBillingRecordListDecimal");
   const _component_v_tab_item = resolveComponent("v-tab-item");
   const _component_IFXGenericBillingSummaryList = resolveComponent("IFXGenericBillingSummaryList");
@@ -47706,8 +47802,8 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXBillingRecords = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$t]]);
-const _sfc_main$s = {
+const IFXBillingRecords = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$u]]);
+const _sfc_main$t = {
   name: "IFXBillingRecordDetail",
   components: {},
   mixins: [IFXBillingRecordMixin, IFXItemDetailMixin],
@@ -47882,9 +47978,9 @@ const _hoisted_2$8 = {
   class: "ml-2 text-body-1 red--text"
 };
 const _hoisted_3$6 = ["href"];
-const _hoisted_4$4 = { class: "ml-1" };
+const _hoisted_4$3 = { class: "ml-1" };
 const _hoisted_5$3 = { class: "text-h5" };
-function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
@@ -48191,7 +48287,7 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
                 ]),
                 _: 1
               }, 8, ["onClick"])) : createCommentVNode("", true),
-              createElementVNode("span", _hoisted_4$4, toDisplayString(_ctx.item.currentState), 1)
+              createElementVNode("span", _hoisted_4$3, toDisplayString(_ctx.item.currentState), 1)
             ]),
             _: 1
           }),
@@ -48360,8 +48456,8 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXBillingRecordDetail = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$s], ["__scopeId", "data-v-3e16c41a"]]);
-const _sfc_main$r = {
+const IFXBillingRecordDetail = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$t], ["__scopeId", "data-v-3e16c41a"]]);
+const _sfc_main$s = {
   name: "IFXCalculateBillingMonth",
   props: {
     month: {
@@ -48584,7 +48680,7 @@ const _sfc_main$r = {
   }
 };
 const _hoisted_1$b = { key: 1 };
-function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXItemDataTable = resolveComponent("IFXItemDataTable");
   return openBlock(), createBlock(VContainer, null, {
@@ -48783,7 +48879,7 @@ function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXCalculateBillingMonth = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$r], ["__scopeId", "data-v-d1f71c01"]]);
+const IFXCalculateBillingMonth = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$s], ["__scopeId", "data-v-d1f71c01"]]);
 const IFXBillableMixin = {
   methods: {
     skinnyBillingRecordTableCellDisplay(skinnyBillingRecords) {
@@ -48823,7 +48919,7 @@ const IFXBillableMixin = {
     }
   }
 };
-const _sfc_main$q = {
+const _sfc_main$r = {
   name: "IFXLabBillingSummaryList",
   mixins: [IFXItemListMixin],
   components: {
@@ -48947,7 +49043,7 @@ const _hoisted_3$5 = {
   key: 1,
   class: "grey--text text--darken-1"
 };
-function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXItemDataTable = resolveComponent("IFXItemDataTable");
@@ -49100,7 +49196,7 @@ function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const IFXLabBillingSummaryList = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$q]]);
+const IFXLabBillingSummaryList = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$r]]);
 const IFXReportRunMixin = {
   data() {
     return {
@@ -49109,7 +49205,7 @@ const IFXReportRunMixin = {
     };
   }
 };
-const _sfc_main$p = {
+const _sfc_main$q = {
   name: "IFXReportRunList",
   mixins: [IFXReportRunMixin, IFXItemListMixin],
   components: {
@@ -49222,7 +49318,7 @@ const _sfc_main$p = {
 const _hoisted_1$9 = ["href"];
 const _hoisted_2$6 = ["href"];
 const _hoisted_3$4 = { key: 0 };
-function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXSearchField = resolveComponent("IFXSearchField");
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
   const _component_IFXItemDataTable = resolveComponent("IFXItemDataTable");
@@ -49502,8 +49598,8 @@ function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   })) : createCommentVNode("", true);
 }
-const IFXReportRunList = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$p], ["__scopeId", "data-v-ccd6d968"]]);
-const _sfc_main$o = {
+const IFXReportRunList = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$q], ["__scopeId", "data-v-ccd6d968"]]);
+const _sfc_main$p = {
   name: "IFXEnabledIcon",
   props: {
     isEnabled: {
@@ -49524,9 +49620,9 @@ const _sfc_main$o = {
   },
   data() {
     return {
-      color: "green darken-3",
-      offIcon: "close",
-      onIcon: "mood"
+      color: "green-darken-3",
+      offIcon: "mdi-close",
+      onIcon: "mdi-emoticon"
     };
   },
   computed: {
@@ -49534,6 +49630,9 @@ const _sfc_main$o = {
       return this.isEnabledLocal ? this.onIcon : this.offIcon;
     },
     label() {
+      if (this.iconOnly) {
+        return "";
+      }
       return "FAS User";
     },
     isEnabledLocal: {
@@ -49544,36 +49643,49 @@ const _sfc_main$o = {
         this.$emit("update:isEnabled", bool);
       }
     }
+  },
+  methods: {
+    toggleEnabled() {
+      this.isEnabledLocal = !this.isEnabledLocal;
+    }
   }
 };
 const _hoisted_1$8 = { class: "action-item" };
-const _hoisted_2$5 = { key: 0 };
-const _hoisted_3$3 = { key: 1 };
-const _hoisted_4$3 = { key: 0 };
-function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_2$5 = {
+  key: 1,
+  style: { "display": "inline-flex", "align-items": "center", "gap": "4px" }
+};
+const _hoisted_3$3 = { key: 0 };
+function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$8, [
-    !$props.disabled && _ctx.$api.user.canEditField("User.isEnabled") ? (openBlock(), createElementBlock("span", _hoisted_2$5, [
-      createVNode(VCheckbox, {
-        modelValue: $options.isEnabledLocal,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $options.isEnabledLocal = $event),
-        label: $options.label,
-        color: $data.color,
-        "on-icon": $data.onIcon,
-        "off-icon": $data.offIcon
-      }, null, 8, ["modelValue", "label", "color", "on-icon", "off-icon"])
-    ])) : (openBlock(), createElementBlock("span", _hoisted_3$3, [
+    !$props.disabled && _ctx.$api.user.canEditField("User.isEnabled") ? (openBlock(), createElementBlock("span", {
+      key: 0,
+      style: { "display": "inline-flex", "align-items": "center", "gap": "8px", "cursor": "pointer" },
+      onClick: _cache[0] || (_cache[0] = (...args) => $options.toggleEnabled && $options.toggleEnabled(...args))
+    }, [
       createVNode(VIcon, { color: $data.color }, {
         default: withCtx(() => [
           createTextVNode(toDisplayString($options.displayIcon), 1)
         ]),
         _: 1
       }, 8, ["color"]),
-      !$props.iconOnly ? (openBlock(), createElementBlock("span", _hoisted_4$3, toDisplayString($options.label), 1)) : createCommentVNode("", true)
+      createElementVNode("span", null, toDisplayString($options.label), 1)
+    ])) : (openBlock(), createElementBlock("span", _hoisted_2$5, [
+      createVNode(VIcon, {
+        color: $data.color,
+        size: "small"
+      }, {
+        default: withCtx(() => [
+          createTextVNode(toDisplayString($options.displayIcon), 1)
+        ]),
+        _: 1
+      }, 8, ["color"]),
+      !$props.iconOnly ? (openBlock(), createElementBlock("span", _hoisted_3$3, toDisplayString($options.label), 1)) : createCommentVNode("", true)
     ]))
   ]);
 }
-const IFXEnabledIcon = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$o], ["__scopeId", "data-v-dfb25f75"]]);
-const _sfc_main$n = {
+const IFXEnabledIcon = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$p], ["__scopeId", "data-v-fca9889b"]]);
+const _sfc_main$o = {
   name: "IFXDataTableCell",
   components: {
     IFXLoginIcon
@@ -49647,7 +49759,7 @@ const _hoisted_35 = { key: 31 };
 const _hoisted_36 = { key: 32 };
 const _hoisted_37 = { key: 33 };
 const _hoisted_38 = { key: 34 };
-function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXButton = resolveComponent("IFXButton");
   const _component_IFXLoginIcon = resolveComponent("IFXLoginIcon");
   return $props.custom ? (openBlock(), createElementBlock("span", _hoisted_1$7, [
@@ -49763,7 +49875,7 @@ function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
     createElementVNode("span", null, toDisplayString(this.item[this.name]), 1)
   ]));
 }
-const IFXDataTableCell = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n], ["__scopeId", "data-v-02034e5d"]]);
+const IFXDataTableCell = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$o], ["__scopeId", "data-v-41c045d7"]]);
 var r = function(r2) {
   return /* @__PURE__ */ function(r3) {
     return !!r3 && "object" == typeof r3;
@@ -49868,24 +49980,28 @@ function a(r2) {
     });
   };
 }
-const _sfc_main$m = {
+const _sfc_main$n = {
   name: "IFXTextEditor",
-  // extends: VInput,
   components: {
     Editor
   },
   props: {
-    value: null
+    modelValue: {
+      type: String,
+      default: null
+    }
   },
   data() {
     return {
-      isLoading: false,
-      content: null
+      isLoading: false
     };
   },
   methods: {
     initCallback() {
       this.isLoading = false;
+    },
+    handleUpdate(value) {
+      this.$emit("update:modelValue", value);
     }
   },
   computed: {
@@ -49904,21 +50020,18 @@ const _sfc_main$m = {
   },
   created() {
     this.isLoading = true;
-  },
-  mounted() {
-    this.content = this.value;
   }
 };
-function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Editor = resolveComponent("Editor");
   return openBlock(), createBlock(_component_Editor, {
-    modelValue: _ctx.text,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.text = $event),
+    "model-value": $props.modelValue,
+    "onUpdate:modelValue": $options.handleUpdate,
     init: $options.init,
     tinymceScriptSrc: "https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.4/tinymce.min.js"
-  }, null, 8, ["modelValue", "init"]);
+  }, null, 8, ["model-value", "onUpdate:modelValue", "init"]);
 }
-const IFXTextEditor = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m]]);
+const IFXTextEditor = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n]]);
 const requiredFieldString = "Required field";
 const baseRule = (v) => {
   if (Number.parseFloat(v) === 0) return true;
@@ -56162,7 +56275,7 @@ const VToolbar = genericComponent()({
     };
   }
 });
-const _sfc_main$l = {
+const _sfc_main$m = {
   name: "IFXCalendarList",
   props: {
     id: {
@@ -56384,6 +56497,9 @@ const _sfc_main$l = {
       this.$api.storage.setItem("calendarType", type, "local");
     },
     getEventColor(event) {
+      if (event.cancelled) {
+        return "blue-grey lighten-3";
+      }
       if (this.useMaintenance && event.reservation.isMaintenance) {
         return this.$api.reservation.getMaintenanceColor();
       }
@@ -56408,9 +56524,6 @@ const _sfc_main$l = {
     },
     getResourceColor(RU) {
       const resId = RU.product.id;
-      if (RU.cancelled) {
-        return "blue-grey lighten-3";
-      }
       const theResource = this.allResources.find((resource) => resource.id === resId);
       return theResource ? theResource.color : "grey";
     },
@@ -57044,7 +57157,7 @@ const _hoisted_25 = {
   class: "mt-2 red--text",
   "data-cy": "popup-cancelled"
 };
-function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_calendar = resolveComponent("v-calendar");
   const _component_v_time_picker = resolveComponent("v-time-picker");
   return openBlock(), createElementBlock("div", _hoisted_1$6, [
@@ -57079,35 +57192,40 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
               hint: "Only show reservations for the selected resources. If empty, show all reservations",
               "persistent-hint": "",
               items: _ctx.allResources,
-              "item-text": "name",
-              "return-object": "",
+              "item-title": "name",
+              "item-value": "id",
+              "return-object": true,
               clearable: "",
               "clear-icon": "mdi-close-circle",
-              multiple: "",
-              "hide-selected": "",
+              multiple: true,
+              "hide-selected": true,
               modelValue: _ctx.filteredResources,
               "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.filteredResources = $event),
               "data-cy": "filter-resources"
             }, {
-              selection: withCtx(({ item }) => [
+              selection: withCtx(({ item, index }) => [
                 createVNode(VChip, {
-                  color: item.color,
-                  "text-color": "black",
-                  close: "",
-                  "onClick:close": ($event) => $options.removeFromFiltered(item)
+                  color: item.raw.color,
+                  variant: "flat",
+                  closable: "",
+                  "onClick:close": ($event) => $options.removeFromFiltered(item.raw)
                 }, {
                   default: withCtx(() => [
-                    createTextVNode(toDisplayString(item.name), 1)
+                    createTextVNode(toDisplayString(item.raw.name), 1)
                   ]),
                   _: 2
                 }, 1032, ["color", "onClick:close"])
               ]),
-              item: withCtx(({ item }) => [
-                createElementVNode("div", {
-                  style: normalizeStyle(_ctx.$api.resource.resourceColorBox(item)),
-                  class: "mr-2"
-                }, " ", 4),
-                createTextVNode(" " + toDisplayString(item.name), 1)
+              item: withCtx(({ item, props }) => [
+                createVNode(VListItem, normalizeProps(guardReactiveProps(props)), {
+                  prepend: withCtx(() => [
+                    createElementVNode("div", {
+                      style: normalizeStyle(_ctx.$api.resource.resourceColorBox(item.raw)),
+                      class: "mr-2"
+                    }, " ", 4)
+                  ]),
+                  _: 2
+                }, 1040)
               ]),
               _: 1
             }, 8, ["items", "modelValue"]),
@@ -58409,7 +58527,133 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ]);
 }
-const IFXCalendarList = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l], ["__scopeId", "data-v-e5b4e16c"]]);
+const IFXCalendarList = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__scopeId", "data-v-6b197e3a"]]);
+const SubscriptionMixin = {
+  data() {
+    return {
+      itemType: "Subscription",
+      apiRef: this.$api.subscription
+    };
+  }
+};
+const _sfc_main$l = {
+  name: "IFXSubscriptionList",
+  mixins: [IFXItemListMixin, SubscriptionMixin],
+  components: {
+    IFXSearchField,
+    IFXItemDataTable
+  },
+  props: {},
+  data() {
+    return {
+      key: 0,
+      currentUserRecord: {}
+    };
+  },
+  methods: {
+    async getSetItems() {
+      this.isLoading = true;
+      return this.apiRef.getList().then((res) => {
+        const items = res.map((item) => {
+          item.subscribed = !!item.subscriptionId;
+          return item;
+        });
+        this.items = items;
+      }).catch((error) => {
+        this.showMessage(error);
+      }).finally(() => this.isLoading = false);
+    },
+    subscribeToChannel(item) {
+      this.$api.subscription.subscribeToChannel(this.currentUserRecord.id, item.channelId).then(() => {
+        this.showMessage(`Subscribed to channel ${item.channelTitle}`);
+      }).catch((error) => {
+        this.showMessage(error);
+      }).finally(() => {
+        this.reloadSubscriptions();
+      });
+    },
+    unsubscribeFromChannel(item) {
+      this.$api.subscription.unsubscribeFromChannel(item.subscriptionId).then(() => {
+        this.showMessage(`Unsubscribed from channel ${item.channelTitle}`);
+      }).catch((error) => {
+        this.showMessage(error);
+      }).finally(() => {
+        this.reloadSubscriptions();
+      });
+    },
+    async reloadSubscriptions() {
+      await this.getSetItems();
+      this.key += 1;
+    },
+    toggleSubscription(item) {
+      if (item.subscriptionId) {
+        this.unsubscribeFromChannel(item);
+      } else {
+        this.subscribeToChannel(item);
+      }
+    }
+  },
+  computed: {
+    headers() {
+      const headers = [
+        { text: "Channel ID", value: "channelId", sortable: true },
+        { text: "Title", value: "channelTitle", sortable: true },
+        { text: "Organization", value: "organizationName", sortable: true },
+        { text: "Subscribed", value: "actions", sortable: false, namedSlot: true }
+      ];
+      return headers.filter((h2) => !h2.hide || !this.$vuetify.breakpoint[h2.hide]);
+    }
+  },
+  watch: {},
+  async mounted() {
+    this.currentUserRecord = await this.$api.auth.getCurrentUserRecord();
+  }
+};
+function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_IFXSearchField = resolveComponent("IFXSearchField");
+  const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
+  const _component_IFXItemDataTable = resolveComponent("IFXItemDataTable");
+  return openBlock(), createBlock(VContainer, null, {
+    default: withCtx(() => [
+      createVNode(_component_IFXPageHeader, null, {
+        title: withCtx(() => _cache[0] || (_cache[0] = [
+          createTextVNode("Channel Subscriptions")
+        ])),
+        actions: withCtx(() => [
+          createVNode(_component_IFXSearchField, { search: _ctx.search }, null, 8, ["search"])
+        ]),
+        _: 1
+      }),
+      createVNode(VContainer, null, {
+        default: withCtx(() => [
+          createVNode(_component_IFXItemDataTable, {
+            items: _ctx.filteredItems,
+            headers: $options.headers,
+            selected: _ctx.selected,
+            itemType: _ctx.itemType,
+            "show-select": false,
+            loading: _ctx.isLoading,
+            sortBy: "channelTitle",
+            sortDesc: false
+          }, {
+            actions: withCtx(({ item }) => [
+              createVNode(VSwitch, {
+                modelValue: item.subscribed,
+                "onUpdate:modelValue": ($event) => item.subscribed = $event,
+                "data-cy": "toggle-subscription",
+                onChange: ($event) => $options.toggleSubscription(item)
+              }, null, 8, ["modelValue", "onUpdate:modelValue", "onChange"])
+            ]),
+            _: 1
+          }, 8, ["items", "headers", "selected", "itemType", "loading"])
+        ]),
+        _: 1
+      })
+    ]),
+    _: 1
+  });
+}
+const IFXSubscriptionList = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l], ["__scopeId", "data-v-c28e118c"]]);
 const makeVLayoutProps = propsFactory({
   ...makeComponentProps(),
   ...makeDimensionProps(),
@@ -61561,6 +61805,7 @@ export {
   IFXSelectableAffiliation,
   IFXSelectableContact,
   IFXSelectableUser,
+  IFXSubscriptionList,
   IFXTextEditor,
   IFXUserDetail,
   IFXUserEdit,

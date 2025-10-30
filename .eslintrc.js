@@ -7,7 +7,7 @@ module.exports = {
     node: true,
   },
 
-  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/airbnb'],
+  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/airbnb', 'plugin:storybook/recommended'],
 
   parserOptions: {
     sourceType: 'module',

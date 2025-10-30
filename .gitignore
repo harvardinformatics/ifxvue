@@ -27,3 +27,7 @@ yarn-error.log*
 
 # files used for stand-alone app
 /src/App.vue
+
+*storybook.log
+storybook-static
+publish_local_changes.sh

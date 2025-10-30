@@ -49,7 +49,7 @@ const store = createStore({
 
 const mockAPI = {
   user: {
-    canEditField: () => true,
+    canEditField: () => false,
   },
   vars: {
     appName: 'ifxvue',

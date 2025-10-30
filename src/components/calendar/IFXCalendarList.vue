@@ -267,7 +267,6 @@ export default {
       }
       return eventString
     },
-
     isEventTimed() {
       // All reservations are timed (i.e. are not all-day events)
       return true
@@ -945,23 +944,27 @@ export default {
           hint="Only show reservations for the selected resources. If empty, show all reservations"
           persistent-hint
           :items="allResources"
-          item-text="name"
-          return-object
+          item-title="name"
+          item-value="id"
+          :return-object="true"
           clearable
           clear-icon="mdi-close-circle"
-          multiple
-          hide-selected
+          :multiple="true"
+          :hide-selected="true"
           v-model="filteredResources"
           data-cy="filter-resources"
         >
-          <template #selection="{ item }">
-            <v-chip :color="item.color" text-color="black" close @click:close="removeFromFiltered(item)">
-              {{ item.name }}
+          <template #selection="{ item, index }">
+            <v-chip :color="item.raw.color" variant="flat" closable @click:close="removeFromFiltered(item.raw)">
+              {{ item.raw.name }}
             </v-chip>
           </template>
-          <template #item="{ item }">
-            <div :style="$api.resource.resourceColorBox(item)" class="mr-2">&nbsp;</div>
-            {{ item.name }}
+          <template #item="{ item, props }">
+            <v-list-item v-bind="props">
+              <template #prepend>
+                <div :style="$api.resource.resourceColorBox(item.raw)" class="mr-2">&nbsp;</div>
+              </template>
+            </v-list-item>
           </template>
         </v-autocomplete>
         <v-spacer></v-spacer>
