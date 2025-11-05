@@ -50377,11 +50377,18 @@ function commaSpace(value) {
   return result;
 }
 function orgNameFromSlug(slug) {
+  if (typeof slug === "object" && slug !== null) {
+    const errorMsg = `orgNameFromSlug received object: ${JSON.stringify(Object.keys(slug))}`;
+    throw new Error(errorMsg);
+  }
+  if (typeof slug !== "string") {
+    return String(slug);
+  }
   let result = slug;
-  if (slug) {
-    const match = slug.match(/(.+?) \(a (.+?) (\S+)\)$/);
+  if (slug && slug.trim()) {
+    const match = slug.match(/(.+?)\s*\(a\s+(.+?)\s+(\S+)\)$/);
     if (match) {
-      result = match[1];
+      result = match[1].trim();
     }
   }
   return result;
@@ -57508,7 +57515,7 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                   label: "Select Resource",
                                   required: "",
                                   items: $options.justSelectedResources,
-                                  "item-text": "name",
+                                  "item-title": "productName",
                                   "return-object": "",
                                   "auto-select-first": "",
                                   modelValue: _ctx.resource,
@@ -57571,7 +57578,7 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                   modelValue: _ctx.user,
                                   "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => _ctx.user = $event),
                                   rules: _ctx.formRules.generic,
-                                  "item-text": "fullName",
+                                  "item-title": "fullName",
                                   "return-object": "",
                                   onChange: _cache[11] || (_cache[11] = ($event) => $options.getAllOrgs($event)),
                                   disabled: $options.resourceNotSelected,
@@ -57589,17 +57596,17 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                   "data-cy": "organizaton"
                                 }, {
                                   item: withCtx(({ item }) => [
-                                    createElementVNode("span", null, toDisplayString(_ctx.$orgNameFromSlug(item)), 1)
+                                    createElementVNode("span", null, toDisplayString(_ctx.$orgNameFromSlug(item.value)), 1)
                                   ]),
                                   selection: withCtx(({ item }) => [
-                                    createElementVNode("span", null, toDisplayString(_ctx.$orgNameFromSlug(item)), 1)
+                                    createElementVNode("span", null, toDisplayString(_ctx.$orgNameFromSlug(item.value)), 1)
                                   ]),
                                   _: 1
                                 }, 8, ["items", "modelValue", "rules", "disabled"]),
                                 createVNode(VAutocomplete, {
                                   label: "Expense Code / PO",
                                   ref: "expenseCode",
-                                  "item-text": "name",
+                                  "item-title": "name",
                                   "item-value": "slug",
                                   required: $options.expenseCodeRequired,
                                   items: _ctx.allowedExpenseCodes,
@@ -57706,6 +57713,8 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                           modelValue: _ctx.durationValue,
                                           "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => _ctx.durationValue = $event),
                                           items: _ctx.duration,
+                                          "item-title": "text",
+                                          "item-value": "value",
                                           onChange: _cache[23] || (_cache[23] = ($event) => $options.setEndTime($event, true)),
                                           class: "my-2",
                                           disabled: $options.cantBeEdited || $options.resourceNotSelected,
@@ -58527,7 +58536,7 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ]);
 }
-const IFXCalendarList = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__scopeId", "data-v-6b197e3a"]]);
+const IFXCalendarList = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__scopeId", "data-v-d14633c6"]]);
 const SubscriptionMixin = {
   data() {
     return {
