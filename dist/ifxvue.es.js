@@ -1,22 +1,22 @@
-import { watch, effectScope, computed, reactive, capitalize, watchEffect, toRef, shallowRef, Fragment, isVNode, Comment, unref, warn as warn$1, getCurrentInstance as getCurrentInstance$1, ref, provide, inject, defineComponent as defineComponent$1, h, camelize, isRef, toValue, createElementVNode, normalizeClass, createVNode, normalizeStyle, onScopeDispose, toRaw, useId, onBeforeUnmount, onMounted, onUpdated, mergeProps, toRefs, Text, readonly, Transition, resolveDynamicComponent, nextTick, withDirectives, toDisplayString, createBlock, openBlock, withModifiers, withCtx, createCommentVNode, createElementBlock, createTextVNode, TransitionGroup, Teleport, vShow, resolveComponent, normalizeProps, guardReactiveProps, renderSlot, onBeforeMount, renderList, markRaw, onBeforeUpdate, onDeactivated, cloneVNode, createSlots, toHandlers, onActivated, vModelText, withKeys } from "vue";
-function _mergeNamespaces(n2, m) {
-  for (var i2 = 0; i2 < m.length; i2++) {
-    const e2 = m[i2];
-    if (typeof e2 !== "string" && !Array.isArray(e2)) {
-      for (const k in e2) {
-        if (k !== "default" && !(k in n2)) {
-          const d = Object.getOwnPropertyDescriptor(e2, k);
+import { watch, effectScope, computed, reactive, warn as warn$1, capitalize, watchEffect, toRef, shallowRef, Fragment, camelize, isVNode, Comment, unref, getCurrentInstance as getCurrentInstance$1, ref, provide, inject, defineComponent as defineComponent$1, h, isRef, toValue, createElementVNode, normalizeClass, createVNode, normalizeStyle, onScopeDispose, toRaw, useId, onBeforeUnmount, onMounted, onUpdated, mergeProps, toRefs, Text, readonly, Transition, resolveDynamicComponent, nextTick, withDirectives, toDisplayString, createBlock, openBlock, withModifiers, withCtx, createCommentVNode, createElementBlock, createTextVNode, TransitionGroup, Teleport, vShow, resolveComponent, normalizeProps, guardReactiveProps, renderSlot, onBeforeMount, renderList, markRaw, onBeforeUpdate, onDeactivated, cloneVNode, createSlots, toHandlers, onActivated, vModelText, withKeys } from "vue";
+function _mergeNamespaces(n, m) {
+  for (var i = 0; i < m.length; i++) {
+    const e = m[i];
+    if (typeof e !== "string" && !Array.isArray(e)) {
+      for (const k in e) {
+        if (k !== "default" && !(k in n)) {
+          const d = Object.getOwnPropertyDescriptor(e, k);
           if (d) {
-            Object.defineProperty(n2, k, d.get ? d : {
+            Object.defineProperty(n, k, d.get ? d : {
               enumerable: true,
-              get: () => e2[k]
+              get: () => e[k]
             });
           }
         }
       }
     }
   }
-  return Object.freeze(Object.defineProperty(n2, Symbol.toStringTag, { value: "Module" }));
+  return Object.freeze(Object.defineProperty(n, Symbol.toStringTag, { value: "Module" }));
 }
 function bind(fn, thisArg) {
   return function wrap() {
@@ -78,21 +78,21 @@ function forEach$1(obj, fn, { allOwnKeys = false } = {}) {
   if (obj === null || typeof obj === "undefined") {
     return;
   }
-  let i2;
+  let i;
   let l;
   if (typeof obj !== "object") {
     obj = [obj];
   }
   if (isArray$1(obj)) {
-    for (i2 = 0, l = obj.length; i2 < l; i2++) {
-      fn.call(null, obj[i2], i2, obj);
+    for (i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
     }
   } else {
     const keys2 = allOwnKeys ? Object.getOwnPropertyNames(obj) : Object.keys(obj);
     const len = keys2.length;
     let key;
-    for (i2 = 0; i2 < len; i2++) {
-      key = keys2[i2];
+    for (i = 0; i < len; i++) {
+      key = keys2[i];
       fn.call(null, obj[key], key, obj);
     }
   }
@@ -100,10 +100,10 @@ function forEach$1(obj, fn, { allOwnKeys = false } = {}) {
 function findKey(obj, key) {
   key = key.toLowerCase();
   const keys2 = Object.keys(obj);
-  let i2 = keys2.length;
+  let i = keys2.length;
   let _key;
-  while (i2-- > 0) {
-    _key = keys2[i2];
+  while (i-- > 0) {
+    _key = keys2[i];
     if (key === _key.toLowerCase()) {
       return _key;
     }
@@ -130,20 +130,20 @@ function merge() {
       result[targetKey] = val;
     }
   };
-  for (let i2 = 0, l = arguments.length; i2 < l; i2++) {
-    arguments[i2] && forEach$1(arguments[i2], assignValue);
+  for (let i = 0, l = arguments.length; i < l; i++) {
+    arguments[i] && forEach$1(arguments[i], assignValue);
   }
   return result;
 }
-const extend$1 = (a2, b, thisArg, { allOwnKeys } = {}) => {
+const extend$1 = (a, b, thisArg, { allOwnKeys } = {}) => {
   forEach$1(b, (val, key) => {
     if (thisArg && isFunction$1(val)) {
-      a2[key] = bind(val, thisArg);
+      a[key] = bind(val, thisArg);
     } else {
-      a2[key] = val;
+      a[key] = val;
     }
   }, { allOwnKeys });
-  return a2;
+  return a;
 };
 const stripBOM = (content) => {
   if (content.charCodeAt(0) === 65279) {
@@ -161,16 +161,16 @@ const inherits = (constructor, superConstructor, props, descriptors2) => {
 };
 const toFlatObject = (sourceObj, destObj, filter2, propFilter) => {
   let props;
-  let i2;
+  let i;
   let prop;
   const merged = {};
   destObj = destObj || {};
   if (sourceObj == null) return destObj;
   do {
     props = Object.getOwnPropertyNames(sourceObj);
-    i2 = props.length;
-    while (i2-- > 0) {
-      prop = props[i2];
+    i = props.length;
+    while (i-- > 0) {
+      prop = props[i];
       if ((!propFilter || propFilter(prop, sourceObj, destObj)) && !merged[prop]) {
         destObj[prop] = sourceObj[prop];
         merged[prop] = true;
@@ -192,11 +192,11 @@ const endsWith = (str, searchString, position) => {
 const toArray$1 = (thing) => {
   if (!thing) return null;
   if (isArray$1(thing)) return thing;
-  let i2 = thing.length;
-  if (!isNumber$1(i2)) return null;
-  const arr = new Array(i2);
-  while (i2-- > 0) {
-    arr[i2] = thing[i2];
+  let i = thing.length;
+  if (!isNumber$1(i)) return null;
+  const arr = new Array(i);
+  while (i-- > 0) {
+    arr[i] = thing[i];
   }
   return arr;
 };
@@ -298,19 +298,19 @@ function isSpecCompliantForm(thing) {
 }
 const toJSONObject = (obj) => {
   const stack = new Array(10);
-  const visit = (source, i2) => {
+  const visit = (source, i) => {
     if (isObject$3(source)) {
       if (stack.indexOf(source) >= 0) {
         return;
       }
       if (!("toJSON" in source)) {
-        stack[i2] = source;
+        stack[i] = source;
         const target = isArray$1(source) ? [] : {};
         forEach$1(source, (value, key) => {
-          const reducedValue = visit(value, i2 + 1);
+          const reducedValue = visit(value, i + 1);
           !isUndefined$1(reducedValue) && (target[key] = reducedValue);
         });
-        stack[i2] = void 0;
+        stack[i] = void 0;
         return target;
       }
     }
@@ -481,9 +481,9 @@ function removeBrackets(key) {
 }
 function renderKey(path, key, dots) {
   if (!path) return key;
-  return path.concat(key).map(function each(token2, i2) {
+  return path.concat(key).map(function each(token2, i) {
     token2 = removeBrackets(token2);
-    return !dots && i2 ? "[" + token2 + "]" : token2;
+    return !dots && i ? "[" + token2 + "]" : token2;
   }).join(dots ? "." : "");
 }
 function isFlatArray(arr) {
@@ -758,11 +758,11 @@ function parsePropPath(name) {
 function arrayToObject(arr) {
   const obj = {};
   const keys2 = Object.keys(arr);
-  let i2;
+  let i;
   const len = keys2.length;
   let key;
-  for (i2 = 0; i2 < len; i2++) {
-    key = keys2[i2];
+  for (i = 0; i < len; i++) {
+    key = keys2[i];
     obj[key] = arr[key];
   }
   return obj;
@@ -805,9 +805,9 @@ function stringifySafely(rawValue, parser, encoder) {
     try {
       (parser || JSON.parse)(rawValue);
       return utils$1.trim(rawValue);
-    } catch (e2) {
-      if (e2.name !== "SyntaxError") {
-        throw e2;
+    } catch (e) {
+      if (e.name !== "SyntaxError") {
+        throw e;
       }
     }
   }
@@ -869,12 +869,12 @@ const defaults$1 = {
       const strictJSONParsing = !silentJSONParsing && JSONRequested;
       try {
         return JSON.parse(data);
-      } catch (e2) {
+      } catch (e) {
         if (strictJSONParsing) {
-          if (e2.name === "SyntaxError") {
-            throw AxiosError$1.from(e2, AxiosError$1.ERR_BAD_RESPONSE, this, null, this.response);
+          if (e.name === "SyntaxError") {
+            throw AxiosError$1.from(e, AxiosError$1.ERR_BAD_RESPONSE, this, null, this.response);
           }
-          throw e2;
+          throw e;
         }
       }
     }
@@ -929,11 +929,11 @@ const parseHeaders = (rawHeaders) => {
   const parsed = {};
   let key;
   let val;
-  let i2;
+  let i;
   rawHeaders && rawHeaders.split("\n").forEach(function parser(line) {
-    i2 = line.indexOf(":");
-    key = line.substring(0, i2).trim().toLowerCase();
-    val = line.substring(i2 + 1).trim();
+    i = line.indexOf(":");
+    key = line.substring(0, i).trim().toLowerCase();
+    val = line.substring(i + 1).trim();
     if (!key || parsed[key] && ignoreDuplicateOf[key]) {
       return;
     }
@@ -1082,10 +1082,10 @@ let AxiosHeaders$1 = class AxiosHeaders {
   }
   clear(matcher) {
     const keys2 = Object.keys(this);
-    let i2 = keys2.length;
+    let i = keys2.length;
     let deleted = false;
-    while (i2--) {
-      const key = keys2[i2];
+    while (i--) {
+      const key = keys2[i];
       if (!matcher || matchHeaderValue(this, this[key], key, matcher, true)) {
         delete this[key];
         deleted = true;
@@ -1222,11 +1222,11 @@ function speedometer(samplesCount, min2) {
     }
     bytes[head] = chunkLength;
     timestamps[head] = now2;
-    let i2 = tail;
+    let i = tail;
     let bytesCount = 0;
-    while (i2 !== head) {
-      bytesCount += bytes[i2++];
-      i2 = i2 % samplesCount;
+    while (i !== head) {
+      bytesCount += bytes[i++];
+      i = i % samplesCount;
     }
     head = (head + 1) % samplesCount;
     if (head === tail) {
@@ -1239,7 +1239,7 @@ function speedometer(samplesCount, min2) {
     return passed ? Math.round(bytesCount * 1e3 / passed) : void 0;
   };
 }
-function throttle(fn, freq) {
+function throttle$1(fn, freq) {
   let timestamp = 0;
   let threshold = 1e3 / freq;
   let lastArgs;
@@ -1274,9 +1274,9 @@ function throttle(fn, freq) {
 const progressEventReducer = (listener, isDownloadStream, freq = 3) => {
   let bytesNotified = 0;
   const _speedometer = speedometer(50, 250);
-  return throttle((e2) => {
-    const loaded = e2.loaded;
-    const total = e2.lengthComputable ? e2.total : void 0;
+  return throttle$1((e) => {
+    const loaded = e.loaded;
+    const total = e.lengthComputable ? e.total : void 0;
     const progressBytes = loaded - bytesNotified;
     const rate = _speedometer(progressBytes);
     const inRange = loaded <= total;
@@ -1288,7 +1288,7 @@ const progressEventReducer = (listener, isDownloadStream, freq = 3) => {
       bytes: progressBytes,
       rate: rate ? rate : void 0,
       estimated: rate && total && inRange ? (total - loaded) / rate : void 0,
-      event: e2,
+      event: e,
       lengthComputable: total != null,
       [isDownloadStream ? "download" : "upload"]: true
     };
@@ -1368,30 +1368,30 @@ function mergeConfig$1(config1, config2) {
     }
     return source;
   }
-  function mergeDeepProperties(a2, b, prop, caseless) {
+  function mergeDeepProperties(a, b, prop, caseless) {
     if (!utils$1.isUndefined(b)) {
-      return getMergedValue(a2, b, prop, caseless);
-    } else if (!utils$1.isUndefined(a2)) {
-      return getMergedValue(void 0, a2, prop, caseless);
+      return getMergedValue(a, b, prop, caseless);
+    } else if (!utils$1.isUndefined(a)) {
+      return getMergedValue(void 0, a, prop, caseless);
     }
   }
-  function valueFromConfig2(a2, b) {
-    if (!utils$1.isUndefined(b)) {
-      return getMergedValue(void 0, b);
-    }
-  }
-  function defaultToConfig2(a2, b) {
+  function valueFromConfig2(a, b) {
     if (!utils$1.isUndefined(b)) {
       return getMergedValue(void 0, b);
-    } else if (!utils$1.isUndefined(a2)) {
-      return getMergedValue(void 0, a2);
     }
   }
-  function mergeDirectKeys(a2, b, prop) {
+  function defaultToConfig2(a, b) {
+    if (!utils$1.isUndefined(b)) {
+      return getMergedValue(void 0, b);
+    } else if (!utils$1.isUndefined(a)) {
+      return getMergedValue(void 0, a);
+    }
+  }
+  function mergeDirectKeys(a, b, prop) {
     if (prop in config2) {
-      return getMergedValue(a2, b);
+      return getMergedValue(a, b);
     } else if (prop in config1) {
-      return getMergedValue(void 0, a2);
+      return getMergedValue(void 0, a);
     }
   }
   const mergeMap = {
@@ -1423,7 +1423,7 @@ function mergeConfig$1(config1, config2) {
     socketPath: defaultToConfig2,
     responseEncoding: defaultToConfig2,
     validateStatus: mergeDirectKeys,
-    headers: (a2, b, prop) => mergeDeepProperties(headersToObject(a2), headersToObject(b), prop, true)
+    headers: (a, b, prop) => mergeDeepProperties(headersToObject(a), headersToObject(b), prop, true)
   };
   utils$1.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
     const merge2 = mergeMap[prop] || mergeDeepProperties;
@@ -1662,10 +1662,10 @@ const trackStream = (stream, chunkSize, onProgress, onFinish) => {
   const iterator = readBytes(stream, chunkSize);
   let bytes = 0;
   let done;
-  let _onFinish = (e2) => {
+  let _onFinish = (e) => {
     if (!done) {
       done = true;
-      onFinish && onFinish(e2);
+      onFinish && onFinish(e);
     }
   };
   return new ReadableStream({
@@ -1702,7 +1702,7 @@ const encodeText = isFetchSupported && (typeof TextEncoder === "function" ? /* @
 const test = (fn, ...args) => {
   try {
     return !!fn(...args);
-  } catch (e2) {
+  } catch (e) {
     return false;
   }
 };
@@ -1867,7 +1867,7 @@ utils$1.forEach(knownAdapters, (fn, value) => {
   if (fn) {
     try {
       Object.defineProperty(fn, "name", { value });
-    } catch (e2) {
+    } catch (e) {
     }
     Object.defineProperty(fn, "adapterName", { value });
   }
@@ -1881,8 +1881,8 @@ const adapters = {
     let nameOrAdapter;
     let adapter;
     const rejectedReasons = {};
-    for (let i2 = 0; i2 < length; i2++) {
-      nameOrAdapter = adapters2[i2];
+    for (let i = 0; i < length; i++) {
+      nameOrAdapter = adapters2[i];
       let id;
       adapter = nameOrAdapter;
       if (!isResolvedHandle(nameOrAdapter)) {
@@ -1894,7 +1894,7 @@ const adapters = {
       if (adapter) {
         break;
       }
-      rejectedReasons[id || "#" + i2] = adapter;
+      rejectedReasons[id || "#" + i] = adapter;
     }
     if (!adapter) {
       const reasons = Object.entries(rejectedReasons).map(
@@ -1955,9 +1955,9 @@ function dispatchRequest(config) {
 }
 const VERSION$1 = "1.7.8";
 const validators$1 = {};
-["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i2) => {
+["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i) => {
   validators$1[type] = function validator2(thing) {
-    return typeof thing === type || "a" + (i2 < 1 ? "n " : " ") + type;
+    return typeof thing === type || "a" + (i < 1 ? "n " : " ") + type;
   };
 });
 const deprecatedWarnings = {};
@@ -1988,9 +1988,9 @@ function assertOptions(options, schema, allowUnknown) {
     throw new AxiosError$1("options must be an object", AxiosError$1.ERR_BAD_OPTION_VALUE);
   }
   const keys2 = Object.keys(options);
-  let i2 = keys2.length;
-  while (i2-- > 0) {
-    const opt = keys2[i2];
+  let i = keys2.length;
+  while (i-- > 0) {
+    const opt = keys2[i];
     const validator2 = schema[opt];
     if (validator2) {
       const value = options[opt];
@@ -2040,7 +2040,7 @@ let Axios$1 = class Axios {
           } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ""))) {
             err.stack += "\n" + stack;
           }
-        } catch (e2) {
+        } catch (e) {
         }
       }
       throw err;
@@ -2104,7 +2104,7 @@ let Axios$1 = class Axios {
       responseInterceptorChain.push(interceptor.fulfilled, interceptor.rejected);
     });
     let promise;
-    let i2 = 0;
+    let i = 0;
     let len;
     if (!synchronousRequestInterceptors) {
       const chain = [dispatchRequest.bind(this), void 0];
@@ -2112,17 +2112,17 @@ let Axios$1 = class Axios {
       chain.push.apply(chain, responseInterceptorChain);
       len = chain.length;
       promise = Promise.resolve(config);
-      while (i2 < len) {
-        promise = promise.then(chain[i2++], chain[i2++]);
+      while (i < len) {
+        promise = promise.then(chain[i++], chain[i++]);
       }
       return promise;
     }
     len = requestInterceptorChain.length;
     let newConfig = config;
-    i2 = 0;
-    while (i2 < len) {
-      const onFulfilled = requestInterceptorChain[i2++];
-      const onRejected = requestInterceptorChain[i2++];
+    i = 0;
+    while (i < len) {
+      const onFulfilled = requestInterceptorChain[i++];
+      const onRejected = requestInterceptorChain[i++];
       try {
         newConfig = onFulfilled(newConfig);
       } catch (error) {
@@ -2135,10 +2135,10 @@ let Axios$1 = class Axios {
     } catch (error) {
       return Promise.reject(error);
     }
-    i2 = 0;
+    i = 0;
     len = responseInterceptorChain.length;
-    while (i2 < len) {
-      promise = promise.then(responseInterceptorChain[i2++], responseInterceptorChain[i2++]);
+    while (i < len) {
+      promise = promise.then(responseInterceptorChain[i++], responseInterceptorChain[i++]);
     }
     return promise;
   }
@@ -2185,9 +2185,9 @@ let CancelToken$1 = class CancelToken {
     const token2 = this;
     this.promise.then((cancel) => {
       if (!token2._listeners) return;
-      let i2 = token2._listeners.length;
-      while (i2-- > 0) {
-        token2._listeners[i2](cancel);
+      let i = token2._listeners.length;
+      while (i-- > 0) {
+        token2._listeners[i](cancel);
       }
       token2._listeners = null;
     });
@@ -2259,8 +2259,8 @@ let CancelToken$1 = class CancelToken {
    */
   static source() {
     let cancel;
-    const token2 = new CancelToken(function executor(c2) {
-      cancel = c2;
+    const token2 = new CancelToken(function executor(c) {
+      cancel = c;
     });
     return {
       token: token2,
@@ -2396,29 +2396,29 @@ var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof win
 function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
-function getAugmentedNamespace(n2) {
-  if (Object.prototype.hasOwnProperty.call(n2, "__esModule")) return n2;
-  var f = n2.default;
+function getAugmentedNamespace(n) {
+  if (Object.prototype.hasOwnProperty.call(n, "__esModule")) return n;
+  var f = n.default;
   if (typeof f == "function") {
-    var a2 = function a3() {
-      if (this instanceof a3) {
+    var a = function a2() {
+      if (this instanceof a2) {
         return Reflect.construct(f, arguments, this.constructor);
       }
       return f.apply(this, arguments);
     };
-    a2.prototype = f.prototype;
-  } else a2 = {};
-  Object.defineProperty(a2, "__esModule", { value: true });
-  Object.keys(n2).forEach(function(k) {
-    var d = Object.getOwnPropertyDescriptor(n2, k);
-    Object.defineProperty(a2, k, d.get ? d : {
+    a.prototype = f.prototype;
+  } else a = {};
+  Object.defineProperty(a, "__esModule", { value: true });
+  Object.keys(n).forEach(function(k) {
+    var d = Object.getOwnPropertyDescriptor(n, k);
+    Object.defineProperty(a, k, d.get ? d : {
       enumerable: true,
       get: function() {
-        return n2[k];
+        return n[k];
       }
     });
   });
-  return a2;
+  return a;
 }
 var _baseHas;
 var hasRequired_baseHas;
@@ -2487,7 +2487,7 @@ function require_getRawTag() {
     try {
       value[symToStringTag] = void 0;
       var unmasked = true;
-    } catch (e2) {
+    } catch (e) {
     }
     var result = nativeObjectToString.call(value);
     if (unmasked) {
@@ -2621,10 +2621,10 @@ function require_isMasked() {
   if (hasRequired_isMasked) return _isMasked;
   hasRequired_isMasked = 1;
   var coreJsData = require_coreJsData();
-  var maskSrcKey = function() {
+  var maskSrcKey = (function() {
     var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
     return uid ? "Symbol(src)_1." + uid : "";
-  }();
+  })();
   function isMasked(func) {
     return !!maskSrcKey && maskSrcKey in func;
   }
@@ -2642,11 +2642,11 @@ function require_toSource() {
     if (func != null) {
       try {
         return funcToString.call(func);
-      } catch (e2) {
+      } catch (e) {
       }
       try {
         return func + "";
-      } catch (e2) {
+      } catch (e) {
       }
     }
     return "";
@@ -3225,9 +3225,9 @@ function requireIsArguments() {
   var objectProto = Object.prototype;
   var hasOwnProperty2 = objectProto.hasOwnProperty;
   var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-  var isArguments = baseIsArguments(/* @__PURE__ */ function() {
+  var isArguments = baseIsArguments(/* @__PURE__ */ (function() {
     return arguments;
-  }()) ? baseIsArguments : function(value) {
+  })()) ? baseIsArguments : function(value) {
     return isObjectLike(value) && hasOwnProperty2.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
   };
   isArguments_1 = isArguments;
@@ -3371,9 +3371,9 @@ var hasRequired_baseTimes;
 function require_baseTimes() {
   if (hasRequired_baseTimes) return _baseTimes;
   hasRequired_baseTimes = 1;
-  function baseTimes(n2, iteratee) {
-    var index = -1, result = Array(n2);
-    while (++index < n2) {
+  function baseTimes(n, iteratee) {
+    var index = -1, result = Array(n);
+    while (++index < n) {
       result[index] = iteratee(index);
     }
     return result;
@@ -3452,16 +3452,16 @@ function require_nodeUtil() {
     var freeModule = freeExports && true && module2 && !module2.nodeType && module2;
     var moduleExports = freeModule && freeModule.exports === freeExports;
     var freeProcess = moduleExports && freeGlobal.process;
-    var nodeUtil = function() {
+    var nodeUtil = (function() {
       try {
         var types = freeModule && freeModule.require && freeModule.require("util").types;
         if (types) {
           return types;
         }
         return freeProcess && freeProcess.binding && freeProcess.binding("util");
-      } catch (e2) {
+      } catch (e) {
       }
-    }();
+    })();
     module2.exports = nodeUtil;
   })(_nodeUtil, _nodeUtil.exports);
   return _nodeUtil.exports;
@@ -3767,14 +3767,14 @@ function require_defineProperty() {
   if (hasRequired_defineProperty) return _defineProperty;
   hasRequired_defineProperty = 1;
   var getNative = require_getNative();
-  var defineProperty = function() {
+  var defineProperty = (function() {
     try {
       var func = getNative(Object, "defineProperty");
       func({}, "", {});
       return func;
-    } catch (e2) {
+    } catch (e) {
     }
-  }();
+  })();
   _defineProperty = defineProperty;
   return _defineProperty;
 }
@@ -4332,7 +4332,7 @@ function require_baseCreate() {
   hasRequired_baseCreate = 1;
   var isObject2 = requireIsObject();
   var objectCreate = Object.create;
-  var baseCreate = /* @__PURE__ */ function() {
+  var baseCreate = /* @__PURE__ */ (function() {
     function object() {
     }
     return function(proto2) {
@@ -4347,7 +4347,7 @@ function require_baseCreate() {
       object.prototype = void 0;
       return result;
     };
-  }();
+  })();
   _baseCreate = baseCreate;
   return _baseCreate;
 }
@@ -6112,7 +6112,7 @@ function isNumeric(val) {
 function isJSONString(str) {
   try {
     JSON.parse(str);
-  } catch (e2) {
+  } catch (e) {
     return false;
   }
   return true;
@@ -6127,7 +6127,7 @@ class IFXAPIService {
     if (cacheTimer) {
       try {
         clearInterval(cacheTimer);
-      } catch (e2) {
+      } catch (e) {
       }
     }
     cacheTimer = setInterval(() => {
@@ -6145,8 +6145,8 @@ class IFXAPIService {
     return this._store.vars;
   }
   get axios() {
-    this._axios.interceptors.request.use((c2) => {
-      const config = c2;
+    this._axios.interceptors.request.use((c) => {
+      const config = c;
       config.baseURL = this.urls.API_ROOT;
       if (this.auth.headerValue.trim().split(" ").length === 2) {
         config.headers.Authorization = this.auth.headerValue;
@@ -6294,7 +6294,7 @@ class IFXAPIService {
         if (cacheTimer) {
           try {
             clearInterval(cacheTimer);
-          } catch (e2) {
+          } catch (e) {
           }
         }
         this.storage.clear("session");
@@ -6444,7 +6444,7 @@ class IFXAPIService {
       const key = api.getKey(itemType, params);
       try {
         this.storage.setItem(key, data, "session");
-      } catch (e2) {
+      } catch (e) {
       }
     };
     api.get = (itemType, params) => {
@@ -6551,8 +6551,8 @@ class IFXAPIService {
         text: "School"
       }
     ];
-    api.getValidRankByValue = (value) => api.validRanks.find((r2) => r2.value === value);
-    api.getValidRankByText = (text) => api.validRanks.find((r2) => r2.text === text);
+    api.getValidRankByValue = (value) => api.validRanks.find((r) => r.value === value);
+    api.getValidRankByText = (text) => api.validRanks.find((r) => r.text === text);
     const orgUpdate = api.update;
     const orgSave = api.save;
     const orgDelete = api.delete;
@@ -6617,7 +6617,7 @@ class IFXAPIService {
       const url = this.urls.ORGANIZATION_NAMES;
       const orgNames = await this.axios.get(url, { params: { org_trees: "Harvard" } }).then((res) => res.data).then((objs) => {
         if (selector) {
-          return objs.map((o2) => o2[selector]);
+          return objs.map((o) => o[selector]);
         }
         return objs;
       });
@@ -6633,9 +6633,9 @@ class IFXAPIService {
           result.name = match[1];
           result.org_tree = match[2];
           const rank = match[3];
-          forEach(api.validRanks, (e2) => {
-            if (e2.text === rank) {
-              result.rank = e2.value;
+          forEach(api.validRanks, (e) => {
+            if (e.text === rank) {
+              result.rank = e.value;
             }
           });
         }
@@ -7166,7 +7166,7 @@ class ApiProxy {
       const raw = localStorage.getItem(localSettingsSaveId);
       const data = JSON.parse(raw);
       Object.assign(currentSettings, data);
-    } catch (e2) {
+    } catch (e) {
     }
     this.fallbacks = {
       getSettings() {
@@ -7175,7 +7175,7 @@ class ApiProxy {
       setSettings(value) {
         try {
           localStorage.setItem(localSettingsSaveId, JSON.stringify(value));
-        } catch (e2) {
+        } catch (e) {
         }
         currentSettings = value;
       },
@@ -7296,9 +7296,9 @@ function genericSubscribe(fn, subs, options) {
     options && options.prepend ? subs.unshift(fn) : subs.push(fn);
   }
   return function() {
-    var i2 = subs.indexOf(fn);
-    if (i2 > -1) {
-      subs.splice(i2, 1);
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
     }
   };
 }
@@ -7766,16 +7766,16 @@ function transformPathsToObjectTree(getters2) {
   return result;
 }
 function getStoreModule(moduleMap, path) {
-  var names = path.split("/").filter(function(n2) {
-    return n2;
+  var names = path.split("/").filter(function(n) {
+    return n;
   });
   return names.reduce(
-    function(module2, moduleName, i2) {
+    function(module2, moduleName, i) {
       var child = module2[moduleName];
       if (!child) {
         throw new Error('Missing module "' + moduleName + '" for path "' + path + '".');
       }
-      return i2 === names.length - 1 ? child : child._children;
+      return i === names.length - 1 ? child : child._children;
     },
     path === "root" ? moduleMap : moduleMap.root._children
   );
@@ -7783,8 +7783,8 @@ function getStoreModule(moduleMap, path) {
 function canThrow(cb) {
   try {
     return cb();
-  } catch (e2) {
-    return e2;
+  } catch (e) {
+    return e;
   }
 }
 var Module = function Module2(rawModule, runtime) {
@@ -8059,7 +8059,7 @@ Store.prototype.dispatch = function dispatch(_type, _payload) {
     }).forEach(function(sub) {
       return sub.before(action, this$1$1.state);
     });
-  } catch (e2) {
+  } catch (e) {
     if (process.env.NODE_ENV !== "production") {
     }
   }
@@ -8074,7 +8074,7 @@ Store.prototype.dispatch = function dispatch(_type, _payload) {
         }).forEach(function(sub) {
           return sub.after(action, this$1$1.state);
         });
-      } catch (e2) {
+      } catch (e) {
         if (process.env.NODE_ENV !== "production") {
         }
       }
@@ -8086,7 +8086,7 @@ Store.prototype.dispatch = function dispatch(_type, _payload) {
         }).forEach(function(sub) {
           return sub.error(action, this$1$1.state, error);
         });
-      } catch (e2) {
+      } catch (e) {
         if (process.env.NODE_ENV !== "production") {
         }
       }
@@ -8245,49 +8245,47 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
+function consoleWarn(message2) {
+  warn$1(`Vuetify: ${message2}`);
+}
+function consoleError(message2) {
+  warn$1(`Vuetify error: ${message2}`);
+}
+function deprecate$1(original, replacement) {
+  replacement = Array.isArray(replacement) ? replacement.slice(0, -1).map((s) => `'${s}'`).join(", ") + ` or '${replacement.at(-1)}'` : `'${replacement}'`;
+  warn$1(`[Vuetify UPGRADE] '${original}' is deprecated, use ${replacement} instead.`);
+}
 const IN_BROWSER = typeof window !== "undefined";
 const SUPPORTS_INTERSECTION = IN_BROWSER && "IntersectionObserver" in window;
-function _classPrivateFieldInitSpec(e2, t2, a2) {
-  _checkPrivateRedeclaration(e2, t2), t2.set(e2, a2);
+const SUPPORTS_MATCH_MEDIA = IN_BROWSER && "matchMedia" in window && typeof window.matchMedia === "function";
+const PREFERS_REDUCED_MOTION = () => SUPPORTS_MATCH_MEDIA && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function _classPrivateFieldInitSpec(e, t, a) {
+  _checkPrivateRedeclaration(e, t), t.set(e, a);
 }
-function _checkPrivateRedeclaration(e2, t2) {
-  if (t2.has(e2)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+function _checkPrivateRedeclaration(e, t) {
+  if (t.has(e)) throw new TypeError("Cannot initialize the same private elements twice on an object");
 }
-function _classPrivateFieldSet(s, a2, r2) {
-  return s.set(_assertClassBrand(s, a2), r2), r2;
+function _classPrivateFieldSet(s, a, r) {
+  return s.set(_assertClassBrand(s, a), r), r;
 }
-function _classPrivateFieldGet(s, a2) {
-  return s.get(_assertClassBrand(s, a2));
+function _classPrivateFieldGet(s, a) {
+  return s.get(_assertClassBrand(s, a));
 }
-function _assertClassBrand(e2, t2, n2) {
-  if ("function" == typeof e2 ? e2 === t2 : e2.has(t2)) return arguments.length < 3 ? t2 : n2;
+function _assertClassBrand(e, t, n) {
+  if ("function" == typeof e ? e === t : e.has(t)) return arguments.length < 3 ? t : n;
   throw new TypeError("Private element is not present on this object");
 }
 function getNestedValue(obj, path, fallback) {
   const last = path.length - 1;
   if (last < 0) return obj === void 0 ? fallback : obj;
-  for (let i2 = 0; i2 < last; i2++) {
+  for (let i = 0; i < last; i++) {
     if (obj == null) {
       return fallback;
     }
-    obj = obj[path[i2]];
+    obj = obj[path[i]];
   }
   if (obj == null) return fallback;
   return obj[path[last]] === void 0 ? fallback : obj[path[last]];
-}
-function deepEqual(a2, b) {
-  if (a2 === b) return true;
-  if (a2 instanceof Date && b instanceof Date && a2.getTime() !== b.getTime()) {
-    return false;
-  }
-  if (a2 !== Object(a2) || b !== Object(b)) {
-    return false;
-  }
-  const props = Object.keys(a2);
-  if (props.length !== Object.keys(b).length) {
-    return false;
-  }
-  return props.every((p) => deepEqual(a2[p], b[p]));
 }
 function getObjectValueByPath(obj, path, fallback) {
   if (obj == null || !path || typeof path !== "string") return fallback;
@@ -8347,25 +8345,6 @@ function refElement(obj) {
   }
   return obj;
 }
-const keyCodes = Object.freeze({
-  enter: 13,
-  tab: 9,
-  delete: 46,
-  esc: 27,
-  space: 32,
-  up: 38,
-  down: 40,
-  left: 37,
-  right: 39,
-  end: 35,
-  home: 36,
-  del: 46,
-  backspace: 8,
-  insert: 45,
-  pageup: 33,
-  pagedown: 34,
-  shift: 16
-});
 const keyValues = Object.freeze({
   enter: "Enter",
   tab: "Tab",
@@ -8385,8 +8364,8 @@ const keyValues = Object.freeze({
   pagedown: "PageDown",
   shift: "Shift"
 });
-function keys$1(o2) {
-  return Object.keys(o2);
+function keys$1(o) {
+  return Object.keys(o);
 }
 function has(obj, key) {
   return key.every((k) => obj.hasOwnProperty(k));
@@ -8423,8 +8402,8 @@ const onRE = /^on[^a-z]/;
 const isOn = (key) => onRE.test(key);
 const bubblingEvents = ["onAfterscriptexecute", "onAnimationcancel", "onAnimationend", "onAnimationiteration", "onAnimationstart", "onAuxclick", "onBeforeinput", "onBeforescriptexecute", "onChange", "onClick", "onCompositionend", "onCompositionstart", "onCompositionupdate", "onContextmenu", "onCopy", "onCut", "onDblclick", "onFocusin", "onFocusout", "onFullscreenchange", "onFullscreenerror", "onGesturechange", "onGestureend", "onGesturestart", "onGotpointercapture", "onInput", "onKeydown", "onKeypress", "onKeyup", "onLostpointercapture", "onMousedown", "onMousemove", "onMouseout", "onMouseover", "onMouseup", "onMousewheel", "onPaste", "onPointercancel", "onPointerdown", "onPointerenter", "onPointerleave", "onPointermove", "onPointerout", "onPointerover", "onPointerup", "onReset", "onSelect", "onSubmit", "onTouchcancel", "onTouchend", "onTouchmove", "onTouchstart", "onTransitioncancel", "onTransitionend", "onTransitionrun", "onTransitionstart", "onWheel"];
 const compositionIgnoreKeys = ["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "Enter", "Escape", "Tab", " "];
-function isComposingIgnoreKey(e2) {
-  return e2.isComposing && compositionIgnoreKeys.includes(e2.key);
+function isComposingIgnoreKey(e) {
+  return e.isComposing && compositionIgnoreKeys.includes(e.key);
 }
 function filterInputAttrs(attrs) {
   const [events, props] = pickWithRest(attrs, [onRE]);
@@ -8592,8 +8571,18 @@ function callEvent(handler) {
 }
 function focusableChildren(el) {
   let filterByTabIndex = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
-  const targets = ["button", "[href]", 'input:not([type="hidden"])', "select", "textarea", "[tabindex]"].map((s) => `${s}${filterByTabIndex ? ':not([tabindex="-1"])' : ""}:not([disabled])`).join(", ");
-  return [...el.querySelectorAll(targets)];
+  const targets = ["button", "[href]", 'input:not([type="hidden"])', "select", "textarea", "details:not(:has(> summary))", "details > summary", "[tabindex]", '[contenteditable]:not([contenteditable="false"])', "audio[controls]", "video[controls]"].map((s) => `${s}${filterByTabIndex ? ':not([tabindex="-1"])' : ""}:not([disabled], [inert])`).join(", ");
+  let elements;
+  try {
+    elements = [...el.querySelectorAll(targets)];
+  } catch (err) {
+    consoleError(String(err));
+    return [];
+  }
+  return elements.filter((x) => !x.closest("[inert]")).filter((x) => !!x.offsetParent || x.getClientRects().length > 0).filter((x) => {
+    var _a, _b;
+    return !((_a = x.parentElement) == null ? void 0 : _a.closest("details:not([open])")) || x.tagName === "SUMMARY" && ((_b = x.parentElement) == null ? void 0 : _b.tagName) === "DETAILS";
+  });
 }
 function getNextElement(elements, location, condition) {
   let _el;
@@ -8680,13 +8669,30 @@ function templateRef() {
   });
   return fn;
 }
-function checkPrintable(e2) {
-  const isPrintableChar = e2.key.length === 1;
-  const noModifier = !e2.ctrlKey && !e2.metaKey && !e2.altKey;
+function checkPrintable(e) {
+  const isPrintableChar = e.key.length === 1;
+  const noModifier = !e.ctrlKey && !e.metaKey && !e.altKey;
   return isPrintableChar && noModifier;
 }
 function isPrimitive(value) {
   return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
+}
+function escapeForRegex(sign2) {
+  return "\\^$*+?.()|{}[]".includes(sign2) ? `\\${sign2}` : sign2;
+}
+function camelizeProps(props) {
+  const out = {};
+  for (const prop in props) {
+    out[camelize(prop)] = props[prop];
+  }
+  return out;
+}
+function onlyDefinedProps(props) {
+  const booleanAttributes = ["checked", "disabled"];
+  return Object.fromEntries(Object.entries(props).filter((_ref) => {
+    let [key, v] = _ref;
+    return booleanAttributes.includes(key) ? !!v : v !== void 0;
+  }));
 }
 const block = ["top", "bottom"];
 const inline = ["start", "end", "left", "right"];
@@ -8739,17 +8745,19 @@ function getAxis(anchor) {
   return includes(block, anchor.side) ? "y" : "x";
 }
 class Box {
-  constructor(_ref) {
-    let {
+  constructor(args) {
+    const pageScale = document.body.currentCSSZoom ?? 1;
+    const factor = args instanceof DOMRect ? 1 + (1 - pageScale) / pageScale : 1;
+    const {
       x,
       y,
       width,
       height
-    } = _ref;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+    } = args;
+    this.x = x * factor;
+    this.y = y * factor;
+    this.width = width * factor;
+    this.height = height * factor;
   }
   get top() {
     return this.y;
@@ -8764,28 +8772,30 @@ class Box {
     return this.x + this.width;
   }
 }
-function getOverflow(a2, b) {
+function getOverflow(a, b) {
   return {
     x: {
-      before: Math.max(0, b.left - a2.left),
-      after: Math.max(0, a2.right - b.right)
+      before: Math.max(0, b.left - a.left),
+      after: Math.max(0, a.right - b.right)
     },
     y: {
-      before: Math.max(0, b.top - a2.top),
-      after: Math.max(0, a2.bottom - b.bottom)
+      before: Math.max(0, b.top - a.top),
+      after: Math.max(0, a.bottom - b.bottom)
     }
   };
 }
 function getTargetBox(target) {
   if (Array.isArray(target)) {
+    const pageScale = document.body.currentCSSZoom ?? 1;
+    const factor = 1 + (1 - pageScale) / pageScale;
     return new Box({
-      x: target[0],
-      y: target[1],
-      width: 0,
-      height: 0
+      x: target[0] * factor,
+      y: target[1] * factor,
+      width: 0 * factor,
+      height: 0 * factor
     });
   } else {
-    return target.getBoundingClientRect();
+    return new Box(target.getBoundingClientRect());
   }
 }
 function getElementBox(el) {
@@ -8798,11 +8808,12 @@ function getElementBox(el) {
         height: document.documentElement.clientHeight
       });
     } else {
+      const pageScale = document.body.currentCSSZoom ?? 1;
       return new Box({
         x: visualViewport.scale > 1 ? 0 : visualViewport.offsetLeft,
         y: visualViewport.scale > 1 ? 0 : visualViewport.offsetTop,
-        width: visualViewport.width * visualViewport.scale,
-        height: visualViewport.height * visualViewport.scale
+        width: visualViewport.width * visualViewport.scale / pageScale,
+        height: visualViewport.height * visualViewport.scale / pageScale
       });
     }
   } else {
@@ -8816,7 +8827,7 @@ function getElementBox(el) {
   }
 }
 function nullifyTransforms(el) {
-  const rect = el.getBoundingClientRect();
+  const rect = new Box(el.getBoundingClientRect());
   const style = getComputedStyle(el);
   const tx = style.transform;
   if (tx) {
@@ -8881,8 +8892,8 @@ function bindProps(el, props) {
       const handler = handlers.get(el);
       if (props[k] == null) {
         handler == null ? void 0 : handler.forEach((v) => {
-          const [n2, fn] = v;
-          if (n2 === name) {
+          const [n, fn] = v;
+          if (n === name) {
             el.removeEventListener(name, fn);
             handler.delete(v);
           }
@@ -8908,8 +8919,8 @@ function unbindProps(el, props) {
       const name = eventName(k);
       const handler = handlers.get(el);
       handler == null ? void 0 : handler.forEach((v) => {
-        const [n2, fn] = v;
-        if (n2 === name) {
+        const [n, fn] = v;
+        if (n === name) {
           el.removeEventListener(name, fn);
           handler.delete(v);
         }
@@ -8954,19 +8965,9 @@ function APCAcontrast(text, background) {
     outputContrast = SAPC < loClip ? 0 : SAPC < loConThresh ? SAPC - SAPC * loConFactor * loConOffset : SAPC - loConOffset;
   } else {
     const SAPC = (Ybg ** revBG - Ytxt ** revTXT) * scaleWoB;
-    outputContrast = SAPC > -1e-3 ? 0 : SAPC > -0.078 ? SAPC - SAPC * loConFactor * loConOffset : SAPC + loConOffset;
+    outputContrast = SAPC > -loClip ? 0 : SAPC > -loConThresh ? SAPC - SAPC * loConFactor * loConOffset : SAPC + loConOffset;
   }
   return outputContrast * 100;
-}
-function consoleWarn(message2) {
-  warn$1(`Vuetify: ${message2}`);
-}
-function consoleError(message2) {
-  warn$1(`Vuetify error: ${message2}`);
-}
-function deprecate$1(original, replacement) {
-  replacement = Array.isArray(replacement) ? replacement.slice(0, -1).map((s) => `'${s}'`).join(", ") + ` or '${replacement.at(-1)}'` : `'${replacement}'`;
-  warn$1(`[Vuetify UPGRADE] '${original}' is deprecated, use ${replacement} instead.`);
 }
 function isCssColor(color) {
   return !!color && /^(#|var\(--|(rgb|hsl)a?\()/.test(color);
@@ -8976,41 +8977,41 @@ function isParsableColor(color) {
 }
 const cssColorRe = /^(?<fn>(?:rgb|hsl)a?)\((?<values>.+)\)/;
 const mappers = {
-  rgb: (r2, g, b, a2) => ({
-    r: r2,
+  rgb: (r, g, b, a) => ({
+    r,
     g,
     b,
-    a: a2
+    a
   }),
-  rgba: (r2, g, b, a2) => ({
-    r: r2,
+  rgba: (r, g, b, a) => ({
+    r,
     g,
     b,
-    a: a2
+    a
   }),
-  hsl: (h2, s, l, a2) => HSLtoRGB({
+  hsl: (h2, s, l, a) => HSLtoRGB({
     h: h2,
     s,
     l,
-    a: a2
+    a
   }),
-  hsla: (h2, s, l, a2) => HSLtoRGB({
+  hsla: (h2, s, l, a) => HSLtoRGB({
     h: h2,
     s,
     l,
-    a: a2
+    a
   }),
-  hsv: (h2, s, v, a2) => HSVtoRGB({
+  hsv: (h2, s, v, a) => HSVtoRGB({
     h: h2,
     s,
     v,
-    a: a2
+    a
   }),
-  hsva: (h2, s, v, a2) => HSVtoRGB({
+  hsva: (h2, s, v, a) => HSVtoRGB({
     h: h2,
     s,
     v,
-    a: a2
+    a
   })
 };
 function parseColor(color) {
@@ -9031,9 +9032,9 @@ function parseColor(color) {
       fn,
       values
     } = groups;
-    const realValues = values.split(/,\s*|\s*\/\s*|\s+/).map((v, i2) => {
+    const realValues = values.split(/,\s*|\s*\/\s*|\s+/).map((v, i) => {
       if (v.endsWith("%") || // unitless slv are %
-      i2 > 0 && i2 < 3 && ["hsl", "hsla", "hsv", "hsva"].includes(fn)) {
+      i > 0 && i < 3 && ["hsl", "hsla", "hsv", "hsva"].includes(fn)) {
         return parseFloat(v) / 100;
       } else {
         return parseFloat(v);
@@ -9069,10 +9070,10 @@ function HSVtoRGB(hsva) {
     h: h2,
     s,
     v,
-    a: a2
+    a
   } = hsva;
-  const f = (n2) => {
-    const k = (n2 + h2 / 60) % 6;
+  const f = (n) => {
+    const k = (n + h2 / 60) % 6;
     return v - v * s * Math.max(Math.min(k, 4 - k, 1), 0);
   };
   const rgb = [f(5), f(3), f(1)].map((v2) => Math.round(v2 * 255));
@@ -9080,7 +9081,7 @@ function HSVtoRGB(hsva) {
     r: rgb[0],
     g: rgb[1],
     b: rgb[2],
-    a: a2
+    a
   };
 }
 function HSLtoRGB(hsla) {
@@ -9091,7 +9092,7 @@ function HSLtoHSV(hsl) {
     h: h2,
     s,
     l,
-    a: a2
+    a
   } = hsl;
   const v = l + s * Math.min(l, 1 - l);
   const sprime = v === 0 ? 0 : 2 - 2 * l / v;
@@ -9099,18 +9100,18 @@ function HSLtoHSV(hsl) {
     h: h2,
     s: sprime,
     v,
-    a: a2
+    a
   };
 }
 function HexToRGB(hex) {
   hex = parseHex(hex);
-  let [r2, g, b, a2] = chunk(hex, 2).map((c2) => parseInt(c2, 16));
-  a2 = a2 === void 0 ? a2 : a2 / 255;
+  let [r, g, b, a] = chunk(hex, 2).map((c) => parseInt(c, 16));
+  a = a === void 0 ? a : a / 255;
   return {
-    r: r2,
+    r,
     g,
     b,
-    a: a2
+    a
   };
 }
 function parseHex(hex) {
@@ -9204,7 +9205,7 @@ function provideDefaults(defaults2, options) {
     if (scoped) return properties;
     if (reset || root) {
       const len = Number(reset || Infinity);
-      for (let i2 = 0; i2 <= len; i2++) {
+      for (let i = 0; i <= len; i++) {
         if (!properties || !("prev" in properties)) {
           break;
         }
@@ -9337,6 +9338,46 @@ function createSimpleFunctional(klass) {
     }
   });
 }
+function updateRecursionCache(a, b, cache, result) {
+  if (!cache || isPrimitive(a) || isPrimitive(b)) return;
+  const visitedObject = cache.get(a);
+  if (visitedObject) {
+    visitedObject.set(b, result);
+  } else {
+    const newCacheItem = /* @__PURE__ */ new WeakMap();
+    newCacheItem.set(b, result);
+    cache.set(a, newCacheItem);
+  }
+}
+function findCachedComparison(a, b, cache) {
+  var _a, _b;
+  if (!cache || isPrimitive(a) || isPrimitive(b)) return null;
+  const r1 = (_a = cache.get(a)) == null ? void 0 : _a.get(b);
+  if (typeof r1 === "boolean") return r1;
+  const r2 = (_b = cache.get(b)) == null ? void 0 : _b.get(a);
+  if (typeof r2 === "boolean") return r2;
+  return null;
+}
+function deepEqual(a, b) {
+  let recursionCache = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : /* @__PURE__ */ new WeakMap();
+  if (a === b) return true;
+  if (a instanceof Date && b instanceof Date && a.getTime() !== b.getTime()) {
+    return false;
+  }
+  if (a !== Object(a) || b !== Object(b)) {
+    return false;
+  }
+  const props = Object.keys(a);
+  if (props.length !== Object.keys(b).length) {
+    return false;
+  }
+  const cachedComparisonResult = findCachedComparison(a, b, recursionCache);
+  if (cachedComparisonResult) {
+    return cachedComparisonResult;
+  }
+  updateRecursionCache(a, b, recursionCache, true);
+  return props.every((p) => deepEqual(a[p], b[p], recursionCache));
+}
 function attachedRoot(node) {
   if (typeof node.getRootNode !== "function") {
     while (node.parentNode) node = node.parentNode;
@@ -9352,9 +9393,25 @@ function attachedRoot(node) {
 const standardEasing = "cubic-bezier(0.4, 0, 0.2, 1)";
 const deceleratedEasing = "cubic-bezier(0.0, 0, 0.2, 1)";
 const acceleratedEasing = "cubic-bezier(0.4, 0, 1, 1)";
+const easingPatterns = {
+  linear: (t) => t,
+  easeInQuad: (t) => t ** 2,
+  easeOutQuad: (t) => t * (2 - t),
+  easeInOutQuad: (t) => t < 0.5 ? 2 * t ** 2 : -1 + (4 - 2 * t) * t,
+  easeInCubic: (t) => t ** 3,
+  easeOutCubic: (t) => --t ** 3 + 1,
+  easeInOutCubic: (t) => t < 0.5 ? 4 * t ** 3 : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+  easeInQuart: (t) => t ** 4,
+  easeOutQuart: (t) => 1 - --t ** 4,
+  easeInOutQuart: (t) => t < 0.5 ? 8 * t ** 4 : 1 - 8 * --t ** 4,
+  easeInQuint: (t) => t ** 5,
+  easeOutQuint: (t) => 1 + --t ** 5,
+  easeInOutQuint: (t) => t < 0.5 ? 16 * t ** 5 : 1 + 16 * --t ** 5,
+  instant: (t) => 1
+};
 function getPrefixedEventHandlers(attrs, suffix, getData) {
   return Object.keys(attrs).filter((key) => isOn(key) && key.endsWith(suffix)).reduce((acc, key) => {
-    acc[key.slice(0, -suffix.length)] = (event) => attrs[key](event, getData(event));
+    acc[key.slice(0, -suffix.length)] = (event) => callEvent(attrs[key], event, getData(event));
     return acc;
   }, {});
 }
@@ -9379,7 +9436,9 @@ function getScrollParents(el, stopAt) {
 function hasScrollbar(el) {
   if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
   const style = window.getComputedStyle(el);
-  return style.overflowY === "scroll" || style.overflowY === "auto" && el.scrollHeight > el.clientHeight;
+  const hasVerticalScrollbar = style.overflowY === "scroll" || style.overflowY === "auto" && el.scrollHeight > el.clientHeight;
+  const hasHorizontalScrollbar = style.overflowX === "scroll" || style.overflowX === "auto" && el.scrollWidth > el.clientWidth;
+  return hasVerticalScrollbar || hasHorizontalScrollbar;
 }
 function isPotentiallyScrollable(el) {
   if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
@@ -9398,6 +9457,48 @@ function isFixedPosition(el) {
 function useRender(render) {
   const vm = getCurrentInstance("useRender");
   vm.render = render;
+}
+function throttle(fn, delay) {
+  let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {
+    leading: true,
+    trailing: true
+  };
+  let timeoutId = 0;
+  let lastExec = 0;
+  let throttling = false;
+  let start = 0;
+  function clear() {
+    clearTimeout(timeoutId);
+    throttling = false;
+    start = 0;
+  }
+  const wrap = function() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    clearTimeout(timeoutId);
+    const now2 = Date.now();
+    if (!start) start = now2;
+    const elapsed = now2 - Math.max(start, lastExec);
+    function invoke() {
+      lastExec = Date.now();
+      timeoutId = setTimeout(clear, delay);
+      fn(...args);
+    }
+    if (!throttling) {
+      throttling = true;
+      if (options.leading) {
+        invoke();
+      }
+    } else if (elapsed >= delay) {
+      invoke();
+    } else if (options.trailing) {
+      timeoutId = setTimeout(invoke, delay - elapsed);
+    }
+  };
+  wrap.clear = clear;
+  wrap.immediate = fn;
+  return wrap;
 }
 const makeBorderProps = propsFactory({
   border: [Boolean, Number, String]
@@ -9466,16 +9567,16 @@ function useRounded(props) {
   let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
   const roundedClasses = computed(() => {
     const rounded = isRef(props) ? props.value : props.rounded;
-    const tile = isRef(props) ? props.value : props.tile;
+    const tile = isRef(props) ? false : props.tile;
     const classes = [];
-    if (rounded === true || rounded === "") {
+    if (tile || rounded === false) {
+      classes.push("rounded-0");
+    } else if (rounded === true || rounded === "") {
       classes.push(`${name}--rounded`);
     } else if (typeof rounded === "string" || rounded === 0) {
       for (const value of String(rounded).split(" ")) {
         classes.push(`rounded-${value}`);
       }
-    } else if (tile || rounded === false) {
-      classes.push("rounded-0");
     }
     return classes;
   });
@@ -9499,7 +9600,7 @@ function provideTheme(props) {
   if (!theme) throw new Error("Could not find Vuetify theme injection");
   const name = toRef(() => props.theme ?? theme.name.value);
   const current = toRef(() => theme.themes.value[name.value]);
-  const themeClasses = toRef(() => theme.isDisabled ? void 0 : `v-theme--${name.value}`);
+  const themeClasses = toRef(() => theme.isDisabled ? void 0 : `${theme.prefix}theme--${name.value}`);
   const newTheme = {
     ...theme,
     name,
@@ -9517,35 +9618,13 @@ function useTheme() {
 }
 function useColor(colors) {
   return destructComputed(() => {
-    const _colors = toValue(colors);
-    const classes = [];
-    const styles = {};
-    if (_colors.background) {
-      if (isCssColor(_colors.background)) {
-        styles.backgroundColor = _colors.background;
-        if (!_colors.text && isParsableColor(_colors.background)) {
-          const backgroundColor = parseColor(_colors.background);
-          if (backgroundColor.a == null || backgroundColor.a === 1) {
-            const textColor = getForeground(backgroundColor);
-            styles.color = textColor;
-            styles.caretColor = textColor;
-          }
-        }
-      } else {
-        classes.push(`bg-${_colors.background}`);
-      }
-    }
-    if (_colors.text) {
-      if (isCssColor(_colors.text)) {
-        styles.color = _colors.text;
-        styles.caretColor = _colors.text;
-      } else {
-        classes.push(`text-${_colors.text}`);
-      }
-    }
+    const {
+      class: colorClasses,
+      style: colorStyles
+    } = computeColor(colors);
     return {
-      colorClasses: classes,
-      colorStyles: styles
+      colorClasses,
+      colorStyles
     };
   });
 }
@@ -9571,6 +9650,38 @@ function useBackgroundColor(color) {
   return {
     backgroundColorClasses,
     backgroundColorStyles
+  };
+}
+function computeColor(colors) {
+  const _colors = toValue(colors);
+  const classes = [];
+  const styles = {};
+  if (_colors.background) {
+    if (isCssColor(_colors.background)) {
+      styles.backgroundColor = _colors.background;
+      if (!_colors.text && isParsableColor(_colors.background)) {
+        const backgroundColor = parseColor(_colors.background);
+        if (backgroundColor.a == null || backgroundColor.a === 1) {
+          const textColor = getForeground(backgroundColor);
+          styles.color = textColor;
+          styles.caretColor = textColor;
+        }
+      }
+    } else {
+      classes.push(`bg-${_colors.background}`);
+    }
+  }
+  if (_colors.text) {
+    if (isCssColor(_colors.text)) {
+      styles.color = _colors.text;
+      styles.caretColor = _colors.text;
+    } else {
+      classes.push(`text-${_colors.text}`);
+    }
+  }
+  return {
+    class: classes,
+    style: styles
   };
 }
 const allowedVariants$1 = ["elevated", "flat", "tonal", "outlined", "text", "plain"];
@@ -9620,6 +9731,10 @@ function useVariant(props) {
 const makeVBtnGroupProps = propsFactory({
   baseColor: String,
   divided: Boolean,
+  direction: {
+    type: String,
+    default: "horizontal"
+  },
   ...makeBorderProps(),
   ...makeComponentProps(),
   ...makeDensityProps(),
@@ -9653,7 +9768,7 @@ const VBtnGroup = genericComponent()({
     } = useRounded(props);
     provideDefaults({
       VBtn: {
-        height: "auto",
+        height: toRef(() => props.direction === "horizontal" ? "auto" : null),
         baseColor: toRef(() => props.baseColor),
         color: toRef(() => props.color),
         density: toRef(() => props.density),
@@ -9663,7 +9778,7 @@ const VBtnGroup = genericComponent()({
     });
     useRender(() => {
       return createVNode(props.tag, {
-        "class": normalizeClass(["v-btn-group", {
+        "class": normalizeClass(["v-btn-group", `v-btn-group--${props.direction}`, {
           "v-btn-group--divided": props.divided
         }, themeClasses.value, borderClasses.value, densityClasses.value, elevationClasses.value, roundedClasses.value, props.class]),
         "style": normalizeStyle(props.style)
@@ -9766,14 +9881,18 @@ function useGroupItem(props, injectKey) {
   }
   const value = toRef(() => props.value);
   const disabled = computed(() => !!(group.disabled.value || props.disabled));
-  group.register({
-    id,
-    value,
-    disabled
-  }, vm);
-  onBeforeUnmount(() => {
-    group.unregister(id);
-  });
+  function register2() {
+    group == null ? void 0 : group.register({
+      id,
+      value,
+      disabled
+    }, vm);
+  }
+  function unregister2() {
+    group == null ? void 0 : group.unregister(id);
+  }
+  register2();
+  onBeforeUnmount(() => unregister2());
   const isSelected = computed(() => {
     return group.isSelected(id);
   });
@@ -9801,15 +9920,17 @@ function useGroupItem(props, injectKey) {
     selectedClass,
     value,
     disabled,
-    group
+    group,
+    register: register2,
+    unregister: unregister2
   };
 }
 function useGroup(props, injectKey) {
   let isUnmounted = false;
   const items = reactive([]);
   const selected = useProxiedModel(props, "modelValue", [], (v) => {
-    if (v == null) return [];
-    return getIds(items, wrapInArray(v));
+    if (v === void 0) return [];
+    return getIds(items, v === null ? [null] : wrapInArray(v));
   }, (v) => {
     const arr = getValues(items, v);
     return props.multiple ? arr : arr[0];
@@ -9820,7 +9941,7 @@ function useGroup(props, injectKey) {
     const key = Symbol.for(`${injectKey.description}:id`);
     const children = findChildrenWithProvide(key, groupVm == null ? void 0 : groupVm.vnode);
     const index = children.indexOf(vm);
-    if (unref(unwrapped.value) == null) {
+    if (unref(unwrapped.value) === void 0) {
       unwrapped.value = index;
       unwrapped.useIndexAsValue = true;
     }
@@ -9849,9 +9970,9 @@ function useGroup(props, injectKey) {
     isUnmounted = true;
   });
   onUpdated(() => {
-    for (let i2 = 0; i2 < items.length; i2++) {
-      if (items[i2].useIndexAsValue) {
-        items[i2].value = i2;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].useIndexAsValue) {
+        items[i].value = i;
       }
     }
   });
@@ -9871,6 +9992,7 @@ function useGroup(props, injectKey) {
     } else {
       const isSelected = selected.value.includes(id);
       if (props.mandatory && isSelected) return;
+      if (!isSelected && !value) return;
       selected.value = value ?? !isSelected ? [id] : [];
     }
   }
@@ -9881,7 +10003,7 @@ function useGroup(props, injectKey) {
       item && (selected.value = [item.id]);
     } else {
       const currentId = selected.value[0];
-      const currentIndex = items.findIndex((i2) => i2.id === currentId);
+      const currentIndex = items.findIndex((i) => i.id === currentId);
       let newIndex = (currentIndex + offset2) % items.length;
       let newItem = items[newIndex];
       while (newItem.disabled && newIndex !== currentIndex) {
@@ -9918,9 +10040,9 @@ function getIds(items, modelValue) {
   modelValue.forEach((value) => {
     const item = items.find((item2) => deepEqual(value, item2.value));
     const itemByIndex = items[value];
-    if ((item == null ? void 0 : item.value) != null) {
+    if ((item == null ? void 0 : item.value) !== void 0) {
       ids.push(item.id);
-    } else if (itemByIndex != null) {
+    } else if (itemByIndex == null ? void 0 : itemByIndex.useIndexAsValue) {
       ids.push(itemByIndex.id);
     }
   });
@@ -9932,7 +10054,7 @@ function getValues(items, ids) {
     const itemIndex = items.findIndex((item) => item.id === id);
     if (~itemIndex) {
       const item = items[itemIndex];
-      values.push(item.value != null ? item.value : itemIndex);
+      values.push(item.value !== void 0 ? item.value : itemIndex);
     }
   });
   return values;
@@ -10243,7 +10365,7 @@ function useIntersectionObserver(callback, options) {
     const observer = new IntersectionObserver((entries) => {
       isIntersecting.value = !!entries.find((entry) => entry.isIntersecting);
     }, options);
-    onBeforeUnmount(() => {
+    onScopeDispose(() => {
       observer.disconnect();
     });
     watch(intersectionRef, (newValue, oldValue) => {
@@ -10366,7 +10488,7 @@ const VProgressCircular = genericComponent()({
       "class": normalizeClass(["v-progress-circular", {
         "v-progress-circular--indeterminate": !!props.indeterminate,
         "v-progress-circular--visible": isIntersecting.value,
-        "v-progress-circular--disable-shrink": props.indeterminate === "disable-shrink"
+        "v-progress-circular--disable-shrink": props.indeterminate && (props.indeterminate === "disable-shrink" || PREFERS_REDUCED_MOTION())
       }, themeClasses.value, sizeClasses.value, textColorClasses.value, props.class]),
       "style": normalizeStyle([sizeStyles.value, textColorStyles.value, props.style]),
       "role": "progressbar",
@@ -10375,9 +10497,9 @@ const VProgressCircular = genericComponent()({
       "aria-valuenow": props.indeterminate ? void 0 : normalizedValue.value
     }, {
       default: () => [createElementVNode("svg", {
-        "style": normalizeStyle({
+        "style": {
           transform: `rotate(calc(-90deg + ${Number(props.rotate)}deg))`
-        }),
+        },
         "xmlns": "http://www.w3.org/2000/svg",
         "viewBox": `0 0 ${diameter.value} ${diameter.value}`
       }, [createElementVNode("circle", {
@@ -10508,6 +10630,63 @@ function useLocation(props) {
     locationStyles
   };
 }
+const makeChunksProps = propsFactory({
+  chunkCount: {
+    type: [Number, String],
+    default: null
+  },
+  chunkWidth: {
+    type: [Number, String],
+    default: null
+  },
+  chunkGap: {
+    type: [Number, String],
+    default: 4
+  }
+}, "chunks");
+function useChunks(props, containerWidth) {
+  const hasChunks = toRef(() => !!props.chunkCount || !!props.chunkWidth);
+  const chunkWidth = computed(() => {
+    const containerSize = toValue(containerWidth);
+    if (!containerSize) {
+      return 0;
+    }
+    if (!props.chunkCount) {
+      return Number(props.chunkWidth);
+    }
+    const count = Number(props.chunkCount);
+    const availableWidth = containerSize - Number(props.chunkGap) * (count - 1);
+    return availableWidth / count;
+  });
+  const chunkGap = toRef(() => Number(props.chunkGap));
+  const chunksMaskStyles = computed(() => {
+    if (!hasChunks.value) {
+      return {};
+    }
+    const chunkGapPx = convertToUnit(chunkGap.value);
+    const chunkWidthPx = convertToUnit(chunkWidth.value);
+    return {
+      maskRepeat: "repeat-x",
+      maskImage: `linear-gradient(90deg, #000, #000 ${chunkWidthPx}, transparent ${chunkWidthPx}, transparent)`,
+      maskSize: `calc(${chunkWidthPx} + ${chunkGapPx}) 100%`
+    };
+  });
+  function snapValueToChunk(val) {
+    const containerSize = toValue(containerWidth);
+    if (!containerSize) {
+      return val;
+    }
+    const gapRelativeSize = 100 * chunkGap.value / containerSize;
+    const chunkRelativeSize = 100 * (chunkWidth.value + chunkGap.value) / containerSize;
+    const filledChunks = Math.floor((val + gapRelativeSize) / chunkRelativeSize);
+    return clamp(0, filledChunks * chunkRelativeSize - gapRelativeSize / 2, 100);
+  }
+  return {
+    hasChunks,
+    chunksMaskStyles,
+    snapValueToChunk
+  };
+}
 const makeVProgressLinearProps = propsFactory({
   absolute: Boolean,
   active: {
@@ -10542,6 +10721,7 @@ const makeVProgressLinearProps = propsFactory({
   stream: Boolean,
   striped: Boolean,
   roundedBar: Boolean,
+  ...makeChunksProps(),
   ...makeComponentProps(),
   ...makeLocationProps({
     location: "top"
@@ -10557,10 +10737,10 @@ const VProgressLinear = genericComponent()({
     "update:modelValue": (value) => true
   },
   setup(props, _ref) {
-    var _a;
     let {
       slots
     } = _ref;
+    const root = ref();
     const progress = useProxiedModel(props, "modelValue");
     const {
       isRtl,
@@ -10601,26 +10781,47 @@ const VProgressLinear = genericComponent()({
     const normalizedValue = computed(() => clamp(parseFloat(progress.value) / max2.value * 100, 0, 100));
     const isReversed = computed(() => isRtl.value !== props.reverse);
     const transition = computed(() => props.indeterminate ? "fade-transition" : "slide-x-transition");
-    const isForcedColorsModeActive = IN_BROWSER && ((_a = window.matchMedia) == null ? void 0 : _a.call(window, "(forced-colors: active)").matches);
-    function handleClick(e2) {
+    const containerWidth = shallowRef(0);
+    const {
+      hasChunks,
+      chunksMaskStyles,
+      snapValueToChunk
+    } = useChunks(props, containerWidth);
+    useToggleScope(hasChunks, () => {
+      const {
+        resizeRef
+      } = useResizeObserver((entries) => containerWidth.value = entries[0].contentRect.width);
+      watchEffect(() => resizeRef.value = root.value);
+    });
+    const bufferWidth = computed(() => {
+      return hasChunks.value ? snapValueToChunk(normalizedBuffer.value) : normalizedBuffer.value;
+    });
+    const barWidth = computed(() => {
+      return hasChunks.value ? snapValueToChunk(normalizedValue.value) : normalizedValue.value;
+    });
+    function handleClick(e) {
       if (!intersectionRef.value) return;
       const {
         left,
         right,
         width
       } = intersectionRef.value.getBoundingClientRect();
-      const value = isReversed.value ? width - e2.clientX + (right - width) : e2.clientX - left;
+      const value = isReversed.value ? width - e.clientX + (right - width) : e.clientX - left;
       progress.value = Math.round(value / width * max2.value);
     }
+    watchEffect(() => {
+      intersectionRef.value = root.value;
+    });
     useRender(() => createVNode(props.tag, {
-      "ref": intersectionRef,
+      "ref": root,
       "class": normalizeClass(["v-progress-linear", {
         "v-progress-linear--absolute": props.absolute,
         "v-progress-linear--active": props.active && isIntersecting.value,
         "v-progress-linear--reverse": isReversed.value,
         "v-progress-linear--rounded": props.rounded,
         "v-progress-linear--rounded-bar": props.roundedBar,
-        "v-progress-linear--striped": props.striped
+        "v-progress-linear--striped": props.striped,
+        "v-progress-linear--clickable": props.clickable
       }, roundedClasses.value, themeClasses.value, rtlClasses.value, props.class]),
       "style": normalizeStyle([{
         bottom: props.location === "bottom" ? 0 : void 0,
@@ -10628,7 +10829,7 @@ const VProgressLinear = genericComponent()({
         height: props.active ? convertToUnit(height.value) : 0,
         "--v-progress-linear-height": convertToUnit(height.value),
         ...props.absolute ? locationStyles.value : {}
-      }, props.style]),
+      }, chunksMaskStyles.value, props.style]),
       "role": "progressbar",
       "aria-hidden": props.active ? "false" : "true",
       "aria-valuemin": "0",
@@ -10639,7 +10840,7 @@ const VProgressLinear = genericComponent()({
       default: () => [props.stream && createElementVNode("div", {
         "key": "stream",
         "class": normalizeClass(["v-progress-linear__stream", textColorClasses.value]),
-        "style": normalizeStyle({
+        "style": {
           ...textColorStyles.value,
           [isReversed.value ? "left" : "right"]: convertToUnit(-height.value),
           borderTop: `${convertToUnit(height.value / 2)} dotted`,
@@ -10647,32 +10848,32 @@ const VProgressLinear = genericComponent()({
           top: `calc(50% - ${convertToUnit(height.value / 4)})`,
           width: convertToUnit(100 - normalizedBuffer.value, "%"),
           "--v-progress-linear-stream-to": convertToUnit(height.value * (isReversed.value ? 1 : -1))
-        })
+        }
       }, null), createElementVNode("div", {
-        "class": normalizeClass(["v-progress-linear__background", !isForcedColorsModeActive ? backgroundColorClasses.value : void 0]),
+        "class": normalizeClass(["v-progress-linear__background", backgroundColorClasses.value]),
         "style": normalizeStyle([backgroundColorStyles.value, {
           opacity: parseFloat(props.bgOpacity),
           width: props.stream ? 0 : void 0
         }])
       }, null), createElementVNode("div", {
-        "class": normalizeClass(["v-progress-linear__buffer", !isForcedColorsModeActive ? bufferColorClasses.value : void 0]),
+        "class": normalizeClass(["v-progress-linear__buffer", bufferColorClasses.value]),
         "style": normalizeStyle([bufferColorStyles.value, {
           opacity: parseFloat(props.bufferOpacity),
-          width: convertToUnit(normalizedBuffer.value, "%")
+          width: convertToUnit(bufferWidth.value, "%")
         }])
       }, null), createVNode(Transition, {
         "name": transition.value
       }, {
         default: () => [!props.indeterminate ? createElementVNode("div", {
-          "class": normalizeClass(["v-progress-linear__determinate", !isForcedColorsModeActive ? barColorClasses.value : void 0]),
+          "class": normalizeClass(["v-progress-linear__determinate", barColorClasses.value]),
           "style": normalizeStyle([barColorStyles.value, {
-            width: convertToUnit(normalizedValue.value, "%")
+            width: convertToUnit(barWidth.value, "%")
           }])
         }, null) : createElementVNode("div", {
           "class": "v-progress-linear__indeterminate"
         }, [["long", "short"].map((bar) => createElementVNode("div", {
           "key": bar,
-          "class": normalizeClass(["v-progress-linear__indeterminate", bar, !isForcedColorsModeActive ? barColorClasses.value : void 0]),
+          "class": normalizeClass(["v-progress-linear__indeterminate", bar, barColorClasses.value]),
           "style": normalizeStyle(barColorStyles.value)
         }, null))])]
       }), slots.default && createElementVNode("div", {
@@ -10756,6 +10957,7 @@ function useLink(props, attrs) {
     const href2 = toRef(() => props.href);
     return {
       isLink,
+      isRouterLink: toRef(() => false),
       isClickable,
       href: href2,
       linkProps: reactive({
@@ -10780,8 +10982,10 @@ function useLink(props, attrs) {
     var _a2;
     return props.to ? (_a2 = link.value) == null ? void 0 : _a2.route.value.href : props.href;
   });
+  const isRouterLink = toRef(() => !!props.to);
   return {
     isLink,
+    isRouterLink,
     isClickable,
     isActive,
     route: (_a = link.value) == null ? void 0 : _a.route,
@@ -10789,7 +10993,9 @@ function useLink(props, attrs) {
     href,
     linkProps: reactive({
       href,
-      "aria-current": toRef(() => isActive.value ? "page" : void 0)
+      "aria-current": toRef(() => isActive.value ? "page" : void 0),
+      "aria-disabled": toRef(() => props.disabled && isLink.value ? "true" : void 0),
+      tabindex: toRef(() => props.disabled && isLink.value ? "-1" : void 0)
     })
   };
 }
@@ -10825,9 +11031,9 @@ function useBackButton(router, cb) {
       removeAfter == null ? void 0 : removeAfter();
     });
   }
-  function onPopstate(e2) {
+  function onPopstate(e) {
     var _a;
-    if ((_a = e2.state) == null ? void 0 : _a.replaced) return;
+    if ((_a = e.state) == null ? void 0 : _a.replaced) return;
     popped = true;
     setTimeout(() => popped = false);
   }
@@ -10837,9 +11043,9 @@ function useSelectLink(link, select) {
     var _a;
     return (_a = link.isActive) == null ? void 0 : _a.value;
   }, (isActive) => {
-    if (link.isLink.value && isActive && select) {
+    if (link.isLink.value && isActive != null && select) {
       nextTick(() => {
-        select(true);
+        select(isActive);
       });
     }
   }, {
@@ -10852,20 +11058,20 @@ function transform(el, value) {
   el.style.transform = value;
   el.style.webkitTransform = value;
 }
-function isTouchEvent(e2) {
-  return e2.constructor.name === "TouchEvent";
+function isTouchEvent(e) {
+  return e.constructor.name === "TouchEvent";
 }
-function isKeyboardEvent(e2) {
-  return e2.constructor.name === "KeyboardEvent";
+function isKeyboardEvent(e) {
+  return e.constructor.name === "KeyboardEvent";
 }
-const calculate = function(e2, el) {
+const calculate = function(e, el) {
   var _a;
   let value = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
   let localX = 0;
   let localY = 0;
-  if (!isKeyboardEvent(e2)) {
+  if (!isKeyboardEvent(e)) {
     const offset2 = el.getBoundingClientRect();
-    const target = isTouchEvent(e2) ? e2.touches[e2.touches.length - 1] : e2;
+    const target = isTouchEvent(e) ? e.touches[e.touches.length - 1] : e;
     localX = target.clientX - offset2.left;
     localY = target.clientY - offset2.top;
   }
@@ -10893,7 +11099,7 @@ const calculate = function(e2, el) {
 };
 const ripples = {
   /* eslint-disable max-statements */
-  show(e2, el) {
+  show(e, el) {
     var _a;
     let value = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
     if (!((_a = el == null ? void 0 : el._ripple) == null ? void 0 : _a.enabled)) {
@@ -10913,7 +11119,7 @@ const ripples = {
       y,
       centerX,
       centerY
-    } = calculate(e2, el, value);
+    } = calculate(e, el, value);
     const size = `${radius * 2}px`;
     animation.className = "v-ripple__animation";
     animation.style.width = size;
@@ -10941,8 +11147,8 @@ const ripples = {
     if (!((_a = el == null ? void 0 : el._ripple) == null ? void 0 : _a.enabled)) return;
     const ripples2 = el.getElementsByClassName("v-ripple__animation");
     if (ripples2.length === 0) return;
-    const animation = ripples2[ripples2.length - 1];
-    if (animation.dataset.isHiding) return;
+    const animation = Array.from(ripples2).findLast((ripple) => !ripple.dataset.isHiding);
+    if (!animation) return;
     else animation.dataset.isHiding = "true";
     const diff2 = performance.now() - Number(animation.dataset.activated);
     const delay = Math.max(250 - diff2, 0);
@@ -10964,25 +11170,25 @@ const ripples = {
 function isRippleEnabled(value) {
   return typeof value === "undefined" || !!value;
 }
-function rippleShow(e2) {
+function rippleShow(e) {
   const value = {};
-  const element = e2.currentTarget;
-  if (!(element == null ? void 0 : element._ripple) || element._ripple.touched || e2[stopSymbol]) return;
-  e2[stopSymbol] = true;
-  if (isTouchEvent(e2)) {
+  const element = e.currentTarget;
+  if (!(element == null ? void 0 : element._ripple) || element._ripple.touched || e[stopSymbol]) return;
+  e[stopSymbol] = true;
+  if (isTouchEvent(e)) {
     element._ripple.touched = true;
     element._ripple.isTouch = true;
   } else {
     if (element._ripple.isTouch) return;
   }
-  value.center = element._ripple.centered || isKeyboardEvent(e2);
+  value.center = element._ripple.centered || isKeyboardEvent(e);
   if (element._ripple.class) {
     value.class = element._ripple.class;
   }
-  if (isTouchEvent(e2)) {
+  if (isTouchEvent(e)) {
     if (element._ripple.showTimerCommit) return;
     element._ripple.showTimerCommit = () => {
-      ripples.show(e2, element, value);
+      ripples.show(e, element, value);
     };
     element._ripple.showTimer = window.setTimeout(() => {
       var _a;
@@ -10992,21 +11198,21 @@ function rippleShow(e2) {
       }
     }, DELAY_RIPPLE);
   } else {
-    ripples.show(e2, element, value);
+    ripples.show(e, element, value);
   }
 }
-function rippleStop(e2) {
-  e2[stopSymbol] = true;
+function rippleStop(e) {
+  e[stopSymbol] = true;
 }
-function rippleHide(e2) {
-  const element = e2.currentTarget;
+function rippleHide(e) {
+  const element = e.currentTarget;
   if (!(element == null ? void 0 : element._ripple)) return;
   window.clearTimeout(element._ripple.showTimer);
-  if (e2.type === "touchend" && element._ripple.showTimerCommit) {
+  if (e.type === "touchend" && element._ripple.showTimerCommit) {
     element._ripple.showTimerCommit();
     element._ripple.showTimerCommit = null;
     element._ripple.showTimer = window.setTimeout(() => {
-      rippleHide(e2);
+      rippleHide(e);
     });
     return;
   }
@@ -11017,8 +11223,8 @@ function rippleHide(e2) {
   });
   ripples.hide(element);
 }
-function rippleCancelShow(e2) {
-  const element = e2.currentTarget;
+function rippleCancelShow(e) {
+  const element = e.currentTarget;
   if (!(element == null ? void 0 : element._ripple)) return;
   if (element._ripple.showTimerCommit) {
     element._ripple.showTimerCommit = null;
@@ -11026,20 +11232,20 @@ function rippleCancelShow(e2) {
   window.clearTimeout(element._ripple.showTimer);
 }
 let keyboardRipple = false;
-function keyboardRippleShow(e2) {
-  if (!keyboardRipple && (e2.keyCode === keyCodes.enter || e2.keyCode === keyCodes.space)) {
+function keyboardRippleShow(e, keys2) {
+  if (!keyboardRipple && keys2.includes(e.key)) {
     keyboardRipple = true;
-    rippleShow(e2);
+    rippleShow(e);
   }
 }
-function keyboardRippleHide(e2) {
+function keyboardRippleHide(e) {
   keyboardRipple = false;
-  rippleHide(e2);
+  rippleHide(e);
 }
-function focusRippleHide(e2) {
+function focusRippleHide(e) {
   if (keyboardRipple) {
     keyboardRipple = false;
-    rippleHide(e2);
+    rippleHide(e);
   }
 }
 function updateRipple(el, binding, wasEnabled) {
@@ -11055,9 +11261,12 @@ function updateRipple(el, binding, wasEnabled) {
   el._ripple.enabled = enabled;
   el._ripple.centered = modifiers.center;
   el._ripple.circle = modifiers.circle;
-  if (isObject$1(value) && value.class) {
-    el._ripple.class = value.class;
+  const bindingValue = isObject$1(value) ? value : {};
+  if (bindingValue.class) {
+    el._ripple.class = bindingValue.class;
   }
+  const allowedKeys = bindingValue.keys ?? ["Enter", "Space"];
+  el._ripple.keyDownHandler = (e) => keyboardRippleShow(e, allowedKeys);
   if (enabled && !wasEnabled) {
     if (modifiers.stop) {
       el.addEventListener("touchstart", rippleStop, {
@@ -11079,7 +11288,7 @@ function updateRipple(el, binding, wasEnabled) {
     el.addEventListener("mousedown", rippleShow);
     el.addEventListener("mouseup", rippleHide);
     el.addEventListener("mouseleave", rippleHide);
-    el.addEventListener("keydown", keyboardRippleShow);
+    el.addEventListener("keydown", (e) => keyboardRippleShow(e, allowedKeys));
     el.addEventListener("keyup", keyboardRippleHide);
     el.addEventListener("blur", focusRippleHide);
     el.addEventListener("dragstart", rippleHide, {
@@ -11090,6 +11299,7 @@ function updateRipple(el, binding, wasEnabled) {
   }
 }
 function removeListeners(el) {
+  var _a;
   el.removeEventListener("mousedown", rippleShow);
   el.removeEventListener("touchstart", rippleShow);
   el.removeEventListener("touchend", rippleHide);
@@ -11097,7 +11307,9 @@ function removeListeners(el) {
   el.removeEventListener("touchcancel", rippleHide);
   el.removeEventListener("mouseup", rippleHide);
   el.removeEventListener("mouseleave", rippleHide);
-  el.removeEventListener("keydown", keyboardRippleShow);
+  if ((_a = el._ripple) == null ? void 0 : _a.keyDownHandler) {
+    el.removeEventListener("keydown", el._ripple.keyDownHandler);
+  }
   el.removeEventListener("keyup", keyboardRippleHide);
   el.removeEventListener("dragstart", rippleHide);
   el.removeEventListener("blur", focusRippleHide);
@@ -11106,8 +11318,8 @@ function mounted$2(el, binding) {
   updateRipple(el, binding, false);
 }
 function unmounted$2(el) {
-  delete el._ripple;
   removeListeners(el);
+  delete el._ripple;
 }
 function updated(el, binding) {
   if (binding.value === binding.oldValue) {
@@ -11140,6 +11352,7 @@ const makeVBtnProps = propsFactory({
   readonly: Boolean,
   slim: Boolean,
   stacked: Boolean,
+  spaced: String,
   ripple: {
     type: [Boolean, Object],
     default: true
@@ -11217,7 +11430,7 @@ const VBtn = genericComponent()({
       if (props.active !== void 0) {
         return props.active;
       }
-      if (link.isLink.value) {
+      if (link.isRouterLink.value) {
         return (_a = link.isActive) == null ? void 0 : _a.value;
       }
       return group == null ? void 0 : group.isSelected.value;
@@ -11244,11 +11457,14 @@ const VBtn = genericComponent()({
       if (props.value === void 0 || typeof props.value === "symbol") return void 0;
       return Object(props.value) === props.value ? JSON.stringify(props.value, null, 0) : props.value;
     });
-    function onClick(e2) {
+    function onClick(e) {
       var _a;
-      if (isDisabled.value || link.isLink.value && (e2.metaKey || e2.ctrlKey || e2.shiftKey || e2.button !== 0 || attrs.target === "_blank")) return;
-      (_a = link.navigate) == null ? void 0 : _a.call(link, e2);
-      group == null ? void 0 : group.toggle();
+      if (isDisabled.value || link.isLink.value && (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0 || attrs.target === "_blank")) return;
+      if (link.isRouterLink.value) {
+        (_a = link.navigate) == null ? void 0 : _a.call(link, e);
+      } else {
+        group == null ? void 0 : group.toggle();
+      }
     }
     useSelectLink(link, group == null ? void 0 : group.select);
     useRender(() => {
@@ -11256,7 +11472,7 @@ const VBtn = genericComponent()({
       const hasPrepend = !!(props.prependIcon || slots.prepend);
       const hasAppend = !!(props.appendIcon || slots.append);
       const hasIcon = !!(props.icon && props.icon !== true);
-      return withDirectives(createVNode(Tag, mergeProps({
+      return withDirectives(createVNode(Tag, mergeProps(link.linkProps, {
         "type": Tag === "a" ? void 0 : "button",
         "class": ["v-btn", group == null ? void 0 : group.selectedClass.value, {
           "v-btn--active": isActive.value,
@@ -11269,14 +11485,14 @@ const VBtn = genericComponent()({
           "v-btn--readonly": props.readonly,
           "v-btn--slim": props.slim,
           "v-btn--stacked": props.stacked
-        }, themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, loaderClasses.value, positionClasses.value, roundedClasses.value, sizeClasses.value, variantClasses.value, props.class],
+        }, props.spaced ? ["v-btn--spaced", `v-btn--spaced-${props.spaced}`] : [], themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, loaderClasses.value, positionClasses.value, roundedClasses.value, sizeClasses.value, variantClasses.value, props.class],
         "style": [colorStyles.value, dimensionStyles.value, locationStyles.value, sizeStyles.value, props.style],
         "aria-busy": props.loading ? true : void 0,
-        "disabled": isDisabled.value || void 0,
+        "disabled": isDisabled.value && Tag !== "a" || void 0,
         "tabindex": props.loading || props.readonly ? -1 : void 0,
         "onClick": onClick,
         "value": valueAttr.value
-      }, link.linkProps), {
+      }), {
         default: () => {
           var _a;
           return [genOverlays(true, "v-btn"), !props.icon && hasPrepend && createElementVNode("span", {
@@ -11573,10 +11789,10 @@ function elementToViewport(point, offset2) {
     y: point.y + offset2.y
   };
 }
-function getOffset$1(a2, b) {
+function getOffset$1(a, b) {
   return {
-    x: a2.x - b.x,
-    y: a2.y - b.y
+    x: a.x - b.x,
+    y: a.y - b.y
   };
 }
 function anchorToPoint(anchor, box) {
@@ -11628,7 +11844,8 @@ const makeLocationStrategyProps = propsFactory({
     type: String,
     default: "auto"
   },
-  offset: [Number, String, Array]
+  offset: [Number, String, Array],
+  stickToTarget: Boolean
 }, "VOverlay-location-strategies");
 function useLocationStrategies(props, data) {
   const contentStyles = ref({});
@@ -11659,17 +11876,17 @@ function useLocationStrategies(props, data) {
       }
     });
   }
-  function onResize(e2) {
+  function onResize(e) {
     var _a;
-    (_a = updateLocation.value) == null ? void 0 : _a.call(updateLocation, e2);
+    (_a = updateLocation.value) == null ? void 0 : _a.call(updateLocation, e);
   }
-  function onVisualResize(e2) {
+  function onVisualResize(e) {
     var _a;
-    (_a = updateLocation.value) == null ? void 0 : _a.call(updateLocation, e2);
+    (_a = updateLocation.value) == null ? void 0 : _a.call(updateLocation, e);
   }
-  function onVisualScroll(e2) {
+  function onVisualScroll(e) {
     var _a;
-    (_a = updateLocation.value) == null ? void 0 : _a.call(updateLocation, e2);
+    (_a = updateLocation.value) == null ? void 0 : _a.call(updateLocation, e);
   }
   return {
     contentStyles,
@@ -11745,18 +11962,30 @@ function connectedLocationStrategy(data, props, contentStyles) {
     });
     if (flipped.isFull) {
       const values = flipped.values();
-      if (deepEqual(values.at(-1), values.at(-3))) {
+      if (deepEqual(values.at(-1), values.at(-3)) && !deepEqual(values.at(-1), values.at(-2))) {
         return;
       }
     }
     const result = updateLocation();
     if (result) flipped.push(result.flipped);
   });
-  watch([data.target, data.contentEl], (_ref, _ref2) => {
-    let [newTarget, newContentEl] = _ref;
-    let [oldTarget, oldContentEl] = _ref2;
+  let targetBox = new Box({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0
+  });
+  watch(data.target, (newTarget, oldTarget) => {
     if (oldTarget && !Array.isArray(oldTarget)) observer.unobserve(oldTarget);
-    if (newTarget && !Array.isArray(newTarget)) observer.observe(newTarget);
+    if (!Array.isArray(newTarget)) {
+      if (newTarget) observer.observe(newTarget);
+    } else if (!deepEqual(newTarget, oldTarget)) {
+      updateLocation();
+    }
+  }, {
+    immediate: true
+  });
+  watch(data.contentEl, (newContentEl, oldContentEl) => {
     if (oldContentEl) observer.unobserve(oldContentEl);
     if (newContentEl) observer.observe(newContentEl);
   }, {
@@ -11764,12 +11993,6 @@ function connectedLocationStrategy(data, props, contentStyles) {
   });
   onScopeDispose(() => {
     observer.disconnect();
-  });
-  let targetBox = new Box({
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0
   });
   function updateLocation() {
     observe = false;
@@ -11780,7 +12003,7 @@ function connectedLocationStrategy(data, props, contentStyles) {
     }
     const contentBox = getIntrinsicSize(data.contentEl.value, data.isRtl.value);
     const scrollParents = getScrollParents(data.contentEl.value);
-    const viewportMargin = 12;
+    const viewportMargin = props.stickToTarget ? 0 : 12;
     if (!scrollParents.length) {
       scrollParents.push(document.documentElement);
       if (!(data.contentEl.value.style.top && data.contentEl.value.style.left)) {
@@ -11800,10 +12023,17 @@ function connectedLocationStrategy(data, props, contentStyles) {
       }
       return scrollBox;
     }, void 0);
-    viewport.x += viewportMargin;
-    viewport.y += viewportMargin;
-    viewport.width -= viewportMargin * 2;
-    viewport.height -= viewportMargin * 2;
+    if (props.stickToTarget) {
+      viewport.x += Math.min(0, targetBox.x);
+      viewport.y += Math.min(0, targetBox.y);
+      viewport.width = Math.max(viewport.width, targetBox.x + targetBox.width);
+      viewport.height = Math.max(viewport.height, targetBox.y + targetBox.height);
+    } else {
+      viewport.x += viewportMargin;
+      viewport.y += viewportMargin;
+      viewport.width -= viewportMargin * 2;
+      viewport.height -= viewportMargin * 2;
+    }
     let placement = {
       anchor: preferredAnchor.value,
       origin: preferredOrigin.value
@@ -12038,21 +12268,22 @@ function useScrollStrategies(props, data) {
   });
 }
 function closeScrollStrategy(data) {
-  function onScroll(e2) {
+  function onScroll(e) {
     data.isActive.value = false;
   }
-  bindScroll(data.targetEl.value ?? data.contentEl.value, onScroll);
+  bindScroll(getTargetEl(data.target.value, data.contentEl.value), onScroll);
 }
 function blockScrollStrategy(data, props) {
   var _a;
   const offsetParent = (_a = data.root.value) == null ? void 0 : _a.offsetParent;
-  const scrollElements = [.../* @__PURE__ */ new Set([...getScrollParents(data.targetEl.value, props.contained ? offsetParent : void 0), ...getScrollParents(data.contentEl.value, props.contained ? offsetParent : void 0)])].filter((el) => !el.classList.contains("v-overlay-scroll-blocked"));
+  const target = getTargetEl(data.target.value, data.contentEl.value);
+  const scrollElements = [.../* @__PURE__ */ new Set([...getScrollParents(target, props.contained ? offsetParent : void 0), ...getScrollParents(data.contentEl.value, props.contained ? offsetParent : void 0)])].filter((el) => !el.classList.contains("v-overlay-scroll-blocked"));
   const scrollbarWidth = window.innerWidth - document.documentElement.offsetWidth;
   const scrollableParent = ((el) => hasScrollbar(el) && el)(offsetParent || document.documentElement);
   if (scrollableParent) {
     data.root.value.classList.add("v-overlay--scroll-blocked");
   }
-  scrollElements.forEach((el, i2) => {
+  scrollElements.forEach((el, i) => {
     el.style.setProperty("--v-body-scroll-x", convertToUnit(-el.scrollLeft));
     el.style.setProperty("--v-body-scroll-y", convertToUnit(-el.scrollTop));
     if (el !== document.documentElement) {
@@ -12061,7 +12292,7 @@ function blockScrollStrategy(data, props) {
     el.classList.add("v-overlay-scroll-blocked");
   });
   onScopeDispose(() => {
-    scrollElements.forEach((el, i2) => {
+    scrollElements.forEach((el, i) => {
       const x = parseFloat(el.style.getPropertyValue("--v-body-scroll-x"));
       const y = parseFloat(el.style.getPropertyValue("--v-body-scroll-y"));
       const scrollBehavior = el.style.scrollBehavior;
@@ -12083,27 +12314,27 @@ function repositionScrollStrategy(data, props, scope) {
   let slow = false;
   let raf2 = -1;
   let ric = -1;
-  function update3(e2) {
+  function update3(e) {
     requestNewFrame(() => {
       var _a, _b;
       const start = performance.now();
-      (_b = (_a = data.updateLocation).value) == null ? void 0 : _b.call(_a, e2);
+      (_b = (_a = data.updateLocation).value) == null ? void 0 : _b.call(_a, e);
       const time = performance.now() - start;
       slow = time / (1e3 / 60) > 2;
     });
   }
   ric = (typeof requestIdleCallback === "undefined" ? (cb) => cb() : requestIdleCallback)(() => {
     scope.run(() => {
-      bindScroll(data.targetEl.value ?? data.contentEl.value, (e2) => {
+      bindScroll(getTargetEl(data.target.value, data.contentEl.value), (e) => {
         if (slow) {
           cancelAnimationFrame(raf2);
           raf2 = requestAnimationFrame(() => {
             raf2 = requestAnimationFrame(() => {
-              update3(e2);
+              update3(e);
             });
           });
         } else {
-          update3(e2);
+          update3(e);
         }
       });
     });
@@ -12112,6 +12343,9 @@ function repositionScrollStrategy(data, props, scope) {
     typeof cancelIdleCallback !== "undefined" && cancelIdleCallback(ric);
     cancelAnimationFrame(raf2);
   });
+}
+function getTargetEl(target, contentEl) {
+  return Array.isArray(target) ? document.elementsFromPoint(...target).find((el) => !(contentEl == null ? void 0 : contentEl.contains(el))) : target ?? contentEl;
 }
 function bindScroll(el, onScroll) {
   const scrollElements = [document, ...getScrollParents(el)];
@@ -12134,9 +12368,9 @@ const makeDelayProps = propsFactory({
 function useDelay(props, cb) {
   let clearDelay = () => {
   };
-  function runDelay(isOpening) {
+  function runDelay(isOpening, options) {
     clearDelay == null ? void 0 : clearDelay();
-    const delay = Number(isOpening ? props.openDelay : props.closeDelay);
+    const delay = Math.max((options == null ? void 0 : options.minDelay) ?? 0, Number(isOpening ? props.openDelay : props.closeDelay));
     return new Promise((resolve) => {
       clearDelay = defer(delay, () => {
         cb == null ? void 0 : cb(isOpening);
@@ -12147,8 +12381,8 @@ function useDelay(props, cb) {
   function runOpenDelay() {
     return runDelay(true);
   }
-  function runCloseDelay() {
-    return runDelay(false);
+  function runCloseDelay(options) {
+    return runDelay(false, options);
   }
   return {
     clearDelay,
@@ -12201,36 +12435,36 @@ function useActivator(props, _ref) {
   });
   const cursorTarget = ref();
   const availableEvents = {
-    onClick: (e2) => {
-      e2.stopPropagation();
-      activatorEl.value = e2.currentTarget || e2.target;
+    onClick: (e) => {
+      e.stopPropagation();
+      activatorEl.value = e.currentTarget || e.target;
       if (!isActive.value) {
-        cursorTarget.value = [e2.clientX, e2.clientY];
+        cursorTarget.value = [e.clientX, e.clientY];
       }
       isActive.value = !isActive.value;
     },
-    onMouseenter: (e2) => {
-      var _a;
-      if ((_a = e2.sourceCapabilities) == null ? void 0 : _a.firesTouchEvents) return;
+    onMouseenter: (e) => {
       isHovered = true;
-      activatorEl.value = e2.currentTarget || e2.target;
+      activatorEl.value = e.currentTarget || e.target;
       runOpenDelay();
     },
-    onMouseleave: (e2) => {
+    onMouseleave: (e) => {
       isHovered = false;
       runCloseDelay();
     },
-    onFocus: (e2) => {
-      if (matchesSelector(e2.target, ":focus-visible") === false) return;
+    onFocus: (e) => {
+      if (matchesSelector(e.target, ":focus-visible") === false) return;
       isFocused = true;
-      e2.stopPropagation();
-      activatorEl.value = e2.currentTarget || e2.target;
+      e.stopPropagation();
+      activatorEl.value = e.currentTarget || e.target;
       runOpenDelay();
     },
-    onBlur: (e2) => {
+    onBlur: (e) => {
       isFocused = false;
-      e2.stopPropagation();
-      runCloseDelay();
+      e.stopPropagation();
+      runCloseDelay({
+        minDelay: 1
+      });
     }
   };
   const activatorEvents = computed(() => {
@@ -12261,13 +12495,16 @@ function useActivator(props, _ref) {
       };
     }
     if (openOnFocus.value) {
-      events.onFocusin = () => {
+      events.onFocusin = (e) => {
+        if (!e.target.matches(":focus-visible")) return;
         isFocused = true;
         runOpenDelay();
       };
       events.onFocusout = () => {
         isFocused = false;
-        runCloseDelay();
+        runCloseDelay({
+          minDelay: 1
+        });
       };
     }
     if (props.closeOnContentClick) {
@@ -12587,10 +12824,10 @@ const MaybeTransition = (props, _ref) => {
   } = isObject$1(transition) ? transition : {};
   let transitionProps;
   if (isObject$1(transition)) {
-    transitionProps = mergeProps(customProps, JSON.parse(JSON.stringify({
+    transitionProps = mergeProps(customProps, onlyDefinedProps({
       disabled,
       group
-    })), rest);
+    }), rest);
   } else {
     transitionProps = mergeProps({
       name: disabled || !transition ? "" : transition
@@ -12601,23 +12838,23 @@ const MaybeTransition = (props, _ref) => {
 function defaultConditional() {
   return true;
 }
-function checkEvent(e2, el, binding) {
-  if (!e2 || checkIsActive(e2, binding) === false) return false;
+function checkEvent(e, el, binding) {
+  if (!e || checkIsActive(e, binding) === false) return false;
   const root = attachedRoot(el);
-  if (typeof ShadowRoot !== "undefined" && root instanceof ShadowRoot && root.host === e2.target) return false;
+  if (typeof ShadowRoot !== "undefined" && root instanceof ShadowRoot && root.host === e.target) return false;
   const elements = (typeof binding.value === "object" && binding.value.include || (() => []))();
   elements.push(el);
-  return !elements.some((el2) => el2 == null ? void 0 : el2.contains(e2.target));
+  return !elements.some((el2) => el2 == null ? void 0 : el2.contains(e.target));
 }
-function checkIsActive(e2, binding) {
+function checkIsActive(e, binding) {
   const isActive = typeof binding.value === "object" && binding.value.closeConditional || defaultConditional;
-  return isActive(e2);
+  return isActive(e);
 }
-function directive(e2, el, binding) {
+function directive(e, el, binding) {
   const handler = typeof binding.value === "function" ? binding.value : binding.value.handler;
-  e2.shadowTarget = e2.target;
-  el._clickOutside.lastMousedownWasOutside && checkEvent(e2, el, binding) && setTimeout(() => {
-    checkIsActive(e2, binding) && handler && handler(e2);
+  e.shadowTarget = e.target;
+  el._clickOutside.lastMousedownWasOutside && checkEvent(e, el, binding) && setTimeout(() => {
+    checkIsActive(e, binding) && handler && handler(e);
   }, 0);
 }
 function handleShadow(el, callback) {
@@ -12634,9 +12871,9 @@ const ClickOutside = {
   // available, iOS does not support
   // clicks on body
   mounted(el, binding) {
-    const onClick = (e2) => directive(e2, el, binding);
-    const onMousedown = (e2) => {
-      el._clickOutside.lastMousedownWasOutside = checkEvent(e2, el, binding);
+    const onClick = (e) => directive(e, el, binding);
+    const onMousedown = (e) => {
+      el._clickOutside.lastMousedownWasOutside = checkEvent(e, el, binding);
     };
     handleShadow(el, (app) => {
       app.addEventListener("click", onClick, true);
@@ -12726,9 +12963,9 @@ const VOverlay = genericComponent()({
     ...makeVOverlayProps()
   },
   emits: {
-    "click:outside": (e2) => true,
+    "click:outside": (e) => true,
     "update:modelValue": (value) => true,
-    keydown: (e2) => true,
+    keydown: (e) => true,
     afterEnter: () => true,
     afterLeave: () => true
   },
@@ -12815,17 +13052,18 @@ const VOverlay = genericComponent()({
       root,
       contentEl,
       targetEl,
+      target,
       isActive,
       updateLocation
     });
-    function onClickOutside(e2) {
-      emit("click:outside", e2);
+    function onClickOutside(e) {
+      emit("click:outside", e);
       if (!props.persistent) isActive.value = false;
       else animateClick();
     }
-    function closeConditional(e2) {
+    function closeConditional(e) {
       return isActive.value && globalTop.value && // If using scrim, only close if clicking on it rather than anything opened on top
-      (!props.scrim || e2.target === scrimEl.value || e2 instanceof MouseEvent && e2.shadowTarget === scrimEl.value);
+      (!props.scrim || e.target === scrimEl.value || e instanceof MouseEvent && e.shadowTarget === scrimEl.value);
     }
     IN_BROWSER && watch(isActive, (val) => {
       if (val) {
@@ -12840,11 +13078,11 @@ const VOverlay = genericComponent()({
       if (!IN_BROWSER) return;
       window.removeEventListener("keydown", onKeydown);
     });
-    function onKeydown(e2) {
+    function onKeydown(e) {
       var _a, _b, _c;
-      if (e2.key === "Escape" && globalTop.value) {
+      if (e.key === "Escape" && globalTop.value) {
         if (!((_a = contentEl.value) == null ? void 0 : _a.contains(document.activeElement))) {
-          emit("keydown", e2);
+          emit("keydown", e);
         }
         if (!props.persistent) {
           isActive.value = false;
@@ -12854,9 +13092,9 @@ const VOverlay = genericComponent()({
         } else animateClick();
       }
     }
-    function onKeydownSelf(e2) {
-      if (e2.key === "Escape" && !globalTop.value) return;
-      emit("keydown", e2);
+    function onKeydownSelf(e) {
+      if (e.key === "Escape" && !globalTop.value) return;
+      emit("keydown", e);
     }
     const router = useRouter();
     useToggleScope(() => props.closeOnBack, () => {
@@ -12958,6 +13196,7 @@ const VOverlay = genericComponent()({
       target,
       animateClick,
       contentEl,
+      rootEl: root,
       globalTop,
       localTop,
       updateLocation
@@ -12965,6 +13204,22 @@ const VOverlay = genericComponent()({
   }
 });
 const DateOptionsSymbol = Symbol.for("vuetify:date-options");
+function createDateRange(adapter, start, stop) {
+  const diff2 = daysDiff(adapter, start, stop);
+  const datesInRange = [start];
+  for (let i = 1; i < diff2; i++) {
+    const nextDate = adapter.addDays(start, i);
+    datesInRange.push(nextDate);
+  }
+  if (stop) {
+    datesInRange.push(adapter.endOfDay(stop));
+  }
+  return datesInRange;
+}
+function daysDiff(adapter, start, stop) {
+  const iso = [`${adapter.toISO(stop ?? start).split("T")[0]}T00:00:00Z`, `${adapter.toISO(start).split("T")[0]}T00:00:00Z`];
+  return typeof adapter.date() === "string" ? adapter.getDiff(iso[0], iso[1], "days") : adapter.getDiff(adapter.date(iso[0]), adapter.date(iso[1]), "days");
+}
 function createInstance(options, locale2) {
   const instance = reactive(typeof options.adapter === "function" ? new options.adapter({
     locale: options.locale[locale2.current.value] ?? locale2.current.value,
@@ -12989,21 +13244,7 @@ function genDefaults() {
     layout: false,
     offset: 0,
     easing: "easeInOutCubic",
-    patterns: {
-      linear: (t2) => t2,
-      easeInQuad: (t2) => t2 ** 2,
-      easeOutQuad: (t2) => t2 * (2 - t2),
-      easeInOutQuad: (t2) => t2 < 0.5 ? 2 * t2 ** 2 : -1 + (4 - 2 * t2) * t2,
-      easeInCubic: (t2) => t2 ** 3,
-      easeOutCubic: (t2) => --t2 ** 3 + 1,
-      easeInOutCubic: (t2) => t2 < 0.5 ? 4 * t2 ** 3 : (t2 - 1) * (2 * t2 - 2) * (2 * t2 - 2) + 1,
-      easeInQuart: (t2) => t2 ** 4,
-      easeOutQuart: (t2) => 1 - --t2 ** 4,
-      easeInOutQuart: (t2) => t2 < 0.5 ? 8 * t2 ** 4 : 1 - 8 * --t2 ** 4,
-      easeInQuint: (t2) => t2 ** 5,
-      easeOutQuint: (t2) => 1 + --t2 ** 5,
-      easeInOutQuint: (t2) => t2 < 0.5 ? 16 * t2 ** 5 : 1 + 16 * --t2 ** 5
-    }
+    patterns: easingPatterns
   };
 }
 function getContainer(el) {
@@ -13028,7 +13269,7 @@ async function scrollTo(_target, _options, horizontal, goTo) {
   const rtl = goTo == null ? void 0 : goTo.rtl.value;
   const target = (typeof _target === "number" ? _target : getTarget(_target)) ?? 0;
   const container = options.container === "parent" && target instanceof HTMLElement ? target.parentElement : getContainer(options.container);
-  const ease = typeof options.easing === "function" ? options.easing : options.patterns[options.easing];
+  const ease = PREFERS_REDUCED_MOTION() ? options.patterns.instant : typeof options.easing === "function" ? options.easing : options.patterns[options.easing];
   if (!ease) throw new TypeError(`Easing function "${options.easing}" not found.`);
   let targetLocation;
   if (typeof target === "number") {
@@ -13187,7 +13428,7 @@ function createLayout(props) {
     return map2;
   });
   const layers = computed(() => {
-    const uniquePriorities = [...new Set([...priorities2.values()].map((p) => p.value))].sort((a2, b) => a2 - b);
+    const uniquePriorities = [...new Set([...priorities2.values()].map((p) => p.value))].sort((a, b) => a - b);
     const layout = [];
     for (const p of uniquePriorities) {
       const items2 = registered.value.filter((id) => {
@@ -13262,7 +13503,7 @@ function createLayout(props) {
       const instanceIndex = instances.indexOf(vm);
       if (instanceIndex > -1) registered.value.splice(instanceIndex, 0, id);
       else registered.value.push(id);
-      const index = computed(() => items.value.findIndex((i2) => i2.id === id));
+      const index = computed(() => items.value.findIndex((i) => i.id === id));
       const zIndex = computed(() => rootZIndex.value + layers.value.length * 2 - index.value * 2);
       const layoutItemStyles = computed(() => {
         const isHorizontal = position.value === "left" || position.value === "right";
@@ -13281,7 +13522,7 @@ function createLayout(props) {
         };
         if (!isMounted.value) return styles;
         const item = items.value[index.value];
-        if (!item) throw new Error(`[Vuetify] Could not find layout item "${id}"`);
+        if (!item) consoleWarn(`[Vuetify] Could not find layout item "${id}"`);
         const overlap = computedOverlaps.value.get(id);
         if (overlap) {
           item[overlap.position] += overlap.amount;
@@ -13448,6 +13689,7 @@ function useCountdown(milliseconds2) {
   };
 }
 const makeVSnackbarProps = propsFactory({
+  /* @deprecated */
   multiLine: Boolean,
   text: String,
   timer: [Boolean, String],
@@ -13465,7 +13707,7 @@ const makeVSnackbarProps = propsFactory({
   ...makeThemeProps(),
   ...omit(makeVOverlayProps({
     transition: "v-snackbar-transition"
-  }), ["persistent", "noClickAnimation", "scrim", "scrollStrategy"])
+  }), ["persistent", "noClickAnimation", "scrim", "scrollStrategy", "stickToTarget"])
 }, "VSnackbar");
 const VSnackbar = genericComponent()({
   name: "VSnackbar",
@@ -13593,7 +13835,7 @@ const VSnackbar = genericComponent()({
             "ref": timerRef,
             "color": typeof props.timer === "string" ? props.timer : "info",
             "max": props.timeout,
-            "model-value": countdown.time.value
+            "modelValue": countdown.time.value
           }, null)]), hasContent && createElementVNode("div", {
             "key": "content",
             "class": "v-snackbar__content",
@@ -14180,8 +14422,7 @@ function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
                 onAction: $options.navigateToHome
               }, null, 8, ["onAction"])
             ]),
-            _: 1,
-            __: [0, 1, 2]
+            _: 1
           })
         ]),
         _: 1
@@ -14236,8 +14477,7 @@ function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
                 }, null, 8, ["onAction"])
               ], true)
             ]),
-            _: 3,
-            __: [1]
+            _: 3
           })
         ]),
         _: 3
@@ -14394,11 +14634,10 @@ function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
                     createVNode(VIcon, {
                       class: normalizeClass(["mr-1 blue--text text--darken-2", $options.backArrowClass])
                     }, {
-                      default: withCtx(() => _cache[1] || (_cache[1] = [
-                        createTextVNode("mdi-arrow-left")
-                      ])),
-                      _: 1,
-                      __: [1]
+                      default: withCtx(() => [..._cache[1] || (_cache[1] = [
+                        createTextVNode("mdi-arrow-left", -1)
+                      ])]),
+                      _: 1
                     }, 8, ["class"]),
                     _cache[2] || (_cache[2] = createElementVNode("span", { class: "text-body-1 text-md-h6 font-weight-medium no-line-height" }, "Back", -1))
                   ])
@@ -14935,8 +15174,8 @@ const IFXItemListMixin = {
     // Format data for export to file
     getDataForExport() {
       const formattedItems = [];
-      for (let i2 = 0; i2 < this.filteredItems.length; i2++) {
-        const item = this.filteredItems[i2];
+      for (let i = 0; i < this.filteredItems.length; i++) {
+        const item = this.filteredItems[i];
         const newRecord = {};
         for (let j = 0; j < this.headers.length; j++) {
           const header = this.headers[j];
@@ -14964,10 +15203,10 @@ const IFXItemListMixin = {
       let items = this.items;
       if (this.search) {
         const search = this.search.toString().toLowerCase();
-        items = items.filter((i2) => {
-          let item = i2;
-          if (i2.data) {
-            item = i2.data;
+        items = items.filter((i) => {
+          let item = i;
+          if (i.data) {
+            item = i.data;
           }
           return Object.keys(item).some((j) => {
             let thingToBeSearched = item[j];
@@ -15077,9 +15316,13 @@ const IFXItemSelectableMixin = {
     this.$nextTick(() => this.isLoading = false);
   }
 };
+const makeVCardActionsProps = propsFactory({
+  ...makeComponentProps(),
+  ...makeTagProps()
+}, "VCardActions");
 const VCardActions = genericComponent()({
   name: "VCardActions",
-  props: makeComponentProps(),
+  props: makeVCardActionsProps(),
   setup(props, _ref) {
     let {
       slots
@@ -15090,13 +15333,10 @@ const VCardActions = genericComponent()({
         variant: "text"
       }
     });
-    useRender(() => {
-      var _a;
-      return createElementVNode("div", {
-        "class": normalizeClass(["v-card-actions", props.class]),
-        "style": normalizeStyle(props.style)
-      }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]);
-    });
+    useRender(() => createVNode(props.tag, {
+      "class": normalizeClass(["v-card-actions", props.class]),
+      "style": normalizeStyle(props.style)
+    }, slots));
     return {};
   }
 });
@@ -15383,9 +15623,9 @@ const VImg = genericComponent()({
       if (!normalisedSrc.value.src || state2.value === "idle") return null;
       const img = createElementVNode("img", {
         "class": normalizeClass(["v-img__img", containClasses.value]),
-        "style": normalizeStyle({
+        "style": {
           objectPosition: props.position
-        }),
+        },
         "crossorigin": props.crossorigin,
         "src": normalisedSrc.value.src,
         "srcset": normalisedSrc.value.srcset,
@@ -15412,9 +15652,9 @@ const VImg = genericComponent()({
     }, {
       default: () => [normalisedSrc.value.lazySrc && state2.value !== "loaded" && createElementVNode("img", {
         "class": normalizeClass(["v-img__img", "v-img__img--preload", containClasses.value]),
-        "style": normalizeStyle({
+        "style": {
           objectPosition: props.position
-        }),
+        },
         "crossorigin": props.crossorigin,
         "src": normalisedSrc.value.lazySrc,
         "alt": props.alt,
@@ -15448,9 +15688,9 @@ const VImg = genericComponent()({
       if (!props.gradient) return null;
       return createElementVNode("div", {
         "class": "v-img__gradient",
-        "style": normalizeStyle({
+        "style": {
           backgroundImage: `linear-gradient(${props.gradient})`
-        })
+        }
       }, null);
     };
     const isBooted = shallowRef(false);
@@ -15591,7 +15831,8 @@ const makeCardItemProps = propsFactory({
     default: void 0
   },
   ...makeComponentProps(),
-  ...makeDensityProps()
+  ...makeDensityProps(),
+  ...makeTagProps()
 }, "VCardItem");
 const VCardItem = genericComponent()({
   name: "VCardItem",
@@ -15601,81 +15842,85 @@ const VCardItem = genericComponent()({
       slots
     } = _ref;
     useRender(() => {
-      var _a;
       const hasPrependMedia = !!(props.prependAvatar || props.prependIcon);
       const hasPrepend = !!(hasPrependMedia || slots.prepend);
       const hasAppendMedia = !!(props.appendAvatar || props.appendIcon);
       const hasAppend = !!(hasAppendMedia || slots.append);
       const hasTitle = !!(props.title != null || slots.title);
       const hasSubtitle = !!(props.subtitle != null || slots.subtitle);
-      return createElementVNode("div", {
+      return createVNode(props.tag, {
         "class": normalizeClass(["v-card-item", props.class]),
         "style": normalizeStyle(props.style)
-      }, [hasPrepend && createElementVNode("div", {
-        "key": "prepend",
-        "class": "v-card-item__prepend"
-      }, [!slots.prepend ? createElementVNode(Fragment, null, [props.prependAvatar && createVNode(VAvatar, {
-        "key": "prepend-avatar",
-        "density": props.density,
-        "image": props.prependAvatar
-      }, null), props.prependIcon && createVNode(VIcon, {
-        "key": "prepend-icon",
-        "density": props.density,
-        "icon": props.prependIcon
-      }, null)]) : createVNode(VDefaultsProvider, {
-        "key": "prepend-defaults",
-        "disabled": !hasPrependMedia,
-        "defaults": {
-          VAvatar: {
-            density: props.density,
-            image: props.prependAvatar
-          },
-          VIcon: {
-            density: props.density,
-            icon: props.prependIcon
-          }
-        }
-      }, slots.prepend)]), createElementVNode("div", {
-        "class": "v-card-item__content"
-      }, [hasTitle && createVNode(VCardTitle, {
-        "key": "title"
       }, {
         default: () => {
-          var _a2;
-          return [((_a2 = slots.title) == null ? void 0 : _a2.call(slots)) ?? toDisplayString(props.title)];
+          var _a;
+          return [hasPrepend && createElementVNode("div", {
+            "key": "prepend",
+            "class": "v-card-item__prepend"
+          }, [!slots.prepend ? createElementVNode(Fragment, null, [props.prependAvatar && createVNode(VAvatar, {
+            "key": "prepend-avatar",
+            "density": props.density,
+            "image": props.prependAvatar
+          }, null), props.prependIcon && createVNode(VIcon, {
+            "key": "prepend-icon",
+            "density": props.density,
+            "icon": props.prependIcon
+          }, null)]) : createVNode(VDefaultsProvider, {
+            "key": "prepend-defaults",
+            "disabled": !hasPrependMedia,
+            "defaults": {
+              VAvatar: {
+                density: props.density,
+                image: props.prependAvatar
+              },
+              VIcon: {
+                density: props.density,
+                icon: props.prependIcon
+              }
+            }
+          }, slots.prepend)]), createElementVNode("div", {
+            "class": "v-card-item__content"
+          }, [hasTitle && createVNode(VCardTitle, {
+            "key": "title"
+          }, {
+            default: () => {
+              var _a2;
+              return [((_a2 = slots.title) == null ? void 0 : _a2.call(slots)) ?? toDisplayString(props.title)];
+            }
+          }), hasSubtitle && createVNode(VCardSubtitle, {
+            "key": "subtitle"
+          }, {
+            default: () => {
+              var _a2;
+              return [((_a2 = slots.subtitle) == null ? void 0 : _a2.call(slots)) ?? toDisplayString(props.subtitle)];
+            }
+          }), (_a = slots.default) == null ? void 0 : _a.call(slots)]), hasAppend && createElementVNode("div", {
+            "key": "append",
+            "class": "v-card-item__append"
+          }, [!slots.append ? createElementVNode(Fragment, null, [props.appendIcon && createVNode(VIcon, {
+            "key": "append-icon",
+            "density": props.density,
+            "icon": props.appendIcon
+          }, null), props.appendAvatar && createVNode(VAvatar, {
+            "key": "append-avatar",
+            "density": props.density,
+            "image": props.appendAvatar
+          }, null)]) : createVNode(VDefaultsProvider, {
+            "key": "append-defaults",
+            "disabled": !hasAppendMedia,
+            "defaults": {
+              VAvatar: {
+                density: props.density,
+                image: props.appendAvatar
+              },
+              VIcon: {
+                density: props.density,
+                icon: props.appendIcon
+              }
+            }
+          }, slots.append)])];
         }
-      }), hasSubtitle && createVNode(VCardSubtitle, {
-        "key": "subtitle"
-      }, {
-        default: () => {
-          var _a2;
-          return [((_a2 = slots.subtitle) == null ? void 0 : _a2.call(slots)) ?? toDisplayString(props.subtitle)];
-        }
-      }), (_a = slots.default) == null ? void 0 : _a.call(slots)]), hasAppend && createElementVNode("div", {
-        "key": "append",
-        "class": "v-card-item__append"
-      }, [!slots.append ? createElementVNode(Fragment, null, [props.appendIcon && createVNode(VIcon, {
-        "key": "append-icon",
-        "density": props.density,
-        "icon": props.appendIcon
-      }, null), props.appendAvatar && createVNode(VAvatar, {
-        "key": "append-avatar",
-        "density": props.density,
-        "image": props.appendAvatar
-      }, null)]) : createVNode(VDefaultsProvider, {
-        "key": "append-defaults",
-        "disabled": !hasAppendMedia,
-        "defaults": {
-          VAvatar: {
-            density: props.density,
-            image: props.appendAvatar
-          },
-          VIcon: {
-            density: props.density,
-            icon: props.appendIcon
-          }
-        }
-      }, slots.append)])]);
+      });
     });
     return {};
   }
@@ -15802,7 +16047,7 @@ const VCard = genericComponent()({
       const hasImage = !!(slots.image || props.image);
       const hasCardItem = hasHeader || hasPrepend || hasAppend;
       const hasText = !!(slots.text || props.text != null);
-      return withDirectives(createVNode(Tag, mergeProps({
+      return withDirectives(createVNode(Tag, mergeProps(link.linkProps, {
         "class": ["v-card", {
           "v-card--disabled": props.disabled,
           "v-card--flat": props.flat,
@@ -15812,7 +16057,7 @@ const VCard = genericComponent()({
         "style": [colorStyles.value, dimensionStyles.value, locationStyles.value, props.style],
         "onClick": isClickable && link.navigate,
         "tabindex": props.disabled ? -1 : void 0
-      }, link.linkProps), {
+      }), {
         default: () => {
           var _a;
           return [hasImage && createElementVNode("div", {
@@ -16259,10 +16504,10 @@ const VSelectionControl = genericComponent()({
         input.value.checked = model.value;
       }
     });
-    function onFocus(e2) {
+    function onFocus(e) {
       if (!isInteractive.value) return;
       isFocused.value = true;
-      if (matchesSelector(e2.target, ":focus-visible") !== false) {
+      if (matchesSelector(e.target, ":focus-visible") !== false) {
         isFocusVisible.value = true;
       }
     }
@@ -16270,10 +16515,10 @@ const VSelectionControl = genericComponent()({
       isFocused.value = false;
       isFocusVisible.value = false;
     }
-    function onClickLabel(e2) {
-      e2.stopPropagation();
+    function onClickLabel(e) {
+      e.stopPropagation();
     }
-    function onInput(e2) {
+    function onInput(e) {
       if (!isInteractive.value) {
         if (input.value) {
           input.value.checked = model.value;
@@ -16283,7 +16528,7 @@ const VSelectionControl = genericComponent()({
       if (props.readonly && group) {
         nextTick(() => group.forceUpdate());
       }
-      model.value = e2.target.checked;
+      model.value = e.target.checked;
     }
     useRender(() => {
       var _a, _b;
@@ -16327,7 +16572,7 @@ const VSelectionControl = genericComponent()({
         backgroundColorClasses,
         backgroundColorStyles
       }), withDirectives(createElementVNode("div", {
-        "class": ["v-selection-control__input"]
+        "class": normalizeClass(["v-selection-control__input"])
       }, [((_b = slots.input) == null ? void 0 : _b.call(slots, {
         model,
         textColorClasses,
@@ -16344,7 +16589,10 @@ const VSelectionControl = genericComponent()({
       })) ?? createElementVNode(Fragment, null, [icon.value && createVNode(VIcon, {
         "key": "icon",
         "icon": icon.value
-      }, null), inputNode])]), [[Ripple, props.ripple && [!props.disabled && !props.readonly, null, ["center", "circle"]]]])]), label && createVNode(VLabel, {
+      }, null), inputNode])]), [[Ripple, !props.disabled && !props.readonly && props.ripple, null, {
+        center: true,
+        circle: true
+      }]])]), label && createVNode(VLabel, {
         "for": id.value,
         "onClick": onClickLabel
       }, {
@@ -16410,7 +16658,7 @@ const VCheckboxBtn = genericComponent()({
 });
 function useInputIcon(props) {
   const {
-    t: t2
+    t
   } = useLocale();
   function InputIcon(_ref) {
     let {
@@ -16426,13 +16674,13 @@ function useInputIcon(props) {
       clear: "clear"
     }[name];
     const listener = props[`onClick:${name}`];
-    function onKeydown(e2) {
-      if (e2.key !== "Enter" && e2.key !== " ") return;
-      e2.preventDefault();
-      e2.stopPropagation();
-      callEvent(listener, new PointerEvent("click", e2));
+    function onKeydown(e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      e.stopPropagation();
+      callEvent(listener, new PointerEvent("click", e));
     }
-    const label = listener && localeKey ? t2(`$vuetify.input.${localeKey}`, props.label ?? "") : void 0;
+    const label = listener && localeKey ? t(`$vuetify.input.${localeKey}`, props.label ?? "") : void 0;
     return createVNode(VIcon, mergeProps({
       "icon": props[`${name}Icon`],
       "aria-label": label,
@@ -16536,7 +16784,10 @@ function createJavascriptTransition(name, functions) {
         type: String,
         default: mode
       },
-      disabled: Boolean,
+      disabled: {
+        type: Boolean,
+        default: PREFERS_REDUCED_MOTION()
+      },
       group: Boolean
     },
     setup(props, _ref2) {
@@ -16645,25 +16896,34 @@ const VDialogTransition = genericComponent()({
           speed
         } = dimensions;
         saved.set(el, dimensions);
-        const animation = animate(el, [{
-          transform: `translate(${x}px, ${y}px) scale(${sx}, ${sy})`,
-          opacity: 0
-        }, {}], {
-          duration: 225 * speed,
-          easing: deceleratedEasing
-        });
-        (_a = getChildren(el)) == null ? void 0 : _a.forEach((el2) => {
-          animate(el2, [{
+        if (PREFERS_REDUCED_MOTION()) {
+          animate(el, [{
             opacity: 0
-          }, {
-            opacity: 0,
-            offset: 0.33
           }, {}], {
-            duration: 225 * 2 * speed,
-            easing: standardEasing
+            duration: 125 * speed,
+            easing: deceleratedEasing
+          }).finished.then(() => done());
+        } else {
+          const animation = animate(el, [{
+            transform: `translate(${x}px, ${y}px) scale(${sx}, ${sy})`,
+            opacity: 0
+          }, {}], {
+            duration: 225 * speed,
+            easing: deceleratedEasing
           });
-        });
-        animation.finished.then(() => done());
+          (_a = getChildren(el)) == null ? void 0 : _a.forEach((el2) => {
+            animate(el2, [{
+              opacity: 0
+            }, {
+              opacity: 0,
+              offset: 0.33
+            }, {}], {
+              duration: 225 * 2 * speed,
+              easing: standardEasing
+            });
+          });
+          animation.finished.then(() => done());
+        }
       },
       onAfterEnter(el) {
         el.style.removeProperty("pointer-events");
@@ -16687,25 +16947,34 @@ const VDialogTransition = genericComponent()({
           sy,
           speed
         } = dimensions;
-        const animation = animate(el, [{}, {
-          transform: `translate(${x}px, ${y}px) scale(${sx}, ${sy})`,
-          opacity: 0
-        }], {
-          duration: 125 * speed,
-          easing: acceleratedEasing
-        });
-        animation.finished.then(() => done());
-        (_a = getChildren(el)) == null ? void 0 : _a.forEach((el2) => {
-          animate(el2, [{}, {
-            opacity: 0,
-            offset: 0.2
-          }, {
+        if (PREFERS_REDUCED_MOTION()) {
+          animate(el, [{}, {
             opacity: 0
           }], {
-            duration: 125 * 2 * speed,
-            easing: standardEasing
+            duration: 85 * speed,
+            easing: acceleratedEasing
+          }).finished.then(() => done());
+        } else {
+          const animation = animate(el, [{}, {
+            transform: `translate(${x}px, ${y}px) scale(${sx}, ${sy})`,
+            opacity: 0
+          }], {
+            duration: 125 * speed,
+            easing: acceleratedEasing
           });
-        });
+          animation.finished.then(() => done());
+          (_a = getChildren(el)) == null ? void 0 : _a.forEach((el2) => {
+            animate(el2, [{}, {
+              opacity: 0,
+              offset: 0.2
+            }, {
+              opacity: 0
+            }], {
+              duration: 125 * 2 * speed,
+              easing: standardEasing
+            });
+          });
+        }
       },
       onAfterLeave(el) {
         el.style.removeProperty("pointer-events");
@@ -16808,9 +17077,9 @@ const VMessages = genericComponent()({
       "class": normalizeClass(["v-messages", textColorClasses.value, props.class]),
       "style": normalizeStyle([textColorStyles.value, props.style])
     }, {
-      default: () => [props.active && messages.value.map((message2, i2) => createElementVNode("div", {
+      default: () => [props.active && messages.value.map((message2, i) => createElementVNode("div", {
         "class": "v-messages__message",
-        "key": `${i2}-${messages.value}`
+        "key": `${i}-${messages.value}`
       }, [slots.message ? slots.message({
         message: message2
       }) : message2]))]
@@ -16974,9 +17243,14 @@ function useForm(props) {
 }
 const RulesSymbol = Symbol.for("vuetify:rules");
 function useRules(fn) {
-  const resolveRules = inject(RulesSymbol, null);
-  if (!resolveRules) return toRef(fn);
-  return resolveRules(fn);
+  const rules = inject(RulesSymbol, null);
+  if (!fn) {
+    if (!rules) {
+      throw new Error("Could not find Vuetify rules injection");
+    }
+    return rules.aliases;
+  }
+  return (rules == null ? void 0 : rules.resolve(fn)) ?? toRef(fn);
 }
 const makeValidationProps = propsFactory({
   disabled: {
@@ -17210,7 +17484,6 @@ const VInput = genericComponent()({
     } = useInputIcon(props);
     const uid = useId();
     const id = computed(() => props.id || `input-${uid}`);
-    const messagesId = computed(() => `${id.value}-messages`);
     const {
       errorMessages,
       isDirty,
@@ -17224,6 +17497,19 @@ const VInput = genericComponent()({
       validate,
       validationClasses
     } = useValidation(props, "v-input", id);
+    const messages = computed(() => {
+      var _a;
+      if (((_a = props.errorMessages) == null ? void 0 : _a.length) || !isPristine.value && errorMessages.value.length) {
+        return errorMessages.value;
+      } else if (props.hint && (props.persistentHint || props.focused)) {
+        return props.hint;
+      } else {
+        return props.messages;
+      }
+    });
+    const hasMessages = toRef(() => messages.value.length > 0);
+    const hasDetails = toRef(() => !props.hideDetails || props.hideDetails === "auto" && (hasMessages.value || !!slots.details));
+    const messagesId = computed(() => hasDetails.value ? `${id.value}-messages` : void 0);
     const slotProps = computed(() => ({
       id,
       messagesId,
@@ -17233,6 +17519,7 @@ const VInput = genericComponent()({
       isPristine,
       isValid: isValid2,
       isValidating,
+      hasDetails,
       reset,
       resetValidation,
       validate
@@ -17244,22 +17531,10 @@ const VInput = genericComponent()({
       if (!props.iconColor) return void 0;
       return props.iconColor === true ? color.value : props.iconColor;
     });
-    const messages = computed(() => {
-      var _a;
-      if (((_a = props.errorMessages) == null ? void 0 : _a.length) || !isPristine.value && errorMessages.value.length) {
-        return errorMessages.value;
-      } else if (props.hint && (props.persistentHint || props.focused)) {
-        return props.hint;
-      } else {
-        return props.messages;
-      }
-    });
     useRender(() => {
       var _a, _b, _c, _d;
       const hasPrepend = !!(slots.prepend || props.prependIcon);
       const hasAppend = !!(slots.append || props.appendIcon);
-      const hasMessages = messages.value.length > 0;
-      const hasDetails = !props.hideDetails || props.hideDetails === "auto" && (hasMessages || !!slots.details);
       return createElementVNode("div", {
         "class": normalizeClass(["v-input", `v-input--${props.direction}`, {
           "v-input--center-affix": props.centerAffix,
@@ -17284,13 +17559,13 @@ const VInput = genericComponent()({
         "key": "append-icon",
         "name": "append",
         "color": iconColor.value
-      }, null), (_c = slots.append) == null ? void 0 : _c.call(slots, slotProps.value)]), hasDetails && createElementVNode("div", {
+      }, null), (_c = slots.append) == null ? void 0 : _c.call(slots, slotProps.value)]), hasDetails.value && createElementVNode("div", {
         "id": messagesId.value,
         "class": "v-input__details",
         "role": "alert",
         "aria-live": "polite"
       }, [createVNode(VMessages, {
-        "active": hasMessages,
+        "active": hasMessages.value,
         "messages": messages.value
       }, {
         message: slots.message
@@ -17328,12 +17603,14 @@ const VCheckbox = genericComponent()({
       focus,
       blur
     } = useFocus(props);
+    const inputRef = ref();
     const uid = useId();
     useRender(() => {
       const [rootAttrs, controlAttrs] = filterInputAttrs(attrs);
       const inputProps = VInput.filterProps(props);
       const checkboxProps = VCheckboxBtn.filterProps(props);
       return createVNode(VInput, mergeProps({
+        "ref": inputRef,
         "class": ["v-checkbox", props.class]
       }, rootAttrs, inputProps, {
         "modelValue": model.value,
@@ -17366,14 +17643,14 @@ const VCheckbox = genericComponent()({
         }
       });
     });
-    return {};
+    return forwardRefs({}, inputRef);
   }
 });
 function useRefs() {
   const refs = ref([]);
   onBeforeUpdate(() => refs.value = []);
-  function updateRef(e2, i2) {
-    refs.value[i2] = e2;
+  function updateRef(e, i) {
+    refs.value[i] = e;
   }
   return {
     refs,
@@ -17477,8 +17754,8 @@ const VPagination = genericComponent()({
     } = _ref;
     const page = useProxiedModel(props, "modelValue");
     const {
-      t: t2,
-      n: n2
+      t,
+      n
     } = useLocale();
     const {
       isRtl
@@ -17544,8 +17821,8 @@ const VPagination = genericComponent()({
         return [start.value, props.ellipsis, ...createRange(rangeLength, rangeStart), props.ellipsis, length.value];
       }
     });
-    function setValue(e2, value, event) {
-      e2.preventDefault();
+    function setValue(e, value, event) {
+      e.preventDefault();
       page.value = value;
       event && emit(event, value);
     }
@@ -17566,7 +17843,7 @@ const VPagination = genericComponent()({
     });
     const items = computed(() => {
       return range.value.map((item, index) => {
-        const ref2 = (e2) => updateRef(e2, index);
+        const ref2 = (e) => updateRef(e, index);
         if (typeof item === "string") {
           return {
             isActive: false,
@@ -17584,7 +17861,7 @@ const VPagination = genericComponent()({
           return {
             isActive,
             key: item,
-            page: n2(item),
+            page: n(item),
             props: {
               ref: ref2,
               ellipsis: false,
@@ -17592,8 +17869,8 @@ const VPagination = genericComponent()({
               disabled: !!props.disabled || Number(props.length) < 2,
               color: isActive ? props.activeColor : props.color,
               "aria-current": isActive,
-              "aria-label": t2(isActive ? props.currentPageAriaLabel : props.pageAriaLabel, item),
-              onClick: (e2) => setValue(e2, item)
+              "aria-label": t(isActive ? props.currentPageAriaLabel : props.pageAriaLabel, item),
+              onClick: (e) => setValue(e, item)
             }
           };
         }
@@ -17605,30 +17882,30 @@ const VPagination = genericComponent()({
       return {
         first: props.showFirstLastPage ? {
           icon: isRtl.value ? props.lastIcon : props.firstIcon,
-          onClick: (e2) => setValue(e2, start.value, "first"),
+          onClick: (e) => setValue(e, start.value, "first"),
           disabled: prevDisabled,
-          "aria-label": t2(props.firstAriaLabel),
+          "aria-label": t(props.firstAriaLabel),
           "aria-disabled": prevDisabled
         } : void 0,
         prev: {
           icon: isRtl.value ? props.nextIcon : props.prevIcon,
-          onClick: (e2) => setValue(e2, page.value - 1, "prev"),
+          onClick: (e) => setValue(e, page.value - 1, "prev"),
           disabled: prevDisabled,
-          "aria-label": t2(props.previousAriaLabel),
+          "aria-label": t(props.previousAriaLabel),
           "aria-disabled": prevDisabled
         },
         next: {
           icon: isRtl.value ? props.prevIcon : props.nextIcon,
-          onClick: (e2) => setValue(e2, page.value + 1, "next"),
+          onClick: (e) => setValue(e, page.value + 1, "next"),
           disabled: nextDisabled,
-          "aria-label": t2(props.nextAriaLabel),
+          "aria-label": t(props.nextAriaLabel),
           "aria-disabled": nextDisabled
         },
         last: props.showFirstLastPage ? {
           icon: isRtl.value ? props.firstIcon : props.lastIcon,
-          onClick: (e2) => setValue(e2, start.value + length.value - 1, "last"),
+          onClick: (e) => setValue(e, start.value + length.value - 1, "last"),
           disabled: nextDisabled,
-          "aria-label": t2(props.lastAriaLabel),
+          "aria-label": t(props.lastAriaLabel),
           "aria-disabled": nextDisabled
         } : void 0
       };
@@ -17638,11 +17915,11 @@ const VPagination = genericComponent()({
       const currentIndex = page.value - start.value;
       (_a = refs.value[currentIndex]) == null ? void 0 : _a.$el.focus();
     }
-    function onKeydown(e2) {
-      if (e2.key === keyValues.left && !props.disabled && page.value > Number(props.start)) {
+    function onKeydown(e) {
+      if (e.key === keyValues.left && !props.disabled && page.value > Number(props.start)) {
         page.value = page.value - 1;
         nextTick(updateFocus);
-      } else if (e2.key === keyValues.right && !props.disabled && page.value < start.value + length.value - 1) {
+      } else if (e.key === keyValues.right && !props.disabled && page.value < start.value + length.value - 1) {
         page.value = page.value + 1;
         nextTick(updateFocus);
       }
@@ -17652,7 +17929,7 @@ const VPagination = genericComponent()({
       "class": normalizeClass(["v-pagination", themeClasses.value, props.class]),
       "style": normalizeStyle(props.style),
       "role": "navigation",
-      "aria-label": t2(props.ariaLabel),
+      "aria-label": t(props.ariaLabel),
       "onKeydown": onKeydown,
       "data-test": "v-pagination-root"
     }, {
@@ -17760,6 +18037,11 @@ function getOffsetPosition(isHorizontal, element) {
 const VSlideGroupSymbol = Symbol.for("vuetify:v-slide-group");
 const makeVSlideGroupProps = propsFactory({
   centerActive: Boolean,
+  scrollToActive: {
+    type: Boolean,
+    default: true
+  },
+  contentClass: null,
   direction: {
     type: String,
     default: "horizontal"
@@ -17847,7 +18129,7 @@ const VSlideGroup = genericComponent()({
             contentSize.value = contentRect.value[sizeProperty];
             isOverflowing.value = containerSize.value + 1 < contentSize.value;
           }
-          if (firstSelectedIndex.value >= 0 && contentRef.el) {
+          if (props.scrollToActive && firstSelectedIndex.value >= 0 && contentRef.el) {
             const selectedElement = contentRef.el.children[lastSelectedIndex.value];
             scrollToChildren(selectedElement, props.centerActive);
           }
@@ -17893,17 +18175,17 @@ const VSlideGroup = genericComponent()({
         goTo(newPosition, goToOptions.value);
       }
     }
-    function onScroll(e2) {
+    function onScroll(e) {
       const {
         scrollTop,
         scrollLeft
-      } = e2.target;
+      } = e.target;
       scrollOffset.value = isHorizontal.value ? scrollLeft : scrollTop;
     }
-    function onFocusin(e2) {
+    function onFocusin(e) {
       isFocused.value = true;
       if (!isOverflowing.value || !contentRef.el) return;
-      for (const el of e2.composedPath()) {
+      for (const el of e.composedPath()) {
         for (const item of contentRef.el.children) {
           if (item === el) {
             scrollToChildren(item);
@@ -17912,40 +18194,40 @@ const VSlideGroup = genericComponent()({
         }
       }
     }
-    function onFocusout(e2) {
+    function onFocusout(e) {
       isFocused.value = false;
     }
     let ignoreFocusEvent = false;
-    function onFocus(e2) {
+    function onFocus(e) {
       var _a;
-      if (!ignoreFocusEvent && !isFocused.value && !(e2.relatedTarget && ((_a = contentRef.el) == null ? void 0 : _a.contains(e2.relatedTarget)))) focus();
+      if (!ignoreFocusEvent && !isFocused.value && !(e.relatedTarget && ((_a = contentRef.el) == null ? void 0 : _a.contains(e.relatedTarget)))) focus();
       ignoreFocusEvent = false;
     }
     function onFocusAffixes() {
       ignoreFocusEvent = true;
     }
-    function onKeydown(e2) {
+    function onKeydown(e) {
       if (!contentRef.el) return;
       function toFocus(location) {
-        e2.preventDefault();
+        e.preventDefault();
         focus(location);
       }
       if (isHorizontal.value) {
-        if (e2.key === "ArrowRight") {
+        if (e.key === "ArrowRight") {
           toFocus(isRtl.value ? "prev" : "next");
-        } else if (e2.key === "ArrowLeft") {
+        } else if (e.key === "ArrowLeft") {
           toFocus(isRtl.value ? "next" : "prev");
         }
       } else {
-        if (e2.key === "ArrowDown") {
+        if (e.key === "ArrowDown") {
           toFocus("next");
-        } else if (e2.key === "ArrowUp") {
+        } else if (e.key === "ArrowUp") {
           toFocus("prev");
         }
       }
-      if (e2.key === "Home") {
+      if (e.key === "Home") {
         toFocus("first");
-      } else if (e2.key === "End") {
+      } else if (e.key === "End") {
         toFocus("last");
       }
     }
@@ -18001,6 +18283,7 @@ const VSlideGroup = genericComponent()({
       select: group.select,
       isSelected: group.isSelected
     }));
+    const hasOverflowOrScroll = computed(() => isOverflowing.value || Math.abs(scrollOffset.value) > 0);
     const hasAffixes = computed(() => {
       switch (props.showArrows) {
         // Always show arrows on desktop & mobile
@@ -18012,22 +18295,22 @@ const VSlideGroup = genericComponent()({
         // Show arrows on mobile when overflowing.
         // This matches the default 2.2 behavior
         case true:
-          return isOverflowing.value || Math.abs(scrollOffset.value) > 0;
+          return hasOverflowOrScroll.value;
         // Always show on mobile
         case "mobile":
-          return mobile.value || isOverflowing.value || Math.abs(scrollOffset.value) > 0;
+          return mobile.value || hasOverflowOrScroll.value;
         // https://material.io/components/tabs#scrollable-tabs
         // Always show arrows when
         // overflowed on desktop
         default:
-          return !mobile.value && (isOverflowing.value || Math.abs(scrollOffset.value) > 0);
+          return !mobile.value && hasOverflowOrScroll.value;
       }
     });
     const hasPrev = computed(() => {
       return Math.abs(scrollOffset.value) > 1;
     });
     const hasNext = computed(() => {
-      if (!containerRef.value) return false;
+      if (!containerRef.value || !hasOverflowOrScroll.value) return false;
       const scrollSize = getScrollSize(isHorizontal.value, containerRef.el);
       const clientSize = getClientSize(isHorizontal.value, containerRef.el);
       const scrollSizeMax = scrollSize - clientSize;
@@ -18059,7 +18342,7 @@ const VSlideGroup = genericComponent()({
         })]), createElementVNode("div", {
           "key": "container",
           "ref": containerRef,
-          "class": "v-slide-group__container",
+          "class": normalizeClass(["v-slide-group__container", props.contentClass]),
           "onScroll": onScroll
         }, [createElementVNode("div", {
           "ref": contentRef,
@@ -18100,7 +18383,9 @@ const makeVChipGroupProps = propsFactory({
     type: Function,
     default: deepEqual
   },
-  ...makeVSlideGroupProps(),
+  ...makeVSlideGroupProps({
+    scrollToActive: false
+  }),
   ...makeComponentProps(),
   ...makeGroupProps({
     selectedClass: "v-chip--selected"
@@ -18228,10 +18513,10 @@ const VChip = genericComponent()({
   },
   props: makeVChipProps(),
   emits: {
-    "click:close": (e2) => true,
+    "click:close": (e) => true,
     "update:modelValue": (value) => true,
     "group:selected": (val) => true,
-    click: (e2) => true
+    click: (e) => true
   },
   setup(props, _ref) {
     let {
@@ -18240,7 +18525,7 @@ const VChip = genericComponent()({
       slots
     } = _ref;
     const {
-      t: t2
+      t
     } = useLocale();
     const {
       borderClasses
@@ -18262,18 +18547,29 @@ const VChip = genericComponent()({
     } = provideTheme(props);
     const isActive = useProxiedModel(props, "modelValue");
     const group = useGroupItem(props, VChipGroupSymbol, false);
+    const slideGroup = useGroupItem(props, VSlideGroupSymbol, false);
     const link = useLink(props, attrs);
     const isLink = toRef(() => props.link !== false && link.isLink.value);
     const isClickable = computed(() => !props.disabled && props.link !== false && (!!group || props.link || link.isClickable.value));
     const closeProps = toRef(() => ({
-      "aria-label": t2(props.closeLabel),
-      onClick(e2) {
-        e2.preventDefault();
-        e2.stopPropagation();
+      "aria-label": t(props.closeLabel),
+      disabled: props.disabled,
+      onClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
         isActive.value = false;
-        emit("click:close", e2);
+        emit("click:close", e);
       }
     }));
+    watch(isActive, (val) => {
+      if (val) {
+        group == null ? void 0 : group.register();
+        slideGroup == null ? void 0 : slideGroup.register();
+      } else {
+        group == null ? void 0 : group.unregister();
+        slideGroup == null ? void 0 : slideGroup.unregister();
+      }
+    });
     const {
       colorClasses,
       colorStyles,
@@ -18285,17 +18581,17 @@ const VChip = genericComponent()({
         variant: props.variant
       };
     });
-    function onClick(e2) {
+    function onClick(e) {
       var _a;
-      emit("click", e2);
+      emit("click", e);
       if (!isClickable.value) return;
-      (_a = link.navigate) == null ? void 0 : _a.call(link, e2);
+      (_a = link.navigate) == null ? void 0 : _a.call(link, e);
       group == null ? void 0 : group.toggle();
     }
-    function onKeyDown(e2) {
-      if (e2.key === "Enter" || e2.key === " ") {
-        e2.preventDefault();
-        onClick(e2);
+    function onKeyDown(e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onClick(e);
       }
     }
     return () => {
@@ -18307,7 +18603,7 @@ const VChip = genericComponent()({
       const hasFilter = !!(slots.filter || props.filter) && group;
       const hasPrependMedia = !!(props.prependIcon || props.prependAvatar);
       const hasPrepend = !!(hasPrependMedia || slots.prepend);
-      return isActive.value && withDirectives(createVNode(Tag, mergeProps({
+      return isActive.value && withDirectives(createVNode(Tag, mergeProps(link.linkProps, {
         "class": ["v-chip", {
           "v-chip--disabled": props.disabled,
           "v-chip--label": props.label,
@@ -18322,7 +18618,7 @@ const VChip = genericComponent()({
         "tabindex": isClickable.value ? 0 : void 0,
         "onClick": onClick,
         "onKeydown": isClickable.value && !isLink.value && onKeyDown
-      }, link.linkProps), {
+      }), {
         default: () => {
           var _a2;
           return [genOverlays(isClickable.value, "v-chip"), hasFilter && createVNode(VExpandXTransition, {
@@ -18425,11 +18721,18 @@ const VChip = genericComponent()({
 });
 const ListKey = Symbol.for("vuetify:list");
 function createList() {
+  let {
+    filterable
+  } = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
+    filterable: false
+  };
   const parent = inject(ListKey, {
+    filterable: false,
     hasPrepend: shallowRef(false),
     updateHasPrepend: () => null
   });
   const data = {
+    filterable: parent.filterable || filterable,
     hasPrepend: shallowRef(false),
     updateHasPrepend: (value) => {
       if (value) data.hasPrepend.value = value;
@@ -18646,7 +18949,7 @@ const independentSelectStrategy = (mandatory) => {
       selected.set(id, value ? "on" : "off");
       return selected;
     },
-    in: (v, children, parents) => {
+    in: (v, children, parents, disabled) => {
       const map2 = /* @__PURE__ */ new Map();
       for (const id of v || []) {
         strategy.select({
@@ -18654,7 +18957,8 @@ const independentSelectStrategy = (mandatory) => {
           value: true,
           selected: map2,
           children,
-          parents
+          parents,
+          disabled
         });
       }
       return map2;
@@ -18686,9 +18990,9 @@ const independentSingleSelectStrategy = (mandatory) => {
         selected: singleSelected
       });
     },
-    in: (v, children, parents) => {
+    in: (v, children, parents, disabled) => {
       if (v == null ? void 0 : v.length) {
-        return parentStrategy.in(v.slice(0, 1), children, parents);
+        return parentStrategy.in(v.slice(0, 1), children, parents, disabled);
       }
       return /* @__PURE__ */ new Map();
     },
@@ -18754,23 +19058,32 @@ const classicSelectStrategy = (mandatory) => {
         value,
         selected,
         children,
-        parents
+        parents,
+        disabled
       } = _ref6;
       id = toRaw(id);
       const original = new Map(selected);
       const items = [id];
       while (items.length) {
         const item = items.shift();
-        selected.set(toRaw(item), value ? "on" : "off");
+        if (!disabled.has(item)) {
+          selected.set(toRaw(item), value ? "on" : "off");
+        }
         if (children.has(item)) {
           items.push(...children.get(item));
         }
       }
       let parent = toRaw(parents.get(id));
       while (parent) {
-        const childrenIds = children.get(parent);
-        const everySelected = childrenIds.every((cid) => selected.get(toRaw(cid)) === "on");
-        const noneSelected = childrenIds.every((cid) => !selected.has(toRaw(cid)) || selected.get(toRaw(cid)) === "off");
+        let everySelected = true;
+        let noneSelected = true;
+        for (const child of children.get(parent)) {
+          const cid = toRaw(child);
+          if (disabled.has(cid)) continue;
+          if (selected.get(cid) !== "on") everySelected = false;
+          if (selected.has(cid) && selected.get(cid) !== "off") noneSelected = false;
+          if (!everySelected && !noneSelected) break;
+        }
         selected.set(parent, everySelected ? "on" : noneSelected ? "off" : "indeterminate");
         parent = toRaw(parents.get(parent));
       }
@@ -18784,7 +19097,7 @@ const classicSelectStrategy = (mandatory) => {
       }
       return selected;
     },
-    in: (v, children, parents) => {
+    in: (v, children, parents, disabled) => {
       let map2 = /* @__PURE__ */ new Map();
       for (const id of v || []) {
         map2 = strategy.select({
@@ -18792,7 +19105,8 @@ const classicSelectStrategy = (mandatory) => {
           value: true,
           selected: map2,
           children,
-          parents
+          parents,
+          disabled
         });
       }
       return map2;
@@ -18834,8 +19148,9 @@ const emptyNested = {
   root: {
     register: () => null,
     unregister: () => null,
-    parents: ref(/* @__PURE__ */ new Map()),
     children: ref(/* @__PURE__ */ new Map()),
+    parents: ref(/* @__PURE__ */ new Map()),
+    disabled: ref(/* @__PURE__ */ new Set()),
     open: () => null,
     openOnSelect: () => null,
     activate: () => null,
@@ -18862,9 +19177,10 @@ const makeNestedProps = propsFactory({
 }, "nested");
 const useNested = (props) => {
   let isUnmounted = false;
-  const children = ref(/* @__PURE__ */ new Map());
-  const parents = ref(/* @__PURE__ */ new Map());
-  const opened = useProxiedModel(props, "opened", props.opened, (v) => new Set(v), (v) => [...v.values()]);
+  const children = shallowRef(/* @__PURE__ */ new Map());
+  const parents = shallowRef(/* @__PURE__ */ new Map());
+  const disabled = shallowRef(/* @__PURE__ */ new Set());
+  const opened = useProxiedModel(props, "opened", props.opened, (v) => new Set(Array.isArray(v) ? v.map((i) => toRaw(i)) : v), (v) => [...v.values()]);
   const activeStrategy = computed(() => {
     if (typeof props.activeStrategy === "object") return props.activeStrategy;
     if (typeof props.activeStrategy === "function") return props.activeStrategy(props.mandatory);
@@ -18912,14 +19228,14 @@ const useNested = (props) => {
     }
   });
   const activated = useProxiedModel(props, "activated", props.activated, (v) => activeStrategy.value.in(v, children.value, parents.value), (v) => activeStrategy.value.out(v, children.value, parents.value));
-  const selected = useProxiedModel(props, "selected", props.selected, (v) => selectStrategy.value.in(v, children.value, parents.value), (v) => selectStrategy.value.out(v, children.value, parents.value));
+  const selected = useProxiedModel(props, "selected", props.selected, (v) => selectStrategy.value.in(v, children.value, parents.value, disabled.value), (v) => selectStrategy.value.out(v, children.value, parents.value));
   onBeforeUnmount(() => {
     isUnmounted = true;
   });
   function getPath(id) {
     const path = [];
-    let parent = id;
-    while (parent != null) {
+    let parent = toRaw(id);
+    while (parent !== void 0) {
       path.unshift(parent);
       parent = parents.value.get(parent);
     }
@@ -18927,6 +19243,12 @@ const useNested = (props) => {
   }
   const vm = getCurrentInstance("nested");
   const nodeIds = /* @__PURE__ */ new Set();
+  const itemsUpdatePropagation = throttle(() => {
+    nextTick(() => {
+      children.value = new Map(children.value);
+      parents.value = new Map(parents.value);
+    });
+  }, 100);
   const nested = {
     id: shallowRef(),
     root: {
@@ -18942,7 +19264,7 @@ const useNested = (props) => {
         }
         return arr;
       }),
-      register: (id, parentId, isGroup) => {
+      register: (id, parentId, isDisabled, isGroup) => {
         if (nodeIds.has(id)) {
           const path = getPath(id).map(String).join(" -> ");
           const newPath = getPath(parentId).concat(id).map(String).join(" -> ");
@@ -18954,21 +19276,25 @@ const useNested = (props) => {
           nodeIds.add(id);
         }
         parentId && id !== parentId && parents.value.set(id, parentId);
+        isDisabled && disabled.value.add(id);
         isGroup && children.value.set(id, []);
         if (parentId != null) {
           children.value.set(parentId, [...children.value.get(parentId) || [], id]);
         }
+        itemsUpdatePropagation();
       },
       unregister: (id) => {
         if (isUnmounted) return;
         nodeIds.delete(id);
         children.value.delete(id);
+        disabled.value.delete(id);
         const parent = parents.value.get(id);
         if (parent) {
           const list = children.value.get(parent) ?? [];
           children.value.set(parent, list.filter((child) => child !== id));
         }
         parents.value.delete(id);
+        itemsUpdatePropagation();
       },
       open: (id, value, event) => {
         vm.emit("click:open", {
@@ -19012,6 +19338,7 @@ const useNested = (props) => {
           selected: new Map(selected.value),
           children: children.value,
           parents: parents.value,
+          disabled: disabled.value,
           event
         });
         newSelected && (selected.value = newSelected);
@@ -19054,36 +19381,54 @@ const useNested = (props) => {
       },
       children,
       parents,
+      disabled,
       getPath
     }
   };
   provide(VNestedSymbol, nested);
   return nested.root;
 };
-const useNestedItem = (id, isGroup) => {
+const useNestedItem = (id, isDisabled, isGroup) => {
   const parent = inject(VNestedSymbol, emptyNested);
   const uidSymbol = Symbol("nested item");
-  const computedId = computed(() => toValue(id) ?? uidSymbol);
+  const computedId = computed(() => {
+    const idValue = toRaw(toValue(id));
+    return idValue !== void 0 ? idValue : uidSymbol;
+  });
   const item = {
     ...parent,
     id: computedId,
-    open: (open, e2) => parent.root.open(computedId.value, open, e2),
-    openOnSelect: (open, e2) => parent.root.openOnSelect(computedId.value, open, e2),
+    open: (open, e) => parent.root.open(computedId.value, open, e),
+    openOnSelect: (open, e) => parent.root.openOnSelect(computedId.value, open, e),
     isOpen: computed(() => parent.root.opened.value.has(computedId.value)),
     parent: computed(() => parent.root.parents.value.get(computedId.value)),
-    activate: (activated, e2) => parent.root.activate(computedId.value, activated, e2),
-    isActivated: computed(() => parent.root.activated.value.has(toRaw(computedId.value))),
-    select: (selected, e2) => parent.root.select(computedId.value, selected, e2),
-    isSelected: computed(() => parent.root.selected.value.get(toRaw(computedId.value)) === "on"),
-    isIndeterminate: computed(() => parent.root.selected.value.get(toRaw(computedId.value)) === "indeterminate"),
+    activate: (activated, e) => parent.root.activate(computedId.value, activated, e),
+    isActivated: computed(() => parent.root.activated.value.has(computedId.value)),
+    select: (selected, e) => parent.root.select(computedId.value, selected, e),
+    isSelected: computed(() => parent.root.selected.value.get(computedId.value) === "on"),
+    isIndeterminate: computed(() => parent.root.selected.value.get(computedId.value) === "indeterminate"),
     isLeaf: computed(() => !parent.root.children.value.get(computedId.value)),
     isGroupActivator: parent.isGroupActivator
   };
   onBeforeMount(() => {
-    !parent.isGroupActivator && parent.root.register(computedId.value, parent.id.value, isGroup);
+    if (!parent.isGroupActivator) {
+      nextTick(() => {
+        parent.root.register(computedId.value, parent.id.value, toValue(isDisabled), isGroup);
+      });
+    }
   });
   onBeforeUnmount(() => {
-    !parent.isGroupActivator && parent.root.unregister(computedId.value);
+    if (!parent.isGroupActivator) {
+      parent.root.unregister(computedId.value);
+    }
+  });
+  watch(computedId, (val, oldVal) => {
+    if (!parent.isGroupActivator) {
+      parent.root.unregister(oldVal);
+      nextTick(() => {
+        parent.root.register(val, parent.id.value, toValue(isDisabled), isGroup);
+      });
+    }
   });
   isGroup && provide(VNestedSymbol, item);
   return item;
@@ -19132,10 +19477,12 @@ const makeVListGroupProps = propsFactory({
     type: IconValue,
     default: "$collapse"
   },
+  disabled: Boolean,
   expandIcon: {
     type: IconValue,
     default: "$expand"
   },
+  rawId: [String, Number],
   prependIcon: IconValue,
   appendIcon: IconValue,
   fluid: Boolean,
@@ -19156,17 +19503,16 @@ const VListGroup = genericComponent()({
       isOpen,
       open,
       id: _id
-    } = useNestedItem(() => props.value, true);
-    const id = computed(() => `v-list-group--id-${String(_id.value)}`);
+    } = useNestedItem(() => props.value, () => props.disabled, true);
+    const id = computed(() => `v-list-group--id-${String(props.rawId ?? _id.value)}`);
     const list = useList();
     const {
       isBooted
     } = useSsrBoot();
-    function onClick(e2) {
+    function onClick(e) {
       var _a;
-      e2.stopPropagation();
-      if (["INPUT", "TEXTAREA"].includes((_a = e2.target) == null ? void 0 : _a.tagName)) return;
-      open(!isOpen.value, e2);
+      if (["INPUT", "TEXTAREA"].includes((_a = e.target) == null ? void 0 : _a.tagName)) return;
+      open(!isOpen.value, e);
     }
     const activatorProps = computed(() => ({
       onClick,
@@ -19176,7 +19522,6 @@ const VListGroup = genericComponent()({
     const toggleIcon = computed(() => isOpen.value ? props.collapseIcon : props.expandIcon);
     const activatorDefaults = computed(() => ({
       VListItem: {
-        active: isOpen.value,
         activeColor: props.activeColor,
         baseColor: props.baseColor,
         color: props.color,
@@ -19303,7 +19648,7 @@ const VListItem = genericComponent()({
   },
   props: makeVListItemProps(),
   emits: {
-    click: (e2) => true
+    click: (e) => true
   },
   setup(props, _ref) {
     let {
@@ -19325,7 +19670,7 @@ const VListItem = genericComponent()({
       parent,
       openOnSelect,
       id: uid
-    } = useNestedItem(id, false);
+    } = useNestedItem(id, () => props.disabled, false);
     const list = useList();
     const isActive = computed(() => {
       var _a;
@@ -19334,6 +19679,11 @@ const VListItem = genericComponent()({
     const isLink = toRef(() => props.link !== false && link.isLink.value);
     const isSelectable = computed(() => !!list && (root.selectable.value || root.activatable.value || props.value != null));
     const isClickable = computed(() => !props.disabled && props.link !== false && (props.link || link.isClickable.value || isSelectable.value));
+    const role = computed(() => list ? isLink.value ? "link" : isSelectable.value ? "option" : "listitem" : void 0);
+    const ariaSelected = computed(() => {
+      if (!isSelectable.value) return void 0;
+      return root.activatable.value ? isActivated.value : root.selectable.value ? isSelected.value : isActive.value;
+    });
     const roundedProps = toRef(() => props.rounded || props.nav);
     const color = toRef(() => props.color ?? props.activeColor);
     const variantProps = toRef(() => ({
@@ -19349,7 +19699,9 @@ const VListItem = genericComponent()({
     });
     onBeforeMount(() => {
       var _a;
-      if ((_a = link.isActive) == null ? void 0 : _a.value) handleActiveLink();
+      if ((_a = link.isActive) == null ? void 0 : _a.value) {
+        nextTick(() => handleActiveLink());
+      }
     });
     function handleActiveLink() {
       if (parent.value != null) {
@@ -19381,6 +19733,9 @@ const VListItem = genericComponent()({
       roundedClasses
     } = useRounded(roundedProps);
     const lineClasses = toRef(() => props.lines ? `v-list-item--${props.lines}-line` : void 0);
+    const rippleOptions = toRef(() => props.ripple !== void 0 && !!props.ripple && (list == null ? void 0 : list.filterable) ? {
+      keys: ["Enter"]
+    } : props.ripple);
     const slotProps = computed(() => ({
       isActive: isActive.value,
       select,
@@ -19388,27 +19743,28 @@ const VListItem = genericComponent()({
       isSelected: isSelected.value,
       isIndeterminate: isIndeterminate.value
     }));
-    function onClick(e2) {
+    function onClick(e) {
       var _a, _b;
-      emit("click", e2);
-      if (["INPUT", "TEXTAREA"].includes((_a = e2.target) == null ? void 0 : _a.tagName)) return;
+      emit("click", e);
+      if (["INPUT", "TEXTAREA"].includes((_a = e.target) == null ? void 0 : _a.tagName)) return;
       if (!isClickable.value) return;
-      (_b = link.navigate) == null ? void 0 : _b.call(link, e2);
+      (_b = link.navigate) == null ? void 0 : _b.call(link, e);
       if (isGroupActivator) return;
       if (root.activatable.value) {
-        activate(!isActivated.value, e2);
+        activate(!isActivated.value, e);
       } else if (root.selectable.value) {
-        select(!isSelected.value, e2);
-      } else if (props.value != null) {
-        select(!isSelected.value, e2);
+        select(!isSelected.value, e);
+      } else if (props.value != null && !isLink.value) {
+        select(!isSelected.value, e);
       }
     }
-    function onKeyDown(e2) {
-      const target = e2.target;
+    function onKeyDown(e) {
+      const target = e.target;
       if (["INPUT", "TEXTAREA"].includes(target.tagName)) return;
-      if (e2.key === "Enter" || e2.key === " ") {
-        e2.preventDefault();
-        e2.target.dispatchEvent(new MouseEvent("click", e2));
+      if (e.key === "Enter" || e.key === " " && !(list == null ? void 0 : list.filterable)) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.target.dispatchEvent(new MouseEvent("click", e));
       }
     }
     useRender(() => {
@@ -19423,7 +19779,7 @@ const VListItem = genericComponent()({
       if (props.activeColor) {
         deprecate$1("active-color", ["color", "base-color"]);
       }
-      return withDirectives(createVNode(Tag, mergeProps({
+      return withDirectives(createVNode(Tag, mergeProps(link.linkProps, {
         "class": ["v-list-item", {
           "v-list-item--active": isActive.value,
           "v-list-item--disabled": props.disabled,
@@ -19435,10 +19791,11 @@ const VListItem = genericComponent()({
         }, themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, lineClasses.value, roundedClasses.value, variantClasses.value, props.class],
         "style": [colorStyles.value, dimensionStyles.value, props.style],
         "tabindex": isClickable.value ? list ? -2 : 0 : void 0,
-        "aria-selected": isSelectable.value ? root.activatable.value ? isActivated.value : root.selectable.value ? isSelected.value : isActive.value : void 0,
+        "aria-selected": ariaSelected.value,
+        "role": role.value,
         "onClick": onClick,
         "onKeydown": isClickable.value && !isLink.value && onKeyDown
-      }, link.linkProps), {
+      }), {
         default: () => {
           var _a;
           return [genOverlays(isClickable.value || isActive.value, "v-list-item"), hasPrepend && createElementVNode("div", {
@@ -19532,7 +19889,7 @@ const VListItem = genericComponent()({
             "class": "v-list-item__spacer"
           }, null)])];
         }
-      }), [[Ripple, isClickable.value && props.ripple]]);
+      }), [[Ripple, isClickable.value && rippleOptions.value]]);
     });
     return {
       activate,
@@ -19651,18 +20008,17 @@ const VListChildren = genericComponent()({
           } : void 0
         };
         const listGroupProps = VListGroup.filterProps(itemProps);
-        return children ? createVNode(VListGroup, mergeProps({
-          "value": itemProps == null ? void 0 : itemProps.value
-        }, listGroupProps), {
+        return children ? createVNode(VListGroup, mergeProps(listGroupProps, {
+          "value": props.returnObject ? item : itemProps == null ? void 0 : itemProps.value,
+          "rawId": itemProps == null ? void 0 : itemProps.value
+        }), {
           activator: (_ref3) => {
             let {
               props: activatorProps
             } = _ref3;
-            const listItemProps = {
-              ...itemProps,
-              ...activatorProps,
+            const listItemProps = mergeProps(itemProps, activatorProps, {
               value: props.returnObject ? item : itemProps.value
-            };
+            });
             return slots.header ? slots.header({
               props: listItemProps
             }) : createVNode(VListItem, listItemProps, slotsWithItem);
@@ -19701,29 +20057,40 @@ const makeItemsProps = propsFactory({
     type: [Boolean, String, Array, Function],
     default: "props"
   },
+  itemType: {
+    type: [Boolean, String, Array, Function],
+    default: "type"
+  },
   returnObject: Boolean,
   valueComparator: Function
 }, "list-items");
+const itemTypes$1 = /* @__PURE__ */ new Set(["item", "divider", "subheader"]);
 function transformItem$2(props, item) {
   const title = getPropertyFromItem(item, props.itemTitle, item);
   const value = getPropertyFromItem(item, props.itemValue, title);
   const children = getPropertyFromItem(item, props.itemChildren);
   const itemProps = props.itemProps === true ? typeof item === "object" && item != null && !Array.isArray(item) ? "children" in item ? omit(item, ["children"]) : item : void 0 : getPropertyFromItem(item, props.itemProps);
+  let type = getPropertyFromItem(item, props.itemType, "item");
+  if (!itemTypes$1.has(type)) {
+    type = "item";
+  }
   const _props = {
     title,
     value,
     ...itemProps
   };
   return {
+    type,
     title: String(_props.title ?? ""),
     value: _props.value,
     props: _props,
-    children: Array.isArray(children) ? transformItems$2(props, children) : void 0,
+    children: type === "item" && Array.isArray(children) ? transformItems$2(props, children) : void 0,
     raw: item
   };
 }
+transformItem$2.neededProps = ["itemTitle", "itemValue", "itemChildren", "itemProps", "itemType"];
 function transformItems$2(props, items) {
-  const _props = pick(props, ["itemTitle", "itemValue", "itemChildren", "itemProps", "returnObject", "valueComparator"]);
+  const _props = pick(props, transformItem$2.neededProps);
   const array = [];
   for (const item of items) {
     array.push(transformItem$2(_props, item));
@@ -19739,8 +20106,8 @@ function useItems(props) {
     const _items = items.value;
     const map2 = /* @__PURE__ */ new Map();
     const keyless = [];
-    for (let i2 = 0; i2 < _items.length; i2++) {
-      const item = _items[i2];
+    for (let i = 0; i < _items.length; i++) {
+      const item = _items[i];
       if (isPrimitive(item.value) || item.value === null) {
         let values = map2.get(item.value);
         if (!values) {
@@ -19763,7 +20130,7 @@ function useItems(props) {
     const _returnObject = props.returnObject;
     const hasValueComparator = !!props.valueComparator;
     const valueComparator = props.valueComparator || deepEqual;
-    const _props = pick(props, ["itemTitle", "itemValue", "itemChildren", "itemProps", "returnObject", "valueComparator"]);
+    const _props = pick(props, transformItem$2.neededProps);
     const returnValue = [];
     main: for (const v of value) {
       if (!_hasNullItem && v === null) continue;
@@ -19805,12 +20172,16 @@ function useItems(props) {
     transformOut
   };
 }
+const itemTypes = /* @__PURE__ */ new Set(["item", "divider", "subheader"]);
 function transformItem$1(props, item) {
-  const type = getPropertyFromItem(item, props.itemType, "item");
   const title = isPrimitive(item) ? item : getPropertyFromItem(item, props.itemTitle);
-  const value = getPropertyFromItem(item, props.itemValue, void 0);
+  const value = isPrimitive(item) ? item : getPropertyFromItem(item, props.itemValue, void 0);
   const children = getPropertyFromItem(item, props.itemChildren);
   const itemProps = props.itemProps === true ? omit(item, ["children"]) : getPropertyFromItem(item, props.itemProps);
+  let type = getPropertyFromItem(item, props.itemType, "item");
+  if (!itemTypes.has(type)) {
+    type = "item";
+  }
   const _props = {
     title,
     value,
@@ -19845,6 +20216,7 @@ const makeVListProps = propsFactory({
   activeClass: String,
   bgColor: String,
   disabled: Boolean,
+  filterable: Boolean,
   expandIcon: IconValue,
   collapseIcon: IconValue,
   lines: {
@@ -19865,10 +20237,6 @@ const makeVListProps = propsFactory({
   ...makeDensityProps(),
   ...makeDimensionProps(),
   ...makeElevationProps(),
-  itemType: {
-    type: String,
-    default: "type"
-  },
   ...makeItemsProps(),
   ...makeRoundedProps(),
   ...makeTagProps(),
@@ -19928,7 +20296,10 @@ const VList = genericComponent()({
     const activeColor = toRef(() => props.activeColor);
     const baseColor = toRef(() => props.baseColor);
     const color = toRef(() => props.color);
-    createList();
+    const isSelectable = toRef(() => props.selectable || props.activatable);
+    createList({
+      filterable: props.filterable
+    });
     provideDefaults({
       VListGroup: {
         activeColor,
@@ -19952,33 +20323,35 @@ const VList = genericComponent()({
     });
     const isFocused = shallowRef(false);
     const contentRef = ref();
-    function onFocusin(e2) {
+    function onFocusin(e) {
       isFocused.value = true;
     }
-    function onFocusout(e2) {
+    function onFocusout(e) {
       isFocused.value = false;
     }
-    function onFocus(e2) {
+    function onFocus(e) {
       var _a;
-      if (!isFocused.value && !(e2.relatedTarget && ((_a = contentRef.value) == null ? void 0 : _a.contains(e2.relatedTarget)))) focus();
+      if (!isFocused.value && !(e.relatedTarget && ((_a = contentRef.value) == null ? void 0 : _a.contains(e.relatedTarget)))) focus();
     }
-    function onKeydown(e2) {
-      const target = e2.target;
-      if (!contentRef.value || ["INPUT", "TEXTAREA"].includes(target.tagName)) return;
-      if (e2.key === "ArrowDown") {
+    function onKeydown(e) {
+      const target = e.target;
+      if (!contentRef.value || target.tagName === "INPUT" && ["Home", "End"].includes(e.key) || target.tagName === "TEXTAREA") {
+        return;
+      }
+      if (e.key === "ArrowDown") {
         focus("next");
-      } else if (e2.key === "ArrowUp") {
+      } else if (e.key === "ArrowUp") {
         focus("prev");
-      } else if (e2.key === "Home") {
+      } else if (e.key === "Home") {
         focus("first");
-      } else if (e2.key === "End") {
+      } else if (e.key === "End") {
         focus("last");
       } else {
         return;
       }
-      e2.preventDefault();
+      e.preventDefault();
     }
-    function onMousedown(e2) {
+    function onMousedown(e) {
       isFocused.value = true;
     }
     function focus(location) {
@@ -19996,7 +20369,7 @@ const VList = genericComponent()({
         }, themeClasses.value, backgroundColorClasses.value, borderClasses.value, densityClasses.value, elevationClasses.value, lineClasses.value, roundedClasses.value, props.class]),
         "style": normalizeStyle([backgroundColorStyles.value, dimensionStyles.value, props.style]),
         "tabindex": props.disabled ? -1 : 0,
-        "role": "listbox",
+        "role": isSelectable.value ? "listbox" : "list",
         "aria-activedescendant": void 0,
         "onFocusin": onFocusin,
         "onFocusout": onFocusout,
@@ -20025,6 +20398,7 @@ const makeVMenuProps = propsFactory({
   // disableKeys: Boolean,
   id: String,
   submenu: Boolean,
+  disableInitialFocus: Boolean,
   ...omit(makeVOverlayProps({
     closeDelay: 250,
     closeOnContentClick: true,
@@ -20067,10 +20441,10 @@ const VMenu = genericComponent()({
       unregister() {
         openChildren.value.delete(uid);
       },
-      closeParents(e2) {
+      closeParents(e) {
         setTimeout(() => {
           var _a;
-          if (!openChildren.value.size && !props.persistent && (e2 == null || ((_a = overlay.value) == null ? void 0 : _a.contentEl) && !isClickInsideElement(e2, overlay.value.contentEl))) {
+          if (!openChildren.value.size && !props.persistent && (e == null || ((_a = overlay.value) == null ? void 0 : _a.contentEl) && !isClickInsideElement(e, overlay.value.contentEl))) {
             isActive.value = false;
             parent == null ? void 0 : parent.closeParents();
           }
@@ -20082,23 +20456,39 @@ const VMenu = genericComponent()({
       document.removeEventListener("focusin", onFocusIn);
     });
     onDeactivated(() => isActive.value = false);
-    async function onFocusIn(e2) {
-      var _a, _b, _c;
-      const before = e2.relatedTarget;
-      const after = e2.target;
+    let focusTrapSuppressed = false;
+    let focusTrapSuppressionTimeout = -1;
+    async function onPointerdown() {
+      focusTrapSuppressed = true;
+      focusTrapSuppressionTimeout = window.setTimeout(() => {
+        focusTrapSuppressed = false;
+      }, 100);
+    }
+    async function onFocusIn(e) {
+      var _a, _b, _c, _d, _e;
+      const before = e.relatedTarget;
+      const after = e.target;
       await nextTick();
-      if (isActive.value && before !== after && ((_a = overlay.value) == null ? void 0 : _a.contentEl) && // We're the topmost menu
-      ((_b = overlay.value) == null ? void 0 : _b.globalTop) && // It isn't the document or the menu body
-      ![document, overlay.value.contentEl].includes(after) && // It isn't inside the menu body
-      !overlay.value.contentEl.contains(after)) {
-        const focusable = focusableChildren(overlay.value.contentEl);
-        (_c = focusable[0]) == null ? void 0 : _c.focus();
+      if (isActive.value && before !== after && ((_a = overlay.value) == null ? void 0 : _a.rootEl) && ((_b = overlay.value) == null ? void 0 : _b.contentEl) && // We're the menu without open submenus or overlays
+      ((_c = overlay.value) == null ? void 0 : _c.localTop) && // It isn't the document or the menu body
+      ![document, overlay.value.rootEl].includes(after) && // It isn't inside the menu body
+      !overlay.value.rootEl.contains(after)) {
+        if (focusTrapSuppressed) {
+          if (!props.openOnHover && !((_d = overlay.value.activatorEl) == null ? void 0 : _d.contains(after))) {
+            isActive.value = false;
+          }
+        } else {
+          const focusable = focusableChildren(overlay.value.contentEl);
+          (_e = focusable[0]) == null ? void 0 : _e.focus();
+          document.removeEventListener("pointerdown", onPointerdown);
+        }
       }
     }
     watch(isActive, (val) => {
       if (val) {
         parent == null ? void 0 : parent.register();
-        if (IN_BROWSER) {
+        if (IN_BROWSER && !props.disableInitialFocus) {
+          document.addEventListener("pointerdown", onPointerdown);
           document.addEventListener("focusin", onFocusIn, {
             once: true
           });
@@ -20106,62 +20496,65 @@ const VMenu = genericComponent()({
       } else {
         parent == null ? void 0 : parent.unregister();
         if (IN_BROWSER) {
+          clearTimeout(focusTrapSuppressionTimeout);
+          document.removeEventListener("pointerdown", onPointerdown);
           document.removeEventListener("focusin", onFocusIn);
         }
       }
     }, {
       immediate: true
     });
-    function onClickOutside(e2) {
-      parent == null ? void 0 : parent.closeParents(e2);
+    function onClickOutside(e) {
+      parent == null ? void 0 : parent.closeParents(e);
     }
-    function onKeydown(e2) {
+    function onKeydown(e) {
       var _a, _b, _c, _d, _e;
       if (props.disabled) return;
-      if (e2.key === "Tab" || e2.key === "Enter" && !props.closeOnContentClick) {
-        if (e2.key === "Enter" && (e2.target instanceof HTMLTextAreaElement || e2.target instanceof HTMLInputElement && !!e2.target.closest("form"))) return;
-        if (e2.key === "Enter") e2.preventDefault();
-        const nextElement = getNextElement(focusableChildren((_a = overlay.value) == null ? void 0 : _a.contentEl, false), e2.shiftKey ? "prev" : "next", (el) => el.tabIndex >= 0);
+      if (e.key === "Tab" || e.key === "Enter" && !props.closeOnContentClick) {
+        if (e.key === "Enter" && (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement && !!e.target.closest("form"))) return;
+        if (e.key === "Enter") e.preventDefault();
+        const nextElement = getNextElement(focusableChildren((_a = overlay.value) == null ? void 0 : _a.contentEl, false), e.shiftKey ? "prev" : "next", (el) => el.tabIndex >= 0);
         if (!nextElement) {
           isActive.value = false;
           (_c = (_b = overlay.value) == null ? void 0 : _b.activatorEl) == null ? void 0 : _c.focus();
         }
-      } else if (props.submenu && e2.key === (isRtl.value ? "ArrowRight" : "ArrowLeft")) {
+      } else if (props.submenu && e.key === (isRtl.value ? "ArrowRight" : "ArrowLeft")) {
         isActive.value = false;
         (_e = (_d = overlay.value) == null ? void 0 : _d.activatorEl) == null ? void 0 : _e.focus();
       }
     }
-    function onActivatorKeydown(e2) {
+    function onActivatorKeydown(e) {
       var _a;
       if (props.disabled) return;
       const el = (_a = overlay.value) == null ? void 0 : _a.contentEl;
       if (el && isActive.value) {
-        if (e2.key === "ArrowDown") {
-          e2.preventDefault();
-          e2.stopImmediatePropagation();
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          e.stopImmediatePropagation();
           focusChild(el, "next");
-        } else if (e2.key === "ArrowUp") {
-          e2.preventDefault();
-          e2.stopImmediatePropagation();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          e.stopImmediatePropagation();
           focusChild(el, "prev");
         } else if (props.submenu) {
-          if (e2.key === (isRtl.value ? "ArrowRight" : "ArrowLeft")) {
+          if (e.key === (isRtl.value ? "ArrowRight" : "ArrowLeft")) {
             isActive.value = false;
-          } else if (e2.key === (isRtl.value ? "ArrowLeft" : "ArrowRight")) {
-            e2.preventDefault();
+          } else if (e.key === (isRtl.value ? "ArrowLeft" : "ArrowRight")) {
+            e.preventDefault();
             focusChild(el, "first");
           }
         }
-      } else if (props.submenu ? e2.key === (isRtl.value ? "ArrowLeft" : "ArrowRight") : ["ArrowDown", "ArrowUp"].includes(e2.key)) {
+      } else if (props.submenu ? e.key === (isRtl.value ? "ArrowLeft" : "ArrowRight") : ["ArrowDown", "ArrowUp"].includes(e.key)) {
         isActive.value = true;
-        e2.preventDefault();
-        setTimeout(() => setTimeout(() => onActivatorKeydown(e2)));
+        e.preventDefault();
+        setTimeout(() => setTimeout(() => onActivatorKeydown(e)));
       }
     }
     const activatorProps = computed(() => mergeProps({
       "aria-haspopup": "menu",
       "aria-expanded": String(isActive.value),
       "aria-controls": id.value,
+      "aria-owns": id.value,
       onKeydown: onActivatorKeydown
     }, props.activatorProps));
     useRender(() => {
@@ -20260,8 +20653,7 @@ const VFieldLabel = genericComponent()({
       "class": normalizeClass(["v-field-label", {
         "v-field-label--floating": props.floating
       }, props.class]),
-      "style": normalizeStyle(props.style),
-      "aria-hidden": props.floating || void 0
+      "style": normalizeStyle(props.style)
     }, slots));
     return {};
   }
@@ -20282,6 +20674,7 @@ const makeVFieldProps = propsFactory({
   },
   color: String,
   baseColor: String,
+  details: Boolean,
   dirty: Boolean,
   disabled: {
     type: Boolean,
@@ -20353,7 +20746,7 @@ const VField = genericComponent()({
     const hasFloatingLabel = toRef(() => !props.singleLine && hasLabel.value);
     const uid = useId();
     const id = computed(() => props.id || `input-${uid}`);
-    const messagesId = toRef(() => `${id.value}-messages`);
+    const messagesId = toRef(() => !props.details ? void 0 : `${id.value}-messages`);
     const labelRef = ref();
     const floatingLabelRef = ref();
     const controlRef = ref();
@@ -20374,7 +20767,7 @@ const VField = genericComponent()({
       textColorStyles
     } = useTextColor(color);
     watch(isActive, (val) => {
-      if (hasFloatingLabel.value) {
+      if (hasFloatingLabel.value && !PREFERS_REDUCED_MOTION()) {
         const el = labelRef.value.$el;
         const targetEl = floatingLabelRef.value.$el;
         requestAnimationFrame(() => {
@@ -20417,9 +20810,9 @@ const VField = genericComponent()({
       blur,
       focus
     }));
-    function onClick(e2) {
-      if (e2.target !== document.activeElement) {
-        e2.preventDefault();
+    function onClick(e) {
+      if (e.target !== document.activeElement) {
+        e.preventDefault();
       }
     }
     useRender(() => {
@@ -20479,6 +20872,7 @@ const VField = genericComponent()({
         "class": normalizeClass([textColorClasses.value]),
         "floating": true,
         "for": id.value,
+        "aria-hidden": !isActive.value,
         "style": normalizeStyle(textColorStyles.value)
       }, {
         default: () => [label()]
@@ -20506,9 +20900,9 @@ const VField = genericComponent()({
       }, {
         default: () => [withDirectives(createElementVNode("div", {
           "class": "v-field__clearable",
-          "onMousedown": (e2) => {
-            e2.preventDefault();
-            e2.stopPropagation();
+          "onMousedown": (e) => {
+            e.preventDefault();
+            e.stopPropagation();
           }
         }, [createVNode(VDefaultsProvider, {
           "defaults": {
@@ -20549,7 +20943,8 @@ const VField = genericComponent()({
       }, [createVNode(VFieldLabel, {
         "ref": floatingLabelRef,
         "floating": true,
-        "for": id.value
+        "for": id.value,
+        "aria-hidden": !isActive.value
       }, {
         default: () => [label()]
       })]), createElementVNode("div", {
@@ -20557,7 +20952,8 @@ const VField = genericComponent()({
       }, null)]), isPlainOrUnderlined.value && hasFloatingLabel.value && createVNode(VFieldLabel, {
         "ref": floatingLabelRef,
         "floating": true,
-        "for": id.value
+        "for": id.value,
+        "aria-hidden": !isActive.value
       }, {
         default: () => [label()]
       })])]);
@@ -20568,6 +20964,36 @@ const VField = genericComponent()({
     };
   }
 });
+const makeAutocompleteProps = propsFactory({
+  autocomplete: String
+}, "autocomplete");
+function useAutocomplete(props) {
+  const uniqueId = useId();
+  const reloadTrigger = shallowRef(0);
+  const isSuppressing = toRef(() => props.autocomplete === "suppress");
+  const fieldName = toRef(() => {
+    return isSuppressing.value ? `${props.name}-${uniqueId}-${reloadTrigger.value}` : props.name;
+  });
+  const fieldAutocomplete = toRef(() => {
+    return isSuppressing.value ? "off" : props.autocomplete;
+  });
+  return {
+    isSuppressing,
+    fieldAutocomplete,
+    fieldName,
+    update: () => reloadTrigger.value = (/* @__PURE__ */ new Date()).getTime()
+  };
+}
+function useAutofocus(props) {
+  function onIntersect(isIntersecting, entries) {
+    var _a, _b;
+    if (!props.autofocus || !isIntersecting) return;
+    (_b = (_a = entries[0].target) == null ? void 0 : _a.focus) == null ? void 0 : _b.call(_a);
+  }
+  return {
+    onIntersect
+  };
+}
 const activeTypes = ["color", "file", "time", "date", "datetime-local", "week", "month"];
 const makeVTextFieldProps = propsFactory({
   autofocus: Boolean,
@@ -20584,6 +21010,7 @@ const makeVTextFieldProps = propsFactory({
     default: "text"
   },
   modelModifiers: Object,
+  ...makeAutocompleteProps(),
   ...makeVInputProps(),
   ...makeVFieldProps()
 }, "VTextField");
@@ -20595,8 +21022,8 @@ const VTextField = genericComponent()({
   inheritAttrs: false,
   props: makeVTextFieldProps(),
   emits: {
-    "click:control": (e2) => true,
-    "mousedown:control": (e2) => true,
+    "click:control": (e) => true,
+    "mousedown:control": (e) => true,
     "update:focused": (focused) => true,
     "update:modelValue": (val) => true
   },
@@ -20612,6 +21039,9 @@ const VTextField = genericComponent()({
       focus,
       blur
     } = useFocus(props);
+    const {
+      onIntersect
+    } = useAutofocus(props);
     const counterValue = computed(() => {
       return typeof props.counterValue === "function" ? props.counterValue(model.value) : typeof props.counterValue === "number" ? props.counterValue : (model.value ?? "").toString().length;
     });
@@ -20621,44 +21051,43 @@ const VTextField = genericComponent()({
       return props.counter;
     });
     const isPlainOrUnderlined = computed(() => ["plain", "underlined"].includes(props.variant));
-    function onIntersect(isIntersecting, entries) {
-      var _a, _b;
-      if (!props.autofocus || !isIntersecting) return;
-      (_b = (_a = entries[0].target) == null ? void 0 : _a.focus) == null ? void 0 : _b.call(_a);
-    }
     const vInputRef = ref();
     const vFieldRef = ref();
     const inputRef = ref();
+    const autocomplete = useAutocomplete(props);
     const isActive = computed(() => activeTypes.includes(props.type) || props.persistentPlaceholder || isFocused.value || props.active);
     function onFocus() {
-      var _a;
-      if (inputRef.value !== document.activeElement) {
-        (_a = inputRef.value) == null ? void 0 : _a.focus();
+      if (autocomplete.isSuppressing.value) {
+        autocomplete.update();
       }
       if (!isFocused.value) focus();
-    }
-    function onControlMousedown(e2) {
-      emit("mousedown:control", e2);
-      if (e2.target === inputRef.value) return;
-      onFocus();
-      e2.preventDefault();
-    }
-    function onControlClick(e2) {
-      onFocus();
-      emit("click:control", e2);
-    }
-    function onClear(e2, reset) {
-      e2.stopPropagation();
-      onFocus();
       nextTick(() => {
-        model.value = null;
-        reset();
-        callEvent(props["onClick:clear"], e2);
+        var _a;
+        if (inputRef.value !== document.activeElement) {
+          (_a = inputRef.value) == null ? void 0 : _a.focus();
+        }
       });
     }
-    function onInput(e2) {
+    function onControlMousedown(e) {
+      emit("mousedown:control", e);
+      if (e.target === inputRef.value) return;
+      onFocus();
+      e.preventDefault();
+    }
+    function onControlClick(e) {
+      emit("click:control", e);
+    }
+    function onClear(e, reset) {
+      e.stopPropagation();
+      onFocus();
+      nextTick(() => {
+        reset();
+        callEvent(props["onClick:clear"], e);
+      });
+    }
+    function onInput(e) {
       var _a;
-      const el = e2.target;
+      const el = e.target;
       model.value = el.value;
       if (((_a = props.modelModifiers) == null ? void 0 : _a.trim) && ["text", "search", "password", "tel", "url"].includes(props.type)) {
         const caretPosition = [el.selectionStart, el.selectionEnd];
@@ -20699,22 +21128,22 @@ const VTextField = genericComponent()({
             isDirty,
             isReadonly,
             isValid: isValid2,
+            hasDetails: hasDetails2,
             reset
           } = _ref2;
           return createVNode(VField, mergeProps({
             "ref": vFieldRef,
             "onMousedown": onControlMousedown,
             "onClick": onControlClick,
-            "onClick:clear": (e2) => onClear(e2, reset),
-            "onClick:prependInner": props["onClick:prependInner"],
-            "onClick:appendInner": props["onClick:appendInner"],
+            "onClick:clear": (e) => onClear(e, reset),
             "role": props.role
-          }, fieldProps, {
+          }, omit(fieldProps, ["onClick:clear"]), {
             "id": id.value,
             "active": isActive.value || isDirty.value,
             "dirty": isDirty.value || props.dirty,
             "disabled": isDisabled.value,
             "focused": isFocused.value,
+            "details": hasDetails2.value,
             "error": isValid2.value === false
           }), {
             ...slots,
@@ -20723,20 +21152,23 @@ const VTextField = genericComponent()({
                 props: {
                   class: fieldClass,
                   ...slotProps
-                }
+                },
+                controlRef
               } = _ref3;
               const inputNode = withDirectives(createElementVNode("input", mergeProps({
-                "ref": inputRef,
+                "ref": (val) => inputRef.value = controlRef.value = val,
                 "value": model.value,
                 "onInput": onInput,
                 "autofocus": props.autofocus,
                 "readonly": isReadonly.value,
                 "disabled": isDisabled.value,
-                "name": props.name,
+                "name": autocomplete.fieldName.value,
+                "autocomplete": autocomplete.fieldAutocomplete.value,
                 "placeholder": props.placeholder,
                 "size": 1,
+                "role": props.role,
                 "type": props.type,
-                "onFocus": onFocus,
+                "onFocus": focus,
                 "onBlur": blur
               }, slotProps, inputAttrs), null), [[Intersect, {
                 handler: onIntersect
@@ -20875,8 +21307,8 @@ function useVirtual(props, items) {
     const start = performance.now();
     offsets[0] = 0;
     const length = items.value.length;
-    for (let i2 = 1; i2 <= length - 1; i2++) {
-      offsets[i2] = (offsets[i2 - 1] || 0) + getSize(i2 - 1);
+    for (let i = 1; i <= length; i++) {
+      offsets[i] = (offsets[i - 1] || 0) + getSize(i - 1);
     }
     updateTime.value = Math.max(updateTime.value, performance.now() - start);
   }, updateTime);
@@ -20907,8 +21339,13 @@ function useVirtual(props, items) {
     }
   }
   function calculateOffset2(index) {
-    index = clamp(index, 0, items.value.length - 1);
-    return offsets[index] || 0;
+    index = clamp(index, 0, items.value.length);
+    const whole = Math.floor(index);
+    const fraction = index % 1;
+    const next = whole + 1;
+    const wholeOffset = offsets[whole] || 0;
+    const nextOffset = offsets[next] || wholeOffset;
+    return wholeOffset + (nextOffset - wholeOffset) * fraction;
   }
   function calculateIndex(scrollTop) {
     return binaryClosest(offsets, scrollTop);
@@ -20958,7 +21395,7 @@ function useVirtual(props, items) {
     raf2 = requestAnimationFrame(_calculateVisibleItems);
   }
   function _calculateVisibleItems() {
-    if (!containerRef.value || !viewportHeight.value) return;
+    if (!containerRef.value || !viewportHeight.value || !itemHeight.value) return;
     const scrollTop = lastScrollTop - markerOffset;
     const direction = Math.sign(scrollVelocity);
     const startPx = Math.max(0, scrollTop - BUFFER_PX);
@@ -21126,14 +21563,14 @@ const VVirtualScroll = genericComponent()({
       return props.renderless ? createElementVNode(Fragment, null, [createElementVNode("div", {
         "ref": markerRef,
         "class": "v-virtual-scroll__spacer",
-        "style": normalizeStyle({
+        "style": {
           paddingTop: convertToUnit(paddingTop.value)
-        })
+        }
       }, null), children, createElementVNode("div", {
         "class": "v-virtual-scroll__spacer",
-        "style": normalizeStyle({
+        "style": {
           paddingBottom: convertToUnit(paddingBottom.value)
-        })
+        }
       }, null)]) : createElementVNode("div", {
         "ref": containerRef,
         "class": normalizeClass(["v-virtual-scroll", props.class]),
@@ -21143,10 +21580,10 @@ const VVirtualScroll = genericComponent()({
       }, [createElementVNode("div", {
         "ref": markerRef,
         "class": "v-virtual-scroll__container",
-        "style": normalizeStyle({
+        "style": {
           paddingTop: convertToUnit(paddingTop.value),
           paddingBottom: convertToUnit(paddingBottom.value)
-        })
+        }
       }, [children])]);
     });
     return {
@@ -21158,7 +21595,7 @@ const VVirtualScroll = genericComponent()({
 function useScrolling(listRef, textFieldRef) {
   const isScrolling = shallowRef(false);
   let scrollTimeout;
-  function onListScroll(e2) {
+  function onListScroll(e) {
     cancelAnimationFrame(scrollTimeout);
     isScrolling.value = true;
     scrollTimeout = requestAnimationFrame(() => {
@@ -21180,23 +21617,23 @@ function useScrolling(listRef, textFieldRef) {
       } else resolve();
     });
   }
-  async function onListKeydown(e2) {
+  async function onListKeydown(e) {
     var _a, _b;
-    if (e2.key === "Tab") {
+    if (e.key === "Tab") {
       (_a = textFieldRef.value) == null ? void 0 : _a.focus();
     }
-    if (!["PageDown", "PageUp", "Home", "End"].includes(e2.key)) return;
+    if (!["PageDown", "PageUp", "Home", "End"].includes(e.key)) return;
     const el = (_b = listRef.value) == null ? void 0 : _b.$el;
     if (!el) return;
-    if (e2.key === "Home" || e2.key === "End") {
+    if (e.key === "Home" || e.key === "End") {
       el.scrollTo({
-        top: e2.key === "Home" ? 0 : el.scrollHeight,
+        top: e.key === "Home" ? 0 : el.scrollHeight,
         behavior: "smooth"
       });
     }
     await finishScrolling();
     const children = el.querySelectorAll(":scope > :not(.v-virtual-scroll__spacer)");
-    if (e2.key === "PageDown" || e2.key === "Home") {
+    if (e.key === "PageDown" || e.key === "Home") {
       const top = el.getBoundingClientRect().top;
       for (const child of children) {
         if (child.getBoundingClientRect().top >= top) {
@@ -21219,9 +21656,7 @@ function useScrolling(listRef, textFieldRef) {
     onKeydown: onListKeydown
   };
 }
-const makeSelectProps = propsFactory({
-  chips: Boolean,
-  closableChips: Boolean,
+const makeMenuActivatorProps = propsFactory({
   closeText: {
     type: String,
     default: "$vuetify.close"
@@ -21229,7 +21664,27 @@ const makeSelectProps = propsFactory({
   openText: {
     type: String,
     default: "$vuetify.open"
-  },
+  }
+}, "autocomplete");
+function useMenuActivator(props, isOpen) {
+  const {
+    t
+  } = useLocale();
+  const uid = useId();
+  const menuId = computed(() => `menu-${uid}`);
+  const ariaExpanded = toRef(() => toValue(isOpen));
+  const ariaControls = toRef(() => menuId.value);
+  const ariaLabel = toRef(() => t(toValue(isOpen) ? props.closeText : props.openText));
+  return {
+    menuId,
+    ariaExpanded,
+    ariaControls,
+    ariaLabel
+  };
+}
+const makeSelectProps = propsFactory({
+  chips: Boolean,
+  closableChips: Boolean,
   eager: Boolean,
   hideNoData: Boolean,
   hideSelected: Boolean,
@@ -21251,6 +21706,8 @@ const makeSelectProps = propsFactory({
   },
   openOnClear: Boolean,
   itemColor: String,
+  noAutoScroll: Boolean,
+  ...makeMenuActivatorProps(),
   ...makeItemsProps({
     itemChildren: false
   })
@@ -21280,7 +21737,7 @@ const VSelect = genericComponent()({
       slots
     } = _ref;
     const {
-      t: t2
+      t
     } = useLocale();
     const vTextFieldRef = ref();
     const vMenuRef = ref();
@@ -21320,7 +21777,12 @@ const VSelect = genericComponent()({
         _menu.value = v;
       }
     });
-    const label = toRef(() => menu.value ? props.closeText : props.openText);
+    const {
+      menuId,
+      ariaExpanded,
+      ariaControls,
+      ariaLabel
+    } = useMenuActivator(props, menu);
     const computedMenuProps = computed(() => {
       var _a;
       return {
@@ -21334,7 +21796,7 @@ const VSelect = genericComponent()({
     });
     const listRef = ref();
     const listEvents = useScrolling(listRef, vTextFieldRef);
-    function onClear(e2) {
+    function onClear(e) {
       if (props.openOnClear) {
         menu.value = true;
       }
@@ -21343,36 +21805,36 @@ const VSelect = genericComponent()({
       if (menuDisabled.value) return;
       menu.value = !menu.value;
     }
-    function onListKeydown(e2) {
-      if (checkPrintable(e2)) {
-        onKeydown(e2);
+    function onListKeydown(e) {
+      if (checkPrintable(e)) {
+        onKeydown(e);
       }
     }
-    function onKeydown(e2) {
+    function onKeydown(e) {
       var _a, _b, _c;
-      if (!e2.key || form.isReadonly.value) return;
-      if (["Enter", " ", "ArrowDown", "ArrowUp", "Home", "End"].includes(e2.key)) {
-        e2.preventDefault();
+      if (!e.key || form.isReadonly.value) return;
+      if (["Enter", " ", "ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
+        e.preventDefault();
       }
-      if (["Enter", "ArrowDown", " "].includes(e2.key)) {
+      if (["Enter", "ArrowDown", " "].includes(e.key)) {
         menu.value = true;
       }
-      if (["Escape", "Tab"].includes(e2.key)) {
+      if (["Escape", "Tab"].includes(e.key)) {
         menu.value = false;
       }
-      if (e2.key === "Home") {
+      if (e.key === "Home") {
         (_a = listRef.value) == null ? void 0 : _a.focus("first");
-      } else if (e2.key === "End") {
+      } else if (e.key === "End") {
         (_b = listRef.value) == null ? void 0 : _b.focus("last");
       }
       const KEYBOARD_LOOKUP_THRESHOLD = 1e3;
-      if (!checkPrintable(e2)) return;
+      if (!checkPrintable(e)) return;
       const now2 = performance.now();
       if (now2 - keyboardLookupLastTime > KEYBOARD_LOOKUP_THRESHOLD) {
         keyboardLookupPrefix = "";
         keyboardLookupIndex = -1;
       }
-      keyboardLookupPrefix += e2.key.toLowerCase();
+      keyboardLookupPrefix += e.key.toLowerCase();
       keyboardLookupLastTime = now2;
       const items2 = displayItems.value;
       function findItem() {
@@ -21386,14 +21848,14 @@ const VSelect = genericComponent()({
         keyboardLookupIndex = -1;
         result2 = findItemBase();
         if (result2) return result2;
-        keyboardLookupPrefix = e2.key.toLowerCase();
+        keyboardLookupPrefix = e.key.toLowerCase();
         return findItemBase();
       }
       function findItemBase() {
-        for (let i2 = keyboardLookupIndex + 1; i2 < items2.length; i2++) {
-          const _item = items2[i2];
+        for (let i = keyboardLookupIndex + 1; i < items2.length; i++) {
+          const _item = items2[i];
           if (_item.title.toLowerCase().startsWith(keyboardLookupPrefix)) {
-            return [_item, i2];
+            return [_item, i];
           }
         }
         return void 0;
@@ -21428,9 +21890,9 @@ const VSelect = genericComponent()({
         });
       }
     }
-    function onBlur(e2) {
+    function onBlur(e) {
       var _a;
-      if (!((_a = listRef.value) == null ? void 0 : _a.$el.contains(e2.relatedTarget))) {
+      if (!((_a = listRef.value) == null ? void 0 : _a.$el.contains(e.relatedTarget))) {
         menu.value = false;
       }
     }
@@ -21446,7 +21908,7 @@ const VSelect = genericComponent()({
         (_a = vTextFieldRef.value) == null ? void 0 : _a.focus();
       }
     }
-    function onFocusin(e2) {
+    function onFocusin(e) {
       isFocused.value = true;
     }
     function onModelUpdate(v) {
@@ -21463,15 +21925,15 @@ const VSelect = genericComponent()({
     watch(menu, () => {
       if (!props.hideSelected && menu.value && model.value.length) {
         const index = displayItems.value.findIndex((item) => model.value.some((s) => (props.valueComparator || deepEqual)(s.value, item.value)));
-        IN_BROWSER && window.requestAnimationFrame(() => {
+        IN_BROWSER && !props.noAutoScroll && window.requestAnimationFrame(() => {
           var _a;
           index >= 0 && ((_a = vVirtualScrollRef.value) == null ? void 0 : _a.scrollToIndex(index));
         });
       }
     });
-    watch(() => props.items, (newVal, oldVal) => {
+    watch(items, (newVal, oldVal) => {
       if (menu.value) return;
-      if (isFocused.value && !oldVal.length && newVal.length) {
+      if (isFocused.value && props.hideNoData && !oldVal.length && newVal.length) {
         menu.value = true;
       }
     });
@@ -21505,11 +21967,14 @@ const VSelect = genericComponent()({
         "onMousedown:control": onMousedownControl,
         "onBlur": onBlur,
         "onKeydown": onKeydown,
-        "aria-label": t2(label.value),
-        "title": t2(label.value)
+        "aria-expanded": ariaExpanded.value,
+        "aria-controls": ariaControls.value,
+        "aria-label": ariaLabel.value,
+        "title": ariaLabel.value
       }), {
         ...slots,
         default: () => createElementVNode(Fragment, null, [createVNode(VMenu, mergeProps({
+          "id": menuId.value,
           "ref": vMenuRef,
           "modelValue": menu.value,
           "onUpdate:modelValue": ($event) => menu.value = $event,
@@ -21528,10 +21993,11 @@ const VSelect = genericComponent()({
             "ref": listRef,
             "selected": selectedValues.value,
             "selectStrategy": props.multiple ? "independent" : "single-independent",
-            "onMousedown": (e2) => e2.preventDefault(),
+            "onMousedown": (e) => e.preventDefault(),
             "onKeydown": onListKeydown,
             "onFocusin": onFocusin,
             "tabindex": "-1",
+            "selectable": true,
             "aria-live": "polite",
             "aria-label": `${props.label}-list`,
             "color": props.itemColor ?? props.color
@@ -21540,7 +22006,7 @@ const VSelect = genericComponent()({
               var _a, _b, _c;
               return [(_a = slots["prepend-item"]) == null ? void 0 : _a.call(slots), !displayItems.value.length && !props.hideNoData && (((_b = slots["no-data"]) == null ? void 0 : _b.call(slots)) ?? createVNode(VListItem, {
                 "key": "no-data",
-                "title": t2(props.noDataText)
+                "title": t(props.noDataText)
               }, null)), createVNode(VVirtualScroll, {
                 "ref": vVirtualScrollRef,
                 "renderless": true,
@@ -21548,18 +22014,35 @@ const VSelect = genericComponent()({
                 "itemKey": "value"
               }, {
                 default: (_ref2) => {
-                  var _a2;
+                  var _a2, _b2, _c2;
                   let {
                     item,
                     index,
                     itemRef
                   } = _ref2;
+                  const camelizedProps = camelizeProps(item.props);
                   const itemProps = mergeProps(item.props, {
                     ref: itemRef,
                     key: item.value,
                     onClick: () => select(item, null)
                   });
-                  return ((_a2 = slots.item) == null ? void 0 : _a2.call(slots, {
+                  if (item.type === "divider") {
+                    return ((_a2 = slots.divider) == null ? void 0 : _a2.call(slots, {
+                      props: item.raw,
+                      index
+                    })) ?? createVNode(VDivider, mergeProps(item.props, {
+                      "key": `divider-${index}`
+                    }), null);
+                  }
+                  if (item.type === "subheader") {
+                    return ((_b2 = slots.subheader) == null ? void 0 : _b2.call(slots, {
+                      props: item.raw,
+                      index
+                    })) ?? createVNode(VListSubheader, mergeProps(item.props, {
+                      "key": `subheader-${index}`
+                    }), null);
+                  }
+                  return ((_c2 = slots.item) == null ? void 0 : _c2.call(slots, {
                     item,
                     index,
                     props: itemProps
@@ -21574,11 +22057,12 @@ const VSelect = genericComponent()({
                         "key": item.value,
                         "modelValue": isSelected,
                         "ripple": false,
-                        "tabindex": "-1"
-                      }, null) : void 0, item.props.prependAvatar && createVNode(VAvatar, {
-                        "image": item.props.prependAvatar
-                      }, null), item.props.prependIcon && createVNode(VIcon, {
-                        "icon": item.props.prependIcon
+                        "tabindex": "-1",
+                        "onClick": (event) => event.preventDefault()
+                      }, null) : void 0, camelizedProps.prependAvatar && createVNode(VAvatar, {
+                        "image": camelizedProps.prependAvatar
+                      }, null), camelizedProps.prependIcon && createVNode(VIcon, {
+                        "icon": camelizedProps.prependIcon
                       }, null)]);
                     }
                   });
@@ -21587,22 +22071,22 @@ const VSelect = genericComponent()({
             }
           })]
         }), model.value.map((item, index) => {
-          function onChipClose(e2) {
-            e2.stopPropagation();
-            e2.preventDefault();
+          function onChipClose(e) {
+            e.stopPropagation();
+            e.preventDefault();
             select(item, false);
           }
           const slotProps = {
             "onClick:close": onChipClose,
-            onKeydown(e2) {
-              if (e2.key !== "Enter" && e2.key !== " ") return;
-              e2.preventDefault();
-              e2.stopPropagation();
-              onChipClose(e2);
+            onKeydown(e) {
+              if (e.key !== "Enter" && e.key !== " ") return;
+              e.preventDefault();
+              e.stopPropagation();
+              onChipClose(e);
             },
-            onMousedown(e2) {
-              e2.preventDefault();
-              e2.stopPropagation();
+            onMousedown(e) {
+              e.preventDefault();
+              e.stopPropagation();
             },
             modelValue: true,
             "onUpdate:modelValue": void 0
@@ -21829,7 +22313,7 @@ const VDataTableFooter = genericComponent()({
       slots
     } = _ref;
     const {
-      t: t2
+      t
     } = useLocale();
     const {
       page,
@@ -21844,12 +22328,12 @@ const VDataTableFooter = genericComponent()({
       if (typeof option === "number") {
         return {
           value: option,
-          title: option === -1 ? t2("$vuetify.dataFooter.itemsPerPageAll") : String(option)
+          title: option === -1 ? t("$vuetify.dataFooter.itemsPerPageAll") : String(option)
         };
       }
       return {
         ...option,
-        title: !isNaN(Number(option.title)) ? option.title : t2(option.title)
+        title: !isNaN(Number(option.title)) ? option.title : t(option.title)
       };
     }));
     useRender(() => {
@@ -21859,29 +22343,31 @@ const VDataTableFooter = genericComponent()({
         "class": "v-data-table-footer"
       }, [(_a = slots.prepend) == null ? void 0 : _a.call(slots), createElementVNode("div", {
         "class": "v-data-table-footer__items-per-page"
-      }, [createElementVNode("span", null, [t2(props.itemsPerPageText)]), createVNode(VSelect, {
+      }, [createElementVNode("span", {
+        "aria-label": t(props.itemsPerPageText)
+      }, [t(props.itemsPerPageText)]), createVNode(VSelect, {
         "items": itemsPerPageOptions.value,
         "modelValue": itemsPerPage.value,
         "onUpdate:modelValue": (v) => setItemsPerPage(Number(v)),
         "density": "compact",
         "variant": "outlined",
-        "hide-details": true
+        "hideDetails": true
       }, null)]), createElementVNode("div", {
         "class": "v-data-table-footer__info"
-      }, [createElementVNode("div", null, [t2(props.pageText, !itemsLength.value ? 0 : startIndex.value + 1, stopIndex.value, itemsLength.value)])]), createElementVNode("div", {
+      }, [createElementVNode("div", null, [t(props.pageText, !itemsLength.value ? 0 : startIndex.value + 1, stopIndex.value, itemsLength.value)])]), createElementVNode("div", {
         "class": "v-data-table-footer__pagination"
       }, [createVNode(VPagination, mergeProps({
         "modelValue": page.value,
         "onUpdate:modelValue": ($event) => page.value = $event,
         "density": "comfortable",
-        "first-aria-label": props.firstPageLabel,
-        "last-aria-label": props.lastPageLabel,
+        "firstAriaLabel": props.firstPageLabel,
+        "lastAriaLabel": props.lastPageLabel,
         "length": pageCount.value,
-        "next-aria-label": props.nextPageLabel,
-        "previous-aria-label": props.prevPageLabel,
+        "nextAriaLabel": props.nextPageLabel,
+        "previousAriaLabel": props.prevPageLabel,
         "rounded": true,
-        "show-first-last-page": true,
-        "total-visible": props.showCurrentPage ? 1 : 0,
+        "showFirstLastPage": true,
+        "totalVisible": props.showCurrentPage ? 1 : 0,
         "variant": "plain"
       }, paginationProps), null)])]);
     });
@@ -21893,11 +22379,18 @@ const VDataTableColumn = defineFunctionalComponent({
     type: String,
     default: "start"
   },
-  fixed: Boolean,
+  fixed: {
+    type: [Boolean, String],
+    default: false
+  },
   fixedOffset: [Number, String],
+  fixedEndOffset: [Number, String],
   height: [Number, String],
   lastFixed: Boolean,
+  firstFixedEnd: Boolean,
   noPadding: Boolean,
+  indent: [Number, String],
+  empty: Boolean,
   tag: String,
   width: [Number, String],
   maxWidth: [Number, String],
@@ -21907,19 +22400,25 @@ const VDataTableColumn = defineFunctionalComponent({
     slots
   } = _ref;
   const Tag = props.tag ?? "td";
+  const fixedSide = typeof props.fixed === "string" ? props.fixed : props.fixed ? "start" : "none";
   return createVNode(Tag, {
     "class": normalizeClass(["v-data-table__td", {
-      "v-data-table-column--fixed": props.fixed,
+      "v-data-table-column--fixed": fixedSide === "start",
+      "v-data-table-column--fixed-end": fixedSide === "end",
       "v-data-table-column--last-fixed": props.lastFixed,
+      "v-data-table-column--first-fixed-end": props.firstFixedEnd,
       "v-data-table-column--no-padding": props.noPadding,
-      "v-data-table-column--nowrap": props.nowrap
+      "v-data-table-column--nowrap": props.nowrap,
+      "v-data-table-column--empty": props.empty
     }, `v-data-table-column--align-${props.align}`]),
-    "style": normalizeStyle({
+    "style": {
       height: convertToUnit(props.height),
       width: convertToUnit(props.width),
       maxWidth: convertToUnit(props.maxWidth),
-      left: convertToUnit(props.fixedOffset || null)
-    })
+      left: fixedSide === "start" ? convertToUnit(props.fixedOffset || null) : void 0,
+      right: fixedSide === "end" ? convertToUnit(props.fixedEndOffset || null) : void 0,
+      paddingInlineStart: props.indent ? convertToUnit(props.indent) : void 0
+    }
   }, {
     default: () => {
       var _a;
@@ -21948,10 +22447,10 @@ function priorityQueue() {
   return {
     enqueue: (element, priority) => {
       let added = false;
-      for (let i2 = 0; i2 < queue.length; i2++) {
-        const item = queue[i2];
+      for (let i = 0; i < queue.length; i++) {
+        const item = queue[i];
         if (item.priority > priority) {
-          queue.splice(i2, 0, {
+          queue.splice(i, 0, {
             element,
             priority
           });
@@ -21969,8 +22468,8 @@ function priorityQueue() {
       let count = 0;
       if (!queue.length) return 0;
       const whole = Math.floor(queue[0].priority);
-      for (let i2 = 0; i2 < queue.length; i2++) {
-        if (Math.floor(queue[i2].priority) === whole) count += 1;
+      for (let i = 0; i < queue.length; i++) {
+        if (Math.floor(queue[i].priority) === whole) count += 1;
       }
       return count;
     },
@@ -22013,20 +22512,31 @@ function getDepth(item) {
 }
 function parseFixedColumns(items) {
   let seenFixed = false;
-  function setFixed(item) {
-    let parentFixed = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : false;
+  function setFixed(item, side) {
+    let parentFixedSide = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : "none";
     if (!item) return;
-    if (parentFixed) {
-      item.fixed = true;
+    if (parentFixedSide !== "none") {
+      item.fixed = parentFixedSide;
     }
-    if (item.fixed) {
+    if (item.fixed === true) {
+      item.fixed = "start";
+    }
+    if (item.fixed === side) {
       if (item.children) {
-        for (let i2 = item.children.length - 1; i2 >= 0; i2--) {
-          setFixed(item.children[i2], true);
+        if (side === "start") {
+          for (let i = item.children.length - 1; i >= 0; i--) {
+            setFixed(item.children[i], side, side);
+          }
+        } else {
+          for (let i = 0; i < item.children.length; i++) {
+            setFixed(item.children[i], side, side);
+          }
         }
       } else {
-        if (!seenFixed) {
+        if (!seenFixed && side === "start") {
           item.lastFixed = true;
+        } else if (!seenFixed && side === "end") {
+          item.firstFixedEnd = true;
         } else if (isNaN(Number(item.width))) {
           consoleError(`Multiple fixed columns should have a static width (key: ${item.key})`);
         } else {
@@ -22036,35 +22546,62 @@ function parseFixedColumns(items) {
       }
     } else {
       if (item.children) {
-        for (let i2 = item.children.length - 1; i2 >= 0; i2--) {
-          setFixed(item.children[i2]);
+        if (side === "start") {
+          for (let i = item.children.length - 1; i >= 0; i--) {
+            setFixed(item.children[i], side);
+          }
+        } else {
+          for (let i = 0; i < item.children.length; i++) {
+            setFixed(item.children[i], side);
+          }
         }
       } else {
         seenFixed = false;
       }
     }
   }
-  for (let i2 = items.length - 1; i2 >= 0; i2--) {
-    setFixed(items[i2]);
+  for (let i = items.length - 1; i >= 0; i--) {
+    setFixed(items[i], "start");
   }
-  function setFixedOffset(item) {
-    let fixedOffset2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
-    if (!item) return fixedOffset2;
-    if (item.children) {
-      item.fixedOffset = fixedOffset2;
-      for (const child of item.children) {
-        fixedOffset2 = setFixedOffset(child, fixedOffset2);
-      }
-    } else if (item.fixed) {
-      item.fixedOffset = fixedOffset2;
-      fixedOffset2 += parseFloat(item.width || "0") || 0;
-    }
-    return fixedOffset2;
+  for (let i = 0; i < items.length; i++) {
+    setFixed(items[i], "end");
   }
   let fixedOffset = 0;
-  for (const item of items) {
-    fixedOffset = setFixedOffset(item, fixedOffset);
+  for (let i = 0; i < items.length; i++) {
+    fixedOffset = setFixedOffset(items[i], fixedOffset);
   }
+  let fixedEndOffset = 0;
+  for (let i = items.length - 1; i >= 0; i--) {
+    fixedEndOffset = setFixedEndOffset(items[i], fixedEndOffset);
+  }
+}
+function setFixedOffset(item) {
+  let offset2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
+  if (!item) return offset2;
+  if (item.children) {
+    item.fixedOffset = offset2;
+    for (const child of item.children) {
+      offset2 = setFixedOffset(child, offset2);
+    }
+  } else if (item.fixed && item.fixed !== "end") {
+    item.fixedOffset = offset2;
+    offset2 += parseFloat(item.width || "0") || 0;
+  }
+  return offset2;
+}
+function setFixedEndOffset(item) {
+  let offset2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
+  if (!item) return offset2;
+  if (item.children) {
+    item.fixedEndOffset = offset2;
+    for (const child of item.children) {
+      offset2 = setFixedEndOffset(child, offset2);
+    }
+  } else if (item.fixed === "end") {
+    item.fixedEndOffset = offset2;
+    offset2 += parseFloat(item.width || "0") || 0;
+  }
+  return offset2;
 }
 function parse(items, maxDepth) {
   const headers = [];
@@ -22264,14 +22801,9 @@ const allSelectStrategy = {
   selectAll: (_ref8) => {
     let {
       value,
-      allItems,
-      selected
+      allItems
     } = _ref8;
-    return allSelectStrategy.select({
-      items: allItems,
-      value,
-      selected
-    });
+    return new Set(value ? allItems.map((item) => item.value) : []);
   }
 };
 const makeDataTableSelectProps = propsFactory({
@@ -22284,10 +22816,7 @@ const makeDataTableSelectProps = propsFactory({
     type: Array,
     default: () => []
   },
-  valueComparator: {
-    type: Function,
-    default: deepEqual
-  }
+  valueComparator: Function
 }, "DataTable-select");
 const VDataTableSelectionSymbol = Symbol.for("vuetify:data-table-selection");
 function provideSelection(props, _ref9) {
@@ -22296,9 +22825,16 @@ function provideSelection(props, _ref9) {
     currentPage
   } = _ref9;
   const selected = useProxiedModel(props, "modelValue", props.modelValue, (v) => {
+    const customComparator = props.valueComparator;
+    if (customComparator) {
+      return new Set(wrapInArray(v).map((v2) => {
+        var _a;
+        return ((_a = allItems.value.find((item) => customComparator(v2, item.value))) == null ? void 0 : _a.value) ?? v2;
+      }));
+    }
     return new Set(wrapInArray(v).map((v2) => {
-      var _a;
-      return ((_a = allItems.value.find((item) => props.valueComparator(v2, item.value))) == null ? void 0 : _a.value) ?? v2;
+      var _a, _b;
+      return isPrimitive(v2) ? ((_a = allItems.value.find((item) => v2 === item.value)) == null ? void 0 : _a.value) ?? v2 : ((_b = allItems.value.find((item) => deepEqual(v2, item.value))) == null ? void 0 : _b.value) ?? v2;
     }));
   }, (v) => {
     return [...v.values()];
@@ -22334,9 +22870,9 @@ function provideSelection(props, _ref9) {
   }
   function toggleSelect(item, index, event) {
     const items = [];
-    index = index ?? currentPage.value.findIndex((i2) => i2.value === item.value);
+    index = index ?? currentPage.value.findIndex((i) => i.value === item.value);
     if (props.selectStrategy !== "single" && (event == null ? void 0 : event.shiftKey) && lastSelectedIndex.value !== null) {
-      const [start, end] = [lastSelectedIndex.value, index].sort((a2, b) => a2 - b);
+      const [start, end] = [lastSelectedIndex.value, index].sort((a, b) => a - b);
       items.push(...currentPage.value.slice(start, end + 1).filter((item2) => item2.selectable));
     } else {
       items.push(item);
@@ -22479,16 +23015,16 @@ function sortItems(items, sortByItems, locale2, options) {
     usage: "sort"
   });
   const transformedItems = items.map((item) => [item, (options == null ? void 0 : options.transform) ? options.transform(item) : item]);
-  return transformedItems.sort((a2, b) => {
+  return transformedItems.sort((a, b) => {
     var _a, _b;
-    for (let i2 = 0; i2 < sortByItems.length; i2++) {
+    for (let i = 0; i < sortByItems.length; i++) {
       let hasCustomResult = false;
-      const sortKey = sortByItems[i2].key;
-      const sortOrder = sortByItems[i2].order ?? "asc";
+      const sortKey = sortByItems[i].key;
+      const sortOrder = sortByItems[i].order ?? "asc";
       if (sortOrder === false) continue;
-      let sortA = getObjectValueByPath(a2[1], sortKey);
+      let sortA = getObjectValueByPath(a[1], sortKey);
       let sortB = getObjectValueByPath(b[1], sortKey);
-      let sortARaw = a2[0].raw;
+      let sortARaw = a[0].raw;
       let sortBRaw = b[0].raw;
       if (sortOrder === "desc") {
         [sortA, sortB] = [sortB, sortA];
@@ -22508,7 +23044,8 @@ function sortItems(items, sortByItems, locale2, options) {
       }
       if (hasCustomResult) continue;
       if (sortA instanceof Date && sortB instanceof Date) {
-        return sortA.getTime() - sortB.getTime();
+        sortA = sortA.getTime();
+        sortB = sortB.getTime();
       }
       [sortA, sortB] = [sortA, sortB].map((s) => s != null ? s.toString().toLocaleLowerCase() : s);
       if (sortA !== sortB) {
@@ -22543,6 +23080,7 @@ const makeVDataTableHeadersProps = propsFactory({
   },
   /** @deprecated */
   sticky: Boolean,
+  ...makeDensityProps(),
   ...makeDisplayProps(),
   ...makeLoaderProps()
 }, "VDataTableHeaders");
@@ -22554,7 +23092,7 @@ const VDataTableHeaders = genericComponent()({
       slots
     } = _ref;
     const {
-      t: t2
+      t
     } = useLocale();
     const {
       toggleSort,
@@ -22576,11 +23114,18 @@ const VDataTableHeaders = genericComponent()({
     } = useLoader(props);
     function getFixedStyles(column, y) {
       if (!(props.sticky || props.fixedHeader) && !column.fixed) return void 0;
+      const fixedSide = typeof column.fixed === "string" ? column.fixed : column.fixed ? "start" : "none";
       return {
         position: "sticky",
-        left: column.fixed ? convertToUnit(column.fixedOffset) : void 0,
+        left: fixedSide === "start" ? convertToUnit(column.fixedOffset) : void 0,
+        right: fixedSide === "end" ? convertToUnit(column.fixedEndOffset) : void 0,
         top: props.sticky || props.fixedHeader ? `calc(var(--v-table-header-height) * ${y})` : void 0
       };
+    }
+    function handleEnterKeyPress(event, column) {
+      if (event.key === "Enter" && !props.disableSort) {
+        toggleSort(column);
+      }
     }
     function getSortIcon(column) {
       const item = sortBy.value.find((item2) => item2.key === column.key);
@@ -22616,6 +23161,7 @@ const VDataTableHeaders = genericComponent()({
         y
       } = _ref2;
       const noPadding = column.key === "data-table-select" || column.key === "data-table-expand";
+      const isEmpty2 = column.key === "data-table-group" && column.width === 0 && !column.title;
       const headerProps = mergeProps(props.headerProps ?? {}, column.headerProps ?? {});
       return createVNode(VDataTableColumn, mergeProps({
         "tag": "th",
@@ -22633,11 +23179,15 @@ const VDataTableHeaders = genericComponent()({
         },
         "colspan": column.colspan,
         "rowspan": column.rowspan,
-        "onClick": column.sortable ? () => toggleSort(column) : void 0,
         "fixed": column.fixed,
         "nowrap": column.nowrap,
         "lastFixed": column.lastFixed,
-        "noPadding": noPadding
+        "firstFixedEnd": column.firstFixedEnd,
+        "noPadding": noPadding,
+        "empty": isEmpty2,
+        "tabindex": column.sortable ? 0 : void 0,
+        "onClick": column.sortable ? () => toggleSort(column) : void 0,
+        "onKeydown": column.sortable ? (event) => handleEnterKeyPress(event, column) : void 0
       }, headerProps), {
         default: () => {
           var _a;
@@ -22653,8 +23203,10 @@ const VDataTableHeaders = genericComponent()({
             getSortIcon
           };
           if (slots[columnSlotName]) return slots[columnSlotName](columnSlotProps);
+          if (isEmpty2) return "";
           if (column.key === "data-table-select") {
             return ((_a = slots["header.data-table-select"]) == null ? void 0 : _a.call(slots, columnSlotProps)) ?? (showSelectAll.value && createVNode(VCheckboxBtn, {
+              "density": props.density,
               "modelValue": allSelected.value,
               "indeterminate": someSelected.value && !allSelected.value,
               "onUpdate:modelValue": selectAll
@@ -22696,21 +23248,20 @@ const VDataTableHeaders = genericComponent()({
           "clearable": true,
           "density": "default",
           "items": displayItems.value,
-          "label": t2("$vuetify.dataTable.sortBy"),
+          "label": t("$vuetify.dataTable.sortBy"),
           "multiple": props.multiSort,
           "variant": "underlined",
           "onClick:clear": () => sortBy.value = [],
           "appendIcon": appendIcon.value,
           "onClick:append": () => selectAll(!allSelected.value)
         }, {
-          ...slots,
           chip: (props2) => {
             var _a;
             return createVNode(VChip, {
               "onClick": ((_a = props2.item.raw) == null ? void 0 : _a.sortable) ? () => toggleSort(props2.item.raw) : void 0,
-              "onMousedown": (e2) => {
-                e2.preventDefault();
-                e2.stopPropagation();
+              "onMousedown": (e) => {
+                e.preventDefault();
+                e.stopPropagation();
               }
             }, {
               default: () => [props2.item.title, createVNode(VIcon, {
@@ -22844,7 +23395,7 @@ function groupItems(items, groupBy) {
   });
   return groups;
 }
-function flattenItems(items, opened) {
+function flattenItems(items, opened, hasSummary) {
   const flatItems = [];
   for (const item of items) {
     if ("type" in item && item.type === "group") {
@@ -22852,7 +23403,13 @@ function flattenItems(items, opened) {
         flatItems.push(item);
       }
       if (opened.has(item.id) || item.value == null) {
-        flatItems.push(...flattenItems(item.items, opened));
+        flatItems.push(...flattenItems(item.items, opened, hasSummary));
+        if (hasSummary) {
+          flatItems.push({
+            ...item,
+            type: "group-summary"
+          });
+        }
       }
     } else {
       flatItems.push(item);
@@ -22860,11 +23417,11 @@ function flattenItems(items, opened) {
   }
   return flatItems;
 }
-function useGroupedItems(items, groupBy, opened) {
+function useGroupedItems(items, groupBy, opened, hasSummary) {
   const flatItems = computed(() => {
     if (!groupBy.value.length) return items.value;
     const groupedItems = groupItems(items.value, groupBy.value.map((item) => item.key));
-    return flattenItems(groupedItems, opened.value);
+    return flattenItems(groupedItems, opened.value, toValue(hasSummary));
   });
   return {
     flatItems
@@ -22874,7 +23431,16 @@ const makeVDataTableGroupHeaderRowProps = propsFactory({
   item: {
     type: Object,
     required: true
-  }
+  },
+  groupCollapseIcon: {
+    type: IconValue,
+    default: "$tableGroupCollapse"
+  },
+  groupExpandIcon: {
+    type: IconValue,
+    default: "$tableGroupExpand"
+  },
+  ...makeDensityProps()
 }, "VDataTableGroupHeaderRow");
 const VDataTableGroupHeaderRow = genericComponent()({
   name: "VDataTableGroupHeaderRow",
@@ -22899,15 +23465,16 @@ const VDataTableGroupHeaderRow = genericComponent()({
     const rows = computed(() => {
       return extractRows([props.item]);
     });
+    const colspan = toRef(() => columns.value.length - (columns.value.some((c) => c.key === "data-table-select") ? 1 : 0));
     return () => createElementVNode("tr", {
       "class": "v-data-table-group-header-row",
-      "style": normalizeStyle({
+      "style": {
         "--v-data-table-group-header-row-depth": props.item.depth
-      })
+      }
     }, [columns.value.map((column) => {
       var _a, _b;
       if (column.key === "data-table-group") {
-        const icon = isGroupOpen(props.item) ? "$expand" : "$next";
+        const icon = isGroupOpen(props.item) ? props.groupCollapseIcon : props.groupExpandIcon;
         const onClick = () => toggleGroup(props.item);
         return ((_a = slots["data-table-group"]) == null ? void 0 : _a.call(slots, {
           item: props.item,
@@ -22917,7 +23484,8 @@ const VDataTableGroupHeaderRow = genericComponent()({
             onClick
           }
         })) ?? createVNode(VDataTableColumn, {
-          "class": "v-data-table-group-header-row__column"
+          "class": "v-data-table-group-header-row__column",
+          "colspan": colspan.value
         }, {
           default: () => [createVNode(VBtn, {
             "size": "small",
@@ -22926,8 +23494,7 @@ const VDataTableGroupHeaderRow = genericComponent()({
             "onClick": onClick
           }, null), createElementVNode("span", null, [props.item.value]), createElementVNode("span", null, [createTextVNode("("), rows.value.length, createTextVNode(")")])]
         });
-      }
-      if (column.key === "data-table-select") {
+      } else if (column.key === "data-table-select") {
         const modelValue = isSelected(rows.value);
         const indeterminate = isSomeSelected(rows.value) && !modelValue;
         const selectGroup = (v) => select(rows.value, v);
@@ -22937,13 +23504,19 @@ const VDataTableGroupHeaderRow = genericComponent()({
             indeterminate,
             "onUpdate:modelValue": selectGroup
           }
-        })) ?? createElementVNode("td", null, [createVNode(VCheckboxBtn, {
-          "modelValue": modelValue,
-          "indeterminate": indeterminate,
-          "onUpdate:modelValue": selectGroup
-        }, null)]);
+        })) ?? createVNode(VDataTableColumn, {
+          "class": "v-data-table__td--select-row",
+          "noPadding": true
+        }, {
+          default: () => [createVNode(VCheckboxBtn, {
+            "density": props.density,
+            "modelValue": modelValue,
+            "indeterminate": indeterminate,
+            "onUpdate:modelValue": selectGroup
+          }, null)]
+        });
       }
-      return createElementVNode("td", null, null);
+      return "";
     })]);
   }
 });
@@ -22965,15 +23538,18 @@ function provideExpanded(props) {
   });
   function expand(item, value) {
     const newExpanded = new Set(expanded.value);
+    const rawValue = toRaw(item.value);
     if (!value) {
-      newExpanded.delete(item.value);
+      const item2 = [...expanded.value].find((x) => toRaw(x) === rawValue);
+      newExpanded.delete(item2);
     } else {
-      newExpanded.add(item.value);
+      newExpanded.add(rawValue);
     }
     expanded.value = newExpanded;
   }
   function isExpanded(item) {
-    return expanded.value.has(item.value);
+    const rawValue = toRaw(item.value);
+    return [...expanded.value].some((x) => toRaw(x) === rawValue);
   }
   function toggleExpand(item) {
     expand(item, !isExpanded(item));
@@ -22997,9 +23573,18 @@ const makeVDataTableRowProps = propsFactory({
   index: Number,
   item: Object,
   cellProps: [Object, Function],
+  collapseIcon: {
+    type: IconValue,
+    default: "$collapse"
+  },
+  expandIcon: {
+    type: IconValue,
+    default: "$expand"
+  },
   onClick: EventProp(),
   onContextmenu: EventProp(),
   onDblclick: EventProp(),
+  ...makeDensityProps(),
   ...makeDisplayProps()
 }, "VDataTableRow");
 const VDataTableRow = genericComponent()({
@@ -23039,7 +23624,7 @@ const VDataTableRow = genericComponent()({
       "onClick": props.onClick,
       "onContextmenu": props.onContextmenu,
       "onDblclick": props.onDblclick
-    }, [props.item && columns.value.map((column, i2) => {
+    }, [props.item && columns.value.map((column, i) => {
       const item = props.item;
       const slotName = `item.${column.key}`;
       const headerSlotName = `header.${column.key}`;
@@ -23077,17 +23662,23 @@ const VDataTableRow = genericComponent()({
         internalItem: slotProps.internalItem,
         value: slotProps.value
       }) : column.cellProps;
+      const noPadding = column.key === "data-table-select" || column.key === "data-table-expand";
+      const isEmpty2 = column.key === "data-table-group" && column.width === 0 && !column.title;
       return createVNode(VDataTableColumn, mergeProps({
         "align": column.align,
+        "indent": column.intent,
         "class": {
           "v-data-table__td--expanded-row": column.key === "data-table-expand",
           "v-data-table__td--select-row": column.key === "data-table-select"
         },
         "fixed": column.fixed,
         "fixedOffset": column.fixedOffset,
+        "fixedEndOffset": column.fixedEndOffset,
         "lastFixed": column.lastFixed,
+        "firstFixedEnd": column.firstFixedEnd,
         "maxWidth": !mobile.value ? column.maxWidth : void 0,
-        "noPadding": column.key === "data-table-select" || column.key === "data-table-expand",
+        "noPadding": noPadding,
+        "empty": isEmpty2,
         "nowrap": column.nowrap,
         "width": !mobile.value ? column.width : void 0
       }, cellProps, columnCellProps), {
@@ -23103,6 +23694,7 @@ const VDataTableRow = genericComponent()({
               }
             })) ?? createVNode(VCheckboxBtn, {
               "disabled": !item.selectable,
+              "density": props.density,
               "modelValue": isSelected([item]),
               "onClick": withModifiers((event) => toggleSelect(item, props.index, event), ["stop"])
             }, null);
@@ -23111,13 +23703,13 @@ const VDataTableRow = genericComponent()({
             return ((_b = slots["item.data-table-expand"]) == null ? void 0 : _b.call(slots, {
               ...slotProps,
               props: {
-                icon: isExpanded(item) ? "$collapse" : "$expand",
+                icon: isExpanded(item) ? props.collapseIcon : props.expandIcon,
                 size: "small",
                 variant: "text",
                 onClick: withModifiers(() => toggleExpand(item), ["stop"])
               }
             })) ?? createVNode(VBtn, {
-              "icon": isExpanded(item) ? "$collapse" : "$expand",
+              "icon": isExpanded(item) ? props.collapseIcon : props.expandIcon,
               "size": "small",
               "variant": "text",
               "onClick": withModifiers(() => toggleExpand(item), ["stop"])
@@ -23152,6 +23744,8 @@ const makeVDataTableRowsProps = propsFactory({
   },
   rowProps: [Object, Function],
   cellProps: [Object, Function],
+  ...pick(makeVDataTableRowProps(), ["collapseIcon", "expandIcon", "density"]),
+  ...pick(makeVDataTableGroupHeaderRowProps(), ["groupCollapseIcon", "groupExpandIcon", "density"]),
   ...makeDisplayProps()
 }, "VDataTableRows");
 const VDataTableRows = genericComponent()({
@@ -23180,20 +23774,21 @@ const VDataTableRows = genericComponent()({
       isGroupOpen
     } = useGroupBy();
     const {
-      t: t2
+      t
     } = useLocale();
     const {
       mobile
     } = useDisplay(props);
     useRender(() => {
       var _a, _b;
+      const groupHeaderRowProps = pick(props, ["groupCollapseIcon", "groupExpandIcon", "density"]);
       if (props.loading && (!props.items.length || slots.loading)) {
         return createElementVNode("tr", {
           "class": "v-data-table-rows-loading",
           "key": "loading"
         }, [createElementVNode("td", {
           "colspan": columns.value.length
-        }, [((_a = slots.loading) == null ? void 0 : _a.call(slots)) ?? t2(props.loadingText)])]);
+        }, [((_a = slots.loading) == null ? void 0 : _a.call(slots)) ?? t(props.loadingText)])]);
       }
       if (!props.loading && !props.items.length && !props.hideNoData) {
         return createElementVNode("tr", {
@@ -23201,10 +23796,10 @@ const VDataTableRows = genericComponent()({
           "key": "no-data"
         }, [createElementVNode("td", {
           "colspan": columns.value.length
-        }, [((_b = slots["no-data"]) == null ? void 0 : _b.call(slots)) ?? t2(props.noDataText)])]);
+        }, [((_b = slots["no-data"]) == null ? void 0 : _b.call(slots)) ?? t(props.noDataText)])]);
       }
       return createElementVNode(Fragment, null, [props.items.map((item, index) => {
-        var _a2;
+        var _a2, _b2;
         if (item.type === "group") {
           const slotProps2 = {
             index,
@@ -23220,7 +23815,16 @@ const VDataTableRows = genericComponent()({
           return slots["group-header"] ? slots["group-header"](slotProps2) : createVNode(VDataTableGroupHeaderRow, mergeProps({
             "key": `group-header_${item.id}`,
             "item": item
-          }, getPrefixedEventHandlers(attrs, ":group-header", () => slotProps2)), slots);
+          }, getPrefixedEventHandlers(attrs, ":groupHeader", () => slotProps2), groupHeaderRowProps), slots);
+        }
+        if (item.type === "group-summary") {
+          const slotProps2 = {
+            index,
+            item,
+            columns: columns.value,
+            toggleGroup
+          };
+          return ((_a2 = slots["group-summary"]) == null ? void 0 : _a2.call(slots, slotProps2)) ?? "";
         }
         const slotProps = {
           index,
@@ -23242,6 +23846,9 @@ const VDataTableRows = genericComponent()({
             index,
             item,
             cellProps: props.cellProps,
+            collapseIcon: props.collapseIcon,
+            expandIcon: props.expandIcon,
+            density: props.density,
             mobile: mobile.value
           }, getPrefixedEventHandlers(attrs, ":row", () => slotProps), typeof props.rowProps === "function" ? props.rowProps({
             item: slotProps.item,
@@ -23251,7 +23858,7 @@ const VDataTableRows = genericComponent()({
         };
         return createElementVNode(Fragment, {
           "key": itemSlotProps.props.key
-        }, [slots.item ? slots.item(itemSlotProps) : createVNode(VDataTableRow, itemSlotProps.props, slots), isExpanded(item) && ((_a2 = slots["expanded-row"]) == null ? void 0 : _a2.call(slots, slotProps))]);
+        }, [slots.item ? slots.item(itemSlotProps) : createVNode(VDataTableRow, itemSlotProps.props, slots), isExpanded(item) && ((_b2 = slots["expanded-row"]) == null ? void 0 : _b2.call(slots, slotProps))]);
       })]);
     });
     return {};
@@ -23262,6 +23869,11 @@ const makeVTableProps = propsFactory({
   fixedFooter: Boolean,
   height: [Number, String],
   hover: Boolean,
+  striped: {
+    type: String,
+    default: null,
+    validator: (v) => ["even", "odd"].includes(v)
+  },
   ...makeComponentProps(),
   ...makeDensityProps(),
   ...makeTagProps(),
@@ -23288,7 +23900,9 @@ const VTable = genericComponent()({
         "v-table--fixed-footer": props.fixedFooter,
         "v-table--has-top": !!slots.top,
         "v-table--has-bottom": !!slots.bottom,
-        "v-table--hover": props.hover
+        "v-table--hover": props.hover,
+        "v-table--striped-even": props.striped === "even",
+        "v-table--striped-odd": props.striped === "odd"
       }, themeClasses.value, densityClasses.value, props.class]),
       "style": normalizeStyle(props.style)
     }, {
@@ -23296,9 +23910,9 @@ const VTable = genericComponent()({
         var _a, _b, _c;
         return [(_a = slots.top) == null ? void 0 : _a.call(slots), slots.default ? createElementVNode("div", {
           "class": "v-table__wrapper",
-          "style": normalizeStyle({
+          "style": {
             height: convertToUnit(props.height)
-          })
+          }
         }, [createElementVNode("table", null, [slots.default()])]) : (_b = slots.wrapper) == null ? void 0 : _b.call(slots), (_c = slots.bottom) == null ? void 0 : _c.call(slots)];
       }
     }));
@@ -23413,14 +24027,28 @@ function filterItems(items, query, options) {
   const keys2 = (options == null ? void 0 : options.filterKeys) ? wrapInArray(options.filterKeys) : false;
   const customFiltersLength = Object.keys((options == null ? void 0 : options.customKeyFilter) ?? {}).length;
   if (!(items == null ? void 0 : items.length)) return array;
-  loop: for (let i2 = 0; i2 < items.length; i2++) {
-    const [item, transformed = item] = wrapInArray(items[i2]);
+  let lookAheadItem = null;
+  loop: for (let i = 0; i < items.length; i++) {
+    const [item, transformed = item] = wrapInArray(items[i]);
     const customMatches = {};
     const defaultMatches = {};
     let match = -1;
     if ((query || customFiltersLength > 0) && !(options == null ? void 0 : options.noFilter)) {
+      let hasOnlyCustomFilters = false;
       if (typeof item === "object") {
+        if (item.type === "divider" || item.type === "subheader") {
+          if ((lookAheadItem == null ? void 0 : lookAheadItem.type) === "divider" && item.type === "subheader") {
+            array.push(lookAheadItem);
+          }
+          lookAheadItem = {
+            index: i,
+            matches: {},
+            type: item.type
+          };
+          continue;
+        }
         const filterKeys = keys2 || Object.keys(transformed);
+        hasOnlyCustomFilters = filterKeys.length === customFiltersLength;
         for (const key of filterKeys) {
           const value = getPropertyFromItem(transformed, key);
           const keyFilter = (_a = options == null ? void 0 : options.customKeyFilter) == null ? void 0 : _a[key];
@@ -23442,10 +24070,14 @@ function filterItems(items, query, options) {
       const customMatchesLength = Object.keys(customMatches).length;
       if (!defaultMatchesLength && !customMatchesLength) continue;
       if ((options == null ? void 0 : options.filterMode) === "union" && customMatchesLength !== customFiltersLength && !defaultMatchesLength) continue;
-      if ((options == null ? void 0 : options.filterMode) === "intersection" && (customMatchesLength !== customFiltersLength || !defaultMatchesLength)) continue;
+      if ((options == null ? void 0 : options.filterMode) === "intersection" && (customMatchesLength !== customFiltersLength || !defaultMatchesLength && customFiltersLength > 0 && !hasOnlyCustomFilters)) continue;
+    }
+    if (lookAheadItem) {
+      array.push(lookAheadItem);
+      lookAheadItem = null;
     }
     array.push({
-      index: i2,
+      index: i,
       matches: {
         ...defaultMatches,
         ...customMatches
@@ -23497,14 +24129,14 @@ function useFilter(props, items, query, options) {
 }
 function highlightResult(name, text, matches) {
   if (matches == null || !matches.length) return text;
-  return matches.map((match, i2) => {
-    const start = i2 === 0 ? 0 : matches[i2 - 1][1];
+  return matches.map((match, i) => {
+    const start = i === 0 ? 0 : matches[i - 1][1];
     const result = [createElementVNode("span", {
       "class": normalizeClass(`${name}__unmask`)
     }, [text.slice(start, match[0])]), createElementVNode("span", {
       "class": normalizeClass(`${name}__mask`)
     }, [text.slice(match[0], match[1])])];
-    if (i2 === matches.length - 1) {
+    if (i === matches.length - 1) {
       result.push(createElementVNode("span", {
         "class": normalizeClass(`${name}__unmask`)
       }, [text.slice(match[1])]));
@@ -23619,7 +24251,7 @@ const VDataTable = genericComponent()({
     });
     const {
       flatItems
-    } = useGroupedItems(sortedItems, groupBy, opened);
+    } = useGroupedItems(sortedItems, groupBy, opened, () => !!slots["group-summary"]);
     const itemsLength = computed(() => flatItems.value.length);
     const {
       startIndex,
@@ -23979,31 +24611,50 @@ const VDialog = genericComponent()({
       scopeId
     } = useScopeId();
     const overlay = ref();
-    function onFocusin(e2) {
-      var _a, _b;
-      const before = e2.relatedTarget;
-      const after = e2.target;
-      if (before !== after && ((_a = overlay.value) == null ? void 0 : _a.contentEl) && // We're the topmost dialog
+    async function onFocusin(e) {
+      var _a, _b, _c;
+      const before = e.relatedTarget;
+      const after = e.target;
+      await nextTick();
+      if (isActive.value && before !== after && ((_a = overlay.value) == null ? void 0 : _a.contentEl) && // We're the topmost dialog
       ((_b = overlay.value) == null ? void 0 : _b.globalTop) && // It isn't the document or the dialog body
       ![document, overlay.value.contentEl].includes(after) && // It isn't inside the dialog body
       !overlay.value.contentEl.contains(after)) {
         const focusable = focusableChildren(overlay.value.contentEl);
-        if (!focusable.length) return;
-        const firstElement = focusable[0];
-        const lastElement = focusable[focusable.length - 1];
-        if (before === firstElement) {
-          lastElement.focus();
-        } else {
-          firstElement.focus();
-        }
+        (_c = focusable[0]) == null ? void 0 : _c.focus();
+      }
+    }
+    function onKeydown(e) {
+      var _a;
+      if (e.key !== "Tab" || !((_a = overlay.value) == null ? void 0 : _a.contentEl)) return;
+      const focusable = focusableChildren(overlay.value.contentEl);
+      if (!focusable.length) return;
+      const firstElement = focusable[0];
+      const lastElement = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && active === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      } else if (!e.shiftKey && active === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
       }
     }
     onBeforeUnmount(() => {
       document.removeEventListener("focusin", onFocusin);
+      document.removeEventListener("keydown", onKeydown);
     });
     if (IN_BROWSER) {
       watch(() => isActive.value && props.retainFocus, (val) => {
-        val ? document.addEventListener("focusin", onFocusin) : document.removeEventListener("focusin", onFocusin);
+        if (val) {
+          document.addEventListener("focusin", onFocusin, {
+            once: true
+          });
+          document.addEventListener("keydown", onKeydown);
+        } else {
+          document.removeEventListener("focusin", onFocusin);
+          document.removeEventListener("keydown", onKeydown);
+        }
       }, {
         immediate: true
       });
@@ -24164,11 +24815,10 @@ function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
       createVNode(VCard, null, {
         default: withCtx(() => [
           createVNode(VCardTitle, { class: "headline" }, {
-            default: withCtx(() => _cache[3] || (_cache[3] = [
-              createTextVNode("Confirm Action")
-            ])),
-            _: 1,
-            __: [3]
+            default: withCtx(() => [..._cache[3] || (_cache[3] = [
+              createTextVNode("Confirm Action", -1)
+            ])]),
+            _: 1
           }),
           createVNode(VCardText, null, {
             default: withCtx(() => [
@@ -24201,11 +24851,10 @@ function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
                 text: "",
                 onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("cancel-action"))
               }, {
-                default: withCtx(() => _cache[6] || (_cache[6] = [
-                  createTextVNode("Cancel")
-                ])),
-                _: 1,
-                __: [6]
+                default: withCtx(() => [..._cache[6] || (_cache[6] = [
+                  createTextVNode("Cancel", -1)
+                ])]),
+                _: 1
               }),
               createVNode(VBtn, {
                 color: "primary",
@@ -24213,11 +24862,10 @@ function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
                 text: "",
                 onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("complete-action"))
               }, {
-                default: withCtx(() => _cache[7] || (_cache[7] = [
-                  createTextVNode("Complete")
-                ])),
-                _: 1,
-                __: [7]
+                default: withCtx(() => [..._cache[7] || (_cache[7] = [
+                  createTextVNode("Complete", -1)
+                ])]),
+                _: 1
               })
             ]),
             _: 1
@@ -24407,8 +25055,8 @@ var bindHandlers = function(initEvent, listeners, editor) {
       if (key === "onInit") {
         handler(initEvent, editor);
       } else {
-        editor.on(key.substring(2), function(e2) {
-          return handler(e2, editor);
+        editor.on(key.substring(2), function(e) {
+          return handler(e, editor);
         });
       }
     }
@@ -24532,13 +25180,13 @@ var editorProps = {
   }
 };
 var __assign = function() {
-  __assign = Object.assign || function(t2) {
-    for (var s, i2 = 1, n2 = arguments.length; i2 < n2; i2++) {
-      s = arguments[i2];
+  __assign = Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
       for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-        t2[p] = s[p];
+        t[p] = s[p];
     }
-    return t2;
+    return t;
   };
   return __assign.apply(this, arguments);
 };
@@ -24579,8 +25227,8 @@ var Editor = defineComponent$1({
       var content = getContent(mounting);
       var finalInit = __assign(__assign({}, conf), { readonly: props.disabled, selector: "#" + elementId, plugins: mergePlugins(conf.plugins, props.plugins), toolbar: props.toolbar || conf.toolbar, inline: inlineEditor, setup: function(editor) {
         vueEditor = editor;
-        editor.on("init", function(e2) {
-          return initEditor(e2, props, ctx, editor, modelValue, content);
+        editor.on("init", function(e) {
+          return initEditor(e, props, ctx, editor, modelValue, content);
         });
         if (typeof conf.setup === "function") {
           conf.setup(editor);
@@ -24659,6 +25307,7 @@ var Editor = defineComponent$1({
   }
 });
 const makeVComboboxProps = propsFactory({
+  alwaysFilter: Boolean,
   autoSelectFirst: {
     type: [Boolean, String]
   },
@@ -24677,10 +25326,7 @@ const makeVComboboxProps = propsFactory({
   ...omit(makeVTextFieldProps({
     modelValue: null,
     role: "combobox"
-  }), ["validationValue", "dirty", "appendInnerIcon"]),
-  ...makeTransitionProps$1({
-    transition: false
-  })
+  }), ["validationValue", "dirty", "appendInnerIcon"])
 }, "VCombobox");
 const VCombobox = genericComponent()({
   name: "VCombobox",
@@ -24698,7 +25344,7 @@ const VCombobox = genericComponent()({
       slots
     } = _ref;
     const {
-      t: t2
+      t
     } = useLocale();
     const vTextFieldRef = ref();
     const isFocused = shallowRef(false);
@@ -24728,23 +25374,34 @@ const VCombobox = genericComponent()({
     const hasChips = computed(() => !!(props.chips || slots.chip));
     const hasSelectionSlot = computed(() => hasChips.value || !!slots.selection);
     const _search = shallowRef(!props.multiple && !hasSelectionSlot.value ? ((_a = model.value[0]) == null ? void 0 : _a.title) ?? "" : "");
+    const _searchLock = shallowRef(null);
     const search = computed({
       get: () => {
         return _search.value;
       },
-      set: (val) => {
+      set: async (val) => {
         var _a2;
         _search.value = val ?? "";
-        if (!props.multiple && !hasSelectionSlot.value) {
+        if (val === null || val === "" && !props.multiple && !hasSelectionSlot.value) {
+          model.value = [];
+        } else if (!props.multiple && !hasSelectionSlot.value) {
           model.value = [transformItem$2(props, val)];
+          nextTick(() => {
+            var _a3;
+            return (_a3 = vVirtualScrollRef.value) == null ? void 0 : _a3.scrollToIndex(0);
+          });
         }
         if (val && props.multiple && ((_a2 = props.delimiters) == null ? void 0 : _a2.length)) {
-          const values = val.split(new RegExp(`(?:${props.delimiters.join("|")})+`));
+          const signsToMatch = props.delimiters.map(escapeForRegex).join("|");
+          const values = val.split(new RegExp(`(?:${signsToMatch})+`));
           if (values.length > 1) {
-            values.forEach((v) => {
+            for (let v of values) {
               v = v.trim();
-              if (v) select(transformItem$2(props, v));
-            });
+              if (v) {
+                select(transformItem$2(props, v));
+                await nextTick();
+              }
+            }
             _search.value = "";
           }
         }
@@ -24758,9 +25415,9 @@ const VCombobox = genericComponent()({
     const {
       filteredItems,
       getMatches
-    } = useFilter(props, items, () => isPristine.value ? "" : search.value);
+    } = useFilter(props, items, () => _searchLock.value ?? (props.alwaysFilter || !isPristine.value ? search.value : ""));
     const displayItems = computed(() => {
-      if (props.hideSelected) {
+      if (props.hideSelected && _searchLock.value === null) {
         return filteredItems.value.filter((filteredItem) => !model.value.some((s) => s.value === filteredItem.value));
       }
       return filteredItems.value;
@@ -24776,7 +25433,12 @@ const VCombobox = genericComponent()({
         _menu.value = v;
       }
     });
-    const label = toRef(() => menu.value ? props.closeText : props.openText);
+    const {
+      menuId,
+      ariaExpanded,
+      ariaControls,
+      ariaLabel
+    } = useMenuActivator(props, menu);
     watch(_search, (value) => {
       if (cleared) {
         nextTick(() => cleared = false);
@@ -24799,8 +25461,9 @@ const VCombobox = genericComponent()({
     });
     const listRef = ref();
     const listEvents = useScrolling(listRef, vTextFieldRef);
-    function onClear(e2) {
+    function onClear(e) {
       cleared = true;
+      nextTick(() => cleared = false);
       if (props.openOnClear) {
         menu.value = true;
       }
@@ -24809,66 +25472,63 @@ const VCombobox = genericComponent()({
       if (menuDisabled.value) return;
       menu.value = true;
     }
-    function onMousedownMenuIcon(e2) {
+    function onMousedownMenuIcon(e) {
       if (menuDisabled.value) return;
       if (isFocused.value) {
-        e2.preventDefault();
-        e2.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
       }
       menu.value = !menu.value;
     }
-    function onListKeydown(e2) {
+    function onListKeydown(e) {
       var _a2;
-      if (e2.key !== " " && checkPrintable(e2)) {
+      if (checkPrintable(e) || e.key === "Backspace") {
         (_a2 = vTextFieldRef.value) == null ? void 0 : _a2.focus();
       }
     }
-    function onKeydown(e2) {
+    function onKeydown(e) {
       var _a2, _b, _c, _d;
-      if (isComposingIgnoreKey(e2) || form.isReadonly.value) return;
+      if (isComposingIgnoreKey(e) || form.isReadonly.value) return;
       const selectionStart = (_a2 = vTextFieldRef.value) == null ? void 0 : _a2.selectionStart;
       const length = model.value.length;
-      if (["Enter", "ArrowDown", "ArrowUp"].includes(e2.key)) {
-        e2.preventDefault();
+      if (["Enter", "ArrowDown", "ArrowUp"].includes(e.key)) {
+        e.preventDefault();
       }
-      if (["Enter", "ArrowDown"].includes(e2.key)) {
+      if (["Enter", "ArrowDown"].includes(e.key)) {
         menu.value = true;
       }
-      if (["Escape"].includes(e2.key)) {
+      if (["Escape"].includes(e.key)) {
         menu.value = false;
       }
-      if (["Enter", "Escape", "Tab"].includes(e2.key)) {
-        if (highlightFirst.value && ["Enter", "Tab"].includes(e2.key) && !model.value.some((_ref2) => {
-          let {
-            value
-          } = _ref2;
-          return value === displayItems.value[0].value;
-        })) {
-          select(filteredItems.value[0]);
-        }
-        isPristine.value = true;
+      if (highlightFirst.value && ["Enter", "Tab"].includes(e.key) && !model.value.some((_ref2) => {
+        let {
+          value
+        } = _ref2;
+        return value === displayItems.value[0].value;
+      })) {
+        select(filteredItems.value[0]);
       }
-      if (e2.key === "ArrowDown" && highlightFirst.value) {
+      if (e.key === "ArrowDown" && highlightFirst.value) {
         (_b = listRef.value) == null ? void 0 : _b.focus("next");
       }
-      if (e2.key === "Enter" && search.value) {
-        select(transformItem$2(props, search.value));
+      if (e.key === "Enter" && search.value) {
+        select(transformItem$2(props, search.value), true, true);
         if (hasSelectionSlot.value) _search.value = "";
       }
-      if (["Backspace", "Delete"].includes(e2.key)) {
+      if (["Backspace", "Delete"].includes(e.key)) {
         if (!props.multiple && hasSelectionSlot.value && model.value.length > 0 && !search.value) return select(model.value[0], false);
         if (~selectionIndex.value) {
-          e2.preventDefault();
+          e.preventDefault();
           const originalSelectionIndex = selectionIndex.value;
           select(model.value[selectionIndex.value], false);
           selectionIndex.value = originalSelectionIndex >= length - 1 ? length - 2 : originalSelectionIndex;
-        } else if (e2.key === "Backspace" && !search.value) {
+        } else if (e.key === "Backspace" && !search.value) {
           selectionIndex.value = length - 1;
         }
         return;
       }
       if (!props.multiple) return;
-      if (e2.key === "ArrowLeft") {
+      if (e.key === "ArrowLeft") {
         if (selectionIndex.value < 0 && selectionStart && selectionStart > 0) return;
         const prev = selectionIndex.value > -1 ? selectionIndex.value - 1 : length - 1;
         if (model.value[prev]) {
@@ -24877,7 +25537,7 @@ const VCombobox = genericComponent()({
           selectionIndex.value = -1;
           (_c = vTextFieldRef.value) == null ? void 0 : _c.setSelectionRange(search.value.length, search.value.length);
         }
-      } else if (e2.key === "ArrowRight") {
+      } else if (e.key === "ArrowRight") {
         if (selectionIndex.value < 0) return;
         const next = selectionIndex.value + 1;
         if (model.value[next]) {
@@ -24886,7 +25546,7 @@ const VCombobox = genericComponent()({
           selectionIndex.value = -1;
           (_d = vTextFieldRef.value) == null ? void 0 : _d.setSelectionRange(0, 0);
         }
-      } else if (~selectionIndex.value && checkPrintable(e2)) {
+      } else if (~selectionIndex.value && checkPrintable(e)) {
         selectionIndex.value = -1;
       }
     }
@@ -24899,12 +25559,14 @@ const VCombobox = genericComponent()({
     function onAfterLeave() {
       var _a2;
       if (isFocused.value) {
-        isPristine.value = true;
         (_a2 = vTextFieldRef.value) == null ? void 0 : _a2.focus();
       }
+      isPristine.value = true;
+      _searchLock.value = null;
     }
     function select(item) {
       let set2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
+      let keepMenu = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
       if (!item || item.props.disabled) return;
       if (props.multiple) {
         const index = model.value.findIndex((selection) => (props.valueComparator || deepEqual)(selection.value, item.value));
@@ -24922,24 +25584,24 @@ const VCombobox = genericComponent()({
       } else {
         const add2 = set2 !== false;
         model.value = add2 ? [item] : [];
+        if ((!isPristine.value || props.alwaysFilter) && _search.value) {
+          _searchLock.value = _search.value;
+        }
         _search.value = add2 && !hasSelectionSlot.value ? item.title : "";
         nextTick(() => {
-          menu.value = false;
+          menu.value = keepMenu;
           isPristine.value = true;
         });
       }
     }
-    function onFocusin(e2) {
+    function onFocusin(e) {
       isFocused.value = true;
       setTimeout(() => {
         listHasFocus.value = true;
       });
     }
-    function onFocusout(e2) {
+    function onFocusout(e) {
       listHasFocus.value = false;
-    }
-    function onUpdateModelValue(v) {
-      if (v == null || v === "" && !props.multiple && !hasSelectionSlot.value) model.value = [];
     }
     watch(isFocused, (val, oldVal) => {
       if (val || val === oldVal) return;
@@ -24963,16 +25625,17 @@ const VCombobox = genericComponent()({
         }
       }
     });
-    watch(menu, () => {
-      if (!props.hideSelected && menu.value && model.value.length) {
+    watch(menu, (val) => {
+      if (!props.hideSelected && val && model.value.length && isPristine.value) {
         const index = displayItems.value.findIndex((item) => model.value.some((s) => (props.valueComparator || deepEqual)(s.value, item.value)));
         IN_BROWSER && window.requestAnimationFrame(() => {
           var _a2;
           index >= 0 && ((_a2 = vVirtualScrollRef.value) == null ? void 0 : _a2.scrollToIndex(index));
         });
       }
+      if (val) _searchLock.value = null;
     });
-    watch(() => props.items, (newVal, oldVal) => {
+    watch(items, (newVal, oldVal) => {
       if (menu.value) return;
       if (isFocused.value && !oldVal.length && newVal.length) {
         menu.value = true;
@@ -24986,7 +25649,7 @@ const VCombobox = genericComponent()({
         "ref": vTextFieldRef
       }, textFieldProps, {
         "modelValue": search.value,
-        "onUpdate:modelValue": [($event) => search.value = $event, onUpdateModelValue],
+        "onUpdate:modelValue": ($event) => search.value = $event,
         "focused": isFocused.value,
         "onUpdate:focused": ($event) => isFocused.value = $event,
         "validationValue": model.externalValue,
@@ -25004,10 +25667,13 @@ const VCombobox = genericComponent()({
         "placeholder": isDirty ? void 0 : props.placeholder,
         "onClick:clear": onClear,
         "onMousedown:control": onMousedownControl,
-        "onKeydown": onKeydown
+        "onKeydown": onKeydown,
+        "aria-expanded": ariaExpanded.value,
+        "aria-controls": ariaControls.value
       }), {
         ...slots,
         default: () => createElementVNode(Fragment, null, [createVNode(VMenu, mergeProps({
+          "id": menuId.value,
           "ref": vMenuRef,
           "modelValue": menu.value,
           "onUpdate:modelValue": ($event) => menu.value = $event,
@@ -25018,15 +25684,16 @@ const VCombobox = genericComponent()({
           "maxHeight": 310,
           "openOnClick": false,
           "closeOnContentClick": false,
-          "transition": props.transition,
           "onAfterEnter": onAfterEnter,
           "onAfterLeave": onAfterLeave
         }, props.menuProps), {
           default: () => [hasList && createVNode(VList, mergeProps({
             "ref": listRef,
+            "filterable": true,
             "selected": selectedValues.value,
             "selectStrategy": props.multiple ? "independent" : "single-independent",
-            "onMousedown": (e2) => e2.preventDefault(),
+            "onMousedown": (e) => e.preventDefault(),
+            "selectable": true,
             "onKeydown": onListKeydown,
             "onFocusin": onFocusin,
             "onFocusout": onFocusout,
@@ -25038,7 +25705,7 @@ const VCombobox = genericComponent()({
               var _a2, _b, _c;
               return [(_a2 = slots["prepend-item"]) == null ? void 0 : _a2.call(slots), !displayItems.value.length && !props.hideNoData && (((_b = slots["no-data"]) == null ? void 0 : _b.call(slots)) ?? createVNode(VListItem, {
                 "key": "no-data",
-                "title": t2(props.noDataText)
+                "title": t(props.noDataText)
               }, null)), createVNode(VVirtualScroll, {
                 "ref": vVirtualScrollRef,
                 "renderless": true,
@@ -25046,7 +25713,7 @@ const VCombobox = genericComponent()({
                 "itemKey": "value"
               }, {
                 default: (_ref4) => {
-                  var _a3;
+                  var _a3, _b2, _c2;
                   let {
                     item,
                     index,
@@ -25058,7 +25725,23 @@ const VCombobox = genericComponent()({
                     active: highlightFirst.value && index === 0 ? true : void 0,
                     onClick: () => select(item, null)
                   });
-                  return ((_a3 = slots.item) == null ? void 0 : _a3.call(slots, {
+                  if (item.type === "divider") {
+                    return ((_a3 = slots.divider) == null ? void 0 : _a3.call(slots, {
+                      props: item.raw,
+                      index
+                    })) ?? createVNode(VDivider, mergeProps(item.props, {
+                      "key": `divider-${index}`
+                    }), null);
+                  }
+                  if (item.type === "subheader") {
+                    return ((_b2 = slots.subheader) == null ? void 0 : _b2.call(slots, {
+                      props: item.raw,
+                      index
+                    })) ?? createVNode(VListSubheader, mergeProps(item.props, {
+                      "key": `subheader-${index}`
+                    }), null);
+                  }
+                  return ((_c2 = slots.item) == null ? void 0 : _c2.call(slots, {
                     item,
                     index,
                     props: itemProps
@@ -25073,7 +25756,8 @@ const VCombobox = genericComponent()({
                         "key": item.value,
                         "modelValue": isSelected,
                         "ripple": false,
-                        "tabindex": "-1"
+                        "tabindex": "-1",
+                        "onClick": (event) => event.preventDefault()
                       }, null) : void 0, item.props.prependAvatar && createVNode(VAvatar, {
                         "image": item.props.prependAvatar
                       }, null), item.props.prependIcon && createVNode(VIcon, {
@@ -25090,22 +25774,22 @@ const VCombobox = genericComponent()({
             }
           })]
         }), model.value.map((item, index) => {
-          function onChipClose(e2) {
-            e2.stopPropagation();
-            e2.preventDefault();
+          function onChipClose(e) {
+            e.stopPropagation();
+            e.preventDefault();
             select(item, false);
           }
           const slotProps = {
             "onClick:close": onChipClose,
-            onKeydown(e2) {
-              if (e2.key !== "Enter" && e2.key !== " ") return;
-              e2.preventDefault();
-              e2.stopPropagation();
-              onChipClose(e2);
+            onKeydown(e) {
+              if (e.key !== "Enter" && e.key !== " ") return;
+              e.preventDefault();
+              e.stopPropagation();
+              onChipClose(e);
             },
-            onMousedown(e2) {
-              e2.preventDefault();
-              e2.stopPropagation();
+            onMousedown(e) {
+              e.preventDefault();
+              e.stopPropagation();
             },
             modelValue: true,
             "onUpdate:modelValue": void 0
@@ -25158,8 +25842,8 @@ const VCombobox = genericComponent()({
             "icon": props.menuIcon,
             "onMousedown": onMousedownMenuIcon,
             "onClick": noop,
-            "aria-label": t2(label.value),
-            "title": t2(label.value),
+            "aria-label": ariaLabel.value,
+            "title": ariaLabel.value,
             "tabindex": "-1"
           }, null) : void 0]);
         }
@@ -25238,9 +25922,9 @@ const _sfc_main$1i = {
   },
   watch: {
     fieldError: {
-      handler(n2) {
-        if (n2) {
-          this.errorMessage = n2;
+      handler(n) {
+        if (n) {
+          this.errorMessage = n;
         }
       }
     }
@@ -25329,7 +26013,7 @@ const VForm = genericComponent()({
   props: makeVFormProps(),
   emits: {
     "update:modelValue": (val) => true,
-    submit: (e2) => true
+    submit: (e) => true
   },
   setup(props, _ref) {
     let {
@@ -25338,18 +26022,18 @@ const VForm = genericComponent()({
     } = _ref;
     const form = createForm(props);
     const formRef = ref();
-    function onReset(e2) {
-      e2.preventDefault();
+    function onReset(e) {
+      e.preventDefault();
       form.reset();
     }
     function onSubmit(_e) {
-      const e2 = _e;
+      const e = _e;
       const ready = form.validate();
-      e2.then = ready.then.bind(ready);
-      e2.catch = ready.catch.bind(ready);
-      e2.finally = ready.finally.bind(ready);
-      emit("submit", e2);
-      if (!e2.defaultPrevented) {
+      e.then = ready.then.bind(ready);
+      e.catch = ready.catch.bind(ready);
+      e.finally = ready.finally.bind(ready);
+      emit("submit", e);
+      if (!e.defaultPrevented) {
         ready.then((_ref2) => {
           var _a;
           let {
@@ -25360,7 +26044,7 @@ const VForm = genericComponent()({
           }
         });
       }
-      e2.preventDefault();
+      e.preventDefault();
     }
     useRender(() => {
       var _a;
@@ -25668,12 +26352,12 @@ function _sfc_render$1h(_ctx, _cache, $props, $setup, $data, $options) {
   return !$data.isLoading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
     default: withCtx(() => [
       createVNode(_component_IFXPageHeader, null, {
-        title: withCtx(() => _cache[7] || (_cache[7] = [
-          createTextVNode("Compose Mailing")
-        ])),
-        content: withCtx(() => _cache[8] || (_cache[8] = [
-          createTextVNode("Compose a new mailing")
-        ])),
+        title: withCtx(() => [..._cache[7] || (_cache[7] = [
+          createTextVNode("Compose Mailing", -1)
+        ])]),
+        content: withCtx(() => [..._cache[8] || (_cache[8] = [
+          createTextVNode("Compose a new mailing", -1)
+        ])]),
         _: 1
       }),
       createVNode(VContainer, null, {
@@ -25839,11 +26523,10 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { cols: "1" }, {
-                default: withCtx(() => _cache[1] || (_cache[1] = [
+                default: withCtx(() => [..._cache[1] || (_cache[1] = [
                   createElementVNode("strong", null, "Subject", -1)
-                ])),
-                _: 1,
-                __: [1]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -25862,11 +26545,10 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { cols: "1" }, {
-                default: withCtx(() => _cache[2] || (_cache[2] = [
+                default: withCtx(() => [..._cache[2] || (_cache[2] = [
                   createElementVNode("strong", null, "From", -1)
-                ])),
-                _: 1,
-                __: [2]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -25885,11 +26567,10 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { cols: "1" }, {
-                default: withCtx(() => _cache[3] || (_cache[3] = [
+                default: withCtx(() => [..._cache[3] || (_cache[3] = [
                   createElementVNode("strong", null, "To", -1)
-                ])),
-                _: 1,
-                __: [3]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -25908,11 +26589,10 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { cols: "1" }, {
-                default: withCtx(() => _cache[4] || (_cache[4] = [
+                default: withCtx(() => [..._cache[4] || (_cache[4] = [
                   createElementVNode("strong", null, "CC", -1)
-                ])),
-                _: 1,
-                __: [4]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -25931,11 +26611,10 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { cols: "1" }, {
-                default: withCtx(() => _cache[5] || (_cache[5] = [
+                default: withCtx(() => [..._cache[5] || (_cache[5] = [
                   createElementVNode("strong", null, "BCC", -1)
-                ])),
-                _: 1,
-                __: [5]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -25954,11 +26633,10 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { cols: "1" }, {
-                default: withCtx(() => _cache[6] || (_cache[6] = [
+                default: withCtx(() => [..._cache[6] || (_cache[6] = [
                   createElementVNode("strong", null, "Date Sent", -1)
-                ])),
-                _: 1,
-                __: [6]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -25975,11 +26653,10 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { cols: "12" }, {
-                default: withCtx(() => _cache[7] || (_cache[7] = [
+                default: withCtx(() => [..._cache[7] || (_cache[7] = [
                   createElementVNode("h3", null, "Message", -1)
-                ])),
-                _: 1,
-                __: [7]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -26188,22 +26865,20 @@ function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
                 }, {
                   default: withCtx(() => [
                     createVNode(VIcon, { color: "white" }, {
-                      default: withCtx(() => _cache[2] || (_cache[2] = [
-                        createTextVNode("mdi-email-send-outline")
-                      ])),
-                      _: 1,
-                      __: [2]
+                      default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                        createTextVNode("mdi-email-send-outline", -1)
+                      ])]),
+                      _: 1
                     })
                   ]),
-                  _: 2
-                }, 1032, ["onClick"])
+                  _: 1
+                }, 8, ["onClick"])
               ], 16)
             ]),
             default: withCtx(() => [
               _cache[3] || (_cache[3] = createElementVNode("span", null, "Compose a new email from this one", -1))
             ]),
-            _: 2,
-            __: [3]
+            _: 2
           }, 1024)
         ]),
         _: 1
@@ -26347,11 +27022,10 @@ function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
                   key: 0,
                   color: "white"
                 }, {
-                  default: withCtx(() => _cache[5] || (_cache[5] = [
-                    createTextVNode(" mdi-close ")
-                  ])),
-                  _: 1,
-                  __: [5]
+                  default: withCtx(() => [..._cache[5] || (_cache[5] = [
+                    createTextVNode(" mdi-close ", -1)
+                  ])]),
+                  _: 1
                 })) : (openBlock(), createBlock(VIcon, {
                   key: 1,
                   color: "white"
@@ -26372,11 +27046,10 @@ function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
               color: "#A4F323",
               onClick: _cache[1] || (_cache[1] = ($event) => $options.setRecipientField("to"))
             }, {
-              default: withCtx(() => _cache[6] || (_cache[6] = [
-                createTextVNode(" to: ")
-              ])),
-              _: 1,
-              __: [6]
+              default: withCtx(() => [..._cache[6] || (_cache[6] = [
+                createTextVNode(" to: ", -1)
+              ])]),
+              _: 1
             }),
             createVNode(VBtn, {
               xSmall: "",
@@ -26384,11 +27057,10 @@ function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
               color: "#86C61D",
               onClick: _cache[2] || (_cache[2] = ($event) => $options.setRecipientField("cc"))
             }, {
-              default: withCtx(() => _cache[7] || (_cache[7] = [
-                createTextVNode(" cc: ")
-              ])),
-              _: 1,
-              __: [7]
+              default: withCtx(() => [..._cache[7] || (_cache[7] = [
+                createTextVNode(" cc: ", -1)
+              ])]),
+              _: 1
             }),
             createVNode(VBtn, {
               xSmall: "",
@@ -26396,15 +27068,14 @@ function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
               color: "#669617",
               onClick: _cache[3] || (_cache[3] = ($event) => $options.setRecipientField("bcc"))
             }, {
-              default: withCtx(() => _cache[8] || (_cache[8] = [
-                createTextVNode(" bcc: ")
-              ])),
-              _: 1,
-              __: [8]
+              default: withCtx(() => [..._cache[8] || (_cache[8] = [
+                createTextVNode(" bcc: ", -1)
+              ])]),
+              _: 1
             })
           ]),
-          _: 2
-        }, 1040, ["direction", "modelValue"])
+          _: 1
+        }, 16, ["direction", "modelValue"])
       ], 16)
     ]),
     default: withCtx(() => [
@@ -26597,8 +27268,7 @@ function _sfc_render$1b(_ctx, _cache, $props, $setup, $data, $options) {
                   _cache[1] || (_cache[1] = createElementVNode("h3", null, "Subject", -1)),
                   createElementVNode("p", null, toDisplayString(_ctx.item.subject), 1)
                 ]),
-                _: 1,
-                __: [1]
+                _: 1
               })
             ]),
             _: 1
@@ -26612,8 +27282,7 @@ function _sfc_render$1b(_ctx, _cache, $props, $setup, $data, $options) {
                     innerHTML: _ctx.item.message
                   }, null, 8, _hoisted_1$E)
                 ]),
-                _: 1,
-                __: [2]
+                _: 1
               })
             ]),
             _: 1
@@ -26694,21 +27363,19 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
               }, attrs, toHandlers(on)), {
                 default: withCtx(() => [
                   createVNode(VIcon, { color: "white" }, {
-                    default: withCtx(() => _cache[2] || (_cache[2] = [
-                      createTextVNode(" mdi-email-send-outline ")
-                    ])),
-                    _: 1,
-                    __: [2]
+                    default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                      createTextVNode(" mdi-email-send-outline ", -1)
+                    ])]),
+                    _: 1
                   })
                 ]),
-                _: 2
-              }, 1040, ["onClick"])
+                _: 1
+              }, 16, ["onClick"])
             ]),
             default: withCtx(() => [
               _cache[3] || (_cache[3] = createElementVNode("span", null, "Compose an email with this message", -1))
             ]),
-            _: 2,
-            __: [3]
+            _: 2
           }, 1024)
         ]),
         _: 1
@@ -26817,8 +27484,8 @@ const _sfc_main$19 = {
           name: "Activate User Login",
           description: `This will activate the ${this.$api.vars.appNameFormatted} login for the selected users.`,
           condition: (user) => !user.isActive,
-          execute: async (selected) => Promise.all(selected.map((u2) => {
-            const user = u2;
+          execute: async (selected) => Promise.all(selected.map((u) => {
+            const user = u;
             user.isActive = true;
             user.changeComment = `Enable login for ${user.fullName}.`;
             return this.$api.user.update(user).catch((err) => this.showMessage(err));
@@ -26846,8 +27513,8 @@ const _sfc_main$19 = {
           name: "Deactivate User Login",
           description: `This will deactivate the ${this.$api.vars.appNameFormatted} login for the selected users.`,
           condition: (user) => user.isActive,
-          execute: async (selected) => Promise.all(selected.map((u2) => {
-            const user = u2;
+          execute: async (selected) => Promise.all(selected.map((u) => {
+            const user = u;
             user.isActive = false;
             user.changeComment = `Disable login for ${user.fullName}.`;
             return this.$api.user.update(user).catch((err) => this.showMessage(err));
@@ -26916,8 +27583,8 @@ const _sfc_main$19 = {
           key: "deleteItems",
           name: "Delete",
           description: "This action will delete the selected items.",
-          execute: async (selected) => Promise.all(selected.map((i2) => {
-            const item = i2;
+          execute: async (selected) => Promise.all(selected.map((i) => {
+            const item = i;
             return this.apiRef.delete(item).catch((err) => this.showMessage(err));
           })),
           onSuccess: () => {
@@ -26932,8 +27599,8 @@ const _sfc_main$19 = {
           key: "deleteOrganizations",
           name: "Delete",
           description: "This action will delete the selected organizations.",
-          execute: async (selected) => Promise.all(selected.map((o2) => {
-            const organization = o2;
+          execute: async (selected) => Promise.all(selected.map((o) => {
+            const organization = o;
             return this.apiRef.delete(organization).catch((err) => this.showMessage(err));
           })),
           onSuccess: () => {
@@ -26949,8 +27616,8 @@ const _sfc_main$19 = {
           key: "deleteContacts",
           name: "Delete",
           description: "This action will delete the selected contacts.",
-          execute: async (selected) => Promise.all(selected.map((c2) => {
-            const contact = c2;
+          execute: async (selected) => Promise.all(selected.map((c) => {
+            const contact = c;
             return this.apiRef.delete(contact).catch((err) => this.showMessage(err));
           })),
           onSuccess: () => {
@@ -26971,9 +27638,9 @@ const _sfc_main$19 = {
     computedActions() {
       const userDefinedActions = this.actions;
       let actions2 = [this.defaultActions, userDefinedActions].flat();
-      actions2 = actions2.filter((a2) => this.selectedItemsLocal.every((s) => a2.condition(s)));
+      actions2 = actions2.filter((a) => this.selectedItemsLocal.every((s) => a.condition(s)));
       if (this.selectedItemsLocal.length > 1) {
-        actions2 = actions2.filter((a2) => a2.allowMultiple);
+        actions2 = actions2.filter((a) => a.allowMultiple);
       }
       return actions2;
     },
@@ -27031,10 +27698,7 @@ const makeVAutocompleteProps = propsFactory({
   ...omit(makeVTextFieldProps({
     modelValue: null,
     role: "combobox"
-  }), ["validationValue", "dirty", "appendInnerIcon"]),
-  ...makeTransitionProps$1({
-    transition: false
-  })
+  }), ["validationValue", "dirty", "appendInnerIcon"])
 }, "VAutocomplete");
 const VAutocomplete = genericComponent()({
   name: "VAutocomplete",
@@ -27050,7 +27714,7 @@ const VAutocomplete = genericComponent()({
       slots
     } = _ref;
     const {
-      t: t2
+      t
     } = useLocale();
     const vTextFieldRef = ref();
     const isFocused = shallowRef(false);
@@ -27059,6 +27723,7 @@ const VAutocomplete = genericComponent()({
     const vMenuRef = ref();
     const vVirtualScrollRef = ref();
     const selectionIndex = shallowRef(-1);
+    const _searchLock = shallowRef(null);
     const {
       items,
       transformIn,
@@ -27083,9 +27748,9 @@ const VAutocomplete = genericComponent()({
     const {
       filteredItems,
       getMatches
-    } = useFilter(props, items, () => isPristine.value ? "" : search.value);
+    } = useFilter(props, items, () => _searchLock.value ?? (isPristine.value ? "" : search.value));
     const displayItems = computed(() => {
-      if (props.hideSelected) {
+      if (props.hideSelected && _searchLock.value === null) {
         return filteredItems.value.filter((filteredItem) => !model.value.some((s) => s.value === filteredItem.value));
       }
       return filteredItems.value;
@@ -27109,10 +27774,15 @@ const VAutocomplete = genericComponent()({
         _menu.value = v;
       }
     });
-    const label = computed(() => menu.value ? props.closeText : props.openText);
+    const {
+      menuId,
+      ariaExpanded,
+      ariaControls,
+      ariaLabel
+    } = useMenuActivator(props, menu);
     const listRef = ref();
     const listEvents = useScrolling(listRef, vTextFieldRef);
-    function onClear(e2) {
+    function onClear(e) {
       if (props.openOnClear) {
         menu.value = true;
       }
@@ -27122,35 +27792,35 @@ const VAutocomplete = genericComponent()({
       if (menuDisabled.value) return;
       menu.value = true;
     }
-    function onMousedownMenuIcon(e2) {
+    function onMousedownMenuIcon(e) {
       if (menuDisabled.value) return;
       if (isFocused.value) {
-        e2.preventDefault();
-        e2.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
       }
       menu.value = !menu.value;
     }
-    function onListKeydown(e2) {
+    function onListKeydown(e) {
       var _a;
-      if (e2.key !== " " && checkPrintable(e2)) {
+      if (checkPrintable(e) || e.key === "Backspace") {
         (_a = vTextFieldRef.value) == null ? void 0 : _a.focus();
       }
     }
-    function onKeydown(e2) {
+    function onKeydown(e) {
       var _a, _b, _c, _d, _e;
       if (form.isReadonly.value) return;
       const selectionStart = (_a = vTextFieldRef.value) == null ? void 0 : _a.selectionStart;
       const length = model.value.length;
-      if (["Enter", "ArrowDown", "ArrowUp"].includes(e2.key)) {
-        e2.preventDefault();
+      if (["Enter", "ArrowDown", "ArrowUp"].includes(e.key)) {
+        e.preventDefault();
       }
-      if (["Enter", "ArrowDown"].includes(e2.key)) {
+      if (["Enter", "ArrowDown"].includes(e.key)) {
         menu.value = true;
       }
-      if (["Escape"].includes(e2.key)) {
+      if (["Escape"].includes(e.key)) {
         menu.value = false;
       }
-      if (highlightFirst.value && ["Enter", "Tab"].includes(e2.key) && !model.value.some((_ref2) => {
+      if (highlightFirst.value && ["Enter", "Tab"].includes(e.key) && !model.value.some((_ref2) => {
         let {
           value
         } = _ref2;
@@ -27158,23 +27828,23 @@ const VAutocomplete = genericComponent()({
       })) {
         select(displayItems.value[0]);
       }
-      if (e2.key === "ArrowDown" && highlightFirst.value) {
+      if (e.key === "ArrowDown" && highlightFirst.value) {
         (_b = listRef.value) == null ? void 0 : _b.focus("next");
       }
-      if (["Backspace", "Delete"].includes(e2.key)) {
+      if (["Backspace", "Delete"].includes(e.key)) {
         if (!props.multiple && hasSelectionSlot.value && model.value.length > 0 && !search.value) return select(model.value[0], false);
         if (~selectionIndex.value) {
-          e2.preventDefault();
+          e.preventDefault();
           const originalSelectionIndex = selectionIndex.value;
           select(model.value[selectionIndex.value], false);
           selectionIndex.value = originalSelectionIndex >= length - 1 ? length - 2 : originalSelectionIndex;
-        } else if (e2.key === "Backspace" && !search.value) {
+        } else if (e.key === "Backspace" && !search.value) {
           selectionIndex.value = length - 1;
         }
         return;
       }
       if (!props.multiple) return;
-      if (e2.key === "ArrowLeft") {
+      if (e.key === "ArrowLeft") {
         if (selectionIndex.value < 0 && selectionStart && selectionStart > 0) return;
         const prev = selectionIndex.value > -1 ? selectionIndex.value - 1 : length - 1;
         if (model.value[prev]) {
@@ -27184,7 +27854,7 @@ const VAutocomplete = genericComponent()({
           selectionIndex.value = -1;
           (_d = vTextFieldRef.value) == null ? void 0 : _d.setSelectionRange(searchLength, searchLength);
         }
-      } else if (e2.key === "ArrowRight") {
+      } else if (e.key === "ArrowRight") {
         if (selectionIndex.value < 0) return;
         const next = selectionIndex.value + 1;
         if (model.value[next]) {
@@ -27193,13 +27863,13 @@ const VAutocomplete = genericComponent()({
           selectionIndex.value = -1;
           (_e = vTextFieldRef.value) == null ? void 0 : _e.setSelectionRange(0, 0);
         }
-      } else if (~selectionIndex.value && checkPrintable(e2)) {
+      } else if (~selectionIndex.value && checkPrintable(e)) {
         selectionIndex.value = -1;
       }
     }
-    function onChange(e2) {
+    function onChange(e) {
       if (matchesSelector(vTextFieldRef.value, ":autofill") || matchesSelector(vTextFieldRef.value, ":-webkit-autofill")) {
-        const item = items.value.find((item2) => item2.title === e2.target.value);
+        const item = items.value.find((item2) => item2.title === e.target.value);
         if (item) {
           select(item);
         }
@@ -27217,14 +27887,15 @@ const VAutocomplete = genericComponent()({
         isPristine.value = true;
         (_a = vTextFieldRef.value) == null ? void 0 : _a.focus();
       }
+      _searchLock.value = null;
     }
-    function onFocusin(e2) {
+    function onFocusin(e) {
       isFocused.value = true;
       setTimeout(() => {
         listHasFocus.value = true;
       });
     }
-    function onFocusout(e2) {
+    function onFocusout(e) {
       listHasFocus.value = false;
     }
     function onUpdateModelValue(v) {
@@ -27250,6 +27921,7 @@ const VAutocomplete = genericComponent()({
       } else {
         const add2 = set2 !== false;
         model.value = add2 ? [item] : [];
+        _searchLock.value = isPristine.value ? "" : search.value ?? "";
         search.value = add2 && !hasSelectionSlot.value ? item.title : "";
         nextTick(() => {
           menu.value = false;
@@ -27268,7 +27940,10 @@ const VAutocomplete = genericComponent()({
       } else {
         if (!props.multiple && search.value == null) model.value = [];
         menu.value = false;
-        if (props.multiple || hasSelectionSlot.value) search.value = "";
+        if (!isPristine.value && search.value) {
+          _searchLock.value = search.value;
+        }
+        search.value = "";
         selectionIndex.value = -1;
       }
     });
@@ -27277,16 +27952,17 @@ const VAutocomplete = genericComponent()({
       if (val) menu.value = true;
       isPristine.value = !val;
     });
-    watch(menu, () => {
-      if (!props.hideSelected && menu.value && model.value.length) {
+    watch(menu, (val) => {
+      if (!props.hideSelected && val && model.value.length && isPristine.value) {
         const index = displayItems.value.findIndex((item) => model.value.some((s) => item.value === s.value));
         IN_BROWSER && window.requestAnimationFrame(() => {
           var _a;
           index >= 0 && ((_a = vVirtualScrollRef.value) == null ? void 0 : _a.scrollToIndex(index));
         });
       }
+      if (val) _searchLock.value = null;
     });
-    watch(() => props.items, (newVal, oldVal) => {
+    watch(items, (newVal, oldVal) => {
       if (menu.value) return;
       if (isFocused.value && !oldVal.length && newVal.length) {
         menu.value = true;
@@ -27318,10 +27994,13 @@ const VAutocomplete = genericComponent()({
         "placeholder": isDirty ? void 0 : props.placeholder,
         "onClick:clear": onClear,
         "onMousedown:control": onMousedownControl,
-        "onKeydown": onKeydown
+        "onKeydown": onKeydown,
+        "aria-expanded": ariaExpanded.value,
+        "aria-controls": ariaControls.value
       }), {
         ...slots,
         default: () => createElementVNode(Fragment, null, [createVNode(VMenu, mergeProps({
+          "id": menuId.value,
           "ref": vMenuRef,
           "modelValue": menu.value,
           "onUpdate:modelValue": ($event) => menu.value = $event,
@@ -27332,19 +28011,20 @@ const VAutocomplete = genericComponent()({
           "maxHeight": 310,
           "openOnClick": false,
           "closeOnContentClick": false,
-          "transition": props.transition,
           "onAfterEnter": onAfterEnter,
           "onAfterLeave": onAfterLeave
         }, props.menuProps), {
           default: () => [hasList && createVNode(VList, mergeProps({
             "ref": listRef,
+            "filterable": true,
             "selected": selectedValues.value,
             "selectStrategy": props.multiple ? "independent" : "single-independent",
-            "onMousedown": (e2) => e2.preventDefault(),
+            "onMousedown": (e) => e.preventDefault(),
             "onKeydown": onListKeydown,
             "onFocusin": onFocusin,
             "onFocusout": onFocusout,
             "tabindex": "-1",
+            "selectable": true,
             "aria-live": "polite",
             "color": props.itemColor ?? props.color
           }, listEvents, props.listProps), {
@@ -27352,7 +28032,7 @@ const VAutocomplete = genericComponent()({
               var _a, _b, _c;
               return [(_a = slots["prepend-item"]) == null ? void 0 : _a.call(slots), !displayItems.value.length && !props.hideNoData && (((_b = slots["no-data"]) == null ? void 0 : _b.call(slots)) ?? createVNode(VListItem, {
                 "key": "no-data",
-                "title": t2(props.noDataText)
+                "title": t(props.noDataText)
               }, null)), createVNode(VVirtualScroll, {
                 "ref": vVirtualScrollRef,
                 "renderless": true,
@@ -27360,7 +28040,7 @@ const VAutocomplete = genericComponent()({
                 "itemKey": "value"
               }, {
                 default: (_ref3) => {
-                  var _a2;
+                  var _a2, _b2, _c2;
                   let {
                     item,
                     index,
@@ -27372,7 +28052,23 @@ const VAutocomplete = genericComponent()({
                     active: highlightFirst.value && index === 0 ? true : void 0,
                     onClick: () => select(item, null)
                   });
-                  return ((_a2 = slots.item) == null ? void 0 : _a2.call(slots, {
+                  if (item.type === "divider") {
+                    return ((_a2 = slots.divider) == null ? void 0 : _a2.call(slots, {
+                      props: item.raw,
+                      index
+                    })) ?? createVNode(VDivider, mergeProps(item.props, {
+                      "key": `divider-${index}`
+                    }), null);
+                  }
+                  if (item.type === "subheader") {
+                    return ((_b2 = slots.subheader) == null ? void 0 : _b2.call(slots, {
+                      props: item.raw,
+                      index
+                    })) ?? createVNode(VListSubheader, mergeProps(item.props, {
+                      "key": `subheader-${index}`
+                    }), null);
+                  }
+                  return ((_c2 = slots.item) == null ? void 0 : _c2.call(slots, {
                     item,
                     index,
                     props: itemProps
@@ -27387,7 +28083,8 @@ const VAutocomplete = genericComponent()({
                         "key": item.value,
                         "modelValue": isSelected,
                         "ripple": false,
-                        "tabindex": "-1"
+                        "tabindex": "-1",
+                        "onClick": (event) => event.preventDefault()
                       }, null) : void 0, item.props.prependAvatar && createVNode(VAvatar, {
                         "image": item.props.prependAvatar
                       }, null), item.props.prependIcon && createVNode(VIcon, {
@@ -27404,22 +28101,22 @@ const VAutocomplete = genericComponent()({
             }
           })]
         }), model.value.map((item, index) => {
-          function onChipClose(e2) {
-            e2.stopPropagation();
-            e2.preventDefault();
+          function onChipClose(e) {
+            e.stopPropagation();
+            e.preventDefault();
             select(item, false);
           }
           const slotProps = {
             "onClick:close": onChipClose,
-            onKeydown(e2) {
-              if (e2.key !== "Enter" && e2.key !== " ") return;
-              e2.preventDefault();
-              e2.stopPropagation();
-              onChipClose(e2);
+            onKeydown(e) {
+              if (e.key !== "Enter" && e.key !== " ") return;
+              e.preventDefault();
+              e.stopPropagation();
+              onChipClose(e);
             },
-            onMousedown(e2) {
-              e2.preventDefault();
-              e2.stopPropagation();
+            onMousedown(e) {
+              e.preventDefault();
+              e.stopPropagation();
             },
             modelValue: true,
             "onUpdate:modelValue": void 0
@@ -27472,8 +28169,8 @@ const VAutocomplete = genericComponent()({
             "icon": props.menuIcon,
             "onMousedown": onMousedownMenuIcon,
             "onClick": noop,
-            "aria-label": t2(label.value),
-            "title": t2(label.value),
+            "aria-label": ariaLabel.value,
+            "title": ariaLabel.value,
             "tabindex": "-1"
           }, null) : void 0]);
         }
@@ -27548,6 +28245,7 @@ const VRadioGroup = genericComponent()({
     const uid = useId();
     const id = computed(() => props.id || `radio-group-${uid}`);
     const model = useProxiedModel(props, "modelValue");
+    const inputRef = ref();
     useRender(() => {
       const [rootAttrs, controlAttrs] = filterInputAttrs(attrs);
       const inputProps = VInput.filterProps(props);
@@ -27559,6 +28257,7 @@ const VRadioGroup = genericComponent()({
         }
       }) : props.label;
       return createVNode(VInput, mergeProps({
+        "ref": inputRef,
         "class": ["v-radio-group", props.class],
         "style": props.style
       }, rootAttrs, inputProps, {
@@ -27596,7 +28295,7 @@ const VRadioGroup = genericComponent()({
         }
       });
     });
-    return {};
+    return forwardRefs({}, inputRef);
   }
 });
 const makeVTextareaProps = propsFactory({
@@ -27620,6 +28319,7 @@ const makeVTextareaProps = propsFactory({
   },
   suffix: String,
   modelModifiers: Object,
+  ...makeAutocompleteProps(),
   ...makeVInputProps(),
   ...makeVFieldProps()
 }, "VTextarea");
@@ -27631,10 +28331,11 @@ const VTextarea = genericComponent()({
   inheritAttrs: false,
   props: makeVTextareaProps(),
   emits: {
-    "click:control": (e2) => true,
-    "mousedown:control": (e2) => true,
+    "click:control": (e) => true,
+    "mousedown:control": (e) => true,
     "update:focused": (focused) => true,
-    "update:modelValue": (val) => true
+    "update:modelValue": (val) => true,
+    "update:rows": (rows) => true
   },
   setup(props, _ref) {
     let {
@@ -27648,6 +28349,9 @@ const VTextarea = genericComponent()({
       focus,
       blur
     } = useFocus(props);
+    const {
+      onIntersect
+    } = useAutofocus(props);
     const counterValue = computed(() => {
       return typeof props.counterValue === "function" ? props.counterValue(model.value) : (model.value || "").toString().length;
     });
@@ -27656,41 +28360,44 @@ const VTextarea = genericComponent()({
       if (!props.counter || typeof props.counter !== "number" && typeof props.counter !== "string") return void 0;
       return props.counter;
     });
-    function onIntersect(isIntersecting, entries) {
-      var _a, _b;
-      if (!props.autofocus || !isIntersecting) return;
-      (_b = (_a = entries[0].target) == null ? void 0 : _a.focus) == null ? void 0 : _b.call(_a);
-    }
     const vInputRef = ref();
     const vFieldRef = ref();
     const controlHeight = shallowRef("");
     const textareaRef = ref();
+    const scrollbarWidth = ref(0);
+    const {
+      platform: platform2
+    } = useDisplay();
+    const autocomplete = useAutocomplete(props);
     const isActive = computed(() => props.persistentPlaceholder || isFocused.value || props.active);
     function onFocus() {
       var _a;
+      if (autocomplete.isSuppressing.value) {
+        autocomplete.update();
+      }
       if (textareaRef.value !== document.activeElement) {
         (_a = textareaRef.value) == null ? void 0 : _a.focus();
       }
       if (!isFocused.value) focus();
     }
-    function onControlClick(e2) {
+    function onControlClick(e) {
       onFocus();
-      emit("click:control", e2);
+      emit("click:control", e);
     }
-    function onControlMousedown(e2) {
-      emit("mousedown:control", e2);
+    function onControlMousedown(e) {
+      emit("mousedown:control", e);
     }
-    function onClear(e2) {
-      e2.stopPropagation();
+    function onClear(e) {
+      e.stopPropagation();
       onFocus();
       nextTick(() => {
         model.value = "";
-        callEvent(props["onClick:clear"], e2);
+        callEvent(props["onClick:clear"], e);
       });
     }
-    function onInput(e2) {
+    function onInput(e) {
       var _a;
-      const el = e2.target;
+      const el = e.target;
       model.value = el.value;
       if ((_a = props.modelModifiers) == null ? void 0 : _a.trim) {
         const caretPosition = [el.selectionStart, el.selectionEnd];
@@ -27707,6 +28414,18 @@ const VTextarea = genericComponent()({
       if (!props.autoGrow) rows.value = Number(props.rows);
     });
     function calculateInputHeight() {
+      nextTick(() => {
+        if (!textareaRef.value) return;
+        if (platform2.value.firefox) {
+          scrollbarWidth.value = 12;
+          return;
+        }
+        const {
+          offsetWidth,
+          clientWidth
+        } = textareaRef.value;
+        scrollbarWidth.value = Math.max(0, offsetWidth - clientWidth);
+      });
       if (!props.autoGrow) return;
       nextTick(() => {
         if (!sizerRef.value || !vFieldRef.value) return;
@@ -27727,6 +28446,9 @@ const VTextarea = genericComponent()({
     watch(() => props.rows, calculateInputHeight);
     watch(() => props.maxRows, calculateInputHeight);
     watch(() => props.density, calculateInputHeight);
+    watch(rows, (val) => {
+      emit("update:rows", val);
+    });
     let observer;
     watch(sizerRef, (val) => {
       if (val) {
@@ -27747,7 +28469,10 @@ const VTextarea = genericComponent()({
         modelValue: _,
         ...inputProps
       } = VInput.filterProps(props);
-      const fieldProps = VField.filterProps(props);
+      const fieldProps = {
+        ...VField.filterProps(props),
+        "onClick:clear": onClear
+      };
       return createVNode(VInput, mergeProps({
         "ref": vInputRef,
         "modelValue": model.value,
@@ -27761,7 +28486,9 @@ const VTextarea = genericComponent()({
           "v-textarea--no-resize": props.noResize || props.autoGrow,
           "v-input--plain-underlined": isPlainOrUnderlined.value
         }, props.class],
-        "style": props.style
+        "style": [{
+          "--v-textarea-scroll-bar-width": convertToUnit(scrollbarWidth.value)
+        }, props.style]
       }, rootAttrs, inputProps, {
         "centerAffix": rows.value === 1 && !isPlainOrUnderlined.value,
         "focused": isFocused.value
@@ -27773,7 +28500,8 @@ const VTextarea = genericComponent()({
             isDisabled,
             isDirty,
             isReadonly,
-            isValid: isValid2
+            isValid: isValid2,
+            hasDetails: hasDetails2
           } = _ref2;
           return createVNode(VField, mergeProps({
             "ref": vFieldRef,
@@ -27782,7 +28510,6 @@ const VTextarea = genericComponent()({
             },
             "onClick": onControlClick,
             "onMousedown": onControlMousedown,
-            "onClick:clear": onClear,
             "onClick:prependInner": props["onClick:prependInner"],
             "onClick:appendInner": props["onClick:appendInner"]
           }, fieldProps, {
@@ -27792,6 +28519,7 @@ const VTextarea = genericComponent()({
             "dirty": isDirty.value || props.dirty,
             "disabled": isDisabled.value,
             "focused": isFocused.value,
+            "details": hasDetails2.value,
             "error": isValid2.value === false
           }), {
             ...slots,
@@ -27800,12 +28528,13 @@ const VTextarea = genericComponent()({
                 props: {
                   class: fieldClass,
                   ...slotProps
-                }
+                },
+                controlRef
               } = _ref3;
               return createElementVNode(Fragment, null, [props.prefix && createElementVNode("span", {
                 "class": "v-text-field__prefix"
               }, [props.prefix]), withDirectives(createElementVNode("textarea", mergeProps({
-                "ref": textareaRef,
+                "ref": (val) => textareaRef.value = controlRef.value = val,
                 "class": fieldClass,
                 "value": model.value,
                 "onInput": onInput,
@@ -27814,7 +28543,8 @@ const VTextarea = genericComponent()({
                 "disabled": isDisabled.value,
                 "placeholder": props.placeholder,
                 "rows": props.rows,
-                "name": props.name,
+                "name": autocomplete.fieldName.value,
+                "autocomplete": autocomplete.fieldAutocomplete.value,
                 "onFocus": onFocus,
                 "onBlur": blur
               }, slotProps, inputAttrs), null), [[Intersect, {
@@ -27913,16 +28643,14 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
                 _cache[18] || (_cache[18] = createElementVNode("h5", null, "Name", -1)),
                 createElementVNode("p", null, toDisplayString(_ctx.itemLocal.contact.name), 1)
               ]),
-              _: 1,
-              __: [18]
+              _: 1
             }),
             createVNode(VCol, null, {
               default: withCtx(() => [
                 _cache[19] || (_cache[19] = createElementVNode("h5", null, "Type", -1)),
                 createElementVNode("p", null, toDisplayString(_ctx.itemLocal.contact.type), 1)
               ]),
-              _: 1,
-              __: [19]
+              _: 1
             })
           ]),
           _: 1
@@ -27934,16 +28662,14 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
                 _cache[20] || (_cache[20] = createElementVNode("h5", null, "Detail", -1)),
                 createElementVNode("p", null, toDisplayString(_ctx.itemLocal.contact.detail), 1)
               ]),
-              _: 1,
-              __: [20]
+              _: 1
             }),
             createVNode(VCol, null, {
               default: withCtx(() => [
                 _cache[21] || (_cache[21] = createElementVNode("h5", null, "Phone", -1)),
                 createElementVNode("p", null, toDisplayString(_ctx.itemLocal.contact.phone), 1)
               ]),
-              _: 1,
-              __: [21]
+              _: 1
             })
           ]),
           _: 1
@@ -27955,8 +28681,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
                 _cache[22] || (_cache[22] = createElementVNode("h5", null, "Address", -1)),
                 createElementVNode("p", null, toDisplayString(_ctx.itemLocal.contact.address), 1)
               ]),
-              _: 1,
-              __: [22]
+              _: 1
             })
           ]),
           _: 1
@@ -27989,7 +28714,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
             createVNode(VCol, null, {
               default: withCtx(() => [
                 !_ctx.itemLocal.contact ? (openBlock(), createElementBlock("span", _hoisted_3$o, "Select a ")) : createCommentVNode("", true),
-                _cache[23] || (_cache[23] = createTextVNode("Contact type ")),
+                _cache[23] || (_cache[23] = createTextVNode("Contact type ", -1)),
                 createVNode(VRadioGroup, {
                   modelValue: $data.contactType,
                   "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $data.contactType = $event),
@@ -28012,8 +28737,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
                   _: 1
                 }, 8, ["modelValue"])
               ]),
-              _: 1,
-              __: [23]
+              _: 1
             })
           ]),
           _: 1
@@ -28227,16 +28951,14 @@ function _sfc_render$17(_ctx, _cache, $props, $setup, $data, $options) {
               _cache[2] || (_cache[2] = createElementVNode("h5", null, "Full Name", -1)),
               createElementVNode("p", null, toDisplayString(_ctx.itemLocal.user.fullName), 1)
             ]),
-            _: 1,
-            __: [2]
+            _: 1
           }),
           createVNode(VCol, null, {
             default: withCtx(() => [
               _cache[3] || (_cache[3] = createElementVNode("h5", null, "Role", -1)),
               createElementVNode("p", null, toDisplayString(_ctx.itemLocal.role), 1)
             ]),
-            _: 1,
-            __: [3]
+            _: 1
           })
         ]),
         _: 1
@@ -28470,11 +29192,10 @@ function _sfc_render$16(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(VRow, { justify: "end" }, {
                 default: withCtx(() => [
                   createVNode(VCol, { class: "flex flex-grow-1 flex-grow-0" }, {
-                    default: withCtx(() => _cache[7] || (_cache[7] = [
-                      createTextVNode(" ")
-                    ])),
-                    _: 1,
-                    __: [7]
+                    default: withCtx(() => [..._cache[7] || (_cache[7] = [
+                      createTextVNode(" ", -1)
+                    ])]),
+                    _: 1
                   }),
                   createVNode(VCol, null, {
                     default: withCtx(() => [
@@ -28767,11 +29488,10 @@ function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode(VCard, { width: "auto" }, {
             default: withCtx(() => [
               createVNode(VCardTitle, null, {
-                default: withCtx(() => _cache[7] || (_cache[7] = [
-                  createTextVNode("Add new organization member")
-                ])),
-                _: 1,
-                __: [7]
+                default: withCtx(() => [..._cache[7] || (_cache[7] = [
+                  createTextVNode("Add new organization member", -1)
+                ])]),
+                _: 1
               }),
               createVNode(VCardText, null, {
                 default: withCtx(() => [
@@ -28796,13 +29516,12 @@ function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
                                 hint: "Start typing to see a list of matches",
                                 "persistent-hint": ""
                               }, {
-                                default: withCtx(() => _cache[8] || (_cache[8] = [
+                                default: withCtx(() => [..._cache[8] || (_cache[8] = [
                                   createElementVNode("template", { slot: "no-data" }, [
                                     createElementVNode("div", { class: "text-center px-3 text-body-2" }, "Start typing to see a list of matches")
                                   ], -1)
-                                ])),
-                                _: 1,
-                                __: [8]
+                                ])]),
+                                _: 1
                               }, 8, ["loading", "modelValue", "search-input", "items", "rules"])
                             ]),
                             _: 1
@@ -28865,11 +29584,10 @@ function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
                     color: "secondary",
                     onClick: _cache[4] || (_cache[4] = ($event) => $options.cancel())
                   }, {
-                    default: withCtx(() => _cache[9] || (_cache[9] = [
-                      createTextVNode("Cancel")
-                    ])),
-                    _: 1,
-                    __: [9]
+                    default: withCtx(() => [..._cache[9] || (_cache[9] = [
+                      createTextVNode("Cancel", -1)
+                    ])]),
+                    _: 1
                   }),
                   createVNode(VBtn, {
                     text: "",
@@ -28877,11 +29595,10 @@ function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
                     color: "primary",
                     onClick: _cache[5] || (_cache[5] = ($event) => $options.updateOrg())
                   }, {
-                    default: withCtx(() => _cache[10] || (_cache[10] = [
-                      createTextVNode("Add")
-                    ])),
-                    _: 1,
-                    __: [10]
+                    default: withCtx(() => [..._cache[10] || (_cache[10] = [
+                      createTextVNode("Add", -1)
+                    ])]),
+                    _: 1
                   }, 8, ["disabled"])
                 ]),
                 _: 1
@@ -28928,8 +29645,8 @@ const _sfc_main$14 = {
   methods: {
     ...mapActions(["showMessage"]),
     async modifyPeople() {
-      for (let i2 = 0; i2 < this.selected.length; i2++) {
-        const personID = this.selected[i2].id;
+      for (let i = 0; i < this.selected.length; i++) {
+        const personID = this.selected[i].id;
         const person = await this.$api.user.getByID(personID, true).catch((error) => {
           this.showMessage(error);
         });
@@ -29028,11 +29745,10 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
                     color: "secondary",
                     onClick: _cache[1] || (_cache[1] = ($event) => $options.cancel())
                   }, {
-                    default: withCtx(() => _cache[4] || (_cache[4] = [
-                      createTextVNode("Cancel")
-                    ])),
-                    _: 1,
-                    __: [4]
+                    default: withCtx(() => [..._cache[4] || (_cache[4] = [
+                      createTextVNode("Cancel", -1)
+                    ])]),
+                    _: 1
                   }),
                   createVNode(VBtn, {
                     text: "",
@@ -29234,11 +29950,10 @@ function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
                   color: "primary",
                   onClick: $options.createNew
                 }, {
-                  default: withCtx(() => _cache[8] || (_cache[8] = [
-                    createTextVNode("Create new")
-                  ])),
-                  _: 1,
-                  __: [8]
+                  default: withCtx(() => [..._cache[8] || (_cache[8] = [
+                    createTextVNode("Create new", -1)
+                  ])]),
+                  _: 1
                 }, 8, ["onClick"])) : (openBlock(), createBlock(VBtn, {
                   key: 1,
                   "x-small": "",
@@ -29247,11 +29962,10 @@ function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
                   color: "secondary",
                   onClick: _cache[2] || (_cache[2] = ($event) => $data.createNewSelected = false)
                 }, {
-                  default: withCtx(() => _cache[9] || (_cache[9] = [
-                    createTextVNode(" Search ")
-                  ])),
-                  _: 1,
-                  __: [9]
+                  default: withCtx(() => [..._cache[9] || (_cache[9] = [
+                    createTextVNode(" Search ", -1)
+                  ])]),
+                  _: 1
                 }))
               ]),
               _: 1
@@ -29275,7 +29989,7 @@ function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
                 }, {
                   label: withCtx(() => [
                     !_ctx.itemLocal.contact.id ? (openBlock(), createElementBlock("span", _hoisted_2$t, "Select a")) : createCommentVNode("", true),
-                    _cache[10] || (_cache[10] = createTextVNode(" Contact type "))
+                    _cache[10] || (_cache[10] = createTextVNode(" Contact type ", -1))
                   ]),
                   default: withCtx(() => [
                     createVNode(VRadio, {
@@ -29478,11 +30192,10 @@ function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
             color: "secondary",
             onClick: withModifiers($options.cancelContact, ["stop"])
           }, {
-            default: withCtx(() => _cache[5] || (_cache[5] = [
-              createTextVNode("Cancel")
-            ])),
-            _: 1,
-            __: [5]
+            default: withCtx(() => [..._cache[5] || (_cache[5] = [
+              createTextVNode("Cancel", -1)
+            ])]),
+            _: 1
           }, 8, ["onClick"]),
           createVNode(VBtn, {
             "x-small": "",
@@ -29490,11 +30203,10 @@ function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
             color: "secondary",
             onClick: _cache[1] || (_cache[1] = withModifiers(($event) => $options.updateContact($options.itemLocal), ["stop"]))
           }, {
-            default: withCtx(() => _cache[6] || (_cache[6] = [
-              createTextVNode("Accept")
-            ])),
-            _: 1,
-            __: [6]
+            default: withCtx(() => [..._cache[6] || (_cache[6] = [
+              createTextVNode("Accept", -1)
+            ])]),
+            _: 1
           })
         ]),
         _: 1
@@ -29555,18 +30267,16 @@ function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: _cache[3] || (_cache[3] = ($event) => $options.setContactActiveState(false)),
                 disabled: $data.roleEditingEnabled
               }), {
-                default: withCtx(() => _cache[9] || (_cache[9] = [
-                  createTextVNode(" mdi-delete ")
-                ])),
-                _: 2,
-                __: [9]
-              }, 1040, ["disabled"])
+                default: withCtx(() => [..._cache[9] || (_cache[9] = [
+                  createTextVNode(" mdi-delete ", -1)
+                ])]),
+                _: 1
+              }, 16, ["disabled"])
             ]),
             default: withCtx(() => [
               _cache[10] || (_cache[10] = createElementVNode("span", null, "Deactivate contact", -1))
             ]),
-            _: 1,
-            __: [10]
+            _: 1
           })) : (openBlock(), createBlock(VTooltip, {
             key: 1,
             top: ""
@@ -29578,18 +30288,16 @@ function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
                 color: "green",
                 onClick: _cache[4] || (_cache[4] = ($event) => $options.setContactActiveState(true))
               }), {
-                default: withCtx(() => _cache[11] || (_cache[11] = [
-                  createTextVNode(" mdi-delete-restore ")
-                ])),
-                _: 2,
-                __: [11]
-              }, 1040)
+                default: withCtx(() => [..._cache[11] || (_cache[11] = [
+                  createTextVNode(" mdi-delete-restore ", -1)
+                ])]),
+                _: 1
+              }, 16)
             ]),
             default: withCtx(() => [
               _cache[12] || (_cache[12] = createElementVNode("span", null, "Reactivate Contact", -1))
             ]),
-            _: 1,
-            __: [12]
+            _: 1
           })),
           $options.itemLocal.active ? (openBlock(), createBlock(VTooltip, {
             key: 2,
@@ -29602,18 +30310,16 @@ function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
                 color: "primary",
                 onClick: $options.toggleEditing
               }), {
-                default: withCtx(() => _cache[13] || (_cache[13] = [
-                  createTextVNode("mdi-pencil")
-                ])),
-                _: 2,
-                __: [13]
-              }, 1040, ["onClick"])
+                default: withCtx(() => [..._cache[13] || (_cache[13] = [
+                  createTextVNode("mdi-pencil", -1)
+                ])]),
+                _: 1
+              }, 16, ["onClick"])
             ]),
             default: withCtx(() => [
               _cache[14] || (_cache[14] = createElementVNode("span", null, "Edit contact", -1))
             ]),
-            _: 1,
-            __: [14]
+            _: 1
           })) : createCommentVNode("", true)
         ]),
         _: 1
@@ -29624,6 +30330,23 @@ function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const IFXContactRoleDisplayEdit = /* @__PURE__ */ _export_sfc(_sfc_main$12, [["render", _sfc_render$12], ["__scopeId", "data-v-de2d3dfc"]]);
 const VAlertTitle = createSimpleFunctional("v-alert-title");
+const makeIconSizeProps = propsFactory({
+  iconSize: [Number, String],
+  iconSizes: {
+    type: Array,
+    default: () => [["x-small", 10], ["small", 16], ["default", 24], ["large", 28], ["x-large", 32]]
+  }
+}, "iconSize");
+function useIconSizes(props, fallback) {
+  const iconSize = computed(() => {
+    const iconSizeMap = new Map(props.iconSizes);
+    const _iconSize = props.iconSize ?? fallback() ?? "default";
+    return iconSizeMap.has(_iconSize) ? iconSizeMap.get(_iconSize) : _iconSize;
+  });
+  return {
+    iconSize
+  };
+}
 const allowedTypes = ["success", "info", "warning", "error"];
 const makeVAlertProps = propsFactory({
   border: {
@@ -29661,6 +30384,7 @@ const makeVAlertProps = propsFactory({
   ...makeDensityProps(),
   ...makeDimensionProps(),
   ...makeElevationProps(),
+  ...makeIconSizeProps(),
   ...makeLocationProps(),
   ...makePositionProps(),
   ...makeRoundedProps(),
@@ -29674,7 +30398,7 @@ const VAlert = genericComponent()({
   name: "VAlert",
   props: makeVAlertProps(),
   emits: {
-    "click:close": (e2) => true,
+    "click:close": (e) => true,
     "update:modelValue": (value) => true
   },
   setup(props, _ref) {
@@ -29688,6 +30412,9 @@ const VAlert = genericComponent()({
       if (!props.type) return props.icon;
       return props.icon ?? `$${props.type}`;
     });
+    const {
+      iconSize
+    } = useIconSizes(props, () => props.prominent ? 44 : void 0);
     const {
       themeClasses
     } = provideTheme(props);
@@ -29722,19 +30449,24 @@ const VAlert = genericComponent()({
       textColorStyles
     } = useTextColor(() => props.borderColor);
     const {
-      t: t2
+      t
     } = useLocale();
     const closeProps = toRef(() => ({
-      "aria-label": t2(props.closeLabel),
-      onClick(e2) {
+      "aria-label": t(props.closeLabel),
+      onClick(e) {
         isActive.value = false;
-        emit("click:close", e2);
+        emit("click:close", e);
       }
     }));
     return () => {
       const hasPrepend = !!(slots.prepend || icon.value);
       const hasTitle = !!(slots.title || props.title);
       const hasClose = !!(slots.close || props.closable);
+      const iconProps = {
+        density: props.density,
+        icon: icon.value,
+        size: props.iconSize || props.prominent ? iconSize.value : void 0
+      };
       return isActive.value && createVNode(props.tag, {
         "class": normalizeClass(["v-alert", props.border && {
           "v-alert--border": !!props.border,
@@ -29754,19 +30486,14 @@ const VAlert = genericComponent()({
           }, null), hasPrepend && createElementVNode("div", {
             "key": "prepend",
             "class": "v-alert__prepend"
-          }, [!slots.prepend ? createVNode(VIcon, {
-            "key": "prepend-icon",
-            "density": props.density,
-            "icon": icon.value,
-            "size": props.prominent ? 44 : 28
-          }, null) : createVNode(VDefaultsProvider, {
+          }, [!slots.prepend ? createVNode(VIcon, mergeProps({
+            "key": "prepend-icon"
+          }, iconProps), null) : createVNode(VDefaultsProvider, {
             "key": "prepend-defaults",
             "disabled": !icon.value,
             "defaults": {
               VIcon: {
-                density: props.density,
-                icon: icon.value,
-                size: props.prominent ? 44 : 28
+                ...iconProps
               }
             }
           }, slots.prepend)]), createElementVNode("div", {
@@ -29915,8 +30642,8 @@ const _sfc_main$11 = {
     async updateUsersAndSubmit() {
       if (this.item.ifxOrg) {
         const allPromises = [];
-        for (let i2 = 0; i2 < this.usersToBeUpdated.length; i2++) {
-          const person = this.usersToBeUpdated[i2];
+        for (let i = 0; i < this.usersToBeUpdated.length; i++) {
+          const person = this.usersToBeUpdated[i];
           const orgIndex = person.affiliations.findIndex((affiliation) => this.item.slug === affiliation.organization);
           if (orgIndex !== -1) {
             person.affiliations[orgIndex].active = true;
@@ -30035,11 +30762,10 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VRow, { dense: "" }, {
                     default: withCtx(() => [
                       createVNode(VCol, null, {
-                        default: withCtx(() => _cache[19] || (_cache[19] = [
+                        default: withCtx(() => [..._cache[19] || (_cache[19] = [
                           createElementVNode("h3", { class: "font-weight-medium" }, "You have unsaved changes!", -1)
-                        ])),
-                        _: 1,
-                        __: [19]
+                        ])]),
+                        _: 1
                       })
                     ]),
                     _: 1
@@ -30063,11 +30789,10 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(VRow, null, {
                 default: withCtx(() => [
                   createVNode(VCol, null, {
-                    default: withCtx(() => _cache[20] || (_cache[20] = [
+                    default: withCtx(() => [..._cache[20] || (_cache[20] = [
                       createElementVNode("h2", null, "Users", -1)
-                    ])),
-                    _: 1,
-                    __: [20]
+                    ])]),
+                    _: 1
                   }),
                   createVNode(VCol, {
                     sm: "2",
@@ -30085,21 +30810,19 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                           }), {
                             default: withCtx(() => [
                               createVNode(VIcon, null, {
-                                default: withCtx(() => _cache[21] || (_cache[21] = [
-                                  createTextVNode("person_add")
-                                ])),
-                                _: 1,
-                                __: [21]
+                                default: withCtx(() => [..._cache[21] || (_cache[21] = [
+                                  createTextVNode("person_add", -1)
+                                ])]),
+                                _: 1
                               })
                             ]),
-                            _: 2
-                          }, 1040)
+                            _: 1
+                          }, 16)
                         ]),
                         default: withCtx(() => [
                           _cache[22] || (_cache[22] = createElementVNode("span", null, "Add organization users", -1))
                         ]),
-                        _: 1,
-                        __: [22]
+                        _: 1
                       }),
                       createVNode(VTooltip, { top: "" }, {
                         activator: withCtx(({ on }) => [
@@ -30113,15 +30836,14 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                           }), {
                             default: withCtx(() => [
                               createVNode(VIcon, null, {
-                                default: withCtx(() => _cache[23] || (_cache[23] = [
-                                  createTextVNode("mdi-account-multiple-remove")
-                                ])),
-                                _: 1,
-                                __: [23]
+                                default: withCtx(() => [..._cache[23] || (_cache[23] = [
+                                  createTextVNode("mdi-account-multiple-remove", -1)
+                                ])]),
+                                _: 1
                               })
                             ]),
-                            _: 2
-                          }, 1040, ["disabled"])
+                            _: 1
+                          }, 16, ["disabled"])
                         ]),
                         default: withCtx(() => [
                           createElementVNode("span", null, toDisplayString(`Deactivate organization user${$data.selected.length === 1 ? "" : "s"}`), 1)
@@ -30140,15 +30862,14 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                           }), {
                             default: withCtx(() => [
                               createVNode(VIcon, null, {
-                                default: withCtx(() => _cache[24] || (_cache[24] = [
-                                  createTextVNode("mdi-account-multiple-check")
-                                ])),
-                                _: 1,
-                                __: [24]
+                                default: withCtx(() => [..._cache[24] || (_cache[24] = [
+                                  createTextVNode("mdi-account-multiple-check", -1)
+                                ])]),
+                                _: 1
                               })
                             ]),
-                            _: 2
-                          }, 1040, ["disabled"])
+                            _: 1
+                          }, 16, ["disabled"])
                         ]),
                         default: withCtx(() => [
                           createElementVNode("span", null, toDisplayString(`Activate existing organization user${$data.selected.length === 1 ? "" : "s"}`), 1)
@@ -30191,36 +30912,32 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                           }, {
                             activator: withCtx(({ on, attrs }) => [
                               createVNode(VIcon, mergeProps(toHandlers(on), attrs, { color: "#fcbd01" }), {
-                                default: withCtx(() => _cache[25] || (_cache[25] = [
-                                  createTextVNode("lightbulb")
-                                ])),
-                                _: 2,
-                                __: [25]
-                              }, 1040)
+                                default: withCtx(() => [..._cache[25] || (_cache[25] = [
+                                  createTextVNode("lightbulb", -1)
+                                ])]),
+                                _: 1
+                              }, 16)
                             ]),
                             default: withCtx(() => [
                               _cache[26] || (_cache[26] = createElementVNode("span", null, "Active member", -1))
                             ]),
-                            _: 1,
-                            __: [26]
+                            _: 1
                           })) : (openBlock(), createBlock(VTooltip, {
                             key: 1,
                             top: ""
                           }, {
                             activator: withCtx(({ on, attrs }) => [
                               createVNode(VIcon, mergeProps(toHandlers(on), attrs, { color: "#ccc" }), {
-                                default: withCtx(() => _cache[27] || (_cache[27] = [
-                                  createTextVNode("lightbulb")
-                                ])),
-                                _: 2,
-                                __: [27]
-                              }, 1040)
+                                default: withCtx(() => [..._cache[27] || (_cache[27] = [
+                                  createTextVNode("lightbulb", -1)
+                                ])]),
+                                _: 1
+                              }, 16)
                             ]),
                             default: withCtx(() => [
                               _cache[28] || (_cache[28] = createElementVNode("span", null, "Former member", -1))
                             ]),
-                            _: 1,
-                            __: [28]
+                            _: 1
                           })),
                           item.role == "pi" ? (openBlock(), createBlock(VTooltip, {
                             key: 2,
@@ -30228,18 +30945,16 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                           }, {
                             activator: withCtx(({ on, attrs }) => [
                               createVNode(VIcon, mergeProps({ color: "green" }, toHandlers(on), attrs), {
-                                default: withCtx(() => _cache[29] || (_cache[29] = [
-                                  createTextVNode("school")
-                                ])),
-                                _: 2,
-                                __: [29]
-                              }, 1040)
+                                default: withCtx(() => [..._cache[29] || (_cache[29] = [
+                                  createTextVNode("school", -1)
+                                ])]),
+                                _: 1
+                              }, 16)
                             ]),
                             default: withCtx(() => [
                               _cache[30] || (_cache[30] = createElementVNode("span", null, "PI", -1))
                             ]),
-                            _: 1,
-                            __: [30]
+                            _: 1
                           })) : createCommentVNode("", true),
                           item.role == "lab_manager" ? (openBlock(), createBlock(VTooltip, {
                             key: 3,
@@ -30247,18 +30962,16 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                           }, {
                             activator: withCtx(({ on, attrs }) => [
                               createVNode(VIcon, mergeProps({ color: "green" }, toHandlers(on), attrs), {
-                                default: withCtx(() => _cache[31] || (_cache[31] = [
-                                  createTextVNode("mdi-clipboard-account")
-                                ])),
-                                _: 2,
-                                __: [31]
-                              }, 1040)
+                                default: withCtx(() => [..._cache[31] || (_cache[31] = [
+                                  createTextVNode("mdi-clipboard-account", -1)
+                                ])]),
+                                _: 1
+                              }, 16)
                             ]),
                             default: withCtx(() => [
                               _cache[32] || (_cache[32] = createElementVNode("span", null, "Lab Admin", -1))
                             ]),
-                            _: 1,
-                            __: [32]
+                            _: 1
                           })) : createCommentVNode("", true),
                           item.role == "approver" ? (openBlock(), createBlock(VTooltip, {
                             key: 4,
@@ -30266,18 +30979,16 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                           }, {
                             activator: withCtx(({ on, attrs }) => [
                               createVNode(VIcon, mergeProps({ color: "green" }, toHandlers(on), attrs), {
-                                default: withCtx(() => _cache[33] || (_cache[33] = [
-                                  createTextVNode("mdi-account-check")
-                                ])),
-                                _: 2,
-                                __: [33]
-                              }, 1040)
+                                default: withCtx(() => [..._cache[33] || (_cache[33] = [
+                                  createTextVNode("mdi-account-check", -1)
+                                ])]),
+                                _: 1
+                              }, 16)
                             ]),
                             default: withCtx(() => [
                               _cache[34] || (_cache[34] = createElementVNode("span", null, "Approver", -1))
                             ]),
-                            _: 1,
-                            __: [34]
+                            _: 1
                           })) : createCommentVNode("", true)
                         ]),
                         _: 1
@@ -30285,11 +30996,10 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                     ]),
                     _: 1
                   })) : (openBlock(), createBlock(VCol, { key: 1 }, {
-                    default: withCtx(() => _cache[35] || (_cache[35] = [
-                      createTextVNode("No users")
-                    ])),
-                    _: 1,
-                    __: [35]
+                    default: withCtx(() => [..._cache[35] || (_cache[35] = [
+                      createTextVNode("No users", -1)
+                    ])]),
+                    _: 1
                   }))
                 ]),
                 _: 1
@@ -30297,11 +31007,10 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(VRow, { dense: "" }, {
                 default: withCtx(() => [
                   createVNode(VCol, null, {
-                    default: withCtx(() => _cache[36] || (_cache[36] = [
+                    default: withCtx(() => [..._cache[36] || (_cache[36] = [
                       createElementVNode("h2", null, "Contacts", -1)
-                    ])),
-                    _: 1,
-                    __: [36]
+                    ])]),
+                    _: 1
                   }),
                   createVNode(VCol, {
                     sm: "1",
@@ -30319,8 +31028,7 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                         default: withCtx(() => [
                           _cache[37] || (_cache[37] = createElementVNode("span", null, "Add new contact", -1))
                         ]),
-                        _: 1,
-                        __: [37]
+                        _: 1
                       })
                     ]),
                     _: 1
@@ -30384,7 +31092,7 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
             default: withCtx(() => [
               createVNode(VCardTitle, null, {
                 default: withCtx(() => [
-                  _cache[40] || (_cache[40] = createTextVNode(" Add Contact ")),
+                  _cache[40] || (_cache[40] = createTextVNode(" Add Contact ", -1)),
                   createVNode(VSpacer),
                   createVNode(VTooltip, { top: "" }, {
                     activator: withCtx(({ on, attrs }) => [
@@ -30396,25 +31104,22 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                       }, toHandlers(on), attrs), {
                         default: withCtx(() => [
                           createVNode(VIcon, null, {
-                            default: withCtx(() => _cache[38] || (_cache[38] = [
-                              createTextVNode("mdi-close")
-                            ])),
-                            _: 1,
-                            __: [38]
+                            default: withCtx(() => [..._cache[38] || (_cache[38] = [
+                              createTextVNode("mdi-close", -1)
+                            ])]),
+                            _: 1
                           })
                         ]),
-                        _: 2
-                      }, 1040)
+                        _: 1
+                      }, 16)
                     ]),
                     default: withCtx(() => [
                       _cache[39] || (_cache[39] = createElementVNode("span", null, "Cancel", -1))
                     ]),
-                    _: 1,
-                    __: [39]
+                    _: 1
                   })
                 ]),
-                _: 1,
-                __: [40]
+                _: 1
               }),
               createVNode(VCardText, { class: "pb-0" }, {
                 default: withCtx(() => [
@@ -30440,11 +31145,10 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                     color: "secondary",
                     onClick: _cache[9] || (_cache[9] = ($event) => $data.contactDialogOpen = false)
                   }, {
-                    default: withCtx(() => _cache[41] || (_cache[41] = [
-                      createTextVNode("Close")
-                    ])),
-                    _: 1,
-                    __: [41]
+                    default: withCtx(() => [..._cache[41] || (_cache[41] = [
+                      createTextVNode("Close", -1)
+                    ])]),
+                    _: 1
                   }),
                   createVNode(VSpacer),
                   createVNode(VBtn, {
@@ -30454,11 +31158,10 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                     color: "secondary",
                     onClick: $options.cancelContact
                   }, {
-                    default: withCtx(() => _cache[42] || (_cache[42] = [
-                      createTextVNode("Clear")
-                    ])),
-                    _: 1,
-                    __: [42]
+                    default: withCtx(() => [..._cache[42] || (_cache[42] = [
+                      createTextVNode("Clear", -1)
+                    ])]),
+                    _: 1
                   }, 8, ["onClick"]),
                   createVNode(VBtn, {
                     small: "",
@@ -30468,11 +31171,10 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                     color: "primary",
                     onClick: _cache[10] || (_cache[10] = ($event) => $options.addContact())
                   }, {
-                    default: withCtx(() => _cache[43] || (_cache[43] = [
-                      createTextVNode(" Add ")
-                    ])),
-                    _: 1,
-                    __: [43]
+                    default: withCtx(() => [..._cache[43] || (_cache[43] = [
+                      createTextVNode(" Add ", -1)
+                    ])]),
+                    _: 1
                   }, 8, ["disabled"])
                 ]),
                 _: 1
@@ -31057,8 +31759,7 @@ function _sfc_render$Y(_ctx, _cache, $props, $setup, $data, $options) {
                     _: 1
                   }, 8, ["modelValue"])
                 ]),
-                _: 1,
-                __: [1]
+                _: 1
               })
             ]),
             _: 1
@@ -31211,11 +31912,10 @@ function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
           ]),
           _: 1
         })) : (openBlock(), createBlock(VCardTitle, { key: 3 }, {
-          default: withCtx(() => _cache[1] || (_cache[1] = [
+          default: withCtx(() => [..._cache[1] || (_cache[1] = [
             createElementVNode("div", { class: "headline" }, "Contact Details", -1)
-          ])),
-          _: 1,
-          __: [1]
+          ])]),
+          _: 1
         })),
         createVNode(VCardText, null, {
           default: withCtx(() => [
@@ -31229,11 +31929,10 @@ function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
                 createVNode(VCol, { cols: "1" }, {
                   default: withCtx(() => [
                     createVNode(VIcon, { color: "success" }, {
-                      default: withCtx(() => _cache[2] || (_cache[2] = [
-                        createTextVNode("email")
-                      ])),
-                      _: 1,
-                      __: [2]
+                      default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                        createTextVNode("email", -1)
+                      ])]),
+                      _: 1
                     })
                   ]),
                   _: 1
@@ -31259,11 +31958,10 @@ function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
                 createVNode(VCol, { cols: "1" }, {
                   default: withCtx(() => [
                     createVNode(VIcon, { color: "success" }, {
-                      default: withCtx(() => _cache[3] || (_cache[3] = [
-                        createTextVNode("local_phone")
-                      ])),
-                      _: 1,
-                      __: [3]
+                      default: withCtx(() => [..._cache[3] || (_cache[3] = [
+                        createTextVNode("local_phone", -1)
+                      ])]),
+                      _: 1
                     })
                   ]),
                   _: 1
@@ -31287,11 +31985,10 @@ function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
                 createVNode(VCol, { cols: "1" }, {
                   default: withCtx(() => [
                     createVNode(VIcon, { color: "success" }, {
-                      default: withCtx(() => _cache[4] || (_cache[4] = [
-                        createTextVNode("place")
-                      ])),
-                      _: 1,
-                      __: [4]
+                      default: withCtx(() => [..._cache[4] || (_cache[4] = [
+                        createTextVNode("place", -1)
+                      ])]),
+                      _: 1
                     })
                   ]),
                   _: 1
@@ -31308,9 +32005,9 @@ function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
           ]),
           _: 1
         })
-      ])) : (openBlock(), createElementBlock("span", _hoisted_6$8, _cache[5] || (_cache[5] = [
+      ])) : (openBlock(), createElementBlock("span", _hoisted_6$8, [..._cache[5] || (_cache[5] = [
         createElementVNode("div", { class: "empty-contact" }, "(select from list to see contact info)", -1)
-      ])))
+      ])]))
     ]),
     _: 1
   }, 8, ["class"]);
@@ -31584,22 +32281,20 @@ function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
               color: "secondary",
               onClick: $options.cancelAffiliation
             }, {
-              default: withCtx(() => _cache[4] || (_cache[4] = [
-                createTextVNode("Cancel")
-              ])),
-              _: 1,
-              __: [4]
+              default: withCtx(() => [..._cache[4] || (_cache[4] = [
+                createTextVNode("Cancel", -1)
+              ])]),
+              _: 1
             }, 8, ["onClick"]),
             createVNode(VBtn, {
               "x-small": "",
               color: "secondary",
               onClick: _cache[1] || (_cache[1] = ($event) => $options.updateAffiliation($options.itemLocal))
             }, {
-              default: withCtx(() => _cache[5] || (_cache[5] = [
-                createTextVNode("Accept")
-              ])),
-              _: 1,
-              __: [5]
+              default: withCtx(() => [..._cache[5] || (_cache[5] = [
+                createTextVNode("Accept", -1)
+              ])]),
+              _: 1
             })
           ]),
           createElementVNode("span", _hoisted_1$x, "of " + toDisplayString(_ctx.$orgNameFromSlug($props.affiliation.organization)), 1)
@@ -31632,18 +32327,16 @@ function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: _cache[2] || (_cache[2] = withModifiers(($event) => $options.setAffiliationActiveState(false), ["stop", "prevent"])),
                 disabled: $data.roleEditingEnabled
               }), {
-                default: withCtx(() => _cache[6] || (_cache[6] = [
-                  createTextVNode(" mdi-delete ")
-                ])),
-                _: 2,
-                __: [6]
-              }, 1040, ["disabled"])
+                default: withCtx(() => [..._cache[6] || (_cache[6] = [
+                  createTextVNode(" mdi-delete ", -1)
+                ])]),
+                _: 1
+              }, 16, ["disabled"])
             ]),
             default: withCtx(() => [
               _cache[7] || (_cache[7] = createElementVNode("span", null, "Deactivate affiliation", -1))
             ]),
-            _: 1,
-            __: [7]
+            _: 1
           })) : (openBlock(), createBlock(VTooltip, { key: 1 }, {
             activator: withCtx(({ on, attrs }) => [
               createVNode(VIcon, mergeProps(toHandlers(on), attrs, {
@@ -31653,18 +32346,16 @@ function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: _cache[3] || (_cache[3] = withModifiers(($event) => $options.setAffiliationActiveState(true), ["stop", "prevent"])),
                 disabled: $data.roleEditingEnabled
               }), {
-                default: withCtx(() => _cache[8] || (_cache[8] = [
-                  createTextVNode(" mdi-delete-restore ")
-                ])),
-                _: 2,
-                __: [8]
-              }, 1040, ["disabled"])
+                default: withCtx(() => [..._cache[8] || (_cache[8] = [
+                  createTextVNode(" mdi-delete-restore ", -1)
+                ])]),
+                _: 1
+              }, 16, ["disabled"])
             ]),
             default: withCtx(() => [
               _cache[9] || (_cache[9] = createElementVNode("span", null, "Reactivate affiliation", -1))
             ]),
-            _: 1,
-            __: [9]
+            _: 1
           })),
           $options.itemLocal.active ? (openBlock(), createBlock(VTooltip, {
             key: 2,
@@ -31677,18 +32368,16 @@ function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
                 color: "primary",
                 onClick: $options.toggleEditing
               }), {
-                default: withCtx(() => _cache[10] || (_cache[10] = [
-                  createTextVNode("mdi-pencil")
-                ])),
-                _: 2,
-                __: [10]
-              }, 1040, ["onClick"])
+                default: withCtx(() => [..._cache[10] || (_cache[10] = [
+                  createTextVNode("mdi-pencil", -1)
+                ])]),
+                _: 1
+              }, 16, ["onClick"])
             ]),
             default: withCtx(() => [
               _cache[11] || (_cache[11] = createElementVNode("span", null, "Edit affiliation", -1))
             ]),
-            _: 1,
-            __: [11]
+            _: 1
           })) : createCommentVNode("", true)
         ]),
         _: 1
@@ -31821,11 +32510,10 @@ function _sfc_render$S(_ctx, _cache, $props, $setup, $data, $options) {
                 type: "error",
                 outlined: ""
               }, {
-                default: withCtx(() => _cache[0] || (_cache[0] = [
-                  createTextVNode(" Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms for these edits. ")
-                ])),
-                _: 1,
-                __: [0]
+                default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                  createTextVNode(" Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms for these edits. ", -1)
+                ])]),
+                _: 1
               })
             ]),
             _: 1
@@ -31888,11 +32576,10 @@ function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
       createVNode(VCard, null, {
         default: withCtx(() => [
           createVNode(VCardTitle, { class: "headline" }, {
-            default: withCtx(() => _cache[4] || (_cache[4] = [
-              createTextVNode("Confirm Change to User Information")
-            ])),
-            _: 1,
-            __: [4]
+            default: withCtx(() => [..._cache[4] || (_cache[4] = [
+              createTextVNode("Confirm Change to User Information", -1)
+            ])]),
+            _: 1
           }),
           createVNode(VCardText, null, {
             default: withCtx(() => [
@@ -31906,8 +32593,7 @@ function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
                 onKeydown: _cache[1] || (_cache[1] = withKeys(withModifiers(($event) => _ctx.$emit("complete-action"), ["prevent"]), ["enter"]))
               }, null, 8, ["modelValue", "rules"])
             ]),
-            _: 1,
-            __: [5]
+            _: 1
           }),
           createVNode(VCardActions, null, {
             default: withCtx(() => [
@@ -31955,16 +32641,14 @@ function _sfc_render$Q(_ctx, _cache, $props, $setup, $data, $options) {
                 _cache[2] || (_cache[2] = createElementVNode("h5", null, "Organization", -1)),
                 createElementVNode("p", null, toDisplayString(_ctx.itemLocal.organization), 1)
               ]),
-              _: 1,
-              __: [2]
+              _: 1
             }),
             createVNode(VCol, null, {
               default: withCtx(() => [
                 _cache[3] || (_cache[3] = createElementVNode("h5", null, "Role", -1)),
                 createElementVNode("p", null, toDisplayString(_ctx.itemLocal.role), 1)
               ]),
-              _: 1,
-              __: [3]
+              _: 1
             })
           ]),
           _: 1
@@ -32039,7 +32723,7 @@ const _sfc_main$P = {
     async init() {
       try {
         this.item = await this.getItem();
-        const filteredContacts = this.item.contacts.filter((c2) => c2.contact.detail !== this.item.email);
+        const filteredContacts = this.item.contacts.filter((c) => c.contact.detail !== this.item.email);
         this.item.contacts = [];
         filteredContacts.forEach((fc) => this.item.contacts.push(fc));
       } catch (error) {
@@ -32050,7 +32734,7 @@ const _sfc_main$P = {
       this.allContacts = await this.$api.contact.getList();
       this.allGroupNames = await this.$api.group.getNames();
       const organizations = await this.$api.organization.getNames();
-      this.allOrganizationSlugs = organizations.map((o2) => o2.slug);
+      this.allOrganizationSlugs = organizations.map((o) => o.slug);
     },
     async getItem() {
       const params = {
@@ -32171,7 +32855,7 @@ function _sfc_render$P(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(VRow, { "no-gutters": "" }, {
                 default: withCtx(() => [
                   createVNode(VCol, null, {
-                    default: withCtx(() => _cache[16] || (_cache[16] = [
+                    default: withCtx(() => [..._cache[16] || (_cache[16] = [
                       createElementVNode("p", null, [
                         createTextVNode(" Use this form to view and edit user information. Changes to most fields (except for application Groups) will update "),
                         createElementVNode("em", null, [
@@ -32179,9 +32863,8 @@ function _sfc_render$P(_ctx, _cache, $props, $setup, $data, $options) {
                         ]),
                         createTextVNode(" associated with this user. ")
                       ], -1)
-                    ])),
-                    _: 1,
-                    __: [16]
+                    ])]),
+                    _: 1
                   })
                 ]),
                 _: 1
@@ -32413,7 +33096,8 @@ const VSwitch = genericComponent()({
       blur
     } = useFocus(props);
     const control = ref();
-    const isForcedColorsModeActive = IN_BROWSER && window.matchMedia("(forced-colors: active)").matches;
+    const inputRef = ref();
+    const isForcedColorsModeActive = SUPPORTS_MATCH_MEDIA && window.matchMedia("(forced-colors: active)").matches;
     const loaderColor = toRef(() => {
       return typeof props.loading === "string" && props.loading !== "" ? props.loading : props.color;
     });
@@ -32424,10 +33108,10 @@ const VSwitch = genericComponent()({
         indeterminate.value = false;
       }
     }
-    function onTrackClick(e2) {
+    function onTrackClick(e) {
       var _a, _b;
-      e2.stopPropagation();
-      e2.preventDefault();
+      e.stopPropagation();
+      e.preventDefault();
       (_b = (_a = control.value) == null ? void 0 : _a.input) == null ? void 0 : _b.click();
     }
     useRender(() => {
@@ -32435,6 +33119,7 @@ const VSwitch = genericComponent()({
       const inputProps = VInput.filterProps(props);
       const controlProps = VSelectionControl.filterProps(props);
       return createVNode(VInput, mergeProps({
+        "ref": inputRef,
         "class": ["v-switch", {
           "v-switch--flat": props.flat
         }, {
@@ -32542,7 +33227,7 @@ const VSwitch = genericComponent()({
         }
       });
     });
-    return {};
+    return forwardRefs({}, inputRef);
   }
 });
 const _sfc_main$O = {
@@ -32632,7 +33317,7 @@ function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
         createVNode(VRow, { "no-gutters": "" }, {
           default: withCtx(() => [
             createVNode(VCol, null, {
-              default: withCtx(() => _cache[15] || (_cache[15] = [
+              default: withCtx(() => [..._cache[15] || (_cache[15] = [
                 createElementVNode("p", null, [
                   createTextVNode(" Use this form to view and edit user information. Changes to most fields (except for application Groups) will update "),
                   createElementVNode("em", null, [
@@ -32640,9 +33325,8 @@ function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
                   ]),
                   createTextVNode(" associated with this user. ")
                 ], -1)
-              ])),
-              _: 1,
-              __: [15]
+              ])]),
+              _: 1
             })
           ]),
           _: 1
@@ -32812,11 +33496,10 @@ function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
             type: "error",
             outlined: ""
           }, {
-            default: withCtx(() => _cache[16] || (_cache[16] = [
-              createTextVNode(" Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms for these edits. ")
-            ])),
-            _: 1,
-            __: [16]
+            default: withCtx(() => [..._cache[16] || (_cache[16] = [
+              createTextVNode(" Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms for these edits. ", -1)
+            ])]),
+            _: 1
           })
         ]),
         _: 1
@@ -32976,7 +33659,7 @@ const _sfc_main$M = {
       this.allContacts = await this.$api.contact.getList({ has_name: false });
       this.allGroupNames = await this.$api.group.getNames();
       const organizations = await this.$api.organization.getNames();
-      this.allOrganizationSlugs = organizations.map((o2) => o2.slug);
+      this.allOrganizationSlugs = organizations.map((o) => o.slug);
     },
     openCommentDialog() {
       this.changeDialogActive = true;
@@ -33080,9 +33763,9 @@ const _sfc_main$M = {
       return (_a = this.item.groups) == null ? void 0 : _a.length;
     },
     filteredContacts() {
-      return this.allContacts.filter((c2) => {
+      return this.allContacts.filter((c) => {
         var _a;
-        return !((_a = this.item.contacts) == null ? void 0 : _a.some((item) => item.contact.id === c2.id));
+        return !((_a = this.item.contacts) == null ? void 0 : _a.some((item) => item.contact.id === c.id));
       });
     },
     filteredOrgSlugs() {
@@ -33183,21 +33866,19 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                       }), {
                         default: withCtx(() => [
                           createVNode(VIcon, { color: "yellow" }, {
-                            default: withCtx(() => _cache[20] || (_cache[20] = [
-                              createTextVNode("vpn_key")
-                            ])),
-                            _: 1,
-                            __: [20]
+                            default: withCtx(() => [..._cache[20] || (_cache[20] = [
+                              createTextVNode("vpn_key", -1)
+                            ])]),
+                            _: 1
                           })
                         ]),
-                        _: 2
-                      }, 1040, ["href"])
+                        _: 1
+                      }, 16, ["href"])
                     ]),
                     default: withCtx(() => [
                       _cache[21] || (_cache[21] = createElementVNode("span", null, "View user Django admin form", -1))
                     ]),
-                    _: 1,
-                    __: [21]
+                    _: 1
                   })
                 ]),
                 _: 1
@@ -33229,11 +33910,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                       createVNode(VRow, { dense: "" }, {
                         default: withCtx(() => [
                           createVNode(VCol, null, {
-                            default: withCtx(() => _cache[22] || (_cache[22] = [
+                            default: withCtx(() => [..._cache[22] || (_cache[22] = [
                               createElementVNode("h3", { class: "font-weight-medium" }, "Please correct the following errors", -1)
-                            ])),
-                            _: 1,
-                            __: [22]
+                            ])]),
+                            _: 1
                           })
                         ]),
                         _: 1
@@ -33286,11 +33966,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                       createVNode(VRow, { dense: "" }, {
                         default: withCtx(() => [
                           createVNode(VCol, null, {
-                            default: withCtx(() => _cache[23] || (_cache[23] = [
+                            default: withCtx(() => [..._cache[23] || (_cache[23] = [
                               createElementVNode("h3", { class: "font-weight-medium" }, "You have unsaved changes!", -1)
-                            ])),
-                            _: 1,
-                            __: [23]
+                            ])]),
+                            _: 1
                           })
                         ]),
                         _: 1
@@ -33324,11 +34003,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                                 sm: "4",
                                 md: "3"
                               }, {
-                                default: withCtx(() => _cache[24] || (_cache[24] = [
+                                default: withCtx(() => [..._cache[24] || (_cache[24] = [
                                   createElementVNode("h3", null, "First Name", -1)
-                                ])),
-                                _: 1,
-                                __: [24]
+                                ])]),
+                                _: 1
                               }),
                               createVNode(VCol, null, {
                                 default: withCtx(() => [
@@ -33348,11 +34026,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                                 sm: "4",
                                 md: "3"
                               }, {
-                                default: withCtx(() => _cache[25] || (_cache[25] = [
+                                default: withCtx(() => [..._cache[25] || (_cache[25] = [
                                   createElementVNode("h3", null, "Last Name", -1)
-                                ])),
-                                _: 1,
-                                __: [25]
+                                ])]),
+                                _: 1
                               }),
                               createVNode(VCol, null, {
                                 default: withCtx(() => [
@@ -33369,11 +34046,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                                 sm: "4",
                                 md: "3"
                               }, {
-                                default: withCtx(() => _cache[26] || (_cache[26] = [
+                                default: withCtx(() => [..._cache[26] || (_cache[26] = [
                                   createElementVNode("h3", null, "Primary Affiliation", -1)
-                                ])),
-                                _: 1,
-                                __: [26]
+                                ])]),
+                                _: 1
                               }),
                               createVNode(VCol, null, {
                                 default: withCtx(() => [
@@ -33393,11 +34069,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                                 sm: "4",
                                 md: "3"
                               }, {
-                                default: withCtx(() => _cache[27] || (_cache[27] = [
+                                default: withCtx(() => [..._cache[27] || (_cache[27] = [
                                   createElementVNode("h3", null, "Authorization Groups", -1)
-                                ])),
-                                _: 1,
-                                __: [27]
+                                ])]),
+                                _: 1
                               }),
                               createVNode(VCol, null, {
                                 default: withCtx(() => [
@@ -33417,11 +34092,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                                 sm: "4",
                                 md: "3"
                               }, {
-                                default: withCtx(() => _cache[28] || (_cache[28] = [
+                                default: withCtx(() => [..._cache[28] || (_cache[28] = [
                                   createElementVNode("h3", null, "Primary Email", -1)
-                                ])),
-                                _: 1,
-                                __: [28]
+                                ])]),
+                                _: 1
                               }),
                               createVNode(VCol, null, {
                                 default: withCtx(() => [
@@ -33453,11 +34127,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                                 sm: "4",
                                 md: "3"
                               }, {
-                                default: withCtx(() => _cache[29] || (_cache[29] = [
+                                default: withCtx(() => [..._cache[29] || (_cache[29] = [
                                   createElementVNode("h3", null, "Created", -1)
-                                ])),
-                                _: 1,
-                                __: [29]
+                                ])]),
+                                _: 1
                               }),
                               createVNode(VCol, null, {
                                 default: withCtx(() => [
@@ -33477,11 +34150,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                                 sm: "4",
                                 md: "3"
                               }, {
-                                default: withCtx(() => _cache[30] || (_cache[30] = [
+                                default: withCtx(() => [..._cache[30] || (_cache[30] = [
                                   createElementVNode("h3", null, "Last Update", -1)
-                                ])),
-                                _: 1,
-                                __: [30]
+                                ])]),
+                                _: 1
                               }),
                               createVNode(VCol, null, {
                                 default: withCtx(() => [
@@ -33528,11 +34200,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                   sm: "4",
                   md: "3"
                 }, {
-                  default: withCtx(() => _cache[31] || (_cache[31] = [
+                  default: withCtx(() => [..._cache[31] || (_cache[31] = [
                     createElementVNode("h3", null, "Other Contacts", -1)
-                  ])),
-                  _: 1,
-                  __: [31]
+                  ])]),
+                  _: 1
                 }),
                 createVNode(VCol, null, {
                   default: withCtx(() => [
@@ -33567,8 +34238,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                       default: withCtx(() => [
                         _cache[32] || (_cache[32] = createElementVNode("span", null, "Add new contact", -1))
                       ]),
-                      _: 1,
-                      __: [32]
+                      _: 1
                     })) : createCommentVNode("", true)
                   ]),
                   _: 1
@@ -33585,11 +34255,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                   sm: "4",
                   md: "3"
                 }, {
-                  default: withCtx(() => _cache[33] || (_cache[33] = [
+                  default: withCtx(() => [..._cache[33] || (_cache[33] = [
                     createElementVNode("h3", null, "Other Affiliations", -1)
-                  ])),
-                  _: 1,
-                  __: [33]
+                  ])]),
+                  _: 1
                 }),
                 createVNode(VCol, null, {
                   default: withCtx(() => [
@@ -33628,8 +34297,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                       default: withCtx(() => [
                         _cache[34] || (_cache[34] = createElementVNode("span", null, "Add affiliation", -1))
                       ]),
-                      _: 1,
-                      __: [34]
+                      _: 1
                     })) : createCommentVNode("", true)
                   ]),
                   _: 1
@@ -33649,11 +34317,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                   sm: "4",
                   md: "3"
                 }, {
-                  default: withCtx(() => _cache[35] || (_cache[35] = [
+                  default: withCtx(() => [..._cache[35] || (_cache[35] = [
                     createElementVNode("h3", null, "User Files", -1)
-                  ])),
-                  _: 1,
-                  __: [35]
+                  ])]),
+                  _: 1
                 }),
                 createVNode(VCol, null, {
                   default: withCtx(() => [
@@ -33694,11 +34361,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                 sm: "4",
                 md: "3"
               }, {
-                default: withCtx(() => _cache[36] || (_cache[36] = [
+                default: withCtx(() => [..._cache[36] || (_cache[36] = [
                   createElementVNode("h3", null, "Expense code / PO Authorizations", -1)
-                ])),
-                _: 1,
-                __: [36]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -33729,7 +34395,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         }, [
                           createTextVNode(toDisplayString(account.account.slug) + " for ", 1),
                           createElementVNode("span", _hoisted_10$4, toDisplayString(account.product.name), 1),
-                          _cache[37] || (_cache[37] = createTextVNode(" at ")),
+                          _cache[37] || (_cache[37] = createTextVNode(" at ", -1)),
                           createElementVNode("span", _hoisted_11$4, toDisplayString(account.percent) + "%", 1)
                         ], 2)
                       ]);
@@ -33761,7 +34427,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                 default: withCtx(() => [
                   createVNode(VCardTitle, null, {
                     default: withCtx(() => [
-                      _cache[40] || (_cache[40] = createTextVNode(" Edit User Info ")),
+                      _cache[40] || (_cache[40] = createTextVNode(" Edit User Info ", -1)),
                       createVNode(VSpacer),
                       createVNode(VTooltip, { top: "" }, {
                         activator: withCtx(({ on, attrs }) => [
@@ -33773,25 +34439,22 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                           }, toHandlers(on), attrs), {
                             default: withCtx(() => [
                               createVNode(VIcon, null, {
-                                default: withCtx(() => _cache[38] || (_cache[38] = [
-                                  createTextVNode("mdi-close")
-                                ])),
-                                _: 1,
-                                __: [38]
+                                default: withCtx(() => [..._cache[38] || (_cache[38] = [
+                                  createTextVNode("mdi-close", -1)
+                                ])]),
+                                _: 1
                               })
                             ]),
-                            _: 2
-                          }, 1040, ["onClick"])
+                            _: 1
+                          }, 16, ["onClick"])
                         ]),
                         default: withCtx(() => [
                           _cache[39] || (_cache[39] = createElementVNode("span", null, "Cancel", -1))
                         ]),
-                        _: 1,
-                        __: [39]
+                        _: 1
                       })
                     ]),
-                    _: 1,
-                    __: [40]
+                    _: 1
                   }),
                   createVNode(VCardText, null, {
                     default: withCtx(() => [
@@ -33820,11 +34483,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "secondary",
                         onClick: $options.cancelUserInfoDialog
                       }, {
-                        default: withCtx(() => _cache[41] || (_cache[41] = [
-                          createTextVNode("Close")
-                        ])),
-                        _: 1,
-                        __: [41]
+                        default: withCtx(() => [..._cache[41] || (_cache[41] = [
+                          createTextVNode("Close", -1)
+                        ])]),
+                        _: 1
                       }, 8, ["onClick"]),
                       createVNode(VBtn, {
                         small: "",
@@ -33834,11 +34496,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "primary",
                         onClick: $options.closeUserInfoDialog
                       }, {
-                        default: withCtx(() => _cache[42] || (_cache[42] = [
-                          createTextVNode(" Update ")
-                        ])),
-                        _: 1,
-                        __: [42]
+                        default: withCtx(() => [..._cache[42] || (_cache[42] = [
+                          createTextVNode(" Update ", -1)
+                        ])]),
+                        _: 1
                       }, 8, ["disabled", "onClick"])
                     ]),
                     _: 1
@@ -33861,7 +34522,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                 default: withCtx(() => [
                   createVNode(VCardTitle, null, {
                     default: withCtx(() => [
-                      _cache[45] || (_cache[45] = createTextVNode(" Add Contact ")),
+                      _cache[45] || (_cache[45] = createTextVNode(" Add Contact ", -1)),
                       createVNode(VSpacer),
                       createVNode(VTooltip, { top: "" }, {
                         activator: withCtx(({ on, attrs }) => [
@@ -33873,25 +34534,22 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                           }, toHandlers(on), attrs), {
                             default: withCtx(() => [
                               createVNode(VIcon, null, {
-                                default: withCtx(() => _cache[43] || (_cache[43] = [
-                                  createTextVNode("mdi-close")
-                                ])),
-                                _: 1,
-                                __: [43]
+                                default: withCtx(() => [..._cache[43] || (_cache[43] = [
+                                  createTextVNode("mdi-close", -1)
+                                ])]),
+                                _: 1
                               })
                             ]),
-                            _: 2
-                          }, 1040)
+                            _: 1
+                          }, 16)
                         ]),
                         default: withCtx(() => [
                           _cache[44] || (_cache[44] = createElementVNode("span", null, "Cancel", -1))
                         ]),
-                        _: 1,
-                        __: [44]
+                        _: 1
                       })
                     ]),
-                    _: 1,
-                    __: [45]
+                    _: 1
                   }),
                   createVNode(VCardText, { class: "pb-0" }, {
                     default: withCtx(() => [
@@ -33917,11 +34575,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "secondary",
                         onClick: _cache[11] || (_cache[11] = ($event) => $data.contactDialogOpen = false)
                       }, {
-                        default: withCtx(() => _cache[46] || (_cache[46] = [
-                          createTextVNode("Close")
-                        ])),
-                        _: 1,
-                        __: [46]
+                        default: withCtx(() => [..._cache[46] || (_cache[46] = [
+                          createTextVNode("Close", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(VSpacer),
                       createVNode(VBtn, {
@@ -33931,11 +34588,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "secondary",
                         onClick: $options.cancelContact
                       }, {
-                        default: withCtx(() => _cache[47] || (_cache[47] = [
-                          createTextVNode("Clear")
-                        ])),
-                        _: 1,
-                        __: [47]
+                        default: withCtx(() => [..._cache[47] || (_cache[47] = [
+                          createTextVNode("Clear", -1)
+                        ])]),
+                        _: 1
                       }, 8, ["onClick"]),
                       createVNode(VBtn, {
                         small: "",
@@ -33945,11 +34601,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "primary",
                         onClick: _cache[12] || (_cache[12] = ($event) => $options.addContact())
                       }, {
-                        default: withCtx(() => _cache[48] || (_cache[48] = [
-                          createTextVNode(" Add ")
-                        ])),
-                        _: 1,
-                        __: [48]
+                        default: withCtx(() => [..._cache[48] || (_cache[48] = [
+                          createTextVNode(" Add ", -1)
+                        ])]),
+                        _: 1
                       }, 8, ["disabled"])
                     ]),
                     _: 1
@@ -33972,7 +34627,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                 default: withCtx(() => [
                   createVNode(VCardTitle, null, {
                     default: withCtx(() => [
-                      _cache[51] || (_cache[51] = createTextVNode(" Add Affiliation ")),
+                      _cache[51] || (_cache[51] = createTextVNode(" Add Affiliation ", -1)),
                       createVNode(VSpacer),
                       createVNode(VTooltip, { top: "" }, {
                         activator: withCtx(({ on, attrs }) => [
@@ -33984,25 +34639,22 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                           }, toHandlers(on), attrs), {
                             default: withCtx(() => [
                               createVNode(VIcon, null, {
-                                default: withCtx(() => _cache[49] || (_cache[49] = [
-                                  createTextVNode("mdi-close")
-                                ])),
-                                _: 1,
-                                __: [49]
+                                default: withCtx(() => [..._cache[49] || (_cache[49] = [
+                                  createTextVNode("mdi-close", -1)
+                                ])]),
+                                _: 1
                               })
                             ]),
-                            _: 2
-                          }, 1040)
+                            _: 1
+                          }, 16)
                         ]),
                         default: withCtx(() => [
                           _cache[50] || (_cache[50] = createElementVNode("span", null, "Cancel", -1))
                         ]),
-                        _: 1,
-                        __: [50]
+                        _: 1
                       })
                     ]),
-                    _: 1,
-                    __: [51]
+                    _: 1
                   }),
                   createVNode(VCardText, { class: "pb-0" }, {
                     default: withCtx(() => [
@@ -34026,11 +34678,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "secondary",
                         onClick: _cache[17] || (_cache[17] = ($event) => $data.affiliationDialogOpen = false)
                       }, {
-                        default: withCtx(() => _cache[52] || (_cache[52] = [
-                          createTextVNode("Close")
-                        ])),
-                        _: 1,
-                        __: [52]
+                        default: withCtx(() => [..._cache[52] || (_cache[52] = [
+                          createTextVNode("Close", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(VSpacer),
                       createVNode(VBtn, {
@@ -34040,11 +34691,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "secondary",
                         onClick: $options.cancelAffiliation
                       }, {
-                        default: withCtx(() => _cache[53] || (_cache[53] = [
-                          createTextVNode("Clear")
-                        ])),
-                        _: 1,
-                        __: [53]
+                        default: withCtx(() => [..._cache[53] || (_cache[53] = [
+                          createTextVNode("Clear", -1)
+                        ])]),
+                        _: 1
                       }, 8, ["onClick"]),
                       createVNode(VBtn, {
                         small: "",
@@ -34054,11 +34704,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "primary",
                         onClick: _cache[18] || (_cache[18] = ($event) => $options.addAffiliation())
                       }, {
-                        default: withCtx(() => _cache[54] || (_cache[54] = [
-                          createTextVNode(" Add ")
-                        ])),
-                        _: 1,
-                        __: [54]
+                        default: withCtx(() => [..._cache[54] || (_cache[54] = [
+                          createTextVNode(" Add ", -1)
+                        ])]),
+                        _: 1
                       }, 8, ["disabled"])
                     ]),
                     _: 1
@@ -34244,22 +34893,20 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
                         }), {
                           default: withCtx(() => [
                             createVNode(VIcon, null, {
-                              default: withCtx(() => _cache[6] || (_cache[6] = [
-                                createTextVNode("verified_user")
-                              ])),
-                              _: 1,
-                              __: [6]
+                              default: withCtx(() => [..._cache[6] || (_cache[6] = [
+                                createTextVNode("verified_user", -1)
+                              ])]),
+                              _: 1
                             })
                           ]),
-                          _: 2
-                        }, 1040)
+                          _: 1
+                        }, 16)
                       ], 16)
                     ]),
                     default: withCtx(() => [
                       _cache[7] || (_cache[7] = createElementVNode("span", null, "Update Expense code / PO authorizations", -1))
                     ]),
-                    _: 1,
-                    __: [7]
+                    _: 1
                   })
                 ]),
                 _: 1
@@ -34601,9 +35248,9 @@ function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
       createVNode(_component_IFXPageHeader, null, {
-        title: withCtx(() => _cache[2] || (_cache[2] = [
-          createTextVNode("Expense codes / POs")
-        ])),
+        title: withCtx(() => [..._cache[2] || (_cache[2] = [
+          createTextVNode("Expense codes / POs", -1)
+        ])]),
         actions: withCtx(() => [
           createVNode(_component_IFXSearchField, {
             search: _ctx.search,
@@ -34625,20 +35272,18 @@ function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
             key: 0,
             color: "green"
           }, {
-            default: withCtx(() => _cache[3] || (_cache[3] = [
-              createTextVNode("check")
-            ])),
-            _: 1,
-            __: [3]
+            default: withCtx(() => [..._cache[3] || (_cache[3] = [
+              createTextVNode("check", -1)
+            ])]),
+            _: 1
           })) : (openBlock(), createBlock(VIcon, {
             key: 1,
             color: "red"
           }, {
-            default: withCtx(() => _cache[4] || (_cache[4] = [
-              createTextVNode("close")
-            ])),
-            _: 1,
-            __: [4]
+            default: withCtx(() => [..._cache[4] || (_cache[4] = [
+              createTextVNode("close", -1)
+            ])]),
+            _: 1
           }))
         ]),
         organization: withCtx(({ item }) => [
@@ -34712,20 +35357,18 @@ function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
         actions: withCtx(() => [
           _ctx.item.active ? (openBlock(), createElementBlock("span", _hoisted_1$p, [
             createVNode(VIcon, { color: "success" }, {
-              default: withCtx(() => _cache[0] || (_cache[0] = [
-                createTextVNode("check")
-              ])),
-              _: 1,
-              __: [0]
+              default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                createTextVNode("check", -1)
+              ])]),
+              _: 1
             }),
             _cache[1] || (_cache[1] = createElementVNode("span", null, "Currently Active", -1))
           ])) : (openBlock(), createElementBlock("span", _hoisted_2$j, [
             createVNode(VIcon, null, {
-              default: withCtx(() => _cache[2] || (_cache[2] = [
-                createTextVNode("close")
-              ])),
-              _: 1,
-              __: [2]
+              default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                createTextVNode("close", -1)
+              ])]),
+              _: 1
             }),
             _cache[3] || (_cache[3] = createElementVNode("span", null, "Currently Inactive", -1))
           ]))
@@ -34747,11 +35390,10 @@ function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[4] || (_cache[4] = [
+                default: withCtx(() => [..._cache[4] || (_cache[4] = [
                   createElementVNode("h3", null, "Code", -1)
-                ])),
-                _: 1,
-                __: [4]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -34769,11 +35411,10 @@ function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[5] || (_cache[5] = [
+                default: withCtx(() => [..._cache[5] || (_cache[5] = [
                   createElementVNode("h3", null, "Organization", -1)
-                ])),
-                _: 1,
-                __: [5]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -34791,11 +35432,10 @@ function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[6] || (_cache[6] = [
+                default: withCtx(() => [..._cache[6] || (_cache[6] = [
                   createElementVNode("h3", null, "Valid From", -1)
-                ])),
-                _: 1,
-                __: [6]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -34813,11 +35453,10 @@ function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[7] || (_cache[7] = [
+                default: withCtx(() => [..._cache[7] || (_cache[7] = [
                   createElementVNode("h3", null, "Expiration Date", -1)
-                ])),
-                _: 1,
-                __: [7]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -34835,15 +35474,14 @@ function _sfc_render$I(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[8] || (_cache[8] = [
+                default: withCtx(() => [..._cache[8] || (_cache[8] = [
                   createElementVNode("h3", null, "Authorizations", -1),
                   createElementVNode("div", {
                     class: "invalid",
                     style: { "margin": "0.5em", "font-size": "smaller" }
                   }, " Italics indicates currently inactive authorizations ", -1)
-                ])),
-                _: 1,
-                __: [8]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -35022,11 +35660,10 @@ function _sfc_render$H(_ctx, _cache, $props, $setup, $data, $options) {
       createVNode(VCard, null, {
         default: withCtx(() => [
           createVNode(VCardTitle, { class: "headline" }, {
-            default: withCtx(() => _cache[3] || (_cache[3] = [
-              createTextVNode("Request Expense Code")
-            ])),
-            _: 1,
-            __: [3]
+            default: withCtx(() => [..._cache[3] || (_cache[3] = [
+              createTextVNode("Request Expense Code", -1)
+            ])]),
+            _: 1
           }),
           createVNode(VCardSubtitle, { class: "text-subtitle-1" }, {
             default: withCtx(() => [
@@ -35106,14 +35743,13 @@ function _sfc_render$H(_ctx, _cache, $props, $setup, $data, $options) {
                       createVNode(_component_v_list_item_content, null, {
                         default: withCtx(() => [
                           createVNode(VListItemTitle, null, {
-                            default: withCtx(() => _cache[4] || (_cache[4] = [
+                            default: withCtx(() => [..._cache[4] || (_cache[4] = [
                               createElementVNode("p", null, [
                                 createTextVNode(" Enter an email address and press "),
                                 createElementVNode("kbd", null, "return")
                               ], -1)
-                            ])),
-                            _: 1,
-                            __: [4]
+                            ])]),
+                            _: 1
                           })
                         ]),
                         _: 1
@@ -35273,7 +35909,7 @@ const _sfc_main$F = {
     filteredRates() {
       var _a;
       if ((_a = this.item) == null ? void 0 : _a.rates) {
-        return this.item.rates.filter((r2) => r2.active || this.showDeactivatedRates);
+        return this.item.rates.filter((r) => r.active || this.showDeactivatedRates);
       }
       return [];
     }
@@ -35327,11 +35963,10 @@ function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[3] || (_cache[3] = [
+                default: withCtx(() => [..._cache[3] || (_cache[3] = [
                   createElementVNode("h3", null, "Product Number", -1)
-                ])),
-                _: 1,
-                __: [3]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -35349,11 +35984,10 @@ function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[4] || (_cache[4] = [
+                default: withCtx(() => [..._cache[4] || (_cache[4] = [
                   createElementVNode("h3", null, "Facility", -1)
-                ])),
-                _: 1,
-                __: [4]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -35371,11 +36005,10 @@ function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[5] || (_cache[5] = [
+                default: withCtx(() => [..._cache[5] || (_cache[5] = [
                   createElementVNode("h3", null, "Description", -1)
-                ])),
-                _: 1,
-                __: [5]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -35393,11 +36026,10 @@ function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[6] || (_cache[6] = [
+                default: withCtx(() => [..._cache[6] || (_cache[6] = [
                   createElementVNode("h3", null, "Object Code Category", -1)
-                ])),
-                _: 1,
-                __: [6]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -35415,11 +36047,10 @@ function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[7] || (_cache[7] = [
+                default: withCtx(() => [..._cache[7] || (_cache[7] = [
                   createElementVNode("h3", null, "Billable", -1)
-                ])),
-                _: 1,
-                __: [7]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -35438,11 +36069,10 @@ function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[8] || (_cache[8] = [
+                default: withCtx(() => [..._cache[8] || (_cache[8] = [
                   createElementVNode("h3", null, "Parent product", -1)
-                ])),
-                _: 1,
-                __: [8]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -35483,36 +36113,32 @@ function _sfc_render$F(_ctx, _cache, $props, $setup, $data, $options) {
                       }, {
                         activator: withCtx(({ on, attrs }) => [
                           createVNode(VIcon, mergeProps(toHandlers(on), attrs, { color: "#fcbd01" }), {
-                            default: withCtx(() => _cache[10] || (_cache[10] = [
-                              createTextVNode("lightbulb")
-                            ])),
-                            _: 2,
-                            __: [10]
-                          }, 1040)
+                            default: withCtx(() => [..._cache[10] || (_cache[10] = [
+                              createTextVNode("lightbulb", -1)
+                            ])]),
+                            _: 1
+                          }, 16)
                         ]),
                         default: withCtx(() => [
                           _cache[11] || (_cache[11] = createElementVNode("span", null, "Active rate", -1))
                         ]),
-                        _: 1,
-                        __: [11]
+                        _: 1
                       })) : (openBlock(), createBlock(VTooltip, {
                         key: 1,
                         top: ""
                       }, {
                         activator: withCtx(({ on, attrs }) => [
                           createVNode(VIcon, mergeProps(toHandlers(on), attrs, { color: "#ccc" }), {
-                            default: withCtx(() => _cache[12] || (_cache[12] = [
-                              createTextVNode("lightbulb")
-                            ])),
-                            _: 2,
-                            __: [12]
-                          }, 1040)
+                            default: withCtx(() => [..._cache[12] || (_cache[12] = [
+                              createTextVNode("lightbulb", -1)
+                            ])]),
+                            _: 1
+                          }, 16)
                         ]),
                         default: withCtx(() => [
                           _cache[13] || (_cache[13] = createElementVNode("span", null, "Inactive rate", -1))
                         ]),
-                        _: 1,
-                        __: [13]
+                        _: 1
                       }))
                     ]),
                     description: withCtx(({ item }) => [
@@ -35641,7 +36267,7 @@ const _sfc_main$E = {
     filteredRates() {
       var _a;
       if ((_a = this.item) == null ? void 0 : _a.rates) {
-        return this.item.rates.filter((r2) => r2.originalActive || this.showDeactivatedRates);
+        return this.item.rates.filter((r) => r.originalActive || this.showDeactivatedRates);
       }
       return [];
     }
@@ -35763,11 +36389,10 @@ function _sfc_render$E(_ctx, _cache, $props, $setup, $data, $options) {
                     _: 1
                   }),
                   createVNode(VCol, null, {
-                    default: withCtx(() => _cache[18] || (_cache[18] = [
-                      createTextVNode("   ")
-                    ])),
-                    _: 1,
-                    __: [18]
+                    default: withCtx(() => [..._cache[18] || (_cache[18] = [
+                      createTextVNode("   ", -1)
+                    ])]),
+                    _: 1
                   })
                 ]),
                 _: 1
@@ -36249,7 +36874,7 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           createElementVNode("div", _hoisted_1$k, "Created " + toDisplayString(_ctx.$humanDatetime(_ctx.item.created)), 1),
           createElementVNode("div", _hoisted_2$f, "Updated " + toDisplayString(_ctx.$humanDatetime(_ctx.item.updated)), 1)
         ]),
-        subtitle: withCtx(() => _cache[1] || (_cache[1] = [])),
+        subtitle: withCtx(() => [..._cache[1] || (_cache[1] = [])]),
         cypress: withCtx(() => [
           createTextVNode(toDisplayString(_ctx.item.id), 1)
         ]),
@@ -36274,11 +36899,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[2] || (_cache[2] = [
+                default: withCtx(() => [..._cache[2] || (_cache[2] = [
                   createElementVNode("h3", null, "Product", -1)
-                ])),
-                _: 1,
-                __: [2]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36296,11 +36920,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[3] || (_cache[3] = [
+                default: withCtx(() => [..._cache[3] || (_cache[3] = [
                   createElementVNode("h3", null, "Quantity", -1)
-                ])),
-                _: 1,
-                __: [3]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36318,11 +36941,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[4] || (_cache[4] = [
+                default: withCtx(() => [..._cache[4] || (_cache[4] = [
                   createElementVNode("h3", null, "Year / Month", -1)
-                ])),
-                _: 1,
-                __: [4]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36340,11 +36962,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[5] || (_cache[5] = [
+                default: withCtx(() => [..._cache[5] || (_cache[5] = [
                   createElementVNode("h3", null, "Start Date/Time", -1)
-                ])),
-                _: 1,
-                __: [5]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36362,11 +36983,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[6] || (_cache[6] = [
+                default: withCtx(() => [..._cache[6] || (_cache[6] = [
                   createElementVNode("h3", null, "End Date/Time", -1)
-                ])),
-                _: 1,
-                __: [6]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36384,11 +37004,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[7] || (_cache[7] = [
+                default: withCtx(() => [..._cache[7] || (_cache[7] = [
                   createElementVNode("h3", null, "Description", -1)
-                ])),
-                _: 1,
-                __: [7]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36406,11 +37025,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[8] || (_cache[8] = [
+                default: withCtx(() => [..._cache[8] || (_cache[8] = [
                   createElementVNode("h3", null, "Organization", -1)
-                ])),
-                _: 1,
-                __: [8]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36428,11 +37046,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[9] || (_cache[9] = [
+                default: withCtx(() => [..._cache[9] || (_cache[9] = [
                   createElementVNode("h3", null, "Product User", -1)
-                ])),
-                _: 1,
-                __: [9]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36457,11 +37074,10 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[10] || (_cache[10] = [
+                default: withCtx(() => [..._cache[10] || (_cache[10] = [
                   createElementVNode("h3", null, "Logged By", -1)
-                ])),
-                _: 1,
-                __: [10]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -36507,8 +37123,8 @@ function isArray(input) {
 function isObject(input) {
   return input != null && Object.prototype.toString.call(input) === "[object Object]";
 }
-function hasOwnProp(a2, b) {
-  return Object.prototype.hasOwnProperty.call(a2, b);
+function hasOwnProp(a, b) {
+  return Object.prototype.hasOwnProperty.call(a, b);
 }
 function isObjectEmpty(obj) {
   if (Object.getOwnPropertyNames) {
@@ -36533,25 +37149,25 @@ function isDate(input) {
   return input instanceof Date || Object.prototype.toString.call(input) === "[object Date]";
 }
 function map(arr, fn) {
-  var res = [], i2, arrLen = arr.length;
-  for (i2 = 0; i2 < arrLen; ++i2) {
-    res.push(fn(arr[i2], i2));
+  var res = [], i, arrLen = arr.length;
+  for (i = 0; i < arrLen; ++i) {
+    res.push(fn(arr[i], i));
   }
   return res;
 }
-function extend(a2, b) {
-  for (var i2 in b) {
-    if (hasOwnProp(b, i2)) {
-      a2[i2] = b[i2];
+function extend(a, b) {
+  for (var i in b) {
+    if (hasOwnProp(b, i)) {
+      a[i] = b[i];
     }
   }
   if (hasOwnProp(b, "toString")) {
-    a2.toString = b.toString;
+    a.toString = b.toString;
   }
   if (hasOwnProp(b, "valueOf")) {
-    a2.valueOf = b.valueOf;
+    a.valueOf = b.valueOf;
   }
-  return a2;
+  return a;
 }
 function createUTC(input, format2, locale2, strict) {
   return createLocalOrUTC(input, format2, locale2, strict, true).utc();
@@ -36587,9 +37203,9 @@ if (Array.prototype.some) {
   some = Array.prototype.some;
 } else {
   some = function(fun) {
-    var t2 = Object(this), len = t2.length >>> 0, i2;
-    for (i2 = 0; i2 < len; i2++) {
-      if (i2 in t2 && fun.call(this, t2[i2], i2, t2)) {
+    var t = Object(this), len = t.length >>> 0, i;
+    for (i = 0; i < len; i++) {
+      if (i in t && fun.call(this, t[i], i, t)) {
         return true;
       }
     }
@@ -36600,8 +37216,8 @@ function isValid(m) {
   var flags = null, parsedParts = false, isNowValid = m._d && !isNaN(m._d.getTime());
   if (isNowValid) {
     flags = getParsingFlags(m);
-    parsedParts = some.call(flags.parsedDateParts, function(i2) {
-      return i2 != null;
+    parsedParts = some.call(flags.parsedDateParts, function(i) {
+      return i != null;
     });
     isNowValid = flags.overflow < 0 && !flags.empty && !flags.invalidEra && !flags.invalidMonth && !flags.invalidWeekday && !flags.weekdayMismatch && !flags.nullInput && !flags.invalidFormat && !flags.userInvalidated && (!flags.meridiem || flags.meridiem && parsedParts);
     if (m._strict) {
@@ -36626,7 +37242,7 @@ function createInvalid(flags) {
 }
 var momentProperties = hooks.momentProperties = [], updateInProgress = false;
 function copyConfig(to2, from2) {
-  var i2, prop, val, momentPropertiesLen = momentProperties.length;
+  var i, prop, val, momentPropertiesLen = momentProperties.length;
   if (!isUndefined(from2._isAMomentObject)) {
     to2._isAMomentObject = from2._isAMomentObject;
   }
@@ -36658,8 +37274,8 @@ function copyConfig(to2, from2) {
     to2._locale = from2._locale;
   }
   if (momentPropertiesLen > 0) {
-    for (i2 = 0; i2 < momentPropertiesLen; i2++) {
-      prop = momentProperties[i2];
+    for (i = 0; i < momentPropertiesLen; i++) {
+      prop = momentProperties[i];
       val = from2[prop];
       if (!isUndefined(val)) {
         to2[prop] = val;
@@ -36694,11 +37310,11 @@ function deprecate(msg, fn) {
       hooks.deprecationHandler(null, msg);
     }
     if (firstTime) {
-      var args = [], arg, i2, key, argLen = arguments.length;
-      for (i2 = 0; i2 < argLen; i2++) {
+      var args = [], arg, i, key, argLen = arguments.length;
+      for (i = 0; i < argLen; i++) {
         arg = "";
-        if (typeof arguments[i2] === "object") {
-          arg += "\n[" + i2 + "] ";
+        if (typeof arguments[i] === "object") {
+          arg += "\n[" + i + "] ";
           for (key in arguments[0]) {
             if (hasOwnProp(arguments[0], key)) {
               arg += key + ": " + arguments[0][key] + ", ";
@@ -36706,7 +37322,7 @@ function deprecate(msg, fn) {
           }
           arg = arg.slice(0, -2);
         } else {
-          arg = arguments[i2];
+          arg = arguments[i];
         }
         args.push(arg);
       }
@@ -36734,14 +37350,14 @@ function isFunction(input) {
   return typeof Function !== "undefined" && input instanceof Function || Object.prototype.toString.call(input) === "[object Function]";
 }
 function set(config) {
-  var prop, i2;
-  for (i2 in config) {
-    if (hasOwnProp(config, i2)) {
-      prop = config[i2];
+  var prop, i;
+  for (i in config) {
+    if (hasOwnProp(config, i)) {
+      prop = config[i];
       if (isFunction(prop)) {
-        this[i2] = prop;
+        this[i] = prop;
       } else {
-        this["_" + i2] = prop;
+        this["_" + i] = prop;
       }
     }
   }
@@ -36782,10 +37398,10 @@ if (Object.keys) {
   keys = Object.keys;
 } else {
   keys = function(obj) {
-    var i2, res = [];
-    for (i2 in obj) {
-      if (hasOwnProp(obj, i2)) {
-        res.push(i2);
+    var i, res = [];
+    for (i in obj) {
+      if (hasOwnProp(obj, i)) {
+        res.push(i);
       }
     }
     return res;
@@ -36839,18 +37455,18 @@ function removeFormattingTokens(input) {
   return input.replace(/\\/g, "");
 }
 function makeFormatFunction(format2) {
-  var array = format2.match(formattingTokens), i2, length;
-  for (i2 = 0, length = array.length; i2 < length; i2++) {
-    if (formatTokenFunctions[array[i2]]) {
-      array[i2] = formatTokenFunctions[array[i2]];
+  var array = format2.match(formattingTokens), i, length;
+  for (i = 0, length = array.length; i < length; i++) {
+    if (formatTokenFunctions[array[i]]) {
+      array[i] = formatTokenFunctions[array[i]];
     } else {
-      array[i2] = removeFormattingTokens(array[i2]);
+      array[i] = removeFormattingTokens(array[i]);
     }
   }
   return function(mom) {
-    var output = "", i3;
-    for (i3 = 0; i3 < length; i3++) {
-      output += isFunction(array[i3]) ? array[i3].call(mom, format2) : array[i3];
+    var output = "", i2;
+    for (i2 = 0; i2 < length; i2++) {
+      output += isFunction(array[i2]) ? array[i2].call(mom, format2) : array[i2];
     }
     return output;
   };
@@ -36864,18 +37480,18 @@ function formatMoment(m, format2) {
   return formatFunctions[format2](m);
 }
 function expandFormat(format2, locale2) {
-  var i2 = 5;
+  var i = 5;
   function replaceLongDateFormatTokens(input) {
     return locale2.longDateFormat(input) || input;
   }
   localFormattingTokens.lastIndex = 0;
-  while (i2 >= 0 && localFormattingTokens.test(format2)) {
+  while (i >= 0 && localFormattingTokens.test(format2)) {
     format2 = format2.replace(
       localFormattingTokens,
       replaceLongDateFormatTokens
     );
     localFormattingTokens.lastIndex = 0;
-    i2 -= 1;
+    i -= 1;
   }
   return format2;
 }
@@ -37018,14 +37634,14 @@ var priorities = {
   year: 1
 };
 function getPrioritizedUnits(unitsObj) {
-  var units = [], u2;
-  for (u2 in unitsObj) {
-    if (hasOwnProp(unitsObj, u2)) {
-      units.push({ unit: u2, priority: priorities[u2] });
+  var units = [], u;
+  for (u in unitsObj) {
+    if (hasOwnProp(unitsObj, u)) {
+      units.push({ unit: u, priority: priorities[u] });
     }
   }
-  units.sort(function(a2, b) {
-    return a2.priority - b.priority;
+  units.sort(function(a, b) {
+    return a.priority - b.priority;
   });
   return units;
 }
@@ -37071,7 +37687,7 @@ function toInt(argumentForCoercion) {
 }
 var tokens = {};
 function addParseToken(token2, callback) {
-  var i2, func = callback, tokenLen;
+  var i, func = callback, tokenLen;
   if (typeof token2 === "string") {
     token2 = [token2];
   }
@@ -37081,8 +37697,8 @@ function addParseToken(token2, callback) {
     };
   }
   tokenLen = token2.length;
-  for (i2 = 0; i2 < tokenLen; i2++) {
-    tokens[token2[i2]] = func;
+  for (i = 0; i < tokenLen; i++) {
+    tokens[token2[i]] = func;
   }
 }
 function addWeekParseToken(token2, callback) {
@@ -37216,9 +37832,9 @@ function stringGet(units) {
 function stringSet(units, value) {
   if (typeof units === "object") {
     units = normalizeObjectUnits(units);
-    var prioritized = getPrioritizedUnits(units), i2, prioritizedLen = prioritized.length;
-    for (i2 = 0; i2 < prioritizedLen; i2++) {
-      this[prioritized[i2].unit](units[prioritized[i2].unit]);
+    var prioritized = getPrioritizedUnits(units), i, prioritizedLen = prioritized.length;
+    for (i = 0; i < prioritizedLen; i++) {
+      this[prioritized[i].unit](units[prioritized[i].unit]);
     }
   } else {
     units = normalizeUnits(units);
@@ -37228,18 +37844,18 @@ function stringSet(units, value) {
   }
   return this;
 }
-function mod(n2, x) {
-  return (n2 % x + x) % x;
+function mod(n, x) {
+  return (n % x + x) % x;
 }
 var indexOf;
 if (Array.prototype.indexOf) {
   indexOf = Array.prototype.indexOf;
 } else {
-  indexOf = function(o2) {
-    var i2;
-    for (i2 = 0; i2 < this.length; ++i2) {
-      if (this[i2] === o2) {
-        return i2;
+  indexOf = function(o) {
+    var i;
+    for (i = 0; i < this.length; ++i) {
+      if (this[i] === o) {
+        return i;
       }
     }
     return -1;
@@ -37297,18 +37913,18 @@ function localeMonthsShort(m, format2) {
   return isArray(this._monthsShort) ? this._monthsShort[m.month()] : this._monthsShort[MONTHS_IN_FORMAT.test(format2) ? "format" : "standalone"][m.month()];
 }
 function handleStrictParse(monthName, format2, strict) {
-  var i2, ii, mom, llc = monthName.toLocaleLowerCase();
+  var i, ii, mom, llc = monthName.toLocaleLowerCase();
   if (!this._monthsParse) {
     this._monthsParse = [];
     this._longMonthsParse = [];
     this._shortMonthsParse = [];
-    for (i2 = 0; i2 < 12; ++i2) {
-      mom = createUTC([2e3, i2]);
-      this._shortMonthsParse[i2] = this.monthsShort(
+    for (i = 0; i < 12; ++i) {
+      mom = createUTC([2e3, i]);
+      this._shortMonthsParse[i] = this.monthsShort(
         mom,
         ""
       ).toLocaleLowerCase();
-      this._longMonthsParse[i2] = this.months(mom, "").toLocaleLowerCase();
+      this._longMonthsParse[i] = this.months(mom, "").toLocaleLowerCase();
     }
   }
   if (strict) {
@@ -37338,7 +37954,7 @@ function handleStrictParse(monthName, format2, strict) {
   }
 }
 function localeMonthsParse(monthName, format2, strict) {
-  var i2, mom, regex;
+  var i, mom, regex;
   if (this._monthsParseExact) {
     return handleStrictParse.call(this, monthName, format2, strict);
   }
@@ -37347,28 +37963,28 @@ function localeMonthsParse(monthName, format2, strict) {
     this._longMonthsParse = [];
     this._shortMonthsParse = [];
   }
-  for (i2 = 0; i2 < 12; i2++) {
-    mom = createUTC([2e3, i2]);
-    if (strict && !this._longMonthsParse[i2]) {
-      this._longMonthsParse[i2] = new RegExp(
+  for (i = 0; i < 12; i++) {
+    mom = createUTC([2e3, i]);
+    if (strict && !this._longMonthsParse[i]) {
+      this._longMonthsParse[i] = new RegExp(
         "^" + this.months(mom, "").replace(".", "") + "$",
         "i"
       );
-      this._shortMonthsParse[i2] = new RegExp(
+      this._shortMonthsParse[i] = new RegExp(
         "^" + this.monthsShort(mom, "").replace(".", "") + "$",
         "i"
       );
     }
-    if (!strict && !this._monthsParse[i2]) {
+    if (!strict && !this._monthsParse[i]) {
       regex = "^" + this.months(mom, "") + "|^" + this.monthsShort(mom, "");
-      this._monthsParse[i2] = new RegExp(regex.replace(".", ""), "i");
+      this._monthsParse[i] = new RegExp(regex.replace(".", ""), "i");
     }
-    if (strict && format2 === "MMMM" && this._longMonthsParse[i2].test(monthName)) {
-      return i2;
-    } else if (strict && format2 === "MMM" && this._shortMonthsParse[i2].test(monthName)) {
-      return i2;
-    } else if (!strict && this._monthsParse[i2].test(monthName)) {
-      return i2;
+    if (strict && format2 === "MMMM" && this._longMonthsParse[i].test(monthName)) {
+      return i;
+    } else if (strict && format2 === "MMM" && this._shortMonthsParse[i].test(monthName)) {
+      return i;
+    } else if (!strict && this._monthsParse[i].test(monthName)) {
+      return i;
     }
   }
 }
@@ -37438,12 +38054,12 @@ function monthsRegex(isStrict) {
   }
 }
 function computeMonthsParse() {
-  function cmpLenRev(a2, b) {
-    return b.length - a2.length;
+  function cmpLenRev(a, b) {
+    return b.length - a.length;
   }
-  var shortPieces = [], longPieces = [], mixedPieces = [], i2, mom, shortP, longP;
-  for (i2 = 0; i2 < 12; i2++) {
-    mom = createUTC([2e3, i2]);
+  var shortPieces = [], longPieces = [], mixedPieces = [], i, mom, shortP, longP;
+  for (i = 0; i < 12; i++) {
+    mom = createUTC([2e3, i]);
     shortP = regexEscape(this.monthsShort(mom, ""));
     longP = regexEscape(this.months(mom, ""));
     shortPieces.push(shortP);
@@ -37622,8 +38238,8 @@ function parseIsoWeekday(input, locale2) {
   }
   return isNaN(input) ? null : input;
 }
-function shiftWeekdays(ws, n2) {
-  return ws.slice(n2, 7).concat(ws.slice(0, n2));
+function shiftWeekdays(ws, n) {
+  return ws.slice(n, 7).concat(ws.slice(0, n));
 }
 var defaultLocaleWeekdays = "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), defaultLocaleWeekdaysShort = "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), defaultLocaleWeekdaysMin = "Su_Mo_Tu_We_Th_Fr_Sa".split("_"), defaultWeekdaysRegex = matchWord, defaultWeekdaysShortRegex = matchWord, defaultWeekdaysMinRegex = matchWord;
 function localeWeekdays(m, format2) {
@@ -37637,22 +38253,22 @@ function localeWeekdaysMin(m) {
   return m === true ? shiftWeekdays(this._weekdaysMin, this._week.dow) : m ? this._weekdaysMin[m.day()] : this._weekdaysMin;
 }
 function handleStrictParse$1(weekdayName, format2, strict) {
-  var i2, ii, mom, llc = weekdayName.toLocaleLowerCase();
+  var i, ii, mom, llc = weekdayName.toLocaleLowerCase();
   if (!this._weekdaysParse) {
     this._weekdaysParse = [];
     this._shortWeekdaysParse = [];
     this._minWeekdaysParse = [];
-    for (i2 = 0; i2 < 7; ++i2) {
-      mom = createUTC([2e3, 1]).day(i2);
-      this._minWeekdaysParse[i2] = this.weekdaysMin(
+    for (i = 0; i < 7; ++i) {
+      mom = createUTC([2e3, 1]).day(i);
+      this._minWeekdaysParse[i] = this.weekdaysMin(
         mom,
         ""
       ).toLocaleLowerCase();
-      this._shortWeekdaysParse[i2] = this.weekdaysShort(
+      this._shortWeekdaysParse[i] = this.weekdaysShort(
         mom,
         ""
       ).toLocaleLowerCase();
-      this._weekdaysParse[i2] = this.weekdays(mom, "").toLocaleLowerCase();
+      this._weekdaysParse[i] = this.weekdays(mom, "").toLocaleLowerCase();
     }
   }
   if (strict) {
@@ -37704,7 +38320,7 @@ function handleStrictParse$1(weekdayName, format2, strict) {
   }
 }
 function localeWeekdaysParse(weekdayName, format2, strict) {
-  var i2, mom, regex;
+  var i, mom, regex;
   if (this._weekdaysParseExact) {
     return handleStrictParse$1.call(this, weekdayName, format2, strict);
   }
@@ -37714,34 +38330,34 @@ function localeWeekdaysParse(weekdayName, format2, strict) {
     this._shortWeekdaysParse = [];
     this._fullWeekdaysParse = [];
   }
-  for (i2 = 0; i2 < 7; i2++) {
-    mom = createUTC([2e3, 1]).day(i2);
-    if (strict && !this._fullWeekdaysParse[i2]) {
-      this._fullWeekdaysParse[i2] = new RegExp(
+  for (i = 0; i < 7; i++) {
+    mom = createUTC([2e3, 1]).day(i);
+    if (strict && !this._fullWeekdaysParse[i]) {
+      this._fullWeekdaysParse[i] = new RegExp(
         "^" + this.weekdays(mom, "").replace(".", "\\.?") + "$",
         "i"
       );
-      this._shortWeekdaysParse[i2] = new RegExp(
+      this._shortWeekdaysParse[i] = new RegExp(
         "^" + this.weekdaysShort(mom, "").replace(".", "\\.?") + "$",
         "i"
       );
-      this._minWeekdaysParse[i2] = new RegExp(
+      this._minWeekdaysParse[i] = new RegExp(
         "^" + this.weekdaysMin(mom, "").replace(".", "\\.?") + "$",
         "i"
       );
     }
-    if (!this._weekdaysParse[i2]) {
+    if (!this._weekdaysParse[i]) {
       regex = "^" + this.weekdays(mom, "") + "|^" + this.weekdaysShort(mom, "") + "|^" + this.weekdaysMin(mom, "");
-      this._weekdaysParse[i2] = new RegExp(regex.replace(".", ""), "i");
+      this._weekdaysParse[i] = new RegExp(regex.replace(".", ""), "i");
     }
-    if (strict && format2 === "dddd" && this._fullWeekdaysParse[i2].test(weekdayName)) {
-      return i2;
-    } else if (strict && format2 === "ddd" && this._shortWeekdaysParse[i2].test(weekdayName)) {
-      return i2;
-    } else if (strict && format2 === "dd" && this._minWeekdaysParse[i2].test(weekdayName)) {
-      return i2;
-    } else if (!strict && this._weekdaysParse[i2].test(weekdayName)) {
-      return i2;
+    if (strict && format2 === "dddd" && this._fullWeekdaysParse[i].test(weekdayName)) {
+      return i;
+    } else if (strict && format2 === "ddd" && this._shortWeekdaysParse[i].test(weekdayName)) {
+      return i;
+    } else if (strict && format2 === "dd" && this._minWeekdaysParse[i].test(weekdayName)) {
+      return i;
+    } else if (!strict && this._weekdaysParse[i].test(weekdayName)) {
+      return i;
     }
   }
 }
@@ -37827,12 +38443,12 @@ function weekdaysMinRegex(isStrict) {
   }
 }
 function computeWeekdaysParse() {
-  function cmpLenRev(a2, b) {
-    return b.length - a2.length;
+  function cmpLenRev(a, b) {
+    return b.length - a.length;
   }
-  var minPieces = [], shortPieces = [], longPieces = [], mixedPieces = [], i2, mom, minp, shortp, longp;
-  for (i2 = 0; i2 < 7; i2++) {
-    mom = createUTC([2e3, 1]).day(i2);
+  var minPieces = [], shortPieces = [], longPieces = [], mixedPieces = [], i, mom, minp, shortp, longp;
+  for (i = 0; i < 7; i++) {
+    mom = createUTC([2e3, 1]).day(i);
     minp = regexEscape(this.weekdaysMin(mom, ""));
     shortp = regexEscape(this.weekdaysShort(mom, ""));
     longp = regexEscape(this.weekdays(mom, ""));
@@ -37975,10 +38591,10 @@ var baseConfig = {
 };
 var locales = {}, localeFamilies = {}, globalLocale;
 function commonPrefix(arr1, arr2) {
-  var i2, minl = Math.min(arr1.length, arr2.length);
-  for (i2 = 0; i2 < minl; i2 += 1) {
-    if (arr1[i2] !== arr2[i2]) {
-      return i2;
+  var i, minl = Math.min(arr1.length, arr2.length);
+  for (i = 0; i < minl; i += 1) {
+    if (arr1[i] !== arr2[i]) {
+      return i;
     }
   }
   return minl;
@@ -37987,11 +38603,11 @@ function normalizeLocale(key) {
   return key ? key.toLowerCase().replace("_", "-") : key;
 }
 function chooseLocale(names) {
-  var i2 = 0, j, next, locale2, split;
-  while (i2 < names.length) {
-    split = normalizeLocale(names[i2]).split("-");
+  var i = 0, j, next, locale2, split;
+  while (i < names.length) {
+    split = normalizeLocale(names[i]).split("-");
     j = split.length;
-    next = normalizeLocale(names[i2 + 1]);
+    next = normalizeLocale(names[i + 1]);
     next = next ? next.split("-") : null;
     while (j > 0) {
       locale2 = loadLocale(split.slice(0, j).join("-"));
@@ -38003,7 +38619,7 @@ function chooseLocale(names) {
       }
       j--;
     }
-    i2++;
+    i++;
   }
   return globalLocale;
 }
@@ -38018,7 +38634,7 @@ function loadLocale(name) {
       aliasedRequire = require;
       aliasedRequire("./locale/" + name);
       getSetGlobalLocale(oldLocale);
-    } catch (e2) {
+    } catch (e) {
       locales[name] = null;
     }
   }
@@ -38137,9 +38753,9 @@ function listLocales() {
   return keys(locales);
 }
 function checkOverflow(m) {
-  var overflow, a2 = m._a;
-  if (a2 && getParsingFlags(m).overflow === -2) {
-    overflow = a2[MONTH] < 0 || a2[MONTH] > 11 ? MONTH : a2[DATE] < 1 || a2[DATE] > daysInMonth(a2[YEAR], a2[MONTH]) ? DATE : a2[HOUR] < 0 || a2[HOUR] > 24 || a2[HOUR] === 24 && (a2[MINUTE] !== 0 || a2[SECOND] !== 0 || a2[MILLISECOND] !== 0) ? HOUR : a2[MINUTE] < 0 || a2[MINUTE] > 59 ? MINUTE : a2[SECOND] < 0 || a2[SECOND] > 59 ? SECOND : a2[MILLISECOND] < 0 || a2[MILLISECOND] > 999 ? MILLISECOND : -1;
+  var overflow, a = m._a;
+  if (a && getParsingFlags(m).overflow === -2) {
+    overflow = a[MONTH] < 0 || a[MONTH] > 11 ? MONTH : a[DATE] < 1 || a[DATE] > daysInMonth(a[YEAR], a[MONTH]) ? DATE : a[HOUR] < 0 || a[HOUR] > 24 || a[HOUR] === 24 && (a[MINUTE] !== 0 || a[SECOND] !== 0 || a[MILLISECOND] !== 0) ? HOUR : a[MINUTE] < 0 || a[MINUTE] > 59 ? MINUTE : a[SECOND] < 0 || a[SECOND] > 59 ? SECOND : a[MILLISECOND] < 0 || a[MILLISECOND] > 999 ? MILLISECOND : -1;
     if (getParsingFlags(m)._overflowDayOfYear && (overflow < YEAR || overflow > DATE)) {
       overflow = DATE;
     }
@@ -38190,13 +38806,13 @@ var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\
   PST: -8 * 60
 };
 function configFromISO(config) {
-  var i2, l, string = config._i, match = extendedIsoRegex.exec(string) || basicIsoRegex.exec(string), allowTime, dateFormat, timeFormat, tzFormat, isoDatesLen = isoDates.length, isoTimesLen = isoTimes.length;
+  var i, l, string = config._i, match = extendedIsoRegex.exec(string) || basicIsoRegex.exec(string), allowTime, dateFormat, timeFormat, tzFormat, isoDatesLen = isoDates.length, isoTimesLen = isoTimes.length;
   if (match) {
     getParsingFlags(config).iso = true;
-    for (i2 = 0, l = isoDatesLen; i2 < l; i2++) {
-      if (isoDates[i2][1].exec(match[1])) {
-        dateFormat = isoDates[i2][0];
-        allowTime = isoDates[i2][2] !== false;
+    for (i = 0, l = isoDatesLen; i < l; i++) {
+      if (isoDates[i][1].exec(match[1])) {
+        dateFormat = isoDates[i][0];
+        allowTime = isoDates[i][2] !== false;
         break;
       }
     }
@@ -38205,9 +38821,9 @@ function configFromISO(config) {
       return;
     }
     if (match[3]) {
-      for (i2 = 0, l = isoTimesLen; i2 < l; i2++) {
-        if (isoTimes[i2][1].exec(match[3])) {
-          timeFormat = (match[2] || " ") + isoTimes[i2][0];
+      for (i = 0, l = isoTimesLen; i < l; i++) {
+        if (isoTimes[i][1].exec(match[3])) {
+          timeFormat = (match[2] || " ") + isoTimes[i][0];
           break;
         }
       }
@@ -38337,14 +38953,14 @@ hooks.createFromInputFallback = deprecate(
     config._d = /* @__PURE__ */ new Date(config._i + (config._useUTC ? " UTC" : ""));
   }
 );
-function defaults(a2, b, c2) {
-  if (a2 != null) {
-    return a2;
+function defaults(a, b, c) {
+  if (a != null) {
+    return a;
   }
   if (b != null) {
     return b;
   }
-  return c2;
+  return c;
 }
 function currentDateArray(config) {
   var nowValue = new Date(hooks.now());
@@ -38358,7 +38974,7 @@ function currentDateArray(config) {
   return [nowValue.getFullYear(), nowValue.getMonth(), nowValue.getDate()];
 }
 function configFromArray(config) {
-  var i2, date, input = [], currentDate, expectedWeekday, yearToUse;
+  var i, date, input = [], currentDate, expectedWeekday, yearToUse;
   if (config._d) {
     return;
   }
@@ -38375,11 +38991,11 @@ function configFromArray(config) {
     config._a[MONTH] = date.getUTCMonth();
     config._a[DATE] = date.getUTCDate();
   }
-  for (i2 = 0; i2 < 3 && config._a[i2] == null; ++i2) {
-    config._a[i2] = input[i2] = currentDate[i2];
+  for (i = 0; i < 3 && config._a[i] == null; ++i) {
+    config._a[i] = input[i] = currentDate[i];
   }
-  for (; i2 < 7; i2++) {
-    config._a[i2] = input[i2] = config._a[i2] == null ? i2 === 2 ? 1 : 0 : config._a[i2];
+  for (; i < 7; i++) {
+    config._a[i] = input[i] = config._a[i] == null ? i === 2 ? 1 : 0 : config._a[i];
   }
   if (config._a[HOUR] === 24 && config._a[MINUTE] === 0 && config._a[SECOND] === 0 && config._a[MILLISECOND] === 0) {
     config._nextDay = true;
@@ -38461,11 +39077,11 @@ function configFromStringAndFormat(config) {
   }
   config._a = [];
   getParsingFlags(config).empty = true;
-  var string = "" + config._i, i2, parsedInput, tokens2, token2, skipped, stringLength = string.length, totalParsedInputLength = 0, era, tokenLen;
+  var string = "" + config._i, i, parsedInput, tokens2, token2, skipped, stringLength = string.length, totalParsedInputLength = 0, era, tokenLen;
   tokens2 = expandFormat(config._f, config._locale).match(formattingTokens) || [];
   tokenLen = tokens2.length;
-  for (i2 = 0; i2 < tokenLen; i2++) {
-    token2 = tokens2[i2];
+  for (i = 0; i < tokenLen; i++) {
+    token2 = tokens2[i];
     parsedInput = (string.match(getParseRegexForToken(token2, config)) || [])[0];
     if (parsedInput) {
       skipped = string.substr(0, string.indexOf(parsedInput));
@@ -38530,20 +39146,20 @@ function meridiemFixWrap(locale2, hour, meridiem2) {
   }
 }
 function configFromStringAndArray(config) {
-  var tempConfig, bestMoment, scoreToBeat, i2, currentScore, validFormatFound, bestFormatIsValid = false, configfLen = config._f.length;
+  var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = false, configfLen = config._f.length;
   if (configfLen === 0) {
     getParsingFlags(config).invalidFormat = true;
     config._d = /* @__PURE__ */ new Date(NaN);
     return;
   }
-  for (i2 = 0; i2 < configfLen; i2++) {
+  for (i = 0; i < configfLen; i++) {
     currentScore = 0;
     validFormatFound = false;
     tempConfig = copyConfig({}, config);
     if (config._useUTC != null) {
       tempConfig._useUTC = config._useUTC;
     }
-    tempConfig._f = config._f[i2];
+    tempConfig._f = config._f[i];
     configFromStringAndFormat(tempConfig);
     if (isValid(tempConfig)) {
       validFormatFound = true;
@@ -38572,9 +39188,9 @@ function configFromObject(config) {
   if (config._d) {
     return;
   }
-  var i2 = normalizeObjectUnits(config._i), dayOrDate = i2.day === void 0 ? i2.date : i2.day;
+  var i = normalizeObjectUnits(config._i), dayOrDate = i.day === void 0 ? i.date : i.day;
   config._a = map(
-    [i2.year, i2.month, dayOrDate, i2.hour, i2.minute, i2.second, i2.millisecond],
+    [i.year, i.month, dayOrDate, i.hour, i.minute, i.second, i.millisecond],
     function(obj) {
       return obj && parseInt(obj, 10);
     }
@@ -38636,7 +39252,7 @@ function configFromInput(config) {
   }
 }
 function createLocalOrUTC(input, format2, locale2, strict, isUTC) {
-  var c2 = {};
+  var c = {};
   if (format2 === true || format2 === false) {
     strict = format2;
     format2 = void 0;
@@ -38648,13 +39264,13 @@ function createLocalOrUTC(input, format2, locale2, strict, isUTC) {
   if (isObject(input) && isObjectEmpty(input) || isArray(input) && input.length === 0) {
     input = void 0;
   }
-  c2._isAMomentObject = true;
-  c2._useUTC = c2._isUTC = isUTC;
-  c2._l = locale2;
-  c2._i = input;
-  c2._f = format2;
-  c2._strict = strict;
-  return createFromConfig(c2);
+  c._isAMomentObject = true;
+  c._useUTC = c._isUTC = isUTC;
+  c._l = locale2;
+  c._i = input;
+  c._f = format2;
+  c._strict = strict;
+  return createFromConfig(c);
 }
 function createLocal(input, format2, locale2, strict) {
   return createLocalOrUTC(input, format2, locale2, strict, false);
@@ -38681,7 +39297,7 @@ var prototypeMin = deprecate(
   }
 );
 function pickBy(fn, moments) {
-  var res, i2;
+  var res, i;
   if (moments.length === 1 && isArray(moments[0])) {
     moments = moments[0];
   }
@@ -38689,9 +39305,9 @@ function pickBy(fn, moments) {
     return createLocal();
   }
   res = moments[0];
-  for (i2 = 1; i2 < moments.length; ++i2) {
-    if (!moments[i2].isValid() || moments[i2][fn](res)) {
-      res = moments[i2];
+  for (i = 1; i < moments.length; ++i) {
+    if (!moments[i].isValid() || moments[i][fn](res)) {
+      res = moments[i];
     }
   }
   return res;
@@ -38719,18 +39335,18 @@ var ordering = [
   "millisecond"
 ];
 function isDurationValid(m) {
-  var key, unitHasDecimal = false, i2, orderLen = ordering.length;
+  var key, unitHasDecimal = false, i, orderLen = ordering.length;
   for (key in m) {
     if (hasOwnProp(m, key) && !(indexOf.call(ordering, key) !== -1 && (m[key] == null || !isNaN(m[key])))) {
       return false;
     }
   }
-  for (i2 = 0; i2 < orderLen; ++i2) {
-    if (m[ordering[i2]]) {
+  for (i = 0; i < orderLen; ++i) {
+    if (m[ordering[i]]) {
       if (unitHasDecimal) {
         return false;
       }
-      if (parseFloat(m[ordering[i2]]) !== toInt(m[ordering[i2]])) {
+      if (parseFloat(m[ordering[i]]) !== toInt(m[ordering[i]])) {
         unitHasDecimal = true;
       }
     }
@@ -38766,9 +39382,9 @@ function absRound(number) {
   }
 }
 function compareArrays(array1, array2, dontConvert) {
-  var len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0, i2;
-  for (i2 = 0; i2 < len; i2++) {
-    if (toInt(array1[i2]) !== toInt(array2[i2])) {
+  var len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0, i;
+  for (i = 0; i < len; i++) {
+    if (toInt(array1[i]) !== toInt(array2[i])) {
       diffs++;
     }
   }
@@ -38912,12 +39528,12 @@ function isDaylightSavingTimeShifted() {
   if (!isUndefined(this._isDSTShifted)) {
     return this._isDSTShifted;
   }
-  var c2 = {}, other;
-  copyConfig(c2, this);
-  c2 = prepareConfig(c2);
-  if (c2._a) {
-    other = c2._isUTC ? createUTC(c2._a) : createLocal(c2._a);
-    this._isDSTShifted = this.isValid() && compareArrays(c2._a, other.toArray()) > 0;
+  var c = {}, other;
+  copyConfig(c, this);
+  c = prepareConfig(c);
+  if (c._a) {
+    other = c._isUTC ? createUTC(c._a) : createLocal(c._a);
+    this._isDSTShifted = this.isValid() && compareArrays(c._a, other.toArray()) > 0;
   } else {
     this._isDSTShifted = false;
   }
@@ -39089,9 +39705,9 @@ function isMomentInputObject(input) {
     "milliseconds",
     "millisecond",
     "ms"
-  ], i2, property, propertyLen = properties.length;
-  for (i2 = 0; i2 < propertyLen; i2 += 1) {
-    property = properties[i2];
+  ], i, property, propertyLen = properties.length;
+  for (i = 0; i < propertyLen; i += 1) {
+    property = properties[i];
     propertyTest = propertyTest || hasOwnProp(input, property);
   }
   return objectTest && propertyTest;
@@ -39113,9 +39729,9 @@ function isCalendarSpec(input) {
     "nextWeek",
     "lastWeek",
     "sameElse"
-  ], i2, property;
-  for (i2 = 0; i2 < properties.length; i2 += 1) {
-    property = properties[i2];
+  ], i, property;
+  for (i = 0; i < properties.length; i += 1) {
+    property = properties[i];
     propertyTest = propertyTest || hasOwnProp(input, property);
   }
   return objectTest && propertyTest;
@@ -39242,16 +39858,16 @@ function diff(input, units, asFloat) {
   }
   return asFloat ? output : absFloor(output);
 }
-function monthDiff(a2, b) {
-  if (a2.date() < b.date()) {
-    return -monthDiff(b, a2);
+function monthDiff(a, b) {
+  if (a.date() < b.date()) {
+    return -monthDiff(b, a);
   }
-  var wholeMonthDiff = (b.year() - a2.year()) * 12 + (b.month() - a2.month()), anchor = a2.clone().add(wholeMonthDiff, "months"), anchor2, adjust;
+  var wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month()), anchor = a.clone().add(wholeMonthDiff, "months"), anchor2, adjust;
   if (b - anchor < 0) {
-    anchor2 = a2.clone().add(wholeMonthDiff - 1, "months");
+    anchor2 = a.clone().add(wholeMonthDiff - 1, "months");
     adjust = (b - anchor) / (anchor - anchor2);
   } else {
-    anchor2 = a2.clone().add(wholeMonthDiff + 1, "months");
+    anchor2 = a.clone().add(wholeMonthDiff + 1, "months");
     adjust = (b - anchor) / (anchor2 - anchor);
   }
   return -(wholeMonthDiff + adjust) || 0;
@@ -39584,55 +40200,55 @@ addParseToken(["yo"], function(input, array, config, token2) {
   }
 });
 function localeEras(m, format2) {
-  var i2, l, date, eras = this._eras || getLocale("en")._eras;
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
-    switch (typeof eras[i2].since) {
+  var i, l, date, eras = this._eras || getLocale("en")._eras;
+  for (i = 0, l = eras.length; i < l; ++i) {
+    switch (typeof eras[i].since) {
       case "string":
-        date = hooks(eras[i2].since).startOf("day");
-        eras[i2].since = date.valueOf();
+        date = hooks(eras[i].since).startOf("day");
+        eras[i].since = date.valueOf();
         break;
     }
-    switch (typeof eras[i2].until) {
+    switch (typeof eras[i].until) {
       case "undefined":
-        eras[i2].until = Infinity;
+        eras[i].until = Infinity;
         break;
       case "string":
-        date = hooks(eras[i2].until).startOf("day").valueOf();
-        eras[i2].until = date.valueOf();
+        date = hooks(eras[i].until).startOf("day").valueOf();
+        eras[i].until = date.valueOf();
         break;
     }
   }
   return eras;
 }
 function localeErasParse(eraName, format2, strict) {
-  var i2, l, eras = this.eras(), name, abbr, narrow;
+  var i, l, eras = this.eras(), name, abbr, narrow;
   eraName = eraName.toUpperCase();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
-    name = eras[i2].name.toUpperCase();
-    abbr = eras[i2].abbr.toUpperCase();
-    narrow = eras[i2].narrow.toUpperCase();
+  for (i = 0, l = eras.length; i < l; ++i) {
+    name = eras[i].name.toUpperCase();
+    abbr = eras[i].abbr.toUpperCase();
+    narrow = eras[i].narrow.toUpperCase();
     if (strict) {
       switch (format2) {
         case "N":
         case "NN":
         case "NNN":
           if (abbr === eraName) {
-            return eras[i2];
+            return eras[i];
           }
           break;
         case "NNNN":
           if (name === eraName) {
-            return eras[i2];
+            return eras[i];
           }
           break;
         case "NNNNN":
           if (narrow === eraName) {
-            return eras[i2];
+            return eras[i];
           }
           break;
       }
     } else if ([name, abbr, narrow].indexOf(eraName) >= 0) {
-      return eras[i2];
+      return eras[i];
     }
   }
 }
@@ -39645,51 +40261,51 @@ function localeErasConvertYear(era, year) {
   }
 }
 function getEraName() {
-  var i2, l, val, eras = this.localeData().eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
+  var i, l, val, eras = this.localeData().eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
     val = this.clone().startOf("day").valueOf();
-    if (eras[i2].since <= val && val <= eras[i2].until) {
-      return eras[i2].name;
+    if (eras[i].since <= val && val <= eras[i].until) {
+      return eras[i].name;
     }
-    if (eras[i2].until <= val && val <= eras[i2].since) {
-      return eras[i2].name;
+    if (eras[i].until <= val && val <= eras[i].since) {
+      return eras[i].name;
     }
   }
   return "";
 }
 function getEraNarrow() {
-  var i2, l, val, eras = this.localeData().eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
+  var i, l, val, eras = this.localeData().eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
     val = this.clone().startOf("day").valueOf();
-    if (eras[i2].since <= val && val <= eras[i2].until) {
-      return eras[i2].narrow;
+    if (eras[i].since <= val && val <= eras[i].until) {
+      return eras[i].narrow;
     }
-    if (eras[i2].until <= val && val <= eras[i2].since) {
-      return eras[i2].narrow;
+    if (eras[i].until <= val && val <= eras[i].since) {
+      return eras[i].narrow;
     }
   }
   return "";
 }
 function getEraAbbr() {
-  var i2, l, val, eras = this.localeData().eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
+  var i, l, val, eras = this.localeData().eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
     val = this.clone().startOf("day").valueOf();
-    if (eras[i2].since <= val && val <= eras[i2].until) {
-      return eras[i2].abbr;
+    if (eras[i].since <= val && val <= eras[i].until) {
+      return eras[i].abbr;
     }
-    if (eras[i2].until <= val && val <= eras[i2].since) {
-      return eras[i2].abbr;
+    if (eras[i].until <= val && val <= eras[i].since) {
+      return eras[i].abbr;
     }
   }
   return "";
 }
 function getEraYear() {
-  var i2, l, dir, val, eras = this.localeData().eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
-    dir = eras[i2].since <= eras[i2].until ? 1 : -1;
+  var i, l, dir, val, eras = this.localeData().eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
+    dir = eras[i].since <= eras[i].until ? 1 : -1;
     val = this.clone().startOf("day").valueOf();
-    if (eras[i2].since <= val && val <= eras[i2].until || eras[i2].until <= val && val <= eras[i2].since) {
-      return (this.year() - hooks(eras[i2].since).year()) * dir + eras[i2].offset;
+    if (eras[i].since <= val && val <= eras[i].until || eras[i].until <= val && val <= eras[i].since) {
+      return (this.year() - hooks(eras[i].since).year()) * dir + eras[i].offset;
     }
   }
   return this.year();
@@ -39725,11 +40341,11 @@ function matchEraYearOrdinal(isStrict, locale2) {
   return locale2._eraYearOrdinalRegex || matchUnsigned;
 }
 function computeErasParse() {
-  var abbrPieces = [], namePieces = [], narrowPieces = [], mixedPieces = [], i2, l, erasName, erasAbbr, erasNarrow, eras = this.eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
-    erasName = regexEscape(eras[i2].name);
-    erasAbbr = regexEscape(eras[i2].abbr);
-    erasNarrow = regexEscape(eras[i2].narrow);
+  var abbrPieces = [], namePieces = [], narrowPieces = [], mixedPieces = [], i, l, erasName, erasAbbr, erasNarrow, eras = this.eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
+    erasName = regexEscape(eras[i].name);
+    erasAbbr = regexEscape(eras[i].abbr);
+    erasNarrow = regexEscape(eras[i].narrow);
     namePieces.push(erasName);
     abbrPieces.push(erasAbbr);
     narrowPieces.push(erasNarrow);
@@ -40073,9 +40689,9 @@ function listMonthsImpl(format2, index, field) {
   if (index != null) {
     return get$1(format2, index, field, "month");
   }
-  var i2, out = [];
-  for (i2 = 0; i2 < 12; i2++) {
-    out[i2] = get$1(format2, i2, field, "month");
+  var i, out = [];
+  for (i = 0; i < 12; i++) {
+    out[i] = get$1(format2, i, field, "month");
   }
   return out;
 }
@@ -40096,12 +40712,12 @@ function listWeekdaysImpl(localeSorted, format2, index, field) {
     }
     format2 = format2 || "";
   }
-  var locale2 = getLocale(), shift = localeSorted ? locale2._week.dow : 0, i2, out = [];
+  var locale2 = getLocale(), shift = localeSorted ? locale2._week.dow : 0, i, out = [];
   if (index != null) {
     return get$1(format2, (index + shift) % 7, field, "day");
   }
-  for (i2 = 0; i2 < 7; i2++) {
-    out[i2] = get$1(format2, (i2 + shift) % 7, field, "day");
+  for (i = 0; i < 7; i++) {
+    out[i] = get$1(format2, (i + shift) % 7, field, "day");
   }
   return out;
 }
@@ -40298,15 +40914,15 @@ function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale2) {
   return locale2.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
 }
 function relativeTime$1(posNegDuration, withoutSuffix, thresholds2, locale2) {
-  var duration = createDuration(posNegDuration).abs(), seconds2 = round(duration.as("s")), minutes2 = round(duration.as("m")), hours2 = round(duration.as("h")), days2 = round(duration.as("d")), months2 = round(duration.as("M")), weeks2 = round(duration.as("w")), years2 = round(duration.as("y")), a2 = seconds2 <= thresholds2.ss && ["s", seconds2] || seconds2 < thresholds2.s && ["ss", seconds2] || minutes2 <= 1 && ["m"] || minutes2 < thresholds2.m && ["mm", minutes2] || hours2 <= 1 && ["h"] || hours2 < thresholds2.h && ["hh", hours2] || days2 <= 1 && ["d"] || days2 < thresholds2.d && ["dd", days2];
+  var duration = createDuration(posNegDuration).abs(), seconds2 = round(duration.as("s")), minutes2 = round(duration.as("m")), hours2 = round(duration.as("h")), days2 = round(duration.as("d")), months2 = round(duration.as("M")), weeks2 = round(duration.as("w")), years2 = round(duration.as("y")), a = seconds2 <= thresholds2.ss && ["s", seconds2] || seconds2 < thresholds2.s && ["ss", seconds2] || minutes2 <= 1 && ["m"] || minutes2 < thresholds2.m && ["mm", minutes2] || hours2 <= 1 && ["h"] || hours2 < thresholds2.h && ["hh", hours2] || days2 <= 1 && ["d"] || days2 < thresholds2.d && ["dd", days2];
   if (thresholds2.w != null) {
-    a2 = a2 || weeks2 <= 1 && ["w"] || weeks2 < thresholds2.w && ["ww", weeks2];
+    a = a || weeks2 <= 1 && ["w"] || weeks2 < thresholds2.w && ["ww", weeks2];
   }
-  a2 = a2 || months2 <= 1 && ["M"] || months2 < thresholds2.M && ["MM", months2] || years2 <= 1 && ["y"] || ["yy", years2];
-  a2[2] = withoutSuffix;
-  a2[3] = +posNegDuration > 0;
-  a2[4] = locale2;
-  return substituteTimeAgo.apply(null, a2);
+  a = a || months2 <= 1 && ["M"] || months2 < thresholds2.M && ["MM", months2] || years2 <= 1 && ["y"] || ["yy", years2];
+  a[2] = withoutSuffix;
+  a[3] = +posNegDuration > 0;
+  a[4] = locale2;
+  return substituteTimeAgo.apply(null, a);
 }
 function getSetRelativeTimeRounding(roundingFunction) {
   if (roundingFunction === void 0) {
@@ -40522,37 +41138,37 @@ function requireMomentTimezone$1() {
         return charCode - 48;
       }
       function unpackBase60(string) {
-        var i2 = 0, parts = string.split("."), whole = parts[0], fractional = parts[1] || "", multiplier = 1, num, out = 0, sign2 = 1;
+        var i = 0, parts = string.split("."), whole = parts[0], fractional = parts[1] || "", multiplier = 1, num, out = 0, sign2 = 1;
         if (string.charCodeAt(0) === 45) {
-          i2 = 1;
+          i = 1;
           sign2 = -1;
         }
-        for (i2; i2 < whole.length; i2++) {
-          num = charCodeToInt(whole.charCodeAt(i2));
+        for (i; i < whole.length; i++) {
+          num = charCodeToInt(whole.charCodeAt(i));
           out = 60 * out + num;
         }
-        for (i2 = 0; i2 < fractional.length; i2++) {
+        for (i = 0; i < fractional.length; i++) {
           multiplier = multiplier / 60;
-          num = charCodeToInt(fractional.charCodeAt(i2));
+          num = charCodeToInt(fractional.charCodeAt(i));
           out += num * multiplier;
         }
         return out * sign2;
       }
       function arrayToInt(array) {
-        for (var i2 = 0; i2 < array.length; i2++) {
-          array[i2] = unpackBase60(array[i2]);
+        for (var i = 0; i < array.length; i++) {
+          array[i] = unpackBase60(array[i]);
         }
       }
       function intToUntil(array, length) {
-        for (var i2 = 0; i2 < length; i2++) {
-          array[i2] = Math.round((array[i2 - 1] || 0) + array[i2] * 6e4);
+        for (var i = 0; i < length; i++) {
+          array[i] = Math.round((array[i - 1] || 0) + array[i] * 6e4);
         }
         array[length - 1] = Infinity;
       }
       function mapIndices(source, indices) {
-        var out = [], i2;
-        for (i2 = 0; i2 < indices.length; i2++) {
-          out[i2] = source[indices[i2]];
+        var out = [], i;
+        for (i = 0; i < indices.length; i++) {
+          out[i] = source[indices[i]];
         }
         return out;
       }
@@ -40606,10 +41222,10 @@ function requireMomentTimezone$1() {
           this.population = unpacked.population;
         },
         _index: function(timestamp) {
-          var target = +timestamp, untils = this.untils, i2;
-          i2 = closest(target, untils);
-          if (i2 >= 0) {
-            return i2;
+          var target = +timestamp, untils = this.untils, i;
+          i = closest(target, untils);
+          if (i >= 0) {
+            return i;
           }
         },
         countries: function() {
@@ -40619,18 +41235,18 @@ function requireMomentTimezone$1() {
           });
         },
         parse: function(timestamp) {
-          var target = +timestamp, offsets = this.offsets, untils = this.untils, max2 = untils.length - 1, offset2, offsetNext, offsetPrev, i2;
-          for (i2 = 0; i2 < max2; i2++) {
-            offset2 = offsets[i2];
-            offsetNext = offsets[i2 + 1];
-            offsetPrev = offsets[i2 ? i2 - 1 : i2];
+          var target = +timestamp, offsets = this.offsets, untils = this.untils, max2 = untils.length - 1, offset2, offsetNext, offsetPrev, i;
+          for (i = 0; i < max2; i++) {
+            offset2 = offsets[i];
+            offsetNext = offsets[i + 1];
+            offsetPrev = offsets[i ? i - 1 : i];
             if (offset2 < offsetNext && tz.moveAmbiguousForward) {
               offset2 = offsetNext;
             } else if (offset2 > offsetPrev && tz.moveInvalidForward) {
               offset2 = offsetPrev;
             }
-            if (target < untils[i2] - offset2 * 6e4) {
-              return offsets[i2];
+            if (target < untils[i] - offset2 * 6e4) {
+              return offsets[i];
             }
           }
           return offsets[max2];
@@ -40691,11 +41307,11 @@ function requireMomentTimezone$1() {
         return low;
       }
       function userOffsets() {
-        var startYear = (/* @__PURE__ */ new Date()).getFullYear() - 2, last = new OffsetAt(new Date(startYear, 0, 1)), lastOffset = last.offset, offsets = [last], change, next, nextOffset, i2;
-        for (i2 = 1; i2 < 48; i2++) {
-          nextOffset = new Date(startYear, i2, 1).getTimezoneOffset();
+        var startYear = (/* @__PURE__ */ new Date()).getFullYear() - 2, last = new OffsetAt(new Date(startYear, 0, 1)), lastOffset = last.offset, offsets = [last], change, next, nextOffset, i;
+        for (i = 1; i < 48; i++) {
+          nextOffset = new Date(startYear, i, 1).getTimezoneOffset();
           if (nextOffset !== lastOffset) {
-            next = new OffsetAt(new Date(startYear, i2, 1));
+            next = new OffsetAt(new Date(startYear, i, 1));
             change = findChange(last, next);
             offsets.push(change);
             offsets.push(new OffsetAt(new Date(change.at + 6e4)));
@@ -40703,37 +41319,37 @@ function requireMomentTimezone$1() {
             lastOffset = nextOffset;
           }
         }
-        for (i2 = 0; i2 < 4; i2++) {
-          offsets.push(new OffsetAt(new Date(startYear + i2, 0, 1)));
-          offsets.push(new OffsetAt(new Date(startYear + i2, 6, 1)));
+        for (i = 0; i < 4; i++) {
+          offsets.push(new OffsetAt(new Date(startYear + i, 0, 1)));
+          offsets.push(new OffsetAt(new Date(startYear + i, 6, 1)));
         }
         return offsets;
       }
-      function sortZoneScores(a2, b) {
-        if (a2.offsetScore !== b.offsetScore) {
-          return a2.offsetScore - b.offsetScore;
+      function sortZoneScores(a, b) {
+        if (a.offsetScore !== b.offsetScore) {
+          return a.offsetScore - b.offsetScore;
         }
-        if (a2.abbrScore !== b.abbrScore) {
-          return a2.abbrScore - b.abbrScore;
+        if (a.abbrScore !== b.abbrScore) {
+          return a.abbrScore - b.abbrScore;
         }
-        if (a2.zone.population !== b.zone.population) {
-          return b.zone.population - a2.zone.population;
+        if (a.zone.population !== b.zone.population) {
+          return b.zone.population - a.zone.population;
         }
-        return b.zone.name.localeCompare(a2.zone.name);
+        return b.zone.name.localeCompare(a.zone.name);
       }
       function addToGuesses(name, offsets) {
-        var i2, offset2;
+        var i, offset2;
         arrayToInt(offsets);
-        for (i2 = 0; i2 < offsets.length; i2++) {
-          offset2 = offsets[i2];
+        for (i = 0; i < offsets.length; i++) {
+          offset2 = offsets[i];
           guesses[offset2] = guesses[offset2] || {};
           guesses[offset2][name] = true;
         }
       }
       function guessesForUserOffsets(offsets) {
-        var offsetsLength = offsets.length, filteredGuesses = {}, out = [], checkedOffsets = {}, i2, j, offset2, guessesOffset;
-        for (i2 = 0; i2 < offsetsLength; i2++) {
-          offset2 = offsets[i2].offset;
+        var offsetsLength = offsets.length, filteredGuesses = {}, out = [], checkedOffsets = {}, i, j, offset2, guessesOffset;
+        for (i = 0; i < offsetsLength; i++) {
+          offset2 = offsets[i].offset;
           if (checkedOffsets.hasOwnProperty(offset2)) {
             continue;
           }
@@ -40745,9 +41361,9 @@ function requireMomentTimezone$1() {
           }
           checkedOffsets[offset2] = true;
         }
-        for (i2 in filteredGuesses) {
-          if (filteredGuesses.hasOwnProperty(i2)) {
-            out.push(names[i2]);
+        for (i in filteredGuesses) {
+          if (filteredGuesses.hasOwnProperty(i)) {
+            out.push(names[i]);
           }
         }
         return out;
@@ -40762,11 +41378,11 @@ function requireMomentTimezone$1() {
             }
             logError("Moment Timezone found " + intlName + " from the Intl api, but did not have that data loaded.");
           }
-        } catch (e2) {
+        } catch (e) {
         }
-        var offsets = userOffsets(), offsetsLength = offsets.length, guesses2 = guessesForUserOffsets(offsets), zoneScores = [], zoneScore, i2, j;
-        for (i2 = 0; i2 < guesses2.length; i2++) {
-          zoneScore = new ZoneScore(getZone(guesses2[i2]));
+        var offsets = userOffsets(), offsetsLength = offsets.length, guesses2 = guessesForUserOffsets(offsets), zoneScores = [], zoneScore, i, j;
+        for (i = 0; i < guesses2.length; i++) {
+          zoneScore = new ZoneScore(getZone(guesses2[i]));
           for (j = 0; j < offsetsLength; j++) {
             zoneScore.scoreOffsetAt(offsets[j]);
           }
@@ -40785,15 +41401,15 @@ function requireMomentTimezone$1() {
         return (name || "").toLowerCase().replace(/\//g, "_");
       }
       function addZone(packed) {
-        var i2, name, split, normalized;
+        var i, name, split, normalized;
         if (typeof packed === "string") {
           packed = [packed];
         }
-        for (i2 = 0; i2 < packed.length; i2++) {
-          split = packed[i2].split("|");
+        for (i = 0; i < packed.length; i++) {
+          split = packed[i].split("|");
           name = split[0];
           normalized = normalizeName(name);
-          zones2[normalized] = packed[i2];
+          zones2[normalized] = packed[i];
           names[normalized] = name;
           addToGuesses(normalized, split[2].split(" "));
         }
@@ -40819,10 +41435,10 @@ function requireMomentTimezone$1() {
         return null;
       }
       function getNames() {
-        var i2, out = [];
-        for (i2 in names) {
-          if (names.hasOwnProperty(i2) && (zones2[i2] || zones2[links2[i2]]) && names[i2]) {
-            out.push(names[i2]);
+        var i, out = [];
+        for (i in names) {
+          if (names.hasOwnProperty(i) && (zones2[i] || zones2[links2[i]]) && names[i]) {
+            out.push(names[i]);
           }
         }
         return out.sort();
@@ -40831,12 +41447,12 @@ function requireMomentTimezone$1() {
         return Object.keys(countries2);
       }
       function addLink(aliases2) {
-        var i2, alias, normal0, normal1;
+        var i, alias, normal0, normal1;
         if (typeof aliases2 === "string") {
           aliases2 = [aliases2];
         }
-        for (i2 = 0; i2 < aliases2.length; i2++) {
-          alias = aliases2[i2].split("|");
+        for (i = 0; i < aliases2.length; i++) {
+          alias = aliases2[i].split("|");
           normal0 = normalizeName(alias[0]);
           normal1 = normalizeName(alias[1]);
           links2[normal0] = normal1;
@@ -40846,10 +41462,10 @@ function requireMomentTimezone$1() {
         }
       }
       function addCountries(data) {
-        var i2, country_code, country_zones, split;
+        var i, country_code, country_zones, split;
         if (!data || !data.length) return;
-        for (i2 = 0; i2 < data.length; i2++) {
-          split = data[i2].split("|");
+        for (i = 0; i < data.length; i++) {
+          split = data[i].split("|");
           country_code = split[0].toUpperCase();
           country_zones = split[1].split(" ");
           countries2[country_code] = new Country(
@@ -41076,6 +41692,9 @@ const VDatePickerControls = genericComponent()({
     let {
       emit
     } = _ref;
+    const {
+      t
+    } = useLocale();
     const disableMonth = computed(() => {
       return Array.isArray(props.disabled) ? props.disabled.includes("text") : !!props.disabled;
     });
@@ -41102,10 +41721,10 @@ const VDatePickerControls = genericComponent()({
     }
     useRender(() => {
       return createElementVNode("div", {
-        "class": ["v-date-picker-controls"],
-        "style": normalizeStyle({
+        "class": normalizeClass(["v-date-picker-controls"]),
+        "style": {
           "--v-date-picker-controls-height": convertToUnit(props.controlHeight)
-        })
+        }
       }, [createVNode(VBtn, {
         "class": "v-date-picker-controls__month-btn",
         "data-testid": "month-btn",
@@ -41121,6 +41740,7 @@ const VDatePickerControls = genericComponent()({
         "density": "comfortable",
         "icon": props.modeIcon,
         "variant": "text",
+        "aria-label": t("$vuetify.datePicker.ariaLabel.selectYear"),
         "onClick": onClickYear
       }, null), createVNode(VSpacer, null, null), createElementVNode("div", {
         "class": "v-date-picker-controls__month"
@@ -41130,6 +41750,7 @@ const VDatePickerControls = genericComponent()({
         "density": "comfortable",
         "icon": props.prevIcon,
         "variant": "text",
+        "aria-label": t("$vuetify.datePicker.ariaLabel.previousMonth"),
         "onClick": onClickPrev
       }, null), createVNode(VBtn, {
         "data-testid": "next-month",
@@ -41137,6 +41758,7 @@ const VDatePickerControls = genericComponent()({
         "icon": props.nextIcon,
         "density": "comfortable",
         "variant": "text",
+        "aria-label": t("$vuetify.datePicker.ariaLabel.nextMonth"),
         "onClick": onClickNext
       }, null)])]);
     });
@@ -41245,11 +41867,16 @@ const makeCalendarProps = propsFactory({
   firstDayOfWeek: {
     type: [Number, String],
     default: void 0
-  }
+  },
+  firstDayOfYear: {
+    type: [Number, String],
+    default: void 0
+  },
+  weekdayFormat: String
 }, "calendar");
 function useCalendar(props) {
   const adapter = useDate();
-  const model = useProxiedModel(props, "modelValue", [], (v) => wrapInArray(v).map((i2) => adapter.date(i2)));
+  const model = useProxiedModel(props, "modelValue", [], (v) => wrapInArray(v).map((i) => adapter.date(i)));
   const displayValue = computed(() => {
     if (props.displayValue) return adapter.date(props.displayValue);
     if (model.value.length > 0) return adapter.date(model.value[0]);
@@ -41266,9 +41893,9 @@ function useCalendar(props) {
     const date = adapter.setYear(adapter.startOfMonth(adapter.date()), adapter.getYear(year.value));
     return adapter.setMonth(date, value);
   }, (v) => adapter.getMonth(v));
-  const weekDays = computed(() => {
+  const weekdayLabels = computed(() => {
     const firstDayOfWeek = adapter.toJsDate(adapter.startOfWeek(adapter.date(), props.firstDayOfWeek)).getDay();
-    return [0, 1, 2, 3, 4, 5, 6].map((day) => (day + firstDayOfWeek) % 7);
+    return adapter.getWeekdays(props.firstDayOfWeek, props.weekdayFormat).filter((_, i) => props.weekdays.includes((i + firstDayOfWeek) % 7));
   });
   const weeksInMonth = computed(() => {
     const weeks2 = adapter.getWeekArray(month.value, props.firstDayOfWeek);
@@ -41289,13 +41916,14 @@ function useCalendar(props) {
   });
   function genDays(days2, today) {
     return days2.filter((date) => {
-      return weekDays.value.includes(adapter.toJsDate(date).getDay());
+      return props.weekdays.includes(adapter.toJsDate(date).getDay());
     }).map((date, index) => {
       const isoDate = adapter.toISO(date);
       const isAdjacent = !adapter.isSameMonth(date, month.value);
       const isStart = adapter.isSameDay(date, adapter.startOfMonth(month.value));
       const isEnd = adapter.isSameDay(date, adapter.endOfMonth(month.value));
       const isSame2 = adapter.isSameDay(date, month.value);
+      const weekdaysCount = props.weekdays.length;
       return {
         date,
         formatted: adapter.format(date, "keyboardDate"),
@@ -41307,8 +41935,8 @@ function useCalendar(props) {
         isSelected: model.value.some((value) => adapter.isSameDay(date, value)),
         isStart,
         isToday: adapter.isSameDay(date, today),
-        isWeekEnd: index % 7 === 6,
-        isWeekStart: index % 7 === 0,
+        isWeekEnd: index % weekdaysCount === weekdaysCount - 1,
+        isWeekStart: index % weekdaysCount === 0,
         isoDate,
         localized: adapter.format(date, "dayOfMonth"),
         month: adapter.getMonth(date),
@@ -41332,13 +41960,13 @@ function useCalendar(props) {
   });
   const weekNumbers = computed(() => {
     return weeksInMonth.value.map((week) => {
-      return week.length ? adapter.getWeek(week[0], props.firstDayOfWeek) : null;
+      return week.length ? adapter.getWeek(week[0], props.firstDayOfWeek, props.firstDayOfYear) : null;
     });
   });
   function isDisabled(value) {
     if (props.disabled) return true;
     const date = adapter.date(value);
-    if (props.min && adapter.isAfter(adapter.date(props.min), date)) return true;
+    if (props.min && adapter.isBefore(adapter.endOfDay(date), adapter.date(props.min))) return true;
     if (props.max && adapter.isAfter(date, adapter.date(props.max))) return true;
     if (Array.isArray(props.allowedDates) && props.allowedDates.length > 0) {
       return !props.allowedDates.some((d) => adapter.isSameDay(adapter.date(d), date));
@@ -41346,7 +41974,7 @@ function useCalendar(props) {
     if (typeof props.allowedDates === "function") {
       return !props.allowedDates(date);
     }
-    return !props.weekdays.includes(adapter.toJsDate(date).getDay());
+    return false;
   }
   return {
     displayValue,
@@ -41355,7 +41983,7 @@ function useCalendar(props) {
     genDays,
     model,
     weeksInMonth,
-    weekDays,
+    weekdayLabels,
     weekNumbers
   };
 }
@@ -41389,9 +42017,13 @@ const VDatePickerMonth = genericComponent()({
     } = _ref;
     const daysRef = ref();
     const {
+      t
+    } = useLocale();
+    const {
       daysInMonth: daysInMonth2,
       model,
-      weekNumbers
+      weekNumbers,
+      weekdayLabels
     } = useCalendar(props);
     const adapter = useDate();
     const rangeStart = shallowRef();
@@ -41436,19 +42068,17 @@ const VDatePickerMonth = genericComponent()({
         } else {
           rangeStop.value = adapter.endOfDay(_value);
         }
-        const diff2 = adapter.getDiff(rangeStop.value, rangeStart.value, "days");
-        const datesInRange = [rangeStart.value];
-        for (let i2 = 1; i2 < diff2; i2++) {
-          const nextDate = adapter.addDays(rangeStart.value, i2);
-          datesInRange.push(nextDate);
-        }
-        datesInRange.push(rangeStop.value);
-        model.value = datesInRange;
+        model.value = createDateRange(adapter, rangeStart.value, rangeStop.value);
       } else {
         rangeStart.value = value;
         rangeStop.value = void 0;
         model.value = [rangeStart.value];
       }
+    }
+    function getDateAriaLabel(item) {
+      const fullDate = adapter.format(item.date, "fullDateWithWeekday");
+      const localeKey = item.isToday ? "currentDate" : "selectDate";
+      return t(`$vuetify.datePicker.ariaLabel.${localeKey}`, fullDate);
     }
     function onMultipleClick(value) {
       const index = model.value.findIndex((selection) => adapter.isSameDay(selection, value));
@@ -41470,7 +42100,10 @@ const VDatePickerMonth = genericComponent()({
       }
     }
     useRender(() => createElementVNode("div", {
-      "class": "v-date-picker-month"
+      "class": "v-date-picker-month",
+      "style": {
+        "--v-date-picker-days-in-week": props.weekdays.length
+      }
     }, [props.showWeek && createElementVNode("div", {
       "key": "weeks",
       "class": "v-date-picker-month__weeks"
@@ -41478,7 +42111,7 @@ const VDatePickerMonth = genericComponent()({
       "key": "hide-week-days",
       "class": "v-date-picker-month__day"
     }, [createTextVNode(" ")]), weekNumbers.value.map((week) => createElementVNode("div", {
-      "class": ["v-date-picker-month__day", "v-date-picker-month__day--adjacent"]
+      "class": normalizeClass(["v-date-picker-month__day", "v-date-picker-month__day--adjacent"])
     }, [week]))]), createVNode(MaybeTransition, {
       "name": transition.value
     }, {
@@ -41488,9 +42121,9 @@ const VDatePickerMonth = genericComponent()({
           "ref": daysRef,
           "key": (_a = daysInMonth2.value[0].date) == null ? void 0 : _a.toString(),
           "class": "v-date-picker-month__days"
-        }, [!props.hideWeekdays && adapter.getWeekdays(props.firstDayOfWeek).map((weekDay) => createElementVNode("div", {
-          "class": ["v-date-picker-month__day", "v-date-picker-month__weekday"]
-        }, [weekDay])), daysInMonth2.value.map((item, i2) => {
+        }, [!props.hideWeekdays && weekdayLabels.value.map((weekDay) => createElementVNode("div", {
+          "class": normalizeClass(["v-date-picker-month__day", "v-date-picker-month__weekday"])
+        }, [weekDay])), daysInMonth2.value.map((item, i) => {
           var _a2;
           const slotProps = {
             props: {
@@ -41501,10 +42134,12 @@ const VDatePickerMonth = genericComponent()({
               ripple: false,
               text: item.localized,
               variant: item.isSelected ? "flat" : item.isToday ? "outlined" : "text",
+              "aria-label": getDateAriaLabel(item),
+              "aria-current": item.isToday ? "date" : void 0,
               onClick: () => onClick(item.date)
             },
             item,
-            i: i2
+            i
           };
           if (atMax.value && !item.isSelected) {
             item.isDisabled = true;
@@ -41530,7 +42165,8 @@ const makeVDatePickerMonthsProps = propsFactory({
   min: null,
   max: null,
   modelValue: Number,
-  year: Number
+  year: Number,
+  allowedMonths: [Array, Function]
 }, "VDatePickerMonths");
 const VDatePickerMonths = genericComponent()({
   name: "VDatePickerMonths",
@@ -41550,48 +42186,60 @@ const VDatePickerMonths = genericComponent()({
       if (props.year) {
         date = adapter.setYear(date, props.year);
       }
-      return createRange(12).map((i2) => {
+      return createRange(12).map((i) => {
         const text = adapter.format(date, "monthShort");
-        const isDisabled = !!(props.min && adapter.isAfter(adapter.startOfMonth(adapter.date(props.min)), date) || props.max && adapter.isAfter(date, adapter.startOfMonth(adapter.date(props.max))));
+        const label = adapter.format(date, "month");
+        const isDisabled = !!(!isMonthAllowed(i) || props.min && adapter.isAfter(adapter.startOfMonth(adapter.date(props.min)), date) || props.max && adapter.isAfter(date, adapter.startOfMonth(adapter.date(props.max))));
         date = adapter.getNextMonth(date);
         return {
           isDisabled,
           text,
-          value: i2
+          label,
+          value: i
         };
       });
     });
     watchEffect(() => {
       model.value = model.value ?? adapter.getMonth(adapter.date());
     });
+    function isMonthAllowed(month) {
+      if (Array.isArray(props.allowedMonths) && props.allowedMonths.length) {
+        return props.allowedMonths.includes(month);
+      }
+      if (typeof props.allowedMonths === "function") {
+        return props.allowedMonths(month);
+      }
+      return true;
+    }
     useRender(() => createElementVNode("div", {
       "class": "v-date-picker-months",
-      "style": normalizeStyle({
+      "style": {
         height: convertToUnit(props.height)
-      })
+      }
     }, [createElementVNode("div", {
       "class": "v-date-picker-months__content"
-    }, [months2.value.map((month, i2) => {
+    }, [months2.value.map((month, i) => {
       var _a;
       const btnProps = {
-        active: model.value === i2,
-        color: model.value === i2 ? props.color : void 0,
+        active: model.value === i,
+        ariaLabel: month.label,
+        color: model.value === i ? props.color : void 0,
         disabled: month.isDisabled,
         rounded: true,
         text: month.text,
         variant: model.value === month.value ? "flat" : "text",
-        onClick: () => onClick(i2)
+        onClick: () => onClick(i)
       };
-      function onClick(i3) {
-        if (model.value === i3) {
+      function onClick(i2) {
+        if (model.value === i2) {
           emit("update:modelValue", model.value);
           return;
         }
-        model.value = i3;
+        model.value = i2;
       }
       return ((_a = slots.month) == null ? void 0 : _a.call(slots, {
         month,
-        i: i2,
+        i,
         props: btnProps
       })) ?? createVNode(VBtn, mergeProps({
         "key": "month"
@@ -41605,11 +42253,15 @@ const makeVDatePickerYearsProps = propsFactory({
   height: [String, Number],
   min: null,
   max: null,
-  modelValue: Number
+  modelValue: Number,
+  allowedYears: [Array, Function]
 }, "VDatePickerYears");
 const VDatePickerYears = genericComponent()({
   name: "VDatePickerYears",
   props: makeVDatePickerYearsProps(),
+  directives: {
+    vIntersect: Intersect
+  },
   emits: {
     "update:modelValue": (year) => true
   },
@@ -41632,12 +42284,13 @@ const VDatePickerYears = genericComponent()({
       }
       let date = adapter.startOfYear(adapter.date());
       date = adapter.setYear(date, min2);
-      return createRange(max2 - min2 + 1, min2).map((i2) => {
+      return createRange(max2 - min2 + 1, min2).map((i) => {
         const text = adapter.format(date, "year");
         date = adapter.setYear(date, adapter.getYear(date) + 1);
         return {
           text,
-          value: i2
+          value: i,
+          isDisabled: !isYearAllowed(i)
         };
       });
     });
@@ -41645,21 +42298,30 @@ const VDatePickerYears = genericComponent()({
       model.value = model.value ?? adapter.getYear(adapter.date());
     });
     const yearRef = templateRef();
-    onMounted(async () => {
-      var _a;
-      await nextTick();
-      (_a = yearRef.el) == null ? void 0 : _a.scrollIntoView({
+    function focusSelectedYear() {
+      var _a, _b;
+      (_a = yearRef.el) == null ? void 0 : _a.focus();
+      (_b = yearRef.el) == null ? void 0 : _b.scrollIntoView({
         block: "center"
       });
-    });
-    useRender(() => createElementVNode("div", {
+    }
+    function isYearAllowed(year) {
+      if (Array.isArray(props.allowedYears) && props.allowedYears.length) {
+        return props.allowedYears.includes(year);
+      }
+      if (typeof props.allowedYears === "function") {
+        return props.allowedYears(year);
+      }
+      return true;
+    }
+    useRender(() => withDirectives(createElementVNode("div", {
       "class": "v-date-picker-years",
-      "style": normalizeStyle({
+      "style": {
         height: convertToUnit(props.height)
-      })
+      }
     }, [createElementVNode("div", {
       "class": "v-date-picker-years__content"
-    }, [years2.value.map((year, i2) => {
+    }, [years2.value.map((year, i) => {
       var _a;
       const btnProps = {
         ref: model.value === year.value ? yearRef : void 0,
@@ -41667,6 +42329,7 @@ const VDatePickerYears = genericComponent()({
         color: model.value === year.value ? props.color : void 0,
         rounded: true,
         text: year.text,
+        disabled: year.isDisabled,
         variant: model.value === year.value ? "flat" : "text",
         onClick: () => {
           if (model.value === year.value) {
@@ -41678,12 +42341,16 @@ const VDatePickerYears = genericComponent()({
       };
       return ((_a = slots.year) == null ? void 0 : _a.call(slots, {
         year,
-        i: i2,
+        i,
         props: btnProps
       })) ?? createVNode(VBtn, mergeProps({
         "key": "month"
       }, btnProps), null);
-    })])]));
+    })])]), [[Intersect, {
+      handler: focusSelectedYear
+    }, null, {
+      once: true
+    }]]));
     return {};
   }
 });
@@ -41745,6 +42412,7 @@ const makeVPickerProps = propsFactory({
   landscape: Boolean,
   title: String,
   hideHeader: Boolean,
+  hideTitle: Boolean,
   ...makeVSheetProps()
 }, "VPicker");
 const VPicker = genericComponent()({
@@ -41760,7 +42428,7 @@ const VPicker = genericComponent()({
     } = useBackgroundColor(() => props.color);
     useRender(() => {
       const sheetProps = VSheet.filterProps(props);
-      const hasTitle = !!(props.title || slots.title);
+      const hasTitle = !props.hideTitle && !!(props.title || slots.title);
       return createVNode(VSheet, mergeProps(sheetProps, {
         "color": props.bgColor,
         "class": ["v-picker", {
@@ -41860,12 +42528,12 @@ const VDatePicker = genericComponent()({
     } = _ref;
     const adapter = useDate();
     const {
-      t: t2
+      t
     } = useLocale();
     const {
       rtlClasses
     } = useRtl();
-    const model = useProxiedModel(props, "modelValue", void 0, (v) => wrapInArray(v).map((i2) => adapter.date(i2)), (v) => props.multiple ? v : v[0]);
+    const model = useProxiedModel(props, "modelValue", void 0, (v) => wrapInArray(v).map((i) => adapter.date(i)), (v) => props.multiple ? v : v[0]);
     const viewMode = useProxiedModel(props, "viewMode");
     const minDate = computed(() => {
       const date = adapter.date(props.min);
@@ -41889,14 +42557,22 @@ const VDatePicker = genericComponent()({
       return value && adapter.isValid(value) ? value : today;
     });
     const headerColor = toRef(() => props.headerColor ?? props.color);
-    const month = ref(Number(props.month ?? adapter.getMonth(adapter.startOfMonth(internal.value))));
-    const year = ref(Number(props.year ?? adapter.getYear(adapter.startOfYear(adapter.setMonth(internal.value, month.value)))));
+    const _month = useProxiedModel(props, "month");
+    const month = computed({
+      get: () => Number(_month.value ?? adapter.getMonth(adapter.startOfMonth(internal.value))),
+      set: (v) => _month.value = v
+    });
+    const _year = useProxiedModel(props, "year");
+    const year = computed({
+      get: () => Number(_year.value ?? adapter.getYear(adapter.startOfYear(adapter.setMonth(internal.value, month.value)))),
+      set: (v) => _year.value = v
+    });
     const isReversing = shallowRef(false);
     const header = computed(() => {
       if (props.multiple && model.value.length > 1) {
-        return t2("$vuetify.datePicker.itemsSelected", model.value.length);
+        return t("$vuetify.datePicker.itemsSelected", model.value.length);
       }
-      return model.value[0] && adapter.isValid(model.value[0]) ? adapter.format(adapter.date(model.value[0]), "normalDateWithWeekday") : t2(props.header);
+      return model.value[0] && adapter.isValid(model.value[0]) ? adapter.format(adapter.date(model.value[0]), "normalDateWithWeekday") : t(props.header);
     });
     const text = computed(() => {
       let date = adapter.date();
@@ -41927,15 +42603,57 @@ const VDatePicker = genericComponent()({
       }
       return targets;
     });
+    const allowedYears = computed(() => {
+      return props.allowedYears || isYearAllowed;
+    });
+    const allowedMonths = computed(() => {
+      return props.allowedMonths || isMonthAllowed;
+    });
+    function isAllowedInRange(start, end) {
+      const allowedDates = props.allowedDates;
+      if (typeof allowedDates !== "function") return true;
+      const days2 = 1 + daysDiff(adapter, start, end);
+      for (let i = 0; i < days2; i++) {
+        if (allowedDates(adapter.addDays(start, i))) return true;
+      }
+      return false;
+    }
+    function isYearAllowed(year2) {
+      if (typeof props.allowedDates === "function") {
+        const startOfYear = adapter.parseISO(`${year2}-01-01`);
+        return isAllowedInRange(startOfYear, adapter.endOfYear(startOfYear));
+      }
+      if (Array.isArray(props.allowedDates) && props.allowedDates.length) {
+        for (const date of props.allowedDates) {
+          if (adapter.getYear(adapter.date(date)) === year2) return true;
+        }
+        return false;
+      }
+      return true;
+    }
+    function isMonthAllowed(month2) {
+      if (typeof props.allowedDates === "function") {
+        const monthTwoDigits = String(month2 + 1).padStart(2, "0");
+        const startOfMonth = adapter.parseISO(`${year.value}-${monthTwoDigits}-01`);
+        return isAllowedInRange(startOfMonth, adapter.endOfMonth(startOfMonth));
+      }
+      if (Array.isArray(props.allowedDates) && props.allowedDates.length) {
+        for (const date of props.allowedDates) {
+          if (adapter.getYear(adapter.date(date)) === year.value && adapter.getMonth(adapter.date(date)) === month2) return true;
+        }
+        return false;
+      }
+      return true;
+    }
     function onClickNext() {
       if (month.value < 11) {
         month.value++;
       } else {
         year.value++;
         month.value = 0;
-        onUpdateYear(year.value);
+        onUpdateYear();
       }
-      onUpdateMonth(month.value);
+      onUpdateMonth();
     }
     function onClickPrev() {
       if (month.value > 0) {
@@ -41943,9 +42661,9 @@ const VDatePicker = genericComponent()({
       } else {
         year.value--;
         month.value = 11;
-        onUpdateYear(year.value);
+        onUpdateYear();
       }
-      onUpdateMonth(month.value);
+      onUpdateMonth();
     }
     function onClickDate() {
       viewMode.value = "month";
@@ -41956,13 +42674,11 @@ const VDatePicker = genericComponent()({
     function onClickYear() {
       viewMode.value = viewMode.value === "year" ? "month" : "year";
     }
-    function onUpdateMonth(value) {
+    function onUpdateMonth() {
       if (viewMode.value === "months") onClickMonth();
-      emit("update:month", value);
     }
-    function onUpdateYear(value) {
+    function onUpdateYear() {
       if (viewMode.value === "year") onClickYear();
-      emit("update:year", value);
     }
     watch(model, (val, oldVal) => {
       const arrBefore = wrapInArray(oldVal);
@@ -41974,11 +42690,11 @@ const VDatePicker = genericComponent()({
       const newYear = adapter.getYear(after);
       if (newMonth !== month.value) {
         month.value = newMonth;
-        onUpdateMonth(month.value);
+        onUpdateMonth();
       }
       if (newYear !== year.value) {
         year.value = newYear;
-        onUpdateYear(year.value);
+        onUpdateYear();
       }
       isReversing.value = adapter.isBefore(before, after);
     });
@@ -42005,7 +42721,7 @@ const VDatePicker = genericComponent()({
           var _a;
           return ((_a = slots.title) == null ? void 0 : _a.call(slots)) ?? createElementVNode("div", {
             "class": "v-date-picker__title"
-          }, [t2(props.title)]);
+          }, [t(props.title)]);
         },
         header: () => slots.header ? createVNode(VDefaultsProvider, {
           "defaults": {
@@ -42023,8 +42739,8 @@ const VDatePicker = genericComponent()({
         }, datePickerHeaderProps, headerProps, {
           "onClick": viewMode.value !== "month" ? onClickDate : void 0
         }), {
-          ...slots,
-          default: void 0
+          prepend: slots.prepend,
+          append: slots.append
         }),
         default: () => createElementVNode(Fragment, null, [createVNode(VDatePickerControls, mergeProps(datePickerControlsProps, {
           "disabled": disabled.value,
@@ -42043,15 +42759,21 @@ const VDatePicker = genericComponent()({
             "onUpdate:modelValue": [($event) => month.value = $event, onUpdateMonth],
             "min": minDate.value,
             "max": maxDate.value,
-            "year": year.value
-          }), null) : viewMode.value === "year" ? createVNode(VDatePickerYears, mergeProps({
+            "year": year.value,
+            "allowedMonths": allowedMonths.value
+          }), {
+            month: slots.month
+          }) : viewMode.value === "year" ? createVNode(VDatePickerYears, mergeProps({
             "key": "date-picker-years"
           }, datePickerYearsProps, {
             "modelValue": year.value,
             "onUpdate:modelValue": [($event) => year.value = $event, onUpdateYear],
             "min": minDate.value,
-            "max": maxDate.value
-          }), null) : createVNode(VDatePickerMonth, mergeProps({
+            "max": maxDate.value,
+            "allowedYears": allowedYears.value
+          }), {
+            year: slots.year
+          }) : createVNode(VDatePickerMonth, mergeProps({
             "key": "date-picker-month"
           }, datePickerMonthProps, {
             "modelValue": model.value,
@@ -42062,12 +42784,627 @@ const VDatePicker = genericComponent()({
             "onUpdate:year": [($event) => year.value = $event, onUpdateYear],
             "min": minDate.value,
             "max": maxDate.value
-          }), null)]
+          }), {
+            day: slots.day
+          })]
         })]),
         actions: slots.actions
       });
     });
     return {};
+  }
+});
+function pad(n) {
+  let length = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
+  return String(n).padStart(length, "0");
+}
+const makeVTimePickerClockProps = propsFactory({
+  allowedValues: Function,
+  ampm: Boolean,
+  color: String,
+  disabled: Boolean,
+  displayedValue: null,
+  double: Boolean,
+  format: {
+    type: Function,
+    default: (val) => val
+  },
+  max: {
+    type: Number,
+    required: true
+  },
+  min: {
+    type: Number,
+    required: true
+  },
+  scrollable: Boolean,
+  readonly: Boolean,
+  rotate: {
+    type: Number,
+    default: 0
+  },
+  step: {
+    type: Number,
+    default: 1
+  },
+  modelValue: {
+    type: Number
+  }
+}, "VTimePickerClock");
+const VTimePickerClock = genericComponent()({
+  name: "VTimePickerClock",
+  props: makeVTimePickerClockProps(),
+  emits: {
+    change: (val) => true,
+    input: (val) => true
+  },
+  setup(props, _ref) {
+    let {
+      emit
+    } = _ref;
+    const clockRef = ref(null);
+    const innerClockRef = ref(null);
+    const inputValue = ref(void 0);
+    const isDragging = ref(false);
+    const valueOnMouseDown = ref(null);
+    const valueOnMouseUp = ref(null);
+    const emitChangeDebounced = debounce$1((value) => emit("change", value), 750);
+    const {
+      textColorClasses,
+      textColorStyles
+    } = useTextColor(() => props.color);
+    const {
+      backgroundColorClasses,
+      backgroundColorStyles
+    } = useBackgroundColor(() => props.color);
+    const count = computed(() => props.max - props.min + 1);
+    const roundCount = computed(() => props.double ? count.value / 2 : count.value);
+    const degreesPerUnit = computed(() => 360 / roundCount.value);
+    const degrees = computed(() => degreesPerUnit.value * Math.PI / 180);
+    const displayedValue = computed(() => props.modelValue == null ? props.min : props.modelValue);
+    const innerRadiusScale = computed(() => 0.62);
+    const genChildren = computed(() => {
+      const children = [];
+      for (let value = props.min; value <= props.max; value = value + props.step) {
+        children.push(value);
+      }
+      return children;
+    });
+    watch(() => props.modelValue, (val) => {
+      inputValue.value = val;
+    });
+    function update3(value) {
+      if (inputValue.value !== value) {
+        inputValue.value = value;
+      }
+      emit("input", value);
+    }
+    function isAllowed(value) {
+      return !props.allowedValues || props.allowedValues(value);
+    }
+    function wheel(e) {
+      if (!props.scrollable || props.disabled) return;
+      e.preventDefault();
+      const delta = Math.sign(-e.deltaY || 1);
+      let value = displayedValue.value;
+      do {
+        value = value + delta;
+        value = (value - props.min + count.value) % count.value + props.min;
+      } while (!isAllowed(value) && value !== displayedValue.value);
+      if (value !== props.displayedValue) {
+        update3(value);
+      }
+      emitChangeDebounced(value);
+    }
+    function isInner(value) {
+      return props.double && value - props.min >= roundCount.value;
+    }
+    function handScale(value) {
+      return isInner(value) ? innerRadiusScale.value : 1;
+    }
+    function getPosition(value) {
+      const rotateRadians = props.rotate * Math.PI / 180;
+      return {
+        x: Math.sin((value - props.min) * degrees.value + rotateRadians) * handScale(value),
+        y: -Math.cos((value - props.min) * degrees.value + rotateRadians) * handScale(value)
+      };
+    }
+    function angleToValue(angle2, insideClick) {
+      const value = (Math.round(angle2 / degreesPerUnit.value) + (insideClick ? roundCount.value : 0)) % count.value + props.min;
+      if (angle2 < 360 - degreesPerUnit.value / 2) return value;
+      return insideClick ? props.max - roundCount.value + 1 : props.min;
+    }
+    function getTransform(i) {
+      const {
+        x,
+        y
+      } = getPosition(i);
+      return {
+        left: `${Math.round(50 + x * 50)}%`,
+        top: `${Math.round(50 + y * 50)}%`
+      };
+    }
+    function euclidean(p0, p1) {
+      const dx = p1.x - p0.x;
+      const dy = p1.y - p0.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+    function angle(center, p1) {
+      const value = 2 * Math.atan2(p1.y - center.y - euclidean(center, p1), p1.x - center.x);
+      return Math.abs(value * 180 / Math.PI);
+    }
+    function setMouseDownValue(value) {
+      if (valueOnMouseDown.value === null) {
+        valueOnMouseDown.value = value;
+      }
+      valueOnMouseUp.value = value;
+      update3(value);
+    }
+    function onDragMove(e) {
+      var _a, _b;
+      e.preventDefault();
+      if (!isDragging.value && e.type !== "click" || !clockRef.value) return;
+      const {
+        width,
+        top,
+        left
+      } = (_a = clockRef.value) == null ? void 0 : _a.getBoundingClientRect();
+      const {
+        width: innerWidth
+      } = ((_b = innerClockRef.value) == null ? void 0 : _b.getBoundingClientRect()) ?? {
+        width: 0
+      };
+      const {
+        clientX,
+        clientY
+      } = "touches" in e ? e.touches[0] : e;
+      const center = {
+        x: width / 2,
+        y: -width / 2
+      };
+      const coords = {
+        x: clientX - left,
+        y: top - clientY
+      };
+      const handAngle = Math.round(angle(center, coords) - props.rotate + 360) % 360;
+      const insideClick = props.double && euclidean(center, coords) < (innerWidth + innerWidth * innerRadiusScale.value) / 4;
+      const checksCount = Math.ceil(15 / degreesPerUnit.value);
+      let value;
+      for (let i = 0; i < checksCount; i++) {
+        value = angleToValue(handAngle + i * degreesPerUnit.value, insideClick);
+        if (isAllowed(value)) return setMouseDownValue(value);
+        value = angleToValue(handAngle - i * degreesPerUnit.value, insideClick);
+        if (isAllowed(value)) return setMouseDownValue(value);
+      }
+    }
+    function onMouseDown(e) {
+      if (props.disabled) return;
+      e.preventDefault();
+      window.addEventListener("mousemove", onDragMove);
+      window.addEventListener("touchmove", onDragMove);
+      window.addEventListener("mouseup", onMouseUp);
+      window.addEventListener("touchend", onMouseUp);
+      valueOnMouseDown.value = null;
+      valueOnMouseUp.value = null;
+      isDragging.value = true;
+      onDragMove(e);
+    }
+    function onMouseUp(e) {
+      e.stopPropagation();
+      window.removeEventListener("mousemove", onDragMove);
+      window.removeEventListener("touchmove", onDragMove);
+      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("touchend", onMouseUp);
+      isDragging.value = false;
+      if (valueOnMouseUp.value !== null && isAllowed(valueOnMouseUp.value)) {
+        emit("change", valueOnMouseUp.value);
+      }
+    }
+    useRender(() => {
+      return createElementVNode("div", {
+        "class": normalizeClass([{
+          "v-time-picker-clock": true,
+          "v-time-picker-clock--indeterminate": props.modelValue == null,
+          "v-time-picker-clock--readonly": props.readonly
+        }]),
+        "onMousedown": onMouseDown,
+        "onTouchstart": onMouseDown,
+        "onWheel": wheel,
+        "ref": clockRef
+      }, [createElementVNode("div", {
+        "class": "v-time-picker-clock__inner",
+        "ref": innerClockRef
+      }, [createElementVNode("div", {
+        "class": normalizeClass([{
+          "v-time-picker-clock__hand": true,
+          "v-time-picker-clock__hand--inner": isInner(props.modelValue)
+        }, textColorClasses.value]),
+        "style": normalizeStyle([{
+          transform: `rotate(${props.rotate + degreesPerUnit.value * (displayedValue.value - props.min)}deg) scaleY(${handScale(displayedValue.value)})`
+        }, textColorStyles.value])
+      }, null), genChildren.value.map((value) => {
+        const isActive = value === displayedValue.value;
+        return createElementVNode("div", {
+          "class": normalizeClass([{
+            "v-time-picker-clock__item": true,
+            "v-time-picker-clock__item--active": isActive,
+            "v-time-picker-clock__item--disabled": props.disabled || !isAllowed(value)
+          }, isActive && backgroundColorClasses.value]),
+          "style": normalizeStyle([getTransform(value), isActive && backgroundColorStyles.value])
+        }, [createElementVNode("span", null, [props.format(value)])]);
+      })])]);
+    });
+  }
+});
+const makeVTimePickerControlsProps = propsFactory({
+  ampm: Boolean,
+  color: String,
+  disabled: Boolean,
+  hour: Number,
+  minute: Number,
+  second: Number,
+  period: String,
+  readonly: Boolean,
+  useSeconds: Boolean,
+  value: Number,
+  viewMode: String
+}, "VTimePickerControls");
+const VTimePickerControls = genericComponent()({
+  name: "VTimePickerControls",
+  props: makeVTimePickerControlsProps(),
+  emits: {
+    "update:period": (data) => true,
+    "update:viewMode": (data) => true
+  },
+  setup(props, _ref) {
+    let {
+      emit,
+      slots
+    } = _ref;
+    const {
+      t
+    } = useLocale();
+    useRender(() => {
+      let hour = props.hour;
+      if (props.ampm) {
+        hour = hour ? (hour - 1) % 12 + 1 : 12;
+      }
+      return createElementVNode("div", {
+        "class": "v-time-picker-controls"
+      }, [createElementVNode("div", {
+        "class": normalizeClass({
+          "v-time-picker-controls__time": true,
+          "v-time-picker-controls__time--with-seconds": props.useSeconds
+        })
+      }, [createVNode(VBtn, {
+        "active": props.viewMode === "hour",
+        "color": props.viewMode === "hour" ? props.color : void 0,
+        "disabled": props.disabled,
+        "variant": "tonal",
+        "class": normalizeClass({
+          "v-time-picker-controls__time__btn": true,
+          "v-time-picker-controls__time--with-ampm__btn": props.ampm,
+          "v-time-picker-controls__time--with-seconds__btn": props.useSeconds
+        }),
+        "text": props.hour == null ? "--" : pad(`${hour}`),
+        "onClick": () => emit("update:viewMode", "hour")
+      }, null), createElementVNode("span", {
+        "class": normalizeClass(["v-time-picker-controls__time__separator", {
+          "v-time-picker-controls--with-seconds__time__separator": props.useSeconds
+        }])
+      }, [createTextVNode(":")]), createVNode(VBtn, {
+        "active": props.viewMode === "minute",
+        "color": props.viewMode === "minute" ? props.color : void 0,
+        "class": normalizeClass({
+          "v-time-picker-controls__time__btn": true,
+          "v-time-picker-controls__time__btn__active": props.viewMode === "minute",
+          "v-time-picker-controls__time--with-ampm__btn": props.ampm,
+          "v-time-picker-controls__time--with-seconds__btn": props.useSeconds
+        }),
+        "disabled": props.disabled,
+        "variant": "tonal",
+        "text": props.minute == null ? "--" : pad(props.minute),
+        "onClick": () => emit("update:viewMode", "minute")
+      }, null), props.useSeconds && createElementVNode("span", {
+        "class": normalizeClass(["v-time-picker-controls__time__separator", {
+          "v-time-picker-controls--with-seconds__time__separator": props.useSeconds
+        }]),
+        "key": "secondsDivider"
+      }, [createTextVNode(":")]), props.useSeconds && createVNode(VBtn, {
+        "key": "secondsVal",
+        "active": props.viewMode === "second",
+        "color": props.viewMode === "second" ? props.color : void 0,
+        "variant": "tonal",
+        "onClick": () => emit("update:viewMode", "second"),
+        "class": normalizeClass({
+          "v-time-picker-controls__time__btn": true,
+          "v-time-picker-controls__time__btn__active": props.viewMode === "second",
+          "v-time-picker-controls__time--with-seconds__btn": props.useSeconds
+        }),
+        "disabled": props.disabled,
+        "text": props.second == null ? "--" : pad(props.second)
+      }, null), props.ampm && createElementVNode("div", {
+        "class": "v-time-picker-controls__ampm"
+      }, [createVNode(VBtn, {
+        "active": props.period === "am",
+        "color": props.period === "am" ? props.color : void 0,
+        "class": normalizeClass({
+          "v-time-picker-controls__ampm__am": true,
+          "v-time-picker-controls__ampm__btn": true,
+          "v-time-picker-controls__ampm__btn__active": props.period === "am"
+        }),
+        "disabled": props.disabled,
+        "text": t("$vuetify.timePicker.am"),
+        "variant": props.disabled && props.period === "am" ? "elevated" : "tonal",
+        "onClick": () => props.period !== "am" ? emit("update:period", "am") : null
+      }, null), createVNode(VBtn, {
+        "active": props.period === "pm",
+        "color": props.period === "pm" ? props.color : void 0,
+        "class": normalizeClass({
+          "v-time-picker-controls__ampm__pm": true,
+          "v-time-picker-controls__ampm__btn": true,
+          "v-time-picker-controls__ampm__btn__active": props.period === "pm"
+        }),
+        "disabled": props.disabled,
+        "text": t("$vuetify.timePicker.pm"),
+        "variant": props.disabled && props.period === "pm" ? "elevated" : "tonal",
+        "onClick": () => props.period !== "pm" ? emit("update:period", "pm") : null
+      }, null)])])]);
+    });
+    return {};
+  }
+});
+const rangeHours24 = createRange(24);
+const rangeHours12am = createRange(12);
+const rangeHours12pm = rangeHours12am.map((v) => v + 12);
+createRange(60);
+const makeVTimePickerProps = propsFactory({
+  allowedHours: [Function, Array],
+  allowedMinutes: [Function, Array],
+  allowedSeconds: [Function, Array],
+  disabled: Boolean,
+  format: {
+    type: String,
+    default: "ampm"
+  },
+  max: String,
+  min: String,
+  viewMode: {
+    type: String,
+    default: "hour"
+  },
+  period: {
+    type: String,
+    default: "am",
+    validator: (v) => ["am", "pm"].includes(v)
+  },
+  modelValue: null,
+  readonly: Boolean,
+  scrollable: Boolean,
+  useSeconds: Boolean,
+  ...omit(makeVPickerProps({
+    title: "$vuetify.timePicker.title"
+  }), ["landscape"])
+}, "VTimePicker");
+const VTimePicker = genericComponent()({
+  name: "VTimePicker",
+  props: makeVTimePickerProps(),
+  emits: {
+    "update:hour": (val) => true,
+    "update:minute": (val) => true,
+    "update:period": (val) => true,
+    "update:second": (val) => true,
+    "update:modelValue": (val) => true,
+    "update:viewMode": (val) => true
+  },
+  setup(props, _ref) {
+    let {
+      emit,
+      slots
+    } = _ref;
+    const {
+      t
+    } = useLocale();
+    const inputHour = ref(null);
+    const inputMinute = ref(null);
+    const inputSecond = ref(null);
+    const lazyInputHour = ref(null);
+    const lazyInputMinute = ref(null);
+    const lazyInputSecond = ref(null);
+    const period = useProxiedModel(props, "period", "am");
+    const viewMode = useProxiedModel(props, "viewMode", "hour");
+    const controlsRef = ref(null);
+    const clockRef = ref(null);
+    const isAllowedHourCb = computed(() => {
+      let cb;
+      if (props.allowedHours instanceof Array) {
+        cb = (val) => props.allowedHours.includes(val);
+      } else {
+        cb = props.allowedHours;
+      }
+      if (!props.min && !props.max) return cb;
+      const minHour = props.min ? Number(props.min.split(":")[0]) : 0;
+      const maxHour = props.max ? Number(props.max.split(":")[0]) : 23;
+      return (val) => {
+        return val >= Number(minHour) && val <= Number(maxHour) && (!cb || cb(val));
+      };
+    });
+    const isAllowedMinuteCb = computed(() => {
+      let cb;
+      const isHourAllowed = !isAllowedHourCb.value || inputHour.value === null || isAllowedHourCb.value(inputHour.value);
+      if (props.allowedMinutes instanceof Array) {
+        cb = (val) => props.allowedMinutes.includes(val);
+      } else {
+        cb = props.allowedMinutes;
+      }
+      if (!props.min && !props.max) {
+        return isHourAllowed ? cb : () => false;
+      }
+      const [minHour, minMinute] = props.min ? props.min.split(":").map(Number) : [0, 0];
+      const [maxHour, maxMinute] = props.max ? props.max.split(":").map(Number) : [23, 59];
+      const minTime = minHour * 60 + Number(minMinute);
+      const maxTime = maxHour * 60 + Number(maxMinute);
+      return (val) => {
+        const time = 60 * inputHour.value + val;
+        return time >= minTime && time <= maxTime && isHourAllowed && (!cb || cb(val));
+      };
+    });
+    const isAllowedSecondCb = computed(() => {
+      let cb;
+      const isHourAllowed = !isAllowedHourCb.value || inputHour.value === null || isAllowedHourCb.value(inputHour.value);
+      const isMinuteAllowed = isHourAllowed && (!isAllowedMinuteCb.value || inputMinute.value === null || isAllowedMinuteCb.value(inputMinute.value));
+      if (props.allowedSeconds instanceof Array) {
+        cb = (val) => props.allowedSeconds.includes(val);
+      } else {
+        cb = props.allowedSeconds;
+      }
+      if (!props.min && !props.max) {
+        return isMinuteAllowed ? cb : () => false;
+      }
+      const [minHour, minMinute, minSecond] = props.min ? props.min.split(":").map(Number) : [0, 0, 0];
+      const [maxHour, maxMinute, maxSecond] = props.max ? props.max.split(":").map(Number) : [23, 59, 59];
+      const minTime = minHour * 3600 + minMinute * 60 + Number(minSecond || 0);
+      const maxTime = maxHour * 3600 + maxMinute * 60 + Number(maxSecond || 0);
+      return (val) => {
+        const time = 3600 * inputHour.value + 60 * inputMinute.value + val;
+        return time >= minTime && time <= maxTime && isMinuteAllowed && (!cb || cb(val));
+      };
+    });
+    const isAmPm = computed(() => {
+      return props.format === "ampm";
+    });
+    watch(() => props.period, (val) => setPeriod(val));
+    watch(() => props.modelValue, (val) => setInputData(val));
+    onMounted(() => {
+      setInputData(props.modelValue);
+    });
+    function genValue() {
+      if (inputHour.value != null && inputMinute.value != null && (!props.useSeconds || inputSecond.value != null)) {
+        return `${pad(inputHour.value)}:${pad(inputMinute.value)}` + (props.useSeconds ? `:${pad(inputSecond.value)}` : "");
+      }
+      return null;
+    }
+    function emitValue() {
+      const value = genValue();
+      if (value !== null) emit("update:modelValue", value);
+    }
+    function convert24to12(hour) {
+      return hour ? (hour - 1) % 12 + 1 : 12;
+    }
+    function convert12to24(hour, period2) {
+      return hour % 12 + (period2 === "pm" ? 12 : 0);
+    }
+    function setInputData(value) {
+      if (value == null || value === "") {
+        inputHour.value = null;
+        inputMinute.value = null;
+        inputSecond.value = null;
+      } else if (value instanceof Date) {
+        inputHour.value = value.getHours();
+        inputMinute.value = value.getMinutes();
+        inputSecond.value = value.getSeconds();
+      } else {
+        const [hour, , minute, , second, period2] = value.trim().toLowerCase().match(/^(\d+):(\d+)(:(\d+))?([ap]m)?$/) || new Array(6);
+        inputHour.value = period2 ? convert12to24(parseInt(hour, 10), period2) : parseInt(hour, 10);
+        inputMinute.value = parseInt(minute, 10);
+        inputSecond.value = parseInt(second || 0, 10);
+      }
+      period.value = inputHour.value == null || inputHour.value < 12 ? "am" : "pm";
+    }
+    function firstAllowed(type, value) {
+      const allowedFn = isAllowedHourCb.value;
+      if (!allowedFn) return value;
+      const range = isAmPm.value ? value < 12 ? rangeHours12am : rangeHours12pm : rangeHours24;
+      const first = range.find((v) => allowedFn((v + value) % range.length + range[0]));
+      return ((first || 0) + value) % range.length + range[0];
+    }
+    function setPeriod(val) {
+      period.value = val;
+      if (inputHour.value != null) {
+        const newHour = inputHour.value + (period.value === "am" ? -12 : 12);
+        inputHour.value = firstAllowed("hour", newHour);
+      }
+      emit("update:period", val);
+      emitValue();
+      return true;
+    }
+    function onInput(value) {
+      if (viewMode.value === "hour") {
+        inputHour.value = isAmPm.value ? convert12to24(value, period.value) : value;
+      } else if (viewMode.value === "minute") {
+        inputMinute.value = value;
+      } else {
+        inputSecond.value = value;
+      }
+    }
+    function onChange(value) {
+      switch (viewMode.value || "hour") {
+        case "hour":
+          emit("update:hour", value);
+          break;
+        case "minute":
+          emit("update:minute", value);
+          break;
+        case "second":
+          emit("update:second", value);
+          break;
+      }
+      const emitChange = inputHour.value !== null && inputMinute.value !== null && (props.useSeconds ? inputSecond.value !== null : true);
+      if (viewMode.value === "hour") {
+        viewMode.value = "minute";
+      } else if (props.useSeconds && viewMode.value === "minute") {
+        viewMode.value = "second";
+      }
+      if (inputHour.value === lazyInputHour.value && inputMinute.value === lazyInputMinute.value && (!props.useSeconds || inputSecond.value === lazyInputSecond.value)) return;
+      const time = genValue();
+      if (time === null) return;
+      lazyInputHour.value = inputHour.value;
+      lazyInputMinute.value = inputMinute.value;
+      props.useSeconds && (lazyInputSecond.value = inputSecond.value);
+      emitChange && emitValue();
+    }
+    useRender(() => {
+      const pickerProps = VPicker.filterProps(props);
+      const timePickerControlsProps = VTimePickerControls.filterProps(props);
+      const timePickerClockProps = VTimePickerClock.filterProps(omit(props, ["format", "modelValue", "min", "max"]));
+      return createVNode(VPicker, mergeProps(pickerProps, {
+        "color": void 0,
+        "class": ["v-time-picker", props.class],
+        "style": props.style
+      }), {
+        title: () => {
+          var _a;
+          return ((_a = slots.title) == null ? void 0 : _a.call(slots)) ?? createElementVNode("div", {
+            "class": "v-time-picker__title"
+          }, [t(props.title)]);
+        },
+        header: () => createVNode(VTimePickerControls, mergeProps(timePickerControlsProps, {
+          "ampm": isAmPm.value,
+          "hour": inputHour.value,
+          "minute": inputMinute.value,
+          "period": period.value,
+          "second": inputSecond.value,
+          "viewMode": viewMode.value,
+          "onUpdate:period": (val) => setPeriod(val),
+          "onUpdate:viewMode": (value) => viewMode.value = value,
+          "ref": controlsRef
+        }), null),
+        default: () => createVNode(VTimePickerClock, mergeProps(timePickerClockProps, {
+          "allowedValues": viewMode.value === "hour" ? isAllowedHourCb.value : viewMode.value === "minute" ? isAllowedMinuteCb.value : isAllowedSecondCb.value,
+          "double": viewMode.value === "hour" && !isAmPm.value,
+          "format": viewMode.value === "hour" ? isAmPm.value ? convert24to12 : (val) => val : (val) => pad(val, 2),
+          "max": viewMode.value === "hour" ? isAmPm.value && period.value === "am" ? 11 : 23 : 59,
+          "min": viewMode.value === "hour" && isAmPm.value && period.value === "pm" ? 12 : 0,
+          "size": 20,
+          "step": viewMode.value === "hour" ? 1 : 5,
+          "modelValue": viewMode.value === "hour" ? inputHour.value : viewMode.value === "minute" ? inputMinute.value : inputSecond.value,
+          "onChange": onChange,
+          "onInput": onInput,
+          "ref": clockRef
+        }), null),
+        actions: slots.actions
+      });
+    });
   }
 });
 const _sfc_main$B = {
@@ -42117,7 +43454,7 @@ const _sfc_main$B = {
       );
     },
     setProductWithNumber(productNumber) {
-      const product = this.filteredProducts.find((c2) => c2.productNumber === productNumber);
+      const product = this.filteredProducts.find((c) => c.productNumber === productNumber);
       if (product) {
         this.setProductWithObject(product);
       }
@@ -42130,7 +43467,7 @@ const _sfc_main$B = {
       }
       this.item.product = product.productName;
       this.item.description = product.productDescription;
-      const currentUser = this.allUsers.find((u2) => u2.id === parseInt(this.$api.authUser.id, 10));
+      const currentUser = this.allUsers.find((u) => u.id === parseInt(this.$api.authUser.id, 10));
       this.item.loggedBy = this.$api.user.decompose(currentUser);
       this.item.startDate = moment.tz("America/New_York").toISOString();
       this.item.units = ((_a = product.rates[0]) == null ? void 0 : _a.units) ? product.rates[0].units : "ea";
@@ -42220,7 +43557,6 @@ const _hoisted_5$6 = { class: "d-flow flow-column" };
 const _hoisted_6$5 = { class: "text-center" };
 function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_IFXPageHeader = resolveComponent("IFXPageHeader");
-  const _component_v_time_picker = resolveComponent("v-time-picker");
   const _component_IFXPageActionBar = resolveComponent("IFXPageActionBar");
   return !_ctx.isLoading ? (openBlock(), createBlock(VContainer, { key: 0 }, {
     default: withCtx(() => [
@@ -42382,11 +43718,10 @@ function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
                                   onClick: _cache[13] || (_cache[13] = ($event) => $data.startDateMenu = false),
                                   "data-cy": "start-date-cancel"
                                 }, {
-                                  default: withCtx(() => _cache[29] || (_cache[29] = [
-                                    createTextVNode(" Cancel ")
-                                  ])),
-                                  _: 1,
-                                  __: [29]
+                                  default: withCtx(() => [..._cache[29] || (_cache[29] = [
+                                    createTextVNode(" Cancel ", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(VBtn, {
                                   text: "",
@@ -42395,16 +43730,15 @@ function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
                                   onClick: _cache[14] || (_cache[14] = ($event) => $options.addValuesFromDatepicker("startDate", $data.pickerDate, $data.pickerTime)),
                                   "data-cy": "start-date-ok"
                                 }, {
-                                  default: withCtx(() => _cache[30] || (_cache[30] = [
-                                    createTextVNode(" OK ")
-                                  ])),
-                                  _: 1,
-                                  __: [30]
+                                  default: withCtx(() => [..._cache[30] || (_cache[30] = [
+                                    createTextVNode(" OK ", -1)
+                                  ])]),
+                                  _: 1
                                 }, 8, ["disabled"])
                               ])
                             ]),
                             createVNode(VSpacer),
-                            createVNode(_component_v_time_picker, {
+                            createVNode(VTimePicker, {
                               modelValue: $data.pickerTime,
                               "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => $data.pickerTime = $event),
                               scrollable: "",
@@ -42456,11 +43790,10 @@ function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
                                   onClick: _cache[20] || (_cache[20] = ($event) => $data.endDateMenu = false),
                                   "data-cy": "end-date-cancel"
                                 }, {
-                                  default: withCtx(() => _cache[31] || (_cache[31] = [
-                                    createTextVNode("Cancel")
-                                  ])),
-                                  _: 1,
-                                  __: [31]
+                                  default: withCtx(() => [..._cache[31] || (_cache[31] = [
+                                    createTextVNode("Cancel", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(VBtn, {
                                   text: "",
@@ -42468,16 +43801,15 @@ function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
                                   onClick: _cache[21] || (_cache[21] = ($event) => $options.addValuesFromDatepicker("endDate", $data.pickerDate, $data.pickerTime)),
                                   "data-cy": "end-date-ok"
                                 }, {
-                                  default: withCtx(() => _cache[32] || (_cache[32] = [
-                                    createTextVNode(" OK ")
-                                  ])),
-                                  _: 1,
-                                  __: [32]
+                                  default: withCtx(() => [..._cache[32] || (_cache[32] = [
+                                    createTextVNode(" OK ", -1)
+                                  ])]),
+                                  _: 1
                                 })
                               ])
                             ]),
                             createVNode(VSpacer),
-                            createVNode(_component_v_time_picker, {
+                            createVNode(VTimePicker, {
                               modelValue: $data.pickerTime,
                               "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => $data.pickerTime = $event),
                               scrollable: "",
@@ -42671,11 +44003,10 @@ function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(VIcon, {
                 class: normalizeClass({ active: $props.isOpen })
               }, {
-                default: withCtx(() => _cache[2] || (_cache[2] = [
-                  createTextVNode("mdi-menu-right")
-                ])),
-                _: 1,
-                __: [2]
+                default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                  createTextVNode("mdi-menu-right", -1)
+                ])]),
+                _: 1
               }, 8, ["class"])
             ]),
             _: 1
@@ -42901,12 +44232,12 @@ const _sfc_main$y = {
           value: "productUsage",
           namedSlot: true,
           sortable: true,
-          sort: function(a2, b) {
-            if (a2.productUsageLinkText) {
-              return a2.productUsageLinkText.localeCompare(b.productUsageLinkText);
+          sort: function(a, b) {
+            if (a.productUsageLinkText) {
+              return a.productUsageLinkText.localeCompare(b.productUsageLinkText);
             }
-            if (a2.productUsage) {
-              return a2.productUsage.id - b.productUsage.id;
+            if (a.productUsage) {
+              return a.productUsage.id - b.productUsage.id;
             }
             return 0;
           }
@@ -43029,10 +44360,10 @@ const _sfc_main$y = {
       let items = this.items;
       if (this.search) {
         const search = this.search.toString().toLowerCase();
-        items = items.filter((i2) => {
-          let item = i2;
-          if (i2.data) {
-            item = i2.data;
+        items = items.filter((i) => {
+          let item = i;
+          if (i.data) {
+            item = i.data;
           }
           return Object.keys(item).some((j) => this.filterSearch(item[j], search));
         });
@@ -43058,13 +44389,13 @@ const _sfc_main$y = {
     },
     getDataForExport() {
       const formattedItems = [];
-      for (let i2 = 0; i2 < this.filteredItems.length; i2++) {
+      for (let i = 0; i < this.filteredItems.length; i++) {
         const newRecord = {};
         for (let j = 0; j < this.allHeaders.length; j++) {
           const header = this.allHeaders[j];
           const keys2 = header.value.split(".");
           const formattedKey = header.text;
-          let value = this.filteredItems[i2];
+          let value = this.filteredItems[i];
           keys2.forEach((key) => {
             value = value[key];
           });
@@ -43095,12 +44426,12 @@ const _sfc_main$y = {
     async setState(items, state2) {
       const promises = [];
       const toBeUpdated = [];
-      for (let i2 = 0; i2 < items.length; i2 += 1) {
-        const item = items[i2];
+      for (let i = 0; i < items.length; i += 1) {
+        const item = items[i];
         if (!item.billingRecordStates) {
           promises.push(this.apiRef.getByID(this.facility.invoicePrefix, item.id));
-          if (i2 !== 0 && i2 % this.promiseBatchSize === 0) {
-            await new Promise((r2) => setTimeout(r2, 500));
+          if (i !== 0 && i % this.promiseBatchSize === 0) {
+            await new Promise((r) => setTimeout(r, 500));
           }
         } else {
           item.billingRecordStates.push({ name: state2, user: "", approvers: [], comment: "" });
@@ -43220,11 +44551,11 @@ const _sfc_main$y = {
       const total = this.filteredItems.reduce((prev, current) => prev + current.decimalQuantity, 0);
       return total;
     },
-    determineGroupState(e2) {
-      const group = e2.item.account.organization;
+    determineGroupState(e) {
+      const group = e.item.account.organization;
       const records = this.filteredItems.filter((item) => item.account.organization === group);
       let checked = this.selected.filter((item) => item.account.organization === group).length;
-      checked += e2.value ? 1 : -1;
+      checked += e.value ? 1 : -1;
       const state2 = checked !== 0 && checked < records.length;
       this.rowSelectionToggleIndeterminate[group] = state2;
       if (checked) {
@@ -43325,10 +44656,10 @@ const _sfc_main$y = {
     async deleteSelectedBillingRecords() {
       this.updating = true;
       let successCount = 0;
-      for (let i2 = 0; i2 < this.selected.length; i2++) {
+      for (let i = 0; i < this.selected.length; i++) {
         try {
-          await this.$api.billingRecord.delete(this.selected[i2]);
-          this.items = this.items.filter((item) => !(item.id === this.selected[i2].id));
+          await this.$api.billingRecord.delete(this.selected[i]);
+          this.items = this.items.filter((item) => !(item.id === this.selected[i].id));
           successCount++;
         } catch (error) {
           const message2 = this.getErrorMessage(error);
@@ -43444,8 +44775,8 @@ const _sfc_main$y = {
       const recordsToChange = [];
       const groups = /* @__PURE__ */ new Set();
       this.updating = true;
-      for (let i2 = 0; i2 < this.recordIDsToBeChanged.length; i2++) {
-        const index = this.items.findIndex((rec) => rec.id === this.recordIDsToBeChanged[i2]);
+      for (let i = 0; i < this.recordIDsToBeChanged.length; i++) {
+        const index = this.items.findIndex((rec) => rec.id === this.recordIDsToBeChanged[i]);
         const newBillingRec = cloneDeep(await this.getFullBillingRecordByItemIndex(index));
         newBillingRec.account = this.newExpenseCode.data;
         recordsToChange.push(newBillingRec);
@@ -43648,15 +44979,14 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                   dark: "",
                                                   color: "white"
                                                 }, {
-                                                  default: withCtx(() => _cache[27] || (_cache[27] = [
-                                                    createTextVNode("mdi-email-send-outline")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [27]
+                                                  default: withCtx(() => [..._cache[27] || (_cache[27] = [
+                                                    createTextVNode("mdi-email-send-outline", -1)
+                                                  ])]),
+                                                  _: 1
                                                 })
                                               ]),
-                                              _: 2
-                                            }, 1040, ["onClick"]),
+                                              _: 1
+                                            }, 16, ["onClick"]),
                                             createVNode(VDialog, mergeProps(attrs, {
                                               modelValue: $data.notifyDialog,
                                               "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $data.notifyDialog = $event),
@@ -43666,11 +44996,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                 createVNode(VCard, null, {
                                                   default: withCtx(() => [
                                                     createVNode(VCardTitle, null, {
-                                                      default: withCtx(() => _cache[28] || (_cache[28] = [
+                                                      default: withCtx(() => [..._cache[28] || (_cache[28] = [
                                                         createElementVNode("span", { class: "text-h5" }, "Notify Lab Managers", -1)
-                                                      ])),
-                                                      _: 1,
-                                                      __: [28]
+                                                      ])]),
+                                                      _: 1
                                                     }),
                                                     createVNode(VCardText, null, {
                                                       default: withCtx(() => [
@@ -43693,14 +45022,12 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       }), 128))
                                                                     ])
                                                                   ]),
-                                                                  _: 1,
-                                                                  __: [29]
+                                                                  _: 1
                                                                 })) : (openBlock(), createBlock(VCol, { key: 1 }, {
-                                                                  default: withCtx(() => _cache[30] || (_cache[30] = [
+                                                                  default: withCtx(() => [..._cache[30] || (_cache[30] = [
                                                                     createElementVNode("div", { class: "font-weight-medium" }, "Send to all lab managers", -1)
-                                                                  ])),
-                                                                  _: 1,
-                                                                  __: [30]
+                                                                  ])]),
+                                                                  _: 1
                                                                 }))
                                                               ]),
                                                               _: 1
@@ -43717,14 +45044,13 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       contactables: $data.contactables
                                                                     }, null, 8, ["modelValue", "contactables"])
                                                                   ]),
-                                                                  _: 1,
-                                                                  __: [31]
+                                                                  _: 1
                                                                 })
                                                               ]),
                                                               _: 1
                                                             }),
                                                             $data.sendingNotifications ? (openBlock(), createElementBlock("div", _hoisted_3$a, [
-                                                              _cache[32] || (_cache[32] = createTextVNode(" Sending emails... ")),
+                                                              _cache[32] || (_cache[32] = createTextVNode(" Sending emails... ", -1)),
                                                               createVNode(VProgressLinear, { indeterminate: "" })
                                                             ])) : createCommentVNode("", true),
                                                             $data.emailResponse ? (openBlock(), createBlock(VRow, {
@@ -43740,9 +45066,9 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                                     _cache[42] || (_cache[42] = createElementVNode("div", { class: "text-body-1 font-weight-medium text-center" }, " Email Notification Results ", -1)),
                                                                     createElementVNode("div", _hoisted_4$6, " Sent to " + toDisplayString($options.buildNotificationlList()), 1),
                                                                     $data.emailResponse.successes.length ? (openBlock(), createElementBlock("div", _hoisted_5$5, [
-                                                                      _cache[33] || (_cache[33] = createTextVNode(" Successfully ")),
+                                                                      _cache[33] || (_cache[33] = createTextVNode(" Successfully ", -1)),
                                                                       _cache[34] || (_cache[34] = createElementVNode("span", { class: "green--text" }, "sent", -1)),
-                                                                      _cache[35] || (_cache[35] = createTextVNode(" for the following organizations: ")),
+                                                                      _cache[35] || (_cache[35] = createTextVNode(" for the following organizations: ", -1)),
                                                                       createElementVNode("ul", _hoisted_6$4, [
                                                                         (openBlock(true), createElementBlock(Fragment, null, renderList($data.emailResponse.successes, (value) => {
                                                                           return openBlock(), createElementBlock("li", { key: value }, [
@@ -43752,9 +45078,9 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       ])
                                                                     ])) : createCommentVNode("", true),
                                                                     Object.keys($data.emailResponse.errors).length ? (openBlock(), createElementBlock("div", _hoisted_7$4, [
-                                                                      _cache[36] || (_cache[36] = createTextVNode(" The following ")),
+                                                                      _cache[36] || (_cache[36] = createTextVNode(" The following ", -1)),
                                                                       _cache[37] || (_cache[37] = createElementVNode("span", { class: "red--text" }, "errors", -1)),
-                                                                      _cache[38] || (_cache[38] = createTextVNode(" occurred trying to send emails: ")),
+                                                                      _cache[38] || (_cache[38] = createTextVNode(" occurred trying to send emails: ", -1)),
                                                                       createElementVNode("ul", _hoisted_8$4, [
                                                                         (openBlock(true), createElementBlock(Fragment, null, renderList($data.emailResponse.errors, (value, key) => {
                                                                           return openBlock(), createElementBlock("li", { key }, [
@@ -43769,9 +45095,9 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       ])
                                                                     ])) : createCommentVNode("", true),
                                                                     $data.emailResponse.nobrs.length ? (openBlock(), createElementBlock("div", _hoisted_10$3, [
-                                                                      _cache[39] || (_cache[39] = createTextVNode(" The following organizations had  ")),
+                                                                      _cache[39] || (_cache[39] = createTextVNode(" The following organizations had  ", -1)),
                                                                       _cache[40] || (_cache[40] = createElementVNode("span", { class: "yellow--text text--darken-3" }, "no billing records", -1)),
-                                                                      _cache[41] || (_cache[41] = createTextVNode(" : ")),
+                                                                      _cache[41] || (_cache[41] = createTextVNode(" : ", -1)),
                                                                       createElementVNode("ul", _hoisted_11$3, [
                                                                         (openBlock(true), createElementBlock(Fragment, null, renderList($data.emailResponse.nobrs, (value) => {
                                                                           return openBlock(), createElementBlock("li", { key: value }, [
@@ -43781,8 +45107,7 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       ])
                                                                     ])) : createCommentVNode("", true)
                                                                   ]),
-                                                                  _: 1,
-                                                                  __: [42]
+                                                                  _: 1
                                                                 })
                                                               ]),
                                                               _: 1
@@ -43812,11 +45137,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                           disabled: !_ctx.isValid,
                                                           onClick: $options.notifyLabManagers
                                                         }, {
-                                                          default: withCtx(() => _cache[43] || (_cache[43] = [
-                                                            createTextVNode(" Notify ")
-                                                          ])),
-                                                          _: 1,
-                                                          __: [43]
+                                                          default: withCtx(() => [..._cache[43] || (_cache[43] = [
+                                                            createTextVNode(" Notify ", -1)
+                                                          ])]),
+                                                          _: 1
                                                         }, 8, ["disabled", "onClick"])
                                                       ]),
                                                       _: 1
@@ -43825,15 +45149,14 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                   _: 1
                                                 })
                                               ]),
-                                              _: 2
-                                            }, 1040, ["modelValue"])
+                                              _: 1
+                                            }, 16, ["modelValue"])
                                           ], 16)
                                         ]),
                                         default: withCtx(() => [
                                           _cache[44] || (_cache[44] = createElementVNode("span", null, "Notify Lab Managers", -1))
                                         ]),
-                                        _: 1,
-                                        __: [44]
+                                        _: 1
                                       }))
                                     ]),
                                     _: 1
@@ -43863,15 +45186,14 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                     }), {
                                                       default: withCtx(() => [
                                                         createVNode(VIcon, { dark: "" }, {
-                                                          default: withCtx(() => _cache[45] || (_cache[45] = [
-                                                            createTextVNode("done")
-                                                          ])),
-                                                          _: 1,
-                                                          __: [45]
+                                                          default: withCtx(() => [..._cache[45] || (_cache[45] = [
+                                                            createTextVNode("done", -1)
+                                                          ])]),
+                                                          _: 1
                                                         })
                                                       ]),
-                                                      _: 2
-                                                    }, 1040, ["disabled"])
+                                                      _: 1
+                                                    }, 16, ["disabled"])
                                                   ], 16)
                                                 ]),
                                                 default: withCtx(() => [
@@ -43897,15 +45219,14 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                     }), {
                                                       default: withCtx(() => [
                                                         createVNode(VIcon, { dark: "" }, {
-                                                          default: withCtx(() => _cache[46] || (_cache[46] = [
-                                                            createTextVNode("done_all")
-                                                          ])),
-                                                          _: 1,
-                                                          __: [46]
+                                                          default: withCtx(() => [..._cache[46] || (_cache[46] = [
+                                                            createTextVNode("done_all", -1)
+                                                          ])]),
+                                                          _: 1
                                                         })
                                                       ]),
-                                                      _: 2
-                                                    }, 1040, ["disabled"])
+                                                      _: 1
+                                                    }, 16, ["disabled"])
                                                   ], 16)
                                                 ]),
                                                 default: withCtx(() => [
@@ -43948,15 +45269,14 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                           btnType: "download"
                                                         }, null, 8, ["disabled"])
                                                       ]),
-                                                      _: 2
-                                                    }, 1040, ["class", "labels", "data", "name"])
+                                                      _: 1
+                                                    }, 16, ["class", "labels", "data", "name"])
                                                   ], 16)
                                                 ]),
                                                 default: withCtx(() => [
                                                   _cache[47] || (_cache[47] = createElementVNode("span", null, "Download billing records in csv format", -1))
                                                 ]),
-                                                _: 1,
-                                                __: [47]
+                                                _: 1
                                               })
                                             ]),
                                             _: 1
@@ -43982,15 +45302,14 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                             }), {
                                               default: withCtx(() => [
                                                 createVNode(VIcon, { dark: "" }, {
-                                                  default: withCtx(() => _cache[48] || (_cache[48] = [
-                                                    createTextVNode("mdi-playlist-edit")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [48]
+                                                  default: withCtx(() => [..._cache[48] || (_cache[48] = [
+                                                    createTextVNode("mdi-playlist-edit", -1)
+                                                  ])]),
+                                                  _: 1
                                                 })
                                               ]),
-                                              _: 2
-                                            }, 1040, ["disabled"])
+                                              _: 1
+                                            }, 16, ["disabled"])
                                           ], 16)
                                         ]),
                                         default: withCtx(() => [
@@ -44023,15 +45342,14 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                                     }), {
                                                       default: withCtx(() => [
                                                         createVNode(VIcon, null, {
-                                                          default: withCtx(() => _cache[49] || (_cache[49] = [
-                                                            createTextVNode("payments")
-                                                          ])),
-                                                          _: 1,
-                                                          __: [49]
+                                                          default: withCtx(() => [..._cache[49] || (_cache[49] = [
+                                                            createTextVNode("payments", -1)
+                                                          ])]),
+                                                          _: 1
                                                         })
                                                       ]),
-                                                      _: 2
-                                                    }, 1040, ["disabled", "color"])
+                                                      _: 1
+                                                    }, 16, ["disabled", "color"])
                                                   ], 16)
                                                 ]),
                                                 default: withCtx(() => [
@@ -44063,15 +45381,14 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                             }), {
                                               default: withCtx(() => [
                                                 createVNode(VIcon, { dark: "" }, {
-                                                  default: withCtx(() => _cache[50] || (_cache[50] = [
-                                                    createTextVNode("mdi-trash-can-outline")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [50]
+                                                  default: withCtx(() => [..._cache[50] || (_cache[50] = [
+                                                    createTextVNode("mdi-trash-can-outline", -1)
+                                                  ])]),
+                                                  _: 1
                                                 })
                                               ]),
-                                              _: 2
-                                            }, 1040, ["disabled"])
+                                              _: 1
+                                            }, 16, ["disabled"])
                                           ], 16)
                                         ]),
                                         default: withCtx(() => [
@@ -44241,7 +45558,7 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                         createElementVNode("span", _hoisted_26$2, [
                           createTextVNode(toDisplayString($props.facility.name) + " total charges for " + toDisplayString($props.date) + " are ", 1),
                           createElementVNode("span", _hoisted_27$2, toDisplayString(_ctx.$centsToDollars($options.totalCharges())), 1),
-                          _cache[51] || (_cache[51] = createTextVNode(" for ")),
+                          _cache[51] || (_cache[51] = createTextVNode(" for ", -1)),
                           createElementVNode("span", _hoisted_28$2, toDisplayString($options.totalHours()) + " " + toDisplayString($props.totalUnits), 1)
                         ])
                       ]),
@@ -44327,11 +45644,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                 text: "",
                                 onClick: $options.closeTxnDialog
                               }, {
-                                default: withCtx(() => _cache[52] || (_cache[52] = [
-                                  createTextVNode("Cancel")
-                                ])),
-                                _: 1,
-                                __: [52]
+                                default: withCtx(() => [..._cache[52] || (_cache[52] = [
+                                  createTextVNode("Cancel", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["onClick"]),
                               createVNode(VBtn, {
                                 color: "blue darken-1",
@@ -44339,11 +45655,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                 disabled: !$data.isValidTxn,
                                 onClick: _cache[17] || (_cache[17] = ($event) => $options.addNewTransaction($data.editedItem))
                               }, {
-                                default: withCtx(() => _cache[53] || (_cache[53] = [
-                                  createTextVNode(" Save ")
-                                ])),
-                                _: 1,
-                                __: [53]
+                                default: withCtx(() => [..._cache[53] || (_cache[53] = [
+                                  createTextVNode(" Save ", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["disabled"])
                             ]),
                             _: 1
@@ -44424,11 +45739,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                 text: "",
                                 onClick: $options.closeEditDialog
                               }, {
-                                default: withCtx(() => _cache[54] || (_cache[54] = [
-                                  createTextVNode("Cancel")
-                                ])),
-                                _: 1,
-                                __: [54]
+                                default: withCtx(() => [..._cache[54] || (_cache[54] = [
+                                  createTextVNode("Cancel", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["onClick"]),
                               createVNode(VBtn, {
                                 color: "blue darken-1",
@@ -44436,11 +45750,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                 disabled: !$data.isValidEdit,
                                 onClick: _cache[22] || (_cache[22] = ($event) => $options.updateSpecificRecord($data.editedRecord))
                               }, {
-                                default: withCtx(() => _cache[55] || (_cache[55] = [
-                                  createTextVNode(" Save ")
-                                ])),
-                                _: 1,
-                                __: [55]
+                                default: withCtx(() => [..._cache[55] || (_cache[55] = [
+                                  createTextVNode(" Save ", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["disabled"])
                             ]),
                             _: 1
@@ -44461,11 +45774,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                       createVNode(VCard, null, {
                         default: withCtx(() => [
                           createVNode(VCardTitle, null, {
-                            default: withCtx(() => _cache[56] || (_cache[56] = [
+                            default: withCtx(() => [..._cache[56] || (_cache[56] = [
                               createElementVNode("span", { class: "text-h5" }, "Edit Selected Billing Records", -1)
-                            ])),
-                            _: 1,
-                            __: [56]
+                            ])]),
+                            _: 1
                           }),
                           createVNode(VCardText, null, {
                             default: withCtx(() => [
@@ -44540,11 +45852,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                 text: "",
                                 onClick: $options.closeChangeExpenseCodeDialog
                               }, {
-                                default: withCtx(() => _cache[58] || (_cache[58] = [
-                                  createTextVNode("Cancel")
-                                ])),
-                                _: 1,
-                                __: [58]
+                                default: withCtx(() => [..._cache[58] || (_cache[58] = [
+                                  createTextVNode("Cancel", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["onClick"]),
                               createVNode(VBtn, {
                                 color: "blue darken-1",
@@ -44552,11 +45863,10 @@ function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
                                 disabled: !$data.isValidBulkEdit,
                                 onClick: $options.changeExpenseCode
                               }, {
-                                default: withCtx(() => _cache[59] || (_cache[59] = [
-                                  createTextVNode("Save")
-                                ])),
-                                _: 1,
-                                __: [59]
+                                default: withCtx(() => [..._cache[59] || (_cache[59] = [
+                                  createTextVNode("Save", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["disabled", "onClick"])
                             ]),
                             _: 1
@@ -44676,11 +45986,10 @@ function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(VIcon, {
                 class: normalizeClass({ active: $props.isOpen })
               }, {
-                default: withCtx(() => _cache[2] || (_cache[2] = [
-                  createTextVNode("mdi-menu-right")
-                ])),
-                _: 1,
-                __: [2]
+                default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                  createTextVNode("mdi-menu-right", -1)
+                ])]),
+                _: 1
               }, 8, ["class"])
             ]),
             _: 1
@@ -44825,12 +46134,12 @@ const _sfc_main$w = {
           value: "productUsage",
           namedSlot: true,
           sortable: true,
-          sort: function(a2, b) {
-            if (a2.productUsageLinkText) {
-              return a2.productUsageLinkText.localeCompare(b.productUsageLinkText);
+          sort: function(a, b) {
+            if (a.productUsageLinkText) {
+              return a.productUsageLinkText.localeCompare(b.productUsageLinkText);
             }
-            if (a2.productUsage) {
-              return a2.productUsage.id - b.productUsage.id;
+            if (a.productUsage) {
+              return a.productUsage.id - b.productUsage.id;
             }
             return 0;
           }
@@ -44959,10 +46268,10 @@ const _sfc_main$w = {
       let items = this.items;
       if (this.search) {
         const search = this.search.toString().toLowerCase();
-        items = items.filter((i2) => {
-          let item = i2;
-          if (i2.data) {
-            item = i2.data;
+        items = items.filter((i) => {
+          let item = i;
+          if (i.data) {
+            item = i.data;
           }
           return Object.keys(item).some((j) => this.filterSearch(item[j], search));
         });
@@ -44988,13 +46297,13 @@ const _sfc_main$w = {
     },
     getDataForExport() {
       const formattedItems = [];
-      for (let i2 = 0; i2 < this.filteredItems.length; i2++) {
+      for (let i = 0; i < this.filteredItems.length; i++) {
         const newRecord = {};
         for (let j = 0; j < this.allHeaders.length; j++) {
           const header = this.allHeaders[j];
           const keys2 = header.value.split(".");
           const formattedKey = header.text;
-          let value = this.filteredItems[i2];
+          let value = this.filteredItems[i];
           keys2.forEach((key) => {
             value = value[key];
           });
@@ -45025,12 +46334,12 @@ const _sfc_main$w = {
     async setState(items, state2) {
       const promises = [];
       const toBeUpdated = [];
-      for (let i2 = 0; i2 < items.length; i2 += 1) {
-        const item = items[i2];
+      for (let i = 0; i < items.length; i += 1) {
+        const item = items[i];
         if (!item.billingRecordStates) {
           promises.push(this.apiRef.getByID(this.facility.invoicePrefix, item.id));
-          if (i2 !== 0 && i2 % this.promiseBatchSize === 0) {
-            await new Promise((r2) => setTimeout(r2, 500));
+          if (i !== 0 && i % this.promiseBatchSize === 0) {
+            await new Promise((r) => setTimeout(r, 500));
           }
         } else {
           item.billingRecordStates.push({ name: state2, user: "", approvers: [], comment: "" });
@@ -45129,11 +46438,11 @@ const _sfc_main$w = {
       const total = this.filteredItems.reduce((prev, current) => prev + current.decimalQuantity, 0);
       return Math.round(total * 100) / 100;
     },
-    determineGroupState(e2) {
-      const group = e2.item.account.organization;
+    determineGroupState(e) {
+      const group = e.item.account.organization;
       const records = this.filteredItems.filter((item) => item.account.organization === group);
       let checked = this.selected.filter((item) => item.account.organization === group).length;
-      checked += e2.value ? 1 : -1;
+      checked += e.value ? 1 : -1;
       const state2 = checked !== 0 && checked < records.length;
       this.rowSelectionToggleIndeterminate[group] = state2;
       if (checked) {
@@ -45223,10 +46532,10 @@ const _sfc_main$w = {
     async deleteSelectedBillingRecords() {
       this.updating = true;
       let successCount = 0;
-      for (let i2 = 0; i2 < this.selected.length; i2++) {
+      for (let i = 0; i < this.selected.length; i++) {
         try {
-          await this.$api.billingRecord.delete(this.selected[i2]);
-          this.items = this.items.filter((item) => !(item.id === this.selected[i2].id));
+          await this.$api.billingRecord.delete(this.selected[i]);
+          this.items = this.items.filter((item) => !(item.id === this.selected[i].id));
           successCount++;
         } catch (error) {
           const message2 = this.getErrorMessage(error);
@@ -45382,8 +46691,8 @@ const _sfc_main$w = {
       const recordsToChange = [];
       const groups = /* @__PURE__ */ new Set();
       this.updating = true;
-      for (let i2 = 0; i2 < this.recordIDsToBeChanged.length; i2++) {
-        const index = this.items.findIndex((rec) => rec.id === this.recordIDsToBeChanged[i2]);
+      for (let i = 0; i < this.recordIDsToBeChanged.length; i++) {
+        const index = this.items.findIndex((rec) => rec.id === this.recordIDsToBeChanged[i]);
         const newBillingRec = cloneDeep(await this.getFullBillingRecordByItemIndex(index));
         newBillingRec.account = this.newExpenseCode.data;
         recordsToChange.push(newBillingRec);
@@ -45594,21 +46903,19 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                       color: "white",
                                                       dark: ""
                                                     }, {
-                                                      default: withCtx(() => _cache[30] || (_cache[30] = [
-                                                        createTextVNode("mdi-close")
-                                                      ])),
-                                                      _: 1,
-                                                      __: [30]
+                                                      default: withCtx(() => [..._cache[30] || (_cache[30] = [
+                                                        createTextVNode("mdi-close", -1)
+                                                      ])]),
+                                                      _: 1
                                                     })) : (openBlock(), createBlock(VIcon, {
                                                       key: 1,
                                                       color: "white",
                                                       dark: ""
                                                     }, {
-                                                      default: withCtx(() => _cache[31] || (_cache[31] = [
-                                                        createTextVNode("mdi-email-send-outline")
-                                                      ])),
-                                                      _: 1,
-                                                      __: [31]
+                                                      default: withCtx(() => [..._cache[31] || (_cache[31] = [
+                                                        createTextVNode("mdi-email-send-outline", -1)
+                                                      ])]),
+                                                      _: 1
                                                     }))
                                                   ]),
                                                   _: 1
@@ -45621,11 +46928,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                   class: "white--text",
                                                   onClick: $options.openNotifyDialog
                                                 }, {
-                                                  default: withCtx(() => _cache[32] || (_cache[32] = [
-                                                    createTextVNode(" Notify Lab Managers ")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [32]
+                                                  default: withCtx(() => [..._cache[32] || (_cache[32] = [
+                                                    createTextVNode(" Notify Lab Managers ", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }, 8, ["onClick"]),
                                                 createVNode(VBtn, {
                                                   xSmall: "",
@@ -45633,11 +46939,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                   onClick: _cache[4] || (_cache[4] = ($event) => $options.goToComposeMessage("to")),
                                                   disabled: !$options.filteredItems.length
                                                 }, {
-                                                  default: withCtx(() => _cache[33] || (_cache[33] = [
-                                                    createTextVNode(" Send a message to selected Lab Managers ")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [33]
+                                                  default: withCtx(() => [..._cache[33] || (_cache[33] = [
+                                                    createTextVNode(" Send a message to selected Lab Managers ", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }, 8, ["disabled"]),
                                                 createVNode(VBtn, {
                                                   xSmall: "",
@@ -45645,11 +46950,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                   onClick: _cache[5] || (_cache[5] = ($event) => $options.goToComposeMessage("cc")),
                                                   disabled: !$options.filteredItems.length
                                                 }, {
-                                                  default: withCtx(() => _cache[34] || (_cache[34] = [
-                                                    createTextVNode(" CC selected Lab Managers ")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [34]
+                                                  default: withCtx(() => [..._cache[34] || (_cache[34] = [
+                                                    createTextVNode(" CC selected Lab Managers ", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }, 8, ["disabled"]),
                                                 createVNode(VBtn, {
                                                   xSmall: "",
@@ -45657,15 +46961,14 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                   onClick: _cache[6] || (_cache[6] = ($event) => $options.goToComposeMessage("bcc")),
                                                   disabled: !$options.filteredItems.length
                                                 }, {
-                                                  default: withCtx(() => _cache[35] || (_cache[35] = [
-                                                    createTextVNode(" BCC selected Lab Managers ")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [35]
+                                                  default: withCtx(() => [..._cache[35] || (_cache[35] = [
+                                                    createTextVNode(" BCC selected Lab Managers ", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }, 8, ["disabled"])
                                               ]),
-                                              _: 2
-                                            }, 1040, ["modelValue"]),
+                                              _: 1
+                                            }, 16, ["modelValue"]),
                                             createVNode(VDialog, mergeProps(attrs, {
                                               modelValue: $data.notifyDialog,
                                               "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => $data.notifyDialog = $event),
@@ -45675,11 +46978,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                 createVNode(VCard, null, {
                                                   default: withCtx(() => [
                                                     createVNode(VCardTitle, null, {
-                                                      default: withCtx(() => _cache[36] || (_cache[36] = [
+                                                      default: withCtx(() => [..._cache[36] || (_cache[36] = [
                                                         createElementVNode("span", { class: "text-h5" }, "Notify Lab Managers", -1)
-                                                      ])),
-                                                      _: 1,
-                                                      __: [36]
+                                                      ])]),
+                                                      _: 1
                                                     }),
                                                     createVNode(VCardText, null, {
                                                       default: withCtx(() => [
@@ -45702,14 +47004,12 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       }), 128))
                                                                     ])
                                                                   ]),
-                                                                  _: 1,
-                                                                  __: [37]
+                                                                  _: 1
                                                                 })) : (openBlock(), createBlock(VCol, { key: 1 }, {
-                                                                  default: withCtx(() => _cache[38] || (_cache[38] = [
+                                                                  default: withCtx(() => [..._cache[38] || (_cache[38] = [
                                                                     createElementVNode("div", { class: "font-weight-medium" }, "Send to all lab managers", -1)
-                                                                  ])),
-                                                                  _: 1,
-                                                                  __: [38]
+                                                                  ])]),
+                                                                  _: 1
                                                                 }))
                                                               ]),
                                                               _: 1
@@ -45726,14 +47026,13 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       contactables: $data.contactables
                                                                     }, null, 8, ["modelValue", "contactables"])
                                                                   ]),
-                                                                  _: 1,
-                                                                  __: [39]
+                                                                  _: 1
                                                                 })
                                                               ]),
                                                               _: 1
                                                             }),
                                                             $data.sendingNotifications ? (openBlock(), createElementBlock("div", _hoisted_3$8, [
-                                                              _cache[40] || (_cache[40] = createTextVNode(" Sending emails... ")),
+                                                              _cache[40] || (_cache[40] = createTextVNode(" Sending emails... ", -1)),
                                                               createVNode(VProgressLinear, { indeterminate: "" })
                                                             ])) : createCommentVNode("", true),
                                                             $data.emailResponse ? (openBlock(), createBlock(VRow, {
@@ -45749,9 +47048,9 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                                     _cache[50] || (_cache[50] = createElementVNode("div", { class: "text-body-1 font-weight-medium text-center" }, " Email Notification Results ", -1)),
                                                                     createElementVNode("div", _hoisted_4$5, " Sent to " + toDisplayString($options.buildNotificationlList()), 1),
                                                                     $data.emailResponse.successes.length ? (openBlock(), createElementBlock("div", _hoisted_5$4, [
-                                                                      _cache[41] || (_cache[41] = createTextVNode(" Successfully ")),
+                                                                      _cache[41] || (_cache[41] = createTextVNode(" Successfully ", -1)),
                                                                       _cache[42] || (_cache[42] = createElementVNode("span", { class: "green--text" }, "sent", -1)),
-                                                                      _cache[43] || (_cache[43] = createTextVNode(" for the following organizations: ")),
+                                                                      _cache[43] || (_cache[43] = createTextVNode(" for the following organizations: ", -1)),
                                                                       createElementVNode("ul", _hoisted_6$3, [
                                                                         (openBlock(true), createElementBlock(Fragment, null, renderList($data.emailResponse.successes, (value) => {
                                                                           return openBlock(), createElementBlock("li", { key: value }, [
@@ -45761,9 +47060,9 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       ])
                                                                     ])) : createCommentVNode("", true),
                                                                     Object.keys($data.emailResponse.errors).length ? (openBlock(), createElementBlock("div", _hoisted_7$3, [
-                                                                      _cache[44] || (_cache[44] = createTextVNode(" The following ")),
+                                                                      _cache[44] || (_cache[44] = createTextVNode(" The following ", -1)),
                                                                       _cache[45] || (_cache[45] = createElementVNode("span", { class: "red--text" }, "errors", -1)),
-                                                                      _cache[46] || (_cache[46] = createTextVNode(" occurred trying to send emails: ")),
+                                                                      _cache[46] || (_cache[46] = createTextVNode(" occurred trying to send emails: ", -1)),
                                                                       createElementVNode("ul", _hoisted_8$3, [
                                                                         (openBlock(true), createElementBlock(Fragment, null, renderList($data.emailResponse.errors, (value, key) => {
                                                                           return openBlock(), createElementBlock("li", { key }, [
@@ -45778,9 +47077,9 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       ])
                                                                     ])) : createCommentVNode("", true),
                                                                     $data.emailResponse.nobrs.length ? (openBlock(), createElementBlock("div", _hoisted_10$2, [
-                                                                      _cache[47] || (_cache[47] = createTextVNode(" The following organizations had  ")),
+                                                                      _cache[47] || (_cache[47] = createTextVNode(" The following organizations had  ", -1)),
                                                                       _cache[48] || (_cache[48] = createElementVNode("span", { class: "yellow--text text--darken-3" }, "no billing records", -1)),
-                                                                      _cache[49] || (_cache[49] = createTextVNode(" : ")),
+                                                                      _cache[49] || (_cache[49] = createTextVNode(" : ", -1)),
                                                                       createElementVNode("ul", _hoisted_11$2, [
                                                                         (openBlock(true), createElementBlock(Fragment, null, renderList($data.emailResponse.nobrs, (value) => {
                                                                           return openBlock(), createElementBlock("li", { key: value }, [
@@ -45790,8 +47089,7 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                                       ])
                                                                     ])) : createCommentVNode("", true)
                                                                   ]),
-                                                                  _: 1,
-                                                                  __: [50]
+                                                                  _: 1
                                                                 })
                                                               ]),
                                                               _: 1
@@ -45821,11 +47119,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                           disabled: !_ctx.isValid,
                                                           onClick: $options.notifyLabManagers
                                                         }, {
-                                                          default: withCtx(() => _cache[51] || (_cache[51] = [
-                                                            createTextVNode(" Notify ")
-                                                          ])),
-                                                          _: 1,
-                                                          __: [51]
+                                                          default: withCtx(() => [..._cache[51] || (_cache[51] = [
+                                                            createTextVNode(" Notify ", -1)
+                                                          ])]),
+                                                          _: 1
                                                         }, 8, ["disabled", "onClick"])
                                                       ]),
                                                       _: 1
@@ -45834,15 +47131,14 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                   _: 1
                                                 })
                                               ]),
-                                              _: 2
-                                            }, 1040, ["modelValue"])
+                                              _: 1
+                                            }, 16, ["modelValue"])
                                           ], 16)
                                         ]),
                                         default: withCtx(() => [
                                           _cache[52] || (_cache[52] = createElementVNode("span", null, "Notify Lab Managers", -1))
                                         ]),
-                                        _: 1,
-                                        __: [52]
+                                        _: 1
                                       }))
                                     ]),
                                     _: 1
@@ -45872,15 +47168,14 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                     }), {
                                                       default: withCtx(() => [
                                                         createVNode(VIcon, { dark: "" }, {
-                                                          default: withCtx(() => _cache[53] || (_cache[53] = [
-                                                            createTextVNode("done")
-                                                          ])),
-                                                          _: 1,
-                                                          __: [53]
+                                                          default: withCtx(() => [..._cache[53] || (_cache[53] = [
+                                                            createTextVNode("done", -1)
+                                                          ])]),
+                                                          _: 1
                                                         })
                                                       ]),
-                                                      _: 2
-                                                    }, 1040, ["disabled"])
+                                                      _: 1
+                                                    }, 16, ["disabled"])
                                                   ], 16)
                                                 ]),
                                                 default: withCtx(() => [
@@ -45923,15 +47218,14 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                           btnType: "download"
                                                         }, null, 8, ["disabled"])
                                                       ]),
-                                                      _: 2
-                                                    }, 1040, ["class", "labels", "data", "name"])
+                                                      _: 1
+                                                    }, 16, ["class", "labels", "data", "name"])
                                                   ], 16)
                                                 ]),
                                                 default: withCtx(() => [
                                                   _cache[54] || (_cache[54] = createElementVNode("span", null, "Download billing records in csv format", -1))
                                                 ]),
-                                                _: 1,
-                                                __: [54]
+                                                _: 1
                                               })
                                             ]),
                                             _: 1
@@ -45957,22 +47251,20 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                             }), {
                                               default: withCtx(() => [
                                                 createVNode(VIcon, { dark: "" }, {
-                                                  default: withCtx(() => _cache[55] || (_cache[55] = [
-                                                    createTextVNode("mdi-playlist-edit")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [55]
+                                                  default: withCtx(() => [..._cache[55] || (_cache[55] = [
+                                                    createTextVNode("mdi-playlist-edit", -1)
+                                                  ])]),
+                                                  _: 1
                                                 })
                                               ]),
-                                              _: 2
-                                            }, 1040, ["disabled"])
+                                              _: 1
+                                            }, 16, ["disabled"])
                                           ], 16)
                                         ]),
                                         default: withCtx(() => [
                                           _cache[56] || (_cache[56] = createElementVNode("span", null, "Edit billing record account", -1))
                                         ]),
-                                        _: 1,
-                                        __: [56]
+                                        _: 1
                                       })
                                     ]),
                                     _: 1
@@ -45999,15 +47291,14 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                     }), {
                                                       default: withCtx(() => [
                                                         createVNode(VIcon, null, {
-                                                          default: withCtx(() => _cache[57] || (_cache[57] = [
-                                                            createTextVNode("payments")
-                                                          ])),
-                                                          _: 1,
-                                                          __: [57]
+                                                          default: withCtx(() => [..._cache[57] || (_cache[57] = [
+                                                            createTextVNode("payments", -1)
+                                                          ])]),
+                                                          _: 1
                                                         })
                                                       ]),
-                                                      _: 2
-                                                    }, 1040, ["disabled", "color"])
+                                                      _: 1
+                                                    }, 16, ["disabled", "color"])
                                                   ], 16)
                                                 ]),
                                                 default: withCtx(() => [
@@ -46046,22 +47337,20 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                                     }), {
                                                       default: withCtx(() => [
                                                         createVNode(VIcon, null, {
-                                                          default: withCtx(() => _cache[58] || (_cache[58] = [
-                                                            createTextVNode("mdi-calendar-month")
-                                                          ])),
-                                                          _: 1,
-                                                          __: [58]
+                                                          default: withCtx(() => [..._cache[58] || (_cache[58] = [
+                                                            createTextVNode("mdi-calendar-month", -1)
+                                                          ])]),
+                                                          _: 1
                                                         })
                                                       ]),
-                                                      _: 2
-                                                    }, 1040, ["disabled"])
+                                                      _: 1
+                                                    }, 16, ["disabled"])
                                                   ])
                                                 ]),
                                                 default: withCtx(() => [
                                                   _cache[59] || (_cache[59] = createElementVNode("span", null, "Deactivate any existing invoices and process the entire month", -1))
                                                 ]),
-                                                _: 1,
-                                                __: [59]
+                                                _: 1
                                               })
                                             ]),
                                             _: 1
@@ -46087,15 +47376,14 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                             }), {
                                               default: withCtx(() => [
                                                 createVNode(VIcon, { dark: "" }, {
-                                                  default: withCtx(() => _cache[60] || (_cache[60] = [
-                                                    createTextVNode("mdi-trash-can-outline")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [60]
+                                                  default: withCtx(() => [..._cache[60] || (_cache[60] = [
+                                                    createTextVNode("mdi-trash-can-outline", -1)
+                                                  ])]),
+                                                  _: 1
                                                 })
                                               ]),
-                                              _: 2
-                                            }, 1040, ["disabled"])
+                                              _: 1
+                                            }, 16, ["disabled"])
                                           ])
                                         ]),
                                         default: withCtx(() => [
@@ -46121,22 +47409,20 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                             }), {
                                               default: withCtx(() => [
                                                 createVNode(VIcon, { dark: "" }, {
-                                                  default: withCtx(() => _cache[61] || (_cache[61] = [
-                                                    createTextVNode("mdi-hammer-wrench")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [61]
+                                                  default: withCtx(() => [..._cache[61] || (_cache[61] = [
+                                                    createTextVNode("mdi-hammer-wrench", -1)
+                                                  ])]),
+                                                  _: 1
                                                 })
                                               ]),
-                                              _: 2
-                                            }, 1040, ["disabled"])
+                                              _: 1
+                                            }, 16, ["disabled"])
                                           ])
                                         ]),
                                         default: withCtx(() => [
                                           _cache[62] || (_cache[62] = createElementVNode("span", null, "Get usage report", -1))
                                         ]),
-                                        _: 1,
-                                        __: [62]
+                                        _: 1
                                       })
                                     ]),
                                     _: 1
@@ -46289,7 +47575,7 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                         createElementVNode("span", _hoisted_24$2, [
                           createTextVNode(toDisplayString($props.facility.name) + " total charges for " + toDisplayString($props.date) + " are ", 1),
                           createElementVNode("span", _hoisted_25$2, toDisplayString(_ctx.$dollars($options.totalCharges())), 1),
-                          _cache[63] || (_cache[63] = createTextVNode(" for ")),
+                          _cache[63] || (_cache[63] = createTextVNode(" for ", -1)),
                           createElementVNode("span", _hoisted_26$1, toDisplayString($options.totalHours()) + " " + toDisplayString($props.totalUnits), 1)
                         ])
                       ]),
@@ -46366,11 +47652,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                 text: "",
                                 onClick: $options.closeEditDialog
                               }, {
-                                default: withCtx(() => _cache[64] || (_cache[64] = [
-                                  createTextVNode("Cancel")
-                                ])),
-                                _: 1,
-                                __: [64]
+                                default: withCtx(() => [..._cache[64] || (_cache[64] = [
+                                  createTextVNode("Cancel", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["onClick"]),
                               createVNode(VBtn, {
                                 color: "blue darken-1",
@@ -46378,11 +47663,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                 disabled: !$data.isValidEdit,
                                 onClick: _cache[23] || (_cache[23] = ($event) => $options.updateSpecificRecord($data.editedRecord))
                               }, {
-                                default: withCtx(() => _cache[65] || (_cache[65] = [
-                                  createTextVNode(" Save ")
-                                ])),
-                                _: 1,
-                                __: [65]
+                                default: withCtx(() => [..._cache[65] || (_cache[65] = [
+                                  createTextVNode(" Save ", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["disabled"])
                             ]),
                             _: 1
@@ -46403,11 +47687,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                       createVNode(VCard, null, {
                         default: withCtx(() => [
                           createVNode(VCardTitle, null, {
-                            default: withCtx(() => _cache[66] || (_cache[66] = [
+                            default: withCtx(() => [..._cache[66] || (_cache[66] = [
                               createElementVNode("span", { class: "text-h5" }, "Edit Selected Billing Records", -1)
-                            ])),
-                            _: 1,
-                            __: [66]
+                            ])]),
+                            _: 1
                           }),
                           createVNode(VCardText, null, {
                             default: withCtx(() => [
@@ -46482,11 +47765,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                 text: "",
                                 onClick: $options.closeChangeExpenseCodeDialog
                               }, {
-                                default: withCtx(() => _cache[68] || (_cache[68] = [
-                                  createTextVNode("Cancel")
-                                ])),
-                                _: 1,
-                                __: [68]
+                                default: withCtx(() => [..._cache[68] || (_cache[68] = [
+                                  createTextVNode("Cancel", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["onClick"]),
                               createVNode(VBtn, {
                                 color: "blue darken-1",
@@ -46494,11 +47776,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                 disabled: !$data.isValidBulkEdit,
                                 onClick: $options.changeExpenseCode
                               }, {
-                                default: withCtx(() => _cache[69] || (_cache[69] = [
-                                  createTextVNode("Save")
-                                ])),
-                                _: 1,
-                                __: [69]
+                                default: withCtx(() => [..._cache[69] || (_cache[69] = [
+                                  createTextVNode("Save", -1)
+                                ])]),
+                                _: 1
                               }, 8, ["disabled", "onClick"])
                             ]),
                             _: 1
@@ -46519,11 +47800,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                       createVNode(VCard, null, {
                         default: withCtx(() => [
                           createVNode(VCardTitle, null, {
-                            default: withCtx(() => _cache[70] || (_cache[70] = [
+                            default: withCtx(() => [..._cache[70] || (_cache[70] = [
                               createElementVNode("span", { class: "text-h5" }, "Get Usage Report", -1)
-                            ])),
-                            _: 1,
-                            __: [70]
+                            ])]),
+                            _: 1
                           }),
                           createVNode(VCardText, null, {
                             default: withCtx(() => [
@@ -46561,11 +47841,10 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
                                 text: "",
                                 onClick: _cache[28] || (_cache[28] = ($event) => $options.closeGetUsageReportDialog())
                               }, {
-                                default: withCtx(() => _cache[72] || (_cache[72] = [
-                                  createTextVNode("Close")
-                                ])),
-                                _: 1,
-                                __: [72]
+                                default: withCtx(() => [..._cache[72] || (_cache[72] = [
+                                  createTextVNode("Close", -1)
+                                ])]),
+                                _: 1
                               })
                             ]),
                             _: 1
@@ -46926,9 +48205,9 @@ function createHandlers() {
     end: value.end
   };
   return {
-    touchstart: (e2) => touchstart(e2, wrapper),
-    touchend: (e2) => touchend(e2, wrapper),
-    touchmove: (e2) => touchmove(e2, wrapper)
+    touchstart: (e) => touchstart(e, wrapper),
+    touchend: (e) => touchend(e, wrapper),
+    touchmove: (e) => touchmove(e, wrapper)
   };
 }
 function mounted(el, binding) {
@@ -46939,7 +48218,7 @@ function mounted(el, binding) {
     passive: true
   };
   const uid = (_a = binding.instance) == null ? void 0 : _a.$.uid;
-  if (!target || !uid) return;
+  if (!target || uid === void 0) return;
   const handlers2 = createHandlers(binding.value);
   target._touchHandlers = target._touchHandlers ?? /* @__PURE__ */ Object.create(null);
   target._touchHandlers[uid] = handlers2;
@@ -46951,7 +48230,7 @@ function unmounted(el, binding) {
   var _a, _b;
   const target = ((_a = binding.value) == null ? void 0 : _a.parent) ? el.parentElement : el;
   const uid = (_b = binding.instance) == null ? void 0 : _b.$.uid;
-  if (!(target == null ? void 0 : target._touchHandlers) || !uid) return;
+  if (!(target == null ? void 0 : target._touchHandlers) || uid === void 0) return;
   const handlers2 = target._touchHandlers[uid];
   keys$1(handlers2).forEach((eventName2) => {
     target.removeEventListener(eventName2, handlers2[eventName2]);
@@ -46979,6 +48258,7 @@ const makeVWindowProps = propsFactory({
     type: [Boolean, String],
     validator: (v) => typeof v === "boolean" || v === "hover"
   },
+  verticalArrows: [Boolean, String],
   touch: {
     type: [Object, Boolean],
     default: void 0
@@ -46998,6 +48278,8 @@ const makeVWindowProps = propsFactory({
     type: [Boolean, String],
     default: "force"
   },
+  crossfade: Boolean,
+  transitionDuration: Number,
   ...makeComponentProps(),
   ...makeTagProps(),
   ...makeThemeProps()
@@ -47022,13 +48304,16 @@ const VWindow = genericComponent()({
       isRtl
     } = useRtl();
     const {
-      t: t2
+      t
     } = useLocale();
     const group = useGroup(props, VWindowGroupSymbol);
     const rootRef = ref();
     const isRtlReverse = computed(() => isRtl.value ? !props.reverse : props.reverse);
     const isReversed = shallowRef(false);
     const transition = computed(() => {
+      if (props.crossfade) {
+        return "v-window-crossfade-transition";
+      }
       const axis = props.direction === "vertical" ? "y" : "x";
       const reverse = isRtlReverse.value ? !isReversed.value : isReversed.value;
       const direction = reverse ? "-reverse" : "";
@@ -47040,6 +48325,16 @@ const VWindow = genericComponent()({
       return group.items.value.findIndex((item) => group.selected.value.includes(item.id));
     });
     watch(activeIndex, (newVal, oldVal) => {
+      let scrollableParent;
+      const savedScrollPosition = {
+        left: 0,
+        top: 0
+      };
+      if (IN_BROWSER && oldVal >= 0) {
+        scrollableParent = getScrollParent(rootRef.value);
+        savedScrollPosition.left = scrollableParent == null ? void 0 : scrollableParent.scrollLeft;
+        savedScrollPosition.top = scrollableParent == null ? void 0 : scrollableParent.scrollTop;
+      }
       const itemsLength = group.items.value.length;
       const lastIndex = itemsLength - 1;
       if (itemsLength <= 2) {
@@ -47051,6 +48346,28 @@ const VWindow = genericComponent()({
       } else {
         isReversed.value = newVal < oldVal;
       }
+      nextTick(() => {
+        if (!IN_BROWSER || !scrollableParent) return;
+        const currentScrollY = scrollableParent.scrollTop;
+        if (currentScrollY !== savedScrollPosition.top) {
+          scrollableParent.scrollTo({
+            ...savedScrollPosition,
+            behavior: "instant"
+          });
+        }
+        requestAnimationFrame(() => {
+          if (!scrollableParent) return;
+          const rafScrollY = scrollableParent.scrollTop;
+          if (rafScrollY !== savedScrollPosition.top) {
+            scrollableParent.scrollTo({
+              ...savedScrollPosition,
+              behavior: "instant"
+            });
+          }
+        });
+      });
+    }, {
+      flush: "sync"
     });
     provide(VWindowSymbol, {
       transition,
@@ -47073,7 +48390,7 @@ const VWindow = genericComponent()({
         icon: isRtl.value ? props.nextIcon : props.prevIcon,
         class: `v-window__${isRtlReverse.value ? "right" : "left"}`,
         onClick: group.prev,
-        "aria-label": t2("$vuetify.carousel.prev")
+        "aria-label": t("$vuetify.carousel.prev")
       };
       arrows2.push(canMoveBack.value ? slots.prev ? slots.prev({
         props: prevProps
@@ -47082,7 +48399,7 @@ const VWindow = genericComponent()({
         icon: isRtl.value ? props.prevIcon : props.nextIcon,
         class: `v-window__${isRtlReverse.value ? "left" : "right"}`,
         onClick: group.next,
-        "aria-label": t2("$vuetify.carousel.next")
+        "aria-label": t("$vuetify.carousel.next")
       };
       arrows2.push(canMoveForward.value ? slots.next ? slots.next({
         props: nextProps
@@ -47113,21 +48430,29 @@ const VWindow = genericComponent()({
     useRender(() => withDirectives(createVNode(props.tag, {
       "ref": rootRef,
       "class": normalizeClass(["v-window", {
-        "v-window--show-arrows-on-hover": props.showArrows === "hover"
+        "v-window--show-arrows-on-hover": props.showArrows === "hover",
+        "v-window--vertical-arrows": !!props.verticalArrows,
+        "v-window--crossfade": !!props.crossfade
       }, themeClasses.value, props.class]),
-      "style": normalizeStyle(props.style)
+      "style": normalizeStyle([props.style, props.transitionDuration && !PREFERS_REDUCED_MOTION ? {
+        "--v-window-transition-duration": convertToUnit(props.transitionDuration, "ms")
+      } : void 0])
     }, {
       default: () => {
         var _a, _b;
         return [createElementVNode("div", {
           "class": "v-window__container",
-          "style": normalizeStyle({
+          "style": {
             height: transitionHeight.value
-          })
+          }
         }, [(_a = slots.default) == null ? void 0 : _a.call(slots, {
           group
         }), props.showArrows !== false && createElementVNode("div", {
-          "class": "v-window__controls"
+          "class": normalizeClass(["v-window__controls", {
+            "v-window__controls--left": props.verticalArrows === "left" || props.verticalArrows === true
+          }, {
+            "v-window__controls--right": props.verticalArrows === "right"
+          }])
         }, [arrows.value])]), (_b = slots.additional) == null ? void 0 : _b.call(slots, {
           group
         })];
@@ -47335,6 +48660,7 @@ const makeVTabsProps = propsFactory({
   },
   hideSlider: Boolean,
   sliderColor: String,
+  ...pick(makeVTabProps(), ["spaced"]),
   ...makeVSlideGroupProps({
     mandatory: "force",
     selectedClass: "v-tab-item--selected"
@@ -47400,7 +48726,8 @@ const VTabs = genericComponent()({
               item
             })) ?? createVNode(VTab, mergeProps(item, {
               "key": item.text,
-              "value": item.value
+              "value": item.value,
+              "spaced": props.spaced
             }), {
               default: slots[`tab.${item.value}`] ? () => {
                 var _a3;
@@ -47578,11 +48905,10 @@ function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(VRow, { class: "d-flex align-center" }, {
                 default: withCtx(() => [
                   createVNode(VCol, null, {
-                    default: withCtx(() => _cache[5] || (_cache[5] = [
+                    default: withCtx(() => [..._cache[5] || (_cache[5] = [
                       createElementVNode("h2", { "data-cy": "header-title" }, "Billing Records", -1)
-                    ])),
-                    _: 1,
-                    __: [5]
+                    ])]),
+                    _: 1
                   }),
                   createVNode(VCol, { cols: "4" }, {
                     default: withCtx(() => [
@@ -47625,11 +48951,10 @@ function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
                       createVNode(VBtn, {
                         onClick: _cache[4] || (_cache[4] = ($event) => $options.resetShowBillingRecords())
                       }, {
-                        default: withCtx(() => _cache[6] || (_cache[6] = [
-                          createTextVNode("View Billing Records")
-                        ])),
-                        _: 1,
-                        __: [6]
+                        default: withCtx(() => [..._cache[6] || (_cache[6] = [
+                          createTextVNode("View Billing Records", -1)
+                        ])]),
+                        _: 1
                       })
                     ]),
                     _: 1
@@ -47645,7 +48970,7 @@ function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
       }),
       $data.showBillingRecords ? (openBlock(), createBlock(VContainer, { key: 0 }, {
         default: withCtx(() => [
-          (openBlock(true), createElementBlock(Fragment, null, renderList($data.facilities, (facility, i2) => {
+          (openBlock(true), createElementBlock(Fragment, null, renderList($data.facilities, (facility, i) => {
             return openBlock(), createBlock(VRow, {
               key: facility.id + $data.keyModifier
             }, {
@@ -47653,41 +48978,37 @@ function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
                 createVNode(VCol, null, {
                   default: withCtx(() => [
                     createVNode(VTabs, {
-                      modelValue: $data.currentTabs[i2],
-                      "onUpdate:modelValue": ($event) => $data.currentTabs[i2] = $event
+                      modelValue: $data.currentTabs[i],
+                      "onUpdate:modelValue": ($event) => $data.currentTabs[i] = $event
                     }, {
                       default: withCtx(() => [
                         createVNode(VTab, null, {
-                          default: withCtx(() => _cache[7] || (_cache[7] = [
-                            createTextVNode("Billing Records")
-                          ])),
-                          _: 1,
-                          __: [7]
+                          default: withCtx(() => [..._cache[7] || (_cache[7] = [
+                            createTextVNode("Billing Records", -1)
+                          ])]),
+                          _: 1
                         }),
                         createVNode(VTab, null, {
-                          default: withCtx(() => _cache[8] || (_cache[8] = [
-                            createTextVNode("Summary by Account")
-                          ])),
-                          _: 1,
-                          __: [8]
+                          default: withCtx(() => [..._cache[8] || (_cache[8] = [
+                            createTextVNode("Summary by Account", -1)
+                          ])]),
+                          _: 1
                         }),
                         createVNode(VTab, null, {
-                          default: withCtx(() => _cache[9] || (_cache[9] = [
-                            createTextVNode("Summary by User")
-                          ])),
-                          _: 1,
-                          __: [9]
+                          default: withCtx(() => [..._cache[9] || (_cache[9] = [
+                            createTextVNode("Summary by User", -1)
+                          ])]),
+                          _: 1
                         }),
                         createVNode(VTab, null, {
-                          default: withCtx(() => _cache[10] || (_cache[10] = [
-                            createTextVNode("Summary by Product Rate")
-                          ])),
-                          _: 1,
-                          __: [10]
+                          default: withCtx(() => [..._cache[10] || (_cache[10] = [
+                            createTextVNode("Summary by Product Rate", -1)
+                          ])]),
+                          _: 1
                         }),
                         createVNode(_component_v_tabs_items, {
-                          modelValue: $data.currentTabs[i2],
-                          "onUpdate:modelValue": ($event) => $data.currentTabs[i2] = $event
+                          modelValue: $data.currentTabs[i],
+                          "onUpdate:modelValue": ($event) => $data.currentTabs[i] = $event
                         }, {
                           default: withCtx(() => [
                             createVNode(_component_v_tab_item, null, {
@@ -48015,11 +49336,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[5] || (_cache[5] = [
+                default: withCtx(() => [..._cache[5] || (_cache[5] = [
                   createElementVNode("h3", null, "Organization", -1)
-                ])),
-                _: 1,
-                __: [5]
+                ])]),
+                _: 1
               }),
               _ctx.item.account ? (openBlock(), createBlock(VCol, { key: 0 }, {
                 default: withCtx(() => [
@@ -48037,11 +49357,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[6] || (_cache[6] = [
+                default: withCtx(() => [..._cache[6] || (_cache[6] = [
                   createElementVNode("h3", null, "Facility", -1)
-                ])),
-                _: 1,
-                __: [6]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48059,11 +49378,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[7] || (_cache[7] = [
+                default: withCtx(() => [..._cache[7] || (_cache[7] = [
                   createElementVNode("h3", null, "Product", -1)
-                ])),
-                _: 1,
-                __: [7]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48081,11 +49399,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[8] || (_cache[8] = [
+                default: withCtx(() => [..._cache[8] || (_cache[8] = [
                   createElementVNode("h3", null, "Charge", -1)
-                ])),
-                _: 1,
-                __: [8]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48125,11 +49442,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[9] || (_cache[9] = [
+                default: withCtx(() => [..._cache[9] || (_cache[9] = [
                   createElementVNode("h3", null, "Billing year", -1)
-                ])),
-                _: 1,
-                __: [9]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48147,11 +49463,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[10] || (_cache[10] = [
+                default: withCtx(() => [..._cache[10] || (_cache[10] = [
                   createElementVNode("h3", null, "Billing month", -1)
-                ])),
-                _: 1,
-                __: [10]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48169,11 +49484,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[11] || (_cache[11] = [
+                default: withCtx(() => [..._cache[11] || (_cache[11] = [
                   createElementVNode("h3", null, "Start date", -1)
-                ])),
-                _: 1,
-                __: [11]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48192,11 +49506,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[12] || (_cache[12] = [
+                default: withCtx(() => [..._cache[12] || (_cache[12] = [
                   createElementVNode("h3", null, "End date", -1)
-                ])),
-                _: 1,
-                __: [12]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48214,11 +49527,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[13] || (_cache[13] = [
+                default: withCtx(() => [..._cache[13] || (_cache[13] = [
                   createElementVNode("h3", null, "Description", -1)
-                ])),
-                _: 1,
-                __: [13]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48237,11 +49549,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[14] || (_cache[14] = [
+                default: withCtx(() => [..._cache[14] || (_cache[14] = [
                   createElementVNode("h3", null, "Usage", -1)
-                ])),
-                _: 1,
-                __: [14]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48261,11 +49572,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[15] || (_cache[15] = [
+                default: withCtx(() => [..._cache[15] || (_cache[15] = [
                   createElementVNode("h3", null, "State", -1)
-                ])),
-                _: 1,
-                __: [15]
+                ])]),
+                _: 1
               }),
               $options.hasMultipleTransactions ? (openBlock(), createBlock(VBtn, {
                 key: 0,
@@ -48278,11 +49588,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VIcon, {
                     class: normalizeClass({ active: $data.stateOpen })
                   }, {
-                    default: withCtx(() => _cache[16] || (_cache[16] = [
-                      createTextVNode("mdi-menu-right")
-                    ])),
-                    _: 1,
-                    __: [16]
+                    default: withCtx(() => [..._cache[16] || (_cache[16] = [
+                      createTextVNode("mdi-menu-right", -1)
+                    ])]),
+                    _: 1
                   }, 8, ["class"])
                 ]),
                 _: 1
@@ -48294,11 +49603,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           $data.stateOpen ? (openBlock(), createBlock(VRow, { key: 3 }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[17] || (_cache[17] = [
+                default: withCtx(() => [..._cache[17] || (_cache[17] = [
                   createElementVNode("h3", null, "State History", -1)
-                ])),
-                _: 1,
-                __: [17]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48326,11 +49634,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(VCol, { sm: "2" }, {
-                default: withCtx(() => _cache[18] || (_cache[18] = [
+                default: withCtx(() => [..._cache[18] || (_cache[18] = [
                   createElementVNode("h3", null, "Updated", -1)
-                ])),
-                _: 1,
-                __: [18]
+                ])]),
+                _: 1
               }),
               createVNode(VCol, null, {
                 default: withCtx(() => [
@@ -48419,11 +49726,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
                             text: "",
                             onClick: $options.closeEditDialog
                           }, {
-                            default: withCtx(() => _cache[19] || (_cache[19] = [
-                              createTextVNode("Cancel")
-                            ])),
-                            _: 1,
-                            __: [19]
+                            default: withCtx(() => [..._cache[19] || (_cache[19] = [
+                              createTextVNode("Cancel", -1)
+                            ])]),
+                            _: 1
                           }, 8, ["onClick"]),
                           createVNode(VBtn, {
                             color: "blue darken-1",
@@ -48431,11 +49737,10 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
                             disabled: !$data.isValidEdit,
                             onClick: $options.updateRecord
                           }, {
-                            default: withCtx(() => _cache[20] || (_cache[20] = [
-                              createTextVNode("Save")
-                            ])),
-                            _: 1,
-                            __: [20]
+                            default: withCtx(() => [..._cache[20] || (_cache[20] = [
+                              createTextVNode("Save", -1)
+                            ])]),
+                            _: 1
                           }, 8, ["disabled", "onClick"])
                         ]),
                         _: 1
@@ -48556,16 +49861,16 @@ const _sfc_main$s = {
       let items = this.usages;
       if (this.search) {
         const search = this.search.toString().toLowerCase();
-        items = items.filter((i2) => {
-          let item = i2;
-          if (i2.data) {
-            item = i2.data;
+        items = items.filter((i) => {
+          let item = i;
+          if (i.data) {
+            item = i.data;
           }
           return Object.keys(item).some((j) => this.filterSearch(item[j], search));
         });
       }
       if (this.onlyErrors) {
-        items = items.filter((i2) => i2.processing && !i2.processing.resolved);
+        items = items.filter((i) => i.processing && !i.processing.resolved);
       }
       return items;
     },
@@ -48686,9 +49991,9 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
       createVNode(_component_IFXPageHeader, null, {
-        title: withCtx(() => _cache[10] || (_cache[10] = [
-          createTextVNode("Calculate billing month")
-        ])),
+        title: withCtx(() => [..._cache[10] || (_cache[10] = [
+          createTextVNode("Calculate billing month", -1)
+        ])]),
         _: 1
       }),
       createVNode(VRow, {
@@ -48777,15 +50082,14 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
                             }), {
                               default: withCtx(() => [
                                 createVNode(VIcon, null, {
-                                  default: withCtx(() => _cache[11] || (_cache[11] = [
-                                    createTextVNode("autorenew")
-                                  ])),
-                                  _: 1,
-                                  __: [11]
+                                  default: withCtx(() => [..._cache[11] || (_cache[11] = [
+                                    createTextVNode("autorenew", -1)
+                                  ])]),
+                                  _: 1
                                 })
                               ]),
-                              _: 2
-                            }, 1040, ["disabled", "color"])
+                              _: 1
+                            }, 16, ["disabled", "color"])
                           ], 16)
                         ]),
                         default: withCtx(() => [
@@ -48975,8 +50279,8 @@ const _sfc_main$r = {
       this.fetchingData = true;
       let monthRange = this.endMonth - this.startMonth;
       monthRange += 12 * (this.endYear - this.startYear);
-      for (let i2 = 0; i2 <= monthRange; i2++) {
-        const curMonth = this.startMonth + i2;
+      for (let i = 0; i <= monthRange; i++) {
+        const curMonth = this.startMonth + i;
         const thisMonth = curMonth % 12 || 12;
         const paddedMonth = thisMonth.toString().padStart(2, "0");
         const thisYear = this.startYear + Math.floor((curMonth - 1) / 12);
@@ -49050,9 +50354,9 @@ function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
       createVNode(_component_IFXPageHeader, null, {
-        title: withCtx(() => _cache[11] || (_cache[11] = [
-          createTextVNode("Lab Billing Summary")
-        ])),
+        title: withCtx(() => [..._cache[11] || (_cache[11] = [
+          createTextVNode("Lab Billing Summary", -1)
+        ])]),
         subtitle: withCtx(() => [
           createElementVNode("span", null, toDisplayString($props.facility.name), 1)
         ]),
@@ -49157,11 +50461,10 @@ function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: $options.updateTable,
                 color: "primary"
               }, {
-                default: withCtx(() => _cache[12] || (_cache[12] = [
-                  createTextVNode("Get Summary")
-                ])),
-                _: 1,
-                __: [12]
+                default: withCtx(() => [..._cache[12] || (_cache[12] = [
+                  createTextVNode("Get Summary", -1)
+                ])]),
+                _: 1
               }, 8, ["onClick"])
             ]),
             _: 1
@@ -49353,22 +50656,20 @@ function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
                         }), {
                           default: withCtx(() => [
                             createVNode(VIcon, { dark: "" }, {
-                              default: withCtx(() => _cache[16] || (_cache[16] = [
-                                createTextVNode("mdi-text-box-plus-outline")
-                              ])),
-                              _: 1,
-                              __: [16]
+                              default: withCtx(() => [..._cache[16] || (_cache[16] = [
+                                createTextVNode("mdi-text-box-plus-outline", -1)
+                              ])]),
+                              _: 1
                             })
                           ]),
-                          _: 2
-                        }, 1040)) : createCommentVNode("", true)
+                          _: 1
+                        }, 16)) : createCommentVNode("", true)
                       ], 16)
                     ]),
                     default: withCtx(() => [
                       _cache[17] || (_cache[17] = createElementVNode("span", null, "Run a report", -1))
                     ]),
-                    _: 1,
-                    __: [17]
+                    _: 1
                   })
                 ]),
                 _: 1
@@ -49410,11 +50711,10 @@ function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode(VCard, null, {
             default: withCtx(() => [
               createVNode(VCardTitle, null, {
-                default: withCtx(() => _cache[18] || (_cache[18] = [
+                default: withCtx(() => [..._cache[18] || (_cache[18] = [
                   createElementVNode("span", { class: "text-h5" }, "Run a report", -1)
-                ])),
-                _: 1,
-                __: [18]
+                ])]),
+                _: 1
               }),
               createVNode(VCardText, null, {
                 default: withCtx(() => [
@@ -49542,8 +50842,7 @@ function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
                                 onClick: _cache[13] || (_cache[13] = ($event) => $options.toggleFiscalYear())
                               }, null, 8, ["modelValue"])
                             ]),
-                            _: 1,
-                            __: [19]
+                            _: 1
                           })
                         ]),
                         _: 1
@@ -49553,8 +50852,7 @@ function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
                         createVNode(VProgressLinear, { indeterminate: "" })
                       ])) : createCommentVNode("", true)
                     ]),
-                    _: 1,
-                    __: [20]
+                    _: 1
                   }, 8, ["modelValue"])
                 ]),
                 _: 1
@@ -49567,11 +50865,10 @@ function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
                     text: "",
                     onClick: $options.closeReportDialog
                   }, {
-                    default: withCtx(() => _cache[21] || (_cache[21] = [
-                      createTextVNode("Cancel")
-                    ])),
-                    _: 1,
-                    __: [21]
+                    default: withCtx(() => [..._cache[21] || (_cache[21] = [
+                      createTextVNode("Cancel", -1)
+                    ])]),
+                    _: 1
                   }, 8, ["onClick"]),
                   createVNode(VBtn, {
                     color: "blue darken-1",
@@ -49579,11 +50876,10 @@ function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
                     disabled: !_ctx.isValid,
                     onClick: $options.runSelectedReport
                   }, {
-                    default: withCtx(() => _cache[22] || (_cache[22] = [
-                      createTextVNode("Run")
-                    ])),
-                    _: 1,
-                    __: [22]
+                    default: withCtx(() => [..._cache[22] || (_cache[22] = [
+                      createTextVNode("Run", -1)
+                    ])]),
+                    _: 1
                   }, 8, ["disabled", "onClick"])
                 ]),
                 _: 1
@@ -49876,110 +51172,6 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
   ]));
 }
 const IFXDataTableCell = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$o], ["__scopeId", "data-v-41c045d7"]]);
-var r = function(r2) {
-  return /* @__PURE__ */ function(r3) {
-    return !!r3 && "object" == typeof r3;
-  }(r2) && !function(r3) {
-    var t2 = Object.prototype.toString.call(r3);
-    return "[object RegExp]" === t2 || "[object Date]" === t2 || function(r4) {
-      return r4.$$typeof === e;
-    }(r3);
-  }(r2);
-}, e = "function" == typeof Symbol && Symbol.for ? Symbol.for("react.element") : 60103;
-function t(r2, e2) {
-  return false !== e2.clone && e2.isMergeableObject(r2) ? u(Array.isArray(r2) ? [] : {}, r2, e2) : r2;
-}
-function n(r2, e2, n2) {
-  return r2.concat(e2).map(function(r3) {
-    return t(r3, n2);
-  });
-}
-function o(r2) {
-  return Object.keys(r2).concat(function(r3) {
-    return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(r3).filter(function(e2) {
-      return r3.propertyIsEnumerable(e2);
-    }) : [];
-  }(r2));
-}
-function c(r2, e2) {
-  try {
-    return e2 in r2;
-  } catch (r3) {
-    return false;
-  }
-}
-function u(e2, i2, a2) {
-  (a2 = a2 || {}).arrayMerge = a2.arrayMerge || n, a2.isMergeableObject = a2.isMergeableObject || r, a2.cloneUnlessOtherwiseSpecified = t;
-  var f = Array.isArray(i2);
-  return f === Array.isArray(e2) ? f ? a2.arrayMerge(e2, i2, a2) : function(r2, e3, n2) {
-    var i3 = {};
-    return n2.isMergeableObject(r2) && o(r2).forEach(function(e4) {
-      i3[e4] = t(r2[e4], n2);
-    }), o(e3).forEach(function(o2) {
-      (function(r3, e4) {
-        return c(r3, e4) && !(Object.hasOwnProperty.call(r3, e4) && Object.propertyIsEnumerable.call(r3, e4));
-      })(r2, o2) || (i3[o2] = c(r2, o2) && n2.isMergeableObject(e3[o2]) ? function(r3, e4) {
-        if (!e4.customMerge) return u;
-        var t2 = e4.customMerge(r3);
-        return "function" == typeof t2 ? t2 : u;
-      }(o2, n2)(r2[o2], e3[o2], n2) : t(e3[o2], n2));
-    }), i3;
-  }(e2, i2, a2) : t(i2, a2);
-}
-u.all = function(r2, e2) {
-  if (!Array.isArray(r2)) throw new Error("first argument should be an array");
-  return r2.reduce(function(r3, t2) {
-    return u(r3, t2, e2);
-  }, {});
-};
-var i = u;
-function a(r2) {
-  var e2 = (r2 = r2 || {}).storage || window && window.localStorage, t2 = r2.key || "vuex";
-  function n2(r3, e3) {
-    var t3 = e3.getItem(r3);
-    try {
-      return "string" == typeof t3 ? JSON.parse(t3) : "object" == typeof t3 ? t3 : void 0;
-    } catch (r4) {
-    }
-  }
-  function o2() {
-    return true;
-  }
-  function c2(r3, e3, t3) {
-    return t3.setItem(r3, JSON.stringify(e3));
-  }
-  function u2(r3, e3) {
-    return Array.isArray(e3) ? e3.reduce(function(e4, t3) {
-      return function(r4, e5, t4, n4) {
-        return !/^(__proto__|constructor|prototype)$/.test(e5) && ((e5 = e5.split ? e5.split(".") : e5.slice(0)).slice(0, -1).reduce(function(r5, e6) {
-          return r5[e6] = r5[e6] || {};
-        }, r4)[e5.pop()] = t4), r4;
-      }(e4, t3, (n3 = r3, void 0 === (n3 = ((o3 = t3).split ? o3.split(".") : o3).reduce(function(r4, e5) {
-        return r4 && r4[e5];
-      }, n3)) ? void 0 : n3));
-      var n3, o3;
-    }, {}) : r3;
-  }
-  function a2(r3) {
-    return function(e3) {
-      return r3.subscribe(e3);
-    };
-  }
-  (r2.assertStorage || function() {
-    e2.setItem("@@", 1), e2.removeItem("@@");
-  })(e2);
-  var f, s = function() {
-    return (r2.getState || n2)(t2, e2);
-  };
-  return r2.fetchBeforeUse && (f = s()), function(n3) {
-    r2.fetchBeforeUse || (f = s()), "object" == typeof f && null !== f && (n3.replaceState(r2.overwrite ? f : i(n3.state, f, { arrayMerge: r2.arrayMerger || function(r3, e3) {
-      return e3;
-    }, clone: false })), (r2.rehydrated || function() {
-    })(n3)), (r2.subscriber || a2)(n3)(function(n4, i2) {
-      (r2.filter || o2)(n4) && (r2.setState || c2)(t2, (r2.reducer || u2)(i2, r2.paths), e2);
-    });
-  };
-}
 const _sfc_main$n = {
   name: "IFXTextEditor",
   components: {
@@ -50058,11 +51250,11 @@ const IFXMixin = {
      * @param {any} b valueB
      * @returns {boolean}
      */
-    areValuesDifferent(a2, b) {
-      if (a2 && b) {
-        return JSON.parse(JSON.stringify(a2)) !== JSON.parse(JSON.stringify(b));
+    areValuesDifferent(a, b) {
+      if (a && b) {
+        return JSON.parse(JSON.stringify(a)) !== JSON.parse(JSON.stringify(b));
       }
-      return a2 !== b;
+      return a !== b;
     },
     /**
      * Gets first business day from now date
@@ -50344,7 +51536,7 @@ function emailDisplay(value) {
 }
 function stateDisplay(value) {
   if (value) {
-    const result = value.split("_").map((e2) => capitalizeFirstLetter(e2)).join(" ").trim();
+    const result = value.split("_").map((e) => capitalizeFirstLetter(e)).join(" ").trim();
     return result;
   }
   return "";
@@ -50749,16 +51941,16 @@ function requireLodash() {
       var freeModule = freeExports && true && module2 && !module2.nodeType && module2;
       var moduleExports = freeModule && freeModule.exports === freeExports;
       var freeProcess = moduleExports && freeGlobal.process;
-      var nodeUtil = function() {
+      var nodeUtil = (function() {
         try {
           var types = freeModule && freeModule.require && freeModule.require("util").types;
           if (types) {
             return types;
           }
           return freeProcess && freeProcess.binding && freeProcess.binding("util");
-        } catch (e2) {
+        } catch (e) {
         }
-      }();
+      })();
       var nodeIsArrayBuffer = nodeUtil && nodeUtil.isArrayBuffer, nodeIsDate = nodeUtil && nodeUtil.isDate, nodeIsMap = nodeUtil && nodeUtil.isMap, nodeIsRegExp = nodeUtil && nodeUtil.isRegExp, nodeIsSet = nodeUtil && nodeUtil.isSet, nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
       function apply(func, thisArg, args) {
         switch (args.length) {
@@ -50953,9 +52145,9 @@ function requireLodash() {
         }
         return result;
       }
-      function baseTimes(n2, iteratee) {
-        var index = -1, result = Array(n2);
-        while (++index < n2) {
+      function baseTimes(n, iteratee) {
+        var index = -1, result = Array(n);
+        while (++index < n) {
           result[index] = iteratee(index);
         }
         return result;
@@ -51104,7 +52296,7 @@ function requireLodash() {
       function unicodeWords(string) {
         return string.match(reUnicodeWord) || [];
       }
-      var runInContext = function runInContext2(context) {
+      var runInContext = (function runInContext2(context) {
         context = context == null ? root : _.defaults(root.Object(), context, _.pick(root, contextProps));
         var Array2 = context.Array, Date2 = context.Date, Error2 = context.Error, Function2 = context.Function, Math2 = context.Math, Object2 = context.Object, RegExp2 = context.RegExp, String2 = context.String, TypeError2 = context.TypeError;
         var arrayProto = Array2.prototype, funcProto = Function2.prototype, objectProto = Object2.prototype;
@@ -51112,10 +52304,10 @@ function requireLodash() {
         var funcToString = funcProto.toString;
         var hasOwnProperty2 = objectProto.hasOwnProperty;
         var idCounter = 0;
-        var maskSrcKey = function() {
+        var maskSrcKey = (function() {
           var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
           return uid ? "Symbol(src)_1." + uid : "";
-        }();
+        })();
         var nativeObjectToString = objectProto.toString;
         var objectCtorString = funcToString.call(Object2);
         var oldDash = root._;
@@ -51123,14 +52315,14 @@ function requireLodash() {
           "^" + funcToString.call(hasOwnProperty2).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
         );
         var Buffer2 = moduleExports ? context.Buffer : undefined$1, Symbol2 = context.Symbol, Uint8Array2 = context.Uint8Array, allocUnsafe = Buffer2 ? Buffer2.allocUnsafe : undefined$1, getPrototype = overArg(Object2.getPrototypeOf, Object2), objectCreate = Object2.create, propertyIsEnumerable = objectProto.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol2 ? Symbol2.isConcatSpreadable : undefined$1, symIterator = Symbol2 ? Symbol2.iterator : undefined$1, symToStringTag = Symbol2 ? Symbol2.toStringTag : undefined$1;
-        var defineProperty = function() {
+        var defineProperty = (function() {
           try {
             var func = getNative(Object2, "defineProperty");
             func({}, "", {});
             return func;
-          } catch (e2) {
+          } catch (e) {
           }
-        }();
+        })();
         var ctxClearTimeout = context.clearTimeout !== root.clearTimeout && context.clearTimeout, ctxNow = Date2 && Date2.now !== root.Date.now && Date2.now, ctxSetTimeout = context.setTimeout !== root.setTimeout && context.setTimeout;
         var nativeCeil = Math2.ceil, nativeFloor = Math2.floor, nativeGetSymbols = Object2.getOwnPropertySymbols, nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : undefined$1, nativeIsFinite = context.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object2.keys, Object2), nativeMax = Math2.max, nativeMin = Math2.min, nativeNow = Date2.now, nativeParseInt = context.parseInt, nativeRandom = Math2.random, nativeReverse = arrayProto.reverse;
         var DataView = getNative(context, "DataView"), Map2 = getNative(context, "Map"), Promise2 = getNative(context, "Promise"), Set2 = getNative(context, "Set"), WeakMap2 = getNative(context, "WeakMap"), nativeCreate = getNative(Object2, "create");
@@ -51149,7 +52341,7 @@ function requireLodash() {
           }
           return new LodashWrapper(value);
         }
-        var baseCreate = /* @__PURE__ */ function() {
+        var baseCreate = /* @__PURE__ */ (function() {
           function object() {
           }
           return function(proto2) {
@@ -51164,7 +52356,7 @@ function requireLodash() {
             object.prototype = undefined$1;
             return result2;
           };
-        }();
+        })();
         function baseLodash() {
         }
         function LodashWrapper(value, chainAll) {
@@ -51479,8 +52671,8 @@ function requireLodash() {
           var length = array.length;
           return length ? array[baseRandom(0, length - 1)] : undefined$1;
         }
-        function arraySampleSize(array, n2) {
-          return shuffleSelf(copyArray(array), baseClamp(n2, 0, array.length));
+        function arraySampleSize(array, n) {
+          return shuffleSelf(copyArray(array), baseClamp(n, 0, array.length));
         }
         function arrayShuffle(array) {
           return shuffleSelf(copyArray(array));
@@ -52041,13 +53233,13 @@ function requireLodash() {
           }
           assignMergeValue(object, key, newValue);
         }
-        function baseNth(array, n2) {
+        function baseNth(array, n) {
           var length = array.length;
           if (!length) {
             return;
           }
-          n2 += n2 < 0 ? length : 0;
-          return isIndex(n2, length) ? array[n2] : undefined$1;
+          n += n < 0 ? length : 0;
+          return isIndex(n, length) ? array[n] : undefined$1;
         }
         function baseOrderBy(collection, iteratees, orders) {
           if (iteratees.length) {
@@ -52139,20 +53331,20 @@ function requireLodash() {
           }
           return result2;
         }
-        function baseRepeat(string, n2) {
+        function baseRepeat(string, n) {
           var result2 = "";
-          if (!string || n2 < 1 || n2 > MAX_SAFE_INTEGER) {
+          if (!string || n < 1 || n > MAX_SAFE_INTEGER) {
             return result2;
           }
           do {
-            if (n2 % 2) {
+            if (n % 2) {
               result2 += string;
             }
-            n2 = nativeFloor(n2 / 2);
-            if (n2) {
+            n = nativeFloor(n / 2);
+            if (n) {
               string += string;
             }
-          } while (n2);
+          } while (n);
           return result2;
         }
         function baseRest(func, start) {
@@ -52161,9 +53353,9 @@ function requireLodash() {
         function baseSample(collection) {
           return arraySample(values(collection));
         }
-        function baseSampleSize(collection, n2) {
+        function baseSampleSize(collection, n) {
           var array = values(collection);
-          return shuffleSelf(array, baseClamp(n2, 0, array.length));
+          return shuffleSelf(array, baseClamp(n, 0, array.length));
         }
         function baseSet(object, path, value, customizer) {
           if (!isObject2(object)) {
@@ -52304,7 +53496,7 @@ function requireLodash() {
             return symbolToString ? symbolToString.call(value) : "";
           }
           var result2 = value + "";
-          return result2 == "0" && 1 / value == -Infinity ? "-0" : result2;
+          return result2 == "0" && 1 / value == -INFINITY ? "-0" : result2;
         }
         function baseUniq(array, iteratee2, comparator) {
           var index = -1, includes3 = arrayIncludes, length = array.length, isCommon = true, result2 = [], seen = result2;
@@ -53160,7 +54352,7 @@ function requireLodash() {
           try {
             value[symToStringTag] = undefined$1;
             var unmasked = true;
-          } catch (e2) {
+          } catch (e) {
           }
           var result2 = nativeObjectToString.call(value);
           if (unmasked) {
@@ -53511,17 +54703,17 @@ function requireLodash() {
             return value;
           }
           var result2 = value + "";
-          return result2 == "0" && 1 / value == -Infinity ? "-0" : result2;
+          return result2 == "0" && 1 / value == -INFINITY ? "-0" : result2;
         }
         function toSource(func) {
           if (func != null) {
             try {
               return funcToString.call(func);
-            } catch (e2) {
+            } catch (e) {
             }
             try {
               return func + "";
-            } catch (e2) {
+            } catch (e) {
             }
           }
           return "";
@@ -53599,22 +54791,22 @@ function requireLodash() {
           }
           return isArrayLikeObject(array) ? baseDifference(array, baseFlatten(values2, 1, isArrayLikeObject, true), undefined$1, comparator) : [];
         });
-        function drop(array, n2, guard) {
+        function drop(array, n, guard) {
           var length = array == null ? 0 : array.length;
           if (!length) {
             return [];
           }
-          n2 = guard || n2 === undefined$1 ? 1 : toInteger(n2);
-          return baseSlice(array, n2 < 0 ? 0 : n2, length);
+          n = guard || n === undefined$1 ? 1 : toInteger(n);
+          return baseSlice(array, n < 0 ? 0 : n, length);
         }
-        function dropRight(array, n2, guard) {
+        function dropRight(array, n, guard) {
           var length = array == null ? 0 : array.length;
           if (!length) {
             return [];
           }
-          n2 = guard || n2 === undefined$1 ? 1 : toInteger(n2);
-          n2 = length - n2;
-          return baseSlice(array, 0, n2 < 0 ? 0 : n2);
+          n = guard || n === undefined$1 ? 1 : toInteger(n);
+          n = length - n;
+          return baseSlice(array, 0, n < 0 ? 0 : n);
         }
         function dropRightWhile(array, predicate) {
           return array && array.length ? baseWhile(array, getIteratee(predicate, 3), true, true) : [];
@@ -53738,8 +54930,8 @@ function requireLodash() {
           }
           return value === value ? strictLastIndexOf(array, value, index) : baseFindIndex(array, baseIsNaN, index, true);
         }
-        function nth(array, n2) {
-          return array && array.length ? baseNth(array, toInteger(n2)) : undefined$1;
+        function nth(array, n) {
+          return array && array.length ? baseNth(array, toInteger(n)) : undefined$1;
         }
         var pull = baseRest(pullAll);
         function pullAll(array, values2) {
@@ -53834,21 +55026,21 @@ function requireLodash() {
           var length = array == null ? 0 : array.length;
           return length ? baseSlice(array, 1, length) : [];
         }
-        function take(array, n2, guard) {
+        function take(array, n, guard) {
           if (!(array && array.length)) {
             return [];
           }
-          n2 = guard || n2 === undefined$1 ? 1 : toInteger(n2);
-          return baseSlice(array, 0, n2 < 0 ? 0 : n2);
+          n = guard || n === undefined$1 ? 1 : toInteger(n);
+          return baseSlice(array, 0, n < 0 ? 0 : n);
         }
-        function takeRight(array, n2, guard) {
+        function takeRight(array, n, guard) {
           var length = array == null ? 0 : array.length;
           if (!length) {
             return [];
           }
-          n2 = guard || n2 === undefined$1 ? 1 : toInteger(n2);
-          n2 = length - n2;
-          return baseSlice(array, n2 < 0 ? 0 : n2, length);
+          n = guard || n === undefined$1 ? 1 : toInteger(n);
+          n = length - n;
+          return baseSlice(array, n < 0 ? 0 : n, length);
         }
         function takeRightWhile(array, predicate) {
           return array && array.length ? baseWhile(array, getIteratee(predicate, 3), false, true) : [];
@@ -54125,14 +55317,14 @@ function requireLodash() {
           var func = isArray2(collection) ? arraySample : baseSample;
           return func(collection);
         }
-        function sampleSize(collection, n2, guard) {
-          if (guard ? isIterateeCall(collection, n2, guard) : n2 === undefined$1) {
-            n2 = 1;
+        function sampleSize(collection, n, guard) {
+          if (guard ? isIterateeCall(collection, n, guard) : n === undefined$1) {
+            n = 1;
           } else {
-            n2 = toInteger(n2);
+            n = toInteger(n);
           }
           var func = isArray2(collection) ? arraySampleSize : baseSampleSize;
-          return func(collection, n2);
+          return func(collection, n);
         }
         function shuffle(collection) {
           var func = isArray2(collection) ? arrayShuffle : baseShuffle;
@@ -54173,33 +55365,33 @@ function requireLodash() {
         var now2 = ctxNow || function() {
           return root.Date.now();
         };
-        function after(n2, func) {
+        function after(n, func) {
           if (typeof func != "function") {
             throw new TypeError2(FUNC_ERROR_TEXT);
           }
-          n2 = toInteger(n2);
+          n = toInteger(n);
           return function() {
-            if (--n2 < 1) {
+            if (--n < 1) {
               return func.apply(this, arguments);
             }
           };
         }
-        function ary(func, n2, guard) {
-          n2 = guard ? undefined$1 : n2;
-          n2 = func && n2 == null ? func.length : n2;
-          return createWrap(func, WRAP_ARY_FLAG, undefined$1, undefined$1, undefined$1, undefined$1, n2);
+        function ary(func, n, guard) {
+          n = guard ? undefined$1 : n;
+          n = func && n == null ? func.length : n;
+          return createWrap(func, WRAP_ARY_FLAG, undefined$1, undefined$1, undefined$1, undefined$1, n);
         }
-        function before(n2, func) {
+        function before(n, func) {
           var result2;
           if (typeof func != "function") {
             throw new TypeError2(FUNC_ERROR_TEXT);
           }
-          n2 = toInteger(n2);
+          n = toInteger(n);
           return function() {
-            if (--n2 > 0) {
+            if (--n > 0) {
               result2 = func.apply(this, arguments);
             }
-            if (n2 <= 1) {
+            if (n <= 1) {
               func = undefined$1;
             }
             return result2;
@@ -54456,9 +55648,9 @@ function requireLodash() {
         var gte = createRelationalOperation(function(value, other) {
           return value >= other;
         });
-        var isArguments = baseIsArguments(/* @__PURE__ */ function() {
+        var isArguments = baseIsArguments(/* @__PURE__ */ (function() {
           return arguments;
-        }()) ? baseIsArguments : function(value) {
+        })()) ? baseIsArguments : function(value) {
           return isObjectLike(value) && hasOwnProperty2.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
         };
         var isArray2 = Array2.isArray;
@@ -54575,7 +55767,7 @@ function requireLodash() {
         }
         var isRegExp2 = nodeIsRegExp ? baseUnary(nodeIsRegExp) : baseIsRegExp;
         function isSafeInteger(value) {
-          return isInteger(value) && value >= -9007199254740991 && value <= MAX_SAFE_INTEGER;
+          return isInteger(value) && value >= -MAX_SAFE_INTEGER && value <= MAX_SAFE_INTEGER;
         }
         var isSet = nodeIsSet ? baseUnary(nodeIsSet) : baseIsSet;
         function isString2(value) {
@@ -54616,7 +55808,7 @@ function requireLodash() {
             return value === 0 ? value : 0;
           }
           value = toNumber(value);
-          if (value === INFINITY || value === -Infinity) {
+          if (value === INFINITY || value === -INFINITY) {
             var sign2 = value < 0 ? -1 : 1;
             return sign2 * MAX_INTEGER;
           }
@@ -54651,7 +55843,7 @@ function requireLodash() {
           return copyObject(value, keysIn(value));
         }
         function toSafeInteger(value) {
-          return value ? baseClamp(toInteger(value), -9007199254740991, MAX_SAFE_INTEGER) : value === 0 ? value : 0;
+          return value ? baseClamp(toInteger(value), -MAX_SAFE_INTEGER, MAX_SAFE_INTEGER) : value === 0 ? value : 0;
         }
         function toString3(value) {
           return value == null ? "" : baseToString(value);
@@ -54983,7 +56175,7 @@ function requireLodash() {
           return result2 + (index ? " " : "") + word.toLowerCase();
         });
         var lowerFirst = createCaseFirst("toLowerCase");
-        function pad(string, length, chars) {
+        function pad2(string, length, chars) {
           string = toString3(string);
           length = toInteger(length);
           var strLength = length ? stringSize(string) : 0;
@@ -55013,13 +56205,13 @@ function requireLodash() {
           }
           return nativeParseInt(toString3(string).replace(reTrimStart, ""), radix || 0);
         }
-        function repeat(string, n2, guard) {
-          if (guard ? isIterateeCall(string, n2, guard) : n2 === undefined$1) {
-            n2 = 1;
+        function repeat(string, n, guard) {
+          if (guard ? isIterateeCall(string, n, guard) : n === undefined$1) {
+            n = 1;
           } else {
-            n2 = toInteger(n2);
+            n = toInteger(n);
           }
-          return baseRepeat(toString3(string), n2);
+          return baseRepeat(toString3(string), n);
         }
         function replace() {
           var args = arguments, string = toString3(args[0]);
@@ -55208,8 +56400,8 @@ function requireLodash() {
         var attempt = baseRest(function(func, args) {
           try {
             return apply(func, undefined$1, args);
-          } catch (e2) {
-            return isError(e2) ? e2 : new Error2(e2);
+          } catch (e) {
+            return isError(e) ? e : new Error2(e);
           }
         });
         var bindAll = flatRest(function(object, methodNames) {
@@ -55307,10 +56499,10 @@ function requireLodash() {
         }
         function noop2() {
         }
-        function nthArg(n2) {
-          n2 = toInteger(n2);
+        function nthArg(n) {
+          n = toInteger(n);
           return baseRest(function(args) {
-            return baseNth(args, n2);
+            return baseNth(args, n);
           });
         }
         var over = createOver(arrayMap);
@@ -55341,16 +56533,16 @@ function requireLodash() {
         function stubTrue() {
           return true;
         }
-        function times(n2, iteratee2) {
-          n2 = toInteger(n2);
-          if (n2 < 1 || n2 > MAX_SAFE_INTEGER) {
+        function times(n, iteratee2) {
+          n = toInteger(n);
+          if (n < 1 || n > MAX_SAFE_INTEGER) {
             return [];
           }
-          var index = MAX_ARRAY_LENGTH, length = nativeMin(n2, MAX_ARRAY_LENGTH);
+          var index = MAX_ARRAY_LENGTH, length = nativeMin(n, MAX_ARRAY_LENGTH);
           iteratee2 = getIteratee(iteratee2);
-          n2 -= MAX_ARRAY_LENGTH;
+          n -= MAX_ARRAY_LENGTH;
           var result2 = baseTimes(length, iteratee2);
-          while (++index < n2) {
+          while (++index < n) {
             iteratee2(index);
           }
           return result2;
@@ -55662,7 +56854,7 @@ function requireLodash() {
         lodash2.noConflict = noConflict;
         lodash2.noop = noop2;
         lodash2.now = now2;
-        lodash2.pad = pad;
+        lodash2.pad = pad2;
         lodash2.padEnd = padEnd2;
         lodash2.padStart = padStart;
         lodash2.parseInt = parseInt2;
@@ -55710,7 +56902,7 @@ function requireLodash() {
         lodash2.each = forEach2;
         lodash2.eachRight = forEachRight;
         lodash2.first = head;
-        mixin(lodash2, function() {
+        mixin(lodash2, (function() {
           var source = {};
           baseForOwn(lodash2, function(func, methodName) {
             if (!hasOwnProperty2.call(lodash2.prototype, methodName)) {
@@ -55718,27 +56910,27 @@ function requireLodash() {
             }
           });
           return source;
-        }(), { "chain": false });
+        })(), { "chain": false });
         lodash2.VERSION = VERSION2;
         arrayEach(["bind", "bindKey", "curry", "curryRight", "partial", "partialRight"], function(methodName) {
           lodash2[methodName].placeholder = lodash2;
         });
         arrayEach(["drop", "take"], function(methodName, index) {
-          LazyWrapper.prototype[methodName] = function(n2) {
-            n2 = n2 === undefined$1 ? 1 : nativeMax(toInteger(n2), 0);
+          LazyWrapper.prototype[methodName] = function(n) {
+            n = n === undefined$1 ? 1 : nativeMax(toInteger(n), 0);
             var result2 = this.__filtered__ && !index ? new LazyWrapper(this) : this.clone();
             if (result2.__filtered__) {
-              result2.__takeCount__ = nativeMin(n2, result2.__takeCount__);
+              result2.__takeCount__ = nativeMin(n, result2.__takeCount__);
             } else {
               result2.__views__.push({
-                "size": nativeMin(n2, MAX_ARRAY_LENGTH),
+                "size": nativeMin(n, MAX_ARRAY_LENGTH),
                 "type": methodName + (result2.__dir__ < 0 ? "Right" : "")
               });
             }
             return result2;
           };
-          LazyWrapper.prototype[methodName + "Right"] = function(n2) {
-            return this.reverse()[methodName](n2).reverse();
+          LazyWrapper.prototype[methodName + "Right"] = function(n) {
+            return this.reverse()[methodName](n).reverse();
           };
         });
         arrayEach(["filter", "map", "takeWhile"], function(methodName, index) {
@@ -55878,7 +57070,7 @@ function requireLodash() {
           lodash2.prototype[symIterator] = wrapperToIterator;
         }
         return lodash2;
-      };
+      });
       var _ = runInContext();
       if (freeModule) {
         (freeModule.exports = _)._ = _;
@@ -56137,7 +57329,10 @@ const makeVToolbarProps = propsFactory({
     default: "default",
     validator: (v) => allowedDensities.includes(v)
   },
-  extended: Boolean,
+  extended: {
+    type: Boolean,
+    default: null
+  },
   extensionHeight: {
     type: [Number, String],
     default: 48
@@ -56186,7 +57381,7 @@ const VToolbar = genericComponent()({
     const {
       rtlClasses
     } = useRtl();
-    const isExtended = shallowRef(!!(props.extended || ((_a = slots.extension) == null ? void 0 : _a.call(slots))));
+    const isExtended = shallowRef(props.extended === null ? !!((_a = slots.extension) == null ? void 0 : _a.call(slots)) : props.extended);
     const contentHeight = computed(() => parseInt(Number(props.height) + (props.density === "prominent" ? Number(props.height) : 0) - (props.density === "comfortable" ? 8 : 0) - (props.density === "compact" ? 16 : 0), 10));
     const extensionHeight = computed(() => isExtended.value ? parseInt(Number(props.extensionHeight) + (props.density === "prominent" ? Number(props.extensionHeight) : 0) - (props.density === "comfortable" ? 4 : 0) - (props.density === "compact" ? 8 : 0), 10) : 0);
     provideDefaults({
@@ -56199,7 +57394,7 @@ const VToolbar = genericComponent()({
       const hasTitle = !!(props.title || slots.title);
       const hasImage = !!(slots.image || props.image);
       const extension = (_a2 = slots.extension) == null ? void 0 : _a2.call(slots);
-      isExtended.value = !!(props.extended || extension);
+      isExtended.value = props.extended === null ? !!extension : props.extended;
       return createVNode(props.tag, {
         "class": normalizeClass(["v-toolbar", {
           "v-toolbar--absolute": props.absolute,
@@ -56237,9 +57432,9 @@ const VToolbar = genericComponent()({
             var _a3, _b, _c;
             return [createElementVNode("div", {
               "class": "v-toolbar__content",
-              "style": normalizeStyle({
+              "style": {
                 height: convertToUnit(contentHeight.value)
-              })
+              }
             }, [slots.prepend && createElementVNode("div", {
               "class": "v-toolbar__prepend"
             }, [(_a3 = slots.prepend) == null ? void 0 : _a3.call(slots)]), hasTitle && createVNode(VToolbarTitle, {
@@ -56261,9 +57456,9 @@ const VToolbar = genericComponent()({
           default: () => [createVNode(VExpandTransition, null, {
             default: () => [isExtended.value && createElementVNode("div", {
               "class": "v-toolbar__extension",
-              "style": normalizeStyle({
+              "style": {
                 height: convertToUnit(extensionHeight.value)
-              })
+              }
             }, [extension])]
           })]
         })]
@@ -56393,14 +57588,14 @@ const _sfc_main$m = {
     }
     this.allResources = await this.$api.resource.getList();
     const unsortedUsers = await this.$api.skinnyUser.getList();
-    this.skinnyUsers = unsortedUsers.sort((a2, b) => {
-      if (a2.lastName.toLowerCase() === b.lastName.toLowerCase()) {
-        if (a2.firstName.toLowerCase() === b.firstName.toLowerCase()) {
+    this.skinnyUsers = unsortedUsers.sort((a, b) => {
+      if (a.lastName.toLowerCase() === b.lastName.toLowerCase()) {
+        if (a.firstName.toLowerCase() === b.firstName.toLowerCase()) {
           return 0;
         }
-        return a2.firstName.toLowerCase() > b.firstName.toLowerCase() ? 1 : -1;
+        return a.firstName.toLowerCase() > b.firstName.toLowerCase() ? 1 : -1;
       }
-      return a2.lastName.toLowerCase() > b.lastName.toLowerCase() ? 1 : -1;
+      return a.lastName.toLowerCase() > b.lastName.toLowerCase() ? 1 : -1;
     });
     this.eventsAreLoading = true;
     this.clearReservation();
@@ -56767,7 +57962,7 @@ const _sfc_main$m = {
           }
           this.showMessage(msg);
           const returnedRU = await this.$api.reservationUsage.create(res.data);
-          const eIndex = this.items.findIndex((e2) => e2.id === this.newEvent.id);
+          const eIndex = this.items.findIndex((e) => e.id === this.newEvent.id);
           if (eIndex !== -1) {
             this.items.splice(eIndex, 1, returnedRU);
           }
@@ -56878,7 +58073,7 @@ const _sfc_main$m = {
           await this.$api.reservationUsage.delete(resUsage);
           const msg = `Deleted ${theResource.name} for ${resUsage.productUser.fullName}.`;
           this.showMessage(msg);
-          const eIndex = this.items.findIndex((e2) => e2.id === item.id);
+          const eIndex = this.items.findIndex((e) => e.id === item.id);
           if (eIndex !== -1) {
             this.items.splice(eIndex, 1);
           }
@@ -56907,7 +58102,7 @@ const _sfc_main$m = {
         const msg = `Cancelled  ${theResource.name} for ${resUsage.productUser.fullName}.`;
         this.showMessage(msg);
         const returnedRU = await this.$api.reservationUsage.create(res.data);
-        const eIndex = this.items.findIndex((e2) => e2.id === item.id);
+        const eIndex = this.items.findIndex((e) => e.id === item.id);
         if (eIndex !== -1) {
           this.items.splice(eIndex, 1, returnedRU);
         }
@@ -57026,8 +58221,8 @@ const _sfc_main$m = {
       }
       this.allowedMinutes = [];
       const blocksPerHours = 60 / unitLength;
-      for (let i2 = 0; i2 < blocksPerHours; i2++) {
-        this.allowedMinutes.push(i2 * (60 / blocksPerHours));
+      for (let i = 0; i < blocksPerHours; i++) {
+        this.allowedMinutes.push(i * (60 / blocksPerHours));
       }
       this.getAllExpenseCodes(this.user);
       if (this.$refs.reserveForm) {
@@ -57159,7 +58354,6 @@ const _hoisted_25 = {
 };
 function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_v_calendar = resolveComponent("v-calendar");
-  const _component_v_time_picker = resolveComponent("v-time-picker");
   return openBlock(), createElementBlock("div", _hoisted_1$6, [
     createVNode(VRow, null, {
       default: withCtx(() => [
@@ -57251,11 +58445,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                       onClick: $options.setToday,
                       "data-cy": "calendar-today"
                     }, {
-                      default: withCtx(() => _cache[48] || (_cache[48] = [
-                        createTextVNode("Today")
-                      ])),
-                      _: 1,
-                      __: [48]
+                      default: withCtx(() => [..._cache[48] || (_cache[48] = [
+                        createTextVNode("Today", -1)
+                      ])]),
+                      _: 1
                     }, 8, ["onClick"]),
                     createVNode(VBtn, {
                       fab: "",
@@ -57267,11 +58460,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                     }, {
                       default: withCtx(() => [
                         createVNode(VIcon, { small: "" }, {
-                          default: withCtx(() => _cache[49] || (_cache[49] = [
-                            createTextVNode("mdi-chevron-left")
-                          ])),
-                          _: 1,
-                          __: [49]
+                          default: withCtx(() => [..._cache[49] || (_cache[49] = [
+                            createTextVNode("mdi-chevron-left", -1)
+                          ])]),
+                          _: 1
                         })
                       ]),
                       _: 1
@@ -57286,11 +58478,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                     }, {
                       default: withCtx(() => [
                         createVNode(VIcon, { small: "" }, {
-                          default: withCtx(() => _cache[50] || (_cache[50] = [
-                            createTextVNode("mdi-chevron-right")
-                          ])),
-                          _: 1,
-                          __: [50]
+                          default: withCtx(() => [..._cache[50] || (_cache[50] = [
+                            createTextVNode("mdi-chevron-right", -1)
+                          ])]),
+                          _: 1
                         })
                       ]),
                       _: 1
@@ -57325,15 +58516,14 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                           default: withCtx(() => [
                             createElementVNode("span", null, toDisplayString(_ctx.typeToLabel[_ctx.type]), 1),
                             createVNode(VIcon, { right: "" }, {
-                              default: withCtx(() => _cache[51] || (_cache[51] = [
-                                createTextVNode("mdi-menu-down")
-                              ])),
-                              _: 1,
-                              __: [51]
+                              default: withCtx(() => [..._cache[51] || (_cache[51] = [
+                                createTextVNode("mdi-menu-down", -1)
+                              ])]),
+                              _: 1
                             })
                           ]),
-                          _: 2
-                        }, 1040)
+                          _: 1
+                        }, 16)
                       ]),
                       default: withCtx(() => [
                         createVNode(VList, null, {
@@ -57343,11 +58533,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createVNode(VListItemTitle, null, {
-                                  default: withCtx(() => _cache[52] || (_cache[52] = [
-                                    createTextVNode("Day")
-                                  ])),
-                                  _: 1,
-                                  __: [52]
+                                  default: withCtx(() => [..._cache[52] || (_cache[52] = [
+                                    createTextVNode("Day", -1)
+                                  ])]),
+                                  _: 1
                                 })
                               ]),
                               _: 1
@@ -57357,11 +58546,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createVNode(VListItemTitle, null, {
-                                  default: withCtx(() => _cache[53] || (_cache[53] = [
-                                    createTextVNode("Week")
-                                  ])),
-                                  _: 1,
-                                  __: [53]
+                                  default: withCtx(() => [..._cache[53] || (_cache[53] = [
+                                    createTextVNode("Week", -1)
+                                  ])]),
+                                  _: 1
                                 })
                               ]),
                               _: 1
@@ -57371,11 +58559,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createVNode(VListItemTitle, null, {
-                                  default: withCtx(() => _cache[54] || (_cache[54] = [
-                                    createTextVNode("Month")
-                                  ])),
-                                  _: 1,
-                                  __: [54]
+                                  default: withCtx(() => [..._cache[54] || (_cache[54] = [
+                                    createTextVNode("Month", -1)
+                                  ])]),
+                                  _: 1
                                 })
                               ]),
                               _: 1
@@ -57387,8 +58574,7 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                       _: 1
                     })
                   ]),
-                  _: 1,
-                  __: [55]
+                  _: 1
                 })
               ]),
               _: 1
@@ -57464,7 +58650,7 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                       default: withCtx(() => [
                         createVNode(VCardTitle, { class: "d-flex justify-space-between" }, {
                           default: withCtx(() => [
-                            _cache[58] || (_cache[58] = createTextVNode(" Reserve an instrument or location ")),
+                            _cache[58] || (_cache[58] = createTextVNode(" Reserve an instrument or location ", -1)),
                             createVNode(VTooltip, { top: "" }, {
                               activator: withCtx(({ on }) => [
                                 createVNode(VBtn, mergeProps({
@@ -57476,25 +58662,22 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                 }), {
                                   default: withCtx(() => [
                                     createVNode(VIcon, null, {
-                                      default: withCtx(() => _cache[56] || (_cache[56] = [
-                                        createTextVNode("mdi-close")
-                                      ])),
-                                      _: 1,
-                                      __: [56]
+                                      default: withCtx(() => [..._cache[56] || (_cache[56] = [
+                                        createTextVNode("mdi-close", -1)
+                                      ])]),
+                                      _: 1
                                     })
                                   ]),
-                                  _: 2
-                                }, 1040, ["onClick"])
+                                  _: 1
+                                }, 16, ["onClick"])
                               ]),
                               default: withCtx(() => [
                                 _cache[57] || (_cache[57] = createElementVNode("span", null, "Close reservation panel", -1))
                               ]),
-                              _: 1,
-                              __: [57]
+                              _: 1
                             })
                           ]),
-                          _: 1,
-                          __: [58]
+                          _: 1
                         }),
                         createVNode(VCardText, null, {
                           default: withCtx(() => [
@@ -57609,9 +58792,9 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                   disabled: $options.resourceNotSelected || !$options.expenseCodeEnabled,
                                   "data-cy": "expense-code"
                                 }, {
-                                  "no-data": withCtx(() => _cache[59] || (_cache[59] = [
+                                  "no-data": withCtx(() => [..._cache[59] || (_cache[59] = [
                                     createElementVNode("div", { class: "mx-3 my-1" }, "No expense code or PO found for this organization and resource", -1)
-                                  ])),
+                                  ])]),
                                   _: 1
                                 }, 8, ["required", "items", "modelValue", "rules", "disabled"]),
                                 createVNode(VTextField, {
@@ -57662,11 +58845,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                             onClick: _cache[18] || (_cache[18] = ($event) => _ctx.startDateMenu = false),
                                             "data-cy": "start-date-cancel"
                                           }, {
-                                            default: withCtx(() => _cache[60] || (_cache[60] = [
-                                              createTextVNode(" Cancel ")
-                                            ])),
-                                            _: 1,
-                                            __: [60]
+                                            default: withCtx(() => [..._cache[60] || (_cache[60] = [
+                                              createTextVNode(" Cancel ", -1)
+                                            ])]),
+                                            _: 1
                                           }),
                                           createVNode(VBtn, {
                                             text: "",
@@ -57675,16 +58857,15 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                             onClick: _cache[19] || (_cache[19] = ($event) => $options.addValuesFromDatepicker("startDate", _ctx.pickerDate, _ctx.pickerTime)),
                                             "data-cy": "start-date-ok"
                                           }, {
-                                            default: withCtx(() => _cache[61] || (_cache[61] = [
-                                              createTextVNode(" OK ")
-                                            ])),
-                                            _: 1,
-                                            __: [61]
+                                            default: withCtx(() => [..._cache[61] || (_cache[61] = [
+                                              createTextVNode(" OK ", -1)
+                                            ])]),
+                                            _: 1
                                           }, 8, ["disabled"])
                                         ])
                                       ]),
                                       createVNode(VSpacer),
-                                      createVNode(_component_v_time_picker, {
+                                      createVNode(VTimePicker, {
                                         modelValue: _ctx.pickerTime,
                                         "onUpdate:modelValue": _cache[20] || (_cache[20] = ($event) => _ctx.pickerTime = $event),
                                         scrollable: "",
@@ -57711,9 +58892,9 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                           disabled: $options.cantBeEdited || $options.resourceNotSelected,
                                           "data-cy": "length-select"
                                         }, {
-                                          "no-data": withCtx(() => _cache[62] || (_cache[62] = [
+                                          "no-data": withCtx(() => [..._cache[62] || (_cache[62] = [
                                             createElementVNode("div", { class: "mx-3 my-1" }, "No options (you must select a resource)", -1)
-                                          ])),
+                                          ])]),
                                           _: 1
                                         }, 8, ["modelValue", "items", "disabled"])
                                       ]),
@@ -57725,11 +58906,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                 createVNode(VRow, null, {
                                   default: withCtx(() => [
                                     createVNode(VCol, null, {
-                                      default: withCtx(() => _cache[63] || (_cache[63] = [
+                                      default: withCtx(() => [..._cache[63] || (_cache[63] = [
                                         createElementVNode("div", { class: "text-divider font-italic text-center" }, "Or set End time directly", -1)
-                                      ])),
-                                      _: 1,
-                                      __: [63]
+                                      ])]),
+                                      _: 1
                                     })
                                   ]),
                                   _: 1
@@ -57781,11 +58961,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                             onClick: _cache[27] || (_cache[27] = ($event) => _ctx.endDateMenu = false),
                                             "data-cy": "end-date-cancel"
                                           }, {
-                                            default: withCtx(() => _cache[64] || (_cache[64] = [
-                                              createTextVNode(" Cancel ")
-                                            ])),
-                                            _: 1,
-                                            __: [64]
+                                            default: withCtx(() => [..._cache[64] || (_cache[64] = [
+                                              createTextVNode(" Cancel ", -1)
+                                            ])]),
+                                            _: 1
                                           }),
                                           createVNode(VBtn, {
                                             text: "",
@@ -57793,16 +58972,15 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                             onClick: _cache[28] || (_cache[28] = ($event) => $options.addValuesFromDatepicker("endDate", _ctx.pickerDate, _ctx.pickerTime)),
                                             "data-cy": "end-date-ok"
                                           }, {
-                                            default: withCtx(() => _cache[65] || (_cache[65] = [
-                                              createTextVNode(" OK ")
-                                            ])),
-                                            _: 1,
-                                            __: [65]
+                                            default: withCtx(() => [..._cache[65] || (_cache[65] = [
+                                              createTextVNode(" OK ", -1)
+                                            ])]),
+                                            _: 1
                                           })
                                         ])
                                       ]),
                                       createVNode(VSpacer),
-                                      createVNode(_component_v_time_picker, {
+                                      createVNode(VTimePicker, {
                                         modelValue: _ctx.pickerTime,
                                         "onUpdate:modelValue": _cache[29] || (_cache[29] = ($event) => _ctx.pickerTime = $event),
                                         scrollable: "",
@@ -57836,8 +59014,8 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                       default: withCtx(() => [
                                         createTextVNode(toDisplayString(_ctx.$api.reservation.getUserIcon()), 1)
                                       ]),
-                                      _: 2
-                                    }, 1032, ["color"]),
+                                      _: 1
+                                    }, 8, ["color"]),
                                     createVNode(VListItem, {
                                       textContent: toDisplayString(item.fullName)
                                     }, null, 8, ["textContent"])
@@ -57856,8 +59034,8 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                           default: withCtx(() => [
                                             createTextVNode(toDisplayString(_ctx.$api.reservation.getUserIcon()), 1)
                                           ]),
-                                          _: 2
-                                        }, 1032, ["color"]),
+                                          _: 1
+                                        }, 8, ["color"]),
                                         createTextVNode(" " + toDisplayString(item.fullName), 1)
                                       ]),
                                       _: 2
@@ -57965,7 +59143,7 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                       default: withCtx(() => [
                                         _ctx.customRepeatFrequency === "Week(s)" ? (openBlock(), createBlock(VCol, { key: 0 }, {
                                           default: withCtx(() => [
-                                            _cache[73] || (_cache[73] = createTextVNode(" Select Day(s) of the week ")),
+                                            _cache[73] || (_cache[73] = createTextVNode(" Select Day(s) of the week ", -1)),
                                             createVNode(VBtnToggle, {
                                               modelValue: _ctx.daysOfTheWeek,
                                               "onUpdate:modelValue": _cache[38] || (_cache[38] = ($event) => _ctx.daysOfTheWeek = $event),
@@ -57977,87 +59155,79 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                                   "x-small": "",
                                                   "data-cy": "repeat-week-sunday"
                                                 }, {
-                                                  default: withCtx(() => _cache[66] || (_cache[66] = [
-                                                    createTextVNode("S")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [66]
+                                                  default: withCtx(() => [..._cache[66] || (_cache[66] = [
+                                                    createTextVNode("S", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }),
                                                 createVNode(VBtn, {
                                                   "x-small": "",
                                                   "data-cy": "repeat-week-monday"
                                                 }, {
-                                                  default: withCtx(() => _cache[67] || (_cache[67] = [
-                                                    createTextVNode("M")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [67]
+                                                  default: withCtx(() => [..._cache[67] || (_cache[67] = [
+                                                    createTextVNode("M", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }),
                                                 createVNode(VBtn, {
                                                   "x-small": "",
                                                   "data-cy": "repeat-week-tuesday"
                                                 }, {
-                                                  default: withCtx(() => _cache[68] || (_cache[68] = [
-                                                    createTextVNode("T")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [68]
+                                                  default: withCtx(() => [..._cache[68] || (_cache[68] = [
+                                                    createTextVNode("T", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }),
                                                 createVNode(VBtn, {
                                                   "x-small": "",
                                                   "data-cy": "repeat-week-wednesday"
                                                 }, {
-                                                  default: withCtx(() => _cache[69] || (_cache[69] = [
-                                                    createTextVNode("W")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [69]
+                                                  default: withCtx(() => [..._cache[69] || (_cache[69] = [
+                                                    createTextVNode("W", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }),
                                                 createVNode(VBtn, {
                                                   "x-small": "",
                                                   "data-cy": "repeat-week-thursday"
                                                 }, {
-                                                  default: withCtx(() => _cache[70] || (_cache[70] = [
-                                                    createTextVNode("T")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [70]
+                                                  default: withCtx(() => [..._cache[70] || (_cache[70] = [
+                                                    createTextVNode("T", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }),
                                                 createVNode(VBtn, {
                                                   "x-small": "",
                                                   "data-cy": "repeat-week-friday"
                                                 }, {
-                                                  default: withCtx(() => _cache[71] || (_cache[71] = [
-                                                    createTextVNode("F")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [71]
+                                                  default: withCtx(() => [..._cache[71] || (_cache[71] = [
+                                                    createTextVNode("F", -1)
+                                                  ])]),
+                                                  _: 1
                                                 }),
                                                 createVNode(VBtn, {
                                                   "x-small": "",
                                                   "data-cy": "repeat-week-saturday"
                                                 }, {
-                                                  default: withCtx(() => _cache[72] || (_cache[72] = [
-                                                    createTextVNode("S")
-                                                  ])),
-                                                  _: 1,
-                                                  __: [72]
+                                                  default: withCtx(() => [..._cache[72] || (_cache[72] = [
+                                                    createTextVNode("S", -1)
+                                                  ])]),
+                                                  _: 1
                                                 })
                                               ]),
                                               _: 1
                                             }, 8, ["modelValue"])
                                           ]),
-                                          _: 1,
-                                          __: [73]
+                                          _: 1
                                         })) : _ctx.customRepeatFrequency === "Month(s)" ? (openBlock(), createBlock(VCol, { key: 1 }, {
                                           default: withCtx(() => [
                                             createVNode(VRadioGroup, {
                                               modelValue: _ctx.monthRepeatType,
                                               "onUpdate:modelValue": _cache[42] || (_cache[42] = ($event) => _ctx.monthRepeatType = $event)
                                             }, {
-                                              label: withCtx(() => _cache[74] || (_cache[74] = [
+                                              label: withCtx(() => [..._cache[74] || (_cache[74] = [
                                                 createElementVNode("div", null, "Select days on which to repeat", -1)
-                                              ])),
+                                              ])]),
                                               default: withCtx(() => [
                                                 createVNode(VRadio, { value: "individual" }, {
                                                   label: withCtx(() => [
@@ -58142,11 +59312,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                               onClick: $options.clearReservation,
                               "data-cy": "reservation-clear"
                             }, {
-                              default: withCtx(() => _cache[77] || (_cache[77] = [
-                                createTextVNode("Clear")
-                              ])),
-                              _: 1,
-                              __: [77]
+                              default: withCtx(() => [..._cache[77] || (_cache[77] = [
+                                createTextVNode("Clear", -1)
+                              ])]),
+                              _: 1
                             }, 8, ["onClick"]),
                             createVNode(VBtn, {
                               text: "",
@@ -58155,11 +59324,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                               onClick: $options.reserveResource,
                               "data-cy": "reservation-ok"
                             }, {
-                              default: withCtx(() => _cache[78] || (_cache[78] = [
-                                createTextVNode(" Reserve ")
-                              ])),
-                              _: 1,
-                              __: [78]
+                              default: withCtx(() => [..._cache[78] || (_cache[78] = [
+                                createTextVNode(" Reserve ", -1)
+                              ])]),
+                              _: 1
                             }, 8, ["disabled", "onClick"])
                           ]),
                           _: 1
@@ -58210,21 +59378,19 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                 }), {
                                   default: withCtx(() => [
                                     createVNode(VIcon, null, {
-                                      default: withCtx(() => _cache[79] || (_cache[79] = [
-                                        createTextVNode("mdi-pencil")
-                                      ])),
-                                      _: 1,
-                                      __: [79]
+                                      default: withCtx(() => [..._cache[79] || (_cache[79] = [
+                                        createTextVNode("mdi-pencil", -1)
+                                      ])]),
+                                      _: 1
                                     })
                                   ]),
-                                  _: 2
-                                }, 1040)
+                                  _: 1
+                                }, 16)
                               ]),
                               default: withCtx(() => [
                                 _cache[80] || (_cache[80] = createElementVNode("span", null, "Edit reservation", -1))
                               ]),
-                              _: 1,
-                              __: [80]
+                              _: 1
                             }),
                             createVNode(VToolbarTitle, {
                               class: normalizeClass({ "text-decoration-line-through": _ctx.selectedEvent.cancelled })
@@ -58236,22 +59402,20 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                   color: "red darken-1",
                                   class: "mb-1 ml-2"
                                 }, {
-                                  default: withCtx(() => _cache[81] || (_cache[81] = [
-                                    createTextVNode(" mdi-minus-circle ")
-                                  ])),
-                                  _: 1,
-                                  __: [81]
+                                  default: withCtx(() => [..._cache[81] || (_cache[81] = [
+                                    createTextVNode(" mdi-minus-circle ", -1)
+                                  ])]),
+                                  _: 1
                                 })) : createCommentVNode("", true),
                                 !_ctx.selectedEvent.reservation.approved ? (openBlock(), createBlock(VIcon, {
                                   key: 1,
                                   color: "blue darken-2",
                                   class: "mb-1 ml-2"
                                 }, {
-                                  default: withCtx(() => _cache[82] || (_cache[82] = [
-                                    createTextVNode(" mdi-test-tube ")
-                                  ])),
-                                  _: 1,
-                                  __: [82]
+                                  default: withCtx(() => [..._cache[82] || (_cache[82] = [
+                                    createTextVNode(" mdi-test-tube ", -1)
+                                  ])]),
+                                  _: 1
                                 })) : createCommentVNode("", true)
                               ]),
                               _: 1
@@ -58265,11 +59429,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createVNode(VIcon, null, {
-                                  default: withCtx(() => _cache[83] || (_cache[83] = [
-                                    createTextVNode("mdi-close")
-                                  ])),
-                                  _: 1,
-                                  __: [83]
+                                  default: withCtx(() => [..._cache[83] || (_cache[83] = [
+                                    createTextVNode("mdi-close", -1)
+                                  ])]),
+                                  _: 1
                                 })
                               ]),
                               _: 1
@@ -58285,11 +59448,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VRow, { "no-gutters": "" }, {
                               default: withCtx(() => [
                                 createVNode(VCol, { cols: "4" }, {
-                                  default: withCtx(() => _cache[84] || (_cache[84] = [
+                                  default: withCtx(() => [..._cache[84] || (_cache[84] = [
                                     createElementVNode("div", null, "User", -1)
-                                  ])),
-                                  _: 1,
-                                  __: [84]
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(VCol, null, {
                                   default: withCtx(() => [
@@ -58315,11 +59477,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VRow, { "no-gutters": "" }, {
                               default: withCtx(() => [
                                 createVNode(VCol, { cols: "4" }, {
-                                  default: withCtx(() => _cache[85] || (_cache[85] = [
+                                  default: withCtx(() => [..._cache[85] || (_cache[85] = [
                                     createElementVNode("div", null, "Organization", -1)
-                                  ])),
-                                  _: 1,
-                                  __: [85]
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(VCol, null, {
                                   default: withCtx(() => [
@@ -58336,11 +59497,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createVNode(VCol, { cols: "4" }, {
-                                  default: withCtx(() => _cache[86] || (_cache[86] = [
+                                  default: withCtx(() => [..._cache[86] || (_cache[86] = [
                                     createElementVNode("div", null, "Exp Code/ PO", -1)
-                                  ])),
-                                  _: 1,
-                                  __: [86]
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(VCol, null, {
                                   default: withCtx(() => [
@@ -58354,17 +59514,16 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VRow, { "no-gutters": "" }, {
                               default: withCtx(() => [
                                 createVNode(VCol, { cols: "4" }, {
-                                  default: withCtx(() => _cache[87] || (_cache[87] = [
+                                  default: withCtx(() => [..._cache[87] || (_cache[87] = [
                                     createElementVNode("div", null, "Time", -1)
-                                  ])),
-                                  _: 1,
-                                  __: [87]
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(VCol, null, {
                                   default: withCtx(() => [
                                     createElementVNode("div", null, [
                                       createElementVNode("span", _hoisted_21, toDisplayString(_ctx.selectedEvent.startDateAsMoment.format("M/DD/YYYY h:mm A")), 1),
-                                      _cache[88] || (_cache[88] = createTextVNode("  to "))
+                                      _cache[88] || (_cache[88] = createTextVNode("  to ", -1))
                                     ]),
                                     createElementVNode("span", _hoisted_22, toDisplayString(_ctx.selectedEvent.endDateAsMoment.format("M/DD/YYYY h:mm A")), 1)
                                   ]),
@@ -58379,11 +59538,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createVNode(VCol, { cols: "4" }, {
-                                  default: withCtx(() => _cache[89] || (_cache[89] = [
+                                  default: withCtx(() => [..._cache[89] || (_cache[89] = [
                                     createElementVNode("div", null, "Attendants", -1)
-                                  ])),
-                                  _: 1,
-                                  __: [89]
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(VCol, null, {
                                   default: withCtx(() => [
@@ -58405,8 +59563,8 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                                               default: withCtx(() => [
                                                 createTextVNode(toDisplayString(_ctx.$api.reservation.getUserIcon()), 1)
                                               ]),
-                                              _: 2
-                                            }, 1032, ["color"]),
+                                              _: 1
+                                            }, 8, ["color"]),
                                             createTextVNode(" " + toDisplayString(attendant.fullName), 1)
                                           ]),
                                           _: 2
@@ -58428,11 +59586,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createVNode(VCol, { cols: "4" }, {
-                                  default: withCtx(() => _cache[90] || (_cache[90] = [
+                                  default: withCtx(() => [..._cache[90] || (_cache[90] = [
                                     createElementVNode("div", null, "Comments", -1)
-                                  ])),
-                                  _: 1,
-                                  __: [90]
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(VCol, { "data-cy": "popup-comment" }, {
                                   default: withCtx(() => [
@@ -58450,11 +59607,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createVNode(VCol, { "data-cy": "popup-unavailable" }, {
-                                  default: withCtx(() => _cache[91] || (_cache[91] = [
-                                    createTextVNode("This time slot is marked Unavailable")
-                                  ])),
-                                  _: 1,
-                                  __: [91]
+                                  default: withCtx(() => [..._cache[91] || (_cache[91] = [
+                                    createTextVNode("This time slot is marked Unavailable", -1)
+                                  ])]),
+                                  _: 1
                                 })
                               ]),
                               _: 1
@@ -58486,11 +59642,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                               onClick: _cache[45] || (_cache[45] = ($event) => $options.deleteReservation(_ctx.selectedEvent)),
                               "data-cy": "popup-delete-btn"
                             }, {
-                              default: withCtx(() => _cache[92] || (_cache[92] = [
-                                createTextVNode(" Delete Reservation ")
-                              ])),
-                              _: 1,
-                              __: [92]
+                              default: withCtx(() => [..._cache[92] || (_cache[92] = [
+                                createTextVNode(" Delete Reservation ", -1)
+                              ])]),
+                              _: 1
                             })) : createCommentVNode("", true),
                             createVNode(VSpacer),
                             $options.canCancelReservation(_ctx.selectedEvent) ? (openBlock(), createBlock(VBtn, {
@@ -58501,11 +59656,10 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
                               class: "ml-2",
                               "data-cy": "popup-cancel-btn"
                             }, {
-                              default: withCtx(() => _cache[93] || (_cache[93] = [
-                                createTextVNode(" Cancel Reservation ")
-                              ])),
-                              _: 1,
-                              __: [93]
+                              default: withCtx(() => [..._cache[93] || (_cache[93] = [
+                                createTextVNode(" Cancel Reservation ", -1)
+                              ])]),
+                              _: 1
                             })) : createCommentVNode("", true)
                           ]),
                           _: 1
@@ -58527,7 +59681,7 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     })
   ]);
 }
-const IFXCalendarList = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__scopeId", "data-v-6b197e3a"]]);
+const IFXCalendarList = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__scopeId", "data-v-603ad526"]]);
 const SubscriptionMixin = {
   data() {
     return {
@@ -58616,9 +59770,9 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VContainer, null, {
     default: withCtx(() => [
       createVNode(_component_IFXPageHeader, null, {
-        title: withCtx(() => _cache[0] || (_cache[0] = [
-          createTextVNode("Channel Subscriptions")
-        ])),
+        title: withCtx(() => [..._cache[0] || (_cache[0] = [
+          createTextVNode("Channel Subscriptions", -1)
+        ])]),
         actions: withCtx(() => [
           createVNode(_component_IFXSearchField, { search: _ctx.search }, null, 8, ["search"])
         ]),
@@ -58715,11 +59869,10 @@ function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VLayout, { row: "" }, {
                               default: withCtx(() => [
                                 createVNode(_component_v_flex, { xs4: "" }, {
-                                  default: withCtx(() => _cache[0] || (_cache[0] = [
-                                    createTextVNode(" Street address ")
-                                  ])),
-                                  _: 1,
-                                  __: [0]
+                                  default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                                    createTextVNode(" Street address ", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(_component_v_flex, null, {
                                   default: withCtx(() => [
@@ -58738,11 +59891,10 @@ function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VLayout, { row: "" }, {
                               default: withCtx(() => [
                                 createVNode(_component_v_flex, { xs4: "" }, {
-                                  default: withCtx(() => _cache[1] || (_cache[1] = [
-                                    createTextVNode(" City ")
-                                  ])),
-                                  _: 1,
-                                  __: [1]
+                                  default: withCtx(() => [..._cache[1] || (_cache[1] = [
+                                    createTextVNode(" City ", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(_component_v_flex, null, {
                                   default: withCtx(() => [
@@ -58761,11 +59913,10 @@ function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VLayout, { row: "" }, {
                               default: withCtx(() => [
                                 createVNode(_component_v_flex, { xs4: "" }, {
-                                  default: withCtx(() => _cache[2] || (_cache[2] = [
-                                    createTextVNode(" State ")
-                                  ])),
-                                  _: 1,
-                                  __: [2]
+                                  default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                                    createTextVNode(" State ", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(_component_v_flex, null, {
                                   default: withCtx(() => [
@@ -58784,11 +59935,10 @@ function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VLayout, { row: "" }, {
                               default: withCtx(() => [
                                 createVNode(_component_v_flex, { xs4: "" }, {
-                                  default: withCtx(() => _cache[3] || (_cache[3] = [
-                                    createTextVNode(" Country ")
-                                  ])),
-                                  _: 1,
-                                  __: [3]
+                                  default: withCtx(() => [..._cache[3] || (_cache[3] = [
+                                    createTextVNode(" Country ", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(_component_v_flex, null, {
                                   default: withCtx(() => [
@@ -58807,11 +59957,10 @@ function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VLayout, { row: "" }, {
                               default: withCtx(() => [
                                 createVNode(_component_v_flex, { xs4: "" }, {
-                                  default: withCtx(() => _cache[4] || (_cache[4] = [
-                                    createTextVNode(" Postal code ")
-                                  ])),
-                                  _: 1,
-                                  __: [4]
+                                  default: withCtx(() => [..._cache[4] || (_cache[4] = [
+                                    createTextVNode(" Postal code ", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(_component_v_flex, null, {
                                   default: withCtx(() => [
@@ -58892,17 +60041,15 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(VLayout, { column: "" }, {
     default: withCtx(() => [
       $props.data ? (openBlock(), createBlock(_component_v_flex, { key: 0 }, {
-        default: withCtx(() => _cache[0] || (_cache[0] = [
-          createTextVNode(" Got it ")
-        ])),
-        _: 1,
-        __: [0]
+        default: withCtx(() => [..._cache[0] || (_cache[0] = [
+          createTextVNode(" Got it ", -1)
+        ])]),
+        _: 1
       })) : (openBlock(), createBlock(_component_v_flex, { key: 1 }, {
-        default: withCtx(() => _cache[1] || (_cache[1] = [
-          createTextVNode(" Don't got it ")
-        ])),
-        _: 1,
-        __: [1]
+        default: withCtx(() => [..._cache[1] || (_cache[1] = [
+          createTextVNode(" Don't got it ", -1)
+        ])]),
+        _: 1
       }))
     ]),
     _: 1
@@ -58926,11 +60073,10 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[0] || (_cache[0] = [
-                          createTextVNode(" Scholar Type ")
-                        ])),
-                        _: 1,
-                        __: [0]
+                        default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                          createTextVNode(" Scholar Type ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -58949,11 +60095,10 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[1] || (_cache[1] = [
-                          createTextVNode(" Race ")
-                        ])),
-                        _: 1,
-                        __: [1]
+                        default: withCtx(() => [..._cache[1] || (_cache[1] = [
+                          createTextVNode(" Race ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -58972,11 +60117,10 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[2] || (_cache[2] = [
-                          createTextVNode(" Ethnicity ")
-                        ])),
-                        _: 1,
-                        __: [2]
+                        default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                          createTextVNode(" Ethnicity ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -58995,11 +60139,10 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[3] || (_cache[3] = [
-                          createTextVNode(" Gender ")
-                        ])),
-                        _: 1,
-                        __: [3]
+                        default: withCtx(() => [..._cache[3] || (_cache[3] = [
+                          createTextVNode(" Gender ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -59018,11 +60161,10 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[4] || (_cache[4] = [
-                          createTextVNode(" Disability ")
-                        ])),
-                        _: 1,
-                        __: [4]
+                        default: withCtx(() => [..._cache[4] || (_cache[4] = [
+                          createTextVNode(" Disability ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -59041,11 +60183,10 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[5] || (_cache[5] = [
-                          createTextVNode(" Citizenship ")
-                        ])),
-                        _: 1,
-                        __: [5]
+                        default: withCtx(() => [..._cache[5] || (_cache[5] = [
+                          createTextVNode(" Citizenship ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -59095,11 +60236,10 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VLayout, { row: "" }, {
                               default: withCtx(() => [
                                 createVNode(_component_v_flex, { xs4: "" }, {
-                                  default: withCtx(() => _cache[0] || (_cache[0] = [
-                                    createTextVNode(" MOU ")
-                                  ])),
-                                  _: 1,
-                                  __: [0]
+                                  default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                                    createTextVNode(" MOU ", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(_component_v_flex, null, {
                                   default: withCtx(() => [
@@ -59152,11 +60292,10 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[0] || (_cache[0] = [
-                                  createTextVNode(" Title ")
-                                ])),
-                                _: 1,
-                                __: [0]
+                                default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                                  createTextVNode(" Title ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59180,11 +60319,10 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[1] || (_cache[1] = [
-                                  createTextVNode(" Status ")
-                                ])),
-                                _: 1,
-                                __: [1]
+                                default: withCtx(() => [..._cache[1] || (_cache[1] = [
+                                  createTextVNode(" Status ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59208,11 +60346,10 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[2] || (_cache[2] = [
-                                  createTextVNode(" Estimated Start Date ")
-                                ])),
-                                _: 1,
-                                __: [2]
+                                default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                                  createTextVNode(" Estimated Start Date ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59236,11 +60373,10 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[3] || (_cache[3] = [
-                                  createTextVNode(" Estimated duration ")
-                                ])),
-                                _: 1,
-                                __: [3]
+                                default: withCtx(() => [..._cache[3] || (_cache[3] = [
+                                  createTextVNode(" Estimated duration ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59296,11 +60432,10 @@ function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
                             createVNode(VLayout, { row: "" }, {
                               default: withCtx(() => [
                                 createVNode(_component_v_flex, { xs4: "" }, {
-                                  default: withCtx(() => _cache[0] || (_cache[0] = [
-                                    createTextVNode(" PO ")
-                                  ])),
-                                  _: 1,
-                                  __: [0]
+                                  default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                                    createTextVNode(" PO ", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createVNode(_component_v_flex, null, {
                                   default: withCtx(() => [
@@ -59392,11 +60527,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[2] || (_cache[2] = [
-                                  createTextVNode(" Lab / Company Name ")
-                                ])),
-                                _: 1,
-                                __: [2]
+                                default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                                  createTextVNode(" Lab / Company Name ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59423,11 +60557,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[3] || (_cache[3] = [
-                                  createTextVNode(" Selected Organization ")
-                                ])),
-                                _: 1,
-                                __: [3]
+                                default: withCtx(() => [..._cache[3] || (_cache[3] = [
+                                  createTextVNode(" Selected Organization ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59463,11 +60596,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[4] || (_cache[4] = [
-                                  createTextVNode(" PI / Manager ")
-                                ])),
-                                _: 1,
-                                __: [4]
+                                default: withCtx(() => [..._cache[4] || (_cache[4] = [
+                                  createTextVNode(" PI / Manager ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59486,11 +60618,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[5] || (_cache[5] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [5]
+                                default: withCtx(() => [..._cache[5] || (_cache[5] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59509,11 +60640,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[6] || (_cache[6] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [6]
+                                default: withCtx(() => [..._cache[6] || (_cache[6] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59532,11 +60662,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[7] || (_cache[7] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [7]
+                                default: withCtx(() => [..._cache[7] || (_cache[7] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59555,11 +60684,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[8] || (_cache[8] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [8]
+                                default: withCtx(() => [..._cache[8] || (_cache[8] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59585,11 +60713,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[9] || (_cache[9] = [
-                                  createTextVNode(" PI / Manager ")
-                                ])),
-                                _: 1,
-                                __: [9]
+                                default: withCtx(() => [..._cache[9] || (_cache[9] = [
+                                  createTextVNode(" PI / Manager ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59608,11 +60735,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[10] || (_cache[10] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [10]
+                                default: withCtx(() => [..._cache[10] || (_cache[10] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, { class: "address" }, {
                                 default: withCtx(() => [
@@ -59639,11 +60765,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[11] || (_cache[11] = [
-                                  createTextVNode(" Billing Contact ")
-                                ])),
-                                _: 1,
-                                __: [11]
+                                default: withCtx(() => [..._cache[11] || (_cache[11] = [
+                                  createTextVNode(" Billing Contact ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59663,11 +60788,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[12] || (_cache[12] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [12]
+                                default: withCtx(() => [..._cache[12] || (_cache[12] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59686,11 +60810,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[13] || (_cache[13] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [13]
+                                default: withCtx(() => [..._cache[13] || (_cache[13] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59709,11 +60832,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[14] || (_cache[14] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [14]
+                                default: withCtx(() => [..._cache[14] || (_cache[14] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59732,11 +60854,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[15] || (_cache[15] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [15]
+                                default: withCtx(() => [..._cache[15] || (_cache[15] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59762,11 +60883,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[16] || (_cache[16] = [
-                                  createTextVNode(" Billing Contact ")
-                                ])),
-                                _: 1,
-                                __: [16]
+                                default: withCtx(() => [..._cache[16] || (_cache[16] = [
+                                  createTextVNode(" Billing Contact ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -59785,11 +60905,10 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[17] || (_cache[17] = [
-                                  createTextVNode("   ")
-                                ])),
-                                _: 1,
-                                __: [17]
+                                default: withCtx(() => [..._cache[17] || (_cache[17] = [
+                                  createTextVNode("   ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, { class: "address" }, {
                                 default: withCtx(() => [
@@ -59837,11 +60956,10 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[0] || (_cache[0] = [
-                          createTextVNode(" Application Type ")
-                        ])),
-                        _: 1,
-                        __: [0]
+                        default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                          createTextVNode(" Application Type ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -59860,11 +60978,10 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[1] || (_cache[1] = [
-                          createTextVNode(" Technical Field ")
-                        ])),
-                        _: 1,
-                        __: [1]
+                        default: withCtx(() => [..._cache[1] || (_cache[1] = [
+                          createTextVNode(" Technical Field ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -59883,11 +61000,10 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[2] || (_cache[2] = [
-                          createTextVNode(" Technical Category ")
-                        ])),
-                        _: 1,
-                        __: [2]
+                        default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                          createTextVNode(" Technical Category ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -59906,11 +61022,10 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[3] || (_cache[3] = [
-                          createTextVNode(" Funding Source ")
-                        ])),
-                        _: 1,
-                        __: [3]
+                        default: withCtx(() => [..._cache[3] || (_cache[3] = [
+                          createTextVNode(" Funding Source ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -59929,11 +61044,10 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[4] || (_cache[4] = [
-                          createTextVNode(" Use Type ")
-                        ])),
-                        _: 1,
-                        __: [4]
+                        default: withCtx(() => [..._cache[4] || (_cache[4] = [
+                          createTextVNode(" Use Type ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -60024,11 +61138,10 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[0] || (_cache[0] = [
-                          createTextVNode(" Primary ")
-                        ])),
-                        _: 1,
-                        __: [0]
+                        default: withCtx(() => [..._cache[0] || (_cache[0] = [
+                          createTextVNode(" Primary ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -60047,11 +61160,10 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(VLayout, { row: "" }, {
                     default: withCtx(() => [
                       createVNode(_component_v_flex, { xs4: "" }, {
-                        default: withCtx(() => _cache[1] || (_cache[1] = [
-                          createTextVNode(" Others ")
-                        ])),
-                        _: 1,
-                        __: [1]
+                        default: withCtx(() => [..._cache[1] || (_cache[1] = [
+                          createTextVNode(" Others ", -1)
+                        ])]),
+                        _: 1
                       }),
                       createVNode(_component_v_flex, null, {
                         default: withCtx(() => [
@@ -60117,11 +61229,10 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode(VLayout, { row: "" }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[2] || (_cache[2] = [
-                                  createTextVNode(" Entered Affiliation ")
-                                ])),
-                                _: 1,
-                                __: [2]
+                                default: withCtx(() => [..._cache[2] || (_cache[2] = [
+                                  createTextVNode(" Entered Affiliation ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -60148,11 +61259,10 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
                           }, {
                             default: withCtx(() => [
                               createVNode(_component_v_flex, { xs4: "" }, {
-                                default: withCtx(() => _cache[3] || (_cache[3] = [
-                                  createTextVNode(" Selected Organization ")
-                                ])),
-                                _: 1,
-                                __: [3]
+                                default: withCtx(() => [..._cache[3] || (_cache[3] = [
+                                  createTextVNode(" Selected Organization ", -1)
+                                ])]),
+                                _: 1
                               }),
                               createVNode(_component_v_flex, null, {
                                 default: withCtx(() => [
@@ -60206,11 +61316,10 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         _: 1
       })) : (openBlock(), createBlock(_component_v_flex, { key: 1 }, {
-        default: withCtx(() => _cache[0] || (_cache[0] = [
-          createTextVNode(" ??? ")
-        ])),
-        _: 1,
-        __: [0]
+        default: withCtx(() => [..._cache[0] || (_cache[0] = [
+          createTextVNode(" ??? ", -1)
+        ])]),
+        _: 1
       }))
     ]),
     _: 1
@@ -60396,11 +61505,10 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             default: withCtx(() => [
               createVNode(_component_v_flex, { xs8: "" }, {
-                default: withCtx(() => _cache[2] || (_cache[2] = [
+                default: withCtx(() => [..._cache[2] || (_cache[2] = [
                   createElementVNode("div", { class: "title" }, "Request Status", -1)
-                ])),
-                _: 1,
-                __: [2]
+                ])]),
+                _: 1
               }),
               createVNode(_component_v_flex, { xs4: "" }, {
                 default: withCtx(() => [
@@ -60470,8 +61578,7 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
                     createElementVNode("span", { class: "no-data" }, "No users returned")
                   ], -1))
                 ]),
-                _: 2,
-                __: [3]
+                _: 2
               }, 1032, ["headers", "items", "hide-default-footer"])) : createCommentVNode("", true)
             ]),
             _: 1
@@ -60519,11 +61626,10 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1
       }),
       createVNode(_component_v_flex, { grow: "" }, {
-        default: withCtx(() => _cache[2] || (_cache[2] = [
-          createTextVNode(" ")
-        ])),
-        _: 1,
-        __: [2]
+        default: withCtx(() => [..._cache[2] || (_cache[2] = [
+          createTextVNode(" ", -1)
+        ])]),
+        _: 1
       }),
       createVNode(_component_v_flex, { shrink: "" }, {
         default: withCtx(() => [
@@ -60634,11 +61740,10 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               default: withCtx(() => [
                                 createElementVNode("span", null, toDisplayString(requestComment.author), 1),
-                                _cache[0] || (_cache[0] = createTextVNode("   ")),
+                                _cache[0] || (_cache[0] = createTextVNode("   ", -1)),
                                 createElementVNode("span", _hoisted_2$1, toDisplayString(_ctx.$humanDatetime(requestComment.created)), 1)
                               ]),
-                              _: 2,
-                              __: [0]
+                              _: 2
                             }, 1024)) : createCommentVNode("", true),
                             requestComment.id ? (openBlock(), createBlock(_component_v_flex, { key: 3 }, {
                               default: withCtx(() => [
@@ -60654,21 +61759,19 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
                                     }), {
                                       default: withCtx(() => [
                                         createVNode(VIcon, { dark: "" }, {
-                                          default: withCtx(() => _cache[1] || (_cache[1] = [
-                                            createTextVNode("clear")
-                                          ])),
-                                          _: 1,
-                                          __: [1]
+                                          default: withCtx(() => [..._cache[1] || (_cache[1] = [
+                                            createTextVNode("clear", -1)
+                                          ])]),
+                                          _: 1
                                         })
                                       ]),
-                                      _: 2
-                                    }, 1040, ["onClick"])
+                                      _: 1
+                                    }, 16, ["onClick"])
                                   ]),
                                   default: withCtx(() => [
                                     _cache[2] || (_cache[2] = createElementVNode("span", null, "Remove comment", -1))
                                   ]),
-                                  _: 2,
-                                  __: [2]
+                                  _: 2
                                 }, 1024)
                               ]),
                               _: 2
@@ -60686,21 +61789,19 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
                                     }), {
                                       default: withCtx(() => [
                                         createVNode(VIcon, { dark: "" }, {
-                                          default: withCtx(() => _cache[3] || (_cache[3] = [
-                                            createTextVNode("done")
-                                          ])),
-                                          _: 1,
-                                          __: [3]
+                                          default: withCtx(() => [..._cache[3] || (_cache[3] = [
+                                            createTextVNode("done", -1)
+                                          ])]),
+                                          _: 1
                                         })
                                       ]),
-                                      _: 2
-                                    }, 1040, ["onClick"])
+                                      _: 1
+                                    }, 16, ["onClick"])
                                   ]),
                                   default: withCtx(() => [
                                     _cache[4] || (_cache[4] = createElementVNode("span", null, "Save comment", -1))
                                   ]),
-                                  _: 2,
-                                  __: [4]
+                                  _: 2
                                 }, 1024),
                                 createVNode(VTooltip, { top: "" }, {
                                   activator: withCtx(({ on }) => [
@@ -60714,21 +61815,19 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
                                     }), {
                                       default: withCtx(() => [
                                         createVNode(VIcon, { dark: "" }, {
-                                          default: withCtx(() => _cache[5] || (_cache[5] = [
-                                            createTextVNode("clear")
-                                          ])),
-                                          _: 1,
-                                          __: [5]
+                                          default: withCtx(() => [..._cache[5] || (_cache[5] = [
+                                            createTextVNode("clear", -1)
+                                          ])]),
+                                          _: 1
                                         })
                                       ]),
-                                      _: 2
-                                    }, 1040, ["onClick"])
+                                      _: 1
+                                    }, 16, ["onClick"])
                                   ]),
                                   default: withCtx(() => [
                                     _cache[6] || (_cache[6] = createElementVNode("span", null, "Remove comment", -1))
                                   ]),
-                                  _: 2,
-                                  __: [6]
+                                  _: 2
                                 }, 1024)
                               ]),
                               _: 2
@@ -61011,38 +62110,34 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                             default: withCtx(() => [
                               $data.request.result == "SUCCESS" ? (openBlock(), createElementBlock("span", _hoisted_2, [
                                 createVNode(VIcon, { color: "success" }, {
-                                  default: withCtx(() => _cache[8] || (_cache[8] = [
-                                    createTextVNode("thumb_up")
-                                  ])),
-                                  _: 1,
-                                  __: [8]
+                                  default: withCtx(() => [..._cache[8] || (_cache[8] = [
+                                    createTextVNode("thumb_up", -1)
+                                  ])]),
+                                  _: 1
                                 }),
-                                _cache[9] || (_cache[9] = createTextVNode("  Success "))
+                                _cache[9] || (_cache[9] = createTextVNode("  Success ", -1))
                               ])) : $data.request.result == "FAILED" ? (openBlock(), createElementBlock("span", _hoisted_3, [
                                 createVNode(VIcon, { color: "error" }, {
-                                  default: withCtx(() => _cache[10] || (_cache[10] = [
-                                    createTextVNode("error_outline")
-                                  ])),
-                                  _: 1,
-                                  __: [10]
+                                  default: withCtx(() => [..._cache[10] || (_cache[10] = [
+                                    createTextVNode("error_outline", -1)
+                                  ])]),
+                                  _: 1
                                 }),
-                                _cache[11] || (_cache[11] = createTextVNode("  Failed "))
+                                _cache[11] || (_cache[11] = createTextVNode("  Failed ", -1))
                               ])) : $data.request.result == "REJECTED" ? (openBlock(), createElementBlock("span", _hoisted_4, [
                                 createVNode(VIcon, { color: "error" }, {
-                                  default: withCtx(() => _cache[12] || (_cache[12] = [
-                                    createTextVNode("thumb_down")
-                                  ])),
-                                  _: 1,
-                                  __: [12]
+                                  default: withCtx(() => [..._cache[12] || (_cache[12] = [
+                                    createTextVNode("thumb_down", -1)
+                                  ])]),
+                                  _: 1
                                 }),
-                                _cache[13] || (_cache[13] = createTextVNode("  Rejected "))
+                                _cache[13] || (_cache[13] = createTextVNode("  Rejected ", -1))
                               ])) : (openBlock(), createElementBlock("span", _hoisted_5, [
                                 createVNode(VIcon, { color: "grey" }, {
-                                  default: withCtx(() => _cache[14] || (_cache[14] = [
-                                    createTextVNode("cached")
-                                  ])),
-                                  _: 1,
-                                  __: [14]
+                                  default: withCtx(() => [..._cache[14] || (_cache[14] = [
+                                    createTextVNode("cached", -1)
+                                  ])]),
+                                  _: 1
                                 }),
                                 createTextVNode("  " + toDisplayString(_ctx.$stateDisplay($data.request.currentState)), 1)
                               ]))
@@ -61062,21 +62157,19 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                                   }), {
                                     default: withCtx(() => [
                                       createVNode(VIcon, { dark: "" }, {
-                                        default: withCtx(() => _cache[15] || (_cache[15] = [
-                                          createTextVNode("playlist_add")
-                                        ])),
-                                        _: 1,
-                                        __: [15]
+                                        default: withCtx(() => [..._cache[15] || (_cache[15] = [
+                                          createTextVNode("playlist_add", -1)
+                                        ])]),
+                                        _: 1
                                       })
                                     ]),
-                                    _: 2
-                                  }, 1040)
+                                    _: 1
+                                  }, 16)
                                 ]),
                                 default: withCtx(() => [
                                   _cache[16] || (_cache[16] = createElementVNode("span", null, "Add comment to request", -1))
                                 ]),
-                                _: 1,
-                                __: [16]
+                                _: 1
                               })
                             ]),
                             _: 1
@@ -61093,23 +62186,21 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                                   }), {
                                     default: withCtx(() => [
                                       createVNode(VIcon, { color: "yellow" }, {
-                                        default: withCtx(() => _cache[17] || (_cache[17] = [
-                                          createTextVNode("vpn_key")
-                                        ])),
-                                        _: 1,
-                                        __: [17]
+                                        default: withCtx(() => [..._cache[17] || (_cache[17] = [
+                                          createTextVNode("vpn_key", -1)
+                                        ])]),
+                                        _: 1
                                       })
                                     ]),
-                                    _: 2
-                                  }, 1040, ["href"]), [
+                                    _: 1
+                                  }, 16, ["href"]), [
                                     [vShow, $options.isDjangoStaff()]
                                   ])
                                 ]),
                                 default: withCtx(() => [
                                   _cache[18] || (_cache[18] = createElementVNode("span", null, "View request Django admin form", -1))
                                 ]),
-                                _: 1,
-                                __: [18]
+                                _: 1
                               })
                             ]),
                             _: 1
@@ -61153,11 +62244,10 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                                     class: "expiration-date-label"
                                   }, {
                                     default: withCtx(() => [
-                                      _cache[19] || (_cache[19] = createTextVNode(" Onboard request ")),
+                                      _cache[19] || (_cache[19] = createTextVNode(" Onboard request ", -1)),
                                       $options.requestExpired() ? (openBlock(), createElementBlock("span", _hoisted_6, "expired")) : (openBlock(), createElementBlock("span", _hoisted_7, "expires"))
                                     ]),
-                                    _: 1,
-                                    __: [19]
+                                    _: 1
                                   }),
                                   $data.updating_expiration_date ? (openBlock(), createBlock(_component_v_flex, {
                                     key: 0,
@@ -61209,11 +62299,10 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                                       }, {
                                         default: withCtx(() => [
                                           createVNode(VIcon, null, {
-                                            default: withCtx(() => _cache[20] || (_cache[20] = [
-                                              createTextVNode("calendar_today")
-                                            ])),
-                                            _: 1,
-                                            __: [20]
+                                            default: withCtx(() => [..._cache[20] || (_cache[20] = [
+                                              createTextVNode("calendar_today", -1)
+                                            ])]),
+                                            _: 1
                                           })
                                         ]),
                                         _: 1
@@ -61238,11 +62327,10 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                               }, {
                                 default: withCtx(() => [
                                   createVNode(_component_v_flex, { grow: "" }, {
-                                    default: withCtx(() => _cache[21] || (_cache[21] = [
-                                      createTextVNode(" ")
-                                    ])),
-                                    _: 1,
-                                    __: [21]
+                                    default: withCtx(() => [..._cache[21] || (_cache[21] = [
+                                      createTextVNode(" ", -1)
+                                    ])]),
+                                    _: 1
                                   }),
                                   createVNode(_component_v_flex, { shrink: "" }, {
                                     default: withCtx(() => [
@@ -61298,11 +62386,10 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                               createVNode(VLayout, { column: "" }, {
                                 default: withCtx(() => [
                                   createVNode(_component_v_flex, null, {
-                                    default: withCtx(() => _cache[22] || (_cache[22] = [
+                                    default: withCtx(() => [..._cache[22] || (_cache[22] = [
                                       createElementVNode("span", { class: "title" }, "Request Files", -1)
-                                    ])),
-                                    _: 1,
-                                    __: [22]
+                                    ])]),
+                                    _: 1
                                   }),
                                   (openBlock(true), createElementBlock(Fragment, null, renderList($data.request.requestData.request_files, (accountRequestFileData) => {
                                     return openBlock(), createBlock(_component_v_flex, {
@@ -61327,11 +62414,10 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                                   createVNode(VLayout, { column: "" }, {
                                     default: withCtx(() => [
                                       createVNode(_component_v_flex, null, {
-                                        default: withCtx(() => _cache[23] || (_cache[23] = [
+                                        default: withCtx(() => [..._cache[23] || (_cache[23] = [
                                           createElementVNode("span", { class: "title" }, "Onboarding Steps", -1)
-                                        ])),
-                                        _: 1,
-                                        __: [23]
+                                        ])]),
+                                        _: 1
                                       }),
                                       (openBlock(true), createElementBlock(Fragment, null, renderList($data.request.tracks.order, (track) => {
                                         return openBlock(), createBlock(_component_v_flex, { key: track }, {
@@ -61369,11 +62455,10 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                                               color: "primary",
                                               onClick: _cache[7] || (_cache[7] = ($event) => $options.updateRequest("notify"))
                                             }, {
-                                              default: withCtx(() => _cache[24] || (_cache[24] = [
-                                                createTextVNode("Update Steps")
-                                              ])),
-                                              _: 1,
-                                              __: [24]
+                                              default: withCtx(() => [..._cache[24] || (_cache[24] = [
+                                                createTextVNode("Update Steps", -1)
+                                              ])]),
+                                              _: 1
                                             })
                                           ])
                                         ]),
@@ -61542,21 +62627,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                                           }), {
                                             default: withCtx(() => [
                                               createVNode(VIcon, null, {
-                                                default: withCtx(() => _cache[5] || (_cache[5] = [
-                                                  createTextVNode("clear")
-                                                ])),
-                                                _: 1,
-                                                __: [5]
+                                                default: withCtx(() => [..._cache[5] || (_cache[5] = [
+                                                  createTextVNode("clear", -1)
+                                                ])]),
+                                                _: 1
                                               })
                                             ]),
-                                            _: 2
-                                          }, 1040, ["disabled"])
+                                            _: 1
+                                          }, 16, ["disabled"])
                                         ]),
                                         default: withCtx(() => [
                                           _cache[6] || (_cache[6] = createElementVNode("span", null, "Clear search", -1))
                                         ]),
-                                        _: 1,
-                                        __: [6]
+                                        _: 1
                                       })
                                     ]),
                                     _: 1
@@ -61638,16 +62721,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                         color: "error",
                         icon: "warning"
                       }, {
-                        default: withCtx(() => _cache[7] || (_cache[7] = [
-                          createTextVNode(" Your search found no results. ")
-                        ])),
-                        _: 1,
-                        __: [7]
+                        default: withCtx(() => [..._cache[7] || (_cache[7] = [
+                          createTextVNode(" Your search found no results. ", -1)
+                        ])]),
+                        _: 1
                       })
                     ]),
                     _: 2
                   }, [
-                    renderList($props.headers.filter((n2) => !$data.lockedFieldTemplates.includes(n2.value)), (header) => {
+                    renderList($props.headers.filter((n) => !$data.lockedFieldTemplates.includes(n.value)), (header) => {
                       return {
                         name: `item.${header.value}`,
                         fn: withCtx(({ item }) => [
@@ -61693,13 +62775,6 @@ function install2(app, options = {}) {
   Object.keys(ifxcomponents).forEach((name) => {
     app.component(name, ifxcomponents[name]);
   });
-  const sessionConfig = {
-    storage: window.sessionStorage,
-    key: `${options.APIStore.vars.appKey}_mailing`,
-    paths: ["mailing"]
-  };
-  const sessionPersist = a(sessionConfig);
-  sessionPersist(options.vuexStore);
   Object.keys(ifxmodules).forEach((name) => {
     const preserveState = !!options.vuexStore[name];
     options.vuexStore.registerModule(name, ifxmodules[name], { preserveState });
