@@ -1085,7 +1085,7 @@ export default {
                     label="Select Resource"
                     required
                     :items="justSelectedResources"
-                    item-title="productName"
+                    item-text="name"
                     return-object
                     auto-select-first
                     v-model="resource"
@@ -1126,7 +1126,7 @@ export default {
                     :items="users"
                     v-model="user"
                     :rules="formRules.generic"
-                    item-title="fullName"
+                    item-text="fullName"
                     return-object
                     @change="getAllOrgs($event)"
                     :disabled="resourceNotSelected"
@@ -1143,16 +1143,16 @@ export default {
                     data-cy="organizaton"
                   >
                     <template v-slot:item="{ item }">
-                      <span>{{ $orgNameFromSlug(item.value) }}</span>
+                      <span>{{ $orgNameFromSlug(item) }}</span>
                     </template>
                     <template v-slot:selection="{ item }">
-                      <span>{{ $orgNameFromSlug(item.value) }}</span>
+                      <span>{{ $orgNameFromSlug(item) }}</span>
                     </template>
                   </v-autocomplete>
                   <v-autocomplete
                     label="Expense Code / PO"
                     ref="expenseCode"
-                    item-title="name"
+                    item-text="name"
                     item-value="slug"
                     :required="expenseCodeRequired"
                     :items="allowedExpenseCodes"
@@ -1235,8 +1235,6 @@ export default {
                         label="Length of reservation"
                         v-model="durationValue"
                         :items="duration"
-                        item-title="text"
-                        item-value="value"
                         @change="setEndTime($event, true)"
                         class="my-2"
                         :disabled="cantBeEdited || resourceNotSelected"
