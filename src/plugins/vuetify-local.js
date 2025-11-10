@@ -2,8 +2,12 @@
 import { createVuetify } from 'vuetify'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@mdi/font/css/materialdesignicons.css'
+import { VCalendar } from 'vuetify/labs/VCalendar'
 
 export default createVuetify({
+  components: {
+    VCalendar,
+  },
   theme: {
     defaultTheme: 'light',
     themes: {
