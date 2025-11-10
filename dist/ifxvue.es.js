@@ -3398,9 +3398,9 @@ var hasRequiredIsBuffer;
 function requireIsBuffer() {
   if (hasRequiredIsBuffer) return isBuffer.exports;
   hasRequiredIsBuffer = 1;
-  (function(module2, exports) {
+  (function(module2, exports$1) {
     var root = require_root(), stubFalse = requireStubFalse();
-    var freeExports = exports && !exports.nodeType && exports;
+    var freeExports = exports$1 && !exports$1.nodeType && exports$1;
     var freeModule = freeExports && true && module2 && !module2.nodeType && module2;
     var moduleExports = freeModule && freeModule.exports === freeExports;
     var Buffer2 = moduleExports ? root.Buffer : void 0;
@@ -3446,9 +3446,9 @@ var hasRequired_nodeUtil;
 function require_nodeUtil() {
   if (hasRequired_nodeUtil) return _nodeUtil.exports;
   hasRequired_nodeUtil = 1;
-  (function(module2, exports) {
+  (function(module2, exports$1) {
     var freeGlobal = require_freeGlobal();
-    var freeExports = exports && !exports.nodeType && exports;
+    var freeExports = exports$1 && !exports$1.nodeType && exports$1;
     var freeModule = freeExports && true && module2 && !module2.nodeType && module2;
     var moduleExports = freeModule && freeModule.exports === freeExports;
     var freeProcess = moduleExports && freeGlobal.process;
@@ -3925,9 +3925,9 @@ var hasRequired_cloneBuffer;
 function require_cloneBuffer() {
   if (hasRequired_cloneBuffer) return _cloneBuffer.exports;
   hasRequired_cloneBuffer = 1;
-  (function(module2, exports) {
+  (function(module2, exports$1) {
     var root = require_root();
-    var freeExports = exports && !exports.nodeType && exports;
+    var freeExports = exports$1 && !exports$1.nodeType && exports$1;
     var freeModule = freeExports && true && module2 && !module2.nodeType && module2;
     var moduleExports = freeModule && freeModule.exports === freeExports;
     var Buffer2 = moduleExports ? root.Buffer : void 0, allocUnsafe = Buffer2 ? Buffer2.allocUnsafe : void 0;
@@ -51610,7 +51610,7 @@ var hasRequiredLodash;
 function requireLodash() {
   if (hasRequiredLodash) return lodash$1.exports;
   hasRequiredLodash = 1;
-  (function(module2, exports) {
+  (function(module2, exports$1) {
     (function() {
       var undefined$1;
       var VERSION2 = "4.17.21";
@@ -51938,7 +51938,7 @@ function requireLodash() {
       var freeGlobal = typeof commonjsGlobal == "object" && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
       var freeSelf = typeof self == "object" && self && self.Object === Object && self;
       var root = freeGlobal || freeSelf || Function("return this")();
-      var freeExports = exports && !exports.nodeType && exports;
+      var freeExports = exports$1 && !exports$1.nodeType && exports$1;
       var freeModule = freeExports && true && module2 && !module2.nodeType && module2;
       var moduleExports = freeModule && freeModule.exports === freeExports;
       var freeProcess = moduleExports && freeGlobal.process;
