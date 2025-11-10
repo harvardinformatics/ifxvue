@@ -28,6 +28,7 @@ dist/*
 
 # files used for stand-alone app
 /src/App.vue
+package-lock.json
 
 *storybook.log
 storybook-static
