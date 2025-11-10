@@ -22,10 +22,8 @@
     "@tinymce/tinymce-vue": "^4",
     "axios": "1.7.8",
     "caniuse-lite": "^1.0.30001625",
-    "coa": "2.0.2",
-    "core-js": "3.9.1",
+    "core-js": "3.46.0",
     "follow-redirects": "1.15.9",
-    "ifxvue": "^1.1.1",
     "lodash": "4.17.21",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.37",
@@ -34,8 +32,7 @@
     "terser": "^5.40.0",
     "vue": "^3.4.0",
     "vuetify": "^3.5.0",
-    "vuex": "^4.1.0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",
@@ -49,7 +46,6 @@
     "@vue/compiler-sfc": "^3.4.0",
     "@vue/test-utils": "^2.4.0",
     "axios-mock-adapter": "1.20.0",
-    "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-storybook": "^9.1.10",
     "eslint-plugin-vue": "^9.33.0",
