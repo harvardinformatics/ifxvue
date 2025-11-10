@@ -38,10 +38,11 @@ function isJSONString(str) {
 
 const CACHE_TIMER = 1000 * 60 * 60 * 4 // 4 hours
 export default class IFXAPIService {
-  constructor(store) {
+  constructor(store, urls) {
     this._store = store
     this._axios = axios.create()
     this._authUser = null
+    this.urls = urls
     // We want to auto-clear the cache every 4 hours
     let cacheTimer = this.storage.getItem('cacheTimer', 'session')
     if (cacheTimer) {
@@ -63,7 +64,7 @@ export default class IFXAPIService {
   }
 
   get urls() {
-    return this._store.urls
+    return this.urls
   }
 
   get vars() {
