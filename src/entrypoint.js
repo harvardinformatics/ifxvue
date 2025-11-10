@@ -127,7 +127,7 @@ import IFXReportRunList from '@/components/report/IFXReportRunList'
 import IFXLoginIcon from '@/components/IFXLoginIcon'
 import IFXEnabledIcon from '@/components/IFXEnabledIcon'
 import IFXDataTableCell from '@/components/IFXDataTableCell'
-import createPersistedState from 'vuex-persistedstate'
+// import createPersistedState from 'vuex-persistedstate'
 import IFXTextEditor from '@/components/IFXTextEditor'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMixin from '@/mixins/IFXMixin'
@@ -305,15 +305,15 @@ export default function install(app, options = {}) {
   })
 
   // Making Vuex mailing module persistent
-  const sessionConfig = {
-    storage: window.sessionStorage,
-    key: `${options.APIStore.vars.appKey}_mailing`,
-    paths: ['mailing'],
-  }
-  const sessionPersist = createPersistedState(sessionConfig)
+  // const sessionConfig = {
+  //   storage: window.sessionStorage,
+  //   key: `${options.APIStore.vars.appKey}_mailing`,
+  //   paths: ['mailing'],
+  // }
+  // const sessionPersist = createPersistedState(sessionConfig)
 
-  // Add plugin before module is registered
-  sessionPersist(options.vuexStore)
+  // // Add plugin before module is registered
+  // sessionPersist(options.vuexStore)
 
   // Loop through all Vuex modules and register them
   Object.keys(ifxmodules).forEach((name) => {
