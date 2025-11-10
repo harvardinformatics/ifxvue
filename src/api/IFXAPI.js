@@ -42,7 +42,7 @@ export default class IFXAPIService {
     this._store = store
     this._axios = axios.create()
     this._authUser = null
-    this.urls = urls
+    this._urls = urls
     // We want to auto-clear the cache every 4 hours
     let cacheTimer = this.storage.getItem('cacheTimer', 'session')
     if (cacheTimer) {
@@ -64,7 +64,7 @@ export default class IFXAPIService {
   }
 
   get urls() {
-    return this.urls
+    return this._urls
   }
 
   get vars() {
