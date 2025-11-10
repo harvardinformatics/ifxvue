@@ -6123,7 +6123,7 @@ class IFXAPIService {
     this._store = store;
     this._axios = axios.create();
     this._authUser = null;
-    this.urls = urls;
+    this._urls = urls;
     let cacheTimer = this.storage.getItem("cacheTimer", "session");
     if (cacheTimer) {
       try {
@@ -6140,7 +6140,7 @@ class IFXAPIService {
     return this._store;
   }
   get urls() {
-    return this.urls;
+    return this._urls;
   }
   get vars() {
     return this._store.vars;
