@@ -31,7 +31,7 @@ const APIStore = {
   vars,
   ui: {},
 }
-const api = new APIService(APIStore)
+const api = new APIService(APIStore, urls)
 
 const mock = new MockAdapter(api.axios)
 
