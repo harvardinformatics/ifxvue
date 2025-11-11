@@ -1,10 +1,13 @@
 /* eslint-disable import/no-unresolved, import/no-extraneous-dependencies */
 import { createVuetify } from 'vuetify'
-import { VCalendar } from 'vuetify/labs/VCalendar'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@mdi/font/css/materialdesignicons.css'
+import { VCalendar } from 'vuetify/labs/VCalendar'
 
 export default createVuetify({
+  components: {
+    VCalendar,
+  },
   theme: {
     defaultTheme: 'light',
     themes: {
@@ -35,7 +38,4 @@ export default createVuetify({
   icons: {
     defaultSet: 'mdi',
   },
-  components: {
-    VCalendar,
-  }
 })
