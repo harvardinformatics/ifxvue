@@ -165,7 +165,7 @@ export default {
     this.setDefaultFilteredResources()
     this.eventsAreLoading = false
     // Kick off time updates
-    this.$refs.calendar.checkChange()
+    /*this.$refs.calendar.checkChange()*/
     this.updateTime()
   },
   computed: {
@@ -933,7 +933,7 @@ export default {
   <div class="fill-height">
     <v-row>
       <v-col>
-        <v-alert v-model="showErrorMsg" type="error" dismissible><span v-html="errorMsg"></span></v-alert>
+        <v-alert v-model="showErrorMsg" type="error" closable><span v-html="errorMsg"></span></v-alert>
       </v-col>
     </v-row>
     <v-row>
@@ -974,13 +974,9 @@ export default {
       <v-col>
         <v-sheet height="64">
           <v-toolbar flat>
-            <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday" data-cy="calendar-today">Today</v-btn>
-            <v-btn fab text small color="grey darken-2" @click="prev" data-cy="calendar-prev">
-              <v-icon small>mdi-chevron-left</v-icon>
-            </v-btn>
-            <v-btn fab text small color="grey darken-2" @click="next" data-cy="calendar-next">
-              <v-icon small>mdi-chevron-right</v-icon>
-            </v-btn>
+            <v-btn variant="outlined" class="mr-4" color="grey-darken-2" @click="setToday" data-cy="calendar-today">Today</v-btn>
+            <v-btn icon="mdi-chevron-left" size="small" color="grey-darken-2" @click="prev" data-cy="calendar-prev"></v-btn>
+            <v-btn icon="mdi-chevron-right" size="small" color="grey-darken-2" @click="next" data-cy="calendar-next"></v-btn>
             <v-toolbar-title v-if="$refs.calendar">
               {{ $refs.calendar.title }}
             </v-toolbar-title>
@@ -994,11 +990,11 @@ export default {
               label="Show reservation panel"
               data-cy="show-reservation-panel"
             ></v-switch>
-            <v-menu bottom right data-cy="calendar-type">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
+            <v-menu location="bottom end" data-cy="calendar-type">
+              <template v-slot:activator="{ props }">
+                <v-btn variant="outlined" color="grey-darken-2" v-bind="props">
                   <span>{{ typeToLabel[type] }}</span>
-                  <v-icon right>mdi-menu-down</v-icon>
+                  <v-icon end>mdi-menu-down</v-icon>
                 </v-btn>
               </template>
               <v-list>
@@ -1067,14 +1063,12 @@ export default {
             </v-calendar>
           </span>
           <v-expand-x-transition>
-            <v-card color="grey lighten-4 ml-4 " min-width="350px" max-width="550px" v-show="reservationOpen">
+            <v-card color="grey-lighten-4 ml-4" min-width="350px" max-width="550px" v-show="reservationOpen">
               <v-card-title class="d-flex justify-space-between">
                 Reserve an instrument or location
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn icon small v-on="on" @click="closeReservation" data-cy="close-reservation-panel">
-                      <v-icon>mdi-close</v-icon>
-                    </v-btn>
+                <v-tooltip location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-btn icon="mdi-close" size="small" v-bind="props" @click="closeReservation" data-cy="close-reservation-panel"></v-btn>
                   </template>
                   <span>Close reservation panel</span>
                 </v-tooltip>
@@ -1090,7 +1084,7 @@ export default {
                     auto-select-first
                     v-model="resource"
                     :rules="formRules.generic"
-                    @change="handleResourceChange"
+                    @update:model-value="handleResourceChange"
                     :disabled="weAreEditing"
                     data-cy="select-resources"
                   ></v-autocomplete>
@@ -1098,10 +1092,10 @@ export default {
                     <v-col cols="8" v-if="useTrial">
                       <v-checkbox
                         class="dense-checkbox"
-                        dense
+                        density="compact"
                         label="Testing / Pilot"
                         v-model="trial"
-                        @change="toggleIsTrial"
+                        @update:model-value="toggleIsTrial"
                         :disabled="resourceNotSelected"
                         data-cy="trial-checkbox"
                       ></v-checkbox>
@@ -1109,7 +1103,7 @@ export default {
                     <v-col cols="4" v-if="useMaintenance">
                       <v-checkbox
                         class="dense-checkbox"
-                        dense
+                        density="compact"
                         v-if="canSetMaintanence()"
                         label="Unavailable"
                         v-model="isMaintenance"
@@ -1128,7 +1122,7 @@ export default {
                     :rules="formRules.generic"
                     item-title="fullName"
                     return-object
-                    @change="getAllOrgs($event)"
+                    @update:model-value="getAllOrgs($event)"
                     :disabled="resourceNotSelected"
                     data-cy="user"
                   ></v-autocomplete>
@@ -1138,12 +1132,14 @@ export default {
                     :items="allowedOrgs"
                     v-model="organization"
                     :rules="formRules.generic"
-                    @change="getAllExpenseCodes(user)"
+                    @update:model-value="getAllExpenseCodes(user)"
                     :disabled="cantBeEdited || resourceNotSelected"
                     data-cy="organizaton"
                   >
-                    <template v-slot:item="{ item }">
-                      <span>{{ $orgNameFromSlug(item.value) }}</span>
+                    <template v-slot:item="{ item, props }">
+                      <v-list-item v-bind="props">
+                        <span>{{ $orgNameFromSlug(item.value) }}</span>
+                      </v-list-item>
                     </template>
                     <template v-slot:selection="{ item }">
                       <span>{{ $orgNameFromSlug(item.value) }}</span>
@@ -1168,8 +1164,8 @@ export default {
                   <v-text-field
                     ref="startDate"
                     class="startDate"
-                    :value="humanStartDate"
-                    @change="updateDate($event, 'startDate')"
+                    :model-value="humanStartDate"
+                    @update:model-value="updateDate($event, 'startDate')"
                     label="Start Date and Time *"
                     prepend-icon="mdi-calendar"
                     required
@@ -1183,32 +1179,23 @@ export default {
                   <v-menu
                     v-model="startDateMenu"
                     :close-on-content-click="false"
-                    :return-value.sync="startDateMenu"
-                    :offset-overflow="true"
                     transition="scale-transition"
                     min-width="580px"
-                    left
-                    offset-x
-                    nudge-bottom="20"
-                    attach=".startDate"
-                    :internal-activator="true"
+                    location="start"
                   >
                     <div class="d-flex flex-row menu-background">
                       <div class="d-flex flex-column">
                         <v-date-picker
                           v-model="pickerDate"
-                          no-title
-                          scrollable
-                          show-adjacent-months
                           :min="minDate()"
                           data-cy="start-date-picker"
                         ></v-date-picker>
                         <div class="text-center">
-                          <v-btn text color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
+                          <v-btn variant="text" color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
                             Cancel
                           </v-btn>
                           <v-btn
-                            text
+                            variant="text"
                             color="primary"
                             :disabled="!pickerTime"
                             @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
@@ -1221,8 +1208,6 @@ export default {
                       <v-spacer></v-spacer>
                       <v-time-picker
                         v-model="pickerTime"
-                        scrollable
-                        ampm-in-title
                         format="ampm"
                         :allowed-minutes="allowedMinutes"
                         data-cy="start-date-time-picker"
@@ -1237,7 +1222,7 @@ export default {
                         :items="duration"
                         item-title="text"
                         item-value="value"
-                        @change="setEndTime($event, true)"
+                        @update:model-value="setEndTime($event, true)"
                         class="my-2"
                         :disabled="cantBeEdited || resourceNotSelected"
                         data-cy="length-select"
@@ -1256,8 +1241,8 @@ export default {
                   <v-text-field
                     ref="endDate"
                     class="endDate"
-                    :value="humanEndDate"
-                    @change="updateDate($event, 'endDate')"
+                    :model-value="humanEndDate"
+                    @update:model-value="updateDate($event, 'endDate')"
                     label="End Date and Time *"
                     prepend-icon="mdi-calendar"
                     hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
@@ -1271,31 +1256,22 @@ export default {
                   <v-menu
                     v-model="endDateMenu"
                     :close-on-content-click="false"
-                    :return-value.sync="endDateMenu"
                     transition="scale-transition"
-                    :offset-overflow="true"
                     min-width="580px"
-                    left
-                    offset-x
-                    nudge-bottom="20"
-                    attach=".endDate"
-                    :internal-activator="true"
+                    location="start"
                   >
                     <div class="d-flex flex-row menu-background">
-                      <div class="d-flow flow-column">
+                      <div class="d-flex flex-column">
                         <v-date-picker
                           v-model="pickerDate"
-                          no-title
-                          scrollable
-                          show-adjacent-months
                           :min="minDate()"
                         ></v-date-picker>
                         <div class="text-center">
-                          <v-btn text color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">
+                          <v-btn variant="text" color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">
                             Cancel
                           </v-btn>
                           <v-btn
-                            text
+                            variant="text"
                             color="primary"
                             @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
                             data-cy="end-date-ok"
@@ -1307,8 +1283,6 @@ export default {
                       <v-spacer></v-spacer>
                       <v-time-picker
                         v-model="pickerTime"
-                        scrollable
-                        ampm-in-title
                         format="ampm"
                         :allowed-minutes="allowedMinutes"
                         data-cy="end-date-time-picker"
@@ -1328,18 +1302,22 @@ export default {
                     :disabled="resourceNotSelected"
                     data-cy="attendants"
                   >
-                    <template #item="{ item }">
-                      <v-icon :color="$api.reservation.getUserIconColor(item)">
-                        {{ $api.reservation.getUserIcon() }}
-                      </v-icon>
-                      <v-list-item v-text="item.fullName"></v-list-item>
+                    <template #item="{ item, props }">
+                      <v-list-item v-bind="props">
+                        <template #prepend>
+                          <v-icon :color="$api.reservation.getUserIconColor(item.raw)">
+                            {{ $api.reservation.getUserIcon() }}
+                          </v-icon>
+                        </template>
+                        <v-list-item-title>{{ item.raw.fullName }}</v-list-item-title>
+                      </v-list-item>
                     </template>
                     <template #selection="{ item }">
-                      <v-chip color="transparent" close @click:close="removeFromSelected(item)">
-                        <v-icon :color="$api.reservation.getUserIconColor(item)" class="mr-2">
+                      <v-chip color="transparent" closable @click:close="removeFromSelected(item.raw)">
+                        <v-icon :color="$api.reservation.getUserIconColor(item.raw)" class="mr-2">
                           {{ $api.reservation.getUserIcon() }}
                         </v-icon>
-                        {{ item.fullName }}
+                        {{ item.raw.fullName }}
                       </v-chip>
                     </template>
                   </v-autocomplete>
@@ -1353,17 +1331,11 @@ export default {
                     class="textarea-scroll"
                     data-cy="comments"
                   ></v-textarea>
-                  <!-- <v-checkbox
-                :disabled="cantBeEdited || resourceNotSelected"
-                v-if="canSetRepeatingEvents()"
-                label="Repeating reservation"
-                v-model="isRepeatingReservation"
-              ></v-checkbox> -->
                   <v-row no-gutters>
                     <v-col cols="8">
                       <v-checkbox
                         class="dense-checkbox"
-                        dense
+                        density="compact"
                         v-if="canSetEditable()"
                         label="Reservation can be edited"
                         v-model="isEditable"
@@ -1373,7 +1345,7 @@ export default {
                     <v-col cols="4">
                       <v-checkbox
                         class="dense-checkbox"
-                        dense
+                        density="compact"
                         v-if="canApprove()"
                         label="Approved"
                         v-model="approved"
@@ -1418,20 +1390,14 @@ export default {
                       <v-row>
                         <v-col v-if="customRepeatFrequency === 'Week(s)'">
                           Select Day(s) of the week
-                          <v-btn-toggle v-model="daysOfTheWeek" dense multiple>
-                            <v-btn x-small data-cy="repeat-week-sunday">S</v-btn>
-
-                            <v-btn x-small data-cy="repeat-week-monday">M</v-btn>
-
-                            <v-btn x-small data-cy="repeat-week-tuesday">T</v-btn>
-
-                            <v-btn x-small data-cy="repeat-week-wednesday">W</v-btn>
-
-                            <v-btn x-small data-cy="repeat-week-thursday">T</v-btn>
-
-                            <v-btn x-small data-cy="repeat-week-friday">F</v-btn>
-
-                            <v-btn x-small data-cy="repeat-week-saturday">S</v-btn>
+                          <v-btn-toggle v-model="daysOfTheWeek" density="compact" multiple>
+                            <v-btn size="x-small" data-cy="repeat-week-sunday">S</v-btn>
+                            <v-btn size="x-small" data-cy="repeat-week-monday">M</v-btn>
+                            <v-btn size="x-small" data-cy="repeat-week-tuesday">T</v-btn>
+                            <v-btn size="x-small" data-cy="repeat-week-wednesday">W</v-btn>
+                            <v-btn size="x-small" data-cy="repeat-week-thursday">T</v-btn>
+                            <v-btn size="x-small" data-cy="repeat-week-friday">F</v-btn>
+                            <v-btn size="x-small" data-cy="repeat-week-saturday">S</v-btn>
                           </v-btn-toggle>
                         </v-col>
                         <v-col v-else-if="customRepeatFrequency === 'Month(s)'">
@@ -1445,12 +1411,9 @@ export default {
                                   <div>On days</div>
                                   <v-date-picker
                                     v-model="daysOfTheMonth"
-                                    no-title
-                                    :header-date-format="dayOfMonthHeader"
                                     :min="getMinMaxDays().min"
                                     :max="getMinMaxDays().max"
                                     :disabled="monthRepeatType !== 'individual'"
-                                    active-picker="DATE"
                                     data-cy="repeat-date-picker"
                                   ></v-date-picker>
                                 </div>
@@ -1463,7 +1426,7 @@ export default {
                                   <v-row>
                                     <v-col>
                                       <v-select
-                                        dense
+                                        density="compact"
                                         :items="monthPatternRepeatChoices"
                                         v-model="monthPatternOffset"
                                         :disabled="monthRepeatType !== 'pattern'"
@@ -1472,7 +1435,7 @@ export default {
                                     </v-col>
                                     <v-col>
                                       <v-select
-                                        dense
+                                        density="compact"
                                         :items="monthPatternRepeatDayChoices"
                                         v-model="monthPatternRepeatDay"
                                         :disabled="monthRepeatType !== 'pattern'"
@@ -1491,8 +1454,8 @@ export default {
                 </v-form>
               </v-card-text>
               <v-card-actions class="d-flex justify-space-between">
-                <v-btn text color="secondary" @click="clearReservation" data-cy="reservation-clear">Clear</v-btn>
-                <v-btn text color="primary" :disabled="!formIsValid" @click="reserveResource" data-cy="reservation-ok">
+                <v-btn variant="text" color="secondary" @click="clearReservation" data-cy="reservation-clear">Clear</v-btn>
+                <v-btn variant="text" color="primary" :disabled="!formIsValid" @click="reserveResource" data-cy="reservation-ok">
                   Reserve
                 </v-btn>
               </v-card-actions>
@@ -1502,46 +1465,39 @@ export default {
             v-model="selectedOpen"
             :close-on-content-click="false"
             :activator="selectedElement"
-            :offset-x="type !== 'day'"
-            :offset-y="type === 'day'"
-            :nudge-right="type === 'day' ? 100 : 0"
             v-if="selectedOpen"
             min-width="400px"
-            transition="slide-x-reverse-transition"
+            location="start"
           >
-            <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-card color="grey-lighten-4" min-width="350px" flat>
               <v-toolbar
                 :color="getEventColor(selectedEvent)"
-                dense
+                density="compact"
                 :class="{
                   'trial-reservation': !selectedEvent.reservation.approved,
                 }"
               >
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn icon small v-on="on" @click="editReservation(selectedEvent)" data-cy="popup-edit">
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
+                <v-tooltip location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-btn icon="mdi-pencil" size="small" v-bind="props" @click="editReservation(selectedEvent)" data-cy="popup-edit"></v-btn>
                   </template>
                   <span>Edit reservation</span>
                 </v-tooltip>
                 <v-toolbar-title :class="{ 'text-decoration-line-through': selectedEvent.cancelled }">
                   <span class="ml-2">{{ selectedEvent.product.name }}</span>
                   <v-icon
-                    color="red darken-1"
+                    color="red-darken-1"
                     class="mb-1 ml-2"
                     v-if="useMaintenance && selectedEvent.reservation.isMaintenance"
                   >
                     mdi-minus-circle
                   </v-icon>
-                  <v-icon color="blue darken-2" class="mb-1 ml-2" v-if="!selectedEvent.reservation.approved">
+                  <v-icon color="blue-darken-2" class="mb-1 ml-2" v-if="!selectedEvent.reservation.approved">
                     mdi-test-tube
                   </v-icon>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon small @click="closePopup" data-cy="popup-close">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
+                <v-btn icon="mdi-close" size="small" @click="closePopup" data-cy="popup-close"></v-btn>
               </v-toolbar>
               <v-card-text class="text-body-1" v-if="Object.keys(selectedEvent).length">
                 <v-row no-gutters>
@@ -1552,7 +1508,7 @@ export default {
                       <v-icon
                         :color="$api.reservation.getUserIconColor(selectedEvent.productUser)"
                         class="ml-1 mb-1"
-                        small
+                        size="small"
                       >
                         {{ $api.reservation.getUserIcon() }}
                       </v-icon>
@@ -1609,12 +1565,12 @@ export default {
                 </v-row>
                 <div
                   v-if="$api.reservation.useSpecialMsg(selectedEvent.product, selectedEvent.reservation.attendants)"
-                  class="mt-2 red--text"
+                  class="mt-2 text-red"
                   data-cy="popup-special-message"
                 >
                   {{ $api.reservation.getSpecialMessage() }}
                 </div>
-                <div v-if="selectedEvent.cancelled" class="mt-2 red--text" data-cy="popup-cancelled">
+                <div v-if="selectedEvent.cancelled" class="mt-2 text-red" data-cy="popup-cancelled">
                   This reservation is cancelled.
                 </div>
                 <v-row no-gutters v-if="selectedEvent.reservation.comment" class="mt-3">
@@ -1634,7 +1590,7 @@ export default {
               </v-card-text>
               <v-card-actions class="d-flex justify-end">
                 <v-btn
-                  text
+                  variant="text"
                   color="secondary"
                   v-if="canDeleteReservation(selectedEvent)"
                   @click="deleteReservation(selectedEvent)"
@@ -1645,8 +1601,8 @@ export default {
                 <v-spacer></v-spacer>
                 <v-btn
                   color="secondary"
+                  variant="text"
                   v-if="canCancelReservation(selectedEvent)"
-                  text
                   @click="cancelReservation(selectedEvent)"
                   class="ml-2"
                   data-cy="popup-cancel-btn"
