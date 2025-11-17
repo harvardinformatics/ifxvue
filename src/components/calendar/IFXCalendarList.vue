@@ -90,7 +90,6 @@ export default {
     parseFormats: ['M/DD/YYYY h:mm A', 'M/DD/YYYY h:mmA'],
     comments: '',
     currentUser: {},
-    currentTime: Date.now(),
     items: [],
     users: [],
     user: null,
@@ -167,7 +166,7 @@ export default {
     this.setDefaultFilteredResources()
     this.eventsAreLoading = false
     // Kick off time updates
-    /*this.$refs.calendar.checkChange()*/
+    this.$refs.calendar.checkChange()
     this.updateTime()
   },
   computed: {
@@ -898,7 +897,7 @@ export default {
     },
     updateTime() {
       setInterval(() => {
-        this.currentTime = Date.now()
+        this.$refs.calendar.checkChange()
       }, 60 * 1000)
     },
     timeToY(time) {
