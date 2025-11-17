@@ -3,6 +3,7 @@ import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 import moment from 'moment-timezone'
 
+
 export default {
   name: 'IFXCalendarList',
   props: {
@@ -89,6 +90,7 @@ export default {
     parseFormats: ['M/DD/YYYY h:mm A', 'M/DD/YYYY h:mmA'],
     comments: '',
     currentUser: {},
+    currentTime: Date.now(),
     items: [],
     users: [],
     user: null,
@@ -896,16 +898,32 @@ export default {
     },
     updateTime() {
       setInterval(() => {
-        if (this.$refs.calendar) {
-          this.$refs.calendar.updateTimes()
-        }
+        this.currentTime = Date.now()
       }, 60 * 1000)
     },
+    timeToY(time) {
+      const firstInterval = this.startTime || 0
+      const intervalCount = 24 - (this.startTime || 0)
+      const intervalHeight = 60
+      const intervalMinutes = 60
+      const minutes = time.hour * 60 + (time.minute || 0)
+      const minMinutes = firstInterval * 60
+      const maxMinutes = (firstInterval + intervalCount) * 60
+
+      const clampedMinutes = Math.max(minMinutes, Math.min(maxMinutes, minutes))
+      const pixels = (clampedMinutes * intervalHeight / intervalMinutes) - (firstInterval * intervalHeight)
+      return pixels
+    },
     nowY() {
+      if (!this.$refs.calendar?.times?.now) {
+        return '-10px'
+      }
+
       const now = { ...this.$refs.calendar.times.now }
-      // Adjust hour so it is in Eastern Time.
+      // Adjust hour so it is in Eastern Time
       now.hour -= this.diffFromEastern / 60
-      return this.$refs.calendar ? `${this.$refs.calendar.timeToY(now)}px` : '-10px'
+
+      return `${this.timeToY(now)}px`
     },
     revalidateTimes() {
       this.$refs.startDate.validate(true)
