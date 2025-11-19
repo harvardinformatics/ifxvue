@@ -795,6 +795,10 @@ export default {
       }
     },
     handleResourceChange(resource) {
+      if (!resource){
+        return
+      }
+
       const parameters = resource.reservationRuleSet.rules.map((rule) => rule.reservationRule.parameters)
       let minLength = 5
       let unitLength = 5
