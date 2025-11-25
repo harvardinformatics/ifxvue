@@ -245,6 +245,9 @@ export default {
       this.$api.storage.setItem('calendarType', type, 'local')
     },
     getEventColor(event) {
+      if (!event || typeof event !== 'object' || event instanceof Element || event instanceof HTMLElement) {
+        return 'grey'
+      }
       // Canceled events should always be grey
       if (event.cancelled) {
         return 'blue-grey lighten-3'
@@ -326,9 +329,9 @@ export default {
           })
       }
     },
-    showEvent({ nativeEvent, event }) {
+    showEvent(nativeEvent, calendarEvent) {
       const open = () => {
-        this.selectedEvent = event
+        this.selectedEvent = calendarEvent
         this.selectedElement = nativeEvent.target
         requestAnimationFrame(() => requestAnimationFrame(() => (this.selectedOpen = true)))
       }
@@ -1047,7 +1050,6 @@ export default {
               :type="type"
               interval-height="60"
               event-text-color="black"
-              @click:event="showEvent"
               @click:more="viewDay"
               @click:date="viewDay"
               @click:day="handleDayClick"
@@ -1065,6 +1067,8 @@ export default {
                     'in-the-past': isInThePast(item.event),
                   }"
                   :data-cy="`event-${item.event.id}`"
+                  @click="showEvent($event, item.event)"
+                  style="cursor: pointer; height: 100%; width: 100%;"
                 >
                   <strong class="ml-1">{{ item.formatTime(item.eventParsed.start, true) }}</strong>
                   <span
@@ -1495,7 +1499,7 @@ export default {
                 :color="getEventColor(selectedEvent)"
                 density="compact"
                 :class="{
-                  'trial-reservation': !selectedEvent.reservation.approved,
+                  'trial-reservation': !selectedEvent.reservation?.approved,
                 }"
               >
                 <v-tooltip location="top">
