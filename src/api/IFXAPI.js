@@ -173,14 +173,10 @@ export default class IFXAPIService {
       isStaff: this.authUser ? this.authUser.isStaff : false,
       // Returns the record for the user that is currently authenticated
       getCurrentUserRecord: async () => {
-        const username = this.authUser.username
-        const users = await this.user.getList({ username })
+        const user = await this.user.getByID(this.authUser.id)
         // TODO switch from console errors to returned errors
-        if (users.length > 1) {
-          console.error('Cannot have more than one returned user')
-        }
-        if (users.length && users.length >= 1) {
-          return users[0]
+        if (user) {
+          return user
         }
         console.error('No user found')
         return null
