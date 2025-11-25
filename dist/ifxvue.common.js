@@ -63110,26 +63110,19 @@ var IFXAPI_IFXAPIService = /*#__PURE__*/function () {
         // Returns the record for the user that is currently authenticated
         getCurrentUserRecord: function () {
           var _getCurrentUserRecord = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-            var username, users;
+            var user;
             return _regenerator().w(function (_context6) {
               while (1) switch (_context6.n) {
                 case 0:
-                  username = _this5.authUser.username;
                   _context6.n = 1;
-                  return _this5.user.getList({
-                    username: username
-                  });
+                  return _this5.user.getByID(_this5.authUser.id);
                 case 1:
-                  users = _context6.v;
-                  // TODO switch from console errors to returned errors
-                  if (users.length > 1) {
-                    console.error('Cannot have more than one returned user');
-                  }
-                  if (!(users.length && users.length >= 1)) {
+                  user = _context6.v;
+                  if (!user) {
                     _context6.n = 2;
                     break;
                   }
-                  return _context6.a(2, users[0]);
+                  return _context6.a(2, user);
                 case 2:
                   console.error('No user found');
                   return _context6.a(2, null);
