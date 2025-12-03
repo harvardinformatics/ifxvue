@@ -2,6 +2,7 @@
 import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 import moment from 'moment-timezone'
+import { useGoTo } from 'vuetify'
 
 
 export default {
@@ -582,7 +583,7 @@ export default {
           }
           this.errorMsg = `${msg} Please fix the following errors:<br/><br/>${reasons.join('<br/>')}`
           this.showErrorMsg = true
-          this.$vuetify.goTo(0)
+          this.goTo(0)
         }
       } else {
         // This is a new event. Add it
@@ -604,7 +605,7 @@ export default {
           if (reasons) {
             this.errorMsg = `${msg} Please fix the following errors:<br/><br/>${reasons.join('<br/>')}`
             this.showErrorMsg = true
-            this.$vuetify.goTo(0)
+            this.goTo(0)
           } else {
             this.showMessage(err)
           }
@@ -666,7 +667,15 @@ export default {
       this.organization = newItem.organization
       this.handleResourceChange(theResource)
       this.selectedOpen = false
-      this.attendants = newItem.reservation.attendants.map((attendant) => attendant)
+      this.attendants = newItem.reservation.attendants.map((attendant) => {
+        if (attendant._data) {
+          return attendant._data
+        }
+        if (attendant.data) {
+          return attendant.data
+        }
+        return attendant
+      })
       this.durationValue = newItem.quantity
       this.isMaintenance = newItem.reservation.isMaintenance
       this.trial = newItem.reservation.trial
@@ -697,7 +706,7 @@ export default {
           const reasons = err.response.data?.reservation_usage
           this.errorMsg = `${msg} Please fix the following errors:<br/><br/>${reasons.join('<br/>')}`
           this.showErrorMsg = true
-          this.$vuetify.goTo(0)
+          this.goTo(0)
         }
         this.selectedOpen = false
         this.$nextTick(() => {
@@ -728,7 +737,7 @@ export default {
         const reasons = err.response.data?.reservation_usage
         this.errorMsg = `${msg} Please fix the following errors:<br/><br/>${reasons.join('<br/>')}`
         this.showErrorMsg = true
-        this.$vuetify.goTo(0)
+        this.goTo(0)
       }
       this.$nextTick(() => {
         this.$refs.calendar.checkChange()
@@ -950,6 +959,12 @@ export default {
         this.handleResourceChange(this.resource)
       }
     },
+  },
+  setup() {
+    const goTo = useGoTo()
+    return {
+      goTo
+    }
   },
 }
 </script>
@@ -1318,6 +1333,8 @@ export default {
                     label="Attendants"
                     :items="skinnyUsers"
                     v-model="attendants"
+                    item-title="fullName"
+                    item-value="id"
                     clearable
                     clear-icon="mdi-close-circle"
                     multiple
@@ -1334,19 +1351,17 @@ export default {
                             {{ $api.reservation.getUserIcon() }}
                           </v-icon>
                         </template>
-                        <v-list-item-title>{{ item.raw.fullName }}</v-list-item-title>
                       </v-list-item>
                     </template>
                     <template #selection="{ item }">
-                      <v-chip color="transparent" closable @click:close="removeFromSelected(item.raw)">
+                      <v-chip :color="$api.reservation.getUserIconColor(item.raw)" closable @click:close="removeFromSelected(item.raw)">
                         <v-icon :color="$api.reservation.getUserIconColor(item.raw)" class="mr-2">
                           {{ $api.reservation.getUserIcon() }}
                         </v-icon>
-                        {{ item.raw.fullName }}
+                        {{ item.raw.full_name }}
                       </v-chip>
                     </template>
                   </v-autocomplete>
-
                   <v-textarea
                     v-model="comments"
                     auto-grow
