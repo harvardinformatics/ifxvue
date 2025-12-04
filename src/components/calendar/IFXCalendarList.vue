@@ -346,9 +346,10 @@ export default {
 
       nativeEvent.stopPropagation()
     },
-    handleDayClick(calEvent) {
+    handleDayClick(date, time) {
       if (!this.cantBeEdited) {
-        this.setDefaultStartDate(calEvent.date)
+        const dateTimeString = time ? `${date}T${time}` : date
+        this.setDefaultStartDate(dateTimeString)
       }
       this.reservationOpen = true
     },
@@ -358,8 +359,15 @@ export default {
     setDefaultStartDate(dateToUse) {
       const dateObject = moment.tz(dateToUse, 'America/New_York')
       this.pickerDate = dateObject.toISOString().substr(0, 10)
-      const nextHour = new Date().getMinutes() < 31 ? 1 : 2
-      this.pickerTime = moment.tz('America/New_York').add(nextHour, 'hour').startOf('hour').format('HH:mm')
+      const hasTime = /[\sT]\d{1,2}:\d{2}/.test(dateToUse)
+      if (hasTime) {
+        this.pickerTime = dateObject.format('HH:mm')
+      }
+      else
+      {
+        const nextHour = new Date().getMinutes() < 31 ? 1 : 2
+        this.pickerTime = moment.tz('America/New_York').add(nextHour, 'hour').startOf('hour').format('HH:mm')
+      }
       this.newEvent.startDate = null
       this.$nextTick(() => {
         this.addValuesFromDatepicker('startDate', this.pickerDate, this.pickerTime)
@@ -1067,9 +1075,6 @@ export default {
               event-text-color="black"
               @click:more="viewDay"
               @click:date="viewDay"
-              @click:day="handleDayClick"
-              @click:interval="handleDayClick"
-              @click:time="handleDayClick"
               @moved="moved"
               :start="startingDate"
               data-cy="calendar"
@@ -1096,6 +1101,21 @@ export default {
                   <div class="ml-1">{{ item.event.productUser.fullName }}</div>
                   <div class="ml-1">{{ item.event.reservation.comment }}</div>
                 </div>
+              </template>
+              <!-- Interval slot for day/week view time slots -->
+              <template v-slot:interval="{ date, time }">
+                <div
+                  @click="handleDayClick(date, time)"
+                  style="height: 100%; width: 100%; cursor: pointer;"
+                ></div>
+              </template>
+
+              <!-- Day slot for month view -->
+              <template v-slot:day="{ date }">
+                <div
+                  @click="handleDayClick(date)"
+                  style="height: 100%; width: 100%; cursor: pointer;"
+                ></div>
               </template>
               <template v-slot:day-body="{ date, week }">
                 <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY() }"></div>
