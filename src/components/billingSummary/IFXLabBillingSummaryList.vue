@@ -35,6 +35,10 @@ export default {
       endMonthAndYear: null,
       fetchingData: false,
       maxDate: new Date().toISOString().slice(0, 7),
+      startViewMode: 'months',
+      endViewMode: 'months',
+      selectedStartYear: null,
+      selectedEndYear: null,
     }
   },
   mounted() {
@@ -43,6 +47,8 @@ export default {
       this.endYear--
     }
     this.startYear = this.endYear
+    this.selectedStartYear = this.startYear
+    this.selectedEndYear = this.startYear
     this.startMonth = this.endMonth - this.DEFAULT_RANGE
     if (this.startMonth < 1) {
       this.startMonth += 12
@@ -86,21 +92,32 @@ export default {
       })
       this.fetchingData = false
     },
+    updateViewMode(viewMode, type) {
+      if (type === 'start') {
+        this.startViewMode = viewMode === 'year' ? 'year' : 'months'
+      } else {
+        this.endViewMode = viewMode === 'year' ? 'year' : 'months'
+      }
+    },
+    updateStartYear(year) {
+      this.selectedStartYear = year
+    },
+    updateStartMonth(month) {
+      this.startMonth = month + 1
+      this.startYear = this.selectedStartYear
+      this.startMonthAndYear = `${this.startYear}-${String(this.startMonth).padStart(2, '0')}`
+      this.startMenu = false
+    },
+    updateEndYear(year) {
+      this.selectedEndYear = year
+    },
+    updateEndMonth(month) {
+      this.endMonth = month + 1
+      this.endYear = this.selectedEndYear
+      this.endMonthAndYear = `${this.endYear}-${String(this.endMonth).padStart(2, '0')}`
+      this.endMenu = false
+    },
     updateTable() {
-      // Handle both Date objects (Vuetify 3) and strings (Vuetify 2)
-      const startValue = this.startMonthAndYear instanceof Date
-        ? `${this.startMonthAndYear.getFullYear()}-${String(this.startMonthAndYear.getMonth() + 1).padStart(2, '0')}`
-        : this.startMonthAndYear
-      const endValue = this.endMonthAndYear instanceof Date
-        ? `${this.endMonthAndYear.getFullYear()}-${String(this.endMonthAndYear.getMonth() + 1).padStart(2, '0')}`
-        : this.endMonthAndYear
-
-      let split = startValue.split('-')
-      this.startMonth = parseInt(split[1], 10)
-      this.startYear = parseInt(split[0], 10)
-      split = endValue.split('-')
-      this.endMonth = parseInt(split[1], 10)
-      this.endYear = parseInt(split[0], 10)
       this.getSetItems()
     },
   },
@@ -170,10 +187,10 @@ export default {
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="startMonthAndYear"
-            type="month"
-            :max="endMonthAndYear"
-            @update:modelValue="startMenu = false"
+            :view-mode="startViewMode"
+            @update:view-mode="updateViewMode($event, 'start')"
+            @update:year="updateStartYear"
+            @update:month="updateStartMonth"
           ></v-date-picker>
         </v-menu>
       </v-col>
@@ -195,11 +212,10 @@ export default {
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="endMonthAndYear"
-            type="month"
-            :max="maxDate"
-            :min="startMonthAndYear"
-            @update:modelValue="endMenu = false"
+            :view-mode="endViewMode"
+            @update:view-mode="updateViewMode($event, 'end')"
+            @update:year="updateEndYear"
+            @update:month="updateEndMonth"
           ></v-date-picker>
         </v-menu>
       </v-col>
