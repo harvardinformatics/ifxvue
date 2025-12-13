@@ -17,7 +17,6 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     getSetItems() {
-      // TODO: make this consistent, no api endpoint should be returning .data
       return (
         this.apiRef
           .getList()
@@ -27,15 +26,14 @@ export default {
             }
             this.items = items
           })
-          // TODO: work on handling this error
           .catch((error) => {
             this.showMessage(error)
-            this.rtr.replace({ name: 'Home' })
+            this.$router.replace({ name: 'Home' })
           })
       )
     },
     getLabelsForExport() {
-      return this.headers.map((h) => h.text)
+      return this.headers.map((h) => h.title)
     },
     // Set name of exported file
     getNameForExport() {
@@ -56,7 +54,7 @@ export default {
           // Key used to access data
           const key = header.value
           // Formatted key for displayed that data in final file
-          const formattedKey = header.text
+          const formattedKey = header.title
           let value = item[key]
           // If value is undefined, but not false
           if (!value && value !== false) continue
@@ -79,7 +77,7 @@ export default {
       return formattedItems
     },
     navigateToItemCreate() {
-      this.rtr.push({ name: `${this.itemType}Create`, query: { next: this.$route.path } })
+      this.$router.push({ name: `${this.itemType}Create`, query: { next: this.$route.path } })
     },
     getItemsFilteredBySearch() {
       let items = this.items
@@ -117,7 +115,7 @@ export default {
       }
       if (search && v) {
         let val = v.toString().toLowerCase()
-        if (v.hasOwnProperty('errorMessage')) {
+        if (Object.prototype.hasOwnProperty.call(v, 'errorMessage')) {
           val = v.errorMessage.toLowerCase()
         }
         // If search is number, remove any decimal places, as values are stored as integers

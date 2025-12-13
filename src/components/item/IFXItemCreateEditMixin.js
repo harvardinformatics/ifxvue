@@ -1,5 +1,4 @@
 // Mixin for all create/edit components for items in IFX library
-//
 import { mapActions } from 'vuex'
 
 export default {
@@ -38,21 +37,13 @@ export default {
         throw error
       }
     },
-    // Used for comparison before submission and resetting form
     cacheItem() {
-      // TODO: decompose item first
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
-      // this.cachedItem = JSON.parse(JSON.stringify(this.apiRef.decompose(this.item)))
     },
     getAdditionalData() {
-      // This is a placeholder that gets overridden in the component if it needs to load extra data
       return Promise.resolve()
     },
     can(ability, user = this.$api.authUser) {
-      // if (!user) {
-      //   // eslint-disable-next-line no-param-reassign
-      //   user = this.$api.authUser
-      // }
       return this.$api.auth.can(ability, user)
     },
     submit() {
@@ -62,9 +53,8 @@ export default {
     clearAllErrors() {
       this.errors = {}
     },
-    // Used by individual form fields to clear their own errors
     clearError(key) {
-      if (this.errors.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(this.errors, key)) {
         delete this.errors[key]
       }
     },
@@ -91,7 +81,7 @@ export default {
             }
             this.$router.push({ path: this.$route.query.next, query })
           } else {
-            this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
+            this.$router.push({ name: this.itemDetail, params: { id: res.data.id } })
           }
         })
         .catch((error) => {
@@ -129,7 +119,7 @@ export default {
             }
             this.$router.push({ path: this.$route.query.next, query })
           } else {
-            this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
+            this.$router.push({ name: this.itemDetail, params: { id: res.data.id } })
           }
         })
         .catch((error) => {
@@ -143,23 +133,15 @@ export default {
     },
     getItem() {
       if (this.isEditing) {
-        // If editing, id should be available to get specific item from server
         return this.apiRef.getByID(this.id)
       }
-      // Otherwise, create a new item
       return this.apiRef.create({})
     },
     hasItemChanged() {
-      // TODO: add decomposition by default
       return JSON.stringify(this.cachedItem) !== JSON.stringify(this.item)
     },
   },
   computed: {
-    /**
-     * Computes title for PageHeader
-     * If editing, the id of the item is displayed
-     * @returns {string}
-     */
     title() {
       const itemTitle = this.splitOnCapitals(this.itemType).join(' ')
       if (this.isEditing) {
@@ -167,10 +149,6 @@ export default {
       }
       return `Create ${itemTitle}`
     },
-    /**
-     * Computes description for PageHeader
-     * @returns {string}
-     */
     description() {
       return ''
     },
@@ -191,7 +169,7 @@ export default {
         .then(() => this.$nextTick(() => (this.isLoading = false)))
         .catch((error) => {
           this.showMessage(error)
-          this.rtr.replace({ name: 'Home' })
+          this.$router.replace({ name: 'Home' })
         })
     })
   },

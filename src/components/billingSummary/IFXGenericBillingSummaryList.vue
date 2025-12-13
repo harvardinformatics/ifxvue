@@ -73,9 +73,9 @@ export default {
       let message = 'Unknown error'
       if (error) {
         if (
-          error.hasOwnProperty('response')
+          Object.prototype.hasOwnProperty.call(error, 'response')
           && error.response
-          && error.response.hasOwnProperty('data')
+          && Object.prototype.hasOwnProperty.call(error.response, 'data')
           && error.response.data
         ) {
           message = Object.values(error.response.data).join('\n')
@@ -108,7 +108,7 @@ export default {
       </v-card-title>
       <v-row dense class="d-flex justify-space-around" v-if="message">
         <v-col cols="12" class="d-flex flex-grow-1">
-          <v-alert dismissible :type="messageType" border="left" elevation="2" colored-border>
+          <v-alert closable :type="messageType" border="start" border-color elevation="2">
             <span v-html="message"></span>
           </v-alert>
         </v-col>
@@ -125,12 +125,13 @@ export default {
           <span v-if="item.totalDecimalCharge">
             {{ $dollars(item.totalDecimalCharge) }}
           </span>
-          <span v-else class="grey--text text--darken-1">No Charges</span>
+          <span v-else class="text-grey-darken-1">No Charges</span>
         </template>
       </IFXItemDataTable>
     </v-card>
   </v-container>
 </template>
+
 <style lang="scss" scoped>
 .fit-content {
   width: fit-content;

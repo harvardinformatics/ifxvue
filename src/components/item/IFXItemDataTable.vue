@@ -70,15 +70,13 @@ export default {
     currentPage: 1,
   }),
   mounted() {
-    if (this.trackPageNum && this.rt?.query?.page) {
-      const num = parseInt(this.rt.query.page, 10)
+    if (this.trackPageNum && this.$route?.query?.page) {
+      const num = parseInt(this.$route.query.page, 10)
       this.currentPage = Number.isNaN(num) ? 1 : num
     }
   },
   methods: {
-    // Method for handling click events on rows
-    // Only active if user has specified a click-row event
-    clickRow(item) {
+    clickRow(event, { item }) {
       if (this.hasRowClickEvent) {
         this.$emit('click-row', item)
       }
@@ -90,7 +88,6 @@ export default {
       }
       return value.toString()
     },
-    // Method for handling page changes
     pageChange(item) {
       this.$emit('update:page', item)
       if (this.trackPageNum) {
@@ -100,11 +97,9 @@ export default {
     },
   },
   computed: {
-    // Checks if user has specified a click event for the row
     hasRowClickEvent() {
       return !!this.$attrs['onClickRow']
     },
-    // If the row has a click event, make the cursor into a pointer on hover
     rowClass() {
       return {
         'row-pointer': this.hasRowClickEvent,
@@ -121,7 +116,6 @@ export default {
     options: {
       get() {
         return {
-          // Gets items per page from storage or sets default items per page
           itemsPerPage: this.$api.storage.getItem(this.itemsPerPageStorageKey, 'local') || this.defaultItemsPerPage,
         }
       },
@@ -140,17 +134,25 @@ export default {
     permissionCheckedHeaders() {
       return this.headers.filter((h) => (h.permission !== undefined ? h.permission : true))
     },
+    sortByOptions() {
+      if (Array.isArray(this.sortBy)) {
+        return this.sortBy.map((key, index) => ({
+          key,
+          order: Array.isArray(this.sortDesc) ? (this.sortDesc[index] ? 'desc' : 'asc') : (this.sortDesc ? 'desc' : 'asc')
+        }))
+      }
+      return [{ key: this.sortBy, order: this.sortDesc ? 'desc' : 'asc' }]
+    },
   },
 }
 </script>
 
 <template>
-  <!-- NOTE: default search is not used. Items should be filtered by search and any other params before they are passed in -->
   <v-data-table
     :headers="permissionCheckedHeaders"
     v-model="selectedLocal"
     :items="items"
-    :sort-by="sortBy"
+    :sort-by="sortByOptions"
     :multi-sort="multiSort"
     v-model:options="options"
     :class="rowClass"
@@ -161,15 +163,14 @@ export default {
     @update:page="pageChange"
     :page="currentPage"
   >
-    <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
-    <template #header.data-table-select="{ props, on }">
+    <template #header.data-table-select="{ allSelected, selectAll, someSelected }">
       <v-checkbox-btn
         role="checkbox"
-        :aria-checked="checkboxState(props.value, props.indeterminate)"
-        :aria-label="`${props.value ? 'Deselect' : 'Select'} all rows`"
-        :model-value="props.value"
-        :indeterminate="props.indeterminate"
-        v-on="on"
+        :aria-checked="checkboxState(allSelected, someSelected)"
+        :aria-label="`${allSelected ? 'Deselect' : 'Select'} all rows`"
+        :model-value="allSelected"
+        :indeterminate="someSelected && !allSelected"
+        @update:model-value="selectAll(!allSelected)"
         :ripple="false"
       ></v-checkbox-btn>
     </template>
@@ -189,11 +190,11 @@ export default {
     </template>
 
     <template #no-data>
-      <span class="grey--text text--darken-1">No data available</span>
+      <span class="text-grey-darken-1">No data available</span>
     </template>
 
     <template #loading>
-      <span class="grey--text text--darken-1">Loading items...</span>
+      <span class="text-grey-darken-1">Loading items...</span>
     </template>
 
     <template v-for="header in permissionCheckedHeaders" #[`item.${header.value}`]="{ item }">

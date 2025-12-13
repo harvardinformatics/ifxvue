@@ -7,7 +7,7 @@ export default {
      * @returns {boolean}
      */
     hasTitle() {
-      return !!this.$slots.title
+      return !!this.$slots.title  // Slots work differently but this still works
     },
     /**
      * Determines if subtitle slot is filled
@@ -60,8 +60,7 @@ export default {
       }
     },
     hasID() {
-      // Only show id H1 if the slot has something in it (for accessibility)
-      return !!this.$scopedSlots.id
+      return !!this.$slots.id
     },
   },
 }
@@ -72,8 +71,8 @@ export default {
     <v-col class="pt-0">
       <v-row v-if="hasNextQueryParam">
         <v-col class="px-0">
-          <div @click.prevent="rtr.back()" class="d-flex align-center blue--text text--darken-2 pointer">
-            <v-icon class="mr-1 blue--text text--darken-2" :class="backArrowClass">mdi-arrow-left</v-icon>
+          <div @click.prevent="$router.back()" class="d-flex align-center text-blue-darken-2 pointer">
+            <v-icon class="mr-1 text-blue-darken-2" :class="backArrowClass">mdi-arrow-left</v-icon>
             <span class="text-body-1 text-md-h6 font-weight-medium no-line-height">Back</span>
           </div>
         </v-col>
