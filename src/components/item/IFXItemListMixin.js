@@ -1,7 +1,7 @@
 /* eslint-disable no-continue */
 /* eslint-disable no-plusplus */
 import { mapActions } from 'vuex'
-import * as has from 'lodash/has'
+import has from 'lodash/has'
 
 export default {
   data() {
@@ -27,6 +27,7 @@ export default {
             this.items = items
           })
           .catch((error) => {
+            console.error(error)
             this.showMessage(error)
             this.$router.replace({ name: 'Home' })
           })

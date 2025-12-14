@@ -14,21 +14,21 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', namedSlot: true },
-        { text: 'Sent', value: 'sent', sortable: true },
-        { text: 'Subject', value: 'subject', sortable: true, width: '200px' },
-        { text: 'From', hide: 'mdAndDown', value: 'fromstr' },
-        { text: 'To', value: 'tostr', namedSlot: true, width: '300px' },
-        { text: 'Message', value: 'message', namedSlot: true },
-        { text: 'Status', hide: 'mdAndDown', value: 'status' },
-        { text: '', value: 'action', namedSlot: true, sortable: false },
+        { title: 'ID', value: 'id', namedSlot: true },
+        { title: 'Sent', value: 'sent', sortable: true },
+        { title: 'Subject', value: 'subject', sortable: true, width: '200px' },
+        { title: 'From', value: 'fromstr' },
+        { title: 'To', value: 'tostr', namedSlot: true, width: '300px' },
+        { title: 'Message', value: 'message', namedSlot: true },
+        { title: 'Status', value: 'status' },
+        { title: '', value: 'action', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     }
   },
   methods: {
     navigateToDetail(id) {
-      this.rtr.push({
+      this.$router.push({
         name: 'MailingDetail',
         params: { id },
         query: { next: this.$route.path },
@@ -59,7 +59,7 @@ export default {
       <template #title>{{listTitle}}</template>
       <template #actions>
         <IFXSearchField v-model:search='search'/>
-        <IFXButton small btnType="add" @action="navigateToItemCreate"/>
+        <IFXButton size="small" btnType="add" @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
@@ -69,55 +69,52 @@ export default {
       :itemType='itemType'
       :loading='isLoading'
     >
-    <template #id="{ item }">
-      <a href="" @click.prevent="navigateToDetail(item.id)">{{item.id}}</a>
-    </template>
-    <template #tostr="{ item }">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
+      <template #id="{ item }">
+        <a href="" @click.prevent="navigateToDetail(item.id)">{{item.id}}</a>
+      </template>
+      <template #tostr="{ item }">
+        <v-tooltip location="bottom">
+          <template v-slot:activator="{ props }">
           <span class="ellipse"
-            v-bind="attrs"
-            v-on="on"
+                v-bind="props"
           >
             {{ $commaSpace(item.tostr) }}
           </span>
-        </template>
-        <span>{{ $commaSpace(item.tostr) }}</span>
-      </v-tooltip>
-    </template>
-    <template #message="{ item }">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
+          </template>
+          <span>{{ $commaSpace(item.tostr) }}</span>
+        </v-tooltip>
+      </template>
+      <template #message="{ item }">
+        <v-tooltip location="bottom">
+          <template v-slot:activator="{ props }">
           <span class="ellipse"
-            v-bind="attrs"
-            v-on="on"
-            v-html="item.message"
+                v-bind="props"
+                v-html="item.message"
           >
           </span>
-        </template>
-        <span v-html="item.message"></span>
-      </v-tooltip>
-    </template>
-    <template #action="{ item }">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
+          </template>
+          <span v-html="item.message"></span>
+        </v-tooltip>
+      </template>
+      <template #action="{ item }">
+        <v-tooltip location="bottom">
+          <template v-slot:activator="{ props }">
           <span
-            v-bind="attrs"
-            v-on="on"
+            v-bind="props"
           >
           <v-btn
-            xSmall
-            fab
+            size="x-small"
+            icon
             color="primary"
             @click="composeEmail(item)"
           >
             <v-icon color="white">mdi-email-send-outline</v-icon>
           </v-btn>
           </span>
-        </template>
-        <span>Compose a new email from this one</span>
-      </v-tooltip>
-    </template>
+          </template>
+          <span>Compose a new email from this one</span>
+        </v-tooltip>
+      </template>
     </IFXItemDataTable>
   </v-container>
 </template>
