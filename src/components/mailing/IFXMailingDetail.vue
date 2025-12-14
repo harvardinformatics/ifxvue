@@ -29,7 +29,7 @@ export default {
           }).join(',')
         }
       })
-      this.rtr.push({
+      this.$router.push({
         name: 'MailingCompose',
         params: params,
         query: { next: this.$route.path }
@@ -54,8 +54,8 @@ export default {
         <IFXButton v-if='$api.auth.isAdmin' btnType="edit" @action="navigateToItemEdit(id)"/>
       </template>
     </IFXPageHeader>
-    <v-container px-5 py-0>
-      <v-row row align-center justify-start dense>
+    <v-container class="px-5 py-0">
+      <v-row align="center" justify="start">
         <v-col cols="1">
           <strong>Subject</strong>
         </v-col>
@@ -63,7 +63,7 @@ export default {
           {{item.subject}}
         </v-col>
       </v-row>
-      <v-row row align-center justify-start dense>
+      <v-row align="center" justify="start">
         <v-col cols="1">
           <strong>From</strong>
         </v-col>
@@ -71,7 +71,7 @@ export default {
           {{item.fromstr}}
         </v-col>
       </v-row>
-      <v-row row align-center justify-start dense>
+      <v-row align="center" justify="start">
         <v-col cols="1">
           <strong>To</strong>
         </v-col>
@@ -79,7 +79,7 @@ export default {
           {{ $commaSpace(item.tostr) }}
         </v-col>
       </v-row>
-      <v-row row align-center justify-start dense>
+      <v-row align="center" justify="start">
         <v-col cols="1">
           <strong>CC</strong>
         </v-col>
@@ -87,7 +87,7 @@ export default {
           {{ $commaSpace(item.ccstr) }}
         </v-col>
       </v-row>
-      <v-row row align-center justify-start dense>
+      <v-row align="center" justify="start">
         <v-col cols="1">
           <strong>BCC</strong>
         </v-col>
@@ -95,7 +95,7 @@ export default {
           {{ $commaSpace(item.bccstr) }}
         </v-col>
       </v-row>
-      <v-row row align-center justify-start dense>
+      <v-row align="center" justify="start">
         <v-col cols="1">
           <strong>Date Sent</strong>
         </v-col>
@@ -103,7 +103,7 @@ export default {
           {{ $humanDatetime(item.sent) }}
         </v-col>
       </v-row>
-      <v-row column wrap>
+      <v-row>
         <v-col cols="12">
           <h3>Message</h3>
         </v-col>

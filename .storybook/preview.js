@@ -70,6 +70,9 @@ const mockAPI = {
   user: {
     canEditField: () => false,
   },
+  auth: {
+    isAdmin: false,
+  },
   vars: {
     appName: 'ifxvue',
     appNameFormatted: 'IFXVue',

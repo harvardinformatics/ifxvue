@@ -1,6 +1,6 @@
 <script>
 import { mapActions } from 'vuex'
-import * as has from 'lodash/has'
+import has from 'lodash/has'
 import Editor from '@tinymce/tinymce-vue'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXPageHeader from '@/components/page/IFXPageHeader'
@@ -96,7 +96,6 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     extractEmailAddress(str) {
-      // If email is of the form Name <email>, extract the email.  Otherwise return
       let result = str
       if (str && str.indexOf('<') !== -1) {
         const match = str.match(/<\s*([^ >]+)\s*>/)
@@ -117,7 +116,6 @@ export default {
         }
         return contactable.detail
       }
-      // Get mailing from vuex - this is where the mailing is stored throughout the composition process
       const mailing = {
         message: this.content,
         subject: this.localSubject,
@@ -167,16 +165,13 @@ export default {
       .getList()
       .then((result) => {
         this.contactables = result
-        // If we're doing the lab manager notification thing
         if (this.labManagerOrgSlugs) {
           this.$api.getBillingContacts(this.labManagerOrgSlugs, this.invoicePrefix)
             .then((res) => {
               const result2 = res.data
-              // If a contact for one of the orgs cannot be found, raise an error
               const orgContactNotFound = []
               me.labManagerOrgSlugs.forEach((slug) => {
                 const name = this.$api.organization.parseSlug(slug).name
-                // Check if org name is in the contactable label
                 if (!result2.some((contactable) => contactable?.label?.indexOf(name) !== -1)) {
                   orgContactNotFound.push(name)
                 }
