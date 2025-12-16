@@ -1,11 +1,8 @@
 <script>
-// Speed dial control for sending items to to:, cc:, or bcc: fields on IFXMailingCompose
-// v-model should be bound to the "selected" list.  Check for length of input determines enabled state
-
 export default {
   name: 'IFXMailButton',
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true,
     },
@@ -42,26 +39,27 @@ export default {
   },
   methods: {
     setRecipientField(field) {
-      this.$emit('input', field)
+      this.$emit('update:modelValue', field)
     }
   }
 }
 </script>
+
 <template>
-  <v-tooltip top>
-    <template v-slot:activator="{ on, attrs }">
-      <div v-on="on">
+  <v-tooltip location="top">
+    <template v-slot:activator="{ props }">
+      <div v-bind="props">
         <v-speed-dial
           :direction="direction"
           v-model="mailFab"
-          v-bind="attrs"
         >
-          <template v-slot:activator>
+          <template v-slot:activator="{ props: activatorProps }">
             <v-btn
+              v-bind="activatorProps"
               v-model="mailFab"
-              small
+              size="small"
               :color="color"
-              fab
+              icon
               :disabled="disabled"
             >
               <v-icon color="white" v-if="mailFab">
@@ -73,24 +71,24 @@ export default {
             </v-btn>
           </template>
           <v-btn
-            xSmall
-            fab
+            size="x-small"
+            icon
             color="#A4F323"
             @click="setRecipientField('to')"
           >
             to:
           </v-btn>
           <v-btn
-            xSmall
-            fab
+            size="x-small"
+            icon
             color="#86C61D"
             @click="setRecipientField('cc')"
           >
             cc:
           </v-btn>
           <v-btn
-            xSmall
-            fab
+            size="x-small"
+            icon
             color="#669617"
             @click="setRecipientField('bcc')"
           >

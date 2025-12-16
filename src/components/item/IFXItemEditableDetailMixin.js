@@ -24,7 +24,6 @@ export default {
       return this.$api.auth.can(ability, user)
     },
     getAdditionalData() {
-      // This is a placeholder that gets overridden in the component if it needs to load extra data
       return Promise.resolve()
     },
     getItem() {
@@ -39,11 +38,8 @@ export default {
         throw error
       }
     },
-    // Used for comparison before submission and resetting form
     cacheItem() {
-      // TODO: decompose item first
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
-      // this.cachedItem = JSON.parse(JSON.stringify(this.apiRef.decompose(this.item)))
     },
     submit() {
       if (this.isEditing) this.submitUpdate()
@@ -52,9 +48,8 @@ export default {
     clearAllErrors() {
       this.errors = {}
     },
-    // Used by individual form fields to clear their own errors
     clearError(key) {
-      if (this.errors.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(this.errors, key)) {
         delete this.errors[key]
       }
     },
@@ -85,7 +80,6 @@ export default {
         })
     },
     hasItemChanged() {
-      // TODO: add decomposition by default
       return JSON.stringify(this.cachedItem) !== JSON.stringify(this.item)
     },
   },
@@ -110,7 +104,7 @@ export default {
         .then(() => (this.isLoading = false))
         .catch((err) => {
           this.showMessage(err)
-          this.rtr.replace({ name: `${this.itemType}List` })
+          this.$router.replace({ name: `${this.itemType}List` })
         })
     })
   },

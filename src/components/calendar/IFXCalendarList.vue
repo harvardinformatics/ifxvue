@@ -1333,6 +1333,7 @@ export default {
                           <v-btn
                             variant="text"
                             color="primary"
+                            :disabled="!pickerTime"
                             @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
                             data-cy="end-date-ok"
                           >

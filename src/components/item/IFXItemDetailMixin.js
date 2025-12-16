@@ -20,13 +20,9 @@ export default {
       if (this.$route.query.page) {
         query.page = this.$route.query.page
       }
-      this.rtr.push({ name: `${this.itemType}Edit`, params: { id }, query })
+      this.$router.push({ name: `${this.itemType}Edit`, params: { id }, query })
     },
     can(ability, user = this.$api.authUser) {
-      // if (!user) {
-      //   // eslint-disable-next-line no-param-reassign
-      //   user = this.$api.authUser
-      // }
       return this.$api.auth.can(ability, user)
     },
     async init() {
@@ -50,7 +46,7 @@ export default {
       .then(() => (this.isLoading = false))
       .catch((err) => {
         this.showMessage(err)
-        this.rtr.replace({ name: `${this.itemType}List` })
+        this.$router.replace({ name: `${this.itemType}List` })
       })
   },
 }

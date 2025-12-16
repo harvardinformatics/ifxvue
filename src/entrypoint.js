@@ -10,7 +10,7 @@ import IFXTooltip from '@/components/IFXTooltip'
 import IFXNotFound from '@/components/page/IFXNotFound'
 import IFXForbidden from '@/components/page/IFXForbidden'
 import IFXPageHeader from '@/components/page/IFXPageHeader'
-import IFXPageErrorDisplay from '@/components/page/IFXPageErrorDisplay'
+import IFXPageErrorDisplay from '@/components/page/IFXPageErrorDisplay.stories'
 import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 
 // Item

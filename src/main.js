@@ -8,8 +8,7 @@ import APIService from './api/IFXAPI'
 import App from './App'
 import vuetify from './plugins/vuetify-local'
 
-// import 'vuetify/dist/vuetify.min.css'
-// This file contains all application-specific to be used in ifxvue
+import 'vuetify/styles'
 
 const appName = 'ifxvue'
 const appNameFormatted = 'IFXVue'

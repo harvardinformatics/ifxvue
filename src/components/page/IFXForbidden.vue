@@ -1,4 +1,5 @@
 <script>
+import IFXButton from '@/components/IFXButton.vue'
 export default {
   name: 'IFXForbidden',
   props: {
@@ -10,7 +11,7 @@ export default {
   },
   methods: {
     navigateToHome() {
-      this.rtr.push({ name: 'Home' })
+      this.$router.push({ name: 'Home' })
     },
   },
 }

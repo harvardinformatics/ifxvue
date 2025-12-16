@@ -24,10 +24,10 @@ export default {
     return {
       DEFAULT_RANGE: 5,
       onlyShowSuspiciousRows: false,
-      theHeaders: [{ text: 'Lab Name', value: 'organization', sortable: true }],
+      theHeaders: [{ title: 'Lab Name', value: 'organization', sortable: true }],
       startMonth: null,
       startYear: null,
-      endMonth: new Date().getMonth(), // Start on the previous month since getMonth() is zero-based
+      endMonth: new Date().getMonth(),
       endYear: new Date().getFullYear(),
       startMenu: false,
       startMonthAndYear: null,
@@ -35,16 +35,20 @@ export default {
       endMonthAndYear: null,
       fetchingData: false,
       maxDate: new Date().toISOString().slice(0, 7),
+      startViewMode: 'months',
+      endViewMode: 'months',
+      selectedStartYear: null,
+      selectedEndYear: null,
     }
   },
   mounted() {
     if (!this.endMonth) {
-      // If we're at the start of the year, we need to go back to the previous year
-      // Since getMonth() is zero-based, we're using that to go to the previous month
       this.endMonth = 12
       this.endYear--
     }
     this.startYear = this.endYear
+    this.selectedStartYear = this.startYear
+    this.selectedEndYear = this.startYear
     this.startMonth = this.endMonth - this.DEFAULT_RANGE
     if (this.startMonth < 1) {
       this.startMonth += 12
@@ -55,7 +59,6 @@ export default {
   },
   methods: {
     async getSetItems() {
-      // Reset the headers and the items
       this.theHeaders.splice(1)
       this.items.splice(0)
       this.fetchingData = true
@@ -65,13 +68,11 @@ export default {
 
       for (let i = 0; i <= monthRange; i++) {
         const curMonth = this.startMonth + i
-        // Add a header for this month
         const thisMonth = curMonth % 12 || 12
-        // the keys that come back from Django are padded to 2 digits for month.
         const paddedMonth = thisMonth.toString().padStart(2, '0')
         const thisYear = this.startYear + Math.floor((curMonth - 1) / 12)
         this.theHeaders.push({
-          text: `${thisMonth} / ${thisYear}`,
+          title: `${thisMonth} / ${thisYear}`,
           value: `${thisYear}-${paddedMonth}`,
           sortable: true,
           namedSlot: true,
@@ -84,22 +85,39 @@ export default {
         this.endMonth,
         this.endYear
       )
-      // We get an object back so process it into an array
       const labData = Object.entries(results.data)
       labData.forEach(([lab, values]) => {
-        // Create the item entry the way the table expects it
         const newData = { organization: lab, ...values }
         this.items.push(newData)
       })
       this.fetchingData = false
     },
+    updateViewMode(viewMode, type) {
+      if (type === 'start') {
+        this.startViewMode = viewMode === 'year' ? 'year' : 'months'
+      } else {
+        this.endViewMode = viewMode === 'year' ? 'year' : 'months'
+      }
+    },
+    updateStartYear(year) {
+      this.selectedStartYear = year
+    },
+    updateStartMonth(month) {
+      this.startMonth = month + 1
+      this.startYear = this.selectedStartYear
+      this.startMonthAndYear = `${this.startYear}-${String(this.startMonth).padStart(2, '0')}`
+      this.startMenu = false
+    },
+    updateEndYear(year) {
+      this.selectedEndYear = year
+    },
+    updateEndMonth(month) {
+      this.endMonth = month + 1
+      this.endYear = this.selectedEndYear
+      this.endMonthAndYear = `${this.endYear}-${String(this.endMonth).padStart(2, '0')}`
+      this.endMenu = false
+    },
     updateTable() {
-      let split = this.startMonthAndYear.split('-')
-      this.startMonth = parseInt(split[1], 10)
-      this.startYear = parseInt(split[0], 10)
-      split = this.endMonthAndYear.split('-')
-      this.endMonth = parseInt(split[1], 10)
-      this.endYear = parseInt(split[0], 10)
       this.getSetItems()
     },
   },
@@ -110,7 +128,6 @@ export default {
     refinedItems() {
       if (this.onlyShowSuspiciousRows) {
         return this.filteredItems.filter((row) => {
-          // There has to be at least one non-zero and one or more zero/no charge entries
           let hasNonZeroCharges = false
           let hasZero = false
           this.headers.forEach((header) => {
@@ -154,67 +171,56 @@ export default {
     <v-row v-if="showSelectors">
       <v-col class="flex-grow-1 flex-shrink-0">
         <v-menu
-          ref="startMenu"
           v-model="startMenu"
           :close-on-content-click="false"
           transition="scale-transition"
-          offset-y
           max-width="290px"
           min-width="auto"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template v-slot:activator="{ props }">
             <v-text-field
               v-model="startMonthAndYear"
               label="Select start month and year"
               prepend-icon="mdi-calendar"
               readonly
-              v-bind="attrs"
-              v-on="on"
+              v-bind="props"
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="startMonthAndYear"
-            type="month"
-            no-title
-            scrollable
-            :max="endMonthAndYear"
-            @input="startMenu = false"
+            :view-mode="startViewMode"
+            @update:view-mode="updateViewMode($event, 'start')"
+            @update:year="updateStartYear"
+            @update:month="updateStartMonth"
           ></v-date-picker>
         </v-menu>
       </v-col>
       <v-col class="flex-grow-1 flex-shrink-0">
         <v-menu
-          ref="endMenu"
           v-model="endMenu"
           :close-on-content-click="false"
           transition="scale-transition"
-          offset-y
           max-width="290px"
           min-width="auto"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template v-slot:activator="{ props }">
             <v-text-field
               v-model="endMonthAndYear"
               label="Select end month and year"
               prepend-icon="mdi-calendar"
               readonly
-              v-bind="attrs"
-              v-on="on"
+              v-bind="props"
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="endMonthAndYear"
-            type="month"
-            no-title
-            scrollable
-            :max="maxDate"
-            :min="startMonthAndYear"
-            @input="endMenu = false"
+            :view-mode="endViewMode"
+            @update:view-mode="updateViewMode($event, 'end')"
+            @update:year="updateEndYear"
+            @update:month="updateEndMonth"
           ></v-date-picker>
         </v-menu>
       </v-col>
       <v-col class="d-flex flex-row align-center flex-grow-0 flex-shrink-1">
-        <v-btn small @click="updateTable" color="primary">Get Summary</v-btn>
+        <v-btn size="small" @click="updateTable" color="primary">Get Summary</v-btn>
       </v-col>
     </v-row>
     <IFXItemDataTable
@@ -227,11 +233,11 @@ export default {
       :defaultItemsPerPage="-1"
     >
       <template v-for="header in headers" #[header.value]="{ item }">
-        <span :key="header.text">
+        <span :key="header.value">
           <span v-if="item[header.value] !== undefined">
             {{ $dollars(item[header.value]) }}
           </span>
-          <span v-else class="grey--text text--darken-1">No Charges</span>
+          <span v-else class="text-grey-darken-1">No Charges</span>
         </span>
       </template>
     </IFXItemDataTable>

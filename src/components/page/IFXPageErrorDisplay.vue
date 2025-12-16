@@ -1,7 +1,7 @@
 <template>
   <v-container class="non-field-container v-messages__wrapper">
     <transition name="fade">
-      <div class="v-messages__message error--text">{{errors.non_field_errors}}</div>
+      <div class="v-messages__message text-error">{{errors.non_field_errors}}</div>
     </transition>
   </v-container>
 </template>

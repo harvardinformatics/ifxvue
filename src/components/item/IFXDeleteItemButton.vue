@@ -41,15 +41,6 @@ export default {
     }
   },
   computed: {
-    // Has the same shape as actions in IFXActionSelect.vue
-    // key: used to reference the action
-    // name: display name
-    // description: display description
-    // condition: condition for this action to be available, must pass for every item in list otherwise action is not available
-    // execute: function to be executed, i.e. the action to be taken
-    // onSuccess: callback if execution is successful
-    // onError: callback if execution is unsuccessful
-    // allowMultiple: if action allows for multiple items to be selected
     action() {
       return {
         key: 'deleteItem',
@@ -59,7 +50,7 @@ export default {
         onSuccess: () => {
           this.toggleDialog()
           this.showMessage('This item has been deleted')
-          this.rtr.push({ name: `${this.itemType}List` })
+          this.$router.push({ name: `${this.itemType}List` })
         },
         onError: (error) => {
           this.toggleDialog()
@@ -69,18 +60,18 @@ export default {
       }
     }
   }
-
 }
 </script>
+
 <template>
-<span>
-  <IFXButton data-cy='item-delete' xSmall btnType='remove' @action='toggleDialog'></IFXButton>
-  <IFXActionDialog
-    :selectedAction='action'
-    :selectedItems='[item]'
-    v-model:isActive='isDialogActive'
-    @cancel-action='cancelAction'
-    @complete-action='completeAction'
-  ></IFXActionDialog>
-</span>
+  <span>
+    <IFXButton data-cy="item-delete" size="x-small" btnType="remove" @action="toggleDialog"></IFXButton>
+    <IFXActionDialog
+      :selectedAction="action"
+      :selectedItems="[item]"
+      v-model:isActive="isDialogActive"
+      @cancel-action="cancelAction"
+      @complete-action="completeAction"
+    ></IFXActionDialog>
+  </span>
 </template>
