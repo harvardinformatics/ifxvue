@@ -117,7 +117,7 @@ export default {
                   hint="Start typing to see a list of matches"
                   persistent-hint
                 >
-                  <template slot="no-data">
+                  <template #no-data>
                     <div class="text-center px-3 text-body-2">Start typing to see a list of matches</div>
                   </template>
                 </v-autocomplete>

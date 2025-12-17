@@ -130,7 +130,7 @@ export default {
               v-model:items="item.contacts"
               :getEmptyItem="$api.organizationContact.create"
             >
-              <template v-slot="{ item }">
+              <template #default="{ item }">
                 <IFXSelectableContact
                   :allItems="allContacts"
                   :item="item"
