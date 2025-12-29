@@ -53,19 +53,22 @@ export default {
   },
 }
 </script>
+
 <template>
-  <v-row dense :key="rowKey">
+  <v-row :key="rowKey">
     <v-col md="8" v-if="roleEditingEnabled" class="d-flex flex-row">
       <span>
         <v-select
           v-model.trim="itemLocal.role"
           :items="appropriateRoles"
+          item-title="text"
+          item-value="value"
           label="Role"
           :rules="formRules.generic"
           required
         ></v-select>
-        <v-btn x-small outlined class="mr-2" color="secondary" @click="cancelAffiliation">Cancel</v-btn>
-        <v-btn x-small color="secondary" @click="updateAffiliation(itemLocal)">Accept</v-btn>
+        <v-btn size="x-small" variant="outlined" class="mr-2" color="secondary" @click="cancelAffiliation">Cancel</v-btn>
+        <v-btn size="x-small" color="secondary" @click="updateAffiliation(itemLocal)">Accept</v-btn>
       </span>
       <span class="ml-2">of {{ $orgNameFromSlug(affiliation.organization) }}</span>
     </v-col>
@@ -73,13 +76,12 @@ export default {
       <span>{{ $affiliationRoleDisplay(affiliation.role) }} of {{ $orgNameFromSlug(affiliation.organization) }}</span>
     </v-col>
     <v-col v-if="$api.auth.can('edit-affiliations')" md="4">
-      <v-tooltip v-if="itemLocal.active" top>
-        <template v-slot:activator="{ on, attrs }">
+      <v-tooltip v-if="itemLocal.active" location="top">
+        <template v-slot:activator="{ props }">
           <v-icon
-            v-on="on"
-            v-bind="attrs"
+            v-bind="props"
             class="ml-2"
-            small
+            size="small"
             color="red"
             @click.stop.prevent="setAffiliationActiveState(false)"
             :disabled="roleEditingEnabled"
@@ -89,13 +91,12 @@ export default {
         </template>
         <span>Deactivate affiliation</span>
       </v-tooltip>
-      <v-tooltip v-else>
-        <template v-slot:activator="{ on, attrs }">
+      <v-tooltip v-else location="top">
+        <template v-slot:activator="{ props }">
           <v-icon
-            v-on="on"
-            v-bind="attrs"
+            v-bind="props"
             class="ml-2"
-            small
+            size="small"
             color="green"
             @click.stop.prevent="setAffiliationActiveState(true)"
             :disabled="roleEditingEnabled"
@@ -105,9 +106,9 @@ export default {
         </template>
         <span>Reactivate affiliation</span>
       </v-tooltip>
-      <v-tooltip v-if="itemLocal.active" top>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
+      <v-tooltip v-if="itemLocal.active" location="top">
+        <template v-slot:activator="{ props }">
+          <v-icon v-bind="props" class="ml-2" size="small" color="primary" @click="toggleEditing">mdi-pencil</v-icon>
         </template>
         <span>Edit affiliation</span>
       </v-tooltip>

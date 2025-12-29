@@ -12,6 +12,7 @@ import IFXButton from '../src/components/IFXButton.vue'
 import IFXPageHeader from '../src/components/page/IFXPageHeader.vue'
 import IFXItemDataTable from '../src/components/item/IFXItemDataTable.vue'
 import IFXSearchField from '../src/components/IFXSearchField.vue'
+import IFXContactCard from '../src/components/contact/IFXContactCard.vue'
 
 
 const vuetify = createVuetify({
@@ -69,9 +70,31 @@ const mockStorage = {
 const mockAPI = {
   user: {
     canEditField: () => false,
+    getList: async () => {
+      console.log('user.getList() called')
+      return [
+        { id: 1, fullName: 'John Doe', email: 'john.doe@harvard.edu' },
+        { id: 2, fullName: 'Jane Smith', email: 'jane.smith@harvard.edu' },
+      ]
+    },
+    userRoles: [
+      { text: 'Administrator', value: 'admin' },
+      { text: 'Member', value: 'member' },
+      { text: 'Viewer', value: 'viewer' },
+    ]
+  },
+  authUser: {
+    id: 1,
+    fullName: 'Test User',
+    email: 'test@harvard.edu',
   },
   auth: {
     isAdmin: false,
+    can: (ability, user) => {
+      // Mock permission check - for Storybook, return true to show all features
+      console.log('Checking permission:', ability, user)
+      return true // or false to test disabled state
+    },
   },
   vars: {
     appName: 'ifxvue',
@@ -155,6 +178,181 @@ const mockAPI = {
       },
     ]
   },
+  message: {
+    getList: async () => [
+      {
+        id: 1,
+        name: 'lab_meeting_reminder',
+        displayName: 'Lab Meeting Reminder',
+        subject: 'Weekly Lab Meeting',
+        message: '<p>Hi team,</p><p>Weekly lab meeting reminder.</p>',
+      },
+      {
+        id: 2,
+        name: 'equipment_maintenance',
+        displayName: 'Equipment Maintenance Notice',
+        subject: 'Scheduled Maintenance',
+        message: '<p>MRI scanner will be offline for maintenance.</p>',
+      },
+      {
+        id: 3,
+        name: 'safety_training',
+        displayName: 'Safety Training Notification',
+        subject: 'Annual Safety Training Required',
+        message: '<p>Complete annual safety training by end of month.</p>',
+      },
+      {
+        id: 4,
+        name: 'billing_reminder',
+        displayName: 'Billing Statement Reminder',
+        subject: 'Monthly Billing Statement Available',
+        message: '<p>Monthly billing statement now available.</p>',
+      },
+      {
+        id: 5,
+        name: 'new_user_welcome',
+        displayName: 'New User Welcome',
+        subject: 'Welcome to the Center for Brain Science',
+        message: '<p>Welcome! Important onboarding information.</p>',
+      },
+    ],
+    getByID: async (id) => {
+      const messages = [
+        {
+          id: 1,
+          name: 'lab_meeting_reminder',
+          displayName: 'Lab Meeting Reminder',
+          subject: 'Weekly Lab Meeting',
+          message: '<p>Hi team,</p><p>Weekly lab meeting reminder.</p>',
+        },
+        {
+          id: 2,
+          name: 'equipment_maintenance',
+          displayName: 'Equipment Maintenance Notice',
+          subject: 'Scheduled Maintenance',
+          message: '<p>MRI scanner will be offline for maintenance.</p>',
+        },
+        {
+          id: 3,
+          name: 'safety_training',
+          displayName: 'Safety Training Notification',
+          subject: 'Annual Safety Training Required',
+          message: '<p>Complete annual safety training by end of month.</p>',
+        },
+      ]
+      return messages.find(m => m.id === parseInt(id))
+    }
+  },
+  contact: {
+    getList: async () => [
+      {
+        id: 1,
+        key: 'contact_1',
+        computedName: 'John Smith',
+        name: 'John Smith',
+        type: 'Email',
+        detail: 'john.smith@harvard.edu',
+        created: '2024-01-15T10:30:00Z',
+        firstName: 'John',
+        lastName: 'Smith',
+        email: 'john.smith@harvard.edu',
+        phone: '617-555-0101',
+        address: '123 Harvard St, Cambridge, MA 02138',
+      },
+      {
+        id: 2,
+        key: 'contact_2',
+        computedName: 'Sarah Johnson',
+        name: 'Sarah Johnson',
+        type: 'Phone',
+        detail: '617-555-0102',
+        created: '2024-02-20T14:45:00Z',
+        firstName: 'Sarah',
+        lastName: 'Johnson',
+        email: 'sarah.johnson@harvard.edu',
+        phone: '617-555-0102',
+      },
+      {
+        id: 3,
+        key: 'contact_3',
+        computedName: 'Michael Chen',
+        name: 'Michael Chen',
+        type: 'Email',
+        detail: 'michael.chen@harvard.edu',
+        created: '2024-03-10T09:15:00Z',
+        firstName: 'Michael',
+        lastName: 'Chen',
+        email: 'michael.chen@harvard.edu',
+        phone: '617-555-0103',
+      },
+    ],
+    getByID: async (id) => {
+      const contacts = [
+        {
+          id: 1,
+          key: 'contact_1',
+          computedName: 'John Smith',
+          name: 'John Smith',
+          type: 'Email',
+          detail: 'john.smith@harvard.edu',
+          created: '2024-01-15T10:30:00Z',
+          firstName: 'John',
+          lastName: 'Smith',
+          email: 'john.smith@harvard.edu',
+          phone: '617-555-0101',
+          address: '123 Harvard St, Cambridge, MA 02138',
+        },
+        {
+          id: 2,
+          key: 'contact_2',
+          computedName: 'Sarah Johnson',
+          name: 'Sarah Johnson',
+          type: 'Phone',
+          detail: '617-555-0102',
+          created: '2024-02-20T14:45:00Z',
+          firstName: 'Sarah',
+          lastName: 'Johnson',
+          email: 'sarah.johnson@harvard.edu',
+          phone: '617-555-0102',
+        },
+        {
+          id: 3,
+          key: 'contact_3',
+          computedName: 'Michael Chen',
+          name: 'Michael Chen',
+          type: 'Email',
+          detail: 'michael.chen@harvard.edu',
+          created: '2024-03-10T09:15:00Z',
+          firstName: 'Michael',
+          lastName: 'Chen',
+          email: 'michael.chen@harvard.edu',
+          phone: '617-555-0103',
+        },
+      ]
+      return contacts.find(c => c.id === parseInt(id))
+    },
+    create: async (data) => {
+      console.log('Creating contact:', data)
+      return {
+        id: null,
+        name: '',
+        detail: '',
+        type: 'Email',
+        email: '',
+        phone: '',
+        address: '',
+        ...data
+      }
+    },
+    save: async (contact) => {
+      console.log('Saving contact:', contact)
+      return { data: { ...contact, id: Date.now() } }
+    },
+    update: async (contact) => {
+      console.log('Updating contact:', contact)
+      return { data: contact }
+    }
+  },
 }
 
 // Mock Router
@@ -204,6 +402,7 @@ setup((app) => {
   app.component('IFXButton', IFXButton)
   app.component('IFXPageHeader', IFXPageHeader)
   app.component('IFXItemDataTable', IFXItemDataTable)
+  app.component('IFXContactCard', IFXContactCard)
 
   // Add filters as global properties
   Object.keys(IFXFilters).forEach((name) => {

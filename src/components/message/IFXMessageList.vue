@@ -14,14 +14,14 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true },
-        { text: 'Name', value: 'displayName', sortable: true },
-        { text: 'Subject', value: 'subject' },
-        { text: 'Message', value: 'message' },
-        { text: '', value: 'rowActionEdit', slot: true },
-        { text: '', value: 'actions', namedSlot: true, sortable: false },
+        { title: 'ID', value: 'id', sortable: true },
+        { title: 'Name', value: 'displayName', sortable: true },
+        { title: 'Subject', value: 'subject' },
+        { title: 'Message', value: 'message' },
+        { title: '', value: 'rowActionEdit', slot: true },
+        { title: '', value: 'actions', namedSlot: true, sortable: false },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
+      return headers.filter((h) => !h.hide || !(this.$vuetify?.display?.[h.hide]))
     },
   },
   methods: {
@@ -38,7 +38,7 @@ export default {
       <template #title>{{listTitle}}</template>
       <template #actions>
         <IFXSearchField v-model:search='search'/>
-        <IFXButton small btnType="add" @action="navigateToItemCreate"/>
+        <IFXButton size="small" btnType="add" @action="navigateToItemCreate"/>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
@@ -48,15 +48,14 @@ export default {
       :itemType='itemType'
     >
       <template #actions="{ item }">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
+        <v-tooltip location="bottom">
+          <template v-slot:activator="{ props }">
             <v-btn
-              fab
-              xSmall
+              icon
+              size="x-small"
               color="primary"
               @click="composeWithMessage(item)"
-              v-bind="attrs"
-              v-on="on"
+              v-bind="props"
             >
               <v-icon color="white">
                 mdi-email-send-outline

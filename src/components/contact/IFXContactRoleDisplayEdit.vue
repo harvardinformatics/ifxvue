@@ -77,20 +77,23 @@ export default {
   },
 }
 </script>
+
 <template>
-  <v-row dense :key="rowKey">
+  <v-row :key="rowKey">
     <v-col md="5" v-if="roleEditingEnabled">
       <v-select
         v-model.trim="itemLocal.role"
         :items="appropriateRoles"
-        item-text="name"
+        item-title="name"
         item-value="name"
         label="Role"
         :rules="formRules.generic"
         required
       ></v-select>
-      <v-btn x-small outlined class="mr-2" color="secondary" @click.stop="cancelContact">Cancel</v-btn>
-      <v-btn x-small class="mr-2" color="secondary" @click.stop="updateContact(itemLocal)">Accept</v-btn>
+      <div class="mt-2">
+        <v-btn size="x-small" variant="outlined" class="mr-2" color="secondary" @click.stop="cancelContact">Cancel</v-btn>
+        <v-btn size="x-small" class="mr-2" color="secondary" @click.stop="updateContact(itemLocal)">Accept</v-btn>
+      </div>
     </v-col>
     <v-col
       md="5"
@@ -99,8 +102,8 @@ export default {
     >
       {{ itemLocal.role }}
       <v-btn
-        text
-        x-small
+        variant="text"
+        size="x-small"
         color="primary"
         @click.stop="showExtraInfo = !showExtraInfo"
         v-if="isFullContact(itemLocal.contact)"
@@ -126,13 +129,12 @@ export default {
       <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
     </v-col>
     <v-col v-if="isEditable">
-      <v-tooltip v-if="itemLocal.active" top>
-        <template v-slot:activator="{ on, attrs }">
+      <v-tooltip v-if="itemLocal.active" location="top">
+        <template v-slot:activator="{ props }">
           <v-icon
-            v-bind="attrs"
-            v-on="on"
+            v-bind="props"
             class="ml-2"
-            small
+            size="small"
             color="red"
             @click="setContactActiveState(false)"
             :disabled="roleEditingEnabled"
@@ -142,23 +144,24 @@ export default {
         </template>
         <span>Deactivate contact</span>
       </v-tooltip>
-      <v-tooltip v-else top>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="green" @click="setContactActiveState(true)">
+      <v-tooltip v-else location="top">
+        <template v-slot:activator="{ props }">
+          <v-icon v-bind="props" class="ml-2" size="small" color="green" @click="setContactActiveState(true)">
             mdi-delete-restore
           </v-icon>
         </template>
         <span>Reactivate Contact</span>
       </v-tooltip>
-      <v-tooltip v-if="itemLocal.active" top>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon v-on="on" v-bind="attrs" class="ml-2" small color="primary" @click="toggleEditing">mdi-pencil</v-icon>
+      <v-tooltip v-if="itemLocal.active" location="top">
+        <template v-slot:activator="{ props }">
+          <v-icon v-bind="props" class="ml-2" size="small" color="primary" @click="toggleEditing">mdi-pencil</v-icon>
         </template>
         <span>Edit contact</span>
       </v-tooltip>
     </v-col>
   </v-row>
 </template>
+
 <style lang="scss" scoped>
 .expand-icon {
   transition: rotate 0.3s ease-in-out;

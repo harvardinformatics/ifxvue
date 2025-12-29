@@ -50,6 +50,7 @@ export default {
   }
 }
 </script>
+
 <template>
   <v-container fluid v-if='!isLoading'>
     <!-- TODO: this disabled section is basically the contact detail page - probably use that -->
@@ -83,25 +84,25 @@ export default {
     </span>
     <span v-else>
     <!-- TODO: give user the option to select this, rather than checking it only -->
-      <v-row v-if="isSearchVisible" no-gutters>
+      <v-row v-if="isSearchVisible">
         <v-col>
           <v-autocomplete
             v-model="itemLocal.contact"
             autocomplete="new-password"
             label="Search existing contacts"
             :items="allItems"
-            item-text="name"
+            item-title="name"
             return-object
           >
           </v-autocomplete>
         </v-col>
       </v-row>
-      <v-row no-gutters>
+      <v-row>
         <v-col>
           <span v-if="!itemLocal.contact">Select a </span>Contact type
           <v-radio-group
             v-model="contactType"
-            row
+            inline
           >
             <v-radio
               label="Email"
@@ -121,7 +122,7 @@ export default {
           </v-radio-group>
         </v-col>
       </v-row>
-      <v-row v-if="contactType === 'Full'" no-gutters>
+      <v-row v-if="contactType === 'Full'">
         <v-col>
           <v-row>
             <v-col>
@@ -132,7 +133,7 @@ export default {
                 :rules="formRules.generic"
                 label="Role"
                 required
-                @input="checkValidForm()"
+                @update:modelValue="checkValidForm()"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -145,7 +146,7 @@ export default {
                 :rules="formRules.email"
                 label="Email"
                 required
-                @input="checkValidForm()"
+                @update:modelValue="checkValidForm()"
               ></v-text-field>
             </v-col>
             <v-col>
@@ -154,7 +155,7 @@ export default {
                 autocomplete="new-password"
                 :error-messages="errors['contacts.phone']"
                 label="Phone"
-                @input="checkValidForm()"
+                @update:modelValue="checkValidForm()"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -167,14 +168,14 @@ export default {
                 label="Address"
                 :rows="3"
                 auto-grow
-                @input="checkValidForm()"
+                @update:modelValue="checkValidForm()"
               >
               </v-textarea>
             </v-col>
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="contactType === 'Email'" no-gutters>
+      <v-row v-if="contactType === 'Email'">
         <v-col>
           <v-row>
             <v-col>
@@ -185,7 +186,7 @@ export default {
                 :rules="formRules.generic"
                 label="Role"
                 required
-                @input="checkValidForm()"
+                @update:modelValue="checkValidForm()"
               ></v-text-field>
             </v-col>
             <v-col>
@@ -196,13 +197,13 @@ export default {
                 :rules="formRules.email"
                 label="Email"
                 required
-                @input="checkValidForm()"
+                @update:modelValue="checkValidForm()"
               ></v-text-field>
             </v-col>
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="contactType === 'Phone'" no-gutters>
+      <v-row v-if="contactType === 'Phone'">
         <v-col>
           <v-row>
             <v-col>
@@ -213,7 +214,7 @@ export default {
                 :rules="formRules.generic"
                 label="Role"
                 required
-                @input="checkValidForm()"
+                @update:modelValue="checkValidForm()"
               ></v-text-field>
             </v-col>
             <v-col>
@@ -224,7 +225,7 @@ export default {
                 :rules="formRules.phone"
                 label="Phone"
                 required
-                @input="checkValidForm()"
+                @update:modelValue="checkValidForm()"
               ></v-text-field>
             </v-col>
           </v-row>
