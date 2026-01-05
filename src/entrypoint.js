@@ -61,7 +61,7 @@ import IFXActivateDeactivateUsers from '@/components/organization/IFXActivateDea
 // Contact
 import IFXContactCreateEdit from '@/components/contact/IFXContactCreateEdit'
 import IFXContactDetail from '@/components/contact/IFXContactDetail'
-import IFXContactList from '@/components/contact/IFXContactList'
+import IFXContactList from '@/components/contact/IFXContactList.stories'
 import IFXContactMixin from '@/components/contact/IFXContactMixin'
 import IFXContact from '@/components/contact/IFXContact'
 import IFXSelectableContact from '@/components/contact/IFXSelectableContact'

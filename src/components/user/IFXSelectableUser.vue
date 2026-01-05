@@ -6,8 +6,9 @@ export default {
   mixins: [IFXItemSelectableMixin]
 }
 </script>
+
 <template>
-<!-- TODO: error handling -->
+  <!-- TODO: error handling -->
   <v-container v-if="!isLoading">
     <!-- TODO: this should be the user detail form -->
     <v-row v-if='disabled'>
@@ -26,7 +27,7 @@ export default {
           v-model="itemLocal.user"
           label="User"
           :items="allItems"
-          item-text="fullName"
+          item-title="fullName"
           :error-messages="errors['users.user']"
           return-object
           :rules="formRules.contactable"
@@ -41,6 +42,8 @@ export default {
           autocomplete="new-password"
           :error-messages="errors['users.role']"
           :rules='formRules.generic'
+          item-title="text"
+          item-value="value"
           label="Role"
           required
         ></v-select>

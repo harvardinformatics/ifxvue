@@ -88,5 +88,3 @@ export default {
     </v-container>
   </v-container>
 </template>
-
-<style></style>

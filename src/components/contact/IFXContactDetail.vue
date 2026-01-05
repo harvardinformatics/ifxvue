@@ -21,16 +21,17 @@ export default {
   }
 }
 </script>
+
 <template>
   <v-container v-if='!isLoading'>
     <IFXPageHeader>
       <template #title>{{title}}</template>
       <template #cypress>{{id}}</template>
       <template #actions>
-        <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)"/>
+        <IFXButton btnType="edit" size="x-small" @action="navigateToItemEdit(id)"/>
         <IFXDeleteItemButton :item='item' :apiRef='apiRef' :itemType='itemType'/>
       </template>
     </IFXPageHeader>
-  <IFXContactCard :contact='item' :editBtn='false'/>
+    <IFXContactCard :contact='item' :editBtn='false'/>
   </v-container>
 </template>

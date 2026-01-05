@@ -9,11 +9,6 @@ export default {
   name: 'IFXBillingRecordDetail',
   components: {},
   mixins: [IFXBillingRecordMixin, IFXItemDetailMixin],
-  filters: {
-    transactionDisplay(txn) {
-      return `${txn.description}`
-    },
-  },
   props: {
     facilityId: {
       type: String,
@@ -57,11 +52,11 @@ export default {
         author: {},
       },
       stateHeaders: [
-        { text: 'ID', value: 'id', sortable: true, hide: false },
-        { text: 'name', value: 'name', sortable: true },
-        { text: 'User', value: 'user', sortable: true },
-        { text: 'Comment', value: 'comment', sortable: false },
-        { text: 'Updated', value: 'updated', sortable: true },
+        { title: 'ID', key: 'id', sortable: true, hide: false },
+        { title: 'name', key: 'name', sortable: true },
+        { title: 'User', key: 'user', sortable: true },
+        { title: 'Comment', key: 'comment', sortable: false },
+        { title: 'Updated', key: 'updated', sortable: true },
       ],
       newExpenseCode: {},
       expenseCodes: [],
@@ -71,11 +66,11 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true, hide: true },
-        { text: 'Charge', value: 'charge', sortable: true, width: '100px', namedSlot: true },
-        { text: 'Rate', value: 'rate', sortable: true },
-        { text: 'User', value: 'author.full_name', sortable: true },
-        { text: 'Description', value: 'description', sortable: true },
+        { title: 'ID', key: 'id', sortable: true, hide: true },
+        { title: 'Charge', key: 'charge', sortable: true, width: '100px', namedSlot: true },
+        { title: 'Rate', key: 'rate', sortable: true },
+        { title: 'User', key: 'author.full_name', sortable: true },
+        { title: 'Description', key: 'description', sortable: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
@@ -85,6 +80,9 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    transactionDisplay(txn) {
+      return `${txn.description}`
+    },
     async init() {
       try {
         this.facility = await this.$api.facility.getByID(this.facilityId)
@@ -186,18 +184,19 @@ export default {
   watch: {},
 }
 </script>
+
 <template>
   <!-- eslint-disable vue/valid-v-slot -->
   <v-container v-if="!isLoading">
     <IFXPageHeader>
       <template #title>Billing Record {{ item.id }}</template>
       <template #actions>
-        <IFXButton v-if="canEdit()" btnType="edit" xSmall @action="openEditDialog()" />
+        <IFXButton v-if="canEdit()" btnType="edit" size="x-small" @action="openEditDialog()" />
       </template>
     </IFXPageHeader>
-    <v-container px-5 py-0>
+    <v-container class="px-5 py-0">
       <v-progress-linear indeterminate v-if="updating"></v-progress-linear>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Organization</h3>
         </v-col>
@@ -205,7 +204,7 @@ export default {
           {{ getOrgName(item) }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Facility</h3>
         </v-col>
@@ -213,7 +212,7 @@ export default {
           {{ facility.name }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Product</h3>
         </v-col>
@@ -221,7 +220,7 @@ export default {
           {{ item.productUsage.product }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Charge</h3>
         </v-col>
@@ -229,19 +228,19 @@ export default {
           {{ $dollars(item.decimalCharge) }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>{{ item.account.account_type }}</h3>
         </v-col>
         <v-col>
           <span>{{ item.account.slug }}</span>
-          <span class="ml-2 text-body-1 green--text text--darken-1" v-if="item.account.active">
+          <span class="ml-2 text-body-1 text-green-darken-1" v-if="item.account.active">
             &check;&nbsp;Active
           </span>
-          <span class="ml-2 text-body-1 red--text" v-else>&cross;&nbsp;Inactive</span>
+          <span class="ml-2 text-body-1 text-red" v-else>&cross;&nbsp;Inactive</span>
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Billing year</h3>
         </v-col>
@@ -249,7 +248,7 @@ export default {
           {{ item.year }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Billing month</h3>
         </v-col>
@@ -257,7 +256,7 @@ export default {
           {{ item.month }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Start date</h3>
         </v-col>
@@ -265,7 +264,7 @@ export default {
           {{ $humanDatetime(item.startDate) }}
         </v-col>
       </v-row>
-      <v-row v-if="item.endDate" justify="start" align="center" dense>
+      <v-row v-if="item.endDate" justify="start" align="center">
         <v-col sm="2">
           <h3>End date</h3>
         </v-col>
@@ -273,7 +272,7 @@ export default {
           {{ $humanDatetime(item.endDate) }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Description</h3>
         </v-col>
@@ -281,7 +280,7 @@ export default {
           {{ item.description }}
         </v-col>
       </v-row>
-      <v-row v-if="item.productUsageLinkText" justify="start" align="center" dense>
+      <v-row v-if="item.productUsageLinkText" justify="start" align="center">
         <v-col sm="2">
           <h3>Usage</h3>
         </v-col>
@@ -289,12 +288,11 @@ export default {
           <a :href="item.productUsageUrl">{{ item.productUsageLinkText }}</a>
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>State</h3>
         </v-col>
-        <v-btn icon small @click="toggleState" class="expand-icon" v-if="hasMultipleTransactions">
-          <v-icon :class="{ active: stateOpen }">mdi-menu-right</v-icon>
+        <v-btn icon="mdi-menu-right" size="small" @click="toggleState" class="expand-icon" v-if="hasMultipleTransactions">
         </v-btn>
         <span class="ml-1">{{ item.currentState }}</span>
       </v-row>
@@ -315,7 +313,7 @@ export default {
           </v-data-table>
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center">
         <v-col sm="2">
           <h3>Updated</h3>
         </v-col>
@@ -337,7 +335,7 @@ export default {
                       required
                       v-model="newExpenseCode"
                       :items="expenseCodes"
-                      item-text="slug"
+                      item-title="slug"
                       item-value="slug"
                       label="Expense Code / PO"
                       :error-messages="errors[newExpenseCode]"
@@ -362,8 +360,8 @@ export default {
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="secondary" text @click="closeEditDialog">Cancel</v-btn>
-              <v-btn color="blue darken-1" text :disabled="!isValidEdit" @click="updateRecord">Save</v-btn>
+              <v-btn color="secondary" variant="text" @click="closeEditDialog">Cancel</v-btn>
+              <v-btn color="blue-darken-1" variant="text" :disabled="!isValidEdit" @click="updateRecord">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -371,6 +369,7 @@ export default {
     </v-container>
   </v-container>
 </template>
+
 <style scoped lang="scss">
 .message-text {
   font-size: smaller;

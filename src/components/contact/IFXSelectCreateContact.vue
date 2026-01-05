@@ -113,6 +113,7 @@ export default {
   },
 }
 </script>
+
 <template>
   <v-container fluid v-if="!isLoading">
     <span>
@@ -121,41 +122,40 @@ export default {
           <v-autocomplete
             v-show="!createNewSelected"
             v-model="itemLocal.contact"
-            label="Search for an existing contect"
+            label="Search for an existing contact"
             :items="allContacts"
-            item-text="detail"
+            item-title="detail"
             return-object
             auto-select-first
             clearable
             clear-icon="mdi-close-circle"
             hide-selected
-            v-model:search-input="search"
-            @change="selectContact"
+            v-model:search="search"
+            @update:modelValue="selectContact"
             data-cy="select-contact"
             :menu-props="{ closeOnContentClick: true, closeOnClick: true }"
             :disabled="createNewSelected"
           >
-            <template v-slot:selection="{ attrs, item }">
-              {{ selected }}
-              <v-chip v-bind="attrs" label small color="primary">
-                <v-icon small>{{ getContactIcon(item) }}</v-icon>
+            <template v-slot:selection="{ item }">
+              <v-chip size="small" color="primary">
+                <v-icon size="small">{{ getContactIcon(item.raw) }}</v-icon>
                 <span class="ml-2">
-                  {{ item.detail }}
+                  {{ item.raw.detail }}
                 </span>
               </v-chip>
             </template>
           </v-autocomplete>
         </v-col>
         <v-col cols="2">
-          <v-btn x-small class="ml-2" color="primary" @click="createNew" v-if="!createNewSelected">Create new</v-btn>
-          <v-btn x-small outlined class="ml-2" color="secondary" @click="createNewSelected = false" v-else>
+          <v-btn size="x-small" class="ml-2" color="primary" @click="createNew" v-if="!createNewSelected">Create new</v-btn>
+          <v-btn size="x-small" variant="outlined" class="ml-2" color="secondary" @click="createNewSelected = false" v-else>
             Search
           </v-btn>
         </v-col>
       </v-row>
-      <v-row no-gutters v-if="isContactSelected">
+      <v-row v-if="isContactSelected">
         <v-col>
-          <v-radio-group v-model="itemLocal.contact.type" row :disabled="radioIsDisabled" @change="contactTypeChange">
+          <v-radio-group v-model="itemLocal.contact.type" inline :disabled="radioIsDisabled" @update:modelValue="contactTypeChange">
             <template v-slot:label>
               <span v-if="!itemLocal.contact.id">Select a</span>
               Contact type
@@ -173,7 +173,7 @@ export default {
               :items="appropriateRoles"
               :error-messages="errors['role']"
               :rules="formRules.generic"
-              item-text="name"
+              item-title="name"
               item-value="name"
               label="Role"
               required

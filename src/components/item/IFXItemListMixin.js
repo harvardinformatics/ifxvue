@@ -21,13 +21,9 @@ export default {
         this.apiRef
           .getList()
           .then((items) => {
-            if (has(items, 'data')) {
-              console.error('getList should return a list of formatted objects')
-            }
             this.items = items
           })
           .catch((error) => {
-            console.error(error)
             this.showMessage(error)
             this.$router.replace({ name: 'Home' })
           })
@@ -152,7 +148,9 @@ export default {
     this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || ''
     this.isLoading = true
     this.getAdditionalData().then(() => {
-      this.getSetItems().then(() => (this.isLoading = false))
+      this.getSetItems().then(() => {
+        this.isLoading = false
+      })
     })
   },
 }

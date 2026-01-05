@@ -40,6 +40,7 @@ export default {
   },
 }
 </script>
+
 <template>
   <v-card :class="cardClass">
     <span v-if="contact">
@@ -47,12 +48,12 @@ export default {
         class="contact-edit-btn"
         v-if="editBtn"
         btnType="edit"
-        x-small
+        size="x-small"
         @action="() => this.navigateToEdit('Contact', contactID.toString())"
       />
 
       <!-- Titles -->
-      <v-card-title xs-12 v-if="contactData.org">
+      <v-card-title v-if="contactData.org">
         <!-- So that contacts on the OrganizationDetail page don't see blank space -->
         <v-col alignContent="start" justify="start">
           <v-row>
@@ -61,7 +62,7 @@ export default {
         </v-col>
       </v-card-title>
 
-      <v-card-title xs-12 v-else-if="contactData.name">
+      <v-card-title v-else-if="contactData.name">
         <v-col>
           <v-row>
             <div class="headline mr-8">
@@ -81,25 +82,25 @@ export default {
 
       <!-- Body -->
       <v-card-text>
-        <v-row v-if="contactData.detail" dense justify="start" align="center">
+        <v-row v-if="contactData.detail" justify="start" align="center">
           <v-col cols="1">
-            <v-icon color="success">email</v-icon>
+            <v-icon color="success">mdi-email</v-icon>
           </v-col>
           <v-col>
             <a :href="`mailto:${contactData.detail}`">{{ contactData.detail }}</a>
           </v-col>
         </v-row>
-        <v-row v-if="contactData.phone" dense justify="start" align="center">
+        <v-row v-if="contactData.phone" justify="start" align="center">
           <v-col cols="1">
-            <v-icon color="success">local_phone</v-icon>
+            <v-icon color="success">mdi-phone</v-icon>
           </v-col>
           <v-col>
             {{ contactData.phone }}
           </v-col>
         </v-row>
-        <v-row v-if="contactData.address" dense justify="start" align="center">
+        <v-row v-if="contactData.address" justify="start" align="center">
           <v-col cols="1">
-            <v-icon color="success">place</v-icon>
+            <v-icon color="success">mdi-map-marker</v-icon>
           </v-col>
           <v-col class="contact-address">
             {{ contactData.address }}
@@ -112,6 +113,7 @@ export default {
     </span>
   </v-card>
 </template>
+
 <style scoped>
 .contact-card {
   padding: 0.2rem;

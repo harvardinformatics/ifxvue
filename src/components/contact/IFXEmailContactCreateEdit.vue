@@ -25,9 +25,10 @@ export default {
   },
 }
 </script>
+
 <template>
   <v-form v-if="!isLoading" v-model="isValid">
-    <v-row dense>
+    <v-row>
       <v-col>
         <v-text-field
           v-model="item.name"
@@ -39,7 +40,7 @@ export default {
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-row dense>
+    <v-row>
       <v-col>
         <v-text-field
           v-model="item.detail"
@@ -51,7 +52,7 @@ export default {
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-row dense>
+    <v-row>
       <v-col>
         <IFXPageActionBar :disabled="!isSubmittable" btnType="submit" @action="submit" :submitting="submitting" />
       </v-col>

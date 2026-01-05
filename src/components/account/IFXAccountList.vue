@@ -14,16 +14,16 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true },
-        { text: 'Active', value: 'active', sortable: true, namedSlot: true },
-        { text: 'Name', value: 'name', sortable: true },
-        { text: 'Lab', value: 'organization', sortable: true, namedSlot: true },
-        { text: 'Account Type', value: 'accountType', sortable: true },
-        { text: 'Code', value: 'code', sortable: true, namedSlot: true },
-        { text: 'Expiration Date', value: 'expirationDate', sortable: true, namedSlot: true },
-        { text: 'Valid From', value: 'validFrom', sortable: true, hide: 'mdAndDown', namedSlot: true },
-        { text: 'Created', value: 'created', sortable: true, hide: 'mdAndDown', namedSlot: true },
-        { text: 'Updated', value: 'updated', hide: 'mdAndDown', sortable: true, namedSlot: true },
+        { title: 'ID', key: 'id', sortable: true },
+        { title: 'Active', key: 'active', sortable: true, namedSlot: true },
+        { title: 'Name', key: 'name', sortable: true },
+        { title: 'Lab', key: 'organization', sortable: true, namedSlot: true },
+        { title: 'Account Type', key: 'accountType', sortable: true },
+        { title: 'Code', key: 'code', sortable: true, namedSlot: true },
+        { title: 'Expiration Date', key: 'expirationDate', sortable: true, namedSlot: true },
+        { title: 'Valid From', key: 'validFrom', sortable: true, hide: 'mdAndDown', namedSlot: true },
+        { title: 'Created', key: 'created', sortable: true, hide: 'mdAndDown', namedSlot: true },
+        { title: 'Updated', key: 'updated', hide: 'mdAndDown', sortable: true, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
@@ -41,8 +41,8 @@ export default {
     </IFXPageHeader>
     <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" v-model:selected="selected" :itemType="itemType">
       <template v-slot:active="{ item }">
-        <v-icon v-if="item.active" color="green">check</v-icon>
-        <v-icon v-else color="red">close</v-icon>
+        <v-icon v-if="item.active" color="green" size="small">mdi-check</v-icon>
+        <v-icon v-else color="red" size="small">mdi-close</v-icon>
       </template>
       <template v-slot:organization="{ item }">
         {{ $orgNameFromSlug(item.organization) }}

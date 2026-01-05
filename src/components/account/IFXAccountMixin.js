@@ -2,7 +2,11 @@ export default {
   data() {
     return {
       itemType: 'Account',
-      apiRef: this.$api.account,
     }
   },
+  computed: {
+    apiRef() {
+      return this.$api.account
+    }
+  }
 }

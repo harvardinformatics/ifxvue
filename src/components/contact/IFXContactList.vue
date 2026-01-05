@@ -37,11 +37,11 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'Name', value: 'computedName', sortable: true },
-        { text: 'Detail', value: 'detail', slot: true, sortable: true },
-        { text: 'Created', value: 'created', namedSlot: true, sortable: true },
+        { title: 'Name', value: 'computedName', sortable: true },
+        { title: 'Detail', value: 'detail', slot: true, sortable: true },
+        { title: 'Created', value: 'created', namedSlot: true, sortable: true },
       ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
+      return headers.filter((h) => !h.hide || !(this.$vuetify?.display?.[h.hide]))
     },
     isContactContentLarge() {
       return !!this.$vuetify.display.mdAndUp
@@ -49,17 +49,13 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.full-width {
-  width: 100%;
-}
-</style>
+
 <template>
-  <v-container fluid grid-list-md>
+  <v-container fluid>
     <IFXPageHeader>
       <template #title>{{ listTitle }}</template>
       <template #actions>
-        <v-row nowrap align="center">
+        <v-row no-wrap align="center">
           <v-col>
             <IFXSearchField v-model:search="search" />
           </v-col>
@@ -68,11 +64,11 @@ export default {
               v-model="recipientField"
               toolTip="Email contacts"
               :disabled="!selected.length"
-              @input="composeEmail()"
+              @update:modelValue="composeEmail()"
             ></IFXMailButton>
           </v-col>
           <v-col>
-            <IFXButton small btnType="add" @action="navigateToItemCreate" />
+            <IFXButton size="small" btnType="add" @action="navigateToItemCreate" />
           </v-col>
         </v-row>
       </template>
@@ -100,7 +96,12 @@ export default {
     </div>
   </v-container>
 </template>
+
 <style lang="scss" scoped>
+.full-width {
+  width: 100%;
+}
+
 .contact-card {
   position: sticky;
   top: 75px;
