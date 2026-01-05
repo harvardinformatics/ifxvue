@@ -176,15 +176,15 @@ export default {
     </template>
 
     <template #header.rowActionEdit="{ header }">
-      <span class="d-sr-only" v-bind:key="header.value">Buttons to go to the Edit page for the item in each row</span>
+      <span class="d-sr-only" v-bind:key="header.key">Buttons to go to the Edit page for the item in each row</span>
     </template>
 
     <template #header.rowActionCopy="{ header }">
-      <span class="d-sr-only" v-bind:key="header.value">Buttons to Copy an item in each row</span>
+      <span class="d-sr-only" v-bind:key="header.key">Buttons to Copy an item in each row</span>
     </template>
 
     <template #header.rowActionDetailEdit="{ header }">
-      <span class="d-sr-only" v-bind:key="header.value">
+      <span class="d-sr-only" v-bind:key="header.key">
         Buttons to go to the editable Detail page for the item in each row
       </span>
     </template>
@@ -197,16 +197,16 @@ export default {
       <span class="text-grey-darken-1">Loading items...</span>
     </template>
 
-    <template v-for="header in permissionCheckedHeaders" #[`item.${header.value}`]="{ item }">
-      <span v-if="header.namedSlot" v-bind:key="header.value">
-        <slot :name="header.value" :item="item"></slot>
+    <template v-for="header in permissionCheckedHeaders" #[`item.${header.key}`]="{ item }">
+      <span v-if="header.namedSlot" v-bind:key="header.key">
+        <slot :name="header.key" :item="item"></slot>
       </span>
       <IFXDataTableCell
         v-else
         :header="header"
         :item="item"
         :type="itemType"
-        :key="header.value"
+        :key="header.key"
         :custom="header.custom"
         :page="currentPage"
       ></IFXDataTableCell>
@@ -215,7 +215,6 @@ export default {
 </template>
 
 <style scoped>
-/* Deep selector for Vue/Vuetify to make row update on hover */
 .row-pointer :deep(tbody tr:hover) {
   cursor: pointer;
 }

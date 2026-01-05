@@ -96,7 +96,7 @@ export default {
               :rules="formRules.generic"
               :error-messages="errors.rank"
               :items="apiRef.validRanks"
-              item-text="text"
+              item-title="text"
               item-value="value"
               required
               class="required"

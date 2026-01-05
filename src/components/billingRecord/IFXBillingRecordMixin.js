@@ -2,7 +2,11 @@ export default {
   data() {
     return {
       itemType: 'BillingRecord',
-      apiRef: this.$api.billingRecord,
     }
   },
+  computed: {
+    apiRef() {
+      return this.$api.billingRecord
+    }
+  }
 }

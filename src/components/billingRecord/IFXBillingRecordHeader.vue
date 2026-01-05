@@ -29,10 +29,12 @@ export default {
     rowSelectionToggle: {
       type: Array,
       required: false,
+      default: () => [],
     },
     rowSelectionToggleIndeterminateGroup: {
       type: Boolean,
       required: false,
+      default: false,
     },
     summaryCharges: {
       type: Number,
@@ -72,6 +74,7 @@ export default {
   watch: {},
 }
 </script>
+
 <template>
   <td :colspan="colSpan" class="py-4">
     <v-row>
@@ -83,29 +86,30 @@ export default {
         multiple
         :indeterminate="rowSelectionToggleIndeterminateGroup"
         class="shrink ml-3 mt-0"
-        @change="syncData()"
+        @update:model-value="syncData()"
       ></v-checkbox>
       <div>
-        <v-btn icon small @click="toggle">
+        <v-btn size="small" @click="toggle" variant="text">
           <v-icon :class="{ active: isOpen }">mdi-menu-right</v-icon>
         </v-btn>
         <span class="group-header">
           {{ $api.organization.parseSlug(group).name }}
         </span>
         <span class="ml-3 font-weight-medium">Total charges: {{ $centsToDollars(summaryCharges) }}</span>
-        <v-btn small text @click="toggleSummaryDetail" class="ml-2">{{ summaryButtonText }} Acct Summary</v-btn>
+        <v-btn size="small" variant="text" @click="toggleSummaryDetail" class="ml-2">{{ summaryButtonText }} Acct Summary</v-btn>
       </div>
     </v-row>
     <v-row v-if="showSummaryDetail">
       <v-col class="py-1 ml-9">
         <v-row v-for="entry in summaryDetails" :key="`${group}-${entry[0]}`" class="text-body-2">
           <v-col cols="5" class="ml-3">{{ entry[0] }}</v-col>
-          <v-col class="text-xs-left ml-3 font-weight-medium">{{ $centsToDollars(entry[1]) }}</v-col>
+          <v-col class="text-left ml-3 font-weight-medium">{{ $centsToDollars(entry[1]) }}</v-col>
         </v-row>
       </v-col>
     </v-row>
   </td>
 </template>
+
 <style scoped lang="scss">
 .active {
   -webkit-transform: rotate(90deg);

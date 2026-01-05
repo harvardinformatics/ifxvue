@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       dateMenu: false,
-      selectedDateKey: 'billingRecordListDate', // Coordinates with billing record list page
+      selectedDateKey: 'billingRecordListDate',
       selectedDate: null,
       localMonth: null,
       localYear: null,
@@ -70,14 +70,14 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true },
-        { text: 'User', value: 'productUser', sortable: true, namedSlot: true, key: 'fullName' },
-        { text: 'Year', value: 'year', slot: true, sortable: true },
-        { text: 'Month', value: 'month', slot: true, sortable: true },
-        { text: 'Organization', value: 'organization', namedSlot: true, sortable: true },
-        { text: 'Product', value: 'product', slot: true, sortable: true, namedSlot: true },
-        { text: 'Description', value: 'description', slot: true },
-        { text: 'Processing', value: 'processing', sortable: true, namedSlot: true },
+        { title: 'ID', key: 'id', sortable: true },
+        { title: 'User', key: 'productUser', sortable: true, namedSlot: true },
+        { title: 'Year', key: 'year', slot: true, sortable: true },
+        { title: 'Month', key: 'month', slot: true, sortable: true },
+        { title: 'Organization', key: 'organization', namedSlot: true, sortable: true },
+        { title: 'Product', key: 'product', slot: true, sortable: true, namedSlot: true },
+        { title: 'Description', key: 'description', slot: true },
+        { title: 'Processing', key: 'processing', sortable: true, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
@@ -93,6 +93,13 @@ export default {
     filteredItems: function () {
       return this.getItemsFilteredBySearch()
     },
+    selectedDateAsDate() {
+      if (!this.selectedDate) return null
+      if (typeof this.selectedDate === 'string') {
+        return new Date(this.selectedDate + '-01')
+      }
+      return this.selectedDate
+    }
   },
   methods: {
     ...mapActions(['showMessage']),
@@ -113,9 +120,6 @@ export default {
       }
       return items
     },
-    // TODO: this is inefficient because it's checking all attributes
-    // Make it check only relevant fields
-    // Taken almost directly from the Vuetify docs
     filterSearch(v, s) {
       let search = s
       if (v && typeof v === 'object' && !Array.isArray(v) && v.data) {
@@ -127,7 +131,6 @@ export default {
         if (v.hasOwnProperty('errorMessage')) {
           val = v.errorMessage.toLowerCase()
         }
-        // If search is number, remove any decimal places, as values are stored as integers
         if (Number.parseFloat(search)) {
           search = search.replace('.', '')
         }
@@ -145,7 +148,6 @@ export default {
       return usage?.billingRecords?.some((br) => br.currentState === 'FINAL')
     },
     usagesPreviouslyBilled() {
-      // Returns true if any of the usages has billingRecords
       if (this.usages) {
         return this.usages.some((usage) => usage.billingRecords?.length)
       }
@@ -158,12 +160,19 @@ export default {
         month: parts[1]
       }
     },
+    onDateChange(date) {
+      if (date) {
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        this.selectedDate = `${year}-${month}`
+      }
+      this.dateMenu = false
+    },
     calculateBillingMonth() {
       if (this.selectedDate) {
         const me = this
         const totalUsages = this.usages.length
         this.isLoading = true
-        // Keep refreshing the usages until the calculation is finished
         this.interval = setInterval(() => {
           me.getUsages()
         }, this.fetchInterval)
@@ -232,7 +241,7 @@ export default {
     <IFXPageHeader>
       <template #title>Calculate billing month</template>
     </IFXPageHeader>
-    <v-row align="center" dense>
+    <v-row align="center">
       <v-col>
         <v-menu
           v-model="dateMenu"
@@ -242,34 +251,36 @@ export default {
           offset-y
           min-width="auto"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template v-slot:activator="{ props }">
             <v-text-field
-              v-model="selectedDate"
+              :model-value="selectedDate"
               label="Month *"
               prepend-icon="mdi-calendar"
               readonly
-              v-bind="attrs"
-              v-on="on"
+              v-bind="props"
               hint="YYYY-MM format"
               persistent-hint
             ></v-text-field>
           </template>
-          <v-date-picker v-model="selectedDate" type="month" @input="dateMenu = false"></v-date-picker>
+          <v-date-picker
+            :model-value="selectedDateAsDate"
+            @update:model-value="onDateChange"
+          ></v-date-picker>
         </v-menu>
       </v-col>
       <v-col>
         <v-select
           :items="facilities"
-          item-text="name"
+          item-title="name"
           v-model="facility"
           label="Facility"
           return-object
-          @change="getUsages()"
+          @update:model-value="getUsages()"
         >
         </v-select>
       </v-col>
       <v-col>
-        <v-row align="center" nowrap>
+        <v-row align="center">
           <v-col>
             <v-checkbox
               v-model="recalculate"
@@ -278,18 +289,17 @@ export default {
             </v-checkbox>
           </v-col>
           <v-col>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <div>
                   <v-btn
-                    v-bind="attrs"
+                    v-bind="props"
                     :disabled="!canCalculate()"
                     @click="calculateBillingMonth()"
-                    fab
-                    small
+                    icon="mdi-autorenew"
+                    size="small"
                     :color="recalculate ? 'red' : 'primary'"
                   >
-                    <v-icon>autorenew</v-icon>
                   </v-btn>
                 </div>
               </template>
@@ -299,7 +309,7 @@ export default {
         </v-row>
       </v-col>
     </v-row>
-    <v-row align="start" dense>
+    <v-row align="start">
       <v-col>
         <v-text-field
           v-model="search"
@@ -308,7 +318,7 @@ export default {
           single-line
           hide-details
           :clearable="true"
-          prepend-icon="search"
+          prepend-icon="mdi-search"
           data-cy="ifx-search-field"
         >
         </v-text-field>
@@ -355,7 +365,7 @@ export default {
 </template>
 
 <style scoped>
-  .billing-error {
-    color: red;
-  }
+.billing-error {
+  color: red;
+}
 </style>
