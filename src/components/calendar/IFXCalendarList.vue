@@ -1086,11 +1086,11 @@ export default {
                   :class="{
                     'in-the-past': isInThePast(item.event),
                   }"
+                  class="item-event"
                   :data-cy="`event-${item.event.id}`"
                   @click="showEvent($event, item.event)"
-                  style="cursor: pointer; height: 100%; width: 100%;"
                 >
-                  <strong class="ml-1">{{ item.formatTime(item.eventParsed.start, true) }}</strong>
+                  <strong class="ml-1">{{ item.formatTime(item.eventParsed.start, true) }}&nbsp;</strong>
                   <span
                     :class="{
                       'text-decoration-line-through': item.event && item.event.cancelled,
@@ -1715,6 +1715,16 @@ export default {
 .in-the-past {
   opacity: 0.6;
 }
+
+.item-event {
+cursor: pointer;
+height: 100%;
+width: 100%;
+text-align: left;
+border: 1px solid #000;
+border-radius: 6px;
+}                  
+
 
 .badge-adjust {
   padding: 0;
