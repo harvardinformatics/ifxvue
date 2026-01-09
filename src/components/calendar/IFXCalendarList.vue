@@ -1723,6 +1723,7 @@ width: 100%;
 text-align: left;
 border: 1px solid #000;
 border-radius: 6px;
+overflow: hidden;
 }                  
 
 
