@@ -122,26 +122,26 @@ export default {
       messageType: 'info',
       updating: false,
       allHeaders: [
-        { text: '', value: 'data-table-expand', sortable: false },
-        { text: 'ID', value: 'id', sortable: true, hide: false },
-        { text: 'State', value: 'currentState', sortable: true, width: '100px', namedSlot: true },
-        { text: 'User', value: 'productUser.full_name', sortable: true },
-        { text: 'Lab', value: 'account.organization', sortable: true },
-        { text: 'Expense Code / PO', value: 'account.slug', sortable: true },
-        { text: 'Product', value: 'product', sortable: true },
+        { title: '', key: 'data-table-expand', sortable: false },
+        { title: 'ID', key: 'id', sortable: true, hide: false },
+        { title: 'State', key: 'currentState', sortable: true, width: '100px', namedSlot: true },
+        { title: 'User', key: 'productUser.full_name', sortable: true },
+        { title: 'Lab', key: 'account.organization', sortable: true },
+        { title: 'Expense Code / PO', key: 'account.slug', sortable: true },
+        { title: 'Product', key: 'product', sortable: true },
         {
-          text: 'Start Date',
-          value: 'startDate',
+          title: 'Start Date',
+          key: 'startDate',
           sortable: true,
           hide: !this.showDates && !this.showStartDate,
           namedSlot: true,
         },
-        { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
-        { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
-        { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
+        { title: 'End Date', key: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
+        { title: 'Charge', key: 'decimalCharge', sortable: true, width: '100px' },
+        { title: 'Percent', key: 'percent', sortable: true, width: '100px' },
         {
-          text: 'Usage id',
-          value: 'productUsage',
+          title: 'Usage id',
+          key: 'productUsage',
           namedSlot: true,
           sortable: true,
           sort: function (a, b) {
@@ -154,14 +154,15 @@ export default {
             return 0
           },
         },
-        { text: 'Transaction description', value: 'transactions', sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { title: 'Transaction description', key: 'transactions', sortable: false },
+        { title: 'Actions', key: 'actions', sortable: false },
       ],
       rowSelectionToggle: [],
       rowSelectionToggleIndeterminate: {},
       tableCollpased: false,
       errors: [],
       search: null,
+      isValid: false,
       isValidTxn: false,
       isValidEdit: false,
       isValidBulkEdit: false,
@@ -198,11 +199,20 @@ export default {
       recordIDsToBeChanged: [],
       showUsageReportDialog: false,
       loadingUsageReport: false,
+      groupBy: [
+        {
+          key: 'account.organization',
+          order: 'asc'
+        }
+      ],
     }
   },
   computed: {
     headers() {
       return this.allHeaders.filter((h) => !h.hide).filter((h) => !this.$vuetify.display[h.hide])
+    },
+    sortByArray() {
+      return this.sortBy ? [{ key: this.sortBy, order: 'asc' }] : []
     },
     month: function () {
       return Number(this.dateParts()[1])
@@ -305,9 +315,6 @@ export default {
       }
       return items
     },
-    // TODO: this is inefficient because it's checking all attributes
-    // Make it check only relevant fields
-    // Taken almost directly from the Vuetify docs
     filterSearch(v, s) {
       let search = s
       if (search && v) {
@@ -321,37 +328,29 @@ export default {
       return false
     },
     getLabelsForExport() {
-      return this.allHeaders.map((h) => h.text)
+      return this.allHeaders.map((h) => h.title)
     },
     getDataForExport() {
       /* eslint-disable no-plusplus, no-continue */
       const formattedItems = []
-      // Loop through filtered items
       for (let i = 0; i < this.filteredItems.length; i++) {
-        // Init new record, will be a row in the exported file
         const newRecord = {}
-        // Loop through column headers
         for (let j = 0; j < this.allHeaders.length; j++) {
           const header = this.allHeaders[j]
-          // Key used to access data.  May be dot-separated
-          const keys = header.value.split('.')
-          // Formatted key for displayed that data in final file
-          const formattedKey = header.text
+          const keys = header.key.split('.')
+          const formattedKey = header.title
           let value = this.filteredItems[i]
           keys.forEach((key) => {
             value = value[key]
           })
-          // If value is undefined, but not false
           if (!value && value !== false) continue
-          // TODO: make this check more generalized for multiple item types
-          // Check for different item types
-          if (header.value === 'startDate' || header.value === 'endDate') {
+          if (header.key === 'startDate' || header.key === 'endDate') {
             value = moment(String(value)).format('M/DD/YYYY h:mm A')
-          } else if (header.value.toLowerCase().includes('date')) {
+          } else if (header.key.toLowerCase().includes('date')) {
             value = value.substring(0, 10)
-          } else if (header.value === 'account.organization') {
+          } else if (header.key === 'account.organization') {
             value = this.$api.organization.parseSlug(value).name
-          } else if (header.value === 'transactions') {
+          } else if (header.key === 'transactions') {
             value = value.map((v) => v.description).join('; ')
           }
           newRecord[formattedKey] = value
@@ -379,7 +378,6 @@ export default {
         if (!item.billingRecordStates) {
           promises.push(this.apiRef.getByID(this.facility.invoicePrefix, item.id))
           if (i !== 0 && i % this.promiseBatchSize === 0) {
-            // Wait a bit to not overwhelm the backend
             /* eslint-disable no-await-in-loop */
             await new Promise((r) => setTimeout(r, 500))
           }
@@ -497,17 +495,14 @@ export default {
       checked += e.value ? 1 : -1
       const state = checked !== 0 && checked < records.length
       this.rowSelectionToggleIndeterminate[group] = state
-      // Now set the checkbox model to the correct state
       if (checked) {
         if (checked === records.length) {
-          // All are checked so add this if it isn't already there
           const index = this.rowSelectionToggle.indexOf(group)
           if (index === -1) {
             this.rowSelectionToggle.push(group)
           }
         }
       } else {
-        // None are checked so remove this group
         const index = this.rowSelectionToggle.indexOf(group)
         if (index !== -1) {
           this.rowSelectionToggle.splice(index, 1)
@@ -520,23 +515,18 @@ export default {
         orgSet.add(item.account.organization)
       })
       if (value) {
-        // The user selected all records. Set all the checkboxes on
         this.rowSelectionToggle = Array.from(orgSet)
       } else {
-        // They've cleared all records. Remove all orgs from the array
         this.rowSelectionToggle = []
       }
-      // And clear indeterminate state
       Array.from(orgSet).forEach(org => {
         this.rowSelectionToggleIndeterminate[org] = false
       })
     },
     collpaseRows() {
-      // This is a bit of a hack to collpase the group sections when the table loads
       this.$nextTick(() => {
         const table = this.$refs.table
         if (table) {
-          // In Vue 3/Vuetify 3, use the component instance directly
           if (table.openCache) {
             const keys = Object.keys(table.openCache)
             keys.forEach((key) => {
@@ -700,12 +690,10 @@ export default {
     },
     openNotifyDialog() {
       if (!this.contactables.length) {
-        // If we haven't fetched the contactables list, do so now
         this.$api.contactables.getList().then((result) => {
           this.contactables = result
         })
       }
-      // Clear any previous usage
       this.selectedContactables.splice(0)
       this.emailResponse = null
       this.notifyDialog = true
@@ -720,7 +708,6 @@ export default {
       return list
     },
     async openChangeExpenseCodeDialog() {
-      // Assume they want to change all records they've selected
       this.recordIDsToBeChanged = this.selected.map((record) => record.id)
       this.showChangeExpenseCodeDialog = true
     },
@@ -771,20 +758,15 @@ export default {
           if (response.error) {
             this.showMessage(response.error)
           } else {
-            // Replace all the new billing records
             response.data.forEach((record) => {
               const newBillingRec = this.$api.billingRecord.create(record)
               let index = this.items.findIndex((rec) => rec.id === record.id)
               this.items.splice(index, 1, newBillingRec)
-              // Now replace the records in the selected array
               index = this.selected.findIndex((rec) => rec.id === record.id)
-              // Save potentially old org
               groups.add(this.selected[index].account.organization)
               this.selected.splice(index, 1, newBillingRec)
-              // Save the (deduped) org for setting the header checkboxes
               groups.add(newBillingRec.account.organization)
             })
-            // Now set the header checkboxes
             Array.from(groups).forEach((org) => {
               this.setHeaderCheckBoxState(org)
             })
@@ -806,17 +788,14 @@ export default {
       const checked = this.selected.filter((item) => item.account.organization === group).length
       const state = checked !== 0 && checked < records.length
       this.rowSelectionToggleIndeterminate[group] = state
-      // Now set the checkbox model to the correct state
       if (checked) {
         if (checked === records.length) {
-          // All are checked so add this if it isn't already there
           const index = this.rowSelectionToggle.indexOf(group)
           if (index === -1) {
             this.rowSelectionToggle.push(group)
           }
         }
       } else {
-        // None are checked so remove this group
         const index = this.rowSelectionToggle.indexOf(group)
         if (index !== -1) {
           this.rowSelectionToggle.splice(index, 1)
@@ -849,19 +828,19 @@ export default {
             </div>
           </v-col>
           <v-col class="flex-grow-2">
-            <v-row dense>
+            <v-row>
               <v-col>
                 <IFXSearchField v-model:search="search" />
               </v-col>
             </v-row>
           </v-col>
           <v-col>
-            <v-row dense class="d-flex flex-nowrap justify-end align-start">
+            <v-row class="d-flex flex-nowrap justify-end align-start">
               <v-col v-if="updating">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-col>
               <v-col v-else>
-                <v-row dense class="d-flex justify-start align-center nowrap">
+                <v-row class="d-flex justify-start align-center nowrap">
                   <v-col class="pa-2">
                     <IFXMailButton
                       v-if="useDefaultMailButton"
@@ -870,46 +849,42 @@ export default {
                       toolTip="Notify Lab Managers"
                       @input="defaultNotifyLabManagers()"
                     ></IFXMailButton>
-                    <v-tooltip top v-else>
-                      <template v-slot:activator="{ on, attrs }">
-                        <div v-on="on">
-                          <v-speed-dial direction="bottom" v-model="mailFab" v-bind="attrs">
-                            <template v-slot:activator>
-                              <v-btn v-model="mailFab" small color="green" fab>
-                                <v-icon color="white" dark v-if="mailFab">mdi-close</v-icon>
-                                <v-icon color="white" dark v-else>mdi-email-send-outline</v-icon>
+                    <v-tooltip location="top" v-else>
+                      <template v-slot:activator="{ props }">
+                        <div>
+                          <v-menu v-model="mailFab" location="bottom">
+                            <template v-slot:activator="{ props: menuProps }">
+                              <v-btn v-bind="{ ...props, ...menuProps }" size="small" color="green" icon>
+                                <v-icon color="white" v-if="mailFab">mdi-close</v-icon>
+                                <v-icon color="white" v-else>mdi-email-send-outline</v-icon>
                               </v-btn>
                             </template>
-                            <v-btn small color="teal" class="white--text" @click="openNotifyDialog">
-                              Notify Lab Managers
-                            </v-btn>
-                            <v-btn
-                              xSmall
-                              color="#A4F323"
-                              @click="goToComposeMessage('to')"
-                              :disabled="!filteredItems.length"
-                            >
-                              Send a message to selected Lab Managers
-                            </v-btn>
-                            <v-btn
-                              xSmall
-                              color="#86C61D"
-                              @click="goToComposeMessage('cc')"
-                              :disabled="!filteredItems.length"
-                            >
-                              CC selected Lab Managers
-                            </v-btn>
-                            <v-btn
-                              xSmall
-                              color="#669617"
-                              @click="goToComposeMessage('bcc')"
-                              :disabled="!filteredItems.length"
-                            >
-                              BCC selected Lab Managers
-                            </v-btn>
-                          </v-speed-dial>
+                            <v-list>
+                              <v-list-item @click="openNotifyDialog">
+                                <v-list-item-title>Notify Lab Managers</v-list-item-title>
+                              </v-list-item>
+                              <v-list-item
+                                @click="goToComposeMessage('to')"
+                                :disabled="!filteredItems.length"
+                              >
+                                <v-list-item-title>Send a message to selected Lab Managers</v-list-item-title>
+                              </v-list-item>
+                              <v-list-item
+                                @click="goToComposeMessage('cc')"
+                                :disabled="!filteredItems.length"
+                              >
+                                <v-list-item-title>CC selected Lab Managers</v-list-item-title>
+                              </v-list-item>
+                              <v-list-item
+                                @click="goToComposeMessage('bcc')"
+                                :disabled="!filteredItems.length"
+                              >
+                                <v-list-item-title>BCC selected Lab Managers</v-list-item-title>
+                              </v-list-item>
+                            </v-list>
+                          </v-menu>
 
-                          <v-dialog v-bind="attrs" v-model="notifyDialog" max-width="600px">
+                          <v-dialog v-model="notifyDialog" max-width="600px">
                             <v-card>
                               <v-card-title>
                                 <span class="text-h5">Notify Lab Managers</span>
@@ -955,7 +930,7 @@ export default {
                                       </div>
                                       <div v-if="emailResponse.successes.length" class="my-3 pb-2 border-bottom">
                                         Successfully
-                                        <span class="green--text">sent</span>
+                                        <span class="text-green">sent</span>
                                         for the following organizations:
                                         <ul class="lab-manager-list">
                                           <li v-for="value in emailResponse.successes" :key="value">
@@ -968,7 +943,7 @@ export default {
                                         class="my-3 pb-2 border-bottom"
                                       >
                                         The following
-                                        <span class="red--text">errors</span>
+                                        <span class="text-red">errors</span>
                                         occurred trying to send emails:
                                         <ul class="list-style-none mt-1">
                                           <li v-for="(value, key) in emailResponse.errors" :key="key">
@@ -983,7 +958,7 @@ export default {
                                       </div>
                                       <div v-if="emailResponse.nobrs.length" class="my-3 pb-2 border-bottom">
                                         The following organizations had&nbsp;
-                                        <span class="yellow--text text--darken-3">no billing records</span>
+                                        <span class="text-yellow-darken-3">no billing records</span>
                                         :
                                         <ul class="lab-manager-list">
                                           <li v-for="value in emailResponse.nobrs" :key="value">
@@ -997,10 +972,10 @@ export default {
                               </v-card-text>
                               <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="secondary" text @click="notifyDialog = false">
+                                <v-btn color="secondary" variant="text" @click="notifyDialog = false">
                                   {{ emailResponse ? 'Close' : 'Cancel' }}
                                 </v-btn>
-                                <v-btn color="blue darken-1" text :disabled="!isValid" @click="notifyLabManagers">
+                                <v-btn color="blue-darken-1" variant="text" :disabled="!isValid" @click="notifyLabManagers">
                                   Notify
                                 </v-btn>
                               </v-card-actions>
@@ -1012,20 +987,19 @@ export default {
                     </v-tooltip>
                   </v-col>
                   <v-col class="pa-2" v-if="allowApprovals">
-                    <v-row dense class="d-flex flex-nowrap">
+                    <v-row class="d-flex flex-nowrap">
                       <v-col>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <div v-on="on">
+                        <v-tooltip location="top">
+                          <template v-slot:activator="{ props }">
+                            <div>
                               <v-btn
                                 :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
-                                v-bind="attrs"
-                                fab
-                                small
+                                v-bind="props"
+                                icon="mdi-check"
+                                size="small"
                                 color="green"
                                 @click="approve()"
                               >
-                                <v-icon dark>done</v-icon>
                               </v-btn>
                             </div>
                           </template>
@@ -1034,18 +1008,20 @@ export default {
                       </v-col>
                     </v-row>
                   </v-col>
+                  <!-- Commented out for Storybook - download-csv not registered -->
+                  <!--
                   <v-col class="pa-2" v-if="allowDownloads">
-                    <v-row dense>
+                    <v-row>
                       <v-col>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <div v-on="on">
+                        <v-tooltip location="top">
+                          <template v-slot:activator="{ props }">
+                            <div>
                               <download-csv
                                 :class="{ 'download-disabled': isLoading }"
                                 :labels="getLabelsForExport()"
                                 :data="getDataForExport()"
                                 :name="getNameForExport()"
-                                v-bind="attrs"
+                                v-bind="props"
                               >
                                 <IFXButton
                                   :disabled="isLoading"
@@ -1061,20 +1037,19 @@ export default {
                       </v-col>
                     </v-row>
                   </v-col>
+                  -->
                   <v-col v-if="allowChangeExpenseCode">
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <div v-on="on">
+                    <v-tooltip location="top">
+                      <template v-slot:activator="{ props }">
+                        <div>
                           <v-btn
                             :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
-                            v-bind="attrs"
-                            fab
-                            small
+                            v-bind="props"
+                            icon="mdi-playlist-edit"
+                            size="small"
                             color="green"
                             @click="openChangeExpenseCodeDialog()"
                           >
-                            <!-- <v-icon dark>mdi-file-replace-outline</v-icon> -->
-                            <v-icon dark>mdi-playlist-edit</v-icon>
                           </v-btn>
                         </div>
                       </template>
@@ -1082,24 +1057,23 @@ export default {
                     </v-tooltip>
                   </v-col>
                   <v-col class="pa-2" v-if="allowInvoiceGeneration">
-                    <v-row dense>
+                    <v-row>
                       <v-col>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <div v-on="on">
+                        <v-tooltip location="top">
+                          <template v-slot:activator="{ props }">
+                            <div>
                               <v-btn
                                 :disabled="
                                   isLoading ||
                                   selected.length == 0 ||
                                   !$api.auth.can('generate-invoices', $api.authUser)
                                 "
-                                v-bind="attrs"
+                                v-bind="props"
                                 :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
-                                small
-                                fab
+                                size="small"
+                                icon="mdi-currency-usd"
                                 @click="generateInvoices()"
                               >
-                                <v-icon>payments</v-icon>
                               </v-btn>
                             </div>
                           </template>
@@ -1109,9 +1083,9 @@ export default {
                     </v-row>
                   </v-col>
                   <v-col class="pa-2" v-if="allowInvoiceGeneration">
-                    <v-row dense>
+                    <v-row>
                       <v-col>
-                        <v-tooltip top>
+                        <v-tooltip location="top">
                           <template v-slot:activator="{ props }">
                             <div>
                               <v-btn
@@ -1121,11 +1095,10 @@ export default {
                                 "
                                 v-bind="props"
                                 color="blue"
-                                small
-                                fab
-                                @click="generateInvoices(wholeMonth = true)"
+                                size="small"
+                                icon="mdi-calendar-month"
+                                @click="generateInvoices(true)"
                               >
-                                <v-icon>mdi-calendar-month</v-icon>
                               </v-btn>
                             </div>
                           </template>
@@ -1135,18 +1108,17 @@ export default {
                     </v-row>
                   </v-col>
                   <v-col v-if="allowDeleteBillingRecords">
-                    <v-tooltip top>
+                    <v-tooltip location="top">
                       <template v-slot:activator="{ props }">
                         <div>
                           <v-btn
                             :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selected)"
                             v-bind="props"
-                            fab
-                            small
+                            icon="mdi-trash-can-outline"
+                            size="small"
                             color="red"
                             @click="deleteSelectedBillingRecords()"
                           >
-                            <v-icon dark>mdi-trash-can-outline</v-icon>
                           </v-btn>
                         </div>
                       </template>
@@ -1154,19 +1126,17 @@ export default {
                     </v-tooltip>
                   </v-col>
                   <v-col v-if="allowUsageReport && facility.hasUsageReport">
-                    <v-tooltip top>
+                    <v-tooltip location="top">
                       <template v-slot:activator="{ props }">
-                        <div >
+                        <div>
                           <v-btn
                             :disabled="!organization"
                             v-bind="props"
-                            fab
-                            small
+                            icon="mdi-hammer-wrench"
+                            size="small"
                             color="yellow"
                             @click="openGetUsageReportDialog()"
                           >
-                            <!-- <v-icon dark>mdi-file-replace-outline</v-icon> -->
-                            <v-icon dark>mdi-hammer-wrench</v-icon>
                           </v-btn>
                         </div>
                       </template>
@@ -1178,9 +1148,9 @@ export default {
             </v-row>
           </v-col>
         </v-row>
-        <v-row dense class="d-flex justify-space-around">
+        <v-row class="d-flex justify-space-around">
           <v-col v-if="message" cols="12" class="d-flex flex-grow-1">
-            <v-alert dismissible :type="messageType" border="left" elevation="2" colored-border>
+            <v-alert closable :type="messageType" variant="tonal">
               <span v-html="message"></span>
             </v-alert>
           </v-col>
@@ -1197,31 +1167,47 @@ export default {
             :show-select="showCheckboxes"
             show-expand
             expand-icon="mdi-menu-right"
-            :itemKey="itemKey"
+            :item-value="itemKey"
             :loading="isLoading"
             :items-per-page="-1"
-            :sort-by="sortBy"
-            group-by="account.organization"
+            :sort-by="sortByArray"
+            :group-by="groupBy"
             @item-selected="determineGroupState"
             @toggle-select-all="toggleSelectAll"
           >
-            <template
-              v-slot:group.header="{ group, headers, isOpen, toggle }"
-              v-on:rendered="itemRendered('group.header')"
-            >
-              <IFXBillingRecordHeaderDecimal
-                :key="group"
-                :item="item"
-                :group="group"
-                :colSpan="headers.length"
-                :isOpen="isOpen"
-                :showCheckboxes="showCheckboxes"
-                :toggle="toggle"
-                v-model:rowSelectionToggle="rowSelectionToggle"
-                v-model:rowSelectionToggleIndeterminateGroup="rowSelectionToggleIndeterminate[group]"
-                :summaryCharges="summaryCharges(group)"
-                :toggleGroup="toggleGroup"
-              />
+            <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
+              <tr>
+                <td :colspan="columns.length" class="py-4">
+                  <v-row class="align-center">
+                    <v-col cols="auto" v-if="showCheckboxes">
+                      <v-checkbox
+                        v-model="rowSelectionToggle"
+                        :value="item.value"
+                        hide-details
+                        :indeterminate="rowSelectionToggleIndeterminate[item.value]"
+                        @update:model-value="() => toggleGroup(item.value)"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="auto">
+                      <v-btn
+                        size="small"
+                        variant="text"
+                        @click="toggleGroup(item)"
+                      >
+                        <v-icon :class="{ 'rotate-90': isGroupOpen(item) }">mdi-menu-right</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-col>
+          <span class="font-weight-bold text-h6">
+            {{ $api.organization.parseSlug(item.value).name }}
+          </span>
+                      <span class="ml-3 text-body-1">
+            Total charges: {{ $dollars(summaryCharges(item.value)) }}
+          </span>
+                    </v-col>
+                  </v-row>
+                </td>
+              </tr>
             </template>
             <template v-slot:item.id="{ item }">
               <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
@@ -1279,13 +1265,13 @@ export default {
                 />
               </div>
             </template>
-            <template v-slot:footer.prepend v-if="showTotals">
-              <span class="text-body-1">
+            <template v-slot:bottom v-if="showTotals">
+              <div class="text-body-1 pa-4">
                 {{ facility.name }} total charges for {{ date }} are
                 <span class="font-weight-medium">{{ $dollars(totalCharges()) }}</span>
                 for
                 <span class="font-weight-medium">{{ totalHours() }} {{ totalUnits }}</span>
-              </span>
+              </div>
             </template>
           </v-data-table>
           <v-dialog v-model="editDialog" max-width="600px">
@@ -1301,7 +1287,7 @@ export default {
                         required
                         v-model="newExpenseCode"
                         :items="expenseCodes"
-                        item-text="slug"
+                        item-title="slug"
                         label="Expense Code / PO"
                         :error-messages="errors[newExpenseCode]"
                         :rules="formRules.generic"
@@ -1323,8 +1309,8 @@ export default {
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="secondary" text @click="closeEditDialog">Cancel</v-btn>
-                <v-btn color="blue darken-1" text :disabled="!isValidEdit" @click="updateSpecificRecord(editedRecord)">
+                <v-btn color="secondary" variant="text" @click="closeEditDialog">Cancel</v-btn>
+                <v-btn color="blue-darken-1" variant="text" :disabled="!isValidEdit" @click="updateSpecificRecord(editedRecord)">
                   Save
                 </v-btn>
               </v-card-actions>
@@ -1343,7 +1329,7 @@ export default {
                         required
                         v-model="newExpenseCode"
                         :items="expenseCodes"
-                        item-text="slug"
+                        item-title="slug"
                         label="New Expense Code / PO"
                         :error-messages="errors[newExpenseCode]"
                         :rules="formRules.generic"
@@ -1373,8 +1359,8 @@ export default {
                   <v-progress-circular indeterminate color="primary"></v-progress-circular>
                 </div>
                 <v-spacer></v-spacer>
-                <v-btn color="secondary" text @click="closeChangeExpenseCodeDialog">Cancel</v-btn>
-                <v-btn color="blue darken-1" text :disabled="!isValidBulkEdit" @click="changeExpenseCode">Save</v-btn>
+                <v-btn color="secondary" variant="text" @click="closeChangeExpenseCodeDialog">Cancel</v-btn>
+                <v-btn color="blue-darken-1" variant="text" :disabled="!isValidBulkEdit" @click="changeExpenseCode">Save</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -1392,7 +1378,7 @@ export default {
                   <v-row>
                     <v-col>
                       <a v-if="usageReportHref"
-                        :href="usageReportHref"
+                         :href="usageReportHref"
                       >
                         {{ usageReportFileName }}
                       </a>
@@ -1406,7 +1392,7 @@ export default {
               <v-divider></v-divider>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="closeGetUsageReportDialog()">Close</v-btn>
+                <v-btn color="primary" variant="text" @click="closeGetUsageReportDialog()">Close</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -1485,5 +1471,11 @@ export default {
 #data-table .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+</style>
+<style scoped>
+.rotate-90 {
+  transform: rotate(90deg);
+  transition: transform 0.2s;
 }
 </style>

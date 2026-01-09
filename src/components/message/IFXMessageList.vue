@@ -14,12 +14,12 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { title: 'ID', value: 'id', sortable: true },
-        { title: 'Name', value: 'displayName', sortable: true },
-        { title: 'Subject', value: 'subject' },
-        { title: 'Message', value: 'message' },
-        { title: '', value: 'rowActionEdit', slot: true },
-        { title: '', value: 'actions', namedSlot: true, sortable: false },
+        { title: 'ID', key: 'id', sortable: true },
+        { title: 'Name', key: 'displayName', sortable: true },
+        { title: 'Subject', key: 'subject' },
+        { title: 'Message', key: 'message' },
+        { title: '', key: 'rowActionEdit' },  // No namedSlot needed - IFXDataTableCell handles it
+        { title: '', key: 'actions', namedSlot: true, sortable: false },  // ✅ MUST have namedSlot: true
       ]
       return headers.filter((h) => !h.hide || !(this.$vuetify?.display?.[h.hide]))
     },

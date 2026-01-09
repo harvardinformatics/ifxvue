@@ -2,7 +2,11 @@ export default {
   data() {
     return {
       itemType: 'Message',
-      apiRef: this.$api.message,
     }
   },
+  computed: {
+    apiRef() {
+      return this.$api.message
+    }
+  }
 }

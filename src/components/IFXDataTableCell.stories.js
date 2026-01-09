@@ -73,7 +73,7 @@ export const IDCell = {
     components: { IFXDataTableCell },
     setup() {
       return {
-        header: { value: 'id', text: 'ID' },
+        header: { key: 'id', title: 'ID' },
         item: mockUser,
       }
     },
@@ -81,7 +81,7 @@ export const IDCell = {
       <div style="padding: 20px;">
         <h3>ID Cell (clickable link)</h3>
         <div style="margin-top: 16px; padding: 16px; border: 1px solid #ddd; border-radius: 4px;">
-          <IFXDataTableCell 
+          <IFXDataTableCell
             :header="header"
             :item="item"
             type="User"
@@ -98,7 +98,7 @@ export const EmailCell = {
     components: { IFXDataTableCell },
     setup() {
       return {
-        header: { value: 'email', text: 'Email' },
+        header: { key: 'email', title: 'Email' },
         item: mockUser,
       }
     },
@@ -106,7 +106,7 @@ export const EmailCell = {
       <div style="padding: 20px;">
         <h3>Email Cell (mailto link)</h3>
         <div style="margin-top: 16px; padding: 16px; border: 1px solid #ddd; border-radius: 4px;">
-          <IFXDataTableCell 
+          <IFXDataTableCell
             :header="header"
             :item="item"
             type="User"
@@ -124,12 +124,12 @@ export const DateCells = {
     components: { IFXDataTableCell },
     setup() {
       const dateCells = [
-        { value: 'dateJoined', text: 'Date Joined' },
-        { value: 'created', text: 'Created' },
-        { value: 'updated', text: 'Updated' },
-        { value: 'dateCreated', text: 'Date Created' },
-        { value: 'dateModified', text: 'Date Modified' },
-        { value: 'deliveryDate', text: 'Delivery Date' },
+        { key: 'dateJoined', title: 'Date Joined' },
+        { key: 'created', title: 'Created' },
+        { key: 'updated', title: 'Updated' },
+        { key: 'dateCreated', title: 'Date Created' },
+        { key: 'dateModified', title: 'Date Modified' },
+        { key: 'deliveryDate', title: 'Delivery Date' },
       ]
       return {
         dateCells,
@@ -142,23 +142,23 @@ export const DateCells = {
         <div style="margin-top: 16px;">
           <v-table>
             <thead>
-              <tr>
-                <th>Cell Type</th>
-                <th>Formatted Output</th>
-              </tr>
+            <tr>
+              <th>Cell Type</th>
+              <th>Formatted Output</th>
+            </tr>
             </thead>
             <tbody>
-              <tr v-for="header in dateCells" :key="header.value">
-                <td><strong>{{ header.text }}</strong></td>
-                <td>
-                  <IFXDataTableCell 
-                    :header="header"
-                    :item="item"
-                    type="User"
-                    :page="1"
-                  />
-                </td>
-              </tr>
+            <tr v-for="header in dateCells" :key="header.key">
+              <td><strong>{{ header.title }}</strong></td>
+              <td>
+                <IFXDataTableCell
+                  :header="header"
+                  :item="item"
+                  type="User"
+                  :page="1"
+                />
+              </td>
+            </tr>
             </tbody>
           </v-table>
         </div>
@@ -173,10 +173,10 @@ export const PriceCells = {
     components: { IFXDataTableCell },
     setup() {
       const priceCells = [
-        { value: 'price', text: 'Price' },
-        { value: 'pricePerLiter', text: 'Price Per Liter' },
-        { value: 'creditPerLiter', text: 'Credit Per Liter' },
-        { value: 'scfPerLiter', text: 'SCF Per Liter' },
+        { key: 'price', title: 'Price' },
+        { key: 'pricePerLiter', title: 'Price Per Liter' },
+        { key: 'creditPerLiter', title: 'Credit Per Liter' },
+        { key: 'scfPerLiter', title: 'SCF Per Liter' },
       ]
       return {
         priceCells,
@@ -189,23 +189,23 @@ export const PriceCells = {
         <div style="margin-top: 16px;">
           <v-table>
             <thead>
-              <tr>
-                <th>Cell Type</th>
-                <th>Formatted Output</th>
-              </tr>
+            <tr>
+              <th>Cell Type</th>
+              <th>Formatted Output</th>
+            </tr>
             </thead>
             <tbody>
-              <tr v-for="header in priceCells" :key="header.value">
-                <td><strong>{{ header.text }}</strong></td>
-                <td>
-                  <IFXDataTableCell 
-                    :header="header"
-                    :item="item"
-                    type="BillingRecord"
-                    :page="1"
-                  />
-                </td>
-              </tr>
+            <tr v-for="header in priceCells" :key="header.key">
+              <td><strong>{{ header.title }}</strong></td>
+              <td>
+                <IFXDataTableCell
+                  :header="header"
+                  :item="item"
+                  type="BillingRecord"
+                  :page="1"
+                />
+              </td>
+            </tr>
             </tbody>
           </v-table>
         </div>
@@ -220,9 +220,9 @@ export const ActionButtons = {
     components: { IFXDataTableCell },
     setup() {
       const actionCells = [
-        { value: 'rowActionEdit', text: 'Edit Button' },
-        { value: 'rowActionDetailEdit', text: 'Detail Edit Button' },
-        { value: 'rowActionCopy', text: 'Copy Button' },
+        { key: 'rowActionEdit', title: 'Edit Button' },
+        { key: 'rowActionDetailEdit', title: 'Detail Edit Button' },
+        { key: 'rowActionCopy', title: 'Copy Button' },
       ]
       return {
         actionCells,
@@ -235,23 +235,23 @@ export const ActionButtons = {
         <div style="margin-top: 16px;">
           <v-table>
             <thead>
-              <tr>
-                <th>Cell Type</th>
-                <th>Button</th>
-              </tr>
+            <tr>
+              <th>Cell Type</th>
+              <th>Button</th>
+            </tr>
             </thead>
             <tbody>
-              <tr v-for="header in actionCells" :key="header.value">
-                <td><strong>{{ header.text }}</strong></td>
-                <td>
-                  <IFXDataTableCell 
-                    :header="header"
-                    :item="item"
-                    type="User"
-                    :page="1"
-                  />
-                </td>
-              </tr>
+            <tr v-for="header in actionCells" :key="header.key">
+              <td><strong>{{ header.title }}</strong></td>
+              <td>
+                <IFXDataTableCell
+                  :header="header"
+                  :item="item"
+                  type="User"
+                  :page="1"
+                />
+              </td>
+            </tr>
             </tbody>
           </v-table>
         </div>
@@ -266,8 +266,8 @@ export const RelatedObjects = {
     components: { IFXDataTableCell },
     setup() {
       return {
-        userHeader: { value: 'user', text: 'User' },
-        loggedByHeader: { value: 'loggedBy', text: 'Logged By' },
+        userHeader: { key: 'user', title: 'User' },
+        loggedByHeader: { key: 'loggedBy', title: 'Logged By' },
         item: mockBillingRecord,
       }
     },
@@ -277,34 +277,34 @@ export const RelatedObjects = {
         <div style="margin-top: 16px;">
           <v-table>
             <thead>
-              <tr>
-                <th>Cell Type</th>
-                <th>Output</th>
-              </tr>
+            <tr>
+              <th>Cell Type</th>
+              <th>Output</th>
+            </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong>User</strong></td>
-                <td>
-                  <IFXDataTableCell 
-                    :header="userHeader"
-                    :item="item"
-                    type="BillingRecord"
-                    :page="1"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td><strong>Logged By</strong></td>
-                <td>
-                  <IFXDataTableCell 
-                    :header="loggedByHeader"
-                    :item="item"
-                    type="BillingRecord"
-                    :page="1"
-                  />
-                </td>
-              </tr>
+            <tr>
+              <td><strong>User</strong></td>
+              <td>
+                <IFXDataTableCell
+                  :header="userHeader"
+                  :item="item"
+                  type="BillingRecord"
+                  :page="1"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Logged By</strong></td>
+              <td>
+                <IFXDataTableCell
+                  :header="loggedByHeader"
+                  :item="item"
+                  type="BillingRecord"
+                  :page="1"
+                />
+              </td>
+            </tr>
             </tbody>
           </v-table>
         </div>
@@ -319,14 +319,14 @@ export const SpecialCells = {
     components: { IFXDataTableCell },
     setup() {
       const specialCells = [
-        { value: 'groups', text: 'Groups' },
-        { value: 'organization', text: 'Organization (truncated)' },
-        { value: 'comment', text: 'Comment (truncated)' },
-        { value: 'message', text: 'Message (truncated)' },
-        { value: 'expenseCode', text: 'Expense Code' },
-        { value: 'parents', text: 'Parents' },
-        { value: 'rank', text: 'Rank' },
-        { value: 'active', text: 'Active' },
+        { key: 'groups', title: 'Groups' },
+        { key: 'organization', title: 'Organization (truncated)' },
+        { key: 'comment', title: 'Comment (truncated)' },
+        { key: 'message', title: 'Message (truncated)' },
+        { key: 'expenseCode', title: 'Expense Code' },
+        { key: 'parents', title: 'Parents' },
+        { key: 'rank', title: 'Rank' },
+        { key: 'active', title: 'Active' },
       ]
       return {
         specialCells,
@@ -345,8 +345,8 @@ export const SpecialCells = {
             </tr>
             </thead>
             <tbody>
-            <tr v-for="header in specialCells" :key="header.value">
-              <td><strong>{{ header.text }}</strong></td>
+            <tr v-for="header in specialCells" :key="header.key">
+              <td><strong>{{ header.title }}</strong></td>
               <td>
                 <IFXDataTableCell
                   :header="header"
@@ -378,9 +378,9 @@ export const RecipientsCells = {
     components: { IFXDataTableCell },
     setup() {
       const recipientCells = [
-        { value: 'to', text: 'To' },
-        { value: 'cc', text: 'CC' },
-        { value: 'bcc', text: 'BCC' },
+        { key: 'to', title: 'To' },
+        { key: 'cc', title: 'CC' },
+        { key: 'bcc', title: 'BCC' },
       ]
       return {
         recipientCells,
@@ -393,23 +393,23 @@ export const RecipientsCells = {
         <div style="margin-top: 16px;">
           <v-table>
             <thead>
-              <tr>
-                <th>Cell Type</th>
-                <th>Recipients</th>
-              </tr>
+            <tr>
+              <th>Cell Type</th>
+              <th>Recipients</th>
+            </tr>
             </thead>
             <tbody>
-              <tr v-for="header in recipientCells" :key="header.value">
-                <td><strong>{{ header.text }}</strong></td>
-                <td>
-                  <IFXDataTableCell 
-                    :header="header"
-                    :item="item"
-                    type="Message"
-                    :page="1"
-                  />
-                </td>
-              </tr>
+            <tr v-for="header in recipientCells" :key="header.key">
+              <td><strong>{{ header.title }}</strong></td>
+              <td>
+                <IFXDataTableCell
+                  :header="header"
+                  :item="item"
+                  type="Message"
+                  :page="1"
+                />
+              </td>
+            </tr>
             </tbody>
           </v-table>
         </div>
@@ -424,7 +424,7 @@ export const CustomCell = {
     components: { IFXDataTableCell },
     setup() {
       return {
-        header: { value: 'custom', text: 'Custom' },
+        header: { key: 'custom', title: 'Custom' },
         item: mockUser,
       }
     },
@@ -432,7 +432,7 @@ export const CustomCell = {
       <div style="padding: 20px;">
         <h3>Custom Cell (using slot)</h3>
         <div style="margin-top: 16px; padding: 16px; border: 1px solid #ddd; border-radius: 4px;">
-          <IFXDataTableCell 
+          <IFXDataTableCell
             :header="header"
             :item="item"
             type="User"

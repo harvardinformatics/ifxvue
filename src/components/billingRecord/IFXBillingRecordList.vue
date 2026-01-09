@@ -114,11 +114,11 @@ export default {
       messageType: 'info',
       updating: false,
       allHeaders: [
-        { title: '', key: 'data-table-expand', sortable: false },
+        { title: '', key: 'data-table-expand', sortable: false, namedSlot: true },
         { title: 'ID', key: 'id', sortable: true, hide: false },
         { title: 'State', key: 'currentState', sortable: true, width: '100px', namedSlot: true },
         { title: 'User', key: 'productUser.full_name', sortable: true },
-        { title: 'Lab', key: 'account.organization', sortable: true },
+        { title: 'Lab', key: 'account.organization', sortable: true, namedSlot: true },
         { title: 'Expense Code / PO', key: 'account.slug', sortable: true },
         { title: 'Product', key: 'product', sortable: true },
         { title: 'Start Date', key: 'startDate', sortable: true, hide: !this.showDates, namedSlot: true },
@@ -148,6 +148,7 @@ export default {
       tableCollpased: false,
       errors: [],
       search: null,
+      isValid: false,
       isValidTxn: false,
       isValidEdit: false,
       isValidBulkEdit: false,
@@ -180,6 +181,12 @@ export default {
       newExpenseCode: null,
       showChangeExpenseCodeDialog: false,
       recordIDsToBeChanged: [],
+      groupBy: [
+        {
+          key: 'account.organization',
+          order: 'asc'
+        }
+      ],
     }
   },
   computed: {
@@ -218,7 +225,7 @@ export default {
     showCheckboxes: function () {
       return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration
     },
-    sortBy() {
+    sortByArray() {
       return this.sortBy ? [{ key: this.sortBy, order: 'asc' }] : []
     },
   },
@@ -1117,7 +1124,7 @@ export default {
             :loading="isLoading"
             :items-per-page="-1"
             :sort-by="sortBy"
-            :group-by="['account.organization']"
+            :group-by="sortByArray"
             @item-selected="determineGroupState"
             @toggle-select-all="toggleSelectAll"
           >
@@ -1142,7 +1149,7 @@ export default {
               <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
             </template>
 
-            <template v-slot:item.account.organization="{ item }">
+            <template #account.organization="{ item }">
               <span class="text-no-wrap">
                 {{ $api.organization.parseSlug(item.account.organization).name }}
               </span>
@@ -1150,7 +1157,7 @@ export default {
             <template v-slot:item.currentState="{ item }">
               <span class="state-display">{{ $stateDisplay(item.currentState) }}</span>
             </template>
-            <template v-slot:item.account.slug="{ item }">
+            <template #account.slug="{ item }">
               <span class="text-no-wrap">{{ item.account.code }}</span>
               ({{ item.account.name }})
             </template>

@@ -21,23 +21,38 @@ export default {
       dateMenu: false,
       startDateMenu: false,
       endDateMenu: false,
+      endMonthMenu: false,
       useFiscalYear: false,
       selectedReport: {},
       reportRunning: false,
       reportResponse: null,
       currentMonth: new Date().toISOString(),
+      isValid: false,
     }
   },
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true, click: true, width: '60px' },
-        { text: 'Report', value: 'report', sortable: true, width: '150px' },
-        { text: 'Excel', value: 'xlsFilePath', sortable: false, namedSlot: true },
-        { text: 'CSV', value: 'textFilePath', sortable: false, namedSlot: true, width: '150px' },
-        { text: 'Last Run', value: 'updated', sortable: true, namedSlot: true },
+        { title: 'ID', key: 'id', sortable: true, click: true, width: '60px' },
+        { title: 'Report', key: 'report', sortable: true, width: '150px' },
+        { title: 'Excel', key: 'xlsFilePath', sortable: false, namedSlot: true },
+        { title: 'CSV', key: 'textFilePath', sortable: false, namedSlot: true, width: '150px' },
+        { title: 'Last Run', key: 'updated', sortable: true, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
+    },
+    startMonthAsDate() {
+      if (!this.startMonth) return null
+      const [year, month] = this.startMonth.split('-')
+      return new Date(parseInt(year), parseInt(month) - 1, 1)
+    },
+    endMonthAsDate() {
+      if (!this.endMonth) return null
+      const [year, month] = this.endMonth.split('-')
+      return new Date(parseInt(year), parseInt(month) - 1, 1)
+    },
+    currentMonthAsDate() {
+      return new Date()
     },
   },
   methods: {
@@ -125,6 +140,23 @@ export default {
       // Close any open menus
       this.startDateMenu = false
       this.endDateMenu = false
+      this.endMonthMenu = false
+    },
+    onStartMonthChange(newDate) {
+      if (newDate) {
+        const year = newDate.getFullYear()
+        const month = String(newDate.getMonth() + 1).padStart(2, '0')
+        this.startMonth = `${year}-${month}`
+        this.startDateMenu = false
+      }
+    },
+    onEndMonthChange(newDate) {
+      if (newDate) {
+        const year = newDate.getFullYear()
+        const month = String(newDate.getMonth() + 1).padStart(2, '0')
+        this.endMonth = `${year}-${month}`
+        this.endMonthMenu = false
+      }
     },
   },
 }
@@ -138,11 +170,17 @@ export default {
         <v-row class="flex-nowrap">
           <v-col><IFXSearchField v-model:search="search" /></v-col>
           <v-col sm="2">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
-                  <v-btn v-if="reports.length" v-bind="attrs" fab small color="green" @click="openReportDialog()">
-                    <v-icon dark>mdi-text-box-plus-outline</v-icon>
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <div>
+                  <v-btn
+                    v-if="reports.length"
+                    v-bind="props"
+                    size="small"
+                    color="green"
+                    icon="mdi-text-box-plus-outline"
+                    @click="openReportDialog()"
+                  >
                   </v-btn>
                 </div>
               </template>
@@ -163,7 +201,7 @@ export default {
         {{ $humanDatetime(item.updated) }}
       </template>
     </IFXItemDataTable>
-    <v-dialog v-bind="attrs" v-if="showReportDialog" v-model="showReportDialog" max-width="600px">
+    <v-dialog v-if="showReportDialog" v-model="showReportDialog" max-width="600px">
       <v-card>
         <v-card-title>
           <span class="text-h5">Run a report</span>
@@ -175,7 +213,7 @@ export default {
                 <v-autocomplete
                   v-model="selectedReport"
                   :items="reports"
-                  item-text="name"
+                  item-title="name"
                   item-value="id"
                   label="Select Report"
                   :rules="formRules.generic"
@@ -190,30 +228,26 @@ export default {
                 <v-menu
                   v-model="startDateMenu"
                   :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
+                  location="bottom right"
                 >
-                  <template v-slot:activator="{ on, attrs }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       :disabled="useFiscalYear"
                       v-model="startMonth"
                       label="Start Month"
                       prepend-icon="mdi-calendar"
                       readonly
-                      v-bind="attrs"
-                      v-on="on"
+                      v-bind="props"
                       hint="YYYY-MM format"
                       persistent-hint
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    :max="currentMonth"
-                    :min="endMonth"
-                    v-model="startMonth"
-                    type="month"
-                    @input="startDateMenu = false"
+                    :max="currentMonthAsDate"
+                    :min="endMonthAsDate"
+                    :model-value="startMonthAsDate"
+                    @update:model-value="onStartMonthChange"
+                    view-mode="month"
                   ></v-date-picker>
                 </v-menu>
               </v-col>
@@ -221,12 +255,9 @@ export default {
                 <v-menu
                   v-model="endMonthMenu"
                   :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
+                  location="bottom right"
                 >
-                  <template v-slot:activator="{ on, attrs }">
+                  <template v-slot:activator="{ props }">
                     <v-text-field
                       :disabled="useFiscalYear"
                       v-model="endMonth"
@@ -235,18 +266,17 @@ export default {
                       clear-icon="mdi-close-circle"
                       clearable
                       readonly
-                      v-bind="attrs"
-                      v-on="on"
+                      v-bind="props"
                       hint="YYYY-MM format"
                       persistent-hint
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    :min="startMonth"
-                    :max="currentMonth"
-                    v-model="endMonth"
-                    type="month"
-                    @input="endMonthMenu = false"
+                    :min="startMonthAsDate"
+                    :max="currentMonthAsDate"
+                    :model-value="endMonthAsDate"
+                    @update:model-value="onEndMonthChange"
+                    view-mode="month"
                   ></v-date-picker>
                 </v-menu>
               </v-col>
@@ -269,8 +299,8 @@ export default {
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="secondary" text @click="closeReportDialog">Cancel</v-btn>
-          <v-btn color="blue darken-1" text :disabled="!isValid" @click="runSelectedReport">Run</v-btn>
+          <v-btn color="secondary" variant="text" @click="closeReportDialog">Cancel</v-btn>
+          <v-btn color="blue-darken-1" variant="text" :disabled="!isValid" @click="runSelectedReport">Run</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
