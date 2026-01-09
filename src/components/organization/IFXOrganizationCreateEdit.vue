@@ -96,7 +96,7 @@ export default {
               :rules="formRules.generic"
               :error-messages="errors.rank"
               :items="apiRef.validRanks"
-              item-title="text"
+              item-text="text"
               item-value="value"
               required
               class="required"
@@ -117,7 +117,7 @@ export default {
         <v-row v-if="item.id">
           <v-col>
             <IFXItemSelectList title="Users" v-model:items="item.users" :getEmptyItem="$api.organizationUser.create">
-              <template v-slot="{ item }">
+              <template #default="{ item }">
                 <IFXSelectableUser :allItems="allUsers" :item="item" :errors="errors" />
               </template>
             </IFXItemSelectList>
