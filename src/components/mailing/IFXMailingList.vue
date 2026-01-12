@@ -14,14 +14,14 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { title: 'ID', value: 'id', namedSlot: true },
-        { title: 'Sent', value: 'sent', sortable: true },
-        { title: 'Subject', value: 'subject', sortable: true, width: '200px' },
-        { title: 'From', value: 'fromstr' },
-        { title: 'To', value: 'tostr', namedSlot: true, width: '300px' },
-        { title: 'Message', value: 'message', namedSlot: true },
-        { title: 'Status', value: 'status' },
-        { title: '', value: 'action', namedSlot: true, sortable: false },
+        { title: 'ID', key: 'id', namedSlot: true },
+        { title: 'Sent', key: 'sent', sortable: true },
+        { title: 'Subject', key: 'subject', sortable: true, width: '200px' },
+        { title: 'From', key: 'fromstr' },
+        { title: 'To', key: 'tostr', namedSlot: true, width: '300px' },
+        { title: 'Message', key: 'message', namedSlot: true },
+        { title: 'Status', key: 'status' },
+        { title: '', key: 'action', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     }
