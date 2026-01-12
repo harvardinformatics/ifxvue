@@ -176,6 +176,7 @@ export default {
             <v-tab>Summary by Account</v-tab>
             <v-tab>Summary by User</v-tab>
             <v-tab>Summary by Product Rate</v-tab>
+            <v-tab>Summary by Product</v-tab>
             <v-tabs-items v-model="currentTabs[i]">
               <v-tab-item>
                 <IFXBillingRecordListDecimal
@@ -246,6 +247,27 @@ export default {
                   :headers="[
                     { text: 'Product', value: 'productName', sortable: true },
                     { text: 'Rate', value: 'rateName', sortable: true },
+                    {
+                      text: 'Charges',
+                      value: 'totalDecimalCharge',
+                      sortable: true,
+                      namedSlot: true,
+                      width: '20rem',
+                      align: 'end',
+                    },
+                  ]"
+                />
+              </v-tab-item>
+              <v-tab-item>
+                <IFXGenericBillingSummaryList
+                  :facility="facility"
+                  :month="getMonth()"
+                  :year="getYear()"
+                  itemType="genericBillingSummary"
+                  apiString="productBillingSummary"
+                  :extraParams="{ facility: facility.name }"
+                  :headers="[
+                    { text: 'Product', value: 'productName', sortable: true },
                     {
                       text: 'Charges',
                       value: 'totalDecimalCharge',

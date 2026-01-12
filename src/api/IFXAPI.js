@@ -21,6 +21,7 @@ import { ReportRun, Report } from '@/components/report/IFXReport'
 import AccountBillingSummary from '@/components/billingSummary/IFXAccountBillingSummary'
 import UserBillingSummary from '@/components/billingSummary/IFXUserBillingSummary'
 import ProductRateBillingSummary from '@/components/billingSummary/IFXProductRateBillingSummary'
+import ProductBillingSummary from '@/components/billingSummary/IFXProductBillingSummary'
 import Subscription from '@/components/subscription/IFXSubscription'
 
 function isNumeric(val) {
@@ -1214,6 +1215,19 @@ export default class IFXAPIService {
     }
     const decomposeFunc = (newProductRateBillingSummaryData) => createFunc(newProductRateBillingSummaryData, true)
     return this.genericAPI(baseURL, ProductRateBillingSummary, createFunc, decomposeFunc)
+  }
+
+  get productBillingSummary() {
+    const baseURL = this.urls.GET_SUMMARY_BY_PRODUCT
+    const createFunc = (productBillingSummaryData, decompose = false) => {
+      const newProductBillingSummaryData = cloneDeep(productBillingSummaryData) || {}
+      // If decomposing, do not create a new object
+      return decompose
+        ? newProductBillingSummaryData
+        : new ProductBillingSummary(newProductBillingSummaryData)
+    }
+    const decomposeFunc = (newProductBillingSummaryData) => createFunc(newProductBillingSummaryData, true)
+    return this.genericAPI(baseURL, ProductBillingSummary, createFunc, decomposeFunc)
   }
 
   getLabChargeHistory(facility, startMonth, startYear, endMonth, endYear) {
