@@ -121,8 +121,8 @@ export default {
               itemsPerPageOptions: rowsPerPageItems,
             }"
           >
-            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-            <template slot="no-data">
+            <v-progress-linear color="blue" indeterminate></v-progress-linear>
+            <template #no-data>
               <span class="no-data">No users returned</span>
             </template>
             <template v-slot:[`item.id`]="{ item }">
@@ -157,9 +157,11 @@ export default {
                 {{ display(header, item) }}
               </span>
             </template>
-            <v-alert id="no-results" slot="no-results" :value="true" color="error" icon="warning">
-              Your search found no results.
-            </v-alert>
+            <template #no-results>
+              <v-alert id="no-results" slot="no-results" :value="true" color="error" icon="warning">
+                Your search found no results.
+              </v-alert>
+            </template>
           </v-data-table>
         </v-card>
       </v-flex>

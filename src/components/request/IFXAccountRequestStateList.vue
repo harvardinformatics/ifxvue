@@ -71,8 +71,10 @@ export default {
           class="elevation-1 mb-3"
           :hide-default-footer="request.requestStates.length < 10"
         >
-          <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-          <template slot="no-data">
+          <template #progress>
+            <v-progress-linear color="blue" indeterminate></v-progress-linear>
+          </template>
+          <template #no-data>
             <span class="no-data">No users returned</span>
           </template>
           <template v-slot:[`item.name`]="{ item }">

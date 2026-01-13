@@ -262,7 +262,7 @@ export default {
                 v-model:items="item.contacts"
                 :getEmptyItem="$api.organizationContact.create"
               >
-                <template v-slot="{ item }">
+                <template #default="{ item }">
                   <IFXSelectableContact :allItems="allContacts" :item="item" :errors="errors" />
                 </template>
               </IFXItemSelectList>
@@ -275,7 +275,7 @@ export default {
                 v-model:items="item.affiliations"
                 :getEmptyItem="$api.affiliation.create"
               >
-                <template v-slot="{ item }">
+              <template #default="{ item }">
                   <IFXSelectableAffiliation :allItems="allOrganizationSlugs" :item="item" :errors="errors" />
                 </template>
               </IFXItemSelectList>

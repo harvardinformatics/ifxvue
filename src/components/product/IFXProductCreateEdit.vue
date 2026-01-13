@@ -226,7 +226,7 @@ export default {
               :getEmptyItem="$api.productRate.create"
               noItemsString=""
             >
-              <template v-slot="{ item }">
+            <template #default="{ item }">
                 <v-container>
                   <v-row>
                     <v-col>
