@@ -81,6 +81,14 @@ export default {
     IFXBillingRecordListDecimal,
     IFXGenericBillingSummaryList,
   },
+  computed: {
+    // Convert date string to Date object for v-date-picker
+    dateAsDate() {
+      if (!this.date) return null
+      const [year, month] = this.date.split('-')
+      return new Date(parseInt(year), parseInt(month) - 1, 1)
+    },
+  },
   methods: {
     ...mapActions(['showMessage']),
     getInitialDate() {
@@ -115,6 +123,14 @@ export default {
     getYear() {
       return Number(this.date.split('-')[0])
     },
+    onDateChange(newDate) {
+      if (newDate) {
+        const year = newDate.getFullYear()
+        const month = String(newDate.getMonth() + 1).padStart(2, '0')
+        this.date = `${year}-${month}`
+        this.dateMenu = false
+      }
+    },
   },
   watch: {
     date(val) {
@@ -142,24 +158,24 @@ export default {
             <v-menu
               v-model="dateMenu"
               :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
+              location="bottom right"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-text-field
                   v-model="date"
                   label="Month *"
                   prepend-icon="mdi-calendar"
                   readonly
-                  v-bind="attrs"
-                  v-on="on"
+                  v-bind="props"
                   hint="YYYY-MM format"
                   persistent-hint
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="date" type="month" @input="dateMenu = false"></v-date-picker>
+              <v-date-picker
+                :model-value="dateAsDate"
+                @update:model-value="onDateChange"
+                view-mode="month"
+              ></v-date-picker>
             </v-menu>
           </v-col>
           <v-col>
@@ -176,89 +192,89 @@ export default {
             <v-tab>Summary by Account</v-tab>
             <v-tab>Summary by User</v-tab>
             <v-tab>Summary by Product Rate</v-tab>
-            <v-tabs-items v-model="currentTabs[i]">
-              <v-tab-item>
-                <IFXBillingRecordListDecimal
-                  :facility="facility"
-                  :date="date"
-                  :organization="organization"
-                  :allowInvoiceGeneration="false"
-                  :allowApprovals="false"
-                  :allowDownloads="allowDownloads"
-                  :useDefaultMailButton="useDefaultMailButton"
-                  :allowChangeExpenseCode="allowChangeExpenseCode"
-                  :allowDeleteBillingRecords="allowDeleteBillingRecords"
-                  :showDates="showDates"
-                  :showStartDate="showStartDate"
-                  :showTotals="showTotals"
-                  :totalUnits="totalUnits"
-                />
-              </v-tab-item>
-              <v-tab-item>
-                <IFXGenericBillingSummaryList
-                  :facility="facility"
-                  :month="getMonth()"
-                  :year="getYear()"
-                  itemType="genericBillingSummary"
-                  apiString="accountBillingSummary"
-                  :headers="[
-                    { text: 'Account Name', value: 'name', sortable: true },
-                    { text: 'Expense Code / PO', value: 'code', sortable: true },
-                    {
-                      text: 'Charges',
-                      value: 'totalDecimalCharge',
-                      sortable: true,
-                      namedSlot: true,
-                      width: '20rem',
-                      align: 'end',
-                    },
-                  ]"
-                />
-              </v-tab-item>
-              <v-tab-item>
-                <IFXGenericBillingSummaryList
-                  :facility="facility"
-                  :month="getMonth()"
-                  :year="getYear()"
-                  itemType="genericBillingSummary"
-                  apiString="userBillingSummary"
-                  :headers="[
-                    { text: 'User', value: 'productUserFullName', sortable: true },
-                    {
-                      text: 'Charges',
-                      value: 'totalDecimalCharge',
-                      sortable: true,
-                      namedSlot: true,
-                      width: '20rem',
-                      align: 'end',
-                    },
-                  ]"
-                />
-              </v-tab-item>
-              <v-tab-item>
-                <IFXGenericBillingSummaryList
-                  :facility="facility"
-                  :month="getMonth()"
-                  :year="getYear()"
-                  itemType="genericBillingSummary"
-                  apiString="productRateBillingSummary"
-                  :extraParams="{ facility: facility.name }"
-                  :headers="[
-                    { text: 'Product', value: 'productName', sortable: true },
-                    { text: 'Rate', value: 'rateName', sortable: true },
-                    {
-                      text: 'Charges',
-                      value: 'totalDecimalCharge',
-                      sortable: true,
-                      namedSlot: true,
-                      width: '20rem',
-                      align: 'end',
-                    },
-                  ]"
-                />
-              </v-tab-item>
-            </v-tabs-items>
           </v-tabs>
+          <v-window v-model="currentTabs[i]">
+            <v-window-item>
+              <IFXBillingRecordListDecimal
+                :facility="facility"
+                :date="date"
+                :organization="organization"
+                :allowInvoiceGeneration="false"
+                :allowApprovals="false"
+                :allowDownloads="allowDownloads"
+                :useDefaultMailButton="useDefaultMailButton"
+                :allowChangeExpenseCode="allowChangeExpenseCode"
+                :allowDeleteBillingRecords="allowDeleteBillingRecords"
+                :showDates="showDates"
+                :showStartDate="showStartDate"
+                :showTotals="showTotals"
+                :totalUnits="totalUnits"
+              />
+            </v-window-item>
+            <v-window-item>
+              <IFXGenericBillingSummaryList
+                :facility="facility"
+                :month="getMonth()"
+                :year="getYear()"
+                itemType="genericBillingSummary"
+                apiString="accountBillingSummary"
+                :headers="[
+                  { title: 'Account Name', key: 'name', sortable: true },
+                  { title: 'Expense Code / PO', key: 'code', sortable: true },
+                  {
+                    title: 'Charges',
+                    key: 'totalDecimalCharge',
+                    sortable: true,
+                    namedSlot: true,
+                    width: '20rem',
+                    align: 'end',
+                  },
+                ]"
+              />
+            </v-window-item>
+            <v-window-item>
+              <IFXGenericBillingSummaryList
+                :facility="facility"
+                :month="getMonth()"
+                :year="getYear()"
+                itemType="genericBillingSummary"
+                apiString="userBillingSummary"
+                :headers="[
+                  { title: 'User', key: 'productUserFullName', sortable: true },
+                  {
+                    title: 'Charges',
+                    key: 'totalDecimalCharge',
+                    sortable: true,
+                    namedSlot: true,
+                    width: '20rem',
+                    align: 'end',
+                  },
+                ]"
+              />
+            </v-window-item>
+            <v-window-item>
+              <IFXGenericBillingSummaryList
+                :facility="facility"
+                :month="getMonth()"
+                :year="getYear()"
+                itemType="genericBillingSummary"
+                apiString="productRateBillingSummary"
+                :extraParams="{ facility: facility.name }"
+                :headers="[
+                  { title: 'Product', key: 'productName', sortable: true },
+                  { title: 'Rate', key: 'rateName', sortable: true },
+                  {
+                    title: 'Charges',
+                    key: 'totalDecimalCharge',
+                    sortable: true,
+                    namedSlot: true,
+                    width: '20rem',
+                    align: 'end',
+                  },
+                ]"
+              />
+            </v-window-item>
+          </v-window>
         </v-col>
       </v-row>
     </v-container>

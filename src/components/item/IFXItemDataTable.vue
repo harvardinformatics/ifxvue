@@ -176,15 +176,15 @@ export default {
     </template>
 
     <template #header.rowActionEdit="{ header }">
-      <span class="d-sr-only" v-bind:key="header.key">Buttons to go to the Edit page for the item in each row</span>
+      <span class="d-sr-only" :key="header?.key || 'rowActionEdit'">Buttons to go to the Edit page for the item in each row</span>
     </template>
 
     <template #header.rowActionCopy="{ header }">
-      <span class="d-sr-only" v-bind:key="header.key">Buttons to Copy an item in each row</span>
+      <span class="d-sr-only" :key="header?.key || 'rowActionCopy'">Buttons to Copy an item in each row</span>
     </template>
 
     <template #header.rowActionDetailEdit="{ header }">
-      <span class="d-sr-only" v-bind:key="header.key">
+      <span class="d-sr-only" :key="header?.key || 'rowActionDetailEdit'">
         Buttons to go to the editable Detail page for the item in each row
       </span>
     </template>

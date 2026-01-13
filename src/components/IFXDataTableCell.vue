@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     name() {
-      return this.header.value
+      return this.header.key
     },
   },
 }

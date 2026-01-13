@@ -366,43 +366,32 @@ const mockAPI = {
     ]
   },
   message: {
-    getList: async () => [
-      {
-        id: 1,
-        name: 'lab_meeting_reminder',
-        displayName: 'Lab Meeting Reminder',
-        subject: 'Weekly Lab Meeting',
-        message: '<p>Hi team,</p><p>Weekly lab meeting reminder.</p>',
-      },
-      {
-        id: 2,
-        name: 'equipment_maintenance',
-        displayName: 'Equipment Maintenance Notice',
-        subject: 'Scheduled Maintenance',
-        message: '<p>MRI scanner will be offline for maintenance.</p>',
-      },
-      {
-        id: 3,
-        name: 'safety_training',
-        displayName: 'Safety Training Notification',
-        subject: 'Annual Safety Training Required',
-        message: '<p>Complete annual safety training by end of month.</p>',
-      },
-      {
-        id: 4,
-        name: 'billing_reminder',
-        displayName: 'Billing Statement Reminder',
-        subject: 'Monthly Billing Statement Available',
-        message: '<p>Monthly billing statement now available.</p>',
-      },
-      {
-        id: 5,
-        name: 'new_user_welcome',
-        displayName: 'New User Welcome',
-        subject: 'Welcome to the Center for Brain Science',
-        message: '<p>Welcome! Important onboarding information.</p>',
-      },
-    ],
+    getList: async () => {
+      console.log('message.getList() called')
+      return [
+        {
+          id: 1,
+          name: 'welcome_message',
+          displayName: 'Welcome Message',
+          subject: 'Welcome to the Facility',
+          message: 'Thank you for joining our facility. Here are some important details...',
+        },
+        {
+          id: 2,
+          name: 'billing_reminder',
+          displayName: 'Billing Reminder',
+          subject: 'Monthly Billing Reminder',
+          message: 'This is a reminder that your monthly billing statement is available...',
+        },
+        {
+          id: 3,
+          name: 'safety_update',
+          displayName: 'Safety Update',
+          subject: 'Important Safety Procedures Update',
+          message: 'We have updated our safety procedures. Please review the attached document...',
+        },
+      ]
+    },
     getByID: async (id) => {
       const messages = [
         {
@@ -541,86 +530,113 @@ const mockAPI = {
     }
   },
   billingRecord: {
-    getList: async (prefix, month, year, organization) => {
+    getList: async (invoicePrefix, month, year, organization) => {
+      console.log('billingRecord.getList() called:', invoicePrefix, month, year, organization)
       return [
         {
           id: 1,
-          currentState: 'INIT',
-          productUser: { full_name: 'John Smith' },
           account: {
+            id: 101,
+            name: 'Smith Lab',
+            slug: 'smith-lab',
+            code: 'PO-12345',
             organization: 'harvard-neuroscience',
-            slug: 'HRG-2024-001',
-            code: '12345',
-            name: 'Neural Circuits Lab'
           },
-          product: 'MRI Scanner',
-          startDate: '2024-11-01T09:00:00Z',
-          endDate: '2024-11-01T17:00:00Z',
-          charge: 125000,
-          decimalCharge: 1250.00,
-          decimalQuantity: 8,
+          productUser: {
+            id: 1,
+            full_name: 'John Researcher',
+          },
+          product: 'fMRI Scanning',
+          currentState: 'INIT',
+          decimalCharge: 2500.00,
+          decimalQuantity: 10.5,
           percent: 100,
-          productUsage: { id: 501 },
-          productUsageLinkText: 'MRI-501',
+          startDate: '2024-11-01T09:00:00Z',
+          endDate: '2024-11-01T14:30:00Z',
+          productUsage: {
+            id: 501,
+          },
+          productUsageLinkText: 'Session #501',
           productUsageUrl: '/usage/501',
+          description: 'fMRI scanning for cognitive study',
           transactions: [
-            { id: 1, description: 'Initial booking', charge: 125000, rate: 15625 }
+            { id: 1, description: 'Initial charge', charge: 2500, rate: 250 }
           ],
+          rate: 250,
           billingRecordStates: [
             { name: 'INIT', user: 'admin', approvers: [], comment: '' }
           ],
-          description: '8 hours MRI scan',
         },
         {
           id: 2,
-          currentState: 'LAB_APPROVED',
-          productUser: { full_name: 'Jane Doe' },
           account: {
+            id: 102,
+            name: 'Jones Lab',
+            slug: 'jones-lab',
+            code: 'PO-67890',
             organization: 'harvard-neuroscience',
-            slug: 'HRG-2024-002',
-            code: '67890',
-            name: 'Cognitive Lab'
           },
-          product: 'fMRI Analysis',
-          startDate: '2024-11-05T10:00:00Z',
-          endDate: '2024-11-05T14:00:00Z',
-          charge: 87500,
-          decimalCharge: 875.00,
-          decimalQuantity: 4,
+          productUser: {
+            id: 2,
+            full_name: 'Jane Scientist',
+          },
+          product: 'MRI Scanning',
+          currentState: 'LAB_APPROVED',
+          decimalCharge: 1800.50,
+          decimalQuantity: 7.25,
           percent: 100,
-          productUsage: { id: 502 },
-          transactions: [],
+          startDate: '2024-11-05T10:00:00Z',
+          endDate: '2024-11-05T13:15:00Z',
+          productUsage: {
+            id: 502,
+          },
+          productUsageLinkText: 'Session #502',
+          productUsageUrl: '/usage/502',
+          description: 'MRI structural imaging',
+          transactions: [
+            { id: 2, description: 'Scanning time', charge: 1800.50, rate: 250 }
+          ],
+          rate: 250,
           billingRecordStates: [
             { name: 'INIT', user: 'admin', approvers: [], comment: '' },
-            { name: 'LAB_APPROVED', user: 'pi@harvard.edu', approvers: [], comment: 'Approved' }
+            { name: 'LAB_APPROVED', user: 'pi@example.com', approvers: [], comment: 'Approved' }
           ],
-          description: '4 hours fMRI analysis',
         },
         {
           id: 3,
-          currentState: 'FINAL',
-          productUser: { full_name: 'Bob Wilson' },
           account: {
-            organization: 'mit-brain-cog',
-            slug: 'MIT-2024-003',
-            code: '11111',
-            name: 'Perception Lab'
+            id: 201,
+            name: 'Brown Research',
+            slug: 'brown-research',
+            code: 'PO-11111',
+            organization: 'mit-brain-cognitive-sciences',
+          },
+          productUser: {
+            id: 3,
+            full_name: 'Bob Postdoc',
           },
           product: 'EEG Recording',
-          startDate: '2024-11-10T13:00:00Z',
-          endDate: '2024-11-10T16:00:00Z',
-          charge: 45000,
-          decimalCharge: 450.00,
-          decimalQuantity: 3,
+          currentState: 'FINAL',
+          decimalCharge: 950.00,
+          decimalQuantity: 4.0,
           percent: 100,
-          productUsage: { id: 503 },
-          transactions: [],
+          startDate: '2024-11-10T14:00:00Z',
+          endDate: '2024-11-10T18:00:00Z',
+          productUsage: {
+            id: 503,
+          },
+          productUsageLinkText: null,
+          productUsageUrl: null,
+          description: 'EEG data collection',
+          transactions: [
+            { id: 3, description: 'EEG session', charge: 950, rate: 237.50 }
+          ],
+          rate: 237.50,
           billingRecordStates: [
             { name: 'INIT', user: 'admin', approvers: [], comment: '' },
-            { name: 'LAB_APPROVED', user: 'pi@mit.edu', approvers: [], comment: '' },
-            { name: 'FINAL', user: 'admin', approvers: [], comment: 'Invoiced' }
+            { name: 'LAB_APPROVED', user: 'pi@example.com', approvers: [], comment: 'Approved' },
+            { name: 'FINAL', user: 'admin', approvers: [], comment: 'Finalized' }
           ],
-          description: '3 hours EEG recording',
         },
       ]
     },
@@ -779,14 +795,16 @@ const mockAPI = {
       console.log('Storage setItem:', key, value, type)
     }
   },
-    facility: {
-      getByID: async (id) => ({
-        id: parseInt(id),
-        name: 'Center for Brain Science Neuroimaging',
-        invoicePrefix: 'CBSN',
-        applicationUsername: 'cbsn_admin'
-      }),
-      getList: async () => [
+  facility: {
+    getByID: async (id) => ({
+      id: parseInt(id),
+      name: 'Center for Brain Science Neuroimaging',
+      invoicePrefix: 'CBSN',
+      applicationUsername: 'cbsn_admin'
+    }),
+    getList: async (params) => {
+      console.log('facility.getList called with:', params)
+      return [
         {
           id: 1,
           name: 'Center for Brain Science Neuroimaging',
@@ -799,9 +817,89 @@ const mockAPI = {
           invoicePrefix: 'BAUER',
           applicationUsername: 'bauer_admin'
         }
-      ],
-      isDecimalFacility: (name) => name.includes('Imaging'),
+      ]
     },
+    isDecimalFacility: (name) => name.includes('Imaging'),
+  },
+  reportRun: {
+    getList: async () => {
+      console.log('reportRun.getList() called')
+      return [
+        {
+          id: 1,
+          report: 'Monthly Billing Summary',
+          xlsFilePath: 'monthly_billing_2024_11.xlsx',
+          xlsFileUrl: '/reports/monthly_billing_2024_11.xlsx',
+          textFilePath: 'monthly_billing_2024_11.csv',
+          textFileUrl: '/reports/monthly_billing_2024_11.csv',
+          updated: '2024-11-15T14:30:00Z',
+        },
+        {
+          id: 2,
+          report: 'Annual Usage Report',
+          xlsFilePath: 'annual_usage_2024.xlsx',
+          xlsFileUrl: '/reports/annual_usage_2024.xlsx',
+          textFilePath: 'annual_usage_2024.csv',
+          textFileUrl: '/reports/annual_usage_2024.csv',
+          updated: '2024-12-01T09:15:00Z',
+        },
+        {
+          id: 3,
+          report: 'Quarterly PI Report',
+          xlsFilePath: 'quarterly_pi_q4_2024.xlsx',
+          xlsFileUrl: '/reports/quarterly_pi_q4_2024.xlsx',
+          textFilePath: 'quarterly_pi_q4_2024.csv',
+          textFileUrl: '/reports/quarterly_pi_q4_2024.csv',
+          updated: '2024-10-30T16:45:00Z',
+        },
+      ]
+    },
+    create: (data) => {
+      // Factory method
+      return data
+    },
+  },
+  report: {
+    getList: async () => {
+      console.log('report.getList() called')
+      return [
+        {
+          id: 1,
+          name: 'Monthly Billing Summary',
+          description: 'Summary of all billing records for a given month',
+        },
+        {
+          id: 2,
+          name: 'Annual Usage Report',
+          description: 'Annual summary of facility usage by lab',
+        },
+        {
+          id: 3,
+          name: 'Quarterly PI Report',
+          description: 'Quarterly report for Principal Investigators',
+        },
+      ]
+    },
+    runReport: async (params) => {
+      console.log('report.runReport() called with:', params)
+      // Simulate report generation
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      return {
+        data: {
+          id: Math.floor(Math.random() * 1000) + 100,
+          report: params.name,
+          xlsFilePath: `${params.name.toLowerCase().replace(/ /g, '_')}_${params.date_range}.xlsx`,
+          xlsFileUrl: `/reports/${params.name.toLowerCase().replace(/ /g, '_')}_${params.date_range}.xlsx`,
+          textFilePath: `${params.name.toLowerCase().replace(/ /g, '_')}_${params.date_range}.csv`,
+          textFileUrl: `/reports/${params.name.toLowerCase().replace(/ /g, '_')}_${params.date_range}.csv`,
+          updated: new Date().toISOString(),
+        },
+      }
+    },
+  },
+  urls: {
+    ROOT_URL: 'http://localhost:8000/app/',
+  }
 }
 
 // Mock Router
@@ -901,6 +999,17 @@ setup((app) => {
     generic: [
       (v) => !!v || 'Required',
     ],
+  }
+  if (!app.config.globalProperties.$api.getUsageReport) {
+    app.config.globalProperties.$api.getUsageReport = (invoicePrefix, year, month, organization) => {
+      console.log('Getting usage report:', invoicePrefix, year, month, organization)
+      return Promise.resolve({
+        data: {
+          url: '/reports/usage-report-2024-11.pdf',
+          filename: 'usage-report-2024-11.pdf',
+        }
+      })
+    }
   }
 
   Object.keys(IFXFilters).forEach((name) => {

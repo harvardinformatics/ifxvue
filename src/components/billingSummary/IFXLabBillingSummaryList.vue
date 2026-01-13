@@ -24,7 +24,7 @@ export default {
     return {
       DEFAULT_RANGE: 5,
       onlyShowSuspiciousRows: false,
-      theHeaders: [{ title: 'Lab Name', value: 'organization', sortable: true }],
+      theHeaders: [{ title: 'Lab Name', key: 'organization', sortable: true }],
       startMonth: null,
       startYear: null,
       endMonth: new Date().getMonth(),
@@ -73,7 +73,7 @@ export default {
         const thisYear = this.startYear + Math.floor((curMonth - 1) / 12)
         this.theHeaders.push({
           title: `${thisMonth} / ${thisYear}`,
-          value: `${thisYear}-${paddedMonth}`,
+          key: `${thisYear}-${paddedMonth}`,
           sortable: true,
           namedSlot: true,
         })
@@ -131,8 +131,8 @@ export default {
           let hasNonZeroCharges = false
           let hasZero = false
           this.headers.forEach((header) => {
-            if (header.value !== 'organization') {
-              const charge = row[header.value]
+            if (header.key !== 'organization') {
+              const charge = row[header.key]
               if (charge) {
                 hasNonZeroCharges = true
               } else {
@@ -232,10 +232,10 @@ export default {
       :loading="fetchingData"
       :defaultItemsPerPage="-1"
     >
-      <template v-for="header in headers" #[header.value]="{ item }">
-        <span :key="header.value">
-          <span v-if="item[header.value] !== undefined">
-            {{ $dollars(item[header.value]) }}
+      <template v-for="header in headers" #[header.key]="{ item }">
+        <span :key="header.key">
+          <span v-if="item[header.key] !== undefined">
+            {{ $dollars(item[header.key]) }}
           </span>
           <span v-else class="text-grey-darken-1">No Charges</span>
         </span>
