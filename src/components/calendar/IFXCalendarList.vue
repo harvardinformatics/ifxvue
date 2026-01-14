@@ -1557,7 +1557,6 @@ export default {
                     mdi-test-tube
                   </v-icon>
                 </v-toolbar-title>
-                <!-- <v-spacer></v-spacer> -->
                 <v-btn icon="mdi-close" size="small" @click="closePopup" data-cy="popup-close"></v-btn>
               </v-toolbar>
               <v-card-text class="text-body-1" v-if="Object.keys(selectedEvent).length">
