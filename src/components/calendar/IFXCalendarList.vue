@@ -675,15 +675,7 @@ export default {
       this.organization = newItem.organization
       this.handleResourceChange(theResource)
       this.selectedOpen = false
-      this.attendants = newItem.reservation.attendants.map((attendant) => {
-        if (attendant._data) {
-          return attendant._data
-        }
-        if (attendant.data) {
-          return attendant.data
-        }
-        return attendant
-      })
+      this.attendants = cloneDeep(newItem.reservation.attendants)
       this.durationValue = newItem.quantity
       this.isMaintenance = newItem.reservation.isMaintenance
       this.trial = newItem.reservation.trial
