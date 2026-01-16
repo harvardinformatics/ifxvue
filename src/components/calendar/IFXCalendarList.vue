@@ -1031,7 +1031,7 @@ export default {
             ></v-switch>
             <v-menu location="bottom end" data-cy="calendar-type">
               <template v-slot:activator="{ props }">
-                <v-btn variant="outlined" color="grey-darken-2" v-bind="props">
+                <v-btn variant="outlined" color="grey-darken-2" v-bind="props" class="px-2 pb-1 border">
                   <span>{{ typeToLabel[type] }}</span>
                   <v-icon end>mdi-menu-down</v-icon>
                 </v-btn>
@@ -1150,6 +1150,7 @@ export default {
                         @update:model-value="toggleIsTrial"
                         :disabled="resourceNotSelected"
                         data-cy="trial-checkbox"
+                        :hide-details="true"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="4" v-if="useMaintenance">
@@ -1160,6 +1161,7 @@ export default {
                         label="Unavailable"
                         v-model="isMaintenance"
                         data-cy="maintenance-checkbox"
+                        :hide-details="true"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
@@ -1177,6 +1179,7 @@ export default {
                     @update:model-value="getAllOrgs($event)"
                     :disabled="resourceNotSelected"
                     data-cy="user"
+                    class="mb-4"
                   ></v-autocomplete>
                   <v-autocomplete
                     label="Organizaton"
@@ -1187,6 +1190,7 @@ export default {
                     @update:model-value="getAllExpenseCodes(user)"
                     :disabled="cantBeEdited || resourceNotSelected"
                     data-cy="organizaton"
+                    class="mb-4"
                   >
                     <template v-slot:item="{ item, props }">
                       <v-list-item v-bind="props">
@@ -1208,6 +1212,7 @@ export default {
                     :rules="[isBillableRule]"
                     :disabled="resourceNotSelected || !expenseCodeEnabled"
                     data-cy="expense-code"
+                    class="mb-4"
                   >
                     <template #no-data>
                       <div class="mx-3 my-1">No expense code or PO found for this organization and resource</div>
@@ -1285,14 +1290,14 @@ export default {
                       </v-autocomplete>
                     </v-col>
                   </v-row>
-                  <v-row>
+                  <v-row class="mb-3">
                     <v-col>
                       <div class="text-divider font-italic text-center">Or set End time directly</div>
                     </v-col>
                   </v-row>
                   <v-text-field
                     ref="endDate"
-                    class="endDate"
+                    class="endDate mb-4"
                     :model-value="humanEndDate"
                     @update:model-value="updateDate($event, 'endDate')"
                     label="End Date and Time *"
