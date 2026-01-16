@@ -2,42 +2,34 @@
 export default {
   name: 'IFXButton',
   props: {
-    // The type of button, determines default icon and color
-    // Options: add, edit, delete, close, cancel, download, other
     btnType: {
       type: String,
       required: true,
     },
-    // Color of the button, overrides default color determined by btnType
     btnColor: {
       type: String,
       required: false,
     },
-    // Size of the button
     xSmall: {
       type: Boolean,
       default: false,
       required: false,
     },
-    // Size of the button
     small: {
       type: Boolean,
       default: false,
       required: false,
     },
-    // Size of the button
     large: {
       type: Boolean,
       default: false,
       required: false,
     },
-    // The color of the icon
     iconColor: {
       type: String,
       default: 'white',
       required: false,
     },
-    // String for icon, overrides default determined by btnType
     iconString: {
       type: String,
       required: false,
@@ -46,12 +38,10 @@ export default {
       type: Boolean,
       required: false,
     },
-    // Button text, determines if icon is FAB or not
     btnText: {
       type: String,
       required: false,
     },
-    // If in a dialog, use text style buttons
     inDialog: {
       type: Boolean,
       required: false,
@@ -59,10 +49,6 @@ export default {
     },
   },
   computed: {
-    /**
-     * Computes button color based on btnType. Priority is given to btnColor, if provided by user.
-     * @returns {string}
-     */
     btnColorComputed() {
       if (this.btnColor) {
         return this.btnColor
@@ -108,31 +94,14 @@ export default {
       }
       return btnColor
     },
-    /**
-     * Computes if button is xSmall, based on breakpoint or boolean provided by user
-     * @returns {string}
-     */
-    xSmallComputed() {
-      return this.$vuetify.display.xs || this.xSmall || (!this.btnTextComputed && !this.small && !this.large)
+    sizeComputed() {
+      if (this.xSmall) return 'x-small'
+      if (this.small) return 'small'
+      if (this.large) return 'large'
+      // Default size for icon-only buttons (FAB-like)
+      if (!this.btnTextComputed) return 'small'
+      return 'default'
     },
-    /**
-     * Computes if button is small, based on breakpoint or boolean provided by user
-     * @returns {string}
-     */
-    smallComputed() {
-      return this.$vuetify.display.smAndDown || this.small
-    },
-    /**
-     * Computes if button is large, based on breakpoint or boolean provided by user
-     * @returns {string}
-     */
-    largeComputed() {
-      return this.$vuetify.display.lgAndUp || this.large
-    },
-    /**
-     * Computes string for icon
-     * @returns {string}
-     */
     iconStringComputed() {
       if (this.iconString) {
         return this.iconString
@@ -157,8 +126,17 @@ export default {
         case 'copy':
           iconString = 'mdi-content-duplicate'
           break
+        case 'home':
+          iconString = 'mdi-home'
+          break
         case 'close':
           iconString = 'mdi-close'
+          break
+        case 'cancel':
+          iconString = 'mdi-cancel'
+          break
+        case 'reset':
+          iconString = 'mdi-refresh'
           break
         default:
           iconString = ''
@@ -180,14 +158,20 @@ export default {
       }
       return btnText
     },
+    isFab() {
+      // FAB = icon-only button (circular and elevated)
+      return !this.btnTextComputed
+    },
+    variantComputed() {
+      if (this.inDialog) return 'text'
+      // FAB buttons and regular buttons should be elevated
+      return 'elevated'
+    },
     dataCyString() {
       return `${this.btnType}-btn`
     },
   },
   methods: {
-    /**
-     * Emits event, triggering the action defined by the user.
-     */
     clickHandler() {
       this.$emit('action')
     },
@@ -197,13 +181,13 @@ export default {
 
 <template>
   <v-btn
-    :icon="!btnTextComputed"
+    :icon="isFab"
     :disabled="disabled"
-    :size="xSmallComputed ? 'x-small' : smallComputed ? 'small' : largeComputed ? 'large' : 'default'"
+    :size="sizeComputed"
     :color="btnColorComputed"
     @click.prevent="clickHandler"
     :data-cy="dataCyString"
-    :variant="inDialog ? 'text' : 'elevated'"
+    :variant="variantComputed"
     :aria-label="btnTextComputed ? btnTextComputed : btnType"
   >
     <v-icon v-if="iconStringComputed" :color="iconColor" :class="{ 'mr-2': btnTextComputed }">
