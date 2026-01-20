@@ -118,12 +118,12 @@ export default {
     <IFXPageHeader>
       <template #title>{{ listTitle }}</template>
       <template #actions>
-        <v-row nowrap align="center">
-          <v-col>
+        <v-row no-wrap align="center">
+          <v-col cols="auto">
             <IFXSearchField v-model:search="search" />
           </v-col>
-          <v-col>
-            <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
+          <v-col cols="auto">
+            <v-checkbox label="Include disabled" v-model="includeDisabled" density="compact" hide-details></v-checkbox>
           </v-col>
           <v-col>
             <IFXMailButton
@@ -134,25 +134,21 @@ export default {
             ></IFXMailButton>
           </v-col>
           <v-col>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
-                  <v-btn v-bind="attrs" small fab @click="updateAuthorizations()" color="secondary">
-                    <v-icon>verified_user</v-icon>
-                  </v-btn>
-                </div>
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" size="small" icon @click="updateAuthorizations()" color="secondary">
+                  <v-icon>mdi-shield-check</v-icon>
+                </v-btn>
               </template>
               <span>Update Expense code / PO authorizations</span>
             </v-tooltip>
           </v-col>
           <v-col v-if="buttons && buttons.length" class="d-flex flex-row flex-nowrap">
-            <v-tooltip top v-for="(button, index) in buttons" :key="index">
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
-                  <v-btn v-bind="attrs" small fab @click="button.action(selected)" color="primary" :disabled="!selected.length" class="ml-2">
-                    <v-icon>{{button.icon}}</v-icon>
-                  </v-btn>
-                </div>
+            <v-tooltip location="top" v-for="(button, index) in buttons" :key="index">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" size="small" icon @click="button.action(selected)" color="primary" :disabled="!selected.length" class="ml-2">
+                  <v-icon>{{button.icon}}</v-icon>
+                </v-btn>
               </template>
               <span>{{ button.tooltip}}</span>
             </v-tooltip>
