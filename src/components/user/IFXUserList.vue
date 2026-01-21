@@ -50,12 +50,11 @@ export default {
       }
     },
     composeEmail() {
-      const params = {
+      const query = {
         recipientField: this.recipientField,
-        recipients: null,
+        recipients: this.selected.map((item) => item.primaryEmail || item.email).join(','),
       }
-      params.recipients = this.selected.map((item) => item.primaryEmail).join(',')
-      this.$router.push({ name: 'MailingCompose', params: params })
+      this.$router.push({ name: 'MailingCompose', query: query })
     },
     getErrorMessage(error) {
       let message = 'Unknown error'
@@ -130,7 +129,7 @@ export default {
               v-model="recipientField"
               :disabled="!selected.length"
               toolTip="Email selected users"
-              @input="composeEmail()"
+              @update:modelValue="composeEmail()"
             ></IFXMailButton>
           </v-col>
           <v-col>

@@ -19,7 +19,7 @@ export default {
     direction: {
       type: String,
       required: false,
-      default: 'bottom',
+      default: 'top',
     },
     icon: {
       type: String,
@@ -71,25 +71,28 @@ export default {
             </v-btn>
           </template>
           <v-btn
-            size="x-small"
-            icon
+            key="to"
+            size="small"
             color="#A4F323"
+            class="mail-btn-circular"
             @click="setRecipientField('to')"
           >
             to:
           </v-btn>
           <v-btn
-            size="x-small"
-            icon
+            key="cc"
+            size="small"
             color="#86C61D"
+            class="mail-btn-circular"
             @click="setRecipientField('cc')"
           >
             cc:
           </v-btn>
           <v-btn
-            size="x-small"
-            icon
+            key="bcc"
+            size="small"
             color="#669617"
+            class="mail-btn-circular"
             @click="setRecipientField('bcc')"
           >
             bcc:
@@ -102,3 +105,14 @@ export default {
     </span>
   </v-tooltip>
 </template>
+
+<style scoped>
+.mail-btn-circular {
+  width: 36px;
+  height: 36px;
+  border-radius: 50% !important;
+  min-width: 36px;
+  padding: 0 !important;
+  font-size: 0.7rem;
+}
+</style>

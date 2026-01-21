@@ -159,6 +159,7 @@ export default {
     @click:row="clickRow"
     :show-select="showSelect"
     :item-value="itemKey"
+    return-object
     :loading="loading"
     @update:page="pageChange"
     :page="currentPage"

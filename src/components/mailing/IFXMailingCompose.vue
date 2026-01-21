@@ -155,11 +155,21 @@ export default {
   },
   mounted() {
     const me = this
-    if (this.message) {
-      this.content = this.message
+    // Support both props and query params (for Vue Router 4 compatibility)
+    const recipients = this.recipients || this.$route.query.recipients
+    const recipientField = this.recipientField || this.$route.query.recipientField
+    const from = this.from || this.$route.query.from
+    const to = this.to || this.$route.query.to
+    const cc = this.cc || this.$route.query.cc
+    const bcc = this.bcc || this.$route.query.bcc
+    const subject = this.subject || this.$route.query.subject
+    const message = this.message || this.$route.query.message
+
+    if (message) {
+      this.content = message
     }
-    if (this.subject) {
-      this.localSubject = this.subject
+    if (subject) {
+      this.localSubject = subject
     }
     this.$api.contactables
       .getList()
@@ -176,9 +186,9 @@ export default {
                   orgContactNotFound.push(name)
                 }
               })
-              if (me.recipientField) {
-                const badFieldMessage = `An invalid recipient field was specified: ${me.recipientField}`
-                switch (me.recipientField) {
+              if (recipientField) {
+                const badFieldMessage = `An invalid recipient field was specified: ${recipientField}`
+                switch (recipientField) {
                   case 'to':
                     me.toList = me.toList.concat(result2)
                     break
@@ -207,13 +217,13 @@ export default {
         } else {
           this.isLoading = false
         }
-        if (this.from) {
-          this.fromAddr = this.from
+        if (from) {
+          this.fromAddr = from
         } else {
           this.fromAddr = this.$api.vars.appDefaultFromField || this.$api.auth.getCurrentUserRecord().primaryEmail
         }
-        if (this.to) {
-          this.to.split(',').forEach((ele) => {
+        if (to) {
+          to.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
             const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
@@ -227,8 +237,8 @@ export default {
             }
           })
         }
-        if (this.cc) {
-          this.cc.split(',').forEach((ele) => {
+        if (cc) {
+          cc.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
             const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
@@ -242,8 +252,8 @@ export default {
             }
           })
         }
-        if (this.bcc) {
-          this.bcc.split(',').forEach((ele) => {
+        if (bcc) {
+          bcc.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
             const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
@@ -257,14 +267,14 @@ export default {
             }
           })
         }
-        if (this.recipients) {
-          this.recipients.split(',').forEach((ele) => {
+        if (recipients) {
+          recipients.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
             const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
-              if (this.recipientField) {
-                const badFieldMessage = `An invalid recipient field was specified: ${me.recipientField}`
-                switch (this.recipientField) {
+              if (recipientField) {
+                const badFieldMessage = `An invalid recipient field was specified: ${recipientField}`
+                switch (recipientField) {
                   case 'to':
                     this.toList = this.toList.concat(matches)
                     break
