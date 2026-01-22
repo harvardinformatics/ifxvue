@@ -50,12 +50,11 @@ export default {
       }
     },
     composeEmail() {
-      const params = {
+      const query = {
         recipientField: this.recipientField,
-        recipients: null,
+        recipients: this.selected.map((item) => item.primaryEmail || item.email).join(','),
       }
-      params.recipients = this.selected.map((item) => item.primaryEmail).join(',')
-      this.$router.push({ name: 'MailingCompose', params: params })
+      this.$router.push({ name: 'MailingCompose', query: query })
     },
     getErrorMessage(error) {
       let message = 'Unknown error'
@@ -91,15 +90,15 @@ export default {
   computed: {
     computedHeaders() {
       const defaultHeaders = [
-        { text: 'ID', value: 'id', sortable: true },
-        { text: 'Full name', value: 'fullName', sortable: true },
-        { text: 'First name', value: 'firstName', hide: 'lgAndDown', sortable: true },
-        { text: 'Last name', value: 'lastName', hide: 'lgAndDown', sortable: true },
-        { text: 'Date Created', value: 'dateJoined', hide: 'smAndDown', sortable: true },
-        { text: 'Email', value: 'email', sortable: true },
-        { text: 'IfxId', value: 'ifxid', hide: 'mdAndDown', sortable: true },
-        { text: 'Groups', value: 'groups', sortable: true },
-        { text: `${this.$api.vars.appNameFormatted} Login`, value: 'isLoginActive', sortable: true },
+        { title: 'ID', key: 'id', sortable: true },
+        { title: 'Full name', key: 'fullName', sortable: true },
+        { title: 'First name', key: 'firstName', hide: 'lgAndDown', sortable: true },
+        { title: 'Last name', key: 'lastName', hide: 'lgAndDown', sortable: true },
+        { title: 'Date Created', key: 'dateJoined', hide: 'smAndDown', sortable: true },
+        { title: 'Email', key: 'email', sortable: true },
+        { title: 'IfxId', key: 'ifxid', hide: 'mdAndDown', sortable: true },
+        { title: 'Groups', key: 'groups', sortable: true },
+        { title: `${this.$api.vars.appNameFormatted} Login`, key: 'isLoginActive', sortable: true },
       ]
       const headers = this.headers || defaultHeaders
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
@@ -118,41 +117,37 @@ export default {
     <IFXPageHeader>
       <template #title>{{ listTitle }}</template>
       <template #actions>
-        <v-row nowrap align="center">
-          <v-col>
+        <v-row no-wrap align="center">
+          <v-col cols="auto">
             <IFXSearchField v-model:search="search" />
           </v-col>
-          <v-col>
-            <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
+          <v-col cols="auto">
+            <v-checkbox label="Include disabled" v-model="includeDisabled" density="compact" hide-details></v-checkbox>
           </v-col>
           <v-col>
             <IFXMailButton
               v-model="recipientField"
               :disabled="!selected.length"
               toolTip="Email selected users"
-              @input="composeEmail()"
+              @update:modelValue="composeEmail()"
             ></IFXMailButton>
           </v-col>
           <v-col>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
-                  <v-btn v-bind="attrs" small fab @click="updateAuthorizations()" color="secondary">
-                    <v-icon>verified_user</v-icon>
-                  </v-btn>
-                </div>
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" size="small" icon @click="updateAuthorizations()" color="secondary">
+                  <v-icon>mdi-shield-check</v-icon>
+                </v-btn>
               </template>
               <span>Update Expense code / PO authorizations</span>
             </v-tooltip>
           </v-col>
           <v-col v-if="buttons && buttons.length" class="d-flex flex-row flex-nowrap">
-            <v-tooltip top v-for="(button, index) in buttons" :key="index">
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
-                  <v-btn v-bind="attrs" small fab @click="button.action(selected)" color="primary" :disabled="!selected.length" class="ml-2">
-                    <v-icon>{{button.icon}}</v-icon>
-                  </v-btn>
-                </div>
+            <v-tooltip location="top" v-for="(button, index) in buttons" :key="index">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" size="small" icon @click="button.action(selected)" color="primary" :disabled="!selected.length" class="ml-2">
+                  <v-icon>{{button.icon}}</v-icon>
+                </v-btn>
               </template>
               <span>{{ button.tooltip}}</span>
             </v-tooltip>
@@ -179,11 +174,8 @@ export default {
           :itemType="itemType"
           :loading="isLoading"
         >
-          <!-- Loops through all headers and use a named slot if specified-->
-          <template v-for="header in headers" #[`${header.value}`]="{ item }">
-            <span v-if="header.namedSlot" v-bind:key="header.value">
-              <slot :name="header.value" :item="item"></slot>
-            </span>
+          <template v-for="header in computedHeaders.filter(h => h.namedSlot)" :key="header.key" #[header.key]="{ item }">
+            <slot :name="header.key" :item="item"></slot>
           </template>
         </IFXItemDataTable>
       </v-col>

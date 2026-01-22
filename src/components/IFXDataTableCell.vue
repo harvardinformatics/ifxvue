@@ -2,7 +2,6 @@
 // Library of data table cell types
 // Assumes use with IFXDataTable component
 import IFXLoginIcon from '@/components/IFXLoginIcon'
-import IFXButton from '@/components/IFXButton'
 
 export default {
   name: 'IFXDataTableCell',
@@ -76,21 +75,21 @@ export default {
   <span v-else-if="name === 'rowActionEdit'">
     <IFXButton
       btnType="edit"
-      x-small
+      small
       data-cy="navigate-to-edit"
       @action="navigateToEdit(type, item.id, page)"
-    ></IFXButton>
+    />
   </span>
   <span v-else-if="name === 'rowActionDetailEdit'">
     <IFXButton
       btnType="edit"
-      x-small
+      small
       data-cy="navigate-to-detail"
       @action="navigateToDetail(type, item.id, page)"
-    ></IFXButton>
+    />
   </span>
   <span v-else-if="name === 'rowActionCopy'">
-    <IFXButton btnType="copy" x-small data-cy="navigate-to-copy" @action="navigateToCopy(type, item)"></IFXButton>
+    <IFXButton btnType="copy" small data-cy="navigate-to-copy" @action="navigateToCopy(type, item)" />
   </span>
   <span v-else-if="name === 'withdrawlDate'">
     <div>{{ $humanDatetime(item.withdrawalDate) }}</div>
@@ -120,7 +119,7 @@ export default {
     <div>{{ truncateString(item.comment, 30) }}</div>
   </span>
   <span v-else-if="name === 'email'">
-    <a :href="`mailto:${item.email}`">{{ item.email }}</a>
+    <a class="data-table-link" :href="`mailto:${item.email}`">{{ item.email }}</a>
   </span>
   <span v-else-if="name === 'dateModified'">
     <div>{{ $humanDatetime(item.dateModified) }}</div>
@@ -156,7 +155,7 @@ export default {
     <div>{{ truncateString(item.message) }}</div>
   </span>
   <span v-else-if="name === 'detail'">
-    <a v-if="item.type === 'email'" class="no-select" :href="`mailto:${item.detail}`">
+    <a v-if="item.type === 'email'" class="data-table-link no-select" :href="`mailto:${item.detail}`">
       {{ truncateString(item.detail, 30) }}
     </a>
     <span v-else>{{ truncateString(item.detail, 30) }}</span>
@@ -171,12 +170,28 @@ export default {
     <IFXLoginIcon :isActive="item.isActive" :disabled="true" :iconOnly="true" />
   </span>
   <span v-else>
-    <span>{{ this.item[this.name] }}</span>
+    <span>{{ item[name] }}</span>
   </span>
 </template>
 
 <style scoped>
 .data-table-id {
   margin-right: 1rem;
+  color: rgb(var(--v-theme-primary));
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.data-table-id:hover {
+  text-decoration: underline;
+}
+
+.data-table-link {
+  color: rgb(var(--v-theme-primary));
+  text-decoration: none;
+}
+
+.data-table-link:hover {
+  text-decoration: underline;
 }
 </style>
