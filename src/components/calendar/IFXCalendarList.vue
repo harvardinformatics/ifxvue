@@ -1750,6 +1750,7 @@ overflow: hidden;
     border-radius: 50%;
     margin-top: -5px;
     margin-left: -6.5px;
+    left: 0;
   }
 }
 .textarea-scroll {
