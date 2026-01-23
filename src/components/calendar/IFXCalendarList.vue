@@ -232,10 +232,10 @@ export default {
         }
       }
     },
-    viewDay({ date }) {
-      this.calModel = date
+    viewDay(event, timestamp) {
+      this.calModel = timestamp.date
       this.type = 'day'
-      this.setDefaultStartDate(date)
+      this.setDefaultStartDate(timestamp.date)
     },
     closeReservation() {
       this.clearReservation()
