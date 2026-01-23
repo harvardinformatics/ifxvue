@@ -179,7 +179,7 @@ export default {
             </v-menu>
           </v-col>
           <v-col>
-            <v-btn @click="resetShowBillingRecords()">View Billing Records</v-btn>
+            <v-btn @click="resetShowBillingRecords()" variant="elevated" elevation="1" color="grey-lighten-3">View Billing Records</v-btn>
           </v-col>
         </v-row>
       </v-container>
