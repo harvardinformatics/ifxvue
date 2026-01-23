@@ -913,7 +913,9 @@ export default {
     },
     updateTime() {
       setInterval(() => {
-        this.$refs.calendar.checkChange()
+        if (this.$refs.calendar) {
+          this.$refs.calendar.updateTimes()
+        }
       }, 60 * 1000)
     },
     timeToY(time) {
