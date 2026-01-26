@@ -1176,7 +1176,7 @@ export default {
           >
             <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
               <tr>
-                <td :colspan="columns.length" class="xxpy-4">
+                <td :colspan="columns.length" class="">
                   <v-row class="align-center">
                     <v-col cols="auto" v-if="showCheckboxes">
                       <v-checkbox
@@ -1195,7 +1195,6 @@ export default {
                         @click="toggleGroup(item)"
                         :class="{ 'rotate-90': isGroupOpen(item) }"
                       >
-                        <!-- <v-icon :class="{ 'rotate-90': isGroupOpen(item) }">mdi-menu-right</v-icon> -->
                       </v-btn>
                     </v-col>
                     <v-col>
