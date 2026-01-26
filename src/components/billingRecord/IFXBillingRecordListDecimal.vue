@@ -202,8 +202,8 @@ export default {
       groupBy: [
         {
           key: 'account.organization',
-          order: 'asc'
-        }
+          order: 'asc',
+        },
       ],
     }
   },
@@ -297,7 +297,10 @@ export default {
         return false
       }
       const result = items.every(
-        (record) => record?.currentState === 'INIT' || record?.currentState === 'PENDING_LAB_APPROVAL' || record?.currentState === 'LAB_APPROVED'
+        (record) =>
+          record?.currentState === 'INIT' ||
+          record?.currentState === 'PENDING_LAB_APPROVAL' ||
+          record?.currentState === 'LAB_APPROVED'
       )
       return result
     },
@@ -519,7 +522,7 @@ export default {
       } else {
         this.rowSelectionToggle = []
       }
-      Array.from(orgSet).forEach(org => {
+      Array.from(orgSet).forEach((org) => {
         this.rowSelectionToggleIndeterminate[org] = false
       })
     },
@@ -721,19 +724,19 @@ export default {
       this.usageReportMessage = ''
       this.loadingUsageReport = true
       const organization_slug = this.organization
-      this.$api.getUsageReport(
-        this.facility.invoicePrefix,
-        this.year,
-        this.month,
-        organization_slug,
-      ).then((response) => {
-        this.usageReportHref = response.data.url
-        this.usageReportFileName = response.data.filename
-      }).catch((error) => {
-        this.usageReportMessage = error?.response?.data?.error || 'An error occurred while generating the usage report'
-      }).finally(() => {
-        this.loadingUsageReport = false
-      })
+      this.$api
+        .getUsageReport(this.facility.invoicePrefix, this.year, this.month, organization_slug)
+        .then((response) => {
+          this.usageReportHref = response.data.url
+          this.usageReportFileName = response.data.filename
+        })
+        .catch((error) => {
+          this.usageReportMessage =
+            error?.response?.data?.error || 'An error occurred while generating the usage report'
+        })
+        .finally(() => {
+          this.loadingUsageReport = false
+        })
     },
     openGetUsageReportDialog() {
       this.getUsageReport()
@@ -863,22 +866,13 @@ export default {
                               <v-list-item @click="openNotifyDialog">
                                 <v-list-item-title>Notify Lab Managers</v-list-item-title>
                               </v-list-item>
-                              <v-list-item
-                                @click="goToComposeMessage('to')"
-                                :disabled="!filteredItems.length"
-                              >
+                              <v-list-item @click="goToComposeMessage('to')" :disabled="!filteredItems.length">
                                 <v-list-item-title>Send a message to selected Lab Managers</v-list-item-title>
                               </v-list-item>
-                              <v-list-item
-                                @click="goToComposeMessage('cc')"
-                                :disabled="!filteredItems.length"
-                              >
+                              <v-list-item @click="goToComposeMessage('cc')" :disabled="!filteredItems.length">
                                 <v-list-item-title>CC selected Lab Managers</v-list-item-title>
                               </v-list-item>
-                              <v-list-item
-                                @click="goToComposeMessage('bcc')"
-                                :disabled="!filteredItems.length"
-                              >
+                              <v-list-item @click="goToComposeMessage('bcc')" :disabled="!filteredItems.length">
                                 <v-list-item-title>BCC selected Lab Managers</v-list-item-title>
                               </v-list-item>
                             </v-list>
@@ -975,7 +969,12 @@ export default {
                                 <v-btn color="secondary" variant="text" @click="notifyDialog = false">
                                   {{ emailResponse ? 'Close' : 'Cancel' }}
                                 </v-btn>
-                                <v-btn color="blue-darken-1" variant="text" :disabled="!isValid" @click="notifyLabManagers">
+                                <v-btn
+                                  color="blue-darken-1"
+                                  variant="text"
+                                  :disabled="!isValid"
+                                  @click="notifyLabManagers"
+                                >
                                   Notify
                                 </v-btn>
                               </v-card-actions>
@@ -1177,7 +1176,7 @@ export default {
           >
             <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
               <tr>
-                <td :colspan="columns.length" class="py-4">
+                <td :colspan="columns.length" class="xxpy-4">
                   <v-row class="align-center">
                     <v-col cols="auto" v-if="showCheckboxes">
                       <v-checkbox
@@ -1190,20 +1189,20 @@ export default {
                     </v-col>
                     <v-col cols="auto">
                       <v-btn
-                        size="small"
-                        variant="text"
+                        size="default"
+                        density="compact"
+                        icon="mdi-menu-right"
                         @click="toggleGroup(item)"
+                        :class="{ 'rotate-90': isGroupOpen(item) }"
                       >
-                        <v-icon :class="{ 'rotate-90': isGroupOpen(item) }">mdi-menu-right</v-icon>
+                        <!-- <v-icon :class="{ 'rotate-90': isGroupOpen(item) }">mdi-menu-right</v-icon> -->
                       </v-btn>
                     </v-col>
                     <v-col>
-          <span class="font-weight-bold text-h6">
-            {{ $api.organization.parseSlug(item.value).name }}
-          </span>
-                      <span class="ml-3 text-body-1">
-            Total charges: {{ $dollars(summaryCharges(item.value)) }}
-          </span>
+                      <span class="font-weight-bold text-body-2">
+                        {{ $api.organization.parseSlug(item.value).name }}
+                      </span>
+                      <span class="ml-3 text-body-2">Total charges: {{ $dollars(summaryCharges(item.value)) }}</span>
                     </v-col>
                   </v-row>
                 </td>
@@ -1310,7 +1309,12 @@ export default {
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="secondary" variant="text" @click="closeEditDialog">Cancel</v-btn>
-                <v-btn color="blue-darken-1" variant="text" :disabled="!isValidEdit" @click="updateSpecificRecord(editedRecord)">
+                <v-btn
+                  color="blue-darken-1"
+                  variant="text"
+                  :disabled="!isValidEdit"
+                  @click="updateSpecificRecord(editedRecord)"
+                >
                   Save
                 </v-btn>
               </v-card-actions>
@@ -1360,7 +1364,9 @@ export default {
                 </div>
                 <v-spacer></v-spacer>
                 <v-btn color="secondary" variant="text" @click="closeChangeExpenseCodeDialog">Cancel</v-btn>
-                <v-btn color="blue-darken-1" variant="text" :disabled="!isValidBulkEdit" @click="changeExpenseCode">Save</v-btn>
+                <v-btn color="blue-darken-1" variant="text" :disabled="!isValidBulkEdit" @click="changeExpenseCode">
+                  Save
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -1377,9 +1383,7 @@ export default {
                 <div v-else>
                   <v-row>
                     <v-col>
-                      <a v-if="usageReportHref"
-                         :href="usageReportHref"
-                      >
+                      <a v-if="usageReportHref" :href="usageReportHref">
                         {{ usageReportFileName }}
                       </a>
                       <span v-else>
@@ -1462,6 +1466,11 @@ export default {
 .search-field {
   width: 100%;
 }
+.rotate-90 {
+  transform: rotate(90deg);
+  transition: transform 0.2s;
+}
+
 </style>
 <style>
 #data-table .v-data-table__expand-icon--active {
@@ -1474,8 +1483,4 @@ export default {
 }
 </style>
 <style scoped>
-.rotate-90 {
-  transform: rotate(90deg);
-  transition: transform 0.2s;
-}
 </style>
