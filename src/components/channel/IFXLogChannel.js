@@ -11,6 +11,7 @@ export default class IFXLogChannel extends IFXItemBase {
     if (this.organization) {
       title += ` for ${this.organization}`
     }
+    return title
   }
 
   get name() {

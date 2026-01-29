@@ -25,6 +25,13 @@ export default {
     },
   },
   computed: {
+    title() {
+      const itemTitle = 'Channel'
+      if (this.isEditing) {
+        return `Edit ${itemTitle} ${this.id}`
+      }
+      return `Create ${itemTitle}`
+    },
   },
   created() {
     this.isLoading = true

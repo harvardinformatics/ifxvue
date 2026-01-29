@@ -24,7 +24,7 @@ export default {
         { text: 'ID', value: 'id', sortable: true },
         { text: 'Title', value: 'title', sortable: true },
         { text: 'Organization', value: 'organization', sortable: true },
-        { text: '', value: 'actions', sortable: false, namedSlot: true }
+        { text: '', value: 'rowActionEdit', sortable: false, namedSlot: true }
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
@@ -45,17 +45,15 @@ export default {
       <template #actions>
         <IFXSearchField :search.sync="search" />
         <IFXButton btnType="add" small @action="navigateToItemCreate" />
-      </template>
-    </IFXPageHeader>
-    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
-      <template v-slot:actions="{ }">
         <IFXMailButton
           v-model="recipientField"
           :disabled="!filteredItems.length"
           toolTip="Send email to channel subscribers"
           @input="composeEmail()"
         ></IFXMailButton>
-       </template>
+      </template>
+    </IFXPageHeader>
+    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
     </IFXItemDataTable>
   </v-container>
 </template>

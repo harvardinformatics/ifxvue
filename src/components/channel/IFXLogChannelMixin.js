@@ -1,7 +1,7 @@
 export default {
   data() {
     return {
-      itemType: 'LogChannel',
+      itemType: 'IFXLogChannel',
       apiRef: this.$api.logChannel,
     }
   },

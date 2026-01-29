@@ -24,6 +24,7 @@ import ProductRateBillingSummary from '@/components/billingSummary/IFXProductRat
 import ProductBillingSummary from '@/components/billingSummary/IFXProductBillingSummary'
 import Subscription from '@/components/subscription/IFXSubscription'
 import IFXLogChannel from '@/components/channel/IFXLogChannel'
+import IFXLogSubscription from '@/components/channel/IFXLogSubscription'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -805,6 +806,11 @@ export default class IFXAPIService {
   get logChannel() {
     const baseURL = this.urls.LOG_CHANNELS
     return this.genericAPI(baseURL, IFXLogChannel)
+  }
+
+  get logSubscription() {
+    const baseURL = this.urls.LOG_SUBSCRIPTIONS
+    return this.genericAPI(baseURL, IFXLogSubscription)
   }
 
   get account() {

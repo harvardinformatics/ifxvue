@@ -142,8 +142,8 @@ import IFXCalendarList from '@/components/calendar/IFXCalendarList'
 // Channel Subscriptions
 import IFXSubscriptionList from '@/components/subscription/IFXSubscriptionList'
 import IFXLogChannelList from '@/components/channel/IFXLogChannelList'
-import IFXLogChannelCreateEdit from './components/channel/IFXLogChannelCreateEdit.vue'
-import IFXLogChannelDetail from './components/channel/IFXLogChannelDetail.vue'
+import IFXLogChannelCreateEdit from '@/components/channel/IFXLogChannelCreateEdit'
+import IFXLogChannelDetail from '@/components/channel/IFXLogChannelDetail'
 
 // Account Request
 import IFXAccountRequestDetail from '@/components/request/IFXAccountRequestDetail'
