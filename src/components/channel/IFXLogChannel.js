@@ -7,11 +7,18 @@ export default class IFXLogChannel extends IFXItemBase {
   }
 
   get title() {
-    return this.data.title
+    let title = this.name
+    if (this.organization) {
+      title += ` for ${this.organization}`
+    }
   }
 
-  set title(title) {
-    this.data.title = title
+  get name() {
+    return this.data.name
+  }
+
+  set name(name) {
+    this.data.name = name
   }
 
   get organization() {
@@ -20,5 +27,21 @@ export default class IFXLogChannel extends IFXItemBase {
 
   set organization(organization) {
     this.data.organization = organization
+  }
+
+  get isUserChannel() {
+    return this.data.is_user_channel || false
+  }
+
+  set isUserChannel(isUserChannel) {
+    this.data.is_user_channel = isUserChannel
+  }
+
+  get isMandatory() {
+    return this.data.is_mandatory || false
+  }
+
+  set isMandatory(isMandatory) {
+    this.data.is_mandatory = isMandatory
   }
 }

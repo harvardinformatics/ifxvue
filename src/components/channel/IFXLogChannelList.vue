@@ -3,6 +3,7 @@ import IFXLogChannelMixin from '@/components/channel/IFXLogChannelMixin'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
+import IFXMailButton from '@/components/mailing/IFXMailButton';
 
 export default {
   name: 'LogChannelList',
@@ -10,6 +11,12 @@ export default {
   components: {
     IFXSearchField,
     IFXItemDataTable,
+    IFXMailButton,
+  },
+  data() {
+    return {
+      recipientField: '',
+    }
   },
   computed: {
     headers() {
@@ -22,6 +29,12 @@ export default {
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
   },
+  methods: {
+    composeEmail() {
+      // Get the email addresses of all subscribers to the selected channels
+      return ''
+    },
+  },
 }
 </script>
 
@@ -31,12 +44,18 @@ export default {
       <template #title>Channels</template>
       <template #actions>
         <IFXSearchField :search.sync="search" />
+        <IFXButton btnType="add" small @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
     <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
-      <template v-slot:actions="{ item }">
-        <span style="white-space: nowrap">{{ item.validFrom | columnDate }}</span>
-      </template>
+      <template v-slot:actions="{ }">
+        <IFXMailButton
+          v-model="recipientField"
+          :disabled="!filteredItems.length"
+          toolTip="Send email to channel subscribers"
+          @input="composeEmail()"
+        ></IFXMailButton>
+       </template>
     </IFXItemDataTable>
   </v-container>
 </template>
