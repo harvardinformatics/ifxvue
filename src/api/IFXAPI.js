@@ -810,7 +810,16 @@ export default class IFXAPIService {
 
   get logSubscription() {
     const baseURL = this.urls.LOG_SUBSCRIPTIONS
-    return this.genericAPI(baseURL, IFXLogSubscription)
+    const createFunc = (logSubscriptionData, decompose = false) => {
+      const newLogSubscriptionData = cloneDeep(logSubscriptionData) || {}
+      if (logSubscriptionData.user) {
+        newLogSubscriptionData.user = decompose
+          ? logSubscriptionData.user.data
+          : this.skinnyUser.create(logSubscriptionData.user)
+      }
+      return decompose ? newLogSubscriptionData : new IFXLogSubscription(newLogSubscriptionData)
+    }
+    return this.genericAPI(baseURL, null, createFunc, (data) => createFunc(data, true))
   }
 
   get account() {

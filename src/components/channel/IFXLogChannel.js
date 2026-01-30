@@ -6,10 +6,21 @@ export default class IFXLogChannel extends IFXItemBase {
     // Set default template values here
   }
 
+  orgNameFromSlug(slug) {
+    let result = slug
+    if (slug) {
+      const match = slug.match(/(.+?) \(a (.+?) (\S+)\)$/)
+      if (match) {
+        result = match[1]
+      }
+    }
+    return result
+  }
+
   get title() {
     let title = this.name
     if (this.organization) {
-      title += ` for ${this.organization}`
+      title += ` for ${this.orgNameFromSlug(this.organization)}`
     }
     return title
   }

@@ -24,7 +24,7 @@ export default {
     headers() {
       const headers = [
         { text: 'User', value: 'user', namedSlot: true, sortable: true },
-        { text: 'Subscribed?', value: 'subscribed', sortable: true },
+        { text: 'Subscribed?', value: 'subscribed', namedSlot: true, sortable: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
@@ -33,8 +33,21 @@ export default {
     },
   },
   methods: {
+    addSubscriber() {
+      return ''
+    },
+    subscribeSelected(subscribe) {
+      const promises = []
+      this.selected.forEach((item) => {
+        item.subscribed = subscribe
+        promises.push(this.$api.logSubscription.update(item))
+      })
+      Promise.all(promises).then(() => {
+        this.getSubscriptions()
+        this.selected = []
+      })
+    },
     getSubscriptionsFilteredBySearch() {
-      console.log('Filtering subscriptions with search:', this.search, this.subscriptions)
       let items = this.subscriptions
       if (this.search && items.length) {
         const search = this.search.toString().toLowerCase()
@@ -111,13 +124,46 @@ export default {
         <v-col sm="6">
           <v-text-field
             v-model="search"
-            label="Search Subscriptions"
+            label="Search"
             clearable
             clear-icon="mdi-close-circle"
           ></v-text-field>
         </v-col>
-        <v-col>
-          &nbsp;
+        <v-col sm="6">
+          <v-row justify="end" align="center" dense>
+            <v-col>&nbsp;</v-col>
+            <v-col>
+              <IFXTooltip
+                icon="mdi-check-circle"
+                color="green"
+                :fab="false"
+                :disabled="!selected.length"
+                @action="subscribeSelected(true)"
+                tooltip="Subscribe selected users">
+              </IFXTooltip>
+            </v-col>
+            <v-col>
+              <IFXTooltip
+                icon="mdi-close-circle"
+                color="red"
+                :fab="false"
+                :disabled="!selected.length"
+                @action="subscribeSelected(false)"
+                tooltip="Unsubscribe selected users"
+                >
+              </IFXTooltip>
+            </v-col>
+            <v-col>
+              <IFXTooltip
+                icon="mdi-plus-circle"
+                color="blue"
+                :fab="false"
+                @action="addSubscriber()"
+                tooltip="Add subscriber to channel"
+                >
+              </IFXTooltip>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>
@@ -129,7 +175,11 @@ export default {
             :selected.sync="selected"
             itemType="IFXLogSubscription">
             <template #user="{ item }">
-              <span>{{ item.user.full_name }}</span>
+              <span>{{ item.user.fullName }}</span>
+            </template>
+            <template #subscribed="{ item }">
+              <v-icon v-if="item.subscribed" color="green">mdi-check-circle</v-icon>
+              <v-icon v-else color="red">mdi-close-circle</v-icon>
             </template>
           </IFXItemDataTable>
         </v-col>

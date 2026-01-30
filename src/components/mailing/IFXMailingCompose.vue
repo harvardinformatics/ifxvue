@@ -91,6 +91,7 @@ export default {
       mailing: null,
       content: null,
       contactables: [],
+      editorKey: 0,
     }
   },
   methods: {
@@ -105,6 +106,11 @@ export default {
         }
       }
       return result
+    },
+    reset() {
+      this.$refs.mailingComposeForm.reset()
+      this.content = ''
+      this.editorKey += 1
     },
     sendMailing() {
       if (!this.content) {
@@ -132,7 +138,12 @@ export default {
       }
       this.$api.mailing
         .sendIfxMailing(mailing)
-        .then((res) => this.showMessage(res))
+        .then(
+          (res) => {
+            this.showMessage(res)
+            this.reset()
+          }
+        )
         .catch((err) => {
           if (has(err, 'response') && has(err.response, 'data') && has(err.response.data, 'field_errors')) {
             this.fieldErrors = err.response.data.field_errors
@@ -351,6 +362,7 @@ export default {
         ></v-text-field>
         <span>
           <Editor
+            :key="editorKey"
             v-model="content"
             :init="editorInit"
             tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.4/tinymce.min.js"

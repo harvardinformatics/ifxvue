@@ -43,14 +43,22 @@ export default {
     <IFXPageHeader>
       <template #title>Channels</template>
       <template #actions>
-        <IFXSearchField :search.sync="search" />
-        <IFXButton btnType="add" small @action="navigateToItemCreate" />
-        <IFXMailButton
-          v-model="recipientField"
-          :disabled="!filteredItems.length"
-          toolTip="Send email to channel subscribers"
-          @input="composeEmail()"
-        ></IFXMailButton>
+        <v-row>
+          <v-col sm="6">
+            <IFXSearchField :search.sync="search" />
+          </v-col>
+          <v-col sm="3">
+            <IFXButton btnType="add" small @action="navigateToItemCreate" />
+          </v-col>
+          <v-col sm="3">
+            <IFXMailButton
+              v-model="recipientField"
+              :disabled="!filteredItems.length"
+              toolTip="Send email to channel subscribers"
+              @input="composeEmail()"
+            ></IFXMailButton>
+          </v-col>
+        </v-row>
       </template>
     </IFXPageHeader>
     <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
