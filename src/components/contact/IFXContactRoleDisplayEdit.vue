@@ -43,10 +43,9 @@ export default {
       },
     },
     appropriateRoles() {
-      // We assume that the type and the role name both contain the same case-senstive value
       return this.allRoles.filter(
         (role) => role.editable
-          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role === 'Additional Contact' : true)
+          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role.name === 'Additional Contact' : true)
       )
     },
     isEditable() {
@@ -57,7 +56,6 @@ export default {
   methods: {
     setContactActiveState(active) {
       this.itemLocal.active = active
-      // This is a hack to get the row to update based on the active state
       this.rowKey++
       this.$emit('change', this.itemLocal)
     },
@@ -81,7 +79,7 @@ export default {
 <template>
   <v-row :key="rowKey" align="center">
     <v-col md="8" v-if="roleEditingEnabled">
-      <div class="d-flex align-center gap-2">
+      <div class="d-flex align-center flex-wrap ga-4">
         <v-select
           v-model.trim="itemLocal.role"
           :items="appropriateRoles"
@@ -91,26 +89,28 @@ export default {
           :rules="formRules.generic"
           required
           density="compact"
-          style="max-width: 200px;"
+          style="min-width: 180px; max-width: 200px;"
           hide-details
-        ></v-select>
-        <span>for {{ itemLocal.detail }}</span>
-      </div>
-      <div class="d-flex gap-2 mt-2">
-        <v-btn
-          variant="outlined"
-          color="secondary"
-          @click="cancelContact"
-        >
-          Cancel
-        </v-btn>
-        <v-btn
-          variant="elevated"
-          color="primary"
-          @click="updateContact(itemLocal)"
-        >
-          Accept
-        </v-btn>
+        />
+        <span>for <strong>{{ itemLocal.detail }}</strong></span>
+        <div class="d-flex ga-2">
+          <v-btn
+            variant="outlined"
+            color="secondary"
+            size="small"
+            @click="cancelContact"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            variant="flat"
+            color="primary"
+            size="small"
+            @click="updateContact(itemLocal)"
+          >
+            Accept
+          </v-btn>
+        </div>
       </div>
     </v-col>
     <v-col
@@ -176,34 +176,3 @@ export default {
     </v-col>
   </v-row>
 </template>
-
-<style lang="scss" scoped>
-.expand-icon {
-  transition: rotate 0.3s ease-in-out;
-
-  .active {
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-  }
-}
-:deep(.v-btn) {
-  border-style: solid !important;
-
-  &.v-btn--variant-outlined {
-    background-color: transparent !important;
-    border-width: thin !important;
-    height: 27px !important;
-
-  }
-
-  &.v-btn--variant-elevated {
-    border-width: 0 !important;
-    background-color: rgb(var(--v-theme-primary)) !important;
-    color: rgb(var(--v-theme-on-primary)) !important;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
-    height: 27px !important;
-  }
-}
-</style>
