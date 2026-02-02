@@ -57,7 +57,7 @@ export default {
 <template>
   <v-row :key="rowKey" align="center">
     <v-col md="8" v-if="roleEditingEnabled">
-      <div class="d-flex align-center gap-2">
+      <div class="d-flex align-center flex-wrap ga-4">
         <v-select
           v-model.trim="itemLocal.role"
           :items="appropriateRoles"
@@ -67,26 +67,28 @@ export default {
           :rules="formRules.generic"
           required
           density="compact"
-          style="max-width: 200px;"
+          style="min-width: 180px; max-width: 200px;"
           hide-details
-        ></v-select>
-        <span>of {{ $orgNameFromSlug(affiliation.organization) }}</span>
-      </div>
-      <div class="d-flex gap-2 mt-2">
-        <v-btn
-          variant="outlined"
-          color="secondary"
-          @click="cancelAffiliation"
-        >
-          Cancel
-        </v-btn>
-        <v-btn
-          variant="elevated"
-          color="primary"
-          @click="updateAffiliation(itemLocal)"
-        >
-          Accept
-        </v-btn>
+        />
+        <span>of <strong>{{ $orgNameFromSlug(affiliation.organization) }}</strong></span>
+        <div class="d-flex ga-2">
+          <v-btn
+            variant="outlined"
+            color="secondary"
+            size="small"
+            @click="cancelAffiliation"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            variant="flat"
+            color="primary"
+            size="small"
+            @click="updateAffiliation(itemLocal)"
+          >
+            Accept
+          </v-btn>
+        </div>
       </div>
     </v-col>
     <v-col md="8" v-else :class="{ 'text-decoration-line-through': !itemLocal.active }">
