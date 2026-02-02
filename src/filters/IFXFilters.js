@@ -43,7 +43,7 @@ export function capitalizeFirstLetter(rawValue) {
   if (rawValue) {
     const value = rawValue.toString()
     if (value) {
-      str = value.charAt(0).toUpperCase() + value.slice(1)
+      str = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
     }
   }
   return str

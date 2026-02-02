@@ -232,7 +232,7 @@ export default {
         }
       }
     },
-    viewDay({ date }) {
+    viewDay(event, {date}) {
       this.calModel = date
       this.type = 'day'
       this.setDefaultStartDate(date)
@@ -675,15 +675,7 @@ export default {
       this.organization = newItem.organization
       this.handleResourceChange(theResource)
       this.selectedOpen = false
-      this.attendants = newItem.reservation.attendants.map((attendant) => {
-        if (attendant._data) {
-          return attendant._data
-        }
-        if (attendant.data) {
-          return attendant.data
-        }
-        return attendant
-      })
+      this.attendants = cloneDeep(newItem.reservation.attendants)
       this.durationValue = newItem.quantity
       this.isMaintenance = newItem.reservation.isMaintenance
       this.trial = newItem.reservation.trial
@@ -921,7 +913,9 @@ export default {
     },
     updateTime() {
       setInterval(() => {
-        this.$refs.calendar.checkChange()
+        if (this.$refs.calendar) {
+          this.$refs.calendar.updateTimes()
+        }
       }, 60 * 1000)
     },
     timeToY(time) {
@@ -1001,7 +995,7 @@ export default {
           v-model="filteredResources"
           data-cy="filter-resources"
         >
-          <template #selection="{ item, index }">
+          <template #selection="{ item }">
             <v-chip :color="item.raw.color" variant="flat" closable @click:close="removeFromFiltered(item.raw)">
               {{ item.raw.name }}
             </v-chip>
@@ -1020,11 +1014,11 @@ export default {
     <v-row>
       <v-col>
         <v-sheet height="64">
-          <v-toolbar flat>
+          <v-toolbar flat color="transparent">
             <v-btn variant="outlined" class="mr-4" color="grey-darken-2" @click="setToday" data-cy="calendar-today">Today</v-btn>
             <v-btn icon="mdi-chevron-left" size="small" color="grey-darken-2" @click="prev" data-cy="calendar-prev"></v-btn>
             <v-btn icon="mdi-chevron-right" size="small" color="grey-darken-2" @click="next" data-cy="calendar-next"></v-btn>
-            <v-toolbar-title v-if="$refs.calendar">
+            <v-toolbar-title v-if="$refs.calendar" class="ml-0">
               {{ $refs.calendar.title }}
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -1039,7 +1033,7 @@ export default {
             ></v-switch>
             <v-menu location="bottom end" data-cy="calendar-type">
               <template v-slot:activator="{ props }">
-                <v-btn variant="outlined" color="grey-darken-2" v-bind="props">
+                <v-btn variant="outlined" color="grey-darken-2" v-bind="props" class="px-2 pb-1 border">
                   <span>{{ typeToLabel[type] }}</span>
                   <v-icon end>mdi-menu-down</v-icon>
                 </v-btn>
@@ -1158,6 +1152,7 @@ export default {
                         @update:model-value="toggleIsTrial"
                         :disabled="resourceNotSelected"
                         data-cy="trial-checkbox"
+                        :hide-details="true"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="4" v-if="useMaintenance">
@@ -1168,6 +1163,7 @@ export default {
                         label="Unavailable"
                         v-model="isMaintenance"
                         data-cy="maintenance-checkbox"
+                        :hide-details="true"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
@@ -1185,6 +1181,7 @@ export default {
                     @update:model-value="getAllOrgs($event)"
                     :disabled="resourceNotSelected"
                     data-cy="user"
+                    class="mb-4"
                   ></v-autocomplete>
                   <v-autocomplete
                     label="Organizaton"
@@ -1195,6 +1192,7 @@ export default {
                     @update:model-value="getAllExpenseCodes(user)"
                     :disabled="cantBeEdited || resourceNotSelected"
                     data-cy="organizaton"
+                    class="mb-4"
                   >
                     <template v-slot:item="{ item, props }">
                       <v-list-item v-bind="props">
@@ -1216,6 +1214,7 @@ export default {
                     :rules="[isBillableRule]"
                     :disabled="resourceNotSelected || !expenseCodeEnabled"
                     data-cy="expense-code"
+                    class="mb-4"
                   >
                     <template #no-data>
                       <div class="mx-3 my-1">No expense code or PO found for this organization and resource</div>
@@ -1293,14 +1292,14 @@ export default {
                       </v-autocomplete>
                     </v-col>
                   </v-row>
-                  <v-row>
+                  <v-row class="mb-3">
                     <v-col>
                       <div class="text-divider font-italic text-center">Or set End time directly</div>
                     </v-col>
                   </v-row>
                   <v-text-field
                     ref="endDate"
-                    class="endDate"
+                    class="endDate mb-4"
                     :model-value="humanEndDate"
                     @update:model-value="updateDate($event, 'endDate')"
                     label="End Date and Time *"
@@ -1375,11 +1374,11 @@ export default {
                       </v-list-item>
                     </template>
                     <template #selection="{ item }">
-                      <v-chip :color="$api.reservation.getUserIconColor(item.raw)" closable @click:close="removeFromSelected(item.raw)">
+                      <v-chip variant="text" closable @click:close="removeFromSelected(item.raw)">
                         <v-icon :color="$api.reservation.getUserIconColor(item.raw)" class="mr-2">
                           {{ $api.reservation.getUserIcon() }}
                         </v-icon>
-                        {{ item.raw.full_name }}
+                        {{ item.raw.fullName }}
                       </v-chip>
                     </template>
                   </v-autocomplete>
@@ -1544,8 +1543,8 @@ export default {
                   </template>
                   <span>Edit reservation</span>
                 </v-tooltip>
-                <v-toolbar-title :class="{ 'text-decoration-line-through': selectedEvent.cancelled }">
-                  <span class="ml-2">{{ selectedEvent.product.name }}</span>
+                <v-toolbar-title :class="{ 'text-decoration-line-through': selectedEvent.cancelled }" class="ml-0">
+                  <span class="">{{ selectedEvent.product.name }}</span>
                   <v-icon
                     color="red-darken-1"
                     class="mb-1 ml-2"
@@ -1557,7 +1556,6 @@ export default {
                     mdi-test-tube
                   </v-icon>
                 </v-toolbar-title>
-                <v-spacer></v-spacer>
                 <v-btn icon="mdi-close" size="small" @click="closePopup" data-cy="popup-close"></v-btn>
               </v-toolbar>
               <v-card-text class="text-body-1" v-if="Object.keys(selectedEvent).length">
@@ -1615,7 +1613,7 @@ export default {
                       :key="attendant.id"
                       :data-cy="`popup-attendant-${attendant.id}`"
                     >
-                      <v-chip color="transparent mr-2" class="badge-adjust">
+                      <v-chip variant="text" color="mr-2" class="badge-adjust">
                         <v-icon :color="$api.reservation.getUserIconColor(attendant)" class="mr-2">
                           {{ $api.reservation.getUserIcon() }}
                         </v-icon>
@@ -1754,6 +1752,7 @@ overflow: hidden;
     border-radius: 50%;
     margin-top: -5px;
     margin-left: -6.5px;
+    left: 0;
   }
 }
 .textarea-scroll {
