@@ -33,14 +33,28 @@ export default {
   },
   mounted() {},
   computed: {
+    // Computed get/set to handle empty contact objects
+    selectedContact: {
+      get() {
+        // Only return contact if it has a real id or detail
+        const contact = this.itemLocal.contact
+        if (contact?.id || contact?.detail) {
+          return contact
+        }
+        return null
+      },
+      set(value) {
+        this.itemLocal.contact = value
+      }
+    },
     isContactSelected() {
-      return this.itemLocal.contact?.detail || this.createNewSelected
+      return this.selectedContact?.detail || this.createNewSelected
     },
     appropriateRoles() {
-      // We assume that the type and the role name both contain the same case-senstive value
+      // We assume that the type and the role name both contain the same case-sensitive value
       return this.allRoles.filter(
         (role) => role.editable
-          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role === 'Additional Contact' : true)
+          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role.name === 'Additional Contact' : true)
       )
     },
     radioIsDisabled() {
@@ -62,6 +76,7 @@ export default {
       this.newContactDetail = this.search
       const contact = this.$api.contact.create({ detail: this.newContactDetail })
       contact.type = 'Email'
+      contact._tempId = `new-${Date.now()}` // Temporary ID for new contacts
       this.itemLocal.contact = contact
       if (this.newContactDetail) {
         // Only save contact if there is a detail value
@@ -75,6 +90,8 @@ export default {
     switchToSearch() {
       this.createNewSelected = false
       this.search = null
+      // Clear the selection by setting to a fresh empty contact
+      this.itemLocal.contact = this.$api.contact.create()
     },
     contactTypeChange() {
       this.itemLocal.role = null
@@ -83,10 +100,10 @@ export default {
       })
     },
     getContactIcon(contact) {
-      if (contact.type === 'Email') {
+      if (contact?.type === 'Email') {
         return 'mdi-email-newsletter'
       }
-      if (contact.type === 'Phone') {
+      if (contact?.type === 'Phone') {
         return 'mdi-phone-classic'
       }
       return 'mdi-help-circle'
@@ -105,6 +122,9 @@ export default {
         }
       })
     },
+    getItemValue(item) {
+      return item?.id ?? item?._tempId ?? item?.detail
+    },
   },
   watch: {
     isValid(valid) {
@@ -120,10 +140,11 @@ export default {
       <v-col :cols="createNewSelected ? 8 : 9">
         <v-autocomplete
           v-show="!createNewSelected"
-          v-model="itemLocal.contact"
+          v-model="selectedContact"
           label="Search for an existing contact"
           :items="allContacts"
           item-title="detail"
+          :item-value="getItemValue"
           return-object
           auto-select-first
           clearable
@@ -134,12 +155,20 @@ export default {
           data-cy="select-contact"
           :disabled="createNewSelected"
           density="comfortable"
+          no-data-text="No contacts found"
         >
           <template v-slot:selection="{ item }">
             <v-chip size="small" color="primary">
               <v-icon start size="small">{{ getContactIcon(item.raw) }}</v-icon>
               {{ item.raw.detail }}
             </v-chip>
+          </template>
+          <template v-slot:item="{ item, props }">
+            <v-list-item v-bind="props" :title="item.raw.detail" :subtitle="item.raw.type">
+              <template v-slot:prepend>
+                <v-icon>{{ getContactIcon(item.raw) }}</v-icon>
+              </template>
+            </v-list-item>
           </template>
         </v-autocomplete>
         <div v-if="createNewSelected" class="text-body-1">
@@ -159,7 +188,7 @@ export default {
         <v-btn
           variant="outlined"
           color="secondary"
-          @click="createNewSelected = false"
+          @click="switchToSearch"
           v-else
           block
           class="text-none"
@@ -182,8 +211,8 @@ export default {
             <span v-if="!itemLocal.contact.id">Select a </span>
             <span>Contact type</span>
           </template>
-          <v-radio label="Email" value="Email" data-cy="select-contact-email"></v-radio>
-          <v-radio label="Phone" value="Phone" data-cy="select-contact-phone"></v-radio>
+          <v-radio label="Email" value="Email" data-cy="select-contact-email" />
+          <v-radio label="Phone" value="Phone" data-cy="select-contact-phone" />
         </v-radio-group>
       </v-col>
     </v-row>
@@ -202,7 +231,8 @@ export default {
             required
             data-cy="select-role"
             density="comfortable"
-          ></v-autocomplete>
+            no-data-text="No roles available"
+          />
         </v-col>
         <v-col cols="12" sm="6" class="pl-sm-2">
           <v-text-field
@@ -216,7 +246,7 @@ export default {
             :disabled="!!itemLocal.contact.id"
             data-cy="role-email"
             density="comfortable"
-          ></v-text-field>
+          />
           <v-text-field
             v-if="itemLocal.contact.type === 'Phone'"
             v-model.trim="itemLocal.contact.detail"
@@ -228,7 +258,7 @@ export default {
             :disabled="!!itemLocal.contact.id"
             data-cy="role-phone"
             density="comfortable"
-          ></v-text-field>
+          />
         </v-col>
       </v-row>
     </v-form>

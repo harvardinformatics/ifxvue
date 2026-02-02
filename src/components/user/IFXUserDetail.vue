@@ -65,7 +65,9 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     async getAdditionalData() {
-      this.allContacts = await this.$api.contact.getList({ has_name: false })
+      const contacts = await this.$api.contact.getList({ has_name: false })
+      // Dedupe contacts by id to prevent duplicate entries in dropdown
+      this.allContacts = [...new Map(contacts.map(c => [c.id, c])).values()]
       this.allGroupNames = await this.$api.group.getNames()
       const organizations = await this.$api.organization.getNames()
       this.allOrganizationSlugs = organizations.map((o) => o.slug)
@@ -101,7 +103,6 @@ export default {
       this.currentContact = this.$api.userContact.create()
       this.currentContact.active = false
       this.currentContact.role = null
-      this.currentContact.type = 'Email'
       this.contactDialogOpen = true
     },
     updateContact(contact, index) {
@@ -111,7 +112,6 @@ export default {
       this.currentContact = this.$api.userContact.create()
       this.currentContact.role = null
       this.currentContact.active = false
-      this.currentContact.type = 'Email'
     },
     updateAffiliation(affiliation, index) {
       this.item.affiliations.splice(index, 1, affiliation)
@@ -167,7 +167,7 @@ export default {
       return this.item.groups?.length
     },
     filteredContacts() {
-      return this.allContacts.filter((c) => !this.item.contacts?.some((item) => item.contact.id === c.id))
+      return this.allContacts.filter((c) => !this.item.contacts?.some((item) => item.contact?.id === c.id))
     },
     filteredOrgSlugs() {
       return this.allOrganizationSlugs.filter(
@@ -199,7 +199,7 @@ export default {
       v-model:isActive="changeDialogActive"
       v-model:changeComment="item.changeComment"
       @complete-action="completeAction"
-    ></IFXUserInfoDialog>
+    />
     <IFXPageHeader>
       <template #title>{{ item.fullName || id }}</template>
       <template #actions>
@@ -350,13 +350,13 @@ export default {
         </v-col>
       </v-row>
       <span>
-        <v-divider class="my-2"></v-divider>
+        <v-divider class="my-2" />
         <v-row dense>
           <v-col sm="4" md="3">
             <h3>Other Contacts</h3>
           </v-col>
           <v-col>
-            <div v-for="(contact, index) in item.contacts" :key="index">
+            <div v-for="(contact, index) in item.contacts" :key="contact.id ?? index">
               <IFXContactRoleDisplayEdit
                 :contact="contact"
                 @update="updateContact(contact, index)"
@@ -377,14 +377,14 @@ export default {
         </v-row>
       </span>
       <span>
-        <v-divider class="my-2"></v-divider>
+        <v-divider class="my-2" />
         <v-row dense>
           <v-col sm="4" md="3">
             <h3>Other Affiliations</h3>
           </v-col>
           <v-col>
             <span class="d-flex flex-column">
-              <div v-for="(affiliation, index) in item.affiliations" :key="index" class="d-flex align-center mt-1">
+              <div v-for="(affiliation, index) in item.affiliations" :key="affiliation.id ?? index" class="d-flex align-center mt-1">
                 <IFXAffiliationRoleDisplayEdit
                   :affiliation="affiliation"
                   @update="updateAffiliation(affiliation, index)"
@@ -404,9 +404,9 @@ export default {
           </v-col>
         </v-row>
       </span>
-      <v-divider class="my-2"></v-divider>
+      <v-divider class="my-2" />
       <span v-if="showUserFilesSection(item)">
-        <v-row dense class="">
+        <v-row dense>
           <v-col sm="4" md="3">
             <h3>User Files</h3>
           </v-col>
@@ -423,7 +423,7 @@ export default {
             </div>
           </v-col>
         </v-row>
-        <v-divider class="my-2"></v-divider>
+        <v-divider class="my-2" />
       </span>
       <v-row dense v-if="areAnyAccountsPresent">
         <v-col sm="4" md="3">
@@ -466,14 +466,14 @@ export default {
         @action="openCommentDialog"
         :disabled="!isSubmittable"
         :submitting="submitting"
-      ></IFXPageActionBar>
+      />
 
       <!-- Edit User Info Dialog -->
       <v-dialog v-model="userInfoDialogOpen" v-if="userInfoDialogOpen" max-width="80vw" persistent>
         <v-card>
           <v-card-title class="d-flex align-center pa-4">
             <span class="text-h6">Edit User Info</span>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-tooltip location="top">
               <template v-slot:activator="{ props }">
                 <v-btn
@@ -483,12 +483,12 @@ export default {
                   @click="cancelUserInfoDialog"
                   data-cy="user-info-dialog-close"
                   v-bind="props"
-                ></v-btn>
+                />
               </template>
               <span>Cancel</span>
             </v-tooltip>
           </v-card-title>
-          <v-divider></v-divider>
+          <v-divider />
           <v-card-text class="pa-4">
             <IFXUserInfoEdit
               v-model:item="itemCopy"
@@ -499,9 +499,9 @@ export default {
             />
             <slot name="additionalUserInfoEdit" :item="itemCopy" :errors="errors"></slot>
           </v-card-text>
-          <v-divider></v-divider>
+          <v-divider />
           <v-card-actions class="pa-4">
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn variant="text" color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
             <v-btn
               variant="text"
@@ -520,7 +520,7 @@ export default {
         <v-card>
           <v-card-title class="d-flex align-center pa-4">
             <span class="text-h6">Add Contact</span>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-tooltip location="top">
               <template v-slot:activator="{ props }">
                 <v-btn
@@ -530,12 +530,12 @@ export default {
                   @click="contactDialogOpen = false"
                   data-cy="contact-dialog-close"
                   v-bind="props"
-                ></v-btn>
+                />
               </template>
               <span>Cancel</span>
             </v-tooltip>
           </v-card-title>
-          <v-divider></v-divider>
+          <v-divider />
           <v-card-text class="pa-4">
             <IFXSelectCreateContact
               :allItems="filteredContacts"
@@ -546,10 +546,10 @@ export default {
               v-model:valid="addContactFormIsValid"
             />
           </v-card-text>
-          <v-divider></v-divider>
+          <v-divider />
           <v-card-actions class="pa-4">
             <v-btn variant="text" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn variant="text" color="secondary" @click="cancelContact">Clear</v-btn>
             <v-btn variant="text" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
               Add
@@ -563,7 +563,7 @@ export default {
         <v-card>
           <v-card-title class="d-flex align-center pa-4">
             <span class="text-h6">Add Affiliation</span>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-tooltip location="top">
               <template v-slot:activator="{ props }">
                 <v-btn
@@ -573,12 +573,12 @@ export default {
                   @click="affiliationDialogOpen = false"
                   data-cy="affiliation-dialog-close"
                   v-bind="props"
-                ></v-btn>
+                />
               </template>
               <span>Cancel</span>
             </v-tooltip>
           </v-card-title>
-          <v-divider></v-divider>
+          <v-divider />
           <v-card-text class="pa-4">
             <IFXSelectAffiliation
               :allItems="filteredOrgSlugs"
@@ -587,10 +587,10 @@ export default {
               v-model:valid="addAffiliationFormIsValid"
             />
           </v-card-text>
-          <v-divider></v-divider>
+          <v-divider />
           <v-card-actions class="pa-4">
             <v-btn variant="text" color="secondary" @click="affiliationDialogOpen = false">Close</v-btn>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn variant="text" color="secondary" @click="cancelAffiliation">Clear</v-btn>
             <v-btn
               variant="text"
