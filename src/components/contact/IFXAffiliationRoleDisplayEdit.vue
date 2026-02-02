@@ -55,9 +55,9 @@ export default {
 </script>
 
 <template>
-  <v-row :key="rowKey">
-    <v-col md="8" v-if="roleEditingEnabled" class="d-flex flex-row">
-      <span>
+  <v-row :key="rowKey" align="center">
+    <v-col md="8" v-if="roleEditingEnabled">
+      <div class="d-flex align-center gap-2">
         <v-select
           v-model.trim="itemLocal.role"
           :items="appropriateRoles"
@@ -66,11 +66,28 @@ export default {
           label="Role"
           :rules="formRules.generic"
           required
+          density="compact"
+          style="max-width: 200px;"
+          hide-details
         ></v-select>
-        <v-btn size="x-small" variant="outlined" class="mr-2" color="secondary" @click="cancelAffiliation">Cancel</v-btn>
-        <v-btn size="x-small" color="secondary" @click="updateAffiliation(itemLocal)">Accept</v-btn>
-      </span>
-      <span class="ml-2">of {{ $orgNameFromSlug(affiliation.organization) }}</span>
+        <span>of {{ $orgNameFromSlug(affiliation.organization) }}</span>
+      </div>
+      <div class="d-flex gap-2 mt-2">
+        <v-btn
+          variant="outlined"
+          color="secondary"
+          @click="cancelAffiliation"
+        >
+          Cancel
+        </v-btn>
+        <v-btn
+          variant="elevated"
+          color="primary"
+          @click="updateAffiliation(itemLocal)"
+        >
+          Accept
+        </v-btn>
+      </div>
     </v-col>
     <v-col md="8" v-else :class="{ 'text-decoration-line-through': !itemLocal.active }">
       <span>{{ $affiliationRoleDisplay(affiliation.role) }} of {{ $orgNameFromSlug(affiliation.organization) }}</span>

@@ -210,10 +210,17 @@ export default {
             </span>
           </v-col>
           <v-col v-if="isDjangoStaff()">
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" fab small color="info" :href="django_admin_url">
-                  <v-icon color="yellow">vpn_key</v-icon>
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  size="small"
+                  color="info"
+                  :href="django_admin_url"
+                  icon
+                  elevation="6"
+                >
+                  <v-icon color="yellow">mdi-key</v-icon>
                 </v-btn>
               </template>
               <span>View user Django admin form</span>
@@ -225,7 +232,13 @@ export default {
     <v-container>
       <v-row dense v-if="Object.keys(this.errors).length">
         <v-col>
-          <v-alert elevation="2" dense colored-border border="left" color="error" icon="mdi-alert-circle-outline">
+          <v-alert
+            elevation="2"
+            density="compact"
+            border="start"
+            color="error"
+            icon="mdi-alert-circle-outline"
+          >
             <v-row dense>
               <v-col>
                 <h3 class="font-weight-medium">Please correct the following errors</h3>
@@ -248,7 +261,13 @@ export default {
       </v-row>
       <v-row dense v-if="isSubmittable">
         <v-col>
-          <v-alert elevation="2" dense border="left" light color="warning" icon="mdi-alert-circle-outline">
+          <v-alert
+            elevation="2"
+            density="compact"
+            border="start"
+            color="warning"
+            icon="mdi-alert-circle-outline"
+          >
             <v-row dense>
               <v-col>
                 <h3 class="font-weight-medium">You have unsaved changes!</h3>
@@ -282,7 +301,7 @@ export default {
                   <h3>Primary Affiliation</h3>
                 </v-col>
                 <v-col>
-                  {{ item.primaryAffiliation | orgNameFromSlug }}
+                  {{ $orgNameFromSlug(item.primaryAffiliation) }}
                 </v-col>
               </v-row>
               <v-row dense v-if="areGroupsPresent">
@@ -310,7 +329,7 @@ export default {
                   <h3>Created</h3>
                 </v-col>
                 <v-col>
-                  {{ item.dateJoined | humanDatetime }}
+                  {{ $humanDatetime(item.dateJoined) }}
                 </v-col>
               </v-row>
               <v-row align="start" dense>
@@ -318,7 +337,7 @@ export default {
                   <h3>Last Update</h3>
                 </v-col>
                 <v-col>
-                  {{ item.lastUpdate | humanDatetime }}
+                  {{ $humanDatetime(item.lastUpdate) }}
                 </v-col>
               </v-row>
               <slot name="additionalUserInfoCol1" :item="item"></slot>
@@ -346,9 +365,11 @@ export default {
             </div>
           </v-col>
           <v-col sm="1" align="end">
-            <v-tooltip top v-if="isUserInfoEdittable">
-              <template v-slot:activator="{ on, attrs }">
-                <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openContactDialog()" />
+            <v-tooltip location="top" v-if="isUserInfoEdittable">
+              <template v-slot:activator="{ props }">
+                <span v-bind="props">
+                  <IFXButton btnType="add" xSmall @action="openContactDialog()" />
+                </span>
               </template>
               <span>Add new contact</span>
             </v-tooltip>
@@ -372,9 +393,11 @@ export default {
             </span>
           </v-col>
           <v-col sm="1" align="end">
-            <v-tooltip top v-if="isUserInfoEdittable">
-              <template v-slot:activator="{ on, attrs }">
-                <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openAffiliationDialog()" />
+            <v-tooltip location="top" v-if="isUserInfoEdittable">
+              <template v-slot:activator="{ props }">
+                <span v-bind="props">
+                  <IFXButton btnType="add" xSmall @action="openAffiliationDialog()" />
+                </span>
               </template>
               <span>Add affiliation</span>
             </v-tooltip>
@@ -444,28 +467,29 @@ export default {
         :disabled="!isSubmittable"
         :submitting="submitting"
       ></IFXPageActionBar>
+
+      <!-- Edit User Info Dialog -->
       <v-dialog v-model="userInfoDialogOpen" v-if="userInfoDialogOpen" max-width="80vw" persistent>
         <v-card>
-          <v-card-title>
-            Edit User Info
+          <v-card-title class="d-flex align-center pa-4">
+            <span class="text-h6">Edit User Info</span>
             <v-spacer></v-spacer>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  icon
-                  small
+                  icon="mdi-close"
+                  variant="text"
+                  size="small"
                   @click="cancelUserInfoDialog"
                   data-cy="user-info-dialog-close"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
+                  v-bind="props"
+                ></v-btn>
               </template>
               <span>Cancel</span>
             </v-tooltip>
           </v-card-title>
-          <v-card-text>
+          <v-divider></v-divider>
+          <v-card-text class="pa-4">
             <IFXUserInfoEdit
               v-model:item="itemCopy"
               :errors="errors"
@@ -475,12 +499,12 @@ export default {
             />
             <slot name="additionalUserInfoEdit" :item="itemCopy" :errors="errors"></slot>
           </v-card-text>
-          <v-card-actions class="d-flex justify-end pb-3">
-            <v-btn small class="mr-2" text color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
+          <v-divider></v-divider>
+          <v-card-actions class="pa-4">
+            <v-spacer></v-spacer>
+            <v-btn variant="text" color="secondary" @click="cancelUserInfoDialog">Close</v-btn>
             <v-btn
-              small
-              class="mr-2"
-              text
+              variant="text"
               :disabled="!userInfoDialogValid"
               color="primary"
               @click="closeUserInfoDialog"
@@ -490,28 +514,29 @@ export default {
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <!-- Add Contact Dialog -->
       <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
         <v-card>
-          <v-card-title>
-            Add Contact
+          <v-card-title class="d-flex align-center pa-4">
+            <span class="text-h6">Add Contact</span>
             <v-spacer></v-spacer>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  icon
-                  small
+                  icon="mdi-close"
+                  variant="text"
+                  size="small"
                   @click="contactDialogOpen = false"
                   data-cy="contact-dialog-close"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
+                  v-bind="props"
+                ></v-btn>
               </template>
               <span>Cancel</span>
             </v-tooltip>
           </v-card-title>
-          <v-card-text class="pb-0">
+          <v-divider></v-divider>
+          <v-card-text class="pa-4">
             <IFXSelectCreateContact
               :allItems="filteredContacts"
               :allRoles="allRoles"
@@ -521,38 +546,40 @@ export default {
               v-model:valid="addContactFormIsValid"
             />
           </v-card-text>
-          <v-card-actions class="d-flex justify-start pb-3">
-            <v-btn small text class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
+          <v-divider></v-divider>
+          <v-card-actions class="pa-4">
+            <v-btn variant="text" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn small text class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
-            <v-btn small text class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
+            <v-btn variant="text" color="secondary" @click="cancelContact">Clear</v-btn>
+            <v-btn variant="text" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
               Add
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <!-- Add Affiliation Dialog -->
       <v-dialog v-model="affiliationDialogOpen" v-if="affiliationDialogOpen" max-width="800px" persistent>
         <v-card>
-          <v-card-title>
-            Add Affiliation
+          <v-card-title class="d-flex align-center pa-4">
+            <span class="text-h6">Add Affiliation</span>
             <v-spacer></v-spacer>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  icon
-                  small
+                  icon="mdi-close"
+                  variant="text"
+                  size="small"
                   @click="affiliationDialogOpen = false"
                   data-cy="affiliation-dialog-close"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
+                  v-bind="props"
+                ></v-btn>
               </template>
               <span>Cancel</span>
             </v-tooltip>
           </v-card-title>
-          <v-card-text class="pb-0">
+          <v-divider></v-divider>
+          <v-card-text class="pa-4">
             <IFXSelectAffiliation
               :allItems="filteredOrgSlugs"
               v-model:item="newAffiliation"
@@ -560,14 +587,13 @@ export default {
               v-model:valid="addAffiliationFormIsValid"
             />
           </v-card-text>
-          <v-card-actions class="d-flex justify-end pb-3">
-            <v-btn small text class="ml-2" color="secondary" @click="affiliationDialogOpen = false">Close</v-btn>
+          <v-divider></v-divider>
+          <v-card-actions class="pa-4">
+            <v-btn variant="text" color="secondary" @click="affiliationDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn small text class="mr-2" color="secondary" @click="cancelAffiliation">Clear</v-btn>
+            <v-btn variant="text" color="secondary" @click="cancelAffiliation">Clear</v-btn>
             <v-btn
-              small
-              text
-              class="mr-2"
+              variant="text"
               :disabled="!addAffiliationFormIsValid"
               color="primary"
               @click="addAffiliation()"

@@ -21,29 +21,27 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true, slot: true, click: true },
-        { text: 'Name', value: 'name', sortable: true },
-        { text: 'Rank', value: 'rank', sortable: true, slot: true },
-        { text: 'Org tree', value: 'orgTree', sortable: true },
-        { text: 'Parent(s)', value: 'parents', sortable: false, slot: true },
-        { text: '', value: 'rowActionDetailEdit', sortable: false },
+        { title: 'ID', key: 'id', sortable: true, slot: true, click: true },
+        { title: 'Name', key: 'name', sortable: true },
+        { title: 'Rank', key: 'rank', sortable: true, slot: true },
+        { title: 'Org tree', key: 'orgTree', sortable: true },
+        { title: 'Parent(s)', key: 'parents', sortable: false, namedSlot: true },
+        { title: '', key: 'rowActionDetailEdit', sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
   methods: {
     getSetItems() {
-      // TODO: make this consistent, no api endpoint should be returning .data
       return (
         this.apiRef
           .getSkinnyList()
           .then((items) => {
             this.items = items
           })
-          // TODO: work on handling this error
           .catch((error) => {
             this.showMessage(error)
-            this.rtr.replace({ name: 'Home' })
+            this.$router.replace({ name: 'Home' })
           })
       )
     },
@@ -59,11 +57,11 @@ export default {
 </script>
 
 <template>
-  <v-container>
+  <v-container fluid>
     <IFXPageHeader>
       <template #title>{{ listTitle }}</template>
       <template #actions>
-        <v-row nowrap align="center">
+        <v-row no-wrap align="center">
           <v-col>
             <IFXSearchField v-model:search="search" />
           </v-col>
@@ -72,11 +70,11 @@ export default {
               v-model="recipientField"
               toolTip="Email Lab Managers"
               :disabled="!selected.length"
-              @input="emailLabManagers()"
+              @update:model-value="emailLabManagers()"
             ></IFXMailButton>
           </v-col>
           <v-col>
-            <IFXButton small btnType="add" @action="navigateToItemCreate" />
+            <IFXButton size="small" btnType="add" @action="navigateToItemCreate" />
           </v-col>
         </v-row>
       </template>
@@ -87,6 +85,12 @@ export default {
       v-model:selected="selected"
       :itemType="itemType"
       :loading="isLoading"
-    />
+    >
+      <template #parents="{ item }">
+        {{ item.parents ? item.parents.join(', ') : '' }}
+      </template>
+    </IFXItemDataTable>
+    <slot name="buttons"></slot>
+    <slot name="extra-content"></slot>
   </v-container>
 </template>
