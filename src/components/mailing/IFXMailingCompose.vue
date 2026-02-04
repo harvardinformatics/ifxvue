@@ -155,15 +155,16 @@ export default {
   },
   mounted() {
     const me = this
-    // Support both props and query params (for Vue Router 4 compatibility)
-    const recipients = this.recipients || this.$route.query.recipients
-    const recipientField = this.recipientField || this.$route.query.recipientField
-    const from = this.from || this.$route.query.from
-    const to = this.to || this.$route.query.to
-    const cc = this.cc || this.$route.query.cc
-    const bcc = this.bcc || this.$route.query.bcc
-    const subject = this.subject || this.$route.query.subject
-    const message = this.message || this.$route.query.message
+    const routeState = window.history.state || {}
+    // Support props, query params, and history state (Vue Router 4 compatibility)
+    const recipients = this.recipients || this.$route.query.recipients || routeState.recipients
+    const recipientField = this.recipientField || this.$route.query.recipientField || routeState.recipientField
+    const from = this.from || this.$route.query.from || routeState.from
+    const to = this.to || this.$route.query.to || routeState.to
+    const cc = this.cc || this.$route.query.cc || routeState.cc
+    const bcc = this.bcc || this.$route.query.bcc || routeState.bcc
+    const subject = this.subject || this.$route.query.subject || routeState.subject
+    const message = this.message || this.$route.query.message || routeState.message
 
     if (message) {
       this.content = message

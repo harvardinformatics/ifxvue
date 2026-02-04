@@ -30,7 +30,7 @@ export default {
       const recipients = this.selected.map((item) => item.detail).join(',')
       this.$router.push({
         name: 'MailingCompose',
-        params: { recipients: recipients, recipientField: this.recipientField },
+        state: { recipients, recipientField: this.recipientField },
       })
     },
   },

@@ -50,11 +50,11 @@ export default {
       }
     },
     composeEmail() {
-      const query = {
-        recipientField: this.recipientField,
-        recipients: this.selected.map((item) => item.primaryEmail || item.email).join(','),
-      }
-      this.$router.push({ name: 'MailingCompose', query: query })
+      const recipients = this.selected.map((item) => item.primaryEmail || item.email).join(',')
+      this.$router.push({
+        name: 'MailingCompose',
+        state: { recipients, recipientField: this.recipientField },
+      })
     },
     getErrorMessage(error) {
       let message = 'Unknown error'
