@@ -5,7 +5,7 @@ import debounce from 'lodash/debounce'
 export default {
   name: 'IFXAddUsers',
   props: {
-    value: { type: Object, required: true }, // The whole Organization object
+    modelValue: { type: Object, required: true },
     showModal: {
       type: Boolean,
       required: false,
@@ -22,6 +22,7 @@ export default {
       default: true,
     },
   },
+  emits: ['update:modelValue', 'update:showModal', 'user', 'update', 'close'],
   data() {
     return {
       member: null,
@@ -74,11 +75,11 @@ export default {
   },
   computed: {
     modal: {
-      set(val) {
-        this.$emit('input', val)
-      },
       get() {
         return this.showModal
+      },
+      set(val) {
+        this.$emit('update:showModal', val)
       },
     },
   },
@@ -90,64 +91,69 @@ export default {
     },
   },
   mounted() {
-    this.org = this.value
+    this.org = this.modelValue
   },
 }
 </script>
 
 <template>
-  <v-container>
-    <v-dialog v-model="modal" width="500px" @click:outside="cancel">
-      <v-card width="auto">
-        <v-card-title>Add new organization member</v-card-title>
-        <v-card-text>
-          <v-container class="small-text-dialog">
-            <v-row align="end">
-              <v-col>
-                <v-autocomplete
-                  :loading="isLoading"
-                  v-model="member"
-                  v-model:search-input="search"
-                  :items="people"
-                  item-text="fullName"
-                  label="People"
-                  :rules="formRules.generic"
-                  required
-                  return-object
-                  hint="Start typing to see a list of matches"
-                  persistent-hint
-                >
-                  <template #no-data>
-                    <div class="text-center px-3 text-body-2">Start typing to see a list of matches</div>
-                  </template>
-                </v-autocomplete>
-              </v-col>
-              <v-col v-if="allowSetPrimaryAffiliation">
-                <v-checkbox v-model="primaryAffiliation" label="Make primary affiliation"></v-checkbox>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-radio-group v-model="role" row>
-                  <v-radio label="Member" value="member"></v-radio>
-                  <v-radio label="PI" value="pi"></v-radio>
-                  <v-radio label="Lab Manager" value="lab_manager"></v-radio>
-                </v-radio-group>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text color="secondary" @click="cancel()">Cancel</v-btn>
-          <v-btn text :disabled="!member" color="primary" @click="updateOrg()">Add</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-container>
+  <v-dialog v-model="modal" width="500px" @click:outside="cancel">
+    <v-card>
+      <v-card-title class="d-flex align-center pa-4">
+        <span class="text-h6">Add new organization member</span>
+        <v-spacer />
+        <v-btn
+          icon="mdi-close"
+          variant="text"
+          size="small"
+          @click="cancel"
+        />
+      </v-card-title>
+      <v-divider />
+      <v-card-text class="pa-4">
+        <v-row align="end">
+          <v-col>
+            <v-autocomplete
+              :loading="isLoading"
+              v-model="member"
+              v-model:search="search"
+              :items="people"
+              item-title="fullName"
+              item-value="id"
+              label="People"
+              :rules="formRules.generic"
+              required
+              return-object
+              hint="Start typing to see a list of matches"
+              persistent-hint
+              density="comfortable"
+              no-data-text="Start typing to see a list of matches"
+            />
+          </v-col>
+          <v-col v-if="allowSetPrimaryAffiliation">
+            <v-checkbox
+              v-model="primaryAffiliation"
+              label="Make primary affiliation"
+              hide-details
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-radio-group v-model="role" inline hide-details>
+              <v-radio label="Member" value="member" />
+              <v-radio label="PI" value="pi" />
+              <v-radio label="Lab Manager" value="lab_manager" />
+            </v-radio-group>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions class="pa-4">
+        <v-spacer />
+        <v-btn variant="text" color="secondary" @click="cancel">Cancel</v-btn>
+        <v-btn variant="text" :disabled="!member" color="primary" @click="updateOrg">Add</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
-<style>
-.small-text-dialog * {
-  font-size: 11px;
-}
-</style>

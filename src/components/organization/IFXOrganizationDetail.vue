@@ -72,7 +72,6 @@ export default {
       this.currentContact = this.$api.organizationContact.create()
       this.currentContact.active = false
       this.currentContact.role = null
-      this.currentContact.type = 'Email'
       this.contactDialogOpen = true
     },
     updateContact(contact, index) {
@@ -82,7 +81,6 @@ export default {
       this.currentContact = this.$api.organizationContact.create()
       this.currentContact.role = null
       this.currentContact.active = false
-      this.currentContact.type = 'Email'
     },
     closeMemberDialog() {
       this.showAddUserModal = false
@@ -182,7 +180,7 @@ export default {
             class="mr-3 mt-0"
             density="compact"
             hide-details
-          ></v-checkbox>
+          />
           <IFXDeleteItemButton v-if="!item.ifxOrg" size="x-small" :item="item" :apiRef="apiRef" :itemType="itemType" />
         </div>
       </template>
@@ -336,7 +334,7 @@ export default {
             </div>
           </v-col>
           <div class="w-full" v-if="getContactIndicesByRole(contactGroupName).length !== 0">
-            <v-divider></v-divider>
+            <v-divider />
           </div>
         </v-row>
       </v-col>
@@ -347,28 +345,30 @@ export default {
       :disabled="!isSubmittable"
       @action="updateUsersAndSubmit"
       :submitting="submitting"
-    ></IFXPageActionBar>
+    />
+
+    <!-- Add Contact Dialog -->
     <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
       <v-card>
-        <v-card-title>
-          Add Contact
-          <v-spacer></v-spacer>
+        <v-card-title class="d-flex align-center pa-4">
+          <span class="text-h6">Add Contact</span>
+          <v-spacer />
           <v-tooltip location="top">
             <template v-slot:activator="{ props }">
               <v-btn
-                icon
+                icon="mdi-close"
+                variant="text"
                 size="small"
                 @click="contactDialogOpen = false"
                 data-cy="contact-dialog-close"
                 v-bind="props"
-              >
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
+              />
             </template>
             <span>Cancel</span>
           </v-tooltip>
         </v-card-title>
-        <v-card-text class="pb-0">
+        <v-divider />
+        <v-card-text class="pa-4">
           <IFXSelectCreateContact
             :allItems="allContacts"
             :allRoles="allRoles"
@@ -378,35 +378,31 @@ export default {
             v-model:valid="addContactFormIsValid"
           />
         </v-card-text>
-        <v-card-actions class="d-flex justify-start pb-3">
-          <v-btn size="small" variant="text" class="ml-2" color="secondary" @click="contactDialogOpen = false">
-            Close
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn size="small" variant="text" class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
-          <v-btn
-            size="small"
-            variant="text"
-            class="mr-2"
-            :disabled="!addContactFormIsValid"
-            color="primary"
-            @click="addContact()"
-          >
+        <v-divider />
+        <v-card-actions class="pa-4">
+          <v-btn variant="text" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
+          <v-spacer />
+          <v-btn variant="text" color="secondary" @click="cancelContact">Clear</v-btn>
+          <v-btn variant="text" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
             Add
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Add Users Modal -->
     <IFXAddUsers
       v-if="showAddUserModal"
       v-model="item"
       v-model:showModal="showAddUserModal"
-      :itemType="user"
+      itemType="user"
       :allowSetPrimaryAffiliation="false"
       @close="closeMemberDialog()"
       @update="updateOrg"
       @user="addUser"
-    ></IFXAddUsers>
+    />
+
+    <!-- Deactivate Users Modal -->
     <IFXActivateDeactivateUsers
       v-if="showRevokeUserModal"
       v-model="selectedUsers"
@@ -415,7 +411,9 @@ export default {
       :showModal="showRevokeUserModal"
       @close="closeMemberDialog()"
       @update="updateOrg"
-    ></IFXActivateDeactivateUsers>
+    />
+
+    <!-- Reactivate Users Modal -->
     <IFXActivateDeactivateUsers
       v-if="showReactivateUserModal"
       v-model="selectedUsers"
@@ -424,7 +422,7 @@ export default {
       :showModal="showReactivateUserModal"
       @close="closeMemberDialog()"
       @update="updateOrg"
-    ></IFXActivateDeactivateUsers>
+    />
   </v-container>
 </template>
 
