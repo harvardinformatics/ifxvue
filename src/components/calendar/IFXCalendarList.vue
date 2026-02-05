@@ -1122,7 +1122,9 @@ export default {
                 Reserve an instrument or location
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
-                    <v-btn icon="mdi-close" size="small" v-bind="props" @click="closeReservation" data-cy="close-reservation-panel"></v-btn>
+                    <v-btn elevation="0" icon size="x-small" v-bind="props" @click="closeReservation" data-cy="close-reservation-panel">
+                      <v-icon size="x-small" density="compact">mdi-close</v-icon>
+                    </v-btn>
                   </template>
                   <span>Close reservation panel</span>
                 </v-tooltip>
