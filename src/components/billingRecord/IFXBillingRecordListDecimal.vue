@@ -1195,6 +1195,7 @@ export default {
                         icon="mdi-menu-right"
                         @click="toggleGroup(item)"
                         :class="{ 'rotate-90': isGroupOpen(item) }"
+                        class="mr-1"
                       >
                       </v-btn>
                     </v-col>
