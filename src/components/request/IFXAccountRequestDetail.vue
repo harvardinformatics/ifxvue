@@ -199,15 +199,15 @@ export default {
 </script>
 <template>
   <v-container grid-list-md v-if="!loading">
-    <v-layout row>
-      <v-flex xs12>
+    <v-row>
+      <v-col xs12>
         <v-card v-if="request" flat>
           <v-card-title>
-            <v-layout row wrap justify-start align-center>
-              <v-flex>
+            <v-row wrap justify-start align-center>
+              <v-col>
                 <span class="headline">Account request from {{ request.fullName }}</span>
-              </v-flex>
-              <v-flex>
+              </v-col>
+              <v-col>
                 <span v-if="request.result == 'SUCCESS'">
                   <v-icon color="success">thumb_up</v-icon>
                   &nbsp;Success
@@ -224,8 +224,8 @@ export default {
                   <v-icon color="grey">cached</v-icon>
                   &nbsp;{{ $stateDisplay(request.currentState) }}
                 </span>
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
                     <v-btn v-on="on" fab small class="item-add" color="green" @click="addEmptyComment()">
@@ -234,8 +234,8 @@ export default {
                   </template>
                   <span>Add comment to request</span>
                 </v-tooltip>
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
                     <v-btn v-on="on" fab small color="info" v-show="isDjangoStaff()" :href="django_admin_url">
@@ -244,22 +244,22 @@ export default {
                   </template>
                   <span>View request Django admin form</span>
                 </v-tooltip>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-title>
           <v-container>
-            <v-layout row wrap>
-              <v-flex xs12 v-if="request.requestComments.length > 0">
+            <v-row wrap>
+              <v-col xs12 v-if="request.requestComments.length > 0">
                 <IFXRequestCommentList :request="request" @update="updateRequestComment" />
-              </v-flex>
-              <v-flex xs6>
-                <v-layout row wrap justify-start align-center>
-                  <v-flex shrink class="expiration-date-label">
+              </v-col>
+              <v-col xs6>
+                <v-row wrap justify-start align-center>
+                  <v-col shrink class="expiration-date-label">
                     Onboard request
                     <span v-if="requestExpired()">expired</span>
                     <span v-else>expires</span>
-                  </v-flex>
-                  <v-flex v-if="updating_expiration_date" shrink>
+                  </v-col>
+                  <v-col v-if="updating_expiration_date" shrink>
                     <v-menu v-model="expiration_date_menu" :close-on-content-click="false" full-width>
                       <template v-slot:activator="{ on }">
                         <v-text-field :value="request.continuationKeyExpiration" v-on="on" readonly></v-text-field>
@@ -272,11 +272,11 @@ export default {
                         @change="updateRequest()"
                       ></v-date-picker>
                     </v-menu>
-                  </v-flex>
-                  <v-flex v-else shrink>
+                  </v-col>
+                  <v-col v-else shrink>
                     {{ request.continuationKeyExpiration }}
-                  </v-flex>
-                  <v-flex>
+                  </v-col>
+                  <v-col>
                     <v-btn
                       :disabled="updating_expiration_date"
                       fab
@@ -286,23 +286,23 @@ export default {
                     >
                       <v-icon>calendar_today</v-icon>
                     </v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-flex>
-              <v-flex xs6 v-if="canBeApproved()">
-                <v-layout row justify-end>
-                  <v-flex grow>&nbsp;</v-flex>
-                  <v-flex shrink>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col xs6 v-if="canBeApproved()">
+                <v-row justify-end>
+                  <v-col grow>&nbsp;</v-col>
+                  <v-col shrink>
                     <v-radio-group :column="false" v-model="approval" @change="updateRequestState()">
                       <v-radio label="Approve" value="approve"></v-radio>
                       <v-radio label="Reject" value="reject"></v-radio>
                     </v-radio-group>
-                  </v-flex>
-                </v-layout>
-              </v-flex>
-              <v-flex xs7>
-                <v-layout column>
-                  <v-flex v-for="track in request.tracks.order" :key="track">
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col xs7>
+                <v-row column>
+                  <v-col v-for="track in request.tracks.order" :key="track">
                     <IFXAccountRequestTrackDetail
                       v-if="request && isAppTrack(track)"
                       :track="track"
@@ -311,29 +311,29 @@ export default {
                       :accountRequest="request"
                       :organizations="organizations"
                     />
-                  </v-flex>
-                </v-layout>
-                <v-layout column>
-                  <v-flex>
+                  </v-col>
+                </v-row>
+                <v-row column>
+                  <v-col>
                     <span class="title">Request Files</span>
-                  </v-flex>
-                  <v-flex
+                  </v-col>
+                  <v-col
                     v-for="accountRequestFileData in request.requestData.request_files"
                     :key="accountRequestFileData.id"
                   >
                     <IFXAccountRequestFile :accountRequestFileData="accountRequestFileData" />
-                  </v-flex>
-                </v-layout>
-              </v-flex>
-              <v-flex grow>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col grow>
                 <v-container>
-                  <v-layout column>
-                    <v-flex>
+                  <v-row column>
+                    <v-col>
                       <span class="title">Onboarding Steps</span>
-                    </v-flex>
-                    <v-flex v-for="track in request.tracks.order" :key="track">
-                      <v-layout v-if="isAppTrack(track)" column>
-                        <v-flex v-for="step in request.tracks[track].order" :key="step">
+                    </v-col>
+                    <v-col v-for="track in request.tracks.order" :key="track">
+                      <v-row v-if="isAppTrack(track)" column>
+                        <v-col v-for="step in request.tracks[track].order" :key="step">
                           <IFXDisplayOnboardStep
                             v-if="step !== 'completed_request'"
                             @update="handleStepChange"
@@ -341,27 +341,27 @@ export default {
                             :stepName="step"
                             :trackName="track"
                           />
-                        </v-flex>
-                      </v-layout>
-                    </v-flex>
-                    <v-flex justify-center>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                    <v-col justify-center>
                       <div class="text-xs-center">
                         <v-btn color="primary" @click="updateRequest('notify')">Update Steps</v-btn>
                       </div>
-                    </v-flex>
-                  </v-layout>
+                    </v-col>
+                  </v-row>
                 </v-container>
-              </v-flex>
-            </v-layout>
-            <v-layout column>
-              <v-flex v-if="request">
+              </v-col>
+            </v-row>
+            <v-row column>
+              <v-col v-if="request">
                 <IFXAccountRequestStateList :request="request" :validStates="valid_states" />
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-container>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <style scoped>
