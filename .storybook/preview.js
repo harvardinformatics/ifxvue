@@ -984,13 +984,16 @@ setup((app) => {
     }).format(cents / 100)
   }
   app.config.globalProperties.$stateDisplay = (state) => {
-    const stateMap = {
-      'INIT': 'Initial',
-      'LAB_APPROVED': 'Lab Approved',
-      'FINAL': 'Final',
+    if (state) {
+      const result = state
+        .split('_')
+        .map((e) => capitalizeFirstLetter(e))
+        .join(' ')
+        .trim()
+      return result
     }
-    return stateMap[state] || state
-  }
+    return ''
+    }
   app.config.globalProperties.formRules = {
     currency: [
       (v) => !!v || 'Required',
