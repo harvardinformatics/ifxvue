@@ -1189,7 +1189,8 @@ export default {
                     </v-col>
                     <v-col cols="auto">
                       <v-btn
-                        size="default"
+                        size="comfortable"
+                        elevation="0"
                         density="compact"
                         icon="mdi-menu-right"
                         @click="toggleGroup(item)"
