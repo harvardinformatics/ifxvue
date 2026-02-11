@@ -26,6 +26,8 @@ export default {
   data() {
     return {
       isValid: false,
+      isLoading: false,
+      formName: 'userInfoForm',
     }
   },
   methods: {
@@ -40,7 +42,7 @@ export default {
       return this.$api.group.colorForGroup(group)
     },
     clearError(key) {
-      if (this.errors.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(this.errors, key)) {
         delete this.errors[key]
       }
     },
@@ -130,20 +132,21 @@ export default {
               :items="allGroupNames"
               clearable
               multiple
+              chips
               label="Groups"
               hint="Groups to which this user belongs."
               persistent-hint
               :error-messages="errors.groups"
               @focus="clearError('groups')"
             >
-              <template #chip="{ props, item }">
+              <template #chip="{ item }">
                 <v-chip
-                  v-bind="props"
-                  :color="getChipColorForGroup(item.value)"
+                  :color="getChipColorForGroup(item.raw)"
+                  variant="flat"
                   closable
-                  @click:close="removeGroup(item.value)"
+                  @click:close="removeGroup(item.raw)"
                 >
-                  <strong>{{ item.value }}</strong>
+                  <strong>{{ item.raw }}</strong>
                 </v-chip>
               </template>
             </v-autocomplete>
@@ -177,10 +180,10 @@ export default {
               required
             >
               <template #item="{ props, item }">
-                <v-list-item v-bind="props" :title="trimOrgName(item.value)"></v-list-item>
+                <v-list-item v-bind="props" :title="trimOrgName(item.raw)"></v-list-item>
               </template>
               <template #selection="{ item }">
-                {{ trimOrgName(item.value) }}
+                {{ trimOrgName(item.raw) }}
               </template>
             </v-autocomplete>
           </v-col>

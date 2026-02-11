@@ -7,6 +7,7 @@ import IFXMailButton from '@/components/mailing/IFXMailButton'
 
 export default {
   name: 'IFXOrganizationList',
+  inheritAttrs: false,
   mixins: [IFXOrganizationMixin, IFXItemListMixin],
   components: {
     IFXSearchField,
@@ -31,10 +32,21 @@ export default {
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
   },
+  watch: {
+    selected: {
+      handler(newVal) {
+        this.$emit('update:selected', newVal)
+      },
+      deep: true,
+    },
+  },
   methods: {
     getSetItems() {
+      if (!this.$api?.organization) {
+        return Promise.resolve()
+      }
       return (
-        this.apiRef
+        this.$api.organization
           .getSkinnyList()
           .then((items) => {
             this.items = items
@@ -49,7 +61,11 @@ export default {
       const organizationSlugs = this.selected.map((item) => item.slug)
       this.$router.push({
         name: 'MailingCompose',
-        params: { labManagerOrgSlugs: organizationSlugs, recipientField: this.recipientField },
+        query: { recipientField: this.recipientField },
+        state: {
+          labManagerOrgSlugs: organizationSlugs,
+          recipientField: this.recipientField,
+        },
       })
     },
   },

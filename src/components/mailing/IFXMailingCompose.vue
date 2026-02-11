@@ -165,6 +165,8 @@ export default {
     const bcc = this.bcc || this.$route.query.bcc || routeState.bcc
     const subject = this.subject || this.$route.query.subject || routeState.subject
     const message = this.message || this.$route.query.message || routeState.message
+    const labManagerOrgSlugs = this.labManagerOrgSlugs || routeState.labManagerOrgSlugs
+    const invoicePrefix = this.invoicePrefix || this.$route.query.invoicePrefix || routeState.invoicePrefix
 
     if (message) {
       this.content = message
@@ -176,12 +178,12 @@ export default {
       .getList()
       .then((result) => {
         this.contactables = result
-        if (this.labManagerOrgSlugs) {
-          this.$api.getBillingContacts(this.labManagerOrgSlugs, this.invoicePrefix)
+        if (labManagerOrgSlugs) {
+          this.$api.getBillingContacts(labManagerOrgSlugs, invoicePrefix)
             .then((res) => {
               const result2 = res.data
               const orgContactNotFound = []
-              me.labManagerOrgSlugs.forEach((slug) => {
+              labManagerOrgSlugs.forEach((slug) => {
                 const name = this.$api.organization.parseSlug(slug).name
                 if (!result2.some((contactable) => contactable?.label?.indexOf(name) !== -1)) {
                   orgContactNotFound.push(name)

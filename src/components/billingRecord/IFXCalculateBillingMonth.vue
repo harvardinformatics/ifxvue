@@ -72,11 +72,11 @@ export default {
       const headers = [
         { title: 'ID', key: 'id', sortable: true },
         { title: 'User', key: 'productUser', sortable: true, namedSlot: true },
-        { title: 'Year', key: 'year', slot: true, sortable: true },
-        { title: 'Month', key: 'month', slot: true, sortable: true },
+        { title: 'Year', key: 'year', sortable: true },
+        { title: 'Month', key: 'month', sortable: true },
         { title: 'Organization', key: 'organization', namedSlot: true, sortable: true },
-        { title: 'Product', key: 'product', slot: true, sortable: true, namedSlot: true },
-        { title: 'Description', key: 'description', slot: true },
+        { title: 'Product', key: 'product', sortable: true, namedSlot: true },
+        { title: 'Description', key: 'description' },
         { title: 'Processing', key: 'processing', sortable: true, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
@@ -96,7 +96,7 @@ export default {
     selectedDateAsDate() {
       if (!this.selectedDate) return null
       if (typeof this.selectedDate === 'string') {
-        return new Date(this.selectedDate + '-01')
+        return new Date(this.selectedDate + '-01T00:00:00')
       }
       return this.selectedDate
     }
@@ -128,7 +128,7 @@ export default {
       }
       if (search && v) {
         let val = v.toString().toLowerCase()
-        if (v.hasOwnProperty('errorMessage')) {
+        if (Object.prototype.hasOwnProperty.call(v, 'errorMessage')) {
           val = v.errorMessage.toLowerCase()
         }
         if (Number.parseFloat(search)) {
@@ -222,7 +222,7 @@ export default {
       this.selectedDate = this.$api.storage.getItem(this.selectedDateKey, 'session') || null
     }
     this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || ''
-    this.onlyErrors = this.$api.storage.getItem(this.searchStorageKey, 'session') === 'true'
+    this.onlyErrors = this.$api.storage.getItem(this.onlyErrorsStorageKey, 'session') === 'true'
     this.localOrganization = this.organization
     this.setFacility()
       .then(() => {
@@ -246,10 +246,7 @@ export default {
         <v-menu
           v-model="dateMenu"
           :close-on-content-click="false"
-          :nudge-right="40"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
+          location="bottom start"
         >
           <template v-slot:activator="{ props }">
             <v-text-field
@@ -285,6 +282,7 @@ export default {
             <v-checkbox
               v-model="recalculate"
               label="Remove existing billing records and recalculate"
+              hide-details
             >
             </v-checkbox>
           </v-col>
@@ -315,10 +313,9 @@ export default {
           v-model="search"
           class="search-field"
           label="Search"
-          single-line
           hide-details
           :clearable="true"
-          prepend-icon="mdi-search"
+          prepend-icon="mdi-magnify"
           data-cy="ifx-search-field"
         >
         </v-text-field>
@@ -327,6 +324,7 @@ export default {
         <v-checkbox
           v-model="onlyErrors"
           label="Only errors"
+          hide-details
         >
         </v-checkbox>
       </v-col>
@@ -341,7 +339,7 @@ export default {
           :showSelect="false"
           :selected="selected"
           :loading="isLoading"
-          itemType="ProductUsage"
+          itemType="ReservationUsage"
         >
           <template v-slot:productUser="{ item }">
             {{ item.productUser.fullName }}
