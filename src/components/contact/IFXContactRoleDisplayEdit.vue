@@ -43,10 +43,9 @@ export default {
       },
     },
     appropriateRoles() {
-      // We assume that the type and the role name both contain the same case-senstive value
       return this.allRoles.filter(
         (role) => role.editable
-          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role === 'Additional Contact' : true)
+          && (this.filterRoles ? role.name.includes(this.itemLocal.contact?.type) || role.name === 'Additional Contact' : true)
       )
     },
     isEditable() {
@@ -57,7 +56,6 @@ export default {
   methods: {
     setContactActiveState(active) {
       this.itemLocal.active = active
-      // This is a hack to get the row to update based on the active state
       this.rowKey++
       this.$emit('change', this.itemLocal)
     },
@@ -79,24 +77,44 @@ export default {
 </script>
 
 <template>
-  <v-row :key="rowKey">
-    <v-col md="5" v-if="roleEditingEnabled">
-      <v-select
-        v-model.trim="itemLocal.role"
-        :items="appropriateRoles"
-        item-title="name"
-        item-value="name"
-        label="Role"
-        :rules="formRules.generic"
-        required
-      ></v-select>
-      <div class="mt-2">
-        <v-btn size="x-small" variant="outlined" class="mr-2" color="secondary" @click.stop="cancelContact">Cancel</v-btn>
-        <v-btn size="x-small" class="mr-2" color="secondary" @click.stop="updateContact(itemLocal)">Accept</v-btn>
+  <v-row :key="rowKey" align="center">
+    <v-col md="8" v-if="roleEditingEnabled">
+      <div class="d-flex align-center flex-wrap ga-4">
+        <v-select
+          v-model.trim="itemLocal.role"
+          :items="appropriateRoles"
+          item-title="name"
+          item-value="name"
+          label="Role"
+          :rules="formRules.generic"
+          required
+          density="compact"
+          style="min-width: 180px; max-width: 200px;"
+          hide-details
+        />
+        <span>for <strong>{{ itemLocal.detail }}</strong></span>
+        <div class="d-flex ga-2">
+          <v-btn
+            variant="outlined"
+            color="secondary"
+            size="small"
+            @click="cancelContact"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            variant="flat"
+            color="primary"
+            size="small"
+            @click="updateContact(itemLocal)"
+          >
+            Accept
+          </v-btn>
+        </div>
       </div>
     </v-col>
     <v-col
-      md="5"
+      md="8"
       v-else
       :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
     >
@@ -121,14 +139,11 @@ export default {
           {{ itemLocal.contact.address }}
         </div>
       </div>
+      <div class="mt-1">
+        <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
+      </div>
     </v-col>
-    <v-col
-      md="3"
-      :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
-    >
-      <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
-    </v-col>
-    <v-col v-if="isEditable">
+    <v-col v-if="isEditable" md="4">
       <v-tooltip v-if="itemLocal.active" location="top">
         <template v-slot:activator="{ props }">
           <v-icon
@@ -161,14 +176,3 @@ export default {
     </v-col>
   </v-row>
 </template>
-
-<style lang="scss" scoped>
-.expand-icon {
-  transition: rotate 0.3s ease-in-out;
-
-  .active {
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-  }
-}
-</style>

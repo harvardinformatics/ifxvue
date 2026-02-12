@@ -17,14 +17,14 @@ export default {
     ...mapActions(['showMessage']),
     async init() {
       this.item = await this.getItem()
+      this.item.type = 'Phone'  // Set AFTER getItem(), not in mounted()
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
     },
   },
-  mounted() {
-    this.item.type = 'Phone'
-  },
+  // Remove mounted() - it was being overwritten by init() anyway
 }
 </script>
+
 <template>
   <v-container>
     <v-form v-if="!isLoading" v-model="isValid">
@@ -37,7 +37,7 @@ export default {
             :rules="formRules.generic"
             :error-messages="errors.name"
             required
-          ></v-text-field>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -49,7 +49,7 @@ export default {
             :rules="formRules.phone"
             :error-messages="errors.detail"
             required
-          ></v-text-field>
+          />
         </v-col>
       </v-row>
       <v-row>

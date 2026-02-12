@@ -30,16 +30,16 @@ export default {
       const recipients = this.selected.map((item) => item.detail).join(',')
       this.$router.push({
         name: 'MailingCompose',
-        params: { recipients: recipients, recipientField: this.recipientField },
+        state: { recipients, recipientField: this.recipientField },
       })
     },
   },
   computed: {
     headers() {
       const headers = [
-        { title: 'Name', value: 'computedName', sortable: true },
-        { title: 'Detail', value: 'detail', slot: true, sortable: true },
-        { title: 'Created', value: 'created', namedSlot: true, sortable: true },
+        { title: 'Name', key: 'computedName', sortable: true },
+        { title: 'Detail', key: 'detail', slot: true, sortable: true },
+        { title: 'Created', key: 'created', sortable: true, namedSlot:true },
       ]
       return headers.filter((h) => !h.hide || !(this.$vuetify?.display?.[h.hide]))
     },
@@ -65,7 +65,7 @@ export default {
               toolTip="Email contacts"
               :disabled="!selected.length"
               @update:modelValue="composeEmail()"
-            ></IFXMailButton>
+            />
           </v-col>
           <v-col>
             <IFXButton size="small" btnType="add" @action="navigateToItemCreate" />

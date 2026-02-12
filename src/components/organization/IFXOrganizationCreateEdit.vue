@@ -25,8 +25,8 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
-    checkValidForm() {
-      this.$refs[this.formName].validate()
+    async checkValidForm() {
+      await this.$refs[this.formName].validate()
     },
     async init() {
       this.item = await this.getItem()
@@ -37,10 +37,10 @@ export default {
       this.allUsers = await this.$api.user.getList()
       this.allContacts = await this.$api.contact.getList()
     },
-    submit() {
+    async submit() {
       // Must do validation explicitly for nested fields
-      const isFormValid = this.$refs[this.formName].validate()
-      if (isFormValid) {
+      const { valid } = await this.$refs[this.formName].validate()
+      if (valid) {
         if (this.isEditing) this.submitUpdate()
         else this.submitSave()
       }
@@ -96,7 +96,7 @@ export default {
               :rules="formRules.generic"
               :error-messages="errors.rank"
               :items="apiRef.validRanks"
-              item-text="text"
+              item-title="text"
               item-value="value"
               required
               class="required"

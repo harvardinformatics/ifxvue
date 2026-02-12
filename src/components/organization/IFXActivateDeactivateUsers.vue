@@ -3,11 +3,12 @@ import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 
 export default {
-  name: 'IFXActivateDeactivateUsers.',
+  name: 'IFXActivateDeactivateUsers',
   props: {
-    value: {
+    modelValue: {
       type: Array,
-      required: true,
+      required: false,
+      default: () => [],
     },
     showModal: {
       type: Boolean,
@@ -19,9 +20,11 @@ export default {
     },
     organization: {
       type: Object,
-      required: true,
+      required: false,
+      default: () => ({}),
     },
   },
+  emits: ['update:modelValue', 'update:showModal', 'update', 'close'],
   data() {
     return {
       isLoading: true,
@@ -63,17 +66,19 @@ export default {
   },
   computed: {
     modal: {
-      set(val) {
-        this.$emit('input', val)
-      },
       get() {
         return this.showModal
       },
+      set(val) {
+        this.$emit('update:showModal', val)
+      },
+    },
+    actionLabel() {
+      return this.activate ? 'Activate' : 'Deactivate'
     },
   },
-
   mounted() {
-    this.people = this.value
+    this.people = this.modelValue
     this.selected = this.people
     this.org = cloneDeep(this.organization)
   },
@@ -81,30 +86,36 @@ export default {
 </script>
 
 <template>
-  <v-container>
-    <v-dialog v-model="modal" width="unset" @click:outside="cancel">
-      <v-card width="auto">
-        <v-card-title>{{ `Set members ${this.activate ? '' : 'in'}active in` }} {{ org.name }}</v-card-title>
-        <v-card-text>
-          <v-container class="small-text-dialog">
-            <v-row v-for="person in people" :key="person.id" dense>
-              <v-col>
-                <v-checkbox v-model="selected" :value="person" :label="person.fullName"></v-checkbox>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text color="secondary" @click="cancel()">Cancel</v-btn>
-          <v-btn text color="primary" @click="modifyPeople()">{{ `${this.activate ? 'A' : 'Dea'}ctivate` }}</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-container>
+  <v-dialog v-model="modal" width="500px" @click:outside="cancel">
+    <v-card>
+      <v-card-title class="d-flex align-center pa-4">
+        <span class="text-h6">Set members {{ activate ? '' : 'in' }}active in {{ org?.name }}</span>
+        <v-spacer />
+        <v-btn
+          icon="mdi-close"
+          variant="text"
+          size="small"
+          @click="cancel"
+        />
+      </v-card-title>
+      <v-divider />
+      <v-card-text class="pa-4">
+        <v-checkbox
+          v-for="person in people"
+          :key="person.id"
+          v-model="selected"
+          :value="person"
+          :label="person.fullName"
+          density="compact"
+          hide-details
+        />
+      </v-card-text>
+      <v-divider />
+      <v-card-actions class="pa-4">
+        <v-spacer />
+        <v-btn variant="text" color="secondary" @click="cancel">Cancel</v-btn>
+        <v-btn variant="text" color="primary" @click="modifyPeople">{{ actionLabel }}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
-<style>
-.small-text-dialog * {
-  font-size: 11px;
-}
-</style>

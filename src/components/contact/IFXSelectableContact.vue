@@ -15,6 +15,13 @@ export default {
     }
   },
   watch: {
+    allItems: {
+      immediate: true,
+      handler(val) {
+        // Debug: remove after fixing
+        console.log('allItems received:', val)
+      }
+    },
     itemLocal: {
       deep: true,
       handler() {
@@ -52,38 +59,39 @@ export default {
 </script>
 
 <template>
-  <v-container fluid v-if='!isLoading'>
-    <!-- TODO: this disabled section is basically the contact detail page - probably use that -->
-    <span v-if='disabled'>
+  <v-container fluid v-if="!isLoading">
+    <!-- Disabled/read-only view -->
+    <span v-if="disabled">
       <v-row>
         <v-col>
           <h5>Name</h5>
-          <p>{{itemLocal.contact.name}}</p>
+          <p>{{ itemLocal.contact.name }}</p>
         </v-col>
         <v-col>
           <h5>Type</h5>
-          <p>{{itemLocal.contact.type}}</p>
+          <p>{{ itemLocal.contact.type }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <h5>Detail</h5>
-          <p>{{itemLocal.contact.detail}}</p>
+          <p>{{ itemLocal.contact.detail }}</p>
         </v-col>
         <v-col>
           <h5>Phone</h5>
-          <p>{{itemLocal.contact.phone}}</p>
+          <p>{{ itemLocal.contact.phone }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <h5>Address</h5>
-          <p>{{itemLocal.contact.address}}</p>
+          <p>{{ itemLocal.contact.address }}</p>
         </v-col>
       </v-row>
     </span>
+
+    <!-- Editable view -->
     <span v-else>
-    <!-- TODO: give user the option to select this, rather than checking it only -->
       <v-row v-if="isSearchVisible">
         <v-col>
           <v-autocomplete
@@ -92,11 +100,22 @@ export default {
             label="Search existing contacts"
             :items="allItems"
             item-title="name"
+            item-value="id"
             return-object
+            clearable
+            no-data-text="No contacts found"
           >
+            <template v-slot:item="{ item, props }">
+              <v-list-item
+                v-bind="props"
+                :title="item.raw.name"
+                :subtitle="item.raw.detail || item.raw.type"
+              />
+            </template>
           </v-autocomplete>
         </v-col>
       </v-row>
+
       <v-row>
         <v-col>
           <span v-if="!itemLocal.contact">Select a </span>Contact type
@@ -104,24 +123,14 @@ export default {
             v-model="contactType"
             inline
           >
-            <v-radio
-              label="Email"
-              value="Email"
-            >
-            </v-radio>
-            <v-radio
-              label="Phone"
-              value="Phone"
-            >
-            </v-radio>
-            <v-radio
-              label="Full"
-              value="Full"
-            >
-            </v-radio>
+            <v-radio label="Email" value="Email" />
+            <v-radio label="Phone" value="Phone" />
+            <v-radio label="Full" value="Full" />
           </v-radio-group>
         </v-col>
       </v-row>
+
+      <!-- Full contact type -->
       <v-row v-if="contactType === 'Full'">
         <v-col>
           <v-row>
@@ -134,7 +143,7 @@ export default {
                 label="Role"
                 required
                 @update:modelValue="checkValidForm()"
-              ></v-text-field>
+              />
             </v-col>
           </v-row>
           <v-row>
@@ -147,7 +156,7 @@ export default {
                 label="Email"
                 required
                 @update:modelValue="checkValidForm()"
-              ></v-text-field>
+              />
             </v-col>
             <v-col>
               <v-text-field
@@ -156,25 +165,26 @@ export default {
                 :error-messages="errors['contacts.phone']"
                 label="Phone"
                 @update:modelValue="checkValidForm()"
-              ></v-text-field>
+              />
             </v-col>
           </v-row>
           <v-row>
             <v-col>
               <v-textarea
                 v-model="itemLocal.address"
-                :rules='formRules.address'
+                :rules="formRules.address"
                 clearable
                 label="Address"
                 :rows="3"
                 auto-grow
                 @update:modelValue="checkValidForm()"
-              >
-              </v-textarea>
+              />
             </v-col>
           </v-row>
         </v-col>
       </v-row>
+
+      <!-- Email contact type -->
       <v-row v-if="contactType === 'Email'">
         <v-col>
           <v-row>
@@ -187,7 +197,7 @@ export default {
                 label="Role"
                 required
                 @update:modelValue="checkValidForm()"
-              ></v-text-field>
+              />
             </v-col>
             <v-col>
               <v-text-field
@@ -198,11 +208,13 @@ export default {
                 label="Email"
                 required
                 @update:modelValue="checkValidForm()"
-              ></v-text-field>
+              />
             </v-col>
           </v-row>
         </v-col>
       </v-row>
+
+      <!-- Phone contact type -->
       <v-row v-if="contactType === 'Phone'">
         <v-col>
           <v-row>
@@ -215,7 +227,7 @@ export default {
                 label="Role"
                 required
                 @update:modelValue="checkValidForm()"
-              ></v-text-field>
+              />
             </v-col>
             <v-col>
               <v-text-field
@@ -226,12 +238,10 @@ export default {
                 label="Phone"
                 required
                 @update:modelValue="checkValidForm()"
-              ></v-text-field>
+              />
             </v-col>
           </v-row>
         </v-col>
-      </v-row>
-      <v-row v-else>
       </v-row>
     </span>
   </v-container>

@@ -72,7 +72,6 @@ export default {
       this.currentContact = this.$api.organizationContact.create()
       this.currentContact.active = false
       this.currentContact.role = null
-      this.currentContact.type = 'Email'
       this.contactDialogOpen = true
     },
     updateContact(contact, index) {
@@ -82,7 +81,6 @@ export default {
       this.currentContact = this.$api.organizationContact.create()
       this.currentContact.role = null
       this.currentContact.active = false
-      this.currentContact.type = 'Email'
     },
     closeMemberDialog() {
       this.showAddUserModal = false
@@ -93,7 +91,6 @@ export default {
     getContactIndicesByRole(role) {
       const indices = []
       this.item.contacts.forEach((contact, index) => {
-        // Respect the showInactive setting
         if (contact.role === role && (this.showInactive ? true : contact.active)) {
           indices.push(index)
         }
@@ -104,8 +101,6 @@ export default {
       this.item = org
     },
     async addUser(person) {
-      // Add this person to the list of users to be updated
-      // If they are already there, replace them with the new version
       const foundIndex = this.usersToBeUpdated.findIndex((user) => user.id === person.id)
       if (foundIndex === -1) {
         this.usersToBeUpdated.push(person)
@@ -114,9 +109,7 @@ export default {
       }
     },
     async updateUsersAndSubmit() {
-      // Only update users if this is not a local organization.
       if (this.item.ifxOrg) {
-        // First update all the users to make sure this syncs to Nanites
         const allPromises = []
         for (let i = 0; i < this.usersToBeUpdated.length; i++) {
           const person = this.usersToBeUpdated[i]
@@ -125,8 +118,6 @@ export default {
             person.affiliations[orgIndex].active = true
             person.changeComment = `Reactivating membership of ${person.fullName} in ${this.item.slug}`
           } else {
-            // We need to get the role out of the org's list of users.
-            // Since we added the user in IFXAddUsers, they should always be here
             const thisUser = this.item.users.find((user) => user.id === person.id)
             if (thisUser) {
               const params = { active: true, id: this.item.id, organization: this.item.slug, role: thisUser.role }
@@ -139,7 +130,6 @@ export default {
           })
           allPromises.push(newPromise)
         }
-        // Wait for all the promises to resolve
         await Promise.allSettled(allPromises).catch((errors) => {
           errors.forEach((error) => {
             if (error.status === 'rejected') {
@@ -154,8 +144,8 @@ export default {
   computed: {
     userListHeaders() {
       const headers = [
-        { text: 'Full Name', value: 'fullName', sortable: true, namedSlot: true, click: true },
-        { text: 'Status', value: 'status', sortable: false, namedSlot: true },
+        { title: 'Full Name', key: 'fullName', sortable: true, namedSlot: true, click: true },
+        { title: 'Status', key: 'status', sortable: false, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
@@ -184,15 +174,20 @@ export default {
       <template #cypress>{{ item.id }}</template>
       <template #actions>
         <div class="d-flex flex-row show-inactive">
-          <v-checkbox label="Show inactive" v-model="showInactive" class="mr-3 mt-0" dense></v-checkbox>
-          <!-- TODO: check why this cannot be edited -->
-          <IFXDeleteItemButton v-if="!item.ifxOrg" xSmall :item="item" :apiRef="apiRef" :itemType="itemType" />
+          <v-checkbox
+            label="Show inactive"
+            v-model="showInactive"
+            class="mr-3 mt-0"
+            density="compact"
+            hide-details
+          />
+          <IFXDeleteItemButton v-if="!item.ifxOrg" size="x-small" :item="item" :apiRef="apiRef" :itemType="itemType" />
         </div>
       </template>
     </IFXPageHeader>
     <v-row dense v-if="isSubmittable">
       <v-col>
-        <v-alert elevation="2" dense border="left" light color="warning" icon="mdi-alert-circle-outline">
+        <v-alert elevation="2" density="compact" border="start" color="warning" icon="mdi-alert-circle-outline">
           <v-row dense>
             <v-col>
               <h3 class="font-weight-medium">You have unsaved changes!</h3>
@@ -208,28 +203,28 @@ export default {
             <h2>Users</h2>
           </v-col>
           <v-col sm="2" align="end">
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  v-on="on"
-                  fab
-                  x-small
+                  v-bind="props"
+                  icon
+                  size="x-small"
                   color="primary"
                   data-cy="add-member-modal"
                   @click.stop="showAddUserModal = true"
                 >
-                  <v-icon>person_add</v-icon>
+                  <v-icon>mdi-account-plus</v-icon>
                 </v-btn>
               </template>
               <span>Add organization users</span>
             </v-tooltip>
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
                 <v-btn
                   class="ml-2"
-                  v-on="on"
-                  fab
-                  x-small
+                  v-bind="props"
+                  icon
+                  size="x-small"
                   color="error"
                   :disabled="!selected || !selected.length"
                   data-cy="revoke-member-modal"
@@ -240,14 +235,14 @@ export default {
               </template>
               <span>{{ `Deactivate organization user${selected.length === 1 ? '' : 's'}` }}</span>
             </v-tooltip>
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
                 <v-btn
                   class="ml-2"
-                  v-on="on"
-                  fab
-                  x-small
-                  color="green"
+                  v-bind="props"
+                  icon
+                  size="x-small"
+                  color="success"
                   :disabled="!selected || !selected.length"
                   data-cy="reactivate-member-modal"
                   @click="showChangeUsers(false)"
@@ -269,39 +264,39 @@ export default {
               :hideDefaultFooter="filteredUsers.length < 20"
               v-model:selected="selected"
             >
-              <template v-slot:fullName="{ item }">
+              <template #fullName="{ item }">
                 <router-link :to="{ name: 'UserDetail', params: { id: item.user.id } }">
                   {{ item.fullName }}
                 </router-link>
               </template>
-              <template v-slot:status="{ item }">
-                <v-tooltip v-if="item.active" top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-on="on" v-bind="attrs" color="#fcbd01">lightbulb</v-icon>
+              <template #status="{ item }">
+                <v-tooltip v-if="item.active" location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-icon v-bind="props" color="#fcbd01">mdi-lightbulb</v-icon>
                   </template>
                   <span>Active member</span>
                 </v-tooltip>
-                <v-tooltip v-else top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-on="on" v-bind="attrs" color="#ccc">lightbulb</v-icon>
+                <v-tooltip v-else location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-icon v-bind="props" color="#ccc">mdi-lightbulb-outline</v-icon>
                   </template>
                   <span>Former member</span>
                 </v-tooltip>
-                <v-tooltip top v-if="item.role == 'pi'">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon color="green" v-on="on" v-bind="attrs">school</v-icon>
+                <v-tooltip location="top" v-if="item.role == 'pi'">
+                  <template v-slot:activator="{ props }">
+                    <v-icon color="green" v-bind="props">mdi-school</v-icon>
                   </template>
                   <span>PI</span>
                 </v-tooltip>
-                <v-tooltip top v-if="item.role == 'lab_manager'">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon color="green" v-on="on" v-bind="attrs">mdi-clipboard-account</v-icon>
+                <v-tooltip location="top" v-if="item.role == 'lab_manager'">
+                  <template v-slot:activator="{ props }">
+                    <v-icon color="green" v-bind="props">mdi-clipboard-account</v-icon>
                   </template>
                   <span>Lab Admin</span>
                 </v-tooltip>
-                <v-tooltip top v-if="item.role == 'approver'">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon color="green" v-on="on" v-bind="attrs">mdi-account-check</v-icon>
+                <v-tooltip location="top" v-if="item.role == 'approver'">
+                  <template v-slot:activator="{ props }">
+                    <v-icon color="green" v-bind="props">mdi-account-check</v-icon>
                   </template>
                   <span>Approver</span>
                 </v-tooltip>
@@ -315,9 +310,9 @@ export default {
             <h2>Contacts</h2>
           </v-col>
           <v-col sm="1" align="end">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openContactDialog()" />
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <IFXButton v-bind="props" btnType="add" size="x-small" @action="openContactDialog()" />
               </template>
               <span>Add new contact</span>
             </v-tooltip>
@@ -339,7 +334,7 @@ export default {
             </div>
           </v-col>
           <div class="w-full" v-if="getContactIndicesByRole(contactGroupName).length !== 0">
-            <v-divider></v-divider>
+            <v-divider />
           </div>
         </v-row>
       </v-col>
@@ -350,29 +345,30 @@ export default {
       :disabled="!isSubmittable"
       @action="updateUsersAndSubmit"
       :submitting="submitting"
-    ></IFXPageActionBar>
+    />
+
+    <!-- Add Contact Dialog -->
     <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
       <v-card>
-        <v-card-title>
-          Add Contact
-          <v-spacer></v-spacer>
-          <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
+        <v-card-title class="d-flex align-center pa-4">
+          <span class="text-h6">Add Contact</span>
+          <v-spacer />
+          <v-tooltip location="top">
+            <template v-slot:activator="{ props }">
               <v-btn
-                icon
-                small
+                icon="mdi-close"
+                variant="text"
+                size="small"
                 @click="contactDialogOpen = false"
                 data-cy="contact-dialog-close"
-                v-on="on"
-                v-bind="attrs"
-              >
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
+                v-bind="props"
+              />
             </template>
             <span>Cancel</span>
           </v-tooltip>
         </v-card-title>
-        <v-card-text class="pb-0">
+        <v-divider />
+        <v-card-text class="pa-4">
           <IFXSelectCreateContact
             :allItems="allContacts"
             :allRoles="allRoles"
@@ -382,26 +378,31 @@ export default {
             v-model:valid="addContactFormIsValid"
           />
         </v-card-text>
-        <v-card-actions class="d-flex justify-start pb-3">
-          <v-btn small text class="ml-2" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn small text class="mr-2" color="secondary" @click="cancelContact">Clear</v-btn>
-          <v-btn small text class="mr-2" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
+        <v-divider />
+        <v-card-actions class="pa-4">
+          <v-btn variant="text" color="secondary" @click="contactDialogOpen = false">Close</v-btn>
+          <v-spacer />
+          <v-btn variant="text" color="secondary" @click="cancelContact">Clear</v-btn>
+          <v-btn variant="text" :disabled="!addContactFormIsValid" color="primary" @click="addContact()">
             Add
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Add Users Modal -->
     <IFXAddUsers
       v-if="showAddUserModal"
       v-model="item"
       v-model:showModal="showAddUserModal"
-      :itemType="user"
+      itemType="user"
       :allowSetPrimaryAffiliation="false"
       @close="closeMemberDialog()"
       @update="updateOrg"
       @user="addUser"
-    ></IFXAddUsers>
+    />
+
+    <!-- Deactivate Users Modal -->
     <IFXActivateDeactivateUsers
       v-if="showRevokeUserModal"
       v-model="selectedUsers"
@@ -410,7 +411,9 @@ export default {
       :showModal="showRevokeUserModal"
       @close="closeMemberDialog()"
       @update="updateOrg"
-    ></IFXActivateDeactivateUsers>
+    />
+
+    <!-- Reactivate Users Modal -->
     <IFXActivateDeactivateUsers
       v-if="showReactivateUserModal"
       v-model="selectedUsers"
@@ -419,14 +422,15 @@ export default {
       :showModal="showReactivateUserModal"
       @close="closeMemberDialog()"
       @update="updateOrg"
-    ></IFXActivateDeactivateUsers>
+    />
   </v-container>
 </template>
+
 <style scoped>
 .w-full {
   width: 100%;
 }
-.show-inactive .v-messages theme--light {
+.show-inactive :deep(.v-messages) {
   display: none;
 }
 </style>

@@ -38,6 +38,31 @@ export default {
       return this.header.key
     },
   },
+  methods: {
+    getDetailRoute(type, id) {
+      return {
+        name: `${type}Detail`,
+        params: { id },
+        query: { page: this.page }
+      }
+    },
+    getEditRoute(type, id) {
+      return {
+        name: `${type}Edit`,
+        params: { id },
+        query: { page: this.page }
+      }
+    },
+    navigateToCopy(type, item) {
+      this.$router.push({
+        name: `${type}New`,
+        query: {
+          copy: item.id,
+          page: this.page
+        }
+      })
+    },
+  },
 }
 </script>
 
@@ -51,33 +76,36 @@ export default {
   <span v-else-if="name === 'expenseCode'">
     <div>{{ item.expenseCode ? item.expenseCode : 'N/A' }}</div>
   </span>
-  <span
-    v-else-if="name === 'id'"
-    data-cy="navigate-to-detail"
-    @click.prevent="() => navigateToDetail(type, item.id, page)"
-  >
-    <a class="data-table-id">{{ item.id }}</a>
+  <span v-else-if="name === 'id'" data-cy="navigate-to-detail">
+    <router-link
+      :to="getDetailRoute(type, item.id)"
+      class="data-table-id"
+    >
+      {{ item.id }}
+    </router-link>
   </span>
-  <span
-    v-else-if="name === 'loggedBy'"
-    data-cy="navigate-to-detail"
-    @click.prevent="() => navigateToDetail('User', item.loggedBy.id, page)"
-  >
-    <a class="data-table-id">{{ item.loggedBy.fullName }}</a>
+  <span v-else-if="name === 'loggedBy'" data-cy="navigate-to-detail">
+    <router-link
+      :to="getDetailRoute('User', item.loggedBy.id)"
+      class="data-table-id"
+    >
+      {{ item.loggedBy.fullName }}
+    </router-link>
   </span>
-  <span
-    v-else-if="name === 'user'"
-    data-cy="navigate-to-detail"
-    @click.prevent="() => navigateToDetail('User', item.user.id, page)"
-  >
-    <a class="data-table-id">{{ item.user.fullName }}</a>
+  <span v-else-if="name === 'user'" data-cy="navigate-to-detail">
+    <router-link
+      :to="getDetailRoute('User', item.user.id)"
+      class="data-table-id"
+    >
+      {{ item.user.fullName }}
+    </router-link>
   </span>
   <span v-else-if="name === 'rowActionEdit'">
     <IFXButton
       btnType="edit"
       small
       data-cy="navigate-to-edit"
-      @action="navigateToEdit(type, item.id, page)"
+      @action="$router.push(getEditRoute(type, item.id))"
     />
   </span>
   <span v-else-if="name === 'rowActionDetailEdit'">
@@ -85,11 +113,16 @@ export default {
       btnType="edit"
       small
       data-cy="navigate-to-detail"
-      @action="navigateToDetail(type, item.id, page)"
+      @action="$router.push(getDetailRoute(type, item.id))"
     />
   </span>
   <span v-else-if="name === 'rowActionCopy'">
-    <IFXButton btnType="copy" small data-cy="navigate-to-copy" @action="navigateToCopy(type, item)" />
+    <IFXButton
+      btnType="copy"
+      small
+      data-cy="navigate-to-copy"
+      @action="navigateToCopy(type, item)"
+    />
   </span>
   <span v-else-if="name === 'withdrawlDate'">
     <div>{{ $humanDatetime(item.withdrawalDate) }}</div>

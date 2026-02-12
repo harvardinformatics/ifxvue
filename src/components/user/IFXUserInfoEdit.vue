@@ -26,6 +26,8 @@ export default {
   data() {
     return {
       isValid: false,
+      isLoading: false,
+      formName: 'userInfoForm',
     }
   },
   methods: {
@@ -40,11 +42,15 @@ export default {
       return this.$api.group.colorForGroup(group)
     },
     clearError(key) {
-      if (this.errors.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(this.errors, key)) {
         delete this.errors[key]
       }
     },
     trimOrgName(slug) {
+      // Add safety check for non-string values
+      if (!slug || typeof slug !== 'string') {
+        return slug
+      }
       return this.$api.organization.parseSlug(slug).name
     },
   },
@@ -126,15 +132,21 @@ export default {
               :items="allGroupNames"
               clearable
               multiple
+              chips
               label="Groups"
               hint="Groups to which this user belongs."
               persistent-hint
               :error-messages="errors.groups"
               @focus="clearError('groups')"
             >
-              <template #selection="{ item }">
-                <v-chip :color="getChipColorForGroup(item)" close @click:close="removeGroup(item)">
-                  <strong>{{ item }}</strong>
+              <template #chip="{ item }">
+                <v-chip
+                  :color="getChipColorForGroup(item.raw)"
+                  variant="flat"
+                  closable
+                  @click:close="removeGroup(item.raw)"
+                >
+                  <strong>{{ item.raw }}</strong>
                 </v-chip>
               </template>
             </v-autocomplete>
@@ -167,11 +179,11 @@ export default {
               :rules="formRules.generic"
               required
             >
-              <template #item="{ item }">
-                {{ trimOrgName(item) }}
+              <template #item="{ props, item }">
+                <v-list-item v-bind="props" :title="trimOrgName(item.raw)"></v-list-item>
               </template>
               <template #selection="{ item }">
-                {{ trimOrgName(item) }}
+                {{ trimOrgName(item.raw) }}
               </template>
             </v-autocomplete>
           </v-col>
@@ -188,7 +200,7 @@ export default {
       </v-form>
     </div>
     <v-container v-else>
-      <v-alert :value="true" type="error" outlined>
+      <v-alert type="error" variant="outlined">
         Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms
         for these edits.
       </v-alert>
