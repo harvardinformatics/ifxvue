@@ -1,6 +1,7 @@
 <script>
 import { mapActions } from 'vuex'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
+import IFXMonthYearDatePicker from '@/components/IFXMonthYearDatePicker'
 
 export default {
   name: 'IFXCalculateBillingMonth',
@@ -30,10 +31,10 @@ export default {
   },
   components: {
     IFXItemDataTable,
+    IFXMonthYearDatePicker,
   },
   data() {
     return {
-      dateMenu: false,
       selectedDateKey: 'billingRecordListDate',
       selectedDate: null,
       localMonth: null,
@@ -93,13 +94,6 @@ export default {
     filteredItems: function () {
       return this.getItemsFilteredBySearch()
     },
-    selectedDateAsDate() {
-      if (!this.selectedDate) return null
-      if (typeof this.selectedDate === 'string') {
-        return new Date(this.selectedDate + '-01T00:00:00')
-      }
-      return this.selectedDate
-    }
   },
   methods: {
     ...mapActions(['showMessage']),
@@ -159,14 +153,6 @@ export default {
         year: parts[0],
         month: parts[1]
       }
-    },
-    onDateChange(date) {
-      if (date) {
-        const year = date.getFullYear()
-        const month = String(date.getMonth() + 1).padStart(2, '0')
-        this.selectedDate = `${year}-${month}`
-      }
-      this.dateMenu = false
     },
     calculateBillingMonth() {
       if (this.selectedDate) {
@@ -243,27 +229,13 @@ export default {
     </IFXPageHeader>
     <v-row align="center">
       <v-col>
-        <v-menu
-          v-model="dateMenu"
-          :close-on-content-click="false"
-          location="bottom start"
-        >
-          <template v-slot:activator="{ props }">
-            <v-text-field
-              :model-value="selectedDate"
-              label="Month *"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="props"
-              hint="YYYY-MM format"
-              persistent-hint
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            :model-value="selectedDateAsDate"
-            @update:model-value="onDateChange"
-          ></v-date-picker>
-        </v-menu>
+        <IFXMonthYearDatePicker
+          v-model="selectedDate"
+          label="Month"
+          hint="YYYY-MM format"
+          persistent-hint
+          required
+        />
       </v-col>
       <v-col>
         <v-select
