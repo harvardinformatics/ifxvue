@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'IFXMonthYearPicker',
+  name: 'IFXMonthYearDatePicker',
   props: {
     modelValue: {
       type: String,
