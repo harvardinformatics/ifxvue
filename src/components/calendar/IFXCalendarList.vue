@@ -865,6 +865,7 @@ export default {
             if (match.length) {
               // If the first three characters are "PO<space>", we've got a PO
               if (match[1].startsWith('PO ')) {
+                // If this is a PO, try to use the name rather than the slug
                 result = name || match[1].substr(3)
               } else {
                 result = match[2]
