@@ -857,7 +857,7 @@ export default {
     getAccountDisplay(item) {
       // Return a list of the friendly names of the accounts
       return item.reservation.accounts
-        .map(({ account }) => {
+        .map(({ account, name }) => {
           let result = account
           if (account) {
             // parse a slug
@@ -865,7 +865,8 @@ export default {
             if (match.length) {
               // If the first three characters are "PO<space>", we've got a PO
               if (match[1].startsWith('PO ')) {
-                result = match[1].substr(3)
+                // If this is a PO, try to use the name rather than the slug
+                result = name || match[1].substr(3)
               } else {
                 result = match[2]
               }
