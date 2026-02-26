@@ -68,8 +68,20 @@ export default {
   },
   data: () => ({
     currentPage: 1,
+    itemsPerPage: null,
   }),
+  watch: {
+    itemsPerPage(val) {
+      if (val) {
+        this.$api.storage.setItem(this.itemsPerPageStorageKey, val, 'local')
+      }
+    },
+  },
   mounted() {
+    // Initialize itemsPerPage from storage
+    const stored = this.$api.storage.getItem(this.itemsPerPageStorageKey, 'local')
+    this.itemsPerPage = stored ? parseInt(stored, 10) : this.defaultItemsPerPage
+
     if (this.trackPageNum && this.$route?.query?.page) {
       const num = parseInt(this.$route.query.page, 10)
       this.currentPage = Number.isNaN(num) ? 1 : num
@@ -113,16 +125,6 @@ export default {
         return this.$emit('update:selected', selected)
       },
     },
-    options: {
-      get() {
-        return {
-          itemsPerPage: this.$api.storage.getItem(this.itemsPerPageStorageKey, 'local') || this.defaultItemsPerPage,
-        }
-      },
-      set(options) {
-        this.$api.storage.setItem(this.itemsPerPageStorageKey, options.itemsPerPage, 'local')
-      },
-    },
     footerProps() {
       return {
         'items-per-page-options': this.defaultItemsPerPageOptions,
@@ -154,7 +156,7 @@ export default {
     :items="items"
     :sort-by="sortByOptions"
     :multi-sort="multiSort"
-    v-model:options="options"
+    v-model:items-per-page="itemsPerPage"
     :class="rowClass"
     @click:row="clickRow"
     :show-select="showSelect"

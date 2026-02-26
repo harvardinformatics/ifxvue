@@ -2,6 +2,7 @@
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 import IFXSearchField from '@/components/IFXSearchField'
+import IFXMonthYearDatePicker from '@/components/IFXMonthYearDatePicker'
 
 export default {
   name: 'IFXLabBillingSummaryList',
@@ -9,6 +10,7 @@ export default {
   components: {
     IFXSearchField,
     IFXItemDataTable,
+    IFXMonthYearDatePicker,
   },
   props: {
     facility: {
@@ -29,16 +31,10 @@ export default {
       startYear: null,
       endMonth: new Date().getMonth(),
       endYear: new Date().getFullYear(),
-      startMenu: false,
       startMonthAndYear: null,
-      endMenu: false,
       endMonthAndYear: null,
       fetchingData: false,
       maxDate: new Date().toISOString().slice(0, 7),
-      startViewMode: 'months',
-      endViewMode: 'months',
-      selectedStartYear: null,
-      selectedEndYear: null,
     }
   },
   mounted() {
@@ -47,8 +43,6 @@ export default {
       this.endYear--
     }
     this.startYear = this.endYear
-    this.selectedStartYear = this.startYear
-    this.selectedEndYear = this.startYear
     this.startMonth = this.endMonth - this.DEFAULT_RANGE
     if (this.startMonth < 1) {
       this.startMonth += 12
@@ -56,6 +50,22 @@ export default {
     }
     this.startMonthAndYear = `${this.startYear}-${String(this.startMonth).padStart(2, '0')}`
     this.endMonthAndYear = `${this.endYear}-${String(this.endMonth).padStart(2, '0')}`
+  },
+  watch: {
+    startMonthAndYear(val) {
+      if (val) {
+        const parts = val.split('-')
+        this.startYear = parseInt(parts[0])
+        this.startMonth = parseInt(parts[1])
+      }
+    },
+    endMonthAndYear(val) {
+      if (val) {
+        const parts = val.split('-')
+        this.endYear = parseInt(parts[0])
+        this.endMonth = parseInt(parts[1])
+      }
+    },
   },
   methods: {
     async getSetItems() {
@@ -91,31 +101,6 @@ export default {
         this.items.push(newData)
       })
       this.fetchingData = false
-    },
-    updateViewMode(viewMode, type) {
-      if (type === 'start') {
-        this.startViewMode = viewMode === 'year' ? 'year' : 'months'
-      } else {
-        this.endViewMode = viewMode === 'year' ? 'year' : 'months'
-      }
-    },
-    updateStartYear(year) {
-      this.selectedStartYear = year
-    },
-    updateStartMonth(month) {
-      this.startMonth = month + 1
-      this.startYear = this.selectedStartYear
-      this.startMonthAndYear = `${this.startYear}-${String(this.startMonth).padStart(2, '0')}`
-      this.startMenu = false
-    },
-    updateEndYear(year) {
-      this.selectedEndYear = year
-    },
-    updateEndMonth(month) {
-      this.endMonth = month + 1
-      this.endYear = this.selectedEndYear
-      this.endMonthAndYear = `${this.endYear}-${String(this.endMonth).padStart(2, '0')}`
-      this.endMenu = false
     },
     updateTable() {
       this.getSetItems()
@@ -170,54 +155,16 @@ export default {
     </IFXPageHeader>
     <v-row v-if="showSelectors">
       <v-col class="flex-grow-1 flex-shrink-0">
-        <v-menu
-          v-model="startMenu"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          max-width="290px"
-          min-width="auto"
-        >
-          <template v-slot:activator="{ props }">
-            <v-text-field
-              v-model="startMonthAndYear"
-              label="Select start month and year"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="props"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            :view-mode="startViewMode"
-            @update:view-mode="updateViewMode($event, 'start')"
-            @update:year="updateStartYear"
-            @update:month="updateStartMonth"
-          ></v-date-picker>
-        </v-menu>
+        <IFXMonthYearDatePicker
+          v-model="startMonthAndYear"
+          label="Select start month and year"
+        />
       </v-col>
       <v-col class="flex-grow-1 flex-shrink-0">
-        <v-menu
-          v-model="endMenu"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          max-width="290px"
-          min-width="auto"
-        >
-          <template v-slot:activator="{ props }">
-            <v-text-field
-              v-model="endMonthAndYear"
-              label="Select end month and year"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="props"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            :view-mode="endViewMode"
-            @update:view-mode="updateViewMode($event, 'end')"
-            @update:year="updateEndYear"
-            @update:month="updateEndMonth"
-          ></v-date-picker>
-        </v-menu>
+        <IFXMonthYearDatePicker
+          v-model="endMonthAndYear"
+          label="Select end month and year"
+        />
       </v-col>
       <v-col class="d-flex flex-row align-center flex-grow-0 flex-shrink-1">
         <v-btn size="small" @click="updateTable" color="primary">Get Summary</v-btn>
