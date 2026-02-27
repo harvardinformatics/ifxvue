@@ -1177,8 +1177,8 @@ export default {
             <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
               <tr>
                 <td :colspan="columns.length" class="">
-                  <v-row class="align-center">
-                    <v-col cols="auto" v-if="showCheckboxes">
+                  <v-row class="align-center" density="compact" no-gutters>
+                    <v-col cols="1" v-if="showCheckboxes" class="force-compact-checkbox">
                       <v-checkbox
                         v-model="rowSelectionToggle"
                         :value="item.value"
@@ -1193,13 +1193,11 @@ export default {
                         elevation="0"
                         density="compact"
                         icon="mdi-menu-right"
+                        variant="plain"
                         @click="toggleGroup(item)"
                         :class="{ 'rotate-90': isGroupOpen(item) }"
                         class="mr-1"
-                      >
-                      </v-btn>
-                    </v-col>
-                    <v-col>
+                      ></v-btn>
                       <span class="font-weight-bold text-body-2">
                         {{ $api.organization.parseSlug(item.value).name }}
                       </span>
@@ -1471,7 +1469,10 @@ export default {
   transform: rotate(90deg);
   transition: transform 0.2s;
 }
-
+.force-compact-checkbox {
+  flex-grow: 0;
+  flex-shrink: 1;
+}
 </style>
 <style>
 #data-table .v-data-table__expand-icon--active {
@@ -1483,5 +1484,4 @@ export default {
   box-shadow: none;
 }
 </style>
-<style scoped>
-</style>
+<style scoped></style>
