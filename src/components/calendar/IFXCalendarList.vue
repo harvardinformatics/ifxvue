@@ -1144,7 +1144,7 @@ export default {
                     :disabled="weAreEditing"
                     data-cy="select-resources"
                   ></v-autocomplete>
-                  <v-row no-gutters v-if="useTrial || useMaintenance">
+                  <v-row density="compact" v-if="useTrial || useMaintenance">
                     <v-col cols="8" v-if="useTrial">
                       <v-checkbox
                         class="dense-checkbox"
@@ -1393,7 +1393,7 @@ export default {
                     class="textarea-scroll"
                     data-cy="comments"
                   ></v-textarea>
-                  <v-row no-gutters>
+                  <v-row density="compact">
                     <v-col cols="8">
                       <v-checkbox
                         class="dense-checkbox"
@@ -1561,7 +1561,7 @@ export default {
                 <v-btn icon="mdi-close" size="small" @click="closePopup" data-cy="popup-close"></v-btn>
               </v-toolbar>
               <v-card-text class="text-body-1" v-if="Object.keys(selectedEvent).length">
-                <v-row no-gutters>
+                <v-row density="compact">
                   <v-col cols="4"><div>User</div></v-col>
                   <v-col>
                     <span class="font-weight-medium" data-cy="popup-user">
@@ -1576,7 +1576,7 @@ export default {
                     </span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters>
+                <v-row density="compact">
                   <v-col cols="4"><div>Organization</div></v-col>
                   <v-col>
                     <span class="font-weight-medium" data-cy="popup-organization">
@@ -1584,7 +1584,7 @@ export default {
                     </span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters v-if="showAccountDisplay(selectedEvent)">
+                <v-row density="compact" v-if="showAccountDisplay(selectedEvent)">
                   <v-col cols="4"><div>Exp Code/ PO</div></v-col>
                   <v-col>
                     <span class="font-weight-medium" data-cy="popup-expense-code">
@@ -1592,7 +1592,7 @@ export default {
                     </span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters>
+                <v-row density="compact">
                   <v-col cols="4"><div>Time</div></v-col>
                   <v-col>
                     <div>
@@ -1606,7 +1606,7 @@ export default {
                     </span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters v-if="selectedEvent.reservation.attendants.length">
+                <v-row density="compact" v-if="selectedEvent.reservation.attendants.length">
                   <v-col cols="4"><div>Attendants</div></v-col>
                   <v-col>
                     <span
@@ -1634,14 +1634,14 @@ export default {
                 <div v-if="selectedEvent.cancelled" class="mt-2 text-red" data-cy="popup-cancelled">
                   This reservation is cancelled.
                 </div>
-                <v-row no-gutters v-if="selectedEvent.reservation.comment" class="mt-3">
+                <v-row density="compact" v-if="selectedEvent.reservation.comment" class="mt-3">
                   <v-col cols="4"><div>Comments</div></v-col>
                   <v-col data-cy="popup-comment">{{ selectedEvent.reservation.comment }}</v-col>
                 </v-row>
-                <v-row no-gutters v-if="useMaintenance && selectedEvent.reservation.isMaintenance" class="mt-3">
+                <v-row density="compact" v-if="useMaintenance && selectedEvent.reservation.isMaintenance" class="mt-3">
                   <v-col data-cy="popup-unavailable">This time slot is marked Unavailable</v-col>
                 </v-row>
-                <v-row no-gutters v-if="useTrial && selectedEvent.reservation.trial" class="mt-3">
+                <v-row density="compact" v-if="useTrial && selectedEvent.reservation.trial" class="mt-3">
                   <v-col data-cy="popup-trial">
                     {{
                       `This is a${selectedEvent.reservation.approved ? '' : 'n unapproved'} Testing / Pilot reservation`
@@ -1724,7 +1724,7 @@ text-align: left;
 border: 1px solid #000;
 border-radius: 6px;
 overflow: hidden;
-}                  
+}
 
 
 .badge-adjust {

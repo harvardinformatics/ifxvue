@@ -1,87 +1,12 @@
-// src/sass/variables.scss
-
-@use 'vuetify/lib/styles/main.sass';
-
-// Globals
-$border-radius-root: 6px;
-$font-size-root: 14px;
-
-// Variables must come before the import
-$btn-letter-spacing: 0;
-$btn-font-weight: 400;
-$btn-sizes: (
-  'default': 38,
-  'large': 51,
-);
-$fab-sizes: (
-  'default': 54,
-  'large': 62,
-);
-$fab-icon-sizes: (
-  'small': 20,
-  'default': 22,
-);
-
-$list-item-title-font-size: 0.929rem;
-$list-item-dense-title-font-size: 0.929rem;
-$list-item-dense-title-font-weight: initial;
-
-// Shrink list item icons
-$list-item-action-icon-margin: 16px;
-$list-item-icon-margin: 8px;
-
-//Rewrite all the headings
-$headings: (
-  'h1': (
-    'size': 3.3125rem,
-    'line-height': 1.15em,
-  ),
-  'h2': (
-    'size': 2.25rem,
-    'line-height': 1.5em,
-  ),
+$new-typography: (
   'h3': (
-    'size': 1.9rem,
-    'line-height': 1.2em,
-  ),
-);
+    'size': 0.5rem,
+    'margin-block-start': 0rem,
+    'margin-block-end': 0rem,
+    )
+    // Other heading types
+  );
 
-$icon-sizes: (
-  'x-small': (
-    'font-size': 8,
-    'height': 14,
-  ),
-  'small': (
-    'font-size': 10,
-    'height': 22,
-  ),
-  'default': (
-    'font-size': 12,
-    'height': 30,
-  ),
-  'large': (
-    'font-size': 14,
-    'height': 52,
-  ),
-  'x-large': (
-    'font-size': 16,
-    'height': 64,
-  ),
-);
-
-.v-input .v-label {
-  font-size: 14px;
-}
-
-.text-label {
-  font-size: 1.17em;
-  font-weight: bold;
-}
-
-// Force progress bars to always animate
-[role='progressbar'] {
-  & .long,
-  & .short {
-    animation-play-state: running !important;
-  }
-}
+@use 'vuetify/settings' with (
+  $typography: $new-typography,
+)

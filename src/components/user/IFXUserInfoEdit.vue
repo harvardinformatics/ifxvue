@@ -81,7 +81,7 @@ export default {
 <template>
   <v-container fluid v-if="!isLoading && !!item">
     <div fluid v-if="hasIFXID">
-      <v-row no-gutters>
+      <v-row density="compact">
         <v-col>
           <p>
             Use this form to view and edit user information. Changes to most fields (except for application Groups) will

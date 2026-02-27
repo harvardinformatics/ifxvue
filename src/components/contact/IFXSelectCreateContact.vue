@@ -198,7 +198,7 @@ export default {
       </v-col>
     </v-row>
 
-    <v-row v-if="isContactSelected" no-gutters class="mb-4">
+    <v-row v-if="isContactSelected" density="compact" class="mb-4">
       <v-col>
         <v-radio-group
           v-model="itemLocal.contact.type"
@@ -218,7 +218,7 @@ export default {
     </v-row>
 
     <v-form ref="form" v-model="isValid" v-if="isContactSelected">
-      <v-row no-gutters>
+      <v-row density="compact">
         <v-col cols="12" sm="6" class="pr-sm-2">
           <v-autocomplete
             v-model="itemLocal.role"

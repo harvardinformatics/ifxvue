@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <v-row density="compact">
     <v-col class="d-flex flex-column">
       <div><span class="text-subtitle-1 font-weight-medium">Updated on&nbsp;</span><span class="text-body-2">{{updatedDate}}</span></div>
       <div><span class="text-subtitle-1 font-weight-medium">Created on&nbsp;</span><span class="text-body-2">{{createdDate}}</span></div>
