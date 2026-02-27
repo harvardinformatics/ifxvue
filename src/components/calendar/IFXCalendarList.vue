@@ -1065,7 +1065,7 @@ export default {
               :event-color="getEventColor"
               :event-timed="isEventTimed"
               :type="type"
-              xxinterval-height="60"
+              interval-height="60"
               event-text-color="black"
               @click:more="viewDay"
               @click:date="viewDay"
