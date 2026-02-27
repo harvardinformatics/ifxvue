@@ -825,10 +825,8 @@ export default {
     <v-card>
       <v-card-title>
         <v-row class="d-flex justify-space-between w-full">
-          <v-col cols="5">
-            <div class="text-no-wrap">
-              {{ facility.name }}
-            </div>
+          <v-col cols="3" style="text-wrap: wrap;">
+            {{ facility.name }}
           </v-col>
           <v-col class="flex-grow-2">
             <v-row>
