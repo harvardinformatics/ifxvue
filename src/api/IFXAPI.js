@@ -805,7 +805,15 @@ export default class IFXAPIService {
 
   get logChannel() {
     const baseURL = this.urls.LOG_CHANNELS
-    return this.genericAPI(baseURL, IFXLogChannel)
+    const api = this.genericAPI(baseURL, IFXLogChannel)
+    api.getSubscriberEmails = async (channelIds) => {
+      const url = this.urls.GET_SUBSCRIBER_EMAILS
+      return this.axios.post(
+        url,
+        { channel_ids: channelIds }
+      ).then((res) => res.data)
+    }
+    return api
   }
 
   get logSubscription() {

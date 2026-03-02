@@ -276,6 +276,7 @@ export default {
         if (this.recipients) {
           this.recipients.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
+            console.log('Extracted email:', email)
             const matches = this.contactables.filter((contactable) => contactable.detail === email)
             if (matches) {
               if (this.recipientField) {

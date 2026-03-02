@@ -65,5 +65,4 @@ export default class IFXLogSubscription extends IFXItemBase {
   get created() {
     return this.data.created
   }
-
 }

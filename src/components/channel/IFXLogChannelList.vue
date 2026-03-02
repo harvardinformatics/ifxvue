@@ -31,8 +31,16 @@ export default {
   },
   methods: {
     composeEmail() {
-      // Get the email addresses of all subscribers to the selected channels
-      return ''
+      // Get the email addresses in "recipient" form for all subscribers to the selected channels
+      const ids = this.selected.map((item) => item.id)
+      const params = {}
+      this.$api.logChannel.getSubscriberEmails(ids).then((res) => {
+        params[this.recipientField] = res.subscribers.join(',')
+        this.$router.push({
+          name: 'MailingCompose',
+          params,
+        })
+      })
     },
   },
 }
