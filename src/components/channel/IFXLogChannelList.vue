@@ -36,6 +36,7 @@ export default {
       const params = {}
       this.$api.logChannel.getSubscriberEmails(ids).then((res) => {
         params[this.recipientField] = res.subscribers.join(',')
+        params.plainEmail = true
         this.$router.push({
           name: 'MailingCompose',
           params,
@@ -55,16 +56,21 @@ export default {
           <v-col sm="6">
             <IFXSearchField :search.sync="search" />
           </v-col>
-          <v-col sm="3">
-            <IFXButton btnType="add" small @action="navigateToItemCreate" />
-          </v-col>
-          <v-col sm="3">
-            <IFXMailButton
-              v-model="recipientField"
-              :disabled="!filteredItems.length"
-              toolTip="Send email to channel subscribers"
-              @input="composeEmail()"
-            ></IFXMailButton>
+          <v-col>
+            <v-row justify="end">
+              <v-col></v-col>
+              <v-col sm="3">
+                <IFXButton btnType="add" small @action="navigateToItemCreate" />
+              </v-col>
+              <v-col sm="3">
+                <IFXMailButton
+                  v-model="recipientField"
+                  :disabled="!selected.length"
+                  toolTip="Send email to channel subscribers"
+                  @input="composeEmail()"
+                ></IFXMailButton>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </template>
