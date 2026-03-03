@@ -51,6 +51,7 @@ export default {
       search: null,
       onlyErrorsStorageKey: 'calculate-billing-month-onlyErrors',
       onlyErrors: false,
+      globalErrors: null,
     }
   },
   watch: {
@@ -168,9 +169,13 @@ export default {
           me.getUsages()
         }, this.fetchInterval)
         const yearMonth = this.getYearMonth()
+        this.globalErrors = null
         this.$api.calculateBillingMonth(this.facility, yearMonth.year, yearMonth.month, this.recalculate)
           .then((response) => {
             const message = `${response.data.successes} usages successfully processed (of ${totalUsages})`
+            if (response.data.errors?.length) {
+              me.globalErrors = response.data.errors.join(', ')
+            }
             this.showMessage(message)
             clearInterval(this.interval)
             this.getUsages()
@@ -232,6 +237,13 @@ export default {
     <IFXPageHeader>
       <template #title>Calculate billing month</template>
     </IFXPageHeader>
+    <v-row v-if="globalErrors">
+      <v-col>
+        <v-alert type="error" outlined>
+          {{ globalErrors }}
+        </v-alert>
+      </v-col>
+    </v-row>
     <v-row align="center" dense>
       <v-col>
         <v-menu

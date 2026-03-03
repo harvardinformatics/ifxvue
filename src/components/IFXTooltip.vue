@@ -9,6 +9,7 @@
         v-bind="getAttrs"
         @click="handleClick"
         :disabled="disabled"
+        :small="small"
       >
         <v-icon :dark="dark" :color="iconColor">{{ icon }}</v-icon>
       </v-btn>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+
 // Wraps Vuetify's tooltip to provide accessibility info
 export default {
   name: 'IFXTooltip',
@@ -57,6 +59,11 @@ export default {
       default: false,
     },
     isHTML: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    small: {
       type: Boolean,
       required: false,
       default: false,
