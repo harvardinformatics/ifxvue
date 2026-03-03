@@ -45,7 +45,18 @@ export default {
   },
   methods: {
     composeEmail() {
-      const emails = this.selected.map((item) => (item.preferredEmail ? item.preferredEmail : item.user.email))
+      let emails = []
+      if (this.selected.length) {
+        emails = this.selected.map((item) => (item.user.preferredEmail ? item.user.preferredEmail : item.user.email))
+      } else {
+        // If no selected users, email all subscribers to the channel
+        emails = this.subscriptions.map((item) => {
+          if (item.subscribed) {
+            return item.user.preferredEmail ? item.user.preferredEmail : item.user.email
+          }
+          return null
+        }).filter((e) => e) // filter out any nulls from unsubscribed users
+      }
       const params = {}
       params[this.recipientField] = emails.join(',')
       params.plainEmail = true
@@ -143,21 +154,13 @@ export default {
     </IFXPageHeader>
     <v-container px-5 py-0>
       <v-row justify="start" align="center" dense>
-        <v-col sm="6">
+        <v-col sm="8">
           <v-text-field
             v-model="search"
             label="Search"
             clearable
             clear-icon="mdi-close-circle"
           ></v-text-field>
-        </v-col>
-        <v-col>
-          <IFXMailButton
-            v-model="recipientField"
-            :disabled="!selected.length"
-            toolTip="Send email to selected subscribers"
-            @input="composeEmail()"
-          ></IFXMailButton>
         </v-col>
         <v-col sm="4">
           <v-row justify="end" align="center" dense>
@@ -196,6 +199,14 @@ export default {
                 :small="true"
                 >
               </IFXTooltip>
+            </v-col>
+            <v-col>
+              <IFXMailButton
+                v-model="recipientField"
+                :toolTip="selected.length ? 'Send email to selected subscribers' : 'Send email to all channel subscribers'"
+                :icon="selected.length ? 'mdi-email-send-outline' : 'mdi-email-multiple-outline'"
+                @input="composeEmail()"
+              ></IFXMailButton>
             </v-col>
           </v-row>
         </v-col>
