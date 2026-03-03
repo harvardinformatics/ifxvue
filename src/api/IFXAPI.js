@@ -23,6 +23,8 @@ import UserBillingSummary from '@/components/billingSummary/IFXUserBillingSummar
 import ProductRateBillingSummary from '@/components/billingSummary/IFXProductRateBillingSummary'
 import ProductBillingSummary from '@/components/billingSummary/IFXProductBillingSummary'
 import Subscription from '@/components/subscription/IFXSubscription'
+import IFXLogChannel from '@/components/channel/IFXLogChannel'
+import IFXLogSubscription from '@/components/channel/IFXLogSubscription'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -799,6 +801,33 @@ export default class IFXAPIService {
   get message() {
     const baseURL = this.urls.MESSAGES
     return this.genericAPI(baseURL, IFXMessage)
+  }
+
+  get logChannel() {
+    const baseURL = this.urls.LOG_CHANNELS
+    const api = this.genericAPI(baseURL, IFXLogChannel)
+    api.getSubscriberEmails = async (channelIds) => {
+      const url = this.urls.GET_SUBSCRIBER_EMAILS
+      return this.axios.post(
+        url,
+        { channel_ids: channelIds }
+      ).then((res) => res.data)
+    }
+    return api
+  }
+
+  get logSubscription() {
+    const baseURL = this.urls.LOG_SUBSCRIPTIONS
+    const createFunc = (logSubscriptionData, decompose = false) => {
+      const newLogSubscriptionData = cloneDeep(logSubscriptionData) || {}
+      if (logSubscriptionData.user) {
+        newLogSubscriptionData.user = decompose
+          ? logSubscriptionData.user.data
+          : this.skinnyUser.create(logSubscriptionData.user)
+      }
+      return decompose ? newLogSubscriptionData : new IFXLogSubscription(newLogSubscriptionData)
+    }
+    return this.genericAPI(baseURL, null, createFunc, (data) => createFunc(data, true))
   }
 
   get account() {
