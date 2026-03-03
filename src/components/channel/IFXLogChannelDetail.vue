@@ -2,12 +2,13 @@
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
 import IFXLogChannelMixin from '@/components/channel/IFXLogChannelMixin'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
+import IFXMailButton from '@/components/mailing/IFXMailButton';
 
 export default {
   name: 'IFXLogChannelDetail',
   mixins: [IFXLogChannelMixin, IFXItemDetailMixin],
   components: {
-    IFXItemDataTable,
+    IFXItemDataTable, IFXMailButton
   },
   data() {
     return {
@@ -18,6 +19,7 @@ export default {
       deepSearch: true,
       searchBooleans: true,
       isLoading: true,
+      recipientField: null,
     }
   },
   computed: {
@@ -42,6 +44,16 @@ export default {
     },
   },
   methods: {
+    composeEmail() {
+      const emails = this.selected.map((item) => (item.preferredEmail ? item.preferredEmail : item.user.email))
+      const params = {}
+      params[this.recipientField] = emails.join(',')
+      params.plainEmail = true
+      this.$router.push({
+        name: 'MailingCompose',
+        params,
+      })
+    },
     addSubscriber() {
       return ''
     },
@@ -139,27 +151,38 @@ export default {
             clear-icon="mdi-close-circle"
           ></v-text-field>
         </v-col>
-        <v-col sm="6">
+        <v-col>
+          <IFXMailButton
+            v-model="recipientField"
+            :disabled="!selected.length"
+            toolTip="Send email to selected subscribers"
+            @input="composeEmail()"
+          ></IFXMailButton>
+        </v-col>
+        <v-col sm="4">
           <v-row justify="end" align="center" dense>
             <v-col>&nbsp;</v-col>
             <v-col>
               <IFXTooltip
                 icon="mdi-check-circle"
                 color="green"
-                :fab="false"
+                :fab="true"
                 :disabled="!selected.length"
                 @action="subscribeSelected(true)"
-                tooltip="Subscribe selected users">
+                tooltip="Subscribe selected users"
+                :small="true"
+                >
               </IFXTooltip>
             </v-col>
             <v-col>
               <IFXTooltip
                 icon="mdi-close-circle"
                 color="red"
-                :fab="false"
+                :fab="true"
                 :disabled="!selected.length"
                 @action="subscribeSelected(false)"
                 tooltip="Unsubscribe selected users"
+                :small="true"
                 >
               </IFXTooltip>
             </v-col>
@@ -167,9 +190,10 @@ export default {
               <IFXTooltip
                 icon="mdi-plus-circle"
                 color="blue"
-                :fab="false"
+                :fab="true"
                 @action="addSubscriber()"
                 tooltip="Add subscriber to channel"
+                :small="true"
                 >
               </IFXTooltip>
             </v-col>
