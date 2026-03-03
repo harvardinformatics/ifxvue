@@ -13,12 +13,15 @@ export default {
   data() {
     return {
       allOrganizations: [],
+      isLoading: true,
+      orgKey: 0,
     }
   },
   methods: {
     ...mapActions(['showMessage']),
     async getAdditionalData() {
       this.allOrganizations = await this.$api.organization.getList()
+      this.orgKey += 1 // force refresh of organization dropdown to show new orgs if they were just created
     },
     validateForm() {
       this.$refs.form.validate()
@@ -33,14 +36,11 @@ export default {
       return `Create ${itemTitle}`
     },
   },
-  created() {
-    this.isLoading = true
-  },
 }
 </script>
 
 <template>
-  <v-container style="max-width: 900px" v-if="!isLoading">
+  <v-container style="max-width: 900px" >
     <IFXPageHeader>
       <template #title>{{ title }}</template>
       <template #content>{{ description }}</template>
@@ -59,6 +59,7 @@ export default {
               :error-messages="errors.name"
               required
               class="required"
+              @click="clearAllErrors()"
             ></v-text-field>
           </v-col>
           <v-col>
@@ -68,14 +69,12 @@ export default {
               item-text="name"
               item-value="slug"
               label="Organization"
-              :rules="formRules.generic"
               data-cy="organization"
               :error-messages="errors.organization"
-              class="required"
-              required
               clearable
               clear-icon="mdi-close-circle"
               @focus="clearAllErrors()"
+              :loading="isLoading"
             ></v-autocomplete>
           </v-col>
         </v-row>

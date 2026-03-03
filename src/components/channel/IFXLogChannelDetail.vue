@@ -31,6 +31,15 @@ export default {
     filteredSubscriptions() {
       return this.getSubscriptionsFilteredBySearch() || []
     },
+    subtitle() {
+      let subtitle = 'an application log channel'
+      const mandatoryStr = this.item.isMandatory ? ' mandatory' : ''
+      const userChannelStr = this.item.isUserChannel ? ' user channel' : ''
+      if (mandatoryStr || userChannelStr) {
+        subtitle = `a${mandatoryStr}${userChannelStr}`
+      }
+      return subtitle
+    },
   },
   methods: {
     addSubscriber() {
@@ -115,6 +124,7 @@ export default {
     <IFXPageHeader>
       <template #title>{{ item.title }}</template>
       <template #cypress>{{ item.id }}</template>
+      <template #subtitle>{{ subtitle }}</template>
       <template #actions>
         <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)" />
       </template>

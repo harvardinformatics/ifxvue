@@ -172,7 +172,6 @@ export default {
         this.globalErrors = null
         this.$api.calculateBillingMonth(this.facility, yearMonth.year, yearMonth.month, this.recalculate)
           .then((response) => {
-            console.log(response.data)
             const message = `${response.data.successes} usages successfully processed (of ${totalUsages})`
             if (response.data.errors?.length) {
               me.globalErrors = response.data.errors.join(', ')
