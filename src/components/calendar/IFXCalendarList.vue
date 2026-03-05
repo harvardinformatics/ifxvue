@@ -997,7 +997,7 @@ export default {
           data-cy="filter-resources"
         >
           <template #selection="{ item }">
-            <v-chip :color="item.color" variant="flat" closable @click:close="removeFromFiltered(item)">
+            <v-chip :color="item.color" class="black-text" variant="flat" closable @click:close="removeFromFiltered(item)">
               {{ item.name }}
             </v-chip>
           </template>
