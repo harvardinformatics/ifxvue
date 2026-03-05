@@ -203,7 +203,7 @@ export default {
     <IFXPageHeader>
       <template #title>{{ item.fullName || id }}</template>
       <template #actions>
-        <v-row dense align="center">
+        <v-row density="compact" align="center">
           <v-col>
             <span class="text-no-wrap">
               <IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" v-model:isActive="item.isActive" />
@@ -230,7 +230,7 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container>
-      <v-row dense v-if="Object.keys(this.errors).length">
+      <v-row density="compact" v-if="Object.keys(this.errors).length">
         <v-col>
           <v-alert
             elevation="2"
@@ -239,12 +239,12 @@ export default {
             color="error"
             icon="mdi-alert-circle-outline"
           >
-            <v-row dense>
+            <v-row density="compact">
               <v-col>
                 <h3 class="font-weight-medium">Please correct the following errors</h3>
               </v-col>
             </v-row>
-            <v-row dense>
+            <v-row density="compact">
               <v-col>
                 <ul>
                   <li v-for="(error, key) in errors" :key="key">
@@ -259,7 +259,7 @@ export default {
           </v-alert>
         </v-col>
       </v-row>
-      <v-row dense v-if="isSubmittable">
+      <v-row density="compact" v-if="isSubmittable">
         <v-col>
           <v-alert
             elevation="2"
@@ -268,7 +268,7 @@ export default {
             color="warning"
             icon="mdi-alert-circle-outline"
           >
-            <v-row dense>
+            <v-row density="compact">
               <v-col>
                 <h3 class="font-weight-medium">You have unsaved changes!</h3>
               </v-col>
@@ -276,65 +276,65 @@ export default {
           </v-alert>
         </v-col>
       </v-row>
-      <v-row dense>
+      <v-row density="compact">
         <v-col sm="12" md="11">
           <v-row>
             <v-col>
-              <v-row dense wrap>
+              <v-row density="compact" wrap>
                 <v-col sm="4" md="3">
-                  <h3>First Name</h3>
+                  <h3 class="my-0">First Name</h3>
                 </v-col>
                 <v-col>
                   {{ item.firstName }}
                 </v-col>
               </v-row>
-              <v-row dense class="mt-n2">
+              <v-row density="compact" class="mt-n2">
                 <v-col sm="4" md="3">
-                  <h3>Last Name</h3>
+                  <h3 class="my-0">Last Name</h3>
                 </v-col>
                 <v-col>
                   {{ item.lastName }}
                 </v-col>
               </v-row>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col sm="4" md="3">
-                  <h3>Primary Affiliation</h3>
+                  <h3 class="my-0">Primary Affiliation</h3>
                 </v-col>
                 <v-col>
                   {{ $orgNameFromSlug(item.primaryAffiliation) }}
                 </v-col>
               </v-row>
-              <v-row dense v-if="areGroupsPresent">
+              <v-row density="compact" v-if="areGroupsPresent">
                 <v-col sm="4" md="3">
-                  <h3>Authorization Groups</h3>
+                  <h3 class="my-0">Authorization Groups</h3>
                 </v-col>
                 <v-col>
                   {{ item.groups.join(', ') }}
                 </v-col>
               </v-row>
-              <v-row align="start" dense>
+              <v-row align="start" density="compact">
                 <v-col sm="4" md="3">
-                  <h3>Primary Email</h3>
+                  <h3 class="my-0">Primary Email</h3>
                 </v-col>
                 <v-col>
-                  <v-row dense>
+                  <v-row density="compact">
                     <v-col>
                       <a :href="`mailto:${item.primaryEmail}`">{{ item.primaryEmail }}</a>
                     </v-col>
                   </v-row>
                 </v-col>
               </v-row>
-              <v-row align="start" dense>
+              <v-row align="start" density="compact">
                 <v-col sm="4" md="3">
-                  <h3>Created</h3>
+                  <h3 class="my-0">Created</h3>
                 </v-col>
                 <v-col>
                   {{ $humanDatetime(item.dateJoined) }}
                 </v-col>
               </v-row>
-              <v-row align="start" dense>
+              <v-row align="start" density="compact">
                 <v-col sm="4" md="3">
-                  <h3>Last Update</h3>
+                  <h3 class="my-0">Last Update</h3>
                 </v-col>
                 <v-col>
                   {{ $humanDatetime(item.lastUpdate) }}
@@ -351,9 +351,9 @@ export default {
       </v-row>
       <span>
         <v-divider class="my-2" />
-        <v-row dense>
+        <v-row density="compact">
           <v-col sm="4" md="3">
-            <h3>Other Contacts</h3>
+            <h3 class="my-0">Other Contacts</h3>
           </v-col>
           <v-col>
             <div v-for="(contact, index) in item.contacts" :key="contact.id ?? index">
@@ -378,9 +378,9 @@ export default {
       </span>
       <span>
         <v-divider class="my-2" />
-        <v-row dense>
+        <v-row density="compact">
           <v-col sm="4" md="3">
-            <h3>Other Affiliations</h3>
+            <h3 class="my-0">Other Affiliations</h3>
           </v-col>
           <v-col>
             <span class="d-flex flex-column">
@@ -406,9 +406,9 @@ export default {
       </span>
       <v-divider class="my-2" />
       <span v-if="showUserFilesSection(item)">
-        <v-row dense>
+        <v-row density="compact">
           <v-col sm="4" md="3">
-            <h3>User Files</h3>
+            <h3 class="my-0">User Files</h3>
           </v-col>
           <v-col>
             <div v-for="category in Object.keys(userCategories)" :key="category">
@@ -425,9 +425,9 @@ export default {
         </v-row>
         <v-divider class="my-2" />
       </span>
-      <v-row dense v-if="areAnyAccountsPresent">
+      <v-row density="compact" v-if="areAnyAccountsPresent">
         <v-col sm="4" md="3">
-          <h3>Expense code / PO Authorizations</h3>
+          <h3 class="my-0">Expense code / PO Authorizations</h3>
         </v-col>
         <v-col>
           <span v-if="areAccountsPresent" class="d-flex flex-column">

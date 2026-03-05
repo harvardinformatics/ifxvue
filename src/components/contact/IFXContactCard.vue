@@ -28,7 +28,6 @@ export default {
     cardClass() {
       return {
         'contact-card': true,
-        dense: this.dense,
       }
     },
     contactData() {
@@ -42,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <v-card :class="cardClass">
+  <v-card :class="cardClass" :density="this.dense ? 'comfortable': 'compact'">
     <span v-if="contact">
       <IFXButton
         class="contact-edit-btn"

@@ -185,10 +185,10 @@ export default {
         </div>
       </template>
     </IFXPageHeader>
-    <v-row dense v-if="isSubmittable">
+    <v-row density="compact" v-if="isSubmittable">
       <v-col>
         <v-alert elevation="2" density="compact" border="start" color="warning" icon="mdi-alert-circle-outline">
-          <v-row dense>
+          <v-row density="compact">
             <v-col>
               <h3 class="font-weight-medium">You have unsaved changes!</h3>
             </v-col>
@@ -196,7 +196,7 @@ export default {
         </v-alert>
       </v-col>
     </v-row>
-    <v-row dense class="ml-2">
+    <v-row density="compact" class="ml-2">
       <v-col>
         <v-row>
           <v-col>
@@ -254,7 +254,7 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
-        <v-row dense>
+        <v-row density="compact">
           <v-col v-if="item && item.users && item.users.length">
             <IFXItemDataTable
               :headers="userListHeaders"
@@ -305,7 +305,7 @@ export default {
           </v-col>
           <v-col v-else>No users</v-col>
         </v-row>
-        <v-row dense>
+        <v-row density="compact">
           <v-col>
             <h2>Contacts</h2>
           </v-col>
@@ -318,7 +318,7 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
-        <v-row v-for="(contactGroupName, index) in contactRolesGroups" :key="index" dense>
+        <v-row v-for="(contactGroupName, index) in contactRolesGroups" :key="index" density="compact">
           <v-col>
             <div
               v-for="contactIndex in getContactIndicesByRole(contactGroupName)"

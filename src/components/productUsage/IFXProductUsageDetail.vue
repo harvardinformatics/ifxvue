@@ -48,7 +48,7 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Product</h3>
         </v-col>
@@ -56,7 +56,7 @@ export default {
           {{ item.product }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Quantity</h3>
         </v-col>
@@ -64,19 +64,19 @@ export default {
           {{ displayQuantityWithUnits(item) }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Year / Month</h3>
         </v-col>
         <v-col>{{ item.year }} / {{ item.month }}</v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Start Date/Time</h3>
         </v-col>
         <v-col>{{ $humanDatetime(item.startDate) }}</v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>End Date/Time</h3>
         </v-col>
@@ -85,7 +85,7 @@ export default {
           <span v-else class="grey--text text--darken-1">None</span>
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Description</h3>
         </v-col>
@@ -93,7 +93,7 @@ export default {
           {{ item.description }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Organization</h3>
         </v-col>
@@ -101,7 +101,7 @@ export default {
           {{ item.organization }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Product User</h3>
         </v-col>
@@ -111,7 +111,7 @@ export default {
           </router-link>
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Logged By</h3>
         </v-col>

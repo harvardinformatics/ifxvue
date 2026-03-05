@@ -56,7 +56,7 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Product Number</h3>
         </v-col>
@@ -64,7 +64,7 @@ export default {
           {{ item.productNumber }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Facility</h3>
         </v-col>
@@ -72,7 +72,7 @@ export default {
           {{ item.facility }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Description</h3>
         </v-col>
@@ -80,7 +80,7 @@ export default {
           {{ item.description }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Object Code Category</h3>
         </v-col>
@@ -88,7 +88,7 @@ export default {
           {{ item.objectCodeCategory }}
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Billable</h3>
         </v-col>
@@ -97,7 +97,7 @@ export default {
           <span v-else>No</span>
         </v-col>
       </v-row>
-      <v-row v-if="item.parent" justify="start" align="center" dense>
+      <v-row v-if="item.parent" justify="start" align="center" density="compact">
         <v-col sm="2">
           <h3>Parent product</h3>
         </v-col>
