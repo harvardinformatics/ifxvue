@@ -1101,25 +1101,16 @@ export default class IFXAPIService {
 
   get subscription() {
     const baseURL = this.urls.CHANNEL_SUBSCRIPTION_LIST
-    const createFunc = (data, decompose = false) => {
-      const newData = cloneDeep(data) || {}
-      // If decomposing, do not create a new object
-      return decompose ? newData : new Subscription(newData)
-    }
+    const createFunc = (data, decompose = false) => (decompose ? data : new Subscription(data))
     const decomposeFunc = (newData) => createFunc(newData, true)
     const api = this.genericAPI(baseURL, Subscription, createFunc, decomposeFunc)
-    api.subscribeToChannel = (userId, channelId) => {
-      const url = this.urls.CHANNEL_SUBSCRIPTIONS
-      const data = {
-        channel: { id: channelId },
-        user: { id: userId },
-        send_email: true,
-      }
-      return this.axios.post(url, data, { headers: { 'Content-Type': 'application/json' } })
+    api.subscribeToChannel = (subscriptionId) => {
+      const url = `${this.urls.CHANNEL_SUBSCRIPTIONS}${subscriptionId}/`
+      return this.axios.patch(url, { subscribed: true }, { headers: { 'Content-Type': 'application/json' } })
     }
     api.unsubscribeFromChannel = (subscriptionId) => {
       const url = `${this.urls.CHANNEL_SUBSCRIPTIONS}${subscriptionId}/`
-      return this.axios.delete(url, { headers: { 'Content-Type': 'application/json' } })
+      return this.axios.patch(url, { subscribed: false }, { headers: { 'Content-Type': 'application/json' } })
     }
     return api
   }

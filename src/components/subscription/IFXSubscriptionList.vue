@@ -24,11 +24,7 @@ export default {
       return this.apiRef
         .getList()
         .then((res) => {
-          const items = res.map((item) => {
-            item.subscribed = !!item.subscriptionId
-            return item
-          })
-          this.items = items
+          this.items = res
         })
         .catch((error) => {
           this.showMessage(error)
@@ -37,7 +33,7 @@ export default {
     },
     subscribeToChannel(item) {
       this.$api.subscription
-        .subscribeToChannel(this.currentUserRecord.id, item.channelId)
+        .subscribeToChannel(item.subscriptionId)
         .then(() => {
           this.showMessage(`Subscribed to channel ${item.channelTitle}`)
         })
@@ -66,12 +62,18 @@ export default {
       this.key += 1
     },
     toggleSubscription(item) {
-      if (item.subscriptionId) {
+      if (!item.subscribed) {
         this.unsubscribeFromChannel(item)
       } else {
         this.subscribeToChannel(item)
       }
     },
+    canChangeSubscription(item) {
+      if (item.isMandatory) {
+        return false
+      }
+      return true
+    }
   },
   computed: {
     headers() {
@@ -115,6 +117,7 @@ export default {
             v-model="item.subscribed"
             data-cy="toggle-subscription"
             @change="toggleSubscription(item)"
+            :disabled="!canChangeSubscription(item)"
           ></v-switch>
         </template>
       </IFXItemDataTable>
