@@ -1227,8 +1227,10 @@ export default {
                     ref="startDate"
                     class="startDate"
                     :model-value="humanStartDate"
-                    @update:model-value="updateDate($event, 'startDate')"
+                    @change="updateDate($event.target.value, 'startDate')"
                     label="Start Date and Time *"
+
+
                     prepend-icon="mdi-calendar"
                     required
                     hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
@@ -1304,7 +1306,7 @@ export default {
                     ref="endDate"
                     class="endDate mb-4"
                     :model-value="humanEndDate"
-                    @update:model-value="updateDate($event, 'endDate')"
+                    @change="updateDate($event.target.value, 'endDate')"
                     label="End Date and Time *"
                     prepend-icon="mdi-calendar"
                     hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
