@@ -350,7 +350,7 @@ export default {
         </v-col>
       </v-row>
       <span>
-        <v-divider class="my-2" />
+        <v-divider class="my-4" />
         <v-row density="compact">
           <v-col sm="4" md="3">
             <h3 class="my-0">Other Contacts</h3>
@@ -377,7 +377,7 @@ export default {
         </v-row>
       </span>
       <span>
-        <v-divider class="my-2" />
+        <v-divider class="my-4" />
         <v-row density="compact">
           <v-col sm="4" md="3">
             <h3 class="my-0">Other Affiliations</h3>
@@ -404,7 +404,7 @@ export default {
           </v-col>
         </v-row>
       </span>
-      <v-divider class="my-2" />
+      <v-divider class="my-4" />
       <span v-if="showUserFilesSection(item)">
         <v-row density="compact">
           <v-col sm="4" md="3">
@@ -423,7 +423,7 @@ export default {
             </div>
           </v-col>
         </v-row>
-        <v-divider class="my-2" />
+        <v-divider class="my-4" />
       </span>
       <v-row density="compact" v-if="areAnyAccountsPresent">
         <v-col sm="4" md="3">
