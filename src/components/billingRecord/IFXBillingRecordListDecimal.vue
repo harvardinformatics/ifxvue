@@ -823,19 +823,19 @@ export default {
   <!-- eslint-disable vue/valid-v-slot -->
   <v-container>
     <v-card>
-      <v-card-title>
+      <v-card-title class="pt-6 mb-7">
         <v-row class="d-flex justify-space-between w-full">
-          <v-col cols="3" style="text-wrap: wrap;">
+          <v-col cols="3">
             {{ facility.name }}
           </v-col>
-          <v-col class="flex-grow-2">
+          <v-col class="flex-grow-1">
             <v-row>
               <v-col>
                 <IFXSearchField v-model:search="search" />
               </v-col>
             </v-row>
           </v-col>
-          <v-col>
+          <v-col cols="auto">
             <v-row class="d-flex flex-nowrap justify-end align-start">
               <v-col v-if="updating">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
