@@ -70,6 +70,11 @@ export default {
       required: false,
       default: null,
     },
+    plainEmail: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -91,6 +96,10 @@ export default {
       mailing: null,
       content: null,
       contactables: [],
+      editorKey: 0,
+      toListKey: 1,
+      ccListKey: 2,
+      bccListKey: 3,
     }
   },
   methods: {
@@ -105,12 +114,20 @@ export default {
       }
       return result
     },
+    reset() {
+      this.$refs.mailingComposeForm.reset()
+      this.content = ''
+      this.editorKey += 1
+    },
     sendMailing() {
       if (!this.content) {
         this.showMessage('Please enter a message before sending.')
         return
       }
       const toMailStr = (contactable) => {
+        if (this.plainEmail) {
+          return contactable
+        }
         if (contactable.name) {
           return `${contactable.name} <${contactable.detail}>`
         }
@@ -130,7 +147,12 @@ export default {
       }
       this.$api.mailing
         .sendIfxMailing(mailing)
-        .then((res) => this.showMessage(res))
+        .then(
+          (res) => {
+            this.showMessage(res)
+            this.reset()
+          }
+        )
         .catch((err) => {
           if (has(err, 'response') && has(err.response, 'data') && has(err.response.data, 'field_errors')) {
             this.fieldErrors = err.response.data.field_errors
@@ -177,9 +199,14 @@ export default {
     this.$api.contactables
       .getList()
       .then((result) => {
-        this.contactables = result
-        if (labManagerOrgSlugs) {
-          this.$api.getBillingContacts(labManagerOrgSlugs, invoicePrefix)
+        if (this.plainEmail) {
+          this.contactables = result.map((contactable) => contactable.detail)
+        } else {
+          this.contactables = result
+        }
+        // If we're doing the lab manager notification thing
+        if (this.labManagerOrgSlugs) {
+          this.$api.getBillingContacts(this.labManagerOrgSlugs, this.invoicePrefix)
             .then((res) => {
               const result2 = res.data
               const orgContactNotFound = []
@@ -228,47 +255,62 @@ export default {
         if (to) {
           to.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
-            const matches = this.contactables.filter((contactable) => contactable.detail === email)
-            if (matches) {
-              this.toList = this.toList.concat(matches)
+            if (this.plainEmail) {
+              this.toList.push(email)
             } else {
-              this.toList.push({
-                detail: email,
-                label: email,
-                text: email,
-              })
+              const matches = this.contactables.filter((contactable) => contactable.detail === email)
+              if (matches) {
+                this.toList = this.toList.concat(matches)
+              } else {
+                this.toList.push({
+                  detail: email,
+                  label: email,
+                  text: email,
+                })
+              }
             }
           })
+          this.toListKey += 1
         }
         if (cc) {
           cc.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
-            const matches = this.contactables.filter((contactable) => contactable.detail === email)
-            if (matches) {
-              this.ccList = this.ccList.concat(matches)
+            if (this.plainEmail) {
+              this.ccList.push(email)
             } else {
-              this.ccList.push({
-                detail: email,
-                label: email,
-                text: email,
-              })
+              const matches = this.contactables.filter((contactable) => contactable.detail === email)
+              if (matches && !this.plainEmail) {
+                this.ccList = this.ccList.concat(matches)
+              } else {
+                this.ccList.push({
+                  detail: email,
+                  label: email,
+                  text: email,
+                })
+              }
             }
           })
+          this.ccListKey += 1
         }
         if (bcc) {
           bcc.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
-            const matches = this.contactables.filter((contactable) => contactable.detail === email)
-            if (matches) {
-              this.bccList = this.bccList.concat(matches)
+            if (this.plainEmail) {
+              this.bccList.push(email)
             } else {
-              this.bccList.push({
-                detail: email,
-                label: email,
-                text: email,
-              })
+              const matches = this.contactables.filter((contactable) => contactable.detail === email)
+              if (matches && !this.plainEmail) {
+                this.bccList = this.bccList.concat(matches)
+              } else {
+                this.bccList.push({
+                  detail: email,
+                  label: email,
+                  text: email,
+                })
+              }
             }
           })
+          this.bccListKey += 1
         }
         if (recipients) {
           recipients.split(',').forEach((ele) => {
@@ -312,7 +354,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>Compose Mailing</template>
       <template #content>Compose a new mailing</template>
@@ -334,6 +376,8 @@ export default {
           :fieldError="fieldErrors.toList"
           v-model="toList"
           :contactables="contactables"
+          :loading="isLoading"
+          :key="toListKey"
         />
         <IFXContactablesCombobox
           ref="ccCombobox"
@@ -341,12 +385,16 @@ export default {
           :fieldError="fieldErrors.ccList"
           v-model="ccList"
           :contactables="contactables"
+          :loading="isLoading"
+          :key="ccListKey"
         />
         <IFXContactablesCombobox
           label="Bcc:"
           :fieldError="fieldErrors.bccList"
           v-model="bccList"
           :contactables="contactables"
+          :loading="isLoading"
+          :key="bccListKey"
         />
         <v-text-field
           label="Subject"
@@ -359,6 +407,7 @@ export default {
         ></v-text-field>
         <span>
           <Editor
+            :key="editorKey"
             v-model="content"
             :init="editorInit"
             tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.4/tinymce.min.js"

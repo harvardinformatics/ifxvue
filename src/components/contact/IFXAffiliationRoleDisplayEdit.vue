@@ -8,6 +8,10 @@ export default {
       type: Object,
       required: true,
     },
+    showInactive: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
