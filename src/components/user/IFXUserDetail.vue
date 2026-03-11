@@ -871,13 +871,9 @@ export default {
   font-style: italic;
   color: grey;
 }
-<<<<<<< HEAD
-</style>
-=======
 .small-checkbox {
   .v-messages {
     display: none;
   }
 }
 </style>
->>>>>>> ajk_mandatory
