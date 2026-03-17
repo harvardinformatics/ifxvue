@@ -226,7 +226,7 @@ export default {
                 </span>
               </v-col>
               <v-col shrink>
-                <v-tooltip top>
+                <v-tooltip location="top">
                   <template v-slot:activator="{ on }">
                     <v-btn v-on="on" fab size="small" class="item-add" color="green" @click="addEmptyComment()">
                       <v-icon dark>playlist_add</v-icon>
@@ -236,7 +236,7 @@ export default {
                 </v-tooltip>
               </v-col>
               <v-col shrink>
-                <v-tooltip top>
+                <v-tooltip location="top">
                   <template v-slot:activator="{ on }">
                     <v-btn v-on="on" fab size="small" color="info" v-show="isDjangoStaff()" :href="django_admin_url">
                       <v-icon color="yellow">vpn_key</v-icon>

@@ -510,7 +510,7 @@ export default {
                     <div>
                       <span class="font-weight-medium">{{ category }}:&nbsp;</span>
                       <a :href="file.file" target="_blank">{{ file.file | fileNameFromUrl }}</a>
-                      <v-tooltip v-if="canEdit('userFiles')" top>
+                      <v-tooltip v-if="canEdit('userFiles')" location="top">
                         <template v-slot:activator="{ on, attrs }">
                           <v-icon
                             v-on="on"
@@ -538,7 +538,7 @@ export default {
                     <v-col sm="11">
                       <div class="ml-4">
                         <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
-                        <v-tooltip v-if="canEdit('userFiles')" top>
+                        <v-tooltip v-if="canEdit('userFiles')" location="top">
                           <template v-slot:activator="{ on, attrs }">
                             <v-icon
                               v-on="on"
@@ -564,7 +564,7 @@ export default {
             <span class="text-grey text-darken-1">No User Files uploaded.</span>
           </v-col>
           <v-col sm="1" align="end">
-            <v-tooltip top v-if="isUserInfoEdittable">
+            <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ on, attrs }">
                 <IFXButton v-on="on" v-bind="attrs" btnType="add" xSmall @action="openUserFileDialog()" />
               </template>
@@ -762,7 +762,7 @@ export default {
           <v-card-title>
             Add Files
             <v-spacer></v-spacer>
-            <v-tooltip top>
+            <v-tooltip location="top">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
@@ -819,7 +819,7 @@ export default {
           <v-card-title>
             Confirm File Removal
             <v-spacer></v-spacer>
-            <v-tooltip top>
+            <v-tooltip location="top">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon

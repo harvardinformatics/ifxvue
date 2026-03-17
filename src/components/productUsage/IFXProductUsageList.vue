@@ -143,7 +143,7 @@ export default {
       <template #rowAction="{ item }">
         <span class="my-2 d-flex flex-row">
           <IFXTooltip
-            top
+            location="top"
             icon="mdi-trash-can-outline"
             x-size="small"
             color="error"

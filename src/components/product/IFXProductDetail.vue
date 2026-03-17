@@ -126,13 +126,13 @@ export default {
             :showSelect="false"
           >
             <template #active="{ item }">
-              <v-tooltip v-if="item.active" top>
+              <v-tooltip v-if="item.active" location="top">
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon v-on="on" v-bind="attrs" color="#fcbd01">lightbulb</v-icon>
                 </template>
                 <span>Active rate</span>
               </v-tooltip>
-              <v-tooltip v-else top>
+              <v-tooltip v-else location="top">
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon v-on="on" v-bind="attrs" color="#ccc">lightbulb</v-icon>
                 </template>

@@ -46,7 +46,7 @@ export default {
                 <span style="white-space: nowrap;">{{ $humanDatetime(requestComment.created) }}</span>
               </v-flex>
               <v-flex v-if="requestComment.id">
-                <v-tooltip top>
+                <v-tooltip location="top">
                   <template v-slot:activator="{ on }">
                     <v-btn
                       v-on="on"
@@ -64,7 +64,7 @@ export default {
                 </v-tooltip>
               </v-flex>
               <v-flex v-else>
-                <v-tooltip top>
+                <v-tooltip location="top">
                   <template v-slot:activator="{ on }">
                     <v-btn
                       v-on="on"
@@ -80,7 +80,7 @@ export default {
                   </template>
                   <span>Save comment</span>
                 </v-tooltip>
-                <v-tooltip top>
+                <v-tooltip location="top">
                   <template v-slot:activator="{ on }">
                     <v-btn
                       v-on="on"
