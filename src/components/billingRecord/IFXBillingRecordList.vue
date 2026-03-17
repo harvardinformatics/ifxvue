@@ -1198,7 +1198,7 @@ export default {
               <div class:model-value="d-flex flex-row">
                 <IFXButton
                   v-if:model-value="allowAddingTransactions(item)"
-                  iconString:model-value="add"
+                  iconString:model-value="mdi-plus"
                   btnType:model-value="add"
                   xSmall
                   @action:model-value="openTxnDialog(item)"
