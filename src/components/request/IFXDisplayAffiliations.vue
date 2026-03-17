@@ -16,43 +16,43 @@ export default {
 }
 </script>
 <template>
-  <v-layout column>
-    <v-flex>
-      <v-layout column>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>Primary</v-flex>
-            <v-flex>
+  <v-row class="flex-column">
+    <v-col>
+      <v-row class="flex-column">
+        <v-col>
+          <v-row>
+            <v-col cols="4">Primary</v-col>
+            <v-col>
               {{ $orgNameFromSlug(data.primary_affiliation) }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex v-if="data.person.affiliations.length && data.person.affiliations.length > 1">
-          <v-layout row>
-            <v-flex xs4>Others</v-flex>
-            <v-flex xs7>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col v-if="data.person.affiliations.length && data.person.affiliations.length > 1">
+          <v-row>
+            <v-col cols="4">Others</v-col>
+            <v-col cols="7">
               {{ affiliationNames() }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout column>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>Approvers</v-flex>
-                <v-flex v-if="data.approver_contacts.length > 0" xs7>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row class="flex-column">
+            <v-col>
+              <v-row>
+                <v-col cols="4">Approvers</v-col>
+                <v-col v-if="data.approver_contacts.length > 0" cols="7">
                   <span v-for="(approver, index) in data.approver_contacts" :key="index">
                     <a :href="`mailto:${approver}`">{{ approver }}</a>
                     <span v-if="index < data.approver_contacts.length - 1">,&nbsp;</span>
                   </span>
-                </v-flex>
-                <v-flex v-else>No approvers specified</v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+                </v-col>
+                <v-col v-else>No approvers specified</v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 <style scoped></style>

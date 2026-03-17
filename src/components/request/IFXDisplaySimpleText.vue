@@ -5,13 +5,13 @@ export default {
 }
 </script>
 <template>
-  <v-layout column>
-    <v-flex v-if="data">
+  <v-row class="flex-column">
+    <v-col v-if="data">
       {{ data }}
-    </v-flex>
-    <v-flex v-else>
+    </v-col>
+    <v-col v-else>
       ???
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 <style scoped></style>

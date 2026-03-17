@@ -4,7 +4,7 @@
 export default {
   name: 'IFXRequestCommentList',
   props: {
-    request: Object,
+    request: Object
   },
   data() {
     return {}
@@ -17,8 +17,8 @@ export default {
         data.text = text
       }
       this.$emit('update', data)
-    },
-  },
+    }
+  }
 }
 </script>
 <template>
@@ -38,39 +38,31 @@ export default {
                   clearable
                   rows="3"
                   solo
-                ></v-textarea>
+                >
+                </v-textarea>
               </v-flex>
               <v-flex v-if="requestComment.id" xs10 shrink md3 class="request-author" align-content-end>
-                <span>{{ requestComment.author }}</span>
-                &nbsp;
-                <span style="white-space: nowrap;">{{ $humanDatetime(requestComment.created) }}</span>
+                <span></span>&nbsp;
+                <span style="white-space: nowrap;">{{requestComment.created | humanDatetime}}</span>
               </v-flex>
               <v-flex v-if="requestComment.id">
-                <v-tooltip location="top">
+                <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      fab
-                      size="small"
-                      text
+                    <v-btn v-on="on" fab small text
                       class="item-delete"
                       color="error"
                       @click="request.requestComments.splice(index, 1) && updateRequestComment(index)"
                     >
-                      <v-icon dark>clear</v-icon>
+                      <v-icon dark >clear</v-icon>
                     </v-btn>
                   </template>
                   <span>Remove comment</span>
                 </v-tooltip>
               </v-flex>
               <v-flex v-else>
-                <v-tooltip location="top">
+                <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      fab
-                      size="small"
-                      text
+                    <v-btn v-on="on" fab small text
                       class="item-save"
                       color="green"
                       @click="updateRequestComment(index, request.requestComments[index].text)"
@@ -80,18 +72,14 @@ export default {
                   </template>
                   <span>Save comment</span>
                 </v-tooltip>
-                <v-tooltip location="top">
+                <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      fab
-                      size="small"
-                      text
+                    <v-btn v-on="on" fab small text
                       class="item-delete"
                       color="error"
                       @click="request.requestComments.splice(index, 1)"
                     >
-                      <v-icon dark>clear</v-icon>
+                      <v-icon dark >clear</v-icon>
                     </v-btn>
                   </template>
                   <span>Remove comment</span>
@@ -105,12 +93,12 @@ export default {
   </v-container>
 </template>
 <style>
-.request-comment {
-  color: #00796b;
-  font-size: larger;
-  margin: 0em;
-}
-.request-author {
-  font-style: italic;
-}
+  .request-comment {
+    color: #00796B;
+    font-size: larger;
+    margin: 0em;
+  }
+  .request-author {
+    font-style: italic;
+  }
 </style>
