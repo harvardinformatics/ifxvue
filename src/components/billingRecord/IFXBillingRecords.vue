@@ -193,109 +193,6 @@ export default {
             <v-tab>Summary by User</v-tab>
             <v-tab>Summary by Product Rate</v-tab>
             <v-tab>Summary by Product</v-tab>
-            <v-tabs-items v-model="currentTabs[i]">
-              <v-tab-item>
-                <IFXBillingRecordListDecimal
-                  :facility="facility"
-                  :date="date"
-                  :organization="organization"
-                  :allowInvoiceGeneration="false"
-                  :allowApprovals="false"
-                  :allowDownloads="allowDownloads"
-                  :useDefaultMailButton="useDefaultMailButton"
-                  :allowChangeExpenseCode="allowChangeExpenseCode"
-                  :allowDeleteBillingRecords="allowDeleteBillingRecords"
-                  :showDates="showDates"
-                  :showStartDate="showStartDate"
-                  :showTotals="showTotals"
-                  :totalUnits="totalUnits"
-                />
-              </v-tab-item>
-              <v-tab-item>
-                <IFXGenericBillingSummaryList
-                  :facility="facility"
-                  :month="getMonth()"
-                  :year="getYear()"
-                  itemType="genericBillingSummary"
-                  apiString="accountBillingSummary"
-                  :headers="[
-                    { title: 'Account Name', key: 'name', sortable: true },
-                    { title: 'Expense Code / PO', key: 'code', sortable: true },
-                    {
-                      text: 'Charges',
-                      value: 'totalDecimalCharge',
-                      sortable: true,
-                      namedSlot: true,
-                      width: '20rem',
-                      align: 'end',
-                    },
-                  ]"
-                />
-              </v-tab-item>
-              <v-tab-item>
-                <IFXGenericBillingSummaryList
-                  :facility="facility"
-                  :month="getMonth()"
-                  :year="getYear()"
-                  itemType="genericBillingSummary"
-                  apiString="userBillingSummary"
-                  :headers="[
-                    { title: 'User', key: 'productUserFullName', sortable: true },
-                    {
-                      text: 'Charges',
-                      value: 'totalDecimalCharge',
-                      sortable: true,
-                      namedSlot: true,
-                      width: '20rem',
-                      align: 'end',
-                    },
-                  ]"
-                />
-              </v-tab-item>
-              <v-tab-item>
-                <IFXGenericBillingSummaryList
-                  :facility="facility"
-                  :month="getMonth()"
-                  :year="getYear()"
-                  itemType="genericBillingSummary"
-                  apiString="productRateBillingSummary"
-                  :extraParams="{ facility: facility.name }"
-                  :headers="[
-                    { title: 'Product', key: 'productName', sortable: true },
-                    { title: 'Rate', key: 'rateName', sortable: true },
-                    {
-                      text: 'Charges',
-                      value: 'totalDecimalCharge',
-                      sortable: true,
-                      namedSlot: true,
-                      width: '20rem',
-                      align: 'end',
-                    },
-                  ]"
-                />
-              </v-tab-item>
-              <v-tab-item>
-                <IFXGenericBillingSummaryList
-                  :facility="facility"
-                  :month="getMonth()"
-                  :year="getYear()"
-                  itemType="genericBillingSummary"
-                  apiString="productBillingSummary"
-                  :extraParams="{ facility: facility.name }"
-                  :headers="[
-                    { title: 'Product', key: 'productName', sortable: true },
-                    {
-                      text: 'Charges',
-                      value: 'totalDecimalCharge',
-                      sortable: true,
-                      namedSlot: true,
-                      width: '20rem',
-                      align: 'end',
-                    },
-                  ]"
-                />
-              </v-tab-item>
-            </v-tabs-items>
           </v-tabs>
           <v-window v-model="currentTabs[i]">
             <v-window-item>
@@ -367,6 +264,27 @@ export default {
                 :headers="[
                   { title: 'Product', key: 'productName', sortable: true },
                   { title: 'Rate', key: 'rateName', sortable: true },
+                  {
+                    title: 'Charges',
+                    key: 'totalDecimalCharge',
+                    sortable: true,
+                    namedSlot: true,
+                    width: '20rem',
+                    align: 'end',
+                  },
+                ]"
+              />
+            </v-window-item>
+            <v-window-item>
+              <IFXGenericBillingSummaryList
+                :facility="facility"
+                :month="getMonth()"
+                :year="getYear()"
+                itemType="genericBillingSummary"
+                apiString="productBillingSummary"
+                :extraParams="{ facility: facility.name }"
+                :headers="[
+                  { title: 'Product', key: 'productName', sortable: true },
                   {
                     title: 'Charges',
                     key: 'totalDecimalCharge',
