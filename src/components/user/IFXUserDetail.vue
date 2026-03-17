@@ -509,7 +509,7 @@ export default {
                   <v-col sm="12">
                     <div>
                       <span class="font-weight-medium">{{ category }}:&nbsp;</span>
-                      <a :href="file.file" target="_blank">{{ file.file | fileNameFromUrl }}</a>
+                      <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
                       <v-tooltip v-if="canEdit('userFiles')" location="top">
                         <template v-slot:activator="{ on, attrs }">
                           <v-icon
@@ -839,7 +839,7 @@ export default {
             Are you
             <span class="font-weight-bold">sure</span>
             you want to remove
-            <span class="font-weight-medium">{{ fileToDelete.file | fileNameFromUrl }}</span>
+            <span class="font-weight-medium">{{ $fileNameFromUrl(fileToDelete.file) }}</span>
             ?
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3 pt-3">

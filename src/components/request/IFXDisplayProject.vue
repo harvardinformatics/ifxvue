@@ -24,7 +24,7 @@ export default {
               <v-layout row>
                 <v-flex xs4>Current State</v-flex>
                 <v-flex>
-                  {{ data.current_state | stateDisplay }}
+                  {{ $stateDisplay(data.current_state) }}
                 </v-flex>
               </v-layout>
             </v-flex>
