@@ -45,11 +45,6 @@ export default {
       required: false,
       default: null,
     },
-    messageName: {
-      type: String,
-      required: false,
-      default: null,
-    },
     labManagerOrgSlugs: {
       type: Array,
       required: false,
@@ -96,6 +91,7 @@ export default {
       ccListKey: 2,
       bccListKey: 3,
       plainEmail: false,
+      messageName: null
     }
   },
   methods: {
@@ -185,6 +181,9 @@ export default {
     const message = this.message || this.$route.query.message || routeState.message
     const labManagerOrgSlugs = this.labManagerOrgSlugs || routeState.labManagerOrgSlugs
     const invoicePrefix = this.invoicePrefix || this.$route.query.invoicePrefix || routeState.invoicePrefix
+    if (routeState.messageName) {
+      this.messageName = routeState.messageName
+    }
     if (routeState.plainEmail) {
       this.plainEmail = routeState.plainEmail
     }

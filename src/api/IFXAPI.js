@@ -1016,7 +1016,6 @@ export default class IFXAPIService {
     }
     api.isFacilityWithDates = (facility_name) => {
       const result = ['Center for Brain Science Neuroimaging'].includes(facility_name)
-      console.log(`result of date check is ${result}`)
       return result
     }
     return api

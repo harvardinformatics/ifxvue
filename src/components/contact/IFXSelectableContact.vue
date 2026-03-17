@@ -15,13 +15,6 @@ export default {
     }
   },
   watch: {
-    allItems: {
-      immediate: true,
-      handler(val) {
-        // Debug: remove after fixing
-        console.log('allItems received:', val)
-      }
-    },
     itemLocal: {
       deep: true,
       handler() {
