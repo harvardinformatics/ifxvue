@@ -67,7 +67,7 @@ export default {
                   v-model="recipientField"
                   :disabled="!selected.length"
                   toolTip="Send email to channel subscribers"
-                  @input="composeEmail()"
+                  @update:model-value="composeEmail()"
                 ></IFXMailButton>
               </v-col>
             </v-row>

@@ -70,11 +70,6 @@ export default {
       required: false,
       default: null,
     },
-    plainEmail: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   data() {
     return {
@@ -100,6 +95,7 @@ export default {
       toListKey: 1,
       ccListKey: 2,
       bccListKey: 3,
+      plainEmail: false,
     }
   },
   methods: {
@@ -189,7 +185,9 @@ export default {
     const message = this.message || this.$route.query.message || routeState.message
     const labManagerOrgSlugs = this.labManagerOrgSlugs || routeState.labManagerOrgSlugs
     const invoicePrefix = this.invoicePrefix || this.$route.query.invoicePrefix || routeState.invoicePrefix
-
+    if (routeState.plainEmail) {
+      this.plainEmail = routeState.plainEmail
+    }
     if (message) {
       this.content = message
     }

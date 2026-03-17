@@ -76,7 +76,7 @@ export default {
             :error-messages="errors[item.country]"
             :rules="formRules.generic"
             required
-            @input="getSetStates"
+            @update:model-value="getSetStates"
           ></v-autocomplete>
         </v-col>
       </v-row>

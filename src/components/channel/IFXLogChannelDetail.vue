@@ -205,7 +205,7 @@ export default {
                 v-model="recipientField"
                 :toolTip="selected.length ? 'Send email to selected subscribers' : 'Send email to all channel subscribers'"
                 :icon="selected.length ? 'mdi-email-send-outline' : 'mdi-email-multiple-outline'"
-                @input="composeEmail()"
+                @update:model-value="composeEmail()"
               ></IFXMailButton>
             </v-col>
           </v-row>

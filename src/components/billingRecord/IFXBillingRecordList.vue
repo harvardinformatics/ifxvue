@@ -855,7 +855,7 @@ export default {
                       v-model="recipientField"
                       :disabled="!filteredItems.length"
                       toolTip="Notify Lab Managers"
-                      @input="defaultNotifyLabManagers()"
+                      @update:model-value="defaultNotifyLabManagers()"
                     ></IFXMailButton>
                     <v-tooltip location="top" v-else>
                       <template v-slot:activator="{ props }">

@@ -34,9 +34,9 @@
       <template v-slot:chip="{ props, item }">
         <v-chip v-bind="props" closable>
           <template v-slot:prepend>
-            <v-icon :color="item.color">{{ item.icon }}</v-icon>
+            <v-icon v-if="item.icon" :color="item.color">{{ item.icon }}</v-icon>
           </template>
-          {{ item.label }}
+          {{ getItemText(item) }}
         </v-chip>
       </template>
     </v-combobox>
