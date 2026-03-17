@@ -78,10 +78,10 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'Channel ID', value: 'channelId', sortable: true },
-        { text: 'Title', value: 'channelTitle', sortable: true },
-        { text: 'Organization', value: 'organizationName', sortable: true },
-        { text: 'Subscribed', value: 'actions', sortable: false, namedSlot: true },
+        { title: 'Channel ID', key: 'channelId', sortable: true },
+        { title: 'Title', key: 'channelTitle', sortable: true },
+        { title: 'Organization', key: 'organizationName', sortable: true },
+        { title: 'Subscribed', key: 'actions', sortable: false, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },

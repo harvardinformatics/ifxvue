@@ -25,8 +25,8 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'User', value: 'user', namedSlot: true, sortable: true },
-        { text: 'Subscribed?', value: 'subscribed', namedSlot: true, sortable: true },
+        { title: 'User', key: 'user', namedSlot: true, sortable: true },
+        { title: 'Subscribed?', key: 'subscribed', namedSlot: true, sortable: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },

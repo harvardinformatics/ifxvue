@@ -155,7 +155,7 @@ export const WithNamedSlot = {
       const selected = ref([])
       const customHeaders = [
         ...mockHeaders,
-        { text: 'Actions', value: 'actions', sortable: false, namedSlot: true },
+        { title: 'Actions', key: 'actions', sortable: false, namedSlot: true },
       ]
 
       return {

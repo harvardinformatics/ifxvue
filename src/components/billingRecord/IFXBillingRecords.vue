@@ -219,8 +219,8 @@ export default {
                   itemType="genericBillingSummary"
                   apiString="accountBillingSummary"
                   :headers="[
-                    { text: 'Account Name', value: 'name', sortable: true },
-                    { text: 'Expense Code / PO', value: 'code', sortable: true },
+                    { title: 'Account Name', key: 'name', sortable: true },
+                    { title: 'Expense Code / PO', key: 'code', sortable: true },
                     {
                       text: 'Charges',
                       value: 'totalDecimalCharge',
@@ -240,7 +240,7 @@ export default {
                   itemType="genericBillingSummary"
                   apiString="userBillingSummary"
                   :headers="[
-                    { text: 'User', value: 'productUserFullName', sortable: true },
+                    { title: 'User', key: 'productUserFullName', sortable: true },
                     {
                       text: 'Charges',
                       value: 'totalDecimalCharge',
@@ -261,8 +261,8 @@ export default {
                   apiString="productRateBillingSummary"
                   :extraParams="{ facility: facility.name }"
                   :headers="[
-                    { text: 'Product', value: 'productName', sortable: true },
-                    { text: 'Rate', value: 'rateName', sortable: true },
+                    { title: 'Product', key: 'productName', sortable: true },
+                    { title: 'Rate', key: 'rateName', sortable: true },
                     {
                       text: 'Charges',
                       value: 'totalDecimalCharge',
@@ -283,7 +283,7 @@ export default {
                   apiString="productBillingSummary"
                   :extraParams="{ facility: facility.name }"
                   :headers="[
-                    { text: 'Product', value: 'productName', sortable: true },
+                    { title: 'Product', key: 'productName', sortable: true },
                     {
                       text: 'Charges',
                       value: 'totalDecimalCharge',

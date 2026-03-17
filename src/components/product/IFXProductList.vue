@@ -14,15 +14,15 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true, slot: true, click: true, width: '60px' },
-        { text: 'Product Number', value: 'productNumber', sortable: true, slot: true, width: '150px' },
-        { text: 'Name', value: 'name', sortable: true },
-        { text: 'Description', value: 'description', sortable: true, width: '150px' },
-        { text: 'Facility', value: 'facility', sortable: true, slot: true },
-        { text: 'Parent', value: 'parent', sortable: true, namedSlot: true },
-        { text: 'Category', value: 'productCategory', sortable: true, slot: true, namedSlot: true },
-        { text: 'Rates', value: 'rates', sortable: false, namedSlot: true },
-        { text: '', value: 'rowActionEdit', slot: true, sortable: false },
+        { title: 'ID', key: 'id', sortable: true, slot: true, click: true, width: '60px' },
+        { title: 'Product Number', key: 'productNumber', sortable: true, slot: true, width: '150px' },
+        { title: 'Name', key: 'name', sortable: true },
+        { title: 'Description', key: 'description', sortable: true, width: '150px' },
+        { title: 'Facility', key: 'facility', sortable: true, slot: true },
+        { title: 'Parent', key: 'parent', sortable: true, namedSlot: true },
+        { title: 'Category', key: 'productCategory', sortable: true, slot: true, namedSlot: true },
+        { title: 'Rates', key: 'rates', sortable: false, namedSlot: true },
+        { title: '', key: 'rowActionEdit', slot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },

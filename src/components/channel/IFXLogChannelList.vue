@@ -21,10 +21,10 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true },
-        { text: 'Title', value: 'title', sortable: true },
-        { text: 'Organization', value: 'organization', sortable: true },
-        { text: '', value: 'rowActionEdit', sortable: false, namedSlot: true }
+        { title: 'ID', key: 'id', sortable: true },
+        { title: 'Title', key: 'title', sortable: true },
+        { title: 'Organization', key: 'organization', sortable: true },
+        { title: '', key: 'rowActionEdit', sortable: false, namedSlot: true }
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },

@@ -12,11 +12,11 @@ export default {
   data() {
     return {
       txnHeaders: [
-        { text: 'ID', value: 'id', sortable: true, hide: true },
-        { text: 'Charge', value: 'charge', sortable: true, width: '100px', namedSlot: true },
-        { text: 'Rate', value: 'rate', sortable: true },
-        { text: 'User', value: 'author.full_name', sortable: true },
-        { text: 'Description', value: 'description', sortable: true },
+        { title: 'ID', key: 'id', sortable: true, hide: true },
+        { title: 'Charge', key: 'charge', sortable: true, width: '100px', namedSlot: true },
+        { title: 'Rate', key: 'rate', sortable: true },
+        { title: 'User', key: 'author.full_name', sortable: true },
+        { title: 'Description', key: 'description', sortable: true },
       ],
     }
   },

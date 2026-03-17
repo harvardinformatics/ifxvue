@@ -11,10 +11,10 @@ export default {
       dialog: false,
       request_state: null,
       headers: [
-        { text: 'Status', align: 'left', sortable: false, value: 'name' },
-        { text: 'Updated', sortable: false, value: 'created' },
-        { text: 'User', align: 'left', sortable: false, value: 'user' },
-        { text: 'Comments', sortable: false, value: 'comment' },
+        { title: 'Status', align: 'left', sortable: false, key: 'name' },
+        { title: 'Updated', sortable: false, key: 'created' },
+        { title: 'User', align: 'left', sortable: false, key: 'user' },
+        { title: 'Comments', sortable: false, key: 'comment' },
       ],
     }
   },

@@ -96,13 +96,13 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'Name', value: 'name', sortable: true },
-        { text: 'Description', value: 'description', sortable: true, namedSlot: true },
-        { text: 'Price', value: 'decimalPrice', sortable: true, namedSlot: true },
-        { text: 'Units', value: 'units', sortable: true, slot: true },
-        { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
-        { text: 'Active', value: 'active', sortable: true, namedSlot: true },
-        { text: '', value: 'actions', namedSlot: true, sortable: false },
+        { title: 'Name', key: 'name', sortable: true },
+        { title: 'Description', key: 'description', sortable: true, namedSlot: true },
+        { title: 'Price', key: 'decimalPrice', sortable: true, namedSlot: true },
+        { title: 'Units', key: 'units', sortable: true, slot: true },
+        { title: 'Max Quantity', key: 'maxQty', sortable: false, namedSlot: true },
+        { title: 'Active', key: 'active', sortable: true, namedSlot: true },
+        { title: '', key: 'actions', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
