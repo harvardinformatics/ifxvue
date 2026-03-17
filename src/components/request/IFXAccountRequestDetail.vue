@@ -209,7 +209,7 @@ export default {
               </v-col>
               <v-col>
                 <span v-if="request.result == 'SUCCESS'">
-                  <v-icon color="success">thumb_up</v-icon>
+                  <v-icon color="success">mdi-thumb-up</v-icon>
                   &nbsp;Success
                 </span>
                 <span v-else-if="request.result == 'FAILED'">
