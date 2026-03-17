@@ -51,7 +51,7 @@ export default {
                     <v-btn
                       v-on="on"
                       fab
-                      small
+                      size="small"
                       text
                       class="item-delete"
                       color="error"
@@ -69,7 +69,7 @@ export default {
                     <v-btn
                       v-on="on"
                       fab
-                      small
+                      size="small"
                       text
                       class="item-save"
                       color="green"
@@ -85,7 +85,7 @@ export default {
                     <v-btn
                       v-on="on"
                       fab
-                      small
+                      size="small"
                       text
                       class="item-delete"
                       color="error"

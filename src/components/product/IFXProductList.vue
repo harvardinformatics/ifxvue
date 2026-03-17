@@ -47,7 +47,7 @@ export default {
       <template #title>{{ listTitle }}</template>
       <template #actions>
         <IFXSearchField v-model:search="search" />
-        <IFXButton btnType="add" small @action="navigateToItemCreate" />
+        <IFXButton btnType="add" size="small" @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
     <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" v-model:selected="selected" :itemType="itemType">

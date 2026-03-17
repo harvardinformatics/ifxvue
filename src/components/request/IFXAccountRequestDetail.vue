@@ -228,7 +228,7 @@ export default {
               <v-col shrink>
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" fab small class="item-add" color="green" @click="addEmptyComment()">
+                    <v-btn v-on="on" fab size="small" class="item-add" color="green" @click="addEmptyComment()">
                       <v-icon dark>playlist_add</v-icon>
                     </v-btn>
                   </template>
@@ -238,7 +238,7 @@ export default {
               <v-col shrink>
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" fab small color="info" v-show="isDjangoStaff()" :href="django_admin_url">
+                    <v-btn v-on="on" fab size="small" color="info" v-show="isDjangoStaff()" :href="django_admin_url">
                       <v-icon color="yellow">vpn_key</v-icon>
                     </v-btn>
                   </template>
@@ -280,7 +280,7 @@ export default {
                     <v-btn
                       :disabled="updating_expiration_date"
                       fab
-                      small
+                      size="small"
                       color="info"
                       @click="updatingExpirationDate()"
                     >

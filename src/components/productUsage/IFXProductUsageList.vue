@@ -105,7 +105,7 @@ export default {
           @get-set-items="getSetItems"
           v-model:selectedItems="selected"
         />
-        <IFXButton btnType="add" small @action="navigateToItemCreate" />
+        <IFXButton btnType="add" size="small" @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
@@ -145,7 +145,7 @@ export default {
           <IFXTooltip
             top
             icon="mdi-trash-can-outline"
-            x-small
+            x-size="small"
             color="error"
             data-cy="delete-usage"
             @action="handleDelete(item)"

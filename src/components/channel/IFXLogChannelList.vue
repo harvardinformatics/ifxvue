@@ -54,13 +54,13 @@ export default {
       <template #actions>
         <v-row>
           <v-col sm="6">
-            <IFXSearchField :search.sync="search" />
+            <IFXSearchField v-model:search="search" />
           </v-col>
           <v-col>
             <v-row justify="end">
               <v-col></v-col>
               <v-col sm="3">
-                <IFXButton btnType="add" small @action="navigateToItemCreate" />
+                <IFXButton btnType="add" size="small" @action="navigateToItemCreate" />
               </v-col>
               <v-col sm="3">
                 <IFXMailButton

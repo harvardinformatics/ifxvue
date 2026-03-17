@@ -74,7 +74,7 @@ export default {
                     v-if="organizations"
                     v-model.trim="data.lab_info.organization"
                     :items="organizations"
-                    item-text="name"
+                    item-title="name"
                     return-object
                     @change="updateData()"
                   ></v-autocomplete>

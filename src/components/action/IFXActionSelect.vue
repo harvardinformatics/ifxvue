@@ -10,7 +10,7 @@
     <v-select
       class="action-item"
       :items="computedActions"
-      item-text="name"
+      item-title="name"
       return-object
       v-model="selectedAction"
       @change='toggleDialog'

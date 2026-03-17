@@ -66,7 +66,7 @@ export default {
             <v-autocomplete
               v-model="item.organization"
               :items="allOrganizations"
-              item-text="name"
+              item-title="name"
               item-value="slug"
               label="Organization"
               data-cy="organization"

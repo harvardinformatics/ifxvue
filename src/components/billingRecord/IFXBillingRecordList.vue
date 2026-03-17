@@ -1022,7 +1022,7 @@ export default {
                               >
                                 <IFXButton
                                   :disabled="isLoading"
-                                  small
+                                  size="small"
                                   class="download-btn"
                                   btnType="download"
                                 ></IFXButton>

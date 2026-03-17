@@ -153,7 +153,7 @@ export default {
               :rules="formRules.generic"
               :error-messages="errors.facility"
               :items="allFacilities"
-              item-text="name"
+              item-title="name"
               item-value="name"
               required
               @focus="clearError('facility')"
@@ -337,7 +337,7 @@ export default {
                 <IFXButton
                   v-if="item.active && canUpdateRate()"
                   btnType="other"
-                  x-small
+                  x-size="small"
                   data-cy="update-rate"
                   btnText="Update"
                   @action="updateRate(item)"

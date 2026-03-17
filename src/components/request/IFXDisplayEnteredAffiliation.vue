@@ -52,7 +52,7 @@ export default {
                   <v-autocomplete v-if="organizations"
                     v-model.trim="data.person.primary_affiliation"
                     :items="organizations"
-                    item-text="name"
+                    item-title="name"
                     item-value="slug"
                     @change="updateData()"
                   ></v-autocomplete>

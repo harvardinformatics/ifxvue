@@ -516,7 +516,7 @@ export default {
                             v-on="on"
                             v-bind="attrs"
                             class="ml-2"
-                            small
+                            size="small"
                             color="red"
                             @click.stop.prevent="verifyRemoveUserFile(file)"
                           >
@@ -544,7 +544,7 @@ export default {
                               v-on="on"
                               v-bind="attrs"
                               class="ml-2"
-                              small
+                              size="small"
                               color="red"
                               @click.stop.prevent="verifyRemoveUserFile(file)"
                             >
@@ -766,7 +766,7 @@ export default {
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
-                  small
+                  size="small"
                   @click="userFilesDialogOpen = false"
                   data-cy="userFile-dialog-close"
                   v-on="on"
@@ -805,10 +805,10 @@ export default {
             </v-form>
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
-            <v-btn small text class="ml-2" color="secondary" @click="userFilesDialogOpen = false">Close</v-btn>
+            <v-btn size="small" text class="ml-2" color="secondary" @click="userFilesDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn small text class="mr-2" color="secondary" @click="cancelUserFile">Clear</v-btn>
-            <v-btn small text class="mr-2" :disabled="!userFilesFormIsValid" color="primary" @click="addUserFile()">
+            <v-btn size="small" text class="mr-2" color="secondary" @click="cancelUserFile">Clear</v-btn>
+            <v-btn size="small" text class="mr-2" :disabled="!userFilesFormIsValid" color="primary" @click="addUserFile()">
               Add
             </v-btn>
           </v-card-actions>
@@ -823,7 +823,7 @@ export default {
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
-                  small
+                  size="small"
                   @click="confirmationDialogOpen = false"
                   data-cy="confirm-dialog-close"
                   v-on="on"
@@ -843,8 +843,8 @@ export default {
             ?
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3 pt-3">
-            <v-btn small text color="secondary" @click="cancelRemoveUserFile()">Close</v-btn>
-            <v-btn small text class="mr-2" color="primary" @click="removeUserFile()">Remove</v-btn>
+            <v-btn size="small" text color="secondary" @click="cancelRemoveUserFile()">Close</v-btn>
+            <v-btn size="small" text class="mr-2" color="primary" @click="removeUserFile()">Remove</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

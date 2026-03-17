@@ -98,7 +98,7 @@ export default {
     <IFXPageHeader>
       <template #title>Channel Subscriptions</template>
       <template #actions>
-        <IFXSearchField :search.sync="search" />
+        <IFXSearchField v-model:search="search" />
       </template>
     </IFXPageHeader>
     <v-container>

@@ -53,7 +53,7 @@ export default {
                 label="Set state"
                 v-model="request_state"
                 :items="validStates"
-                item-text="display"
+                item-title="display"
                 item-value="value"
                 @change="updateRequest()"
               ></v-select>

@@ -173,7 +173,7 @@ export default {
                 :disabled="!selected.length"
                 @action="subscribeSelected(true)"
                 tooltip="Subscribe selected users"
-                :small="true"
+                size="small"
                 >
               </IFXTooltip>
             </v-col>
@@ -185,7 +185,7 @@ export default {
                 :disabled="!selected.length"
                 @action="subscribeSelected(false)"
                 tooltip="Unsubscribe selected users"
-                :small="true"
+                size="small"
                 >
               </IFXTooltip>
             </v-col>
@@ -196,7 +196,7 @@ export default {
                 :fab="true"
                 @action="addSubscriber()"
                 tooltip="Add subscriber to channel"
-                :small="true"
+                size="small"
                 >
               </IFXTooltip>
             </v-col>
