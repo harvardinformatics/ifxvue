@@ -102,15 +102,15 @@ export default {
   },
   mounted() {
     this.facilityBillingRecords()
-      .catch((error) :model-value=> {
-        const errorMessage :model-value= this.getErrorMessage(error)
-        this.messageType :model-value= 'error'
-        this.message :model-value= `Error loading ${this.facility.name} billing records: ${errorMessage}`
+      .catch((error) => {
+        const errorMessage = this.getErrorMessage(error)
+        this.messageType = 'error'
+        this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
       })
-      .then(async () :model-value=> {
-        this.expenseCodes :model-value= await this.$api.account.getList()
+      .then(async () => {
+        this.expenseCodes = await this.$api.account.getList()
       })
-      .finally(() :model-value=> (this.isLoading :model-value= false))
+      .finally(() => (this.isLoading = false))
   },
   data() {
     return {
@@ -209,7 +209,7 @@ export default {
   },
   computed: {
     headers() {
-      return this.allHeaders.filter((h) :model-value=> !h.hide).filter((h) :model-value=> !this.$vuetify.display[h.hide])
+      return this.allHeaders.filter((h) => !h.hide).filter((h) => !this.$vuetify.display[h.hide])
     },
     sortByArray() {
       return this.sortBy ? [{ key: this.sortBy, order: 'asc' }] : []
@@ -254,7 +254,7 @@ export default {
     },
     getErrorMessage(error) {
       // Regular showMessage is not getting the response data properly
-      let message :model-value= 'Unknown error'
+      let message = 'Unknown error'
       if (error) {
         if (
           error.hasOwnProperty('response')
@@ -262,22 +262,22 @@ export default {
           && error.response.hasOwnProperty('data')
           && error.response.data
         ) {
-          message :model-value= Object.values(error.response.data).join('\n')
+          message = Object.values(error.response.data).join('\n')
         } else {
-          message :model-value= error
+          message = error
         }
       }
       return message
     },
     async getFullBillingRecordByItemIndex(index) {
-      let br :model-value= this.items[index]
+      let br = this.items[index]
       if (br.billingRecordStates?.length) {
         return br
       }
       if (br.id) {
         // Go get it
-        br :model-value= await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
-        this.items[index] :model-value= br
+        br = await this.apiRef.getByID(this.facility.invoicePrefix, br.id)
+        this.items[index] = br
         return br
       }
       console.log(`Billing record with id not found at item index ${index}`)
@@ -288,7 +288,7 @@ export default {
       if (!items || !items.length) {
         return false
       }
-      const result :model-value= items.some((record) :model-value=> record?.currentState :model-value=:model-value=:model-value= 'FINAL')
+      const result = items.some((record) => record?.currentState === 'FINAL')
       return result
     },
     billingRecordsAreInitOrPending(items) {
@@ -296,67 +296,67 @@ export default {
       if (!items || !items.length) {
         return false
       }
-      const result :model-value= items.every(
-        (record) :model-value=>
-          record?.currentState :model-value=:model-value=:model-value= 'INIT' ||
-          record?.currentState :model-value=:model-value=:model-value= 'PENDING_LAB_APPROVAL' ||
-          record?.currentState :model-value=:model-value=:model-value= 'LAB_APPROVED'
+      const result = items.every(
+        (record) =>
+          record?.currentState === 'INIT' ||
+          record?.currentState === 'PENDING_LAB_APPROVAL' ||
+          record?.currentState === 'LAB_APPROVED'
       )
       return result
     },
     getItemsFilteredBySearch() {
-      let items :model-value= this.items
+      let items = this.items
       if (this.search) {
-        const search :model-value= this.search.toString().toLowerCase()
-        items :model-value= items.filter((i) :model-value=> {
-          let item :model-value= i
+        const search = this.search.toString().toLowerCase()
+        items = items.filter((i) => {
+          let item = i
           if (i.data) {
-            item :model-value= i.data
+            item = i.data
           }
-          return Object.keys(item).some((j) :model-value=> this.filterSearch(item[j], search))
+          return Object.keys(item).some((j) => this.filterSearch(item[j], search))
         })
       }
       return items
     },
     filterSearch(v, s) {
-      let search :model-value= s
+      let search = s
       if (search && v) {
-        const val :model-value= v.toString().toLowerCase()
+        const val = v.toString().toLowerCase()
         // If search is number, remove any decimal places, as values are stored as integers
         if (Number.parseFloat(search)) {
-          search :model-value= search.replace('.', '')
+          search = search.replace('.', '')
         }
-        return val !:model-value=:model-value= null && ['undefined', 'boolean'].indexOf(typeof val) :model-value=:model-value=:model-value= -1 && val.indexOf(search) !:model-value=:model-value= -1
+        return val !== null && ['undefined', 'boolean'].indexOf(typeof val) === -1 && val.indexOf(search) !== -1
       }
       return false
     },
     getLabelsForExport() {
-      return this.allHeaders.map((h) :model-value=> h.title)
+      return this.allHeaders.map((h) => h.title)
     },
     getDataForExport() {
       /* eslint-disable no-plusplus, no-continue */
-      const formattedItems :model-value= []
-      for (let i :model-value= 0; i < this.filteredItems.length; i++) {
-        const newRecord :model-value= {}
-        for (let j :model-value= 0; j < this.allHeaders.length; j++) {
-          const header :model-value= this.allHeaders[j]
-          const keys :model-value= header.key.split('.')
-          const formattedKey :model-value= header.title
-          let value :model-value= this.filteredItems[i]
-          keys.forEach((key) :model-value=> {
-            value :model-value= value[key]
+      const formattedItems = []
+      for (let i = 0; i < this.filteredItems.length; i++) {
+        const newRecord = {}
+        for (let j = 0; j < this.allHeaders.length; j++) {
+          const header = this.allHeaders[j]
+          const keys = header.key.split('.')
+          const formattedKey = header.title
+          let value = this.filteredItems[i]
+          keys.forEach((key) => {
+            value = value[key]
           })
-          if (!value && value !:model-value=:model-value= false) continue
-          if (header.key :model-value=:model-value=:model-value= 'startDate' || header.key :model-value=:model-value=:model-value= 'endDate') {
-            value :model-value= moment(String(value)).format('M/DD/YYYY h:mm A')
+          if (!value && value !== false) continue
+          if (header.key === 'startDate' || header.key === 'endDate') {
+            value = moment(String(value)).format('M/DD/YYYY h:mm A')
           } else if (header.key.toLowerCase().includes('date')) {
-            value :model-value= value.substring(0, 10)
-          } else if (header.key :model-value=:model-value=:model-value= 'account.organization') {
-            value :model-value= this.$api.organization.parseSlug(value).name
-          } else if (header.key :model-value=:model-value=:model-value= 'transactions') {
-            value :model-value= value.map((v) :model-value=> v.description).join('; ')
+            value = value.substring(0, 10)
+          } else if (header.key === 'account.organization') {
+            value = this.$api.organization.parseSlug(value).name
+          } else if (header.key === 'transactions') {
+            value = value.map((v) => v.description).join('; ')
           }
-          newRecord[formattedKey] :model-value= value
+          newRecord[formattedKey] = value
         }
         formattedItems.push(newRecord)
       }
@@ -364,33 +364,33 @@ export default {
       /* eslint-enable no-plusplus, no-continue */
     },
     getNameForExport() {
-      const today :model-value= new Date()
+      const today = new Date()
       return `BillingRecord_${this.facility.name}_Export_${today.toISOString().substring(0, 10)}.csv`
     },
     facilityBillingRecords() {
       this.clearTableState()
       return this.$api.billingRecord
         .getList(this.facility.invoicePrefix, this.month, this.year, this.organization)
-        .then((res) :model-value=> (this.items :model-value= res))
+        .then((res) => (this.items = res))
     },
     async setState(items, state) {
-      const promises :model-value= []
-      const toBeUpdated :model-value= []
-      for (let i :model-value= 0; i < items.length; i +:model-value= 1) {
-        const item :model-value= items[i]
+      const promises = []
+      const toBeUpdated = []
+      for (let i = 0; i < items.length; i += 1) {
+        const item = items[i]
         if (!item.billingRecordStates) {
           promises.push(this.apiRef.getByID(this.facility.invoicePrefix, item.id))
-          if (i !:model-value=:model-value= 0 && i % this.promiseBatchSize :model-value=:model-value=:model-value= 0) {
+          if (i !== 0 && i % this.promiseBatchSize === 0) {
             /* eslint-disable no-await-in-loop */
-            await new Promise((r) :model-value=> setTimeout(r, 500))
+            await new Promise((r) => setTimeout(r, 500))
           }
         } else {
           item.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
           toBeUpdated.push(item)
         }
       }
-      const results :model-value= await Promise.all(promises)
-      results.forEach((item) :model-value=> {
+      const results = await Promise.all(promises)
+      results.forEach((item) => {
         item.billingRecordStates.push({ name: state, user: '', approvers: [], comment: '' })
         toBeUpdated.push(item)
       })
@@ -399,76 +399,76 @@ export default {
     },
     approve(all) {
       if (all) {
-        this.selected :model-value= this.items
+        this.selected = this.items
       }
-      this.updating :model-value= true
+      this.updating = true
       this.setState(this.selected, 'LAB_APPROVED')
-        .then((response) :model-value=> {
-          this.updating :model-value= false
+        .then((response) => {
+          this.updating = false
           this.showMessage(`Successfully updated ${response.data.length} billing record(s)`)
-          this.items :model-value= []
-          this.isLoading :model-value= true
+          this.items = []
+          this.isLoading = true
           this.facilityBillingRecords()
-            .then((resp) :model-value=> (this.message :model-value= resp.msg))
-            .catch((error) :model-value=> {
-              const errorMessage :model-value= this.getErrorMessage(error)
-              this.message :model-value= `Error loading ${this.facility.name} billing records: ${errorMessage}`
+            .then((resp) => (this.message = resp.msg))
+            .catch((error) => {
+              const errorMessage = this.getErrorMessage(error)
+              this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
             })
-            .finally(() :model-value=> (this.isLoading :model-value= false))
+            .finally(() => (this.isLoading = false))
         })
-        .catch((error) :model-value=> {
-          this.isLoading :model-value= false
-          this.updating :model-value= false
-          const message :model-value= this.getErrorMessage(error)
+        .catch((error) => {
+          this.isLoading = false
+          this.updating = false
+          const message = this.getErrorMessage(error)
           this.showMessage(message)
         })
     },
-    async generateInvoices(wholeMonth :model-value= false) {
-      this.updating :model-value= true
-      this.message :model-value= ''
-      const orgSet :model-value= new Set()
+    async generateInvoices(wholeMonth = false) {
+      this.updating = true
+      this.message = ''
+      const orgSet = new Set()
       if (!wholeMonth) {
-        this.selected.forEach((item) :model-value=> {
+        this.selected.forEach((item) => {
           orgSet.add(item.account.organization)
         })
       } else {
-        this.selected :model-value= []
+        this.selected = []
       }
-      const selectedOrgs :model-value= Array.from(orgSet)
+      const selectedOrgs = Array.from(orgSet)
       this.$api.invoice
         .generate(this.facility.invoicePrefix, this.month, this.year, selectedOrgs)
-        .then((ret) :model-value=> {
-          const url :model-value= this.$router.resolve({
+        .then((ret) => {
+          const url = this.$router.resolve({
             name: 'InvoiceList',
             query: { month: this.month.toString().padStart(2, '0'), year: this.year },
           }).href
           if (ret.message) {
             // eslint-disable-next-line no-param-reassign
-            ret.message :model-value= ret.message.replace(/\n/g, '<br/>')
-            this.message :model-value= `<p>${ret.message}</p>`
+            ret.message = ret.message.replace(/\n/g, '<br/>')
+            this.message = `<p>${ret.message}</p>`
           }
           if (ret.message.includes('Failed') || ret.message.includes('Unable')) {
-            this.messageType :model-value= 'error'
+            this.messageType = 'error'
           } else {
-            this.messageType :model-value= 'success'
+            this.messageType = 'success'
           }
-          this.updating :model-value= false
-          if (this.messageType !:model-value=:model-value= 'error') {
-            this.message :model-value= `${this.message}<p><a href:model-value="${url}">Go to Invoices</a></p>`
+          this.updating = false
+          if (this.messageType !== 'error') {
+            this.message = `${this.message}<p><a href="${url}">Go to Invoices</a></p>`
           }
         })
-        .catch((error) :model-value=> {
-          this.updating :model-value= false
-          this.messageType :model-value= 'error'
-          this.message :model-value= this.getErrorMessage(error)
+        .catch((error) => {
+          this.updating = false
+          this.messageType = 'error'
+          this.message = this.getErrorMessage(error)
         })
     },
     toggleGroup(group) {
-      const records :model-value= this.filteredItems.filter((item) :model-value=> item.account.organization :model-value=:model-value=:model-value= group)
-      const isSelected :model-value= this.rowSelectionToggle.indexOf(group) !:model-value=:model-value= -1
-      records.forEach((record) :model-value=> {
-        const index :model-value= this.selected.findIndex((item) :model-value=> record.id :model-value=:model-value=:model-value= item.id)
-        if (index !:model-value=:model-value= -1) {
+      const records = this.filteredItems.filter((item) => item.account.organization === group)
+      const isSelected = this.rowSelectionToggle.indexOf(group) !== -1
+      records.forEach((record) => {
+        const index = this.selected.findIndex((item) => record.id === item.id)
+        if (index !== -1) {
           if (!isSelected) {
             this.selected.splice(index, 1)
           }
@@ -476,154 +476,154 @@ export default {
           this.selected.push(record)
         }
       })
-      this.rowSelectionToggleIndeterminate[group] :model-value= false
+      this.rowSelectionToggleIndeterminate[group] = false
     },
     summaryCharges(group) {
-      const records :model-value= this.filteredItems.filter((item) :model-value=> item.account.organization :model-value=:model-value=:model-value= group)
-      const summary :model-value= records.reduce((prev, current) :model-value=> prev + current.decimalCharge, 0)
+      const records = this.filteredItems.filter((item) => item.account.organization === group)
+      const summary = records.reduce((prev, current) => prev + current.decimalCharge, 0)
       return summary
     },
     totalCharges() {
-      const total :model-value= this.filteredItems.reduce((prev, current) :model-value=> prev + current.decimalCharge, 0)
+      const total = this.filteredItems.reduce((prev, current) => prev + current.decimalCharge, 0)
       return total
     },
     totalHours() {
-      const total :model-value= this.filteredItems.reduce((prev, current) :model-value=> prev + current.decimalQuantity, 0)
+      const total = this.filteredItems.reduce((prev, current) => prev + current.decimalQuantity, 0)
       return Math.round(total * 100) / 100
     },
     determineGroupState(e) {
-      const group :model-value= e.item.account.organization
-      const records :model-value= this.filteredItems.filter((item) :model-value=> item.account.organization :model-value=:model-value=:model-value= group)
-      let checked :model-value= this.selected.filter((item) :model-value=> item.account.organization :model-value=:model-value=:model-value= group).length
-      checked +:model-value= e.value ? 1 : -1
-      const state :model-value= checked !:model-value=:model-value= 0 && checked < records.length
-      this.rowSelectionToggleIndeterminate[group] :model-value= state
+      const group = e.item.account.organization
+      const records = this.filteredItems.filter((item) => item.account.organization === group)
+      let checked = this.selected.filter((item) => item.account.organization === group).length
+      checked += e.value ? 1 : -1
+      const state = checked !== 0 && checked < records.length
+      this.rowSelectionToggleIndeterminate[group] = state
       if (checked) {
-        if (checked :model-value=:model-value=:model-value= records.length) {
-          const index :model-value= this.rowSelectionToggle.indexOf(group)
-          if (index :model-value=:model-value=:model-value= -1) {
+        if (checked === records.length) {
+          const index = this.rowSelectionToggle.indexOf(group)
+          if (index === -1) {
             this.rowSelectionToggle.push(group)
           }
         }
       } else {
-        const index :model-value= this.rowSelectionToggle.indexOf(group)
-        if (index !:model-value=:model-value= -1) {
+        const index = this.rowSelectionToggle.indexOf(group)
+        if (index !== -1) {
           this.rowSelectionToggle.splice(index, 1)
         }
       }
     },
     toggleSelectAll({ items, value }) {
-      const orgSet :model-value= new Set()
-      items.forEach((item) :model-value=> {
+      const orgSet = new Set()
+      items.forEach((item) => {
         orgSet.add(item.account.organization)
       })
       if (value) {
-        this.rowSelectionToggle :model-value= Array.from(orgSet)
+        this.rowSelectionToggle = Array.from(orgSet)
       } else {
-        this.rowSelectionToggle :model-value= []
+        this.rowSelectionToggle = []
       }
-      Array.from(orgSet).forEach((org) :model-value=> {
-        this.rowSelectionToggleIndeterminate[org] :model-value= false
+      Array.from(orgSet).forEach((org) => {
+        this.rowSelectionToggleIndeterminate[org] = false
       })
     },
     collpaseRows() {
-      this.$nextTick(() :model-value=> {
-        const table :model-value= this.$refs.table
+      this.$nextTick(() => {
+        const table = this.$refs.table
         if (table) {
           if (table.openCache) {
-            const keys :model-value= Object.keys(table.openCache)
-            keys.forEach((key) :model-value=> {
-              table.openCache[key] :model-value= false
+            const keys = Object.keys(table.openCache)
+            keys.forEach((key) => {
+              table.openCache[key] = false
             })
           }
         }
       })
     },
     clearTableState() {
-      this.selected :model-value= []
-      this.rowSelectionToggle :model-value= []
-      this.rowSelectionToggleIndeterminate :model-value= {}
+      this.selected = []
+      this.rowSelectionToggle = []
+      this.rowSelectionToggleIndeterminate = {}
     },
     closeTxnDialog() {
-      this.txnDialog :model-value= false
+      this.txnDialog = false
     },
     async openTxnDialog(item) {
-      const index :model-value= this.items.findIndex((rec) :model-value=> rec.id :model-value=:model-value=:model-value= item.id)
-      const br :model-value= await this.getFullBillingRecordByItemIndex(index)
-      if (index !:model-value=:model-value= -1) {
-        this.editedItem :model-value= { ...this.defaultItem }
-        this.editedItem.rate :model-value= br.rate
-        this.editedItem.orgRec :model-value= br
-        this.editedItem.index :model-value= index
-        this.editedItem.author :model-value= { ...this.$api.authUser }
-        this.$nextTick(() :model-value=> {
-          this.txnDialog :model-value= true
+      const index = this.items.findIndex((rec) => rec.id === item.id)
+      const br = await this.getFullBillingRecordByItemIndex(index)
+      if (index !== -1) {
+        this.editedItem = { ...this.defaultItem }
+        this.editedItem.rate = br.rate
+        this.editedItem.orgRec = br
+        this.editedItem.index = index
+        this.editedItem.author = { ...this.$api.authUser }
+        this.$nextTick(() => {
+          this.txnDialog = true
         })
       }
     },
     updateBillingRecord(newRecord, index) {
-      this.updating :model-value= true
+      this.updating = true
       this.$api.billingRecord
         .bulkUpdate([newRecord], this.facility.applicationUsername)
-        .then((response) :model-value=> {
+        .then((response) => {
           if (response.error) {
             this.showMessage(response.error)
           } else {
             this.showMessage('Successfully updated billing record')
           }
-          const newBillingRec :model-value= this.$api.billingRecord.create(response.data[0])
+          const newBillingRec = this.$api.billingRecord.create(response.data[0])
           this.items.splice(index, 1, newBillingRec)
         })
-        .catch((error) :model-value=> {
-          this.isLoading :model-value= false
-          const message :model-value= this.getErrorMessage(error)
+        .catch((error) => {
+          this.isLoading = false
+          const message = this.getErrorMessage(error)
           this.showMessage(message)
         })
-        .finally(() :model-value=> {
-          this.updating :model-value= false
-          this.txnDialog :model-value= false
-          this.editDialog :model-value= false
-          this.showChangeExpenseCodeDialog :model-value= false
+        .finally(() => {
+          this.updating = false
+          this.txnDialog = false
+          this.editDialog = false
+          this.showChangeExpenseCodeDialog = false
         })
     },
     async deleteSelectedBillingRecords() {
-      this.updating :model-value= true
-      let successCount :model-value= 0
-      for (let i :model-value= 0; i < this.selected.length; i++) {
+      this.updating = true
+      let successCount = 0
+      for (let i = 0; i < this.selected.length; i++) {
         try {
           await this.$api.billingRecord.delete(this.selected[i])
-          this.items :model-value= this.items.filter((item) :model-value=> !(item.id :model-value=:model-value=:model-value= this.selected[i].id))
+          this.items = this.items.filter((item) => !(item.id === this.selected[i].id))
           successCount++
         } catch (error) {
-          const message :model-value= this.getErrorMessage(error)
+          const message = this.getErrorMessage(error)
           this.showMessage(message)
         }
       }
       this.showMessage(`Successfully deleted ${successCount} billing record(s)`)
-      this.selected :model-value= []
+      this.selected = []
 
-      this.isLoading :model-value= false
-      this.updating :model-value= false
+      this.isLoading = false
+      this.updating = false
     },
     async openEditDialog(item) {
-      const index :model-value= this.items.findIndex((rec) :model-value=> rec.id :model-value=:model-value=:model-value= item.id)
-      if (index !:model-value=:model-value= -1) {
-        this.editingIndex :model-value= index
-        this.editedRecord :model-value= cloneDeep(item)
-        this.newExpenseCode :model-value= await this.$api.account.create(item.account)
+      const index = this.items.findIndex((rec) => rec.id === item.id)
+      if (index !== -1) {
+        this.editingIndex = index
+        this.editedRecord = cloneDeep(item)
+        this.newExpenseCode = await this.$api.account.create(item.account)
 
-        this.editDialog :model-value= true
+        this.editDialog = true
       }
     },
     closeEditDialog() {
-      this.editDialog :model-value= false
-      this.editedRecord :model-value= {}
-      this.editingIndex :model-value= null
+      this.editDialog = false
+      this.editedRecord = {}
+      this.editingIndex = null
     },
     async updateSpecificRecord(billingRec) {
-      const index :model-value= this.items.findIndex((rec) :model-value=> rec.id :model-value=:model-value=:model-value= billingRec.id)
-      const newBillingRec :model-value= await this.getFullBillingRecordByItemIndex(index)
-      newBillingRec.account :model-value= this.newExpenseCode.data
+      const index = this.items.findIndex((rec) => rec.id === billingRec.id)
+      const newBillingRec = await this.getFullBillingRecordByItemIndex(index)
+      newBillingRec.account = this.newExpenseCode.data
       this.updateBillingRecord(newBillingRec, this.editingIndex)
       this.closeEditDialog()
     },
@@ -635,12 +635,12 @@ export default {
       })
     },
     allowEditingRecords(item) {
-      return item.currentState !:model-value=:model-value= 'FINAL'
+      return item.currentState !== 'FINAL'
     },
     goToComposeMessage(field) {
-      this.recipientField :model-value= field
-      const orgs :model-value= this.selected.length ? this.selected : this.filteredItems
-      const orgSlugs :model-value= orgs.map((item) :model-value=> item.account.organization)
+      this.recipientField = field
+      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgSlugs = orgs.map((item) => item.account.organization)
       this.$router.push({
         name: 'MailingCompose',
         params: {
@@ -653,7 +653,7 @@ export default {
       })
     },
     defaultNotifyLabManagers() {
-      const orgSlugs :model-value= this.items.map((item) :model-value=> item.account.organization)
+      const orgSlugs = this.items.map((item) => item.account.organization)
       this.$api.notifyLabManagers(
         [...new Set(orgSlugs)],
         this.facility,
@@ -664,143 +664,143 @@ export default {
       )
     },
     async notifyLabManagers() {
-      this.emailResponse :model-value= null
-      this.sendingNotifications :model-value= true
-      const orgs :model-value= this.selected.length ? this.selected : this.filteredItems
-      const orgSlugs :model-value= orgs.map((item) :model-value=> item.account.organization)
+      this.emailResponse = null
+      this.sendingNotifications = true
+      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgSlugs = orgs.map((item) => item.account.organization)
       try {
-        const response :model-value= await this.$api.reviewLabManagerNotifications(
+        const response = await this.$api.reviewLabManagerNotifications(
           [...new Set(orgSlugs)],
           this.selectedContactables,
           this.facility,
           this.year,
           this.month
         )
-        this.emailResponse :model-value= response.data
+        this.emailResponse = response.data
       } catch (error) {
-        this.emailResponse :model-value= null
-        const message :model-value= this.getErrorMessage(error)
+        this.emailResponse = null
+        const message = this.getErrorMessage(error)
         this.showMessage(message)
       }
-      this.sendingNotifications :model-value= false
+      this.sendingNotifications = false
     },
     getSelectedOrgs() {
-      const orgSet :model-value= new Set()
-      this.selected.forEach((item) :model-value=> {
+      const orgSet = new Set()
+      this.selected.forEach((item) => {
         orgSet.add(item.account.organization)
       })
       return Array.from(orgSet)
     },
     openNotifyDialog() {
       if (!this.contactables.length) {
-        this.$api.contactables.getList().then((result) :model-value=> {
-          this.contactables :model-value= result
+        this.$api.contactables.getList().then((result) => {
+          this.contactables = result
         })
       }
       this.selectedContactables.splice(0)
-      this.emailResponse :model-value= null
-      this.notifyDialog :model-value= true
+      this.emailResponse = null
+      this.notifyDialog = true
     },
     buildNotificationlList() {
-      let list :model-value= ''
+      let list = ''
       if (this.selectedContactables.length) {
-        list :model-value= this.selectedContactables.map((contact) :model-value=> contact.name).join(', ')
+        list = this.selectedContactables.map((contact) => contact.name).join(', ')
       } else {
-        list :model-value= 'Lab managers'
+        list = 'Lab managers'
       }
       return list
     },
     async openChangeExpenseCodeDialog() {
-      this.recordIDsToBeChanged :model-value= this.selected.map((record) :model-value=> record.id)
-      this.showChangeExpenseCodeDialog :model-value= true
+      this.recordIDsToBeChanged = this.selected.map((record) => record.id)
+      this.showChangeExpenseCodeDialog = true
     },
     closeChangeExpenseCodeDialog() {
-      this.recordIDsToBeChanged :model-value= []
-      this.showChangeExpenseCodeDialog :model-value= false
+      this.recordIDsToBeChanged = []
+      this.showChangeExpenseCodeDialog = false
     },
     getUsageReport() {
-      this.usageReportHref :model-value= ''
-      this.usageReportFileName :model-value= ''
-      this.usageReportMessage :model-value= ''
-      this.loadingUsageReport :model-value= true
-      const organization_slug :model-value= this.organization
+      this.usageReportHref = ''
+      this.usageReportFileName = ''
+      this.usageReportMessage = ''
+      this.loadingUsageReport = true
+      const organization_slug = this.organization
       this.$api
         .getUsageReport(this.facility.invoicePrefix, this.year, this.month, organization_slug)
-        .then((response) :model-value=> {
-          this.usageReportHref :model-value= response.data.url
-          this.usageReportFileName :model-value= response.data.filename
+        .then((response) => {
+          this.usageReportHref = response.data.url
+          this.usageReportFileName = response.data.filename
         })
-        .catch((error) :model-value=> {
-          this.usageReportMessage :model-value=
+        .catch((error) => {
+          this.usageReportMessage =
             error?.response?.data?.error || 'An error occurred while generating the usage report'
         })
-        .finally(() :model-value=> {
-          this.loadingUsageReport :model-value= false
+        .finally(() => {
+          this.loadingUsageReport = false
         })
     },
     openGetUsageReportDialog() {
       this.getUsageReport()
-      this.showUsageReportDialog :model-value= true
+      this.showUsageReportDialog = true
     },
     closeGetUsageReportDialog() {
-      this.showUsageReportDialog :model-value= false
+      this.showUsageReportDialog = false
     },
     async changeExpenseCode() {
-      const recordsToChange :model-value= []
-      const groups :model-value= new Set()
-      this.updating :model-value= true
-      for (let i :model-value= 0; i < this.recordIDsToBeChanged.length; i++) {
-        const index :model-value= this.items.findIndex((rec) :model-value=> rec.id :model-value=:model-value=:model-value= this.recordIDsToBeChanged[i])
-        const newBillingRec :model-value= cloneDeep(await this.getFullBillingRecordByItemIndex(index))
-        newBillingRec.account :model-value= this.newExpenseCode.data
+      const recordsToChange = []
+      const groups = new Set()
+      this.updating = true
+      for (let i = 0; i < this.recordIDsToBeChanged.length; i++) {
+        const index = this.items.findIndex((rec) => rec.id === this.recordIDsToBeChanged[i])
+        const newBillingRec = cloneDeep(await this.getFullBillingRecordByItemIndex(index))
+        newBillingRec.account = this.newExpenseCode.data
         recordsToChange.push(newBillingRec)
       }
       this.$api.billingRecord
         .bulkUpdate(recordsToChange, this.facility.applicationUsername)
-        .then((response) :model-value=> {
+        .then((response) => {
           if (response.error) {
             this.showMessage(response.error)
           } else {
-            response.data.forEach((record) :model-value=> {
-              const newBillingRec :model-value= this.$api.billingRecord.create(record)
-              let index :model-value= this.items.findIndex((rec) :model-value=> rec.id :model-value=:model-value=:model-value= record.id)
+            response.data.forEach((record) => {
+              const newBillingRec = this.$api.billingRecord.create(record)
+              let index = this.items.findIndex((rec) => rec.id === record.id)
               this.items.splice(index, 1, newBillingRec)
-              index :model-value= this.selected.findIndex((rec) :model-value=> rec.id :model-value=:model-value=:model-value= record.id)
+              index = this.selected.findIndex((rec) => rec.id === record.id)
               groups.add(this.selected[index].account.organization)
               this.selected.splice(index, 1, newBillingRec)
               groups.add(newBillingRec.account.organization)
             })
-            Array.from(groups).forEach((org) :model-value=> {
+            Array.from(groups).forEach((org) => {
               this.setHeaderCheckBoxState(org)
             })
             this.showMessage(`Successfully updated ${response.data.length} billing record(s)`)
           }
         })
-        .catch((error) :model-value=> {
-          const message :model-value= this.getErrorMessage(error)
+        .catch((error) => {
+          const message = this.getErrorMessage(error)
           this.showMessage(message)
         })
-        .finally(() :model-value=> {
-          this.isLoading :model-value= false
-          this.updating :model-value= false
+        .finally(() => {
+          this.isLoading = false
+          this.updating = false
           this.closeChangeExpenseCodeDialog()
         })
     },
     setHeaderCheckBoxState(group) {
-      const records :model-value= this.filteredItems.filter((item) :model-value=> item.account.organization :model-value=:model-value=:model-value= group)
-      const checked :model-value= this.selected.filter((item) :model-value=> item.account.organization :model-value=:model-value=:model-value= group).length
-      const state :model-value= checked !:model-value=:model-value= 0 && checked < records.length
-      this.rowSelectionToggleIndeterminate[group] :model-value= state
+      const records = this.filteredItems.filter((item) => item.account.organization === group)
+      const checked = this.selected.filter((item) => item.account.organization === group).length
+      const state = checked !== 0 && checked < records.length
+      this.rowSelectionToggleIndeterminate[group] = state
       if (checked) {
-        if (checked :model-value=:model-value=:model-value= records.length) {
-          const index :model-value= this.rowSelectionToggle.indexOf(group)
-          if (index :model-value=:model-value=:model-value= -1) {
+        if (checked === records.length) {
+          const index = this.rowSelectionToggle.indexOf(group)
+          if (index === -1) {
             this.rowSelectionToggle.push(group)
           }
         }
       } else {
-        const index :model-value= this.rowSelectionToggle.indexOf(group)
-        if (index !:model-value=:model-value= -1) {
+        const index = this.rowSelectionToggle.indexOf(group)
+        if (index !== -1) {
           this.rowSelectionToggle.splice(index, 1)
         }
       }
@@ -813,7 +813,7 @@ export default {
     filteredItems() {
       if (!this.tableCollpased) {
         this.collpaseRows()
-        this.tableCollpased :model-value= true
+        this.tableCollpased = true
       }
     },
   },
@@ -824,138 +824,138 @@ export default {
   <v-container>
     <v-card>
       <v-card-title>
-        <v-row class:model-value="d-flex justify-space-between w-full">
-          <v-col cols:model-value="5">
-            <div class:model-value="text-no-wrap">
+        <v-row class="d-flex justify-space-between w-full">
+          <v-col cols="5">
+            <div class="text-no-wrap">
               {{ facility.name }}
             </div>
           </v-col>
-          <v-col class:model-value="flex-grow-2">
+          <v-col class="flex-grow-2">
             <v-row>
               <v-col>
-                <IFXSearchField v-model:search:model-value="search" />
+                <IFXSearchField v-model:search="search" />
               </v-col>
             </v-row>
           </v-col>
           <v-col>
-            <v-row class:model-value="d-flex flex-nowrap justify-end align-start">
-              <v-col v-if:model-value="updating">
-                <v-progress-circular indeterminate color:model-value="primary"></v-progress-circular>
+            <v-row class="d-flex flex-nowrap justify-end align-start">
+              <v-col v-if="updating">
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-col>
               <v-col v-else>
-                <v-row class:model-value="d-flex justify-start align-center nowrap">
-                  <v-col class:model-value="pa-2">
+                <v-row class="d-flex justify-start align-center nowrap">
+                  <v-col class="pa-2">
                     <IFXMailButton
-                      v-if:model-value="useDefaultMailButton"
-                      v-model:model-value="recipientField"
-                      :disabled:model-value="!filteredItems.length"
-                      toolTip:model-value="Notify Lab Managers"
-                      @input:model-value="defaultNotifyLabManagers()"
+                      v-if="useDefaultMailButton"
+                      v-model="recipientField"
+                      :disabled="!filteredItems.length"
+                      toolTip="Notify Lab Managers"
+                      @input="defaultNotifyLabManagers()"
                     ></IFXMailButton>
-                    <v-tooltip location:model-value="top" v-else>
-                      <template v-slot:activator:model-value="{ props }">
+                    <v-tooltip location="top" v-else>
+                      <template v-slot:activator="{ props }">
                         <div>
-                          <v-menu v-model:model-value="mailFab" location:model-value="bottom">
-                            <template v-slot:activator:model-value="{ props: menuProps }">
-                              <v-btn v-bind:model-value="{ ...props, ...menuProps }" size:model-value="small" color:model-value="green" icon>
-                                <v-icon color:model-value="white" v-if:model-value="mailFab">mdi-close</v-icon>
-                                <v-icon color:model-value="white" v-else>mdi-email-send-outline</v-icon>
+                          <v-menu v-model="mailFab" location="bottom">
+                            <template v-slot:activator="{ props: menuProps }">
+                              <v-btn v-bind="{ ...props, ...menuProps }" size="small" color="green" icon>
+                                <v-icon color="white" v-if="mailFab">mdi-close</v-icon>
+                                <v-icon color="white" v-else>mdi-email-send-outline</v-icon>
                               </v-btn>
                             </template>
                             <v-list>
-                              <v-list-item @click:model-value="openNotifyDialog">
+                              <v-list-item @click="openNotifyDialog">
                                 <v-list-item-title>Notify Lab Managers</v-list-item-title>
                               </v-list-item>
-                              <v-list-item @click:model-value="goToComposeMessage('to')" :disabled:model-value="!filteredItems.length">
+                              <v-list-item @click="goToComposeMessage('to')" :disabled="!filteredItems.length">
                                 <v-list-item-title>Send a message to selected Lab Managers</v-list-item-title>
                               </v-list-item>
-                              <v-list-item @click:model-value="goToComposeMessage('cc')" :disabled:model-value="!filteredItems.length">
+                              <v-list-item @click="goToComposeMessage('cc')" :disabled="!filteredItems.length">
                                 <v-list-item-title>CC selected Lab Managers</v-list-item-title>
                               </v-list-item>
-                              <v-list-item @click:model-value="goToComposeMessage('bcc')" :disabled:model-value="!filteredItems.length">
+                              <v-list-item @click="goToComposeMessage('bcc')" :disabled="!filteredItems.length">
                                 <v-list-item-title>BCC selected Lab Managers</v-list-item-title>
                               </v-list-item>
                             </v-list>
                           </v-menu>
 
-                          <v-dialog v-model:model-value="notifyDialog" max-width:model-value="600px">
+                          <v-dialog v-model="notifyDialog" max-width="600px">
                             <v-card>
                               <v-card-title>
-                                <span class:model-value="text-h5">Notify Lab Managers</span>
+                                <span class="text-h5">Notify Lab Managers</span>
                               </v-card-title>
                               <v-card-text>
-                                <v-form v-model:model-value="isValid">
-                                  <v-row class:model-value="text-body-1">
-                                    <v-col v-if:model-value="selected.length">
-                                      <div class:model-value="mb-2">Send to the managers for the following labs:</div>
-                                      <ul class:model-value="lab-manager-list">
-                                        <li v-for:model-value="org in getSelectedOrgs()" :key:model-value="org" class:model-value="font-weight-medium">
+                                <v-form v-model="isValid">
+                                  <v-row class="text-body-1">
+                                    <v-col v-if="selected.length">
+                                      <div class="mb-2">Send to the managers for the following labs:</div>
+                                      <ul class="lab-manager-list">
+                                        <li v-for="org in getSelectedOrgs()" :key="org" class="font-weight-medium">
                                           {{ $api.organization.parseSlug(org).name }}
                                         </li>
                                       </ul>
                                     </v-col>
                                     <v-col v-else>
-                                      <div class:model-value="font-weight-medium">Send to all lab managers</div>
+                                      <div class="font-weight-medium">Send to all lab managers</div>
                                     </v-col>
                                   </v-row>
                                   <v-row no-gutters>
-                                    <v-col cols:model-value="12">
-                                      <div class:model-value="text-divider font-italic text-center mt-2">
+                                    <v-col cols="12">
+                                      <div class="text-divider font-italic text-center mt-2">
                                         Or specify email addresses directly
                                       </div>
                                       <IFXContactablesCombobox
-                                        label:model-value="To:"
-                                        v-model:model-value="selectedContactables"
-                                        :contactables:model-value="contactables"
+                                        label="To:"
+                                        v-model="selectedContactables"
+                                        :contactables="contactables"
                                       />
                                     </v-col>
                                   </v-row>
-                                  <div v-if:model-value="sendingNotifications">
+                                  <div v-if="sendingNotifications">
                                     Sending emails...
                                     <v-progress-linear indeterminate></v-progress-linear>
                                   </div>
-                                  <v-row no-gutters v-if:model-value="emailResponse">
-                                    <v-col cols:model-value="12" class:model-value="text-body-1 results-section">
-                                      <div class:model-value="text-body-1 font-weight-medium text-center">
+                                  <v-row no-gutters v-if="emailResponse">
+                                    <v-col cols="12" class="text-body-1 results-section">
+                                      <div class="text-body-1 font-weight-medium text-center">
                                         Email Notification Results
                                       </div>
-                                      <div class:model-value="text-body-2 font-weight-regular text-center">
+                                      <div class="text-body-2 font-weight-regular text-center">
                                         Sent to {{ buildNotificationlList() }}
                                       </div>
-                                      <div v-if:model-value="emailResponse.successes.length" class:model-value="my-3 pb-2 border-bottom">
+                                      <div v-if="emailResponse.successes.length" class="my-3 pb-2 border-bottom">
                                         Successfully
-                                        <span class:model-value="text-green">sent</span>
+                                        <span class="text-green">sent</span>
                                         for the following organizations:
-                                        <ul class:model-value="lab-manager-list">
-                                          <li v-for:model-value="value in emailResponse.successes" :key:model-value="value">
+                                        <ul class="lab-manager-list">
+                                          <li v-for="value in emailResponse.successes" :key="value">
                                             <span>{{ value }}</span>
                                           </li>
                                         </ul>
                                       </div>
                                       <div
-                                        v-if:model-value="Object.keys(emailResponse.errors).length"
-                                        class:model-value="my-3 pb-2 border-bottom"
+                                        v-if="Object.keys(emailResponse.errors).length"
+                                        class="my-3 pb-2 border-bottom"
                                       >
                                         The following
-                                        <span class:model-value="text-red">errors</span>
+                                        <span class="text-red">errors</span>
                                         occurred trying to send emails:
-                                        <ul class:model-value="list-style-none mt-1">
-                                          <li v-for:model-value="(value, key) in emailResponse.errors" :key:model-value="key">
+                                        <ul class="list-style-none mt-1">
+                                          <li v-for="(value, key) in emailResponse.errors" :key="key">
                                             <span>To the {{ key }}</span>
-                                            <ul class:model-value="error-list">
-                                              <li v-for:model-value="error in value" :key:model-value="error">
+                                            <ul class="error-list">
+                                              <li v-for="error in value" :key="error">
                                                 {{ error }}
                                               </li>
                                             </ul>
                                           </li>
                                         </ul>
                                       </div>
-                                      <div v-if:model-value="emailResponse.nobrs.length" class:model-value="my-3 pb-2 border-bottom">
+                                      <div v-if="emailResponse.nobrs.length" class="my-3 pb-2 border-bottom">
                                         The following organizations had&nbsp;
-                                        <span class:model-value="text-yellow-darken-3">no billing records</span>
+                                        <span class="text-yellow-darken-3">no billing records</span>
                                         :
-                                        <ul class:model-value="lab-manager-list">
-                                          <li v-for:model-value="value in emailResponse.nobrs" :key:model-value="value">
+                                        <ul class="lab-manager-list">
+                                          <li v-for="value in emailResponse.nobrs" :key="value">
                                             <span>{{ value }}</span>
                                           </li>
                                         </ul>
@@ -966,14 +966,14 @@ export default {
                               </v-card-text>
                               <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color:model-value="secondary" variant:model-value="text" @click:model-value="notifyDialog :model-value= false">
+                                <v-btn color="secondary" variant="text" @click="notifyDialog = false">
                                   {{ emailResponse ? 'Close' : 'Cancel' }}
                                 </v-btn>
                                 <v-btn
-                                  color:model-value="blue-darken-1"
-                                  variant:model-value="text"
-                                  :disabled:model-value="!isValid"
-                                  @click:model-value="notifyLabManagers"
+                                  color="blue-darken-1"
+                                  variant="text"
+                                  :disabled="!isValid"
+                                  @click="notifyLabManagers"
                                 >
                                   Notify
                                 </v-btn>
@@ -985,19 +985,19 @@ export default {
                       <span>Notify Lab Managers</span>
                     </v-tooltip>
                   </v-col>
-                  <v-col class:model-value="pa-2" v-if:model-value="allowApprovals">
-                    <v-row class:model-value="d-flex flex-nowrap">
+                  <v-col class="pa-2" v-if="allowApprovals">
+                    <v-row class="d-flex flex-nowrap">
                       <v-col>
-                        <v-tooltip location:model-value="top">
-                          <template v-slot:activator:model-value="{ props }">
+                        <v-tooltip location="top">
+                          <template v-slot:activator="{ props }">
                             <div>
                               <v-btn
-                                :disabled:model-value="selected.length :model-value=:model-value= 0 || billingRecordsAreFinal(selected)"
-                                v-bind:model-value="props"
-                                icon:model-value="mdi-check"
-                                size:model-value="small"
-                                color:model-value="green"
-                                @click:model-value="approve()"
+                                :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                                v-bind="props"
+                                icon="mdi-check"
+                                size="small"
+                                color="green"
+                                @click="approve()"
                               >
                               </v-btn>
                             </div>
@@ -1009,24 +1009,24 @@ export default {
                   </v-col>
                   <!-- Commented out for Storybook - download-csv not registered -->
                   <!--
-                  <v-col class:model-value="pa-2" v-if:model-value="allowDownloads">
+                  <v-col class="pa-2" v-if="allowDownloads">
                     <v-row>
                       <v-col>
-                        <v-tooltip location:model-value="top">
-                          <template v-slot:activator:model-value="{ props }">
+                        <v-tooltip location="top">
+                          <template v-slot:activator="{ props }">
                             <div>
                               <download-csv
-                                :class:model-value="{ 'download-disabled': isLoading }"
-                                :labels:model-value="getLabelsForExport()"
-                                :data:model-value="getDataForExport()"
-                                :name:model-value="getNameForExport()"
-                                v-bind:model-value="props"
+                                :class="{ 'download-disabled': isLoading }"
+                                :labels="getLabelsForExport()"
+                                :data="getDataForExport()"
+                                :name="getNameForExport()"
+                                v-bind="props"
                               >
                                 <IFXButton
-                                  :disabled:model-value="isLoading"
-                                  size:model-value="small"
-                                  class:model-value="download-btn"
-                                  btnType:model-value="download"
+                                  :disabled="isLoading"
+                                  size="small"
+                                  class="download-btn"
+                                  btnType="download"
                                 ></IFXButton>
                               </download-csv>
                             </div>
@@ -1037,17 +1037,17 @@ export default {
                     </v-row>
                   </v-col>
                   -->
-                  <v-col v-if:model-value="allowChangeExpenseCode">
-                    <v-tooltip location:model-value="top">
-                      <template v-slot:activator:model-value="{ props }">
+                  <v-col v-if="allowChangeExpenseCode">
+                    <v-tooltip location="top">
+                      <template v-slot:activator="{ props }">
                         <div>
                           <v-btn
-                            :disabled:model-value="selected.length :model-value=:model-value= 0 || billingRecordsAreFinal(selected)"
-                            v-bind:model-value="props"
-                            icon:model-value="mdi-playlist-edit"
-                            size:model-value="small"
-                            color:model-value="green"
-                            @click:model-value="openChangeExpenseCodeDialog()"
+                            :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                            v-bind="props"
+                            icon="mdi-playlist-edit"
+                            size="small"
+                            color="green"
+                            @click="openChangeExpenseCodeDialog()"
                           >
                           </v-btn>
                         </div>
@@ -1055,23 +1055,23 @@ export default {
                       <span>Edit billing record account</span>
                     </v-tooltip>
                   </v-col>
-                  <v-col class:model-value="pa-2" v-if:model-value="allowInvoiceGeneration">
+                  <v-col class="pa-2" v-if="allowInvoiceGeneration">
                     <v-row>
                       <v-col>
-                        <v-tooltip location:model-value="top">
-                          <template v-slot:activator:model-value="{ props }">
+                        <v-tooltip location="top">
+                          <template v-slot:activator="{ props }">
                             <div>
                               <v-btn
-                                :disabled:model-value="
+                                :disabled="
                                   isLoading ||
-                                  selected.length :model-value=:model-value= 0 ||
+                                  selected.length == 0 ||
                                   !$api.auth.can('generate-invoices', $api.authUser)
                                 "
-                                v-bind:model-value="props"
-                                :color:model-value="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
-                                size:model-value="small"
-                                icon:model-value="mdi-currency-usd"
-                                @click:model-value="generateInvoices()"
+                                v-bind="props"
+                                :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
+                                size="small"
+                                icon="mdi-currency-usd"
+                                @click="generateInvoices()"
                               >
                               </v-btn>
                             </div>
@@ -1081,22 +1081,22 @@ export default {
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col class:model-value="pa-2" v-if:model-value="allowInvoiceGeneration">
+                  <v-col class="pa-2" v-if="allowInvoiceGeneration">
                     <v-row>
                       <v-col>
-                        <v-tooltip location:model-value="top">
-                          <template v-slot:activator:model-value="{ props }">
+                        <v-tooltip location="top">
+                          <template v-slot:activator="{ props }">
                             <div>
                               <v-btn
-                                :disabled:model-value="
+                                :disabled="
                                   isLoading ||
                                   !$api.auth.can('generate-invoices', $api.authUser)
                                 "
-                                v-bind:model-value="props"
-                                color:model-value="blue"
-                                size:model-value="small"
-                                icon:model-value="mdi-calendar-month"
-                                @click:model-value="generateInvoices(true)"
+                                v-bind="props"
+                                color="blue"
+                                size="small"
+                                icon="mdi-calendar-month"
+                                @click="generateInvoices(true)"
                               >
                               </v-btn>
                             </div>
@@ -1106,17 +1106,17 @@ export default {
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col v-if:model-value="allowDeleteBillingRecords">
-                    <v-tooltip location:model-value="top">
-                      <template v-slot:activator:model-value="{ props }">
+                  <v-col v-if="allowDeleteBillingRecords">
+                    <v-tooltip location="top">
+                      <template v-slot:activator="{ props }">
                         <div>
                           <v-btn
-                            :disabled:model-value="selected.length :model-value=:model-value= 0 || !billingRecordsAreInitOrPending(selected)"
-                            v-bind:model-value="props"
-                            icon:model-value="mdi-trash-can-outline"
-                            size:model-value="small"
-                            color:model-value="red"
-                            @click:model-value="deleteSelectedBillingRecords()"
+                            :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selected)"
+                            v-bind="props"
+                            icon="mdi-trash-can-outline"
+                            size="small"
+                            color="red"
+                            @click="deleteSelectedBillingRecords()"
                           >
                           </v-btn>
                         </div>
@@ -1124,17 +1124,17 @@ export default {
                       <span>{{ deleteSelectedToolTip }}</span>
                     </v-tooltip>
                   </v-col>
-                  <v-col v-if:model-value="allowUsageReport && facility.hasUsageReport">
-                    <v-tooltip location:model-value="top">
-                      <template v-slot:activator:model-value="{ props }">
+                  <v-col v-if="allowUsageReport && facility.hasUsageReport">
+                    <v-tooltip location="top">
+                      <template v-slot:activator="{ props }">
                         <div>
                           <v-btn
-                            :disabled:model-value="!organization"
-                            v-bind:model-value="props"
-                            icon:model-value="mdi-hammer-wrench"
-                            size:model-value="small"
-                            color:model-value="yellow"
-                            @click:model-value="openGetUsageReportDialog()"
+                            :disabled="!organization"
+                            v-bind="props"
+                            icon="mdi-hammer-wrench"
+                            size="small"
+                            color="yellow"
+                            @click="openGetUsageReportDialog()"
                           >
                           </v-btn>
                         </div>
@@ -1147,160 +1147,160 @@ export default {
             </v-row>
           </v-col>
         </v-row>
-        <v-row class:model-value="d-flex justify-space-around">
-          <v-col v-if:model-value="message" cols:model-value="12" class:model-value="d-flex flex-grow-1">
-            <v-alert closable :type:model-value="messageType" variant:model-value="tonal">
-              <span v-html:model-value="message"></span>
+        <v-row class="d-flex justify-space-around">
+          <v-col v-if="message" cols="12" class="d-flex flex-grow-1">
+            <v-alert closable :type="messageType" variant="tonal">
+              <span v-html="message"></span>
             </v-alert>
           </v-col>
         </v-row>
       </v-card-title>
       <v-row>
-        <v-col id:model-value="data-table">
+        <v-col id="data-table">
           <v-data-table
-            ref:model-value="table"
-            v-if:model-value="filteredItems"
-            v-model:model-value="selected"
-            :items:model-value="filteredItems"
-            :headers:model-value="headers"
-            :show-select:model-value="showCheckboxes"
+            ref="table"
+            v-if="filteredItems"
+            v-model="selected"
+            :items="filteredItems"
+            :headers="headers"
+            :show-select="showCheckboxes"
             show-expand
-            expand-icon:model-value="mdi-menu-right"
-            :item-value:model-value="itemKey"
-            :loading:model-value="isLoading"
-            :items-per-page:model-value="-1"
-            :sort-by:model-value="sortByArray"
-            :group-by:model-value="groupBy"
-            @item-selected:model-value="determineGroupState"
-            @toggle-select-all:model-value="toggleSelectAll"
+            expand-icon="mdi-menu-right"
+            :item-value="itemKey"
+            :loading="isLoading"
+            :items-per-page="-1"
+            :sort-by="sortByArray"
+            :group-by="groupBy"
+            @item-selected="determineGroupState"
+            @toggle-select-all="toggleSelectAll"
           >
-            <template v-slot:group-header:model-value="{ item, columns, toggleGroup, isGroupOpen }">
+            <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
               <tr>
-                <td :colspan:model-value="columns.length" class:model-value="">
-                  <v-row class:model-value="align-center">
-                    <v-col cols:model-value="auto" v-if:model-value="showCheckboxes">
+                <td :colspan="columns.length" class="">
+                  <v-row class="align-center">
+                    <v-col cols="auto" v-if="showCheckboxes">
                       <v-checkbox
-                        v-model:model-value="rowSelectionToggle"
-                        :value:model-value="item.value"
+                        v-model="rowSelectionToggle"
+                        :value="item.value"
                         hide-details
-                        :indeterminate:model-value="rowSelectionToggleIndeterminate[item.value]"
-                        @update:model-value:model-value="() :model-value=> toggleGroup(item.value)"
+                        :indeterminate="rowSelectionToggleIndeterminate[item.value]"
+                        @update="() => toggleGroup(item.value)"
                       ></v-checkbox>
                     </v-col>
-                    <v-col cols:model-value="auto">
+                    <v-col cols="auto">
                       <v-btn
-                        size:model-value="comfortable"
-                        elevation:model-value="0"
-                        density:model-value="compact"
-                        icon:model-value="mdi-menu-right"
-                        @click:model-value="toggleGroup(item)"
-                        :class:model-value="{ 'rotate-90': isGroupOpen(item) }"
-                        class:model-value="mr-1"
+                        size="comfortable"
+                        elevation="0"
+                        density="compact"
+                        icon="mdi-menu-right"
+                        @click="toggleGroup(item)"
+                        :class="{ 'rotate-90': isGroupOpen(item) }"
+                        class="mr-1"
                       >
                       </v-btn>
                     </v-col>
                     <v-col>
-                      <span class:model-value="font-weight-bold text-body-2">
+                      <span class="font-weight-bold text-body-2">
                         {{ $api.organization.parseSlug(item.value).name }}
                       </span>
-                      <span class:model-value="ml-3 text-body-2">Total charges: {{ $dollars(summaryCharges(item.value)) }}</span>
+                      <span class="ml-3 text-body-2">Total charges: {{ $dollars(summaryCharges(item.value)) }}</span>
                     </v-col>
                   </v-row>
                 </td>
               </tr>
             </template>
-            <template v-slot:item.id:model-value="{ item }">
-              <a href:model-value="" @click.prevent:model-value="navigateToDetail(item.id)">{{ item.id }}</a>
+            <template v-slot:item.id="{ item }">
+              <a href="" @click.prevent="navigateToDetail(item.id)">{{ item.id }}</a>
             </template>
 
-            <template v-slot:item.account.organization:model-value="{ item }">
-              <span class:model-value="text-no-wrap">
+            <template v-slot:item.account.organization="{ item }">
+              <span class="text-no-wrap">
                 {{ $api.organization.parseSlug(item.account.organization).name }}
               </span>
             </template>
-            <template v-slot:item.currentState:model-value="{ item }">
-              <span class:model-value="state-display">{{ $stateDisplay(item.currentState) }}</span>
+            <template v-slot:item.currentState="{ item }">
+              <span class="state-display">{{ $stateDisplay(item.currentState) }}</span>
             </template>
-            <template v-slot:item.account.slug:model-value="{ item }">
-              <span class:model-value="text-no-wrap">{{ item.account.code }}</span>
+            <template v-slot:item.account.slug="{ item }">
+              <span class="text-no-wrap">{{ item.account.code }}</span>
               ({{ item.account.name }})
             </template>
-            <template v-slot:item.transactions:model-value="{ item }">
-              <div style:model-value="min-width: 150px">
-                <div class:model-value="my-1" v-for:model-value="txn in item.transactions" :key:model-value="txn.id">
+            <template v-slot:item.transactions="{ item }">
+              <div style="min-width: 150px">
+                <div class="my-1" v-for="txn in item.transactions" :key="txn.id">
                   {{ transactionDisplay(txn) }}
                 </div>
               </div>
             </template>
-            <template v-slot:item.decimalCharge:model-value="{ item }">
+            <template v-slot:item.decimalCharge="{ item }">
               {{ $dollars(item.decimalCharge) }}
             </template>
-            <template v-slot:item.startDate:model-value="{ item }">
-              <span class:model-value="text-no-wrap">
+            <template v-slot:item.startDate="{ item }">
+              <span class="text-no-wrap">
                 {{ $humanDatetime(item.startDate) }}
               </span>
             </template>
-            <template v-slot:item.endDate:model-value="{ item }">
-              <span class:model-value="text-no-wrap">
+            <template v-slot:item.endDate="{ item }">
+              <span class="text-no-wrap">
                 {{ $humanDatetime(item.endDate) }}
               </span>
             </template>
-            <template v-slot:item.productUsage:model-value="{ item }">
-              <span v-if:model-value="item.productUsageLinkText" class:model-value="text-no-wrap">
-                <a :href:model-value="item.productUsageUrl">{{ item.productUsageLinkText }}</a>
+            <template v-slot:item.productUsage="{ item }">
+              <span v-if="item.productUsageLinkText" class="text-no-wrap">
+                <a :href="item.productUsageUrl">{{ item.productUsageLinkText }}</a>
               </span>
-              <span v-else class:model-value="text-no-wrap">
+              <span v-else class="text-no-wrap">
                 {{ item.productUsage.id }}
               </span>
             </template>
-            <template v-slot:item.actions:model-value="{ item }">
-              <div class:model-value="d-flex flex-row">
+            <template v-slot:item.actions="{ item }">
+              <div class="d-flex flex-row">
                 <IFXButton
-                  class:model-value="ml-2"
-                  v-if:model-value="allowEditingRecords(item)"
-                  iconString:model-value="edit"
-                  btnType:model-value="edit"
+                  class="ml-2"
+                  v-if="allowEditingRecords(item)"
+                  iconString="edit"
+                  btnType="edit"
                   xSmall
-                  @action:model-value="openEditDialog(item)"
+                  @action="openEditDialog(item)"
                 />
               </div>
             </template>
-            <template v-slot:bottom v-if:model-value="showTotals">
-              <div class:model-value="text-body-1 pa-4">
+            <template v-slot:bottom v-if="showTotals">
+              <div class="text-body-1 pa-4">
                 {{ facility.name }} total charges for {{ date }} are
-                <span class:model-value="font-weight-medium">{{ $dollars(totalCharges()) }}</span>
+                <span class="font-weight-medium">{{ $dollars(totalCharges()) }}</span>
                 for
-                <span class:model-value="font-weight-medium">{{ totalHours() }} {{ totalUnits }}</span>
+                <span class="font-weight-medium">{{ totalHours() }} {{ totalUnits }}</span>
               </div>
             </template>
           </v-data-table>
-          <v-dialog v-model:model-value="editDialog" max-width:model-value="600px">
+          <v-dialog v-model="editDialog" max-width="600px">
             <v-card>
               <v-card-title>
-                <span class:model-value="text-h5">Edit Billing Record {{ editedRecord.id }}</span>
+                <span class="text-h5">Edit Billing Record {{ editedRecord.id }}</span>
               </v-card-title>
               <v-card-text>
-                <v-form v-model:model-value="isValidEdit">
+                <v-form v-model="isValidEdit">
                   <v-row>
                     <v-col>
                       <v-autocomplete
                         required
-                        v-model:model-value="newExpenseCode"
-                        :items:model-value="expenseCodes"
-                        item-title:model-value="slug"
-                        label:model-value="Expense Code / PO"
-                        :error-messages:model-value="errors[newExpenseCode]"
-                        :rules:model-value="formRules.generic"
+                        v-model="newExpenseCode"
+                        :items="expenseCodes"
+                        item-title="slug"
+                        label="Expense Code / PO"
+                        :error-messages="errors[newExpenseCode]"
+                        :rules="formRules.generic"
                         return-object
                       ></v-autocomplete>
                     </v-col>
-                    <v-col cols:model-value="12">
+                    <v-col cols="12">
                       <v-textarea
                         required
-                        v-model:model-value="editedRecord.description"
-                        label:model-value="Billing Record description"
-                        :error-messages:model-value="errors[description]"
-                        :rules:model-value="formRules.generic"
+                        v-model="editedRecord.description"
+                        label="Billing Record description"
+                        :error-messages="errors[description]"
+                        :rules="formRules.generic"
                         disabled
                       ></v-textarea>
                     </v-col>
@@ -1309,48 +1309,48 @@ export default {
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color:model-value="secondary" variant:model-value="text" @click:model-value="closeEditDialog">Cancel</v-btn>
+                <v-btn color="secondary" variant="text" @click="closeEditDialog">Cancel</v-btn>
                 <v-btn
-                  color:model-value="blue-darken-1"
-                  variant:model-value="text"
-                  :disabled:model-value="!isValidEdit"
-                  @click:model-value="updateSpecificRecord(editedRecord)"
+                  color="blue-darken-1"
+                  variant="text"
+                  :disabled="!isValidEdit"
+                  @click="updateSpecificRecord(editedRecord)"
                 >
                   Save
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-dialog v-model:model-value="showChangeExpenseCodeDialog" v-if:model-value="showChangeExpenseCodeDialog" max-width:model-value="600px">
+          <v-dialog v-model="showChangeExpenseCodeDialog" v-if="showChangeExpenseCodeDialog" max-width="600px">
             <v-card>
               <v-card-title>
-                <span class:model-value="text-h5">Edit Selected Billing Records</span>
+                <span class="text-h5">Edit Selected Billing Records</span>
               </v-card-title>
               <v-card-text>
-                <v-form v-model:model-value="isValidBulkEdit">
+                <v-form v-model="isValidBulkEdit">
                   <v-row>
                     <v-col>
                       <v-autocomplete
                         required
-                        v-model:model-value="newExpenseCode"
-                        :items:model-value="expenseCodes"
-                        item-title:model-value="slug"
-                        label:model-value="New Expense Code / PO"
-                        :error-messages:model-value="errors[newExpenseCode]"
-                        :rules:model-value="formRules.generic"
+                        v-model="newExpenseCode"
+                        :items="expenseCodes"
+                        item-title="slug"
+                        label="New Expense Code / PO"
+                        :error-messages="errors[newExpenseCode]"
+                        :rules="formRules.generic"
                         return-object
                       ></v-autocomplete>
                     </v-col>
                   </v-row>
-                  <v-row class:model-value="records-container">
-                    <v-col cols:model-value="12">
-                      <ul class:model-value="text-body-1">
-                        <li v-for:model-value="record in selected" :key:model-value="record.id">
-                          <div class:model-value="font-weight-medium mr-3">
+                  <v-row class="records-container">
+                    <v-col cols="12">
+                      <ul class="text-body-1">
+                        <li v-for="record in selected" :key="record.id">
+                          <div class="font-weight-medium mr-3">
                             Billing Record #{{ record.id }}
-                            <span class:model-value="font-weight-regular">({{ record.account.name }})"</span>
+                            <span class="font-weight-regular">({{ record.account.name }})"</span>
                           </div>
-                          <div class:model-value="font-weight-light mb-5">({{ record.description }})"</div>
+                          <div class="font-weight-light mb-5">({{ record.description }})"</div>
                         </li>
                       </ul>
                     </v-col>
@@ -1359,32 +1359,32 @@ export default {
               </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
-                <div v-if:model-value="updating">
-                  <span class:model-value="mr-3">Updating billing records...</span>
-                  <v-progress-circular indeterminate color:model-value="primary"></v-progress-circular>
+                <div v-if="updating">
+                  <span class="mr-3">Updating billing records...</span>
+                  <v-progress-circular indeterminate color="primary"></v-progress-circular>
                 </div>
                 <v-spacer></v-spacer>
-                <v-btn color:model-value="secondary" variant:model-value="text" @click:model-value="closeChangeExpenseCodeDialog">Cancel</v-btn>
-                <v-btn color:model-value="blue-darken-1" variant:model-value="text" :disabled:model-value="!isValidBulkEdit" @click:model-value="changeExpenseCode">
+                <v-btn color="secondary" variant="text" @click="closeChangeExpenseCodeDialog">Cancel</v-btn>
+                <v-btn color="blue-darken-1" variant="text" :disabled="!isValidBulkEdit" @click="changeExpenseCode">
                   Save
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-dialog v-model:model-value="showUsageReportDialog" v-if:model-value="showUsageReportDialog" max-width:model-value="600px">
+          <v-dialog v-model="showUsageReportDialog" v-if="showUsageReportDialog" max-width="600px">
             <v-card>
               <v-card-title>
-                <span class:model-value="text-h5">Get Usage Report</span>
+                <span class="text-h5">Get Usage Report</span>
               </v-card-title>
               <v-card-text>
-                <div v-if:model-value="loadingUsageReport">
-                  <span class:model-value="mr-3">Running report...</span>
-                  <v-progress-circular indeterminate color:model-value="primary"></v-progress-circular>
+                <div v-if="loadingUsageReport">
+                  <span class="mr-3">Running report...</span>
+                  <v-progress-circular indeterminate color="primary"></v-progress-circular>
                 </div>
                 <div v-else>
                   <v-row>
                     <v-col>
-                      <a v-if:model-value="usageReportHref" :href:model-value="usageReportHref">
+                      <a v-if="usageReportHref" :href="usageReportHref">
                         {{ usageReportFileName }}
                       </a>
                       <span v-else>
@@ -1397,7 +1397,7 @@ export default {
               <v-divider></v-divider>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color:model-value="primary" variant:model-value="text" @click:model-value="closeGetUsageReportDialog()">Close</v-btn>
+                <v-btn color="primary" variant="text" @click="closeGetUsageReportDialog()">Close</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -1406,7 +1406,7 @@ export default {
     </v-card>
   </v-container>
 </template>
-<style lang:model-value="scss" scoped>
+<style lang="scss" scoped>
 .w-full {
   width: 100%;
 }

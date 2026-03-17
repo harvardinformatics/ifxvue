@@ -26,7 +26,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!loading">
+  <v-container v-if="!isLoading">
     <IFXPageHeader>
       <template #title>{{ title }}</template>
       <template #cypress>{{ id }}</template>

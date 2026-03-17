@@ -141,12 +141,12 @@ export default {
             >
               <template #chip="{ item }">
                 <v-chip
-                  :color="getChipColorForGroup(item.raw)"
+                  :color="getChipColorForGroup(item)"
                   variant="flat"
                   closable
-                  @click:close="removeGroup(item.raw)"
+                  @click:close="removeGroup(item)"
                 >
-                  <strong>{{ item.raw }}</strong>
+                  <strong>{{ item }}</strong>
                 </v-chip>
               </template>
             </v-autocomplete>
@@ -180,10 +180,10 @@ export default {
               required
             >
               <template #item="{ props, item }">
-                <v-list-item v-bind="props" :title="trimOrgName(item.raw)"></v-list-item>
+                <v-list-item v-bind="props" :title="trimOrgName(item)"></v-list-item>
               </template>
               <template #selection="{ item }">
-                {{ trimOrgName(item.raw) }}
+                {{ trimOrgName(item) }}
               </template>
             </v-autocomplete>
           </v-col>

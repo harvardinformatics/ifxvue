@@ -20,23 +20,23 @@ export default {
   },
   computed: {
     headers() {
-      const headers :model-value= [
+      const headers = [
         { title: 'ID', key: 'id', sortable: true },
         { title: 'Title', key: 'title', sortable: true },
         { title: 'Organization', key: 'organization', sortable: true },
         { title: '', key: 'rowActionEdit', sortable: false, namedSlot: true }
       ]
-      return headers.filter((h) :model-value=> !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
   },
   methods: {
     composeEmail() {
       // Get the email addresses in "recipient" form for all subscribers to the selected channels
-      const ids :model-value= this.selected.map((item) :model-value=> item.id)
-      const params :model-value= {}
-      this.$api.logChannel.getSubscriberEmails(ids).then((res) :model-value=> {
-        params[this.recipientField] :model-value= res.subscribers.join(',')
-        params.plainEmail :model-value= true
+      const ids = this.selected.map((item) => item.id)
+      const params = {}
+      this.$api.logChannel.getSubscriberEmails(ids).then((res) => {
+        params[this.recipientField] = res.subscribers.join(',')
+        params.plainEmail = true
         this.$router.push({
           name: 'MailingCompose',
           params,
@@ -53,21 +53,21 @@ export default {
       <template #title>Channels</template>
       <template #actions>
         <v-row>
-          <v-col sm:model-value="6">
-            <IFXSearchField v-model:search:model-value="search" />
+          <v-col sm="6">
+            <IFXSearchField v-model:search="search" />
           </v-col>
           <v-col>
-            <v-row justify:model-value="end">
+            <v-row justify="end">
               <v-col></v-col>
-              <v-col sm:model-value="3">
-                <IFXButton btnType:model-value="add" size:model-value="small" @action:model-value="navigateToItemCreate" />
+              <v-col sm="3">
+                <IFXButton btnType="add" size="small" @action="navigateToItemCreate" />
               </v-col>
-              <v-col sm:model-value="3">
+              <v-col sm="3">
                 <IFXMailButton
-                  v-model:model-value="recipientField"
-                  :disabled:model-value="!selected.length"
-                  toolTip:model-value="Send email to channel subscribers"
-                  @input:model-value="composeEmail()"
+                  v-model="recipientField"
+                  :disabled="!selected.length"
+                  toolTip="Send email to channel subscribers"
+                  @input="composeEmail()"
                 ></IFXMailButton>
               </v-col>
             </v-row>
@@ -75,7 +75,7 @@ export default {
         </v-row>
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :loading:model-value="isLoading" :items:model-value="filteredItems" :headers:model-value="headers" :selected.sync:model-value="selected" :itemType:model-value="itemType">
+    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
     </IFXItemDataTable>
   </v-container>
 </template>

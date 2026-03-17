@@ -24,42 +24,42 @@ export default {
   },
   computed: {
     headers() {
-      const headers :model-value= [
+      const headers = [
         { title: 'User', key: 'user', namedSlot: true, sortable: true },
         { title: 'Subscribed?', key: 'subscribed', namedSlot: true, sortable: true },
       ]
-      return headers.filter((h) :model-value=> !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
     filteredSubscriptions() {
       return this.getSubscriptionsFilteredBySearch() || []
     },
     subtitle() {
-      let subtitle :model-value= 'an application log channel'
-      const mandatoryStr :model-value= this.item.isMandatory ? ' mandatory' : ''
-      const userChannelStr :model-value= this.item.isUserChannel ? ' user channel' : ''
+      let subtitle = 'an application log channel'
+      const mandatoryStr = this.item.isMandatory ? ' mandatory' : ''
+      const userChannelStr = this.item.isUserChannel ? ' user channel' : ''
       if (mandatoryStr || userChannelStr) {
-        subtitle :model-value= `a${mandatoryStr}${userChannelStr}`
+        subtitle = `a${mandatoryStr}${userChannelStr}`
       }
       return subtitle
     },
   },
   methods: {
     composeEmail() {
-      let emails :model-value= []
+      let emails = []
       if (this.selected.length) {
-        emails :model-value= this.selected.map((item) :model-value=> (item.user.preferredEmail ? item.user.preferredEmail : item.user.email))
+        emails = this.selected.map((item) => (item.user.preferredEmail ? item.user.preferredEmail : item.user.email))
       } else {
         // If no selected users, email all subscribers to the channel
-        emails :model-value= this.subscriptions.map((item) :model-value=> {
+        emails = this.subscriptions.map((item) => {
           if (item.subscribed) {
             return item.user.preferredEmail ? item.user.preferredEmail : item.user.email
           }
           return null
-        }).filter((e) :model-value=> e) // filter out any nulls from unsubscribed users
+        }).filter((e) => e) // filter out any nulls from unsubscribed users
       }
-      const params :model-value= {}
-      params[this.recipientField] :model-value= emails.join(',')
-      params.plainEmail :model-value= true
+      const params = {}
+      params[this.recipientField] = emails.join(',')
+      params.plainEmail = true
       this.$router.push({
         name: 'MailingCompose',
         params,
@@ -69,30 +69,30 @@ export default {
       return ''
     },
     subscribeSelected(subscribe) {
-      const promises :model-value= []
-      this.selected.forEach((item) :model-value=> {
-        item.subscribed :model-value= subscribe
+      const promises = []
+      this.selected.forEach((item) => {
+        item.subscribed = subscribe
         promises.push(this.$api.logSubscription.update(item))
       })
-      Promise.all(promises).then(() :model-value=> {
+      Promise.all(promises).then(() => {
         this.getSubscriptions()
-        this.selected :model-value= []
+        this.selected = []
       })
     },
     getSubscriptionsFilteredBySearch() {
-      let items :model-value= this.subscriptions
+      let items = this.subscriptions
       if (this.search && items.length) {
-        const search :model-value= this.search.toString().toLowerCase()
-        items :model-value= items.filter((i) :model-value=> {
-          let item :model-value= i
+        const search = this.search.toString().toLowerCase()
+        items = items.filter((i) => {
+          let item = i
           if (i.data) {
-            item :model-value= i.data
+            item = i.data
           }
-          return Object.keys(item).some((j) :model-value=> {
-            let thingToBeSearched :model-value= item[j]
-            if (this.searchBooleans && typeof item[j] :model-value=:model-value=:model-value= 'boolean' && item[j]) {
+          return Object.keys(item).some((j) => {
+            let thingToBeSearched = item[j]
+            if (this.searchBooleans && typeof item[j] === 'boolean' && item[j]) {
               // If this is a boolean and true, search the key name instead
-              thingToBeSearched :model-value= j
+              thingToBeSearched = j
             }
             return this.filterSearch(thingToBeSearched, search)
           })
@@ -101,38 +101,38 @@ export default {
       return items
     },
     filterSearch(v, s) {
-      let search :model-value= s
-      if (this.deepSearch && v && typeof v :model-value=:model-value=:model-value= 'object' && !Array.isArray(v) && v.data) {
-        const item :model-value= v.data
-        return Object.keys(item).some((j) :model-value=> {
-          let thingToBeSearched :model-value= item[j]
-          if (this.searchBooleans && typeof item[j] :model-value=:model-value=:model-value= 'boolean' && item[j]) {
+      let search = s
+      if (this.deepSearch && v && typeof v === 'object' && !Array.isArray(v) && v.data) {
+        const item = v.data
+        return Object.keys(item).some((j) => {
+          let thingToBeSearched = item[j]
+          if (this.searchBooleans && typeof item[j] === 'boolean' && item[j]) {
             // If this is a boolean and true, search the key name instead
-            thingToBeSearched :model-value= j
+            thingToBeSearched = j
           }
           return this.filterSearch(thingToBeSearched, search)
         })
       }
       if (search && v) {
-        let val :model-value= v.toString().toLowerCase()
+        let val = v.toString().toLowerCase()
         if (v.hasOwnProperty('errorMessage')) {
-          val :model-value= v.errorMessage.toLowerCase()
+          val = v.errorMessage.toLowerCase()
         }
         // If search is number, remove any decimal places, as values are stored as integers
         if (Number.parseFloat(search)) {
-          search :model-value= search.replace('.', '')
+          search = search.replace('.', '')
         }
-        return val !:model-value=:model-value= null && ['undefined', 'boolean'].indexOf(typeof v) :model-value=:model-value=:model-value= -1 && val.indexOf(search) !:model-value=:model-value= -1
+        return val !== null && ['undefined', 'boolean'].indexOf(typeof v) === -1 && val.indexOf(search) !== -1
       }
       return false
     },
     getSubscriptions() {
       // Fetch subscriptions for this channel
-      this.isLoadingSubscriptions :model-value= true
-      this.$api.logSubscription.getList({ channel_id: this.id }).then((response) :model-value=> {
-        this.subscriptions :model-value= response
-        this.isLoadingSubscriptions :model-value= false
-        this.isLoading :model-value= false
+      this.isLoadingSubscriptions = true
+      this.$api.logSubscription.getList({ channel_id: this.id }).then((response) => {
+        this.subscriptions = response
+        this.isLoadingSubscriptions = false
+        this.isLoading = false
       })
     },
   },
@@ -143,88 +143,88 @@ export default {
 </script>
 
 <template>
-  <v-container v-if:model-value="!isLoading">
+  <v-container v-if="!isLoading">
     <IFXPageHeader>
       <template #title>{{ item.title }}</template>
       <template #cypress>{{ item.id }}</template>
       <template #subtitle>{{ subtitle }}</template>
       <template #actions>
-        <IFXButton btnType:model-value="edit" xSmall @action:model-value="navigateToItemEdit(id)" />
+        <IFXButton btnType="edit" xSmall @action="navigateToItemEdit(id)" />
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
-      <v-row justify:model-value="start" align:model-value="center" dense>
-        <v-col sm:model-value="8">
+      <v-row justify="start" align="center" dense>
+        <v-col sm="8">
           <v-text-field
-            v-model:model-value="search"
-            label:model-value="Search"
+            v-model="search"
+            label="Search"
             clearable
-            clear-icon:model-value="mdi-close-circle"
+            clear-icon="mdi-close-circle"
           ></v-text-field>
         </v-col>
-        <v-col sm:model-value="4">
-          <v-row justify:model-value="end" align:model-value="center" dense>
+        <v-col sm="4">
+          <v-row justify="end" align="center" dense>
             <v-col>&nbsp;</v-col>
             <v-col>
               <IFXTooltip
-                icon:model-value="mdi-check-circle"
-                color:model-value="green"
-                :fab:model-value="true"
-                :disabled:model-value="!selected.length"
-                @action:model-value="subscribeSelected(true)"
-                tooltip:model-value="Subscribe selected users"
-                size:model-value="small"
+                icon="mdi-check-circle"
+                color="green"
+                :fab="true"
+                :disabled="!selected.length"
+                @action="subscribeSelected(true)"
+                tooltip="Subscribe selected users"
+                size="small"
                 >
               </IFXTooltip>
             </v-col>
             <v-col>
               <IFXTooltip
-                icon:model-value="mdi-close-circle"
-                color:model-value="red"
-                :fab:model-value="true"
-                :disabled:model-value="!selected.length"
-                @action:model-value="subscribeSelected(false)"
-                tooltip:model-value="Unsubscribe selected users"
-                size:model-value="small"
+                icon="mdi-close-circle"
+                color="red"
+                :fab="true"
+                :disabled="!selected.length"
+                @action="subscribeSelected(false)"
+                tooltip="Unsubscribe selected users"
+                size="small"
                 >
               </IFXTooltip>
             </v-col>
             <v-col>
               <IFXTooltip
-                icon:model-value="mdi-plus-circle"
-                color:model-value="blue"
-                :fab:model-value="true"
-                @action:model-value="addSubscriber()"
-                tooltip:model-value="Add subscriber to channel"
-                size:model-value="small"
+                icon="mdi-plus-circle"
+                color="blue"
+                :fab="true"
+                @action="addSubscriber()"
+                tooltip="Add subscriber to channel"
+                size="small"
                 >
               </IFXTooltip>
             </v-col>
             <v-col>
               <IFXMailButton
-                v-model:model-value="recipientField"
-                :toolTip:model-value="selected.length ? 'Send email to selected subscribers' : 'Send email to all channel subscribers'"
-                :icon:model-value="selected.length ? 'mdi-email-send-outline' : 'mdi-email-multiple-outline'"
-                @input:model-value="composeEmail()"
+                v-model="recipientField"
+                :toolTip="selected.length ? 'Send email to selected subscribers' : 'Send email to all channel subscribers'"
+                :icon="selected.length ? 'mdi-email-send-outline' : 'mdi-email-multiple-outline'"
+                @input="composeEmail()"
               ></IFXMailButton>
             </v-col>
           </v-row>
         </v-col>
       </v-row>
-      <v-row justify:model-value="start" align:model-value="center" dense>
+      <v-row justify="start" align="center" dense>
         <v-col>
           <IFXItemDataTable
-            :loading:model-value="isLoadingSubscriptions"
-            :items:model-value="filteredSubscriptions"
-            :headers:model-value="headers"
-            :selected.sync:model-value="selected"
-            itemType:model-value="IFXLogSubscription">
-            <template #user:model-value="{ item }">
+            :loading="isLoadingSubscriptions"
+            :items="filteredSubscriptions"
+            :headers="headers"
+            :selected.sync="selected"
+            itemType="IFXLogSubscription">
+            <template #user="{ item }">
               <span>{{ item.user.fullName }}</span>
             </template>
-            <template #subscribed:model-value="{ item }">
-              <v-icon v-if:model-value="item.subscribed" color:model-value="green">mdi-check-circle</v-icon>
-              <v-icon v-else color:model-value="red">mdi-close-circle</v-icon>
+            <template #subscribed="{ item }">
+              <v-icon v-if="item.subscribed" color="green">mdi-check-circle</v-icon>
+              <v-icon v-else color="red">mdi-close-circle</v-icon>
             </template>
           </IFXItemDataTable>
         </v-col>
