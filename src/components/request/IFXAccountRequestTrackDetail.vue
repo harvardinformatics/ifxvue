@@ -35,7 +35,7 @@ export default {
           <v-col class="field-label" cols="12" md="3" v-else>
             {{field}}
           </v-col>
-          <v-col cols="12" md="9" v-if="accountRequestData.tracks[track].fields[field].display_component">
+          <v-col cols="12" v-if="accountRequestData.tracks[track].fields[field].display_component">
             <component v-if="field == 'harvard_key'"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData[field]">
@@ -45,7 +45,7 @@ export default {
               :data="accountRequestData.person[field]">
             </component>
           </v-col>
-          <v-col cols="12" md="9" v-else>
+          <v-col cols="12" v-else>
             <span v-if="accountRequestData.person[field]">{{accountRequestData.person[field]}}</span>
             <span v-else>{{accountRequestData[field]}}</span>
           </v-col>

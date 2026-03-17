@@ -14,7 +14,7 @@ export default {
           <v-row class="flex-column" dense>
             <v-col>
               <v-row dense>
-                <v-col cols="4">
+                <v-col cols="6">
                   {{contact.role}}
                 </v-col>
                 <v-col>
