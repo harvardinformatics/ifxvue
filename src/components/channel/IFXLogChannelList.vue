@@ -39,7 +39,7 @@ export default {
         params.plainEmail = true
         this.$router.push({
           name: 'MailingCompose',
-          params,
+          state: params,
         })
       })
     },

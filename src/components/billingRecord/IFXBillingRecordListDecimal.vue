@@ -643,7 +643,7 @@ export default {
       const orgSlugs = orgs.map((item) => item.account.organization)
       this.$router.push({
         name: 'MailingCompose',
-        params: {
+        state: {
           labManagerOrgSlugs: [...new Set(orgSlugs)],
           message: null,
           subject: null,

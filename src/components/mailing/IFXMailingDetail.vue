@@ -31,7 +31,7 @@ export default {
       })
       this.$router.push({
         name: 'MailingCompose',
-        params: params,
+        state: params,
         query: { next: this.$route.path }
       })
     },

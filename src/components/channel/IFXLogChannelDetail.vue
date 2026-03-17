@@ -19,7 +19,7 @@ export default {
       deepSearch: true,
       searchBooleans: true,
       isLoading: true,
-      recipientField: null,
+      recipientField: '',
     }
   },
   computed: {
@@ -62,7 +62,7 @@ export default {
       params.plainEmail = true
       this.$router.push({
         name: 'MailingCompose',
-        params,
+        state: params,
       })
     },
     addSubscriber() {

@@ -95,7 +95,7 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     getItemText(item) {
-      return item.text ? item.text : item
+      return item.hasOwnProperty('text') ? item.text : item
     },
     getItemValue(item) {
       return item

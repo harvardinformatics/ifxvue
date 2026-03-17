@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     composeWithMessage(item) {
-      this.$router.push({ name: 'MailingCompose', params: { messageName: item.name } })
+      this.$router.push({ name: 'MailingCompose', state: { messageName: item.name } })
     },
   }
 }

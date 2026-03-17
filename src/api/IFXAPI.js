@@ -1164,7 +1164,7 @@ export default class IFXAPIService {
 
     router.push({
       name: 'MailingCompose',
-      params: {
+      state: {
         labManagerOrgSlugs: organizationSlugs,
         message: message,
         subject: subject,
