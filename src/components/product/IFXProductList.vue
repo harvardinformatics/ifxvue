@@ -59,7 +59,7 @@ export default {
       </template>
       <template #productCategory="{ item }">
         <span v-if="item.productCategory">{{ item.productCategory }}</span>
-        <span v-else class="grey--text text--darken-1">None</span>
+        <span v-else class="text-grey text-darken-1">None</span>
       </template>
     </IFXItemDataTable>
   </v-container>

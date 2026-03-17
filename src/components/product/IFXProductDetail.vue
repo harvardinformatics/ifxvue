@@ -142,7 +142,7 @@ export default {
               <span v-if="item.description">
                 {{ item.description }}
               </span>
-              <span v-else class="grey--text">None</span>
+              <span v-else class="text-grey">None</span>
             </template>
             <template #maxQty="{ item }">
               {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}

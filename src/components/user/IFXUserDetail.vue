@@ -561,7 +561,7 @@ export default {
             </div>
           </v-col>
           <v-col v-else>
-            <span class="grey--text text--darken-1">No User Files uploaded.</span>
+            <span class="text-grey text-darken-1">No User Files uploaded.</span>
           </v-col>
           <v-col sm="1" align="end">
             <v-tooltip top v-if="isUserInfoEdittable">

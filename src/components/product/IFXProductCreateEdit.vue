@@ -287,7 +287,7 @@ export default {
                         persistent-hint
                       ></v-text-field>
                     </v-col>
-                    <v-col class="grey--text">
+                    <v-col class="text-grey">
                       <span v-if="item.active">Active</span>
                       <span v-else>Not active</span>
                     </v-col>
@@ -329,7 +329,7 @@ export default {
                 <span v-if="item.description">
                   {{ item.description }}
                 </span>
-                <span v-else class="grey--text">None</span>
+                <span v-else class="text-grey">None</span>
               </template>
               <template #decimalPrice="{ item }">
                 {{ currencyFormatter.format(item.decimalPrice) }}

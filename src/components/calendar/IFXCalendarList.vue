@@ -1683,10 +1683,10 @@ export default {
                 >
                   {{ $api.reservation.getSpecialMessage() }}
                 </div>
-                <div v-if="showExpenseCodeMsg(selectedEvent)" class="mt-2 red--text" data-cy="popup-expired-message">
+                <div v-if="showExpenseCodeMsg(selectedEvent)" class="mt-2 text-red" data-cy="popup-expired-message">
                   {{ getExpiredAccountMessage() }}
                 </div>
-                <div v-if="selectedEvent.cancelled" class="mt-2 red--text" data-cy="popup-cancelled">
+                <div v-if="selectedEvent.cancelled" class="mt-2 text-red" data-cy="popup-cancelled">
                   This reservation is cancelled.
                 </div>
                 <v-row no-gutters v-if="selectedEvent.reservation.comment" class="mt-3">
@@ -1843,7 +1843,7 @@ overflow: hidden;
       }
     }
     &.v-present {
-      &.primary--text {
+      &.text-primary {
         color: #1f80a1 !important;
       }
     }
@@ -1857,7 +1857,7 @@ overflow: hidden;
       }
     }
     &.v-present {
-      .v-calendar-daily_head-weekday.primary--text {
+      .v-calendar-daily_head-weekday.text-primary {
         color: #1f80a1 !important;
       }
     }
