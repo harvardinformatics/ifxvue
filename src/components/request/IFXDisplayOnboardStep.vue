@@ -41,6 +41,7 @@ export default {
         true-value="complete"
         false-value="incomplete"
         @click.native="emitUpdate()"
+        hide-details
       ></v-checkbox>
     </v-flex>
   </v-layout>

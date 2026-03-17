@@ -119,6 +119,7 @@ export default {
             @change="toggleSubscription(item)"
             :disabled="!canChangeSubscription(item)"
             color="primary"
+            hide-details
           ></v-switch>
         </template>
       </IFXItemDataTable>

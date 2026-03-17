@@ -81,8 +81,8 @@ export default {
         <v-row>
           <v-col>
             <!-- isUserChannel and isMandatory toggles -->
-            <v-checkbox class="mt-0 pt-0" v-model="item.isUserChannel" label="Is this a user channel" data-cy="isUserChannel"></v-checkbox>
-            <v-checkbox class="mt-0 pt-0" v-model="item.isMandatory" label="Is this mandatory" data-cy="isMandatory"></v-checkbox>
+            <v-checkbox class="mt-0 pt-0" v-model="item.isUserChannel" label="Is this a user channel" data-cy="isUserChannel" hide-details></v-checkbox>
+            <v-checkbox class="mt-0 pt-0" v-model="item.isMandatory" label="Is this mandatory" data-cy="isMandatory" hide-details></v-checkbox>
           </v-col>
         </v-row>
         <IFXPageActionBar btnType="submit" :disabled="!isValid" @action="submit" />

@@ -161,7 +161,7 @@ export default {
             ></v-select>
           </v-col>
           <v-col>
-            <v-checkbox class="mt-0 pt-0" v-model="item.billable" label="Billable" data-cy="billable"></v-checkbox>
+            <v-checkbox class="mt-0 pt-0" v-model="item.billable" label="Billable" data-cy="billable" hide-details></v-checkbox>
           </v-col>
         </v-row>
         <v-row>
@@ -302,6 +302,7 @@ export default {
                   v-model="showDeactivatedRates"
                   label="Show deactivated rates"
                   data-cy="show-deactivated-rates"
+                  hide-details
                 ></v-checkbox>
               </v-col>
             </v-row>
@@ -319,6 +320,7 @@ export default {
                   label="Active"
                   data-cy="rate-active-toggle"
                   color="primary"
+                  hide-details
                 ></v-switch>
                 <span v-else>Deactivated</span>
               </template>

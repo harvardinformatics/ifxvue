@@ -288,6 +288,7 @@ export default {
                   v-model="useFiscalYear"
                   label="Use current fiscal year"
                   @click="toggleFiscalYear()"
+                  hide-details
                 ></v-checkbox>
               </v-col>
             </v-row>

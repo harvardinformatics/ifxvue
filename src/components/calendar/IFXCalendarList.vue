@@ -1082,6 +1082,7 @@ export default {
               color="primary"
               label="Show reservation panel"
               data-cy="show-reservation-panel"
+              hide-details
             ></v-switch>
             <v-menu location="bottom end" data-cy="calendar-type">
               <template v-slot:activator="{ props }">
@@ -1454,6 +1455,7 @@ export default {
                         label="Reservation can be edited"
                         v-model="isEditable"
                         data-cy="editable"
+                        hide-details
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="4">
@@ -1464,6 +1466,7 @@ export default {
                         label="Approved"
                         v-model="approved"
                         data-cy="approved"
+                        hide-details
                       ></v-checkbox>
                     </v-col>
                   </v-row>

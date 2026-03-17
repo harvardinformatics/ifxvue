@@ -114,6 +114,7 @@ export default {
               v-model="showDeactivatedRates"
               label="Show deactivated rates"
               data-cy="show-deactivated-rates"
+              hide-details
             ></v-checkbox>
           </div>
           <IFXItemDataTable

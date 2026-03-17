@@ -195,6 +195,7 @@ export default {
               :disabled="!canEdit('User.isActive')"
               v-model="itemLocal.isActive"
               color="primary"
+              hide-details
             ></v-switch>
           </v-col>
         </v-row>
