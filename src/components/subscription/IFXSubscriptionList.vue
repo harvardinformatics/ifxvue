@@ -118,6 +118,7 @@ export default {
             data-cy="toggle-subscription"
             @change="toggleSubscription(item)"
             :disabled="!canChangeSubscription(item)"
+            color="primary"
           ></v-switch>
         </template>
       </IFXItemDataTable>

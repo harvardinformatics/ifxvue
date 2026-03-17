@@ -318,6 +318,7 @@ export default {
                   v-model="item.active"
                   label="Active"
                   data-cy="rate-active-toggle"
+                  color="primary"
                 ></v-switch>
                 <span v-else>Deactivated</span>
               </template>
