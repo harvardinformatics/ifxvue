@@ -252,7 +252,7 @@ export default {
               ></v-text-field>
             </v-col>
             <v-col sm="6">
-              <v-text-field label="Primary Affiliation" :value="item.primaryAffiliation" disabled></v-text-field>
+              <v-text-field label="Primary Affiliation" :model-value="item.primaryAffiliation" disabled></v-text-field>
             </v-col>
           </v-row>
           <v-row>

@@ -262,7 +262,7 @@ export default {
                   <v-col v-if="updating_expiration_date" shrink>
                     <v-menu v-model="expiration_date_menu" :close-on-content-click="false" full-width>
                       <template v-slot:activator="{ on }">
-                        <v-text-field :value="request.continuationKeyExpiration" v-on="on" readonly></v-text-field>
+                        <v-text-field :model-value="request.continuationKeyExpiration" v-on="on" readonly></v-text-field>
                       </template>
                       <v-date-picker
                         v-model="request.continuationKeyExpiration"

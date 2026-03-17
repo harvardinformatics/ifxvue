@@ -249,7 +249,7 @@ export default {
             <v-text-field
               ref="startDate"
               class="startDate required"
-              :value="humanStartDate"
+              :model-value="humanStartDate"
               @change="updateDate($event, 'startDate')"
               label="Start Date and Time"
               prepend-icon="mdi-calendar"
@@ -302,7 +302,7 @@ export default {
           <v-col>
             <v-text-field
               ref="endDate"
-              :value="humanEndDate"
+              :model-value="humanEndDate"
               @change="updateDate($event, 'endDate')"
               label="End Date and Time"
               prepend-icon="mdi-calendar"
