@@ -76,7 +76,7 @@ export default {
                 {{ $stateDisplay(item.name)  }}
             </template>
             <template v-slot:[`item.created`]="{ item }">
-                {{ $humanDatetime(item.created) }}
+                <span class="text-no-wrap">{{ $humanDatetime(item.created) }}</span>
             </template>
             <template v-slot:[`item.user`]="{ item }">
                 {{ item.user.full_name == default_approver ? '' : item.user.full_name }}

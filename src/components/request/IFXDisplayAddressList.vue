@@ -7,6 +7,11 @@ export default {
 }
 </script>
 <template>
+  <v-row>
+    <v-col cols="12">
+      &nbsp;
+    </v-col>
+  </v-row>
   <v-row class="flex-column">
     <v-col>
       <v-row v-for="address in data" :key="address.type" dense>

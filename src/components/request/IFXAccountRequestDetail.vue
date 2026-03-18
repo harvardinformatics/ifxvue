@@ -196,8 +196,8 @@ export default {
 </script>
 <template>
   <v-container grid-list-md>
-        <v-card v-if="request">
-          <v-card-title>
+        <v-card v-if="request" class="pa-4" variant="flat">
+          <v-card-title class="card-title ma-4 pb-8">
             <v-row class="flex-no-wrap" justify="start" align="center">
               <v-col class="flex-grow-1 flex-shrink-0">
                 <span class="headline">Account request from {{request.fullName}}</span>
@@ -211,7 +211,7 @@ export default {
               <v-col class="flex-grow-0 flex-shrink-1">
                 <v-tooltip top>
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon small
+                    <v-btn v-bind="props" icon size="x-small"
                       class="item-add"
                       color="green"
                       @click="addEmptyComment()"
@@ -225,7 +225,7 @@ export default {
               <v-col class="flex-grow-0 flex-shrink-1">
                 <v-tooltip top>
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" small icon color="info" v-show="isDjangoStaff()" :href="django_admin_url">
+                    <v-btn v-bind="props" size="x-small" icon color="info" v-show="isDjangoStaff()" :href="django_admin_url">
                       <v-icon color="yellow">mdi-key</v-icon>
                     </v-btn>
                   </template>
@@ -240,9 +240,9 @@ export default {
                 <IFXRequestCommentList :request="request" @update="updateRequestComment"/>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row class="px-4">
               <v-col cols="6">
-                <v-row wrap justify="start" align-center>
+                <v-row justify="start" align-center>
                   <v-col class="flex-grow-0 flex-shrink-0 expiration-date-label">
                     Onboard request
                     <span v-if="requestExpired()">expired</span>
@@ -290,7 +290,7 @@ export default {
                     &nbsp;
                   </v-col>
                   <v-col class="flex-shrink-1">
-                    <v-radio-group :column="false" v-model="approval" @update:modelValue="updateRequestState()">
+                    <v-radio-group inline v-model="approval" @update:modelValue="updateRequestState()">
                       <v-radio label="Approve" value="approve"></v-radio>
                       <v-radio label="Reject" value="reject"></v-radio>
                     </v-radio-group>
@@ -313,7 +313,7 @@ export default {
                       <span class="text-body-1 font-weight-bold">Onboarding Steps</span>
                     </v-col>
                     <v-col v-for="track in request.tracks.order" :key="track">
-                      <v-row v-if="isAppTrack(track)" class="flex-column" dense>
+                      <v-row v-if="isAppTrack(track)" class="flex-column" density="compact">
                         <v-col v-for="step in request.tracks[track].order" :key="step">
                           <IFXDisplayOnboardStep v-if="step !== 'completed_request'" @update="handleStepChange" :step="request.tracks[track][step]" :stepName="step" :trackName="track"/>
                         </v-col>
@@ -346,6 +346,9 @@ export default {
     font-size: 14px;
     color: rgba(0,0,0,0.87);
     white-space: nowrap;
+  }
+  .card-title {
+    border-bottom: 1px solid #ccc;
   }
 </style>
 <style lang="scss">

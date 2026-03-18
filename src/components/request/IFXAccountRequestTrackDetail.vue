@@ -28,14 +28,14 @@ export default {
         <span class="text-body-1 font-weight-bold">{{trackTitle}}</span>
       </v-col>
       <v-col cols="12" class="py-1" v-for="field in accountRequestData.tracks[track].fields.order" :key="field">
-        <v-row dense wrap v-if="accountRequestData.tracks[track].fields[field]" justify-start>
-          <v-col class="field-label" cols="12" md="3" v-if="accountRequestData.tracks[track].fields[field].display_name">
+        <v-row density="compact" v-if="accountRequestData.tracks[track].fields[field]" justify-start>
+          <v-col class="field-label" cols="2" v-if="accountRequestData.tracks[track].fields[field].display_name">
             {{accountRequestData.tracks[track].fields[field].display_name}}
           </v-col>
-          <v-col class="field-label" cols="12" md="3" v-else>
+          <v-col class="field-label" cols="2" v-else>
             {{field}}
           </v-col>
-          <v-col cols="12" v-if="accountRequestData.tracks[track].fields[field].display_component">
+          <v-col cols="10" v-if="accountRequestData.tracks[track].fields[field].display_component">
             <component v-if="field == 'harvard_key'"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData[field]">
@@ -45,7 +45,7 @@ export default {
               :data="accountRequestData.person[field]">
             </component>
           </v-col>
-          <v-col cols="12" v-else>
+          <v-col cols="10" v-else>
             <span v-if="accountRequestData.person[field]">{{accountRequestData.person[field]}}</span>
             <span v-else>{{accountRequestData[field]}}</span>
           </v-col>

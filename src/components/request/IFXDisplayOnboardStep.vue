@@ -27,7 +27,7 @@ export default {
 }
 </script>
 <template>
-  <v-row class="justify-space-between align-start">
+  <v-row class="justify-space-between align-start" density="compact">
     <v-col class="name-display py-2">
       {{getStepDisplayName()}}
     </v-col>
