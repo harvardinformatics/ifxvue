@@ -291,7 +291,7 @@ export default {
     <IFXPageHeader>
       <template #title>{{ item.fullName || id }}</template>
       <template #actions>
-        <v-row dense align="center">
+        <v-row density="compact" align="center">
           <v-col>
             <span class="text-no-wrap">
               <IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" v-model:isActive="item.isActive" />
@@ -318,7 +318,7 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container>
-      <v-row dense v-if="Object.keys(this.errors).length">
+      <v-row density="compact" v-if="Object.keys(this.errors).length">
         <v-col>
           <v-alert
             elevation="2"
@@ -347,7 +347,7 @@ export default {
           </v-alert>
         </v-col>
       </v-row>
-      <v-row dense v-if="isSubmittable">
+      <v-row density="compact" v-if="isSubmittable">
         <v-col>
           <v-alert
             elevation="2"
@@ -368,7 +368,7 @@ export default {
         <v-col sm="12" md="11">
           <v-row>
             <v-col>
-              <v-row dense wrap>
+              <v-row density="compact" wrap>
                 <v-col sm="4" md="3">
                   <h3>First Name</h3>
                 </v-col>
@@ -376,7 +376,7 @@ export default {
                   {{ item.firstName }}
                 </v-col>
               </v-row>
-              <v-row dense class="mt-n2">
+              <v-row density="compact" class="mt-n2">
                 <v-col sm="4" md="3">
                   <h3>Last Name</h3>
                 </v-col>
@@ -392,7 +392,7 @@ export default {
                   {{ $orgNameFromSlug(item.primaryAffiliation) }}
                 </v-col>
               </v-row>
-              <v-row dense v-if="areGroupsPresent">
+              <v-row density="compact" v-if="areGroupsPresent">
                 <v-col sm="4" md="3">
                   <h3>Authorization Groups</h3>
                 </v-col>
@@ -505,7 +505,7 @@ export default {
           <v-col v-if="hasUserFiles()">
             <div v-for="category in Object.keys(userCategories)" :key="category">
               <span v-if="onlyOneFilePerCategory">
-                <v-row dense v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                <v-row density="compact" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
                   <v-col sm="12">
                     <div>
                       <span class="font-weight-medium">{{ category }}:&nbsp;</span>
@@ -534,7 +534,7 @@ export default {
                   <span class="ml-1">{{ category }}s</span>
                 </summary>
                 <span>
-                  <v-row dense v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                  <v-row density="compact" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
                     <v-col sm="11">
                       <div class="ml-4">
                         <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
@@ -574,7 +574,7 @@ export default {
         </v-row>
         <v-divider class="my-2" />
       </span>
-      <v-row dense v-if="areAnyAccountsPresent">
+      <v-row density="compact" v-if="areAnyAccountsPresent">
         <v-col sm="4" md="3">
           <h3>Expense code / PO Authorizations</h3>
           <div>

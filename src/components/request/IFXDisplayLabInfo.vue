@@ -28,19 +28,21 @@ export default {
   },
   computed: {
     hasLabInfo() {
-      return this.data && this.data.lab_info && this.data.lab_info.lab_name
+      window.console.log('data', this.data, ' value', this.value)
+      return this.data && this.data && this.data.lab_name
     },
     hasLabApprovers() {
-      return this.data && this.data.lab_info && this.data.lab_info.approvers?.length
+      return this.data && this.data && this.data.approvers?.length
     },
   },
   mounted: function () {
-    if (this.data?.lab_info?.organization?.contacts) {
-      const piOrgContact = this.data.lab_info.organization.contacts.find((orgContact) => orgContact.role === 'PI')
+    window.console.log('lab info data', this.data)
+    if (this.data?.organization?.contacts) {
+      const piOrgContact = this.data.organization.contacts.find((orgContact) => orgContact.role === 'PI')
       if (piOrgContact) {
         this.piContact = piOrgContact.contact
       }
-      const billingOrgContact = this.data.lab_info.organization.contacts.find(
+      const billingOrgContact = this.data.organization.contacts.find(
         (orgContact) => orgContact.role === 'Billing'
       )
       if (billingOrgContact) {
@@ -52,15 +54,16 @@ export default {
 </script>
 <template>
   <v-row class="flex-column">
+    lab info
     <v-col>
       <v-row>
-        <v-col v-if="hasLabInfo">
+        <v-col v-if="data && data">
           <v-row class="flex-column">
             <v-col>
               <v-row>
                 <v-col cols="4">Lab / Company Name</v-col>
                 <v-col>
-                  {{ data.lab_info.lab_name }}
+                  {{ data.lab_name }}
                 </v-col>
               </v-row>
             </v-col>
@@ -72,7 +75,7 @@ export default {
                 <v-col>
                   <v-autocomplete
                     v-if="organizations"
-                    v-model.trim="data.lab_info.organization"
+                    v-model="data.organization"
                     :items="organizations"
                     item-title="name"
                     return-object
@@ -87,9 +90,9 @@ export default {
               <v-row>
                 <v-col cols="4">Lab Approvers</v-col>
                 <v-col v-if="hasLabApprovers">
-                  <span v-for="(approver, index) in data.lab_info.approvers" :key="index">
+                  <span v-for="(approver, index) in data.approvers" :key="index">
                     <a :href="`mailto:${approver}`">{{ approver }}</a>
-                    <span v-if="index < data.lab_info.approvers.length - 1">,</span>
+                    <span v-if="index < data.approvers.length - 1">,</span>
                   </span>
                 </v-col>
                 <v-col v-else>No approvers specified</v-col>
@@ -100,14 +103,14 @@ export default {
             <v-col>
               <v-row>
                 <v-col cols="4">PI / Manager</v-col>
-                <v-col>{{ data.lab_info.pi_name }}, {{ data.lab_info.pi_email }}</v-col>
+                <v-col>{{ data.pi_name }}, {{ data.pi_email }}</v-col>
               </v-row>
             </v-col>
             <v-col>
               <v-row>
                 <v-col cols="4">&nbsp;</v-col>
                 <v-col>
-                  {{ data.lab_info.pi_street1 }}
+                  {{ data.pi_street1 }}
                 </v-col>
               </v-row>
             </v-col>
@@ -115,15 +118,15 @@ export default {
               <v-row>
                 <v-col cols="4">&nbsp;</v-col>
                 <v-col>
-                  {{ data.lab_info.pi_city }}, {{ data.lab_info.pi_state }} {{ data.lab_info.pi_postal_code }}
+                  {{ data.pi_city }}, {{ data.pi_state }} {{ data.pi_postal_code }}
                 </v-col>
               </v-row>
             </v-col>
-            <v-col v-if="data.lab_info.pi_contact_country != 'United States'">
+            <v-col v-if="data.pi_contact_country != 'United States'">
               <v-row>
                 <v-col cols="4">&nbsp;</v-col>
                 <v-col>
-                  {{ data.lab_info.pi_contact_country }}
+                  {{ data.pi_contact_country }}
                 </v-col>
               </v-row>
             </v-col>
@@ -131,7 +134,7 @@ export default {
               <v-row>
                 <v-col cols="4">&nbsp;</v-col>
                 <v-col>
-                  {{ data.lab_info.pi_phone }}
+                  {{ data.pi_phone }}
                 </v-col>
               </v-row>
             </v-col>
@@ -157,9 +160,9 @@ export default {
               <v-row>
                 <v-col cols="4">Billing Contact</v-col>
                 <v-col>
-                  <span v-if="data.lab_info.billing_contact_name">{{ data.lab_info.billing_contact_name }}</span>
-                  <span v-else>{{ data.lab_info.pi_name }}</span>
-                  , {{ data.lab_info.billing_contact_email }}
+                  <span v-if="data.billing_contact_name">{{ data.billing_contact_name }}</span>
+                  <span v-else>{{ data.pi_name }}</span>
+                  , {{ data.billing_contact_email }}
                 </v-col>
               </v-row>
             </v-col>
@@ -167,7 +170,7 @@ export default {
               <v-row>
                 <v-col cols="4">&nbsp;</v-col>
                 <v-col>
-                  {{ data.lab_info.billing_contact_street1 }}
+                  {{ data.billing_contact_street1 }}
                 </v-col>
               </v-row>
             </v-col>
@@ -175,16 +178,16 @@ export default {
               <v-row>
                 <v-col cols="4">&nbsp;</v-col>
                 <v-col>
-                  {{ data.lab_info.billing_contact_city }}, {{ data.lab_info.billing_contact_state }}
-                  {{ data.lab_info.billing_contact_postal_code }}
+                  {{ data.billing_contact_city }}, {{ data.billing_contact_state }}
+                  {{ data.billing_contact_postal_code }}
                 </v-col>
               </v-row>
             </v-col>
-            <v-col v-if="data.lab_info.billing_contact_country != 'United States'">
+            <v-col v-if="data.billing_contact_country != 'United States'">
               <v-row>
                 <v-col cols="4">&nbsp;</v-col>
                 <v-col>
-                  {{ data.lab_info.billing_contact_country }}
+                  {{ data.billing_contact_country }}
                 </v-col>
               </v-row>
             </v-col>
@@ -192,7 +195,7 @@ export default {
               <v-row>
                 <v-col cols="4">&nbsp;</v-col>
                 <v-col>
-                  {{ data.lab_info.billing_contact_phone }}
+                  {{ data.billing_contact_phone }}
                 </v-col>
               </v-row>
             </v-col>

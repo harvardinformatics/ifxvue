@@ -5,7 +5,7 @@ export default {
 }
 </script>
 <template>
-  <v-row class="flex-column">
+  <v-row class="flex-column" v-if="data">
     <v-col>
       <v-row class="flex-column">
         <v-col>

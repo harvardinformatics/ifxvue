@@ -106,7 +106,7 @@ export default {
           </v-col>
         </v-row>
       </v-card-title>
-      <v-row dense class="d-flex justify-space-around" v-if="message">
+      <v-row density="compact" class="d-flex justify-space-around" v-if="message">
         <v-col cols="12" class="d-flex flex-grow-1">
           <v-alert closable :type="messageType" border="start" border-color elevation="2">
             <span v-html="message"></span>

@@ -33,7 +33,9 @@ export default {
       valid_states: [],
       refresh_timer: null,
       updating_expiration_date: false,
-      expiration_date_menu: false
+      expiration_date_menu: false,
+      organizations: [],
+      detailKeys: null,
     }
   },
   methods: {
@@ -148,11 +150,15 @@ export default {
     getRequest(id) {
       // Return account request by id
       const me = this
+      console.log('getting request')
       this.$requestApi.getRequest(id)
         .then((response) => {
           me.request = response
-          console.log('request is ')
-          console.log(me.request)
+          window.console.log('tracks ', me.request.tracks)
+          if (!me.detailKeys){
+            me.detailKeys = Array(me.request.tracks.order.length).fill(1)
+          }
+          window.console.log('made detail keys', me.detailKeys)
           if (me.request.result) {
             clearInterval(me.refresh_timer)
           }
@@ -191,11 +197,18 @@ export default {
         me.getRequest(me.$route.params.id)
       }
     }, 4000)
+    this.$api.organization.getList().then((res) => {
+      me.organizations = res
+      window.console.log('detail keys', me.detailKeys)
+      me.detailKeys = me.detailKeys.map(val => val + 1)
+      window.console.log('detail keys', me.detailKeys)
+    })
   }
 }
 </script>
 <template>
   <v-container grid-list-md>
+    blah
         <v-card v-if="request" class="pa-4" variant="flat">
           <v-card-title class="card-title ma-4 pb-8">
             <v-row class="flex-no-wrap" justify="start" align="center">
@@ -301,8 +314,8 @@ export default {
             <v-row>
               <v-col cols="7">
                 <v-row class="flex-column">
-                  <v-col v-for="track in request.tracks.order" :key="track">
-                    <IFXAccountRequestTrackDetail v-if="request && isAppTrack(track)" :track="track" :trackTitle="getTrackDisplayName(track)" :accountRequestData="request.onBoardRequest.data"/>
+                  <v-col v-for="(track, i) in request.tracks.order" :key="track">
+                    <IFXAccountRequestTrackDetail :key="detailKeys[i]" v-if="request && isAppTrack(track)" :track="track" :trackTitle="getTrackDisplayName(track)" :organizations="organizations" :accountRequestData="request.onBoardRequest.data"/>
                   </v-col>
                 </v-row>
               </v-col>

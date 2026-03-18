@@ -3,26 +3,55 @@
 import DisplayAddressList from './IFXDisplayAddressList'
 import DisplayContactList from './IFXDisplayContactList'
 import DisplayHarvardKey from './IFXDisplayHarvardKey'
+import DisplayLabInfo from './IFXDisplayLabInfo'
+import DisplayScientificArea from './IFXDisplayScientificArea'
+import DisplayMOU from './IFXDisplayMOU'
+import DisplayAffiliations from './IFXDisplayAffiliations'
+import DisplayPO from './IFXDisplayPO'
+import DisplayTermsAndConditions from './IFXDisplayTermsAndConditions'
+import DisplayProject from './IFXDisplayProject'
+import DisplayExpenseCode from './IFXDisplayExpenseCode'
+import DisplayDemographicData from './IFXDisplayDemographicData'
 
 export default {
   name: 'IFXAccountRequestTrackDetail',
   props: {
     accountRequestData: Object,
     track: String,
-    trackTitle: String
+    trackTitle: String,
+    organizations: {
+      type: Array,
+      required: false,
+      default: [],
+    },
+  },
+  data() {
+    return {
+      labInfoKey: 0
+    }
   },
   components: {
     DisplayAddressList,
     DisplayContactList,
-    DisplayHarvardKey
+    DisplayHarvardKey,
+    DisplayLabInfo,
+    DisplayScientificArea,
+    DisplayMOU,
+    DisplayAffiliations,
+    DisplayPO,
+    DisplayTermsAndConditions,
+    DisplayProject,
+    DisplayExpenseCode,
+    DisplayDemographicData,
   },
-  data() {
-    return {}
-  }
+  mounted() {
+    window.console.log('track detail for ', this.track)
+    this.labInfoKey += 1
+  },
 }
 </script>
 <template>
-  <v-container  v-if="accountRequestData" >
+  <v-container v-if="accountRequestData" >
     <v-row class="flex-column">
       <v-col cols="12">
         <span class="text-body-1 font-weight-bold">{{trackTitle}}</span>
@@ -40,6 +69,12 @@ export default {
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData[field]">
             </component>
+            <DisplayLabInfo v-else-if="field == 'lab_info'"
+              :value="accountRequestData[field]"
+              :organizations="organizations"
+              :key="labInfoKey"
+            >
+            </DisplayLabInfo>
             <component v-else
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData.person[field]">

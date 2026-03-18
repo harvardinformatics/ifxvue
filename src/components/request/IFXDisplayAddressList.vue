@@ -14,11 +14,11 @@ export default {
   </v-row>
   <v-row class="flex-column">
     <v-col>
-      <v-row v-for="address in data" :key="address.type" dense>
+      <v-row v-for="address in data" :key="address.type" density="compact">
         <v-col>
-          <v-row class="flex-column" dense>
+          <v-row class="flex-column" density="compact">
             <v-col>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col cols="4">
                   Street address
                 </v-col>
@@ -28,7 +28,7 @@ export default {
               </v-row>
             </v-col>
             <v-col>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col cols="4">
                   City
                 </v-col>
@@ -38,7 +38,7 @@ export default {
               </v-row>
             </v-col>
             <v-col>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col cols="4">
                   State
                 </v-col>
@@ -48,7 +48,7 @@ export default {
               </v-row>
             </v-col>
             <v-col>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col cols="4">
                   Country
                 </v-col>
@@ -58,7 +58,7 @@ export default {
               </v-row>
             </v-col>
             <v-col>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col cols="4">
                   Postal code
                 </v-col>

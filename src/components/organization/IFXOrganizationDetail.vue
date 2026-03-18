@@ -185,7 +185,7 @@ export default {
         </div>
       </template>
     </IFXPageHeader>
-    <v-row dense v-if="isSubmittable">
+    <v-row density="compact" v-if="isSubmittable">
       <v-col>
         <v-alert elevation="2" density="compact" border="start" color="warning" icon="mdi-alert-circle-outline">
           <v-row dense>
@@ -196,7 +196,7 @@ export default {
         </v-alert>
       </v-col>
     </v-row>
-    <v-row dense class="ml-2">
+    <v-row density="compact" class="ml-2">
       <v-col>
         <v-row>
           <v-col>
