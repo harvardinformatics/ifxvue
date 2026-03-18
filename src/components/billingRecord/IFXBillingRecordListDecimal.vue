@@ -841,14 +841,10 @@ export default {
             </v-row>
           </v-col>
           <v-col class="flex-grow-0">
-            <!-- <v-row class="d-flex flex-nowrap justify-end align-start"> -->
-            <!-- <span class=""> -->
             <span v-if="updating">
               <v-progress-circular indeterminate color="primary"></v-progress-circular>
             </span>
             <span v-else class="d-inline-flex flex-nowrap justify-end align-start flex-grow-0">
-              <!-- <v-row class="d-flex justify-start align-center nowrap">
-                  <v-col class="pa-2"> -->
               <span class="pa-2">
                 <IFXMailButton
                   v-if="useDefaultMailButton"
@@ -982,11 +978,7 @@ export default {
                   <span>Notify Lab Managers</span>
                 </v-tooltip>
               </span>
-              <!-- </v-col>
-                  <v-col class="pa-2" v-if="allowApprovals"> -->
               <span class="pa-2" v-if="allowApprovals">
-                <!-- <v-row class="d-flex flex-nowrap">
-                      <v-col> -->
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
                     <div>
@@ -1002,31 +994,11 @@ export default {
                   </template>
                   <span>{{ approveSelectedToolTip }}</span>
                 </v-tooltip>
-                <!-- </v-col>
-                    </v-row> -->
               </span>
-              <!-- <v-col class="pa-2" v-if="allowDownloads">
-                <v-row>
-                  <v-col> -->
               <span class="pa-2" v-if="allowDownloads">
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
                     <div>
-                      <!-- <download-csv
-                                :class="{ 'download-disabled': isLoading }"
-                                :labels="getLabelsForExport()"
-                                :data="getDataForExport()"
-                                :name="getNameForExport()"
-                                v-bind="props"
-                              >
-                                <IFXButton
-                                  :disabled="isLoading"
-                                  small
-                                  class="download-btn"
-                                  btnType="download"
-                                ></IFXButton>
-                              </download-csv> -->
-                      <!-- In template -->
                       <download-excel
                         :class="{ 'download-disabled': isLoading }"
                         :fields="getFieldsForExport()"
@@ -1043,9 +1015,6 @@ export default {
                   <span>Download billing records in csv format</span>
                 </v-tooltip>
               </span>
-              <!-- </v-row>
-              </v-col> -->
-              <!-- <v-col v-if="allowChangeExpenseCode"> -->
               <span class="pa-2" v-if="allowChangeExpenseCode">
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
@@ -1063,10 +1032,7 @@ export default {
                   <span>Edit billing record account</span>
                 </v-tooltip>
               </span>
-              <!-- <v-col class="pa-2" v-if="allowInvoiceGeneration"> -->
               <span class="pa-2" v-if="allowInvoiceGeneration">
-                <!-- <v-row>
-                      <v-col> -->
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
                     <div>
@@ -1084,13 +1050,8 @@ export default {
                   </template>
                   <span>{{ generateInvoicesToolTip }}</span>
                 </v-tooltip>
-                <!-- </v-col>
-                    </v-row> -->
               </span>
-              <!-- <v-col class="pa-2" v-if="allowInvoiceGeneration"> -->
               <span class="pa-2" v-if="allowInvoiceGeneration">
-                <!-- <v-row>
-                      <v-col> -->
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
                     <div>
@@ -1106,10 +1067,7 @@ export default {
                   </template>
                   <span>Deactivate any existing invoices and process the entire month</span>
                 </v-tooltip>
-                <!-- </v-col>
-                    </v-row> -->
               </span>
-              <!-- <v-col v-if="allowDeleteBillingRecords"> -->
               <span class="pa-2" v-if="allowDeleteBillingRecords">
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
@@ -1127,7 +1085,6 @@ export default {
                   <span>{{ deleteSelectedToolTip }}</span>
                 </v-tooltip>
               </span>
-              <!-- <v-col v-if="allowUsageReport && facility.hasUsageReport"> -->
               <span class="pa-2" v-if="allowUsageReport && facility.hasUsageReport">
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
@@ -1145,9 +1102,7 @@ export default {
                   <span>Get usage report</span>
                 </v-tooltip>
               </span>
-              <!-- </v-row> -->
             </span>
-            <!-- </span> -->
           </v-col>
         </v-row>
         <v-row class="d-flex justify-space-around">
