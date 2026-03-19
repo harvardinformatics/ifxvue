@@ -224,7 +224,7 @@ export default {
       return this.getItemsFilteredBySearch()
     },
     generateInvoicesToolTip: function () {
-      return this.billingRecordsAreFinal(this.selected)
+      return this.billingRecordsAreFinal(this.selectedItemObjects)
         ? 'Re-generate invoices for selected records.  This will inactivate existing invoices.'
         : 'Generate invoices for selected records'
     },
@@ -234,17 +234,21 @@ export default {
         : 'Approve all billing records'
     },
     approveSelectedToolTip: function () {
-      return this.billingRecordsAreFinal(this.selected)
+      return this.billingRecordsAreFinal(this.selectedItemObjects)
         ? 'Cannot approve billing records that are FINAL'
         : 'Approve selected billing records'
     },
     deleteSelectedToolTip: function () {
-      return this.billingRecordsAreFinal(this.selected)
+      return this.billingRecordsAreFinal(this.selectedItemObjects)
         ? 'Can only delete billing records that are INIT or PENDING_LAB_APPROVAL'
         : 'Delete selected billing records'
     },
     showCheckboxes: function () {
       return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration || this.allowDeleteBillingRecords
+    },
+    // Get full objects back from selected IDs
+    selectedItemObjects() {
+      return this.items.filter(item => this.selected.includes(item.id))
     },
   },
   methods: {
@@ -330,9 +334,6 @@ export default {
       }
       return false
     },
-    // getFieldsForExport() {
-    //   return this.allHeaders.map((h) => h.title)
-    // },
     getFieldsForExport() {
       return Object.fromEntries(
         this.allHeaders.filter((h) => h.title && h.title !== 'Actions').map((h) => [h.title, h.title])
@@ -404,10 +405,10 @@ export default {
     },
     approve(all) {
       if (all) {
-        this.selected = this.items
+        this.selected = this.items.map((item => item.id))
       }
       this.updating = true
-      this.setState(this.selected, 'LAB_APPROVED')
+      this.setState(this.selectedItemObjects, 'LAB_APPROVED')
         .then((response) => {
           this.updating = false
           this.showMessage(`Successfully updated ${response.data.length} billing record(s)`)
@@ -433,7 +434,7 @@ export default {
       this.message = ''
       const orgSet = new Set()
       if (!wholeMonth) {
-        this.selected.forEach((item) => {
+        this.selectedItemObjects.forEach((item) => {
           orgSet.add(item.account.organization)
         })
       } else {
@@ -472,13 +473,13 @@ export default {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
       const isSelected = this.rowSelectionToggle.indexOf(group) !== -1
       records.forEach((record) => {
-        const index = this.selected.findIndex((item) => record.id === item.id)
+        const index = this.selected.findIndex((item) => record.id === item)
         if (index !== -1) {
           if (!isSelected) {
             this.selected.splice(index, 1)
           }
         } else if (isSelected) {
-          this.selected.push(record)
+          this.selected.push(record.id)
         }
       })
       this.rowSelectionToggleIndeterminate[group] = false
@@ -499,7 +500,7 @@ export default {
     determineGroupState(e) {
       const group = e.item.account.organization
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      let checked = this.selected.filter((item) => item.account.organization === group).length
+      let checked = this.selectedItemObjects.filter((item) => item.account.organization === group).length
       checked += e.value ? 1 : -1
       const state = checked !== 0 && checked < records.length
       this.rowSelectionToggleIndeterminate[group] = state
@@ -596,8 +597,8 @@ export default {
       let successCount = 0
       for (let i = 0; i < this.selected.length; i++) {
         try {
-          await this.$api.billingRecord.delete(this.selected[i])
-          this.items = this.items.filter((item) => !(item.id === this.selected[i].id))
+          await this.$api.billingRecord.delete(this.selectedItemObjects[i])
+          this.items = this.items.filter((item) => !(item.id === this.selected[i]))
           successCount++
         } catch (error) {
           const message = this.getErrorMessage(error)
@@ -644,7 +645,7 @@ export default {
     },
     goToComposeMessage(field) {
       this.recipientField = field
-      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgs = this.selected.length ? this.selectedItemObjects : this.filteredItems
       const orgSlugs = orgs.map((item) => item.account.organization)
       this.$router.push({
         name: 'MailingCompose',
@@ -671,7 +672,7 @@ export default {
     async notifyLabManagers() {
       this.emailResponse = null
       this.sendingNotifications = true
-      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgs = this.selected.length ? this.selectedItemObjects : this.filteredItems
       const orgSlugs = orgs.map((item) => item.account.organization)
       try {
         const response = await this.$api.reviewLabManagerNotifications(
@@ -691,7 +692,7 @@ export default {
     },
     getSelectedOrgs() {
       const orgSet = new Set()
-      this.selected.forEach((item) => {
+      this.selectedItemObjects.forEach((item) => {
         orgSet.add(item.account.organization)
       })
       return Array.from(orgSet)
@@ -716,7 +717,7 @@ export default {
       return list
     },
     async openChangeExpenseCodeDialog() {
-      this.recordIDsToBeChanged = this.selected.map((record) => record.id)
+      this.recordIDsToBeChanged = this.selected().concat()  // this.selected is now an array of IDs, so we can use it directly
       this.showChangeExpenseCodeDialog = true
     },
     closeChangeExpenseCodeDialog() {
@@ -770,9 +771,9 @@ export default {
               const newBillingRec = this.$api.billingRecord.create(record)
               let index = this.items.findIndex((rec) => rec.id === record.id)
               this.items.splice(index, 1, newBillingRec)
-              index = this.selected.findIndex((rec) => rec.id === record.id)
-              groups.add(this.selected[index].account.organization)
-              this.selected.splice(index, 1, newBillingRec)
+              index = this.selectedItemObjects.findIndex((rec) => rec.id === record.id)
+              groups.add(this.selectedItemObjects[index].account.organization)
+              this.selected.splice(index, 1, newBillingRec.id)
               groups.add(newBillingRec.account.organization)
             })
             Array.from(groups).forEach((org) => {
@@ -793,7 +794,7 @@ export default {
     },
     setHeaderCheckBoxState(group) {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      const checked = this.selected.filter((item) => item.account.organization === group).length
+      const checked = this.selectedItemObjects.filter((item) => item.account.organization === group).length
       const state = checked !== 0 && checked < records.length
       this.rowSelectionToggleIndeterminate[group] = state
       if (checked) {
@@ -983,7 +984,7 @@ export default {
                   <template v-slot:activator="{ props }">
                     <div>
                       <v-btn
-                        :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                        :disabled="selected.length === 0 || billingRecordsAreFinal(selectedItemObjects)"
                         v-bind="props"
                         icon="mdi-check"
                         size="small"
@@ -1020,7 +1021,7 @@ export default {
                   <template v-slot:activator="{ props }">
                     <div>
                       <v-btn
-                        :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                        :disabled="selected.length == 0 || billingRecordsAreFinal(selectedItemObjects)"
                         v-bind="props"
                         icon="mdi-playlist-edit"
                         size="small"
@@ -1041,7 +1042,7 @@ export default {
                           isLoading || selected.length == 0 || !$api.auth.can('generate-invoices', $api.authUser)
                         "
                         v-bind="props"
-                        :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
+                        :color="billingRecordsAreFinal(selectedItemObjects) ? 'error' : 'blue'"
                         size="small"
                         icon="mdi-currency-usd"
                         @click="generateInvoices()"
@@ -1073,7 +1074,7 @@ export default {
                   <template v-slot:activator="{ props }">
                     <div>
                       <v-btn
-                        :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selected)"
+                        :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selectedItemObjects)"
                         v-bind="props"
                         icon="mdi-trash-can-outline"
                         size="small"
@@ -1132,7 +1133,7 @@ export default {
             @item-selected="determineGroupState"
             @toggle-select-all="toggleSelectAll"
           >
-            <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
+            <template v-slot:group-header="{ item, columns, toggleGroup: toggleGroupSlot, isGroupOpen }">
               <tr>
                 <td :colspan="columns.length" class="">
                   <v-row class="align-center" density="compact" no-gutters>
@@ -1141,8 +1142,9 @@ export default {
                         v-model="rowSelectionToggle"
                         :value="item.value"
                         hide-details
+                        @click.stop
                         :indeterminate="rowSelectionToggleIndeterminate[item.value]"
-                        @update:model-value="() => toggleGroup(item.value)"
+                        @update:model-value="toggleGroup(item.value)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="auto">
@@ -1152,7 +1154,7 @@ export default {
                         density="compact"
                         icon="mdi-menu-right"
                         variant="plain"
-                        @click="toggleGroup(item)"
+                        @click="toggleGroupSlot(item)"
                         :class="{ 'rotate-90': isGroupOpen(item) }"
                         class="mr-1"
                       ></v-btn>
@@ -1214,7 +1216,7 @@ export default {
                 <IFXButton
                   class="ml-2"
                   v-if="allowEditingRecords(item)"
-                  iconString="edit"
+                  iconString="mdi-pencil"
                   btnType="edit"
                   xSmall
                   @action="openEditDialog(item)"
