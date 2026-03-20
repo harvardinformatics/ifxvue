@@ -1443,8 +1443,5 @@ export default {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.v-data-table tbody td:empty:first-child {
-  display: none;
-}
 </style>
 <style scoped></style>
