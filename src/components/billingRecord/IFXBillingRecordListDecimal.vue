@@ -1006,7 +1006,7 @@ export default {
                         :data="getDataForExport()"
                         :name="getNameForExport()"
                         type="csv"
-                        :escapeCsv="false"
+                        :escapeCsv="true"
                         v-bind="props"
                       >
                         <IFXButton :disabled="isLoading" small class="download-btn" btnType="download"></IFXButton>
@@ -1442,6 +1442,9 @@ export default {
 #data-table .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.v-data-table tbody td:empty:first-child {
+  display: none;
 }
 </style>
 <style scoped></style>
