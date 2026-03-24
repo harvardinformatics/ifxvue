@@ -717,7 +717,7 @@ export default {
       return list
     },
     async openChangeExpenseCodeDialog() {
-      this.recordIDsToBeChanged = this.selected().concat()  // this.selected is now an array of IDs, so we can use it directly
+      this.recordIDsToBeChanged = this.selected.slice()  // this.selected is now an array of IDs, so we can use it directly
       this.showChangeExpenseCodeDialog = true
     },
     closeChangeExpenseCodeDialog() {
