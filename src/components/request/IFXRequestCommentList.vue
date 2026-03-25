@@ -22,16 +22,16 @@ export default {
 }
 </script>
 <template>
-  <v-container>
-    <v-layout row align-center>
-      <v-flex grow>
-        <v-layout row wrap>
-          <v-flex xs12 v-for="(requestComment, index) in request.requestComments" :key="requestComment.id">
-            <v-layout row wrap justify-start align-center>
-              <v-flex v-if="requestComment.id" xs12 md8 class="request-comment">
+  <v-container class="mb-3">
+    <v-row density="comfortable" class="justify-start">
+      <v-col cols="8">
+        <v-row class="flex-column">
+          <v-col cols="12" v-for="(requestComment, index) in request.requestComments" :key="requestComment.id">
+            <v-row justify-start align-center>
+              <v-col v-if="requestComment.id" cols="8" class="request-comment">
                 <span v-html="requestComment.text"></span>
-              </v-flex>
-              <v-flex v-else xs12 md7 class="request-comment">
+              </v-col>
+              <v-col v-else cols="8" class="request-comment">
                 <v-textarea
                   v-model="request.requestComments[index].text"
                   auto-grow
@@ -40,56 +40,57 @@ export default {
                   solo
                 >
                 </v-textarea>
-              </v-flex>
-              <v-flex v-if="requestComment.id" xs10 shrink md3 class="request-author" align-content-end>
+              </v-col>
+              <v-col v-if="requestComment.id" cols="3" class="request-author" align-content-end>
                 <span></span>&nbsp;
-                <span style="white-space: nowrap;">{{requestComment.created | humanDatetime}}</span>
-              </v-flex>
-              <v-flex v-if="requestComment.id">
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" fab small text
+                <span style="white-space: nowrap;">{{$humanDatetime(requestComment.created)}}</span>
+              </v-col>
+              <v-col v-if="requestComment.id">
+                <v-tooltip location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" size="x-small" text
                       class="item-delete"
                       color="error"
                       @click="request.requestComments.splice(index, 1) && updateRequestComment(index)"
                     >
-                      <v-icon dark >clear</v-icon>
+                      <v-icon dark >mdi-close</v-icon>
                     </v-btn>
                   </template>
                   <span>Remove comment</span>
                 </v-tooltip>
-              </v-flex>
-              <v-flex v-else>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" fab small text
+              </v-col>
+              <v-col v-else>
+                <v-tooltip location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" size="x-small" text
                       class="item-save"
                       color="green"
                       @click="updateRequestComment(index, request.requestComments[index].text)"
                     >
-                      <v-icon dark>done</v-icon>
+                      <v-icon dark>mdi-check</v-icon>
                     </v-btn>
                   </template>
                   <span>Save comment</span>
                 </v-tooltip>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" fab small text
+                <v-tooltip location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" size="x-small" text
                       class="item-delete"
                       color="error"
                       @click="request.requestComments.splice(index, 1)"
                     >
-                      <v-icon dark >clear</v-icon>
+                      <v-icon dark >mdi-close</v-icon>
                     </v-btn>
                   </template>
                   <span>Remove comment</span>
                 </v-tooltip>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col>&nbsp;</v-col>
+    </v-row>
   </v-container>
 </template>
 <style>

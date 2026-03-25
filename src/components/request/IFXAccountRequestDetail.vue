@@ -30,12 +30,13 @@ export default {
     return {
       request: null,
       approval: null,
-      valid_states: [],
-      refresh_timer: null,
-      updating_expiration_date: false,
-      expiration_date_menu: false,
+      validStates: [],
+      refreshTimer: null,
+      isUpdatingExpirationDate: false,
+      expirationDateMenu: false,
       organizations: [],
       detailKeys: null,
+      continuationKeyExpiration: null,
     }
   },
   methods: {
@@ -44,16 +45,16 @@ export default {
     ]),
     addEmptyComment() {
       // Adds an empty comment to the requestComments list.
-      if (this.refresh_timer) {
-        clearInterval(this.refresh_timer)
+      if (this.refreshTimer) {
+        clearInterval(this.refreshTimer)
       }
       this.request.requestComments.unshift(this.$requestApi.newRequestComment())
     },
     handleStepChange(step) {
       // If a step has been made incomplete, make sure that the request data confirmed step
       // is also incomplete so that the data will get updated.
-      if (this.refresh_timer) {
-        clearInterval(this.refresh_timer)
+      if (this.refreshTimer) {
+        clearInterval(this.refreshTimer)
       }
       if (step && step.value === 'incomplete') {
         if (step.track !== 'general' && this.tracks.hasOwnProperty(step.track)) {
@@ -77,8 +78,8 @@ export default {
       return moment(this.request.continuationKeyExpiration).isBefore(moment())
     },
     updatingExpirationDate() {
-      this.updating_expiration_date = true
-      clearInterval(this.refresh_timer)
+      this.isUpdatingExpirationDate = true
+      clearInterval(this.refreshTimer)
     },
     async updateRequestComment(commentData) {
       if (commentData.text) {
@@ -93,15 +94,14 @@ export default {
         })
     },
     async updateRequest(notify) {
-      this.updating_expiration_date = false
+      this.isUpdatingExpirationDate = false
       if (notify) {
         this.request.onBoardRequest.notifyRequestorOfUpdates = true
       }
       const me = this
-      console.log('going to update request')
-      console.log(this.request)
       await this.$requestApi.updateAccountRequest(this.request)
         .then(() => {
+          me.continuationKeyExpiration = me.$columnDate(me.request.continuationKeyExpiration)
           const message = 'Account request updated'
           me.showMessage({ message })
         })
@@ -111,8 +111,8 @@ export default {
     },
     updateRequestState() {
       if (this.approval) {
-        if (this.refresh_timer) {
-          clearInterval(this.refresh_timer)
+        if (this.refreshTimer) {
+          clearInterval(this.refreshTimer)
         }
         const me = this
         let newState = this.request.currentState
@@ -150,23 +150,21 @@ export default {
     getRequest(id) {
       // Return account request by id
       const me = this
-      console.log('getting request')
       this.$requestApi.getRequest(id)
         .then((response) => {
           me.request = response
-          window.console.log('tracks ', me.request.tracks)
+          me.continuationKeyExpiration = me.$columnDate(me.request.continuationKeyExpiration)
           if (!me.detailKeys){
             me.detailKeys = Array(me.request.tracks.order.length).fill(1)
           }
-          window.console.log('made detail keys', me.detailKeys)
           if (me.request.result) {
-            clearInterval(me.refresh_timer)
+            clearInterval(me.refreshTimer)
           }
           this.$requestApi.getValidProcessorStates(me.request.processor)
             .then((res) => {
               forEach(res.data, (state) => {
                 const display = me.$stateDisplay(state)
-                me.valid_states.push({ display: display, value: state })
+                me.validStates.push({ display: display, value: state })
               })
             })
             .catch((error) => {
@@ -184,6 +182,15 @@ export default {
       return [this.$api.urls.DJANGO_ADMIN_ROOT, 'ifxrequest', 'request', this.request.id, 'change/'].join('/')
     }
   },
+  watch: {
+    continuationKeyExpiration: {
+      handler(n) {
+        if (n) {
+          this.request.continuationKeyExpiration = n
+        }
+      }
+    },
+  },
   beforeRouteLeave(to, from, next) {
     clearInterval(this.timer)
     next()
@@ -191,24 +198,23 @@ export default {
   mounted() {
     const me = this
     this.getRequest(me.$route.params.id)
-    this.refresh_timer = null
-    this.refresh_timer = setInterval(() => {
+    this.refreshTimer = null
+    this.refreshTimer = setInterval(() => {
       if (me.$route.params.id) {
         me.getRequest(me.$route.params.id)
       }
     }, 4000)
     this.$api.organization.getList().then((res) => {
       me.organizations = res
-      window.console.log('detail keys', me.detailKeys)
-      me.detailKeys = me.detailKeys.map(val => val + 1)
-      window.console.log('detail keys', me.detailKeys)
+      if (me.detailKeys) {
+        me.detailKeys = me.detailKeys.map(val => val + 1)
+      }
     })
   }
 }
 </script>
 <template>
   <v-container grid-list-md>
-    blah
         <v-card v-if="request" class="pa-4" variant="flat">
           <v-card-title class="card-title ma-4 pb-8">
             <v-row class="flex-no-wrap" justify="start" align="center">
@@ -219,12 +225,12 @@ export default {
                 <span v-if="request.result == 'SUCCESS'"><v-icon size="small" color="success">mdi-thumb-up</v-icon>&nbsp;Success</span>
                 <span v-else-if="request.result == 'FAILED'"><v-icon size="small" color="error">mdi-alert-circle-outline</v-icon>&nbsp;Failed</span>
                 <span v-else-if="request.result == 'REJECTED'"><v-icon size="small" color="error">mdi-thumb-down</v-icon>&nbsp;Rejected</span>
-                <span v-else><v-icon color="grey">cached</v-icon>&nbsp;{{$stateDisplay(request.currentState)}}</span>
+                <span v-else><v-icon color="grey">mdi-cached</v-icon>&nbsp;{{$stateDisplay(request.currentState)}}</span>
               </v-col>
               <v-col class="flex-grow-0 flex-shrink-1">
                 <v-tooltip top>
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon size="x-small"
+                    <v-btn v-bind="props" icon size="small"
                       class="item-add"
                       color="green"
                       @click="addEmptyComment()"
@@ -253,23 +259,23 @@ export default {
                 <IFXRequestCommentList :request="request" @update="updateRequestComment"/>
               </v-col>
             </v-row>
-            <v-row class="px-4">
+            <v-row class="px-4 my-2 align-center">
               <v-col cols="6">
-                <v-row justify="start" align-center>
+                <v-row class="justify-start align-center">
                   <v-col class="flex-grow-0 flex-shrink-0 expiration-date-label">
                     Onboard request
                     <span v-if="requestExpired()">expired</span>
                     <span v-else>expires</span>
                   </v-col>
-                  <v-col v-if="updating_expiration_date">
+                  <v-col v-if="isUpdatingExpirationDate">
                     <v-menu
-                      v-model="expiration_date_menu"
+                      v-model="expirationDateMenu"
                       :close-on-content-click="false"
                       full-width
                     >
                       <template v-slot:activator="{ props }">
                         <v-text-field
-                          :value="request.continuationKeyExpiration"
+                          :value="continuationKeyExpiration"
                           v-bind="props"
                           readonly
                           single-line
@@ -278,7 +284,7 @@ export default {
                         </v-text-field>
                       </template>
                       <v-date-picker
-                        v-model="request.continuationKeyExpiration"
+                        v-model="continuationKeyExpiration"
                         reactive
                         no-title
                         scrollable
@@ -288,10 +294,10 @@ export default {
                     </v-menu>
                   </v-col>
                   <v-col v-else class="flex-grow-0 flex-shrink-1 expiration-date-label">
-                    {{request.continuationKeyExpiration}}
+                    {{continuationKeyExpiration}}
                   </v-col>
                   <v-col class="pt-1">
-                    <v-btn :disabled="updating_expiration_date" icon size="x-small" color="info" @click="updatingExpirationDate()">
+                    <v-btn :disabled="isUpdatingExpirationDate" icon size="x-small" color="info" @click="updatingExpirationDate()">
                       <v-icon>mdi-calendar-edit</v-icon>
                     </v-btn>
                   </v-col>
@@ -315,7 +321,7 @@ export default {
               <v-col cols="7">
                 <v-row class="flex-column">
                   <v-col v-for="(track, i) in request.tracks.order" :key="track">
-                    <IFXAccountRequestTrackDetail :key="detailKeys[i]" v-if="request && isAppTrack(track)" :track="track" :trackTitle="getTrackDisplayName(track)" :organizations="organizations" :accountRequestData="request.onBoardRequest.data"/>
+                    <IFXAccountRequestTrackDetail @change="updateRequest()" :key="detailKeys[i]" v-if="request && isAppTrack(track)" :track="track" :trackTitle="getTrackDisplayName(track)" :organizations="organizations" :accountRequestData="request.onBoardRequest.data"/>
                   </v-col>
                 </v-row>
               </v-col>
@@ -347,7 +353,7 @@ export default {
             </v-row>
             <v-row class="flex-column">
               <v-col v-if="request">
-                <IFXAccountRequestStateList :request="request" :validStates="valid_states"/>
+                <IFXAccountRequestStateList :request="request" :validStates="validStates"/>
               </v-col>
             </v-row>
           </v-container>

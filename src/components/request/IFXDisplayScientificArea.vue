@@ -1,7 +1,12 @@
 <script>
 export default {
   name: 'IFXDisplayScientificArea',
-  props: ['data'],
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
 }
 </script>
 <template>

@@ -27,7 +27,9 @@ export default {
   },
   data() {
     return {
-      labInfoKey: 0
+      labInfoKey: 0,
+      poDataKey: 0,
+      mouDataKey: 0,
     }
   },
   components: {
@@ -44,9 +46,15 @@ export default {
     DisplayExpenseCode,
     DisplayDemographicData,
   },
+  methods: {
+    handleChange(){
+      this.$emit('change', this.accountRequestData)
+    }
+  },
   mounted() {
-    window.console.log('track detail for ', this.track)
     this.labInfoKey += 1
+    this.poDataKey += 1
+    this.mouDataKey += 1
   },
 }
 </script>
@@ -65,20 +73,54 @@ export default {
             {{field}}
           </v-col>
           <v-col cols="10" v-if="accountRequestData.tracks[track].fields[field].display_component">
-            <component v-if="field == 'harvard_key'"
-              :is="accountRequestData.tracks[track].fields[field].display_component"
+            <DisplayHarvardKey v-if="field == 'harvard_key'"
               :data="accountRequestData[field]">
-            </component>
+            </DisplayHarvardKey>
             <DisplayLabInfo v-else-if="field == 'lab_info'"
               :value="accountRequestData[field]"
               :organizations="organizations"
               :key="labInfoKey"
+              @change="handleChange()"
             >
             </DisplayLabInfo>
+            <DisplayScientificArea v-else-if="field == 'scientific_area'"
+              :data="accountRequestData[field]"
+            >
+            </DisplayScientificArea>
+            <DisplayExpenseCode v-else-if="field == 'expense_code'"
+              :data="accountRequestData[field]"
+            >
+            </DisplayExpenseCode>
+            <DisplayTermsAndConditions v-else-if="field == 'terms_and_conditions'"
+              :data="accountRequestData[field]"
+            >
+            </DisplayTermsAndConditions>
+            <DisplayProject v-else-if="field == 'project'"
+              :data="accountRequestData[field]"
+            >
+            </DisplayProject>
+            <DisplayDemographicData v-else-if="field == 'demographic_data'"
+              :data="accountRequestData['person']"
+            >
+            </DisplayDemographicData>
             <component v-else
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData.person[field]">
             </component>
+          </v-col>
+          <v-col cols="10" v-else-if="field == 'po'">
+            <DisplayPO
+              :data="accountRequestData.request_files"
+              :key="poDataKey"
+            >
+            </DisplayPO>
+          </v-col>
+          <v-col cols="10" v-else-if="field == 'mou'">
+            <DisplayMOU
+              :data="accountRequestData.request_files"
+              :key="mouDataKey"
+            >
+            </DisplayMOU>
           </v-col>
           <v-col cols="10" v-else>
             <span v-if="accountRequestData.person[field]">{{accountRequestData.person[field]}}</span>

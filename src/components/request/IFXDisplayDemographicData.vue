@@ -1,7 +1,12 @@
 <script>
 export default {
   name: 'IFXDisplayDemographicData',
-  props: ['data'],
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    }
+  },
 }
 </script>
 <template>
