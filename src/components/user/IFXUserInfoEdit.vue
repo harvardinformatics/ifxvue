@@ -146,7 +146,7 @@ export default {
                   closable
                   @click:close="removeGroup(item)"
                 >
-                  <strong>{{ item }}</strong>
+                  <strong class="text-black">{{ item }}</strong>
                 </v-chip>
               </template>
             </v-autocomplete>
