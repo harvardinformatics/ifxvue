@@ -26,43 +26,43 @@ export default {
 }
 </script>
 <template>
-  <v-layout column>
-    <v-flex>
-      <v-layout>
-        <v-flex v-if="data && data.entered_affiliation">
-          <v-layout column>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
+  <v-row class="flex-column">
+    <v-col>
+      <v-row>
+        <v-col v-if="data && data.entered_affiliation">
+          <v-row class="flex-column">
+            <v-col>
+              <v-row>
+                <v-col cols="4">
                   Entered Affiliation
-                </v-flex>
-                <v-flex>
+                </v-col>
+                <v-col>
                   {{ data.entered_affiliation }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-          <v-layout column>
-            <v-flex>
-              <v-layout row align-center>
-                <v-flex xs4>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row class="flex-column">
+            <v-col>
+              <v-row class="align-center">
+                <v-col cols="4">
                   Selected Organization
-                </v-flex>
-                <v-flex>
+                </v-col>
+                <v-col>
                   <v-autocomplete v-if="organizations"
                     v-model.trim="data.person.primary_affiliation"
                     :items="organizations"
-                    item-text="name"
+                    item-title="name"
                     item-value="slug"
                     @change="updateData()"
                   ></v-autocomplete>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 <style scoped></style>

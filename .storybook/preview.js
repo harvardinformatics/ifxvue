@@ -92,7 +92,6 @@ const mockAPI = {
     isAdmin: false,
     can: (ability, user) => {
       // Mock permission check - for Storybook, return true to show all features
-      console.log('Checking permission:', ability, user)
       return true // or false to test disabled state
     },
     getCurrentUserRecord: async () => ({

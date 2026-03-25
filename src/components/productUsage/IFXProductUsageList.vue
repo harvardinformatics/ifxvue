@@ -28,16 +28,16 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true, slot: true, click: true, width: '60px' },
-        { text: 'Product', value: 'product', sortable: true },
-        { text: 'Quantity', value: 'decimalQuantity', sortable: true, namedSlot: true },
-        { text: 'Description', value: 'description', sortable: true, width: '150px' },
-        { text: 'Organization', value: 'organization', sortable: true, slot: true, namedSlot: true },
-        { text: 'Product User', value: 'productUser', sortable: true, slot: true, namedSlot: true },
-        { text: 'Logged By', value: 'loggedBy', sortable: true, slot: true, namedSlot: true },
-        { text: 'Start Date', value: 'startDate', sortable: true, namedSlot: true },
-        { text: 'End Date', value: 'endDate', sortable: false, namedSlot: true },
-        { text: '', value: 'rowAction', slot: true, sortable: false, namedSlot: true },
+        { title: 'ID', key: 'id', sortable: true, slot: true, click: true, width: '60px' },
+        { title: 'Product', key: 'product', sortable: true },
+        { title: 'Quantity', key: 'decimalQuantity', sortable: true, namedSlot: true },
+        { title: 'Description', key: 'description', sortable: true, width: '150px' },
+        { title: 'Organization', key: 'organization', sortable: true, slot: true, namedSlot: true },
+        { title: 'Product User', key: 'productUser', sortable: true, slot: true, namedSlot: true },
+        { title: 'Logged By', key: 'loggedBy', sortable: true, slot: true, namedSlot: true },
+        { title: 'Start Date', key: 'startDate', sortable: true, namedSlot: true },
+        { title: 'End Date', key: 'endDate', sortable: false, namedSlot: true },
+        { title: '', key: 'rowAction', slot: true, sortable: false, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
@@ -105,7 +105,7 @@ export default {
           @get-set-items="getSetItems"
           v-model:selectedItems="selected"
         />
-        <IFXButton btnType="add" small @action="navigateToItemCreate" />
+        <IFXButton btnType="add" size="small" @action="navigateToItemCreate" />
       </template>
     </IFXPageHeader>
     <IFXItemDataTable
@@ -143,9 +143,9 @@ export default {
       <template #rowAction="{ item }">
         <span class="my-2 d-flex flex-row">
           <IFXTooltip
-            top
+            location="top"
             icon="mdi-trash-can-outline"
-            x-small
+            x-size="small"
             color="error"
             data-cy="delete-usage"
             @action="handleDelete(item)"

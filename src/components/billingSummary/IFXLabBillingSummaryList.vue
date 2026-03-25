@@ -149,6 +149,8 @@ export default {
             v-model="onlyShowSuspiciousRows"
             label="Only labs with gaps"
             data-cy="suspicious-labs"
+            color="primary"
+            hide-details
           ></v-switch>
         </span>
       </template>

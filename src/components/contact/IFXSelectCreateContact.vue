@@ -159,14 +159,14 @@ export default {
         >
           <template v-slot:selection="{ item }">
             <v-chip size="small" color="primary">
-              <v-icon start size="small">{{ getContactIcon(item.raw) }}</v-icon>
-              {{ item.raw.detail }}
+              <v-icon start size="small">{{ getContactIcon(item) }}</v-icon>
+              {{ item.detail }}
             </v-chip>
           </template>
           <template v-slot:item="{ item, props }">
-            <v-list-item v-bind="props" :title="item.raw.detail" :subtitle="item.raw.type">
+            <v-list-item v-bind="props" :title="item.detail" :subtitle="item.type">
               <template v-slot:prepend>
-                <v-icon>{{ getContactIcon(item.raw) }}</v-icon>
+                <v-icon>{{ getContactIcon(item) }}</v-icon>
               </template>
             </v-list-item>
           </template>

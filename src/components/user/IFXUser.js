@@ -1,6 +1,14 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
 export class UserFile extends IFXItemBase {
+  get id() {
+    return this.data.id
+  }
+
+  set id(id) {
+    this.data.id = id
+  }
+
   get file() {
     return this.data.file
   }

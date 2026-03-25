@@ -22,12 +22,12 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'Name', value: 'name', sortable: true },
-        { text: 'Description', value: 'description', sortable: true, namedSlot: true },
-        { text: 'Price', value: 'decimalPrice', sortable: true, namedSlot: true },
-        { text: 'Units', value: 'units', sortable: true, slot: true },
-        { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
-        { text: 'Active', value: 'active', sortable: true, namedSlot: true },
+        { title: 'Name', key: 'name', sortable: true },
+        { title: 'Description', key: 'description', sortable: true, namedSlot: true },
+        { title: 'Price', key: 'decimalPrice', sortable: true, namedSlot: true },
+        { title: 'Units', key: 'units', sortable: true, slot: true },
+        { title: 'Max Quantity', key: 'maxQty', sortable: false, namedSlot: true },
+        { title: 'Active', key: 'active', sortable: true, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
@@ -114,6 +114,7 @@ export default {
               v-model="showDeactivatedRates"
               label="Show deactivated rates"
               data-cy="show-deactivated-rates"
+              hide-details
             ></v-checkbox>
           </div>
           <IFXItemDataTable
@@ -125,13 +126,13 @@ export default {
             :showSelect="false"
           >
             <template #active="{ item }">
-              <v-tooltip v-if="item.active" top>
+              <v-tooltip v-if="item.active" location="top">
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon v-on="on" v-bind="attrs" color="#fcbd01">lightbulb</v-icon>
                 </template>
                 <span>Active rate</span>
               </v-tooltip>
-              <v-tooltip v-else top>
+              <v-tooltip v-else location="top">
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon v-on="on" v-bind="attrs" color="#ccc">lightbulb</v-icon>
                 </template>
@@ -142,7 +143,7 @@ export default {
               <span v-if="item.description">
                 {{ item.description }}
               </span>
-              <span v-else class="grey--text">None</span>
+              <span v-else class="text-grey">None</span>
             </template>
             <template #maxQty="{ item }">
               {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}

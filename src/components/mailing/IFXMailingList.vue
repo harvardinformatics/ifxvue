@@ -47,7 +47,7 @@ export default {
       if (item.bccstr) {
         params.bcc = item.bccstr
       }
-      this.$router.push({ name: 'MailingCompose', params: params })
+      this.$router.push({ name: 'MailingCompose', state: params })
     }
   }
 }

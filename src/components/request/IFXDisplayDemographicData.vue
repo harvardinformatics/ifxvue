@@ -1,75 +1,80 @@
 <script>
 export default {
   name: 'IFXDisplayDemographicData',
-  props: ['data'],
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    }
+  },
 }
 </script>
 <template>
-  <v-layout column>
-    <v-flex>
-      <v-layout column>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+  <v-row class="flex-column" v-if="data">
+    <v-col>
+      <v-row class="flex-column">
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Scholar Type
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.scholar_type }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Race
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.race }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Ethnicity
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.ethnicity }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Gender
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.gender }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Disability
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.disability }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Citizenship
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.citizenship }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 <style scoped></style>

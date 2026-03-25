@@ -643,7 +643,7 @@ export default {
       const orgSlugs = orgs.map((item) => item.account.organization)
       this.$router.push({
         name: 'MailingCompose',
-        params: {
+        state: {
           labManagerOrgSlugs: [...new Set(orgSlugs)],
           message: null,
           subject: null,
@@ -850,7 +850,7 @@ export default {
                       v-model="recipientField"
                       :disabled="!filteredItems.length"
                       toolTip="Notify Lab Managers"
-                      @input="defaultNotifyLabManagers()"
+                      @update:model-value="defaultNotifyLabManagers()"
                     ></IFXMailButton>
                     <v-tooltip location="top" v-else>
                       <template v-slot:activator="{ props }">
@@ -1024,7 +1024,7 @@ export default {
                               >
                                 <IFXButton
                                   :disabled="isLoading"
-                                  small
+                                  size="small"
                                   class="download-btn"
                                   btnType="download"
                                 ></IFXButton>
@@ -1184,7 +1184,7 @@ export default {
                         :value="item.value"
                         hide-details
                         :indeterminate="rowSelectionToggleIndeterminate[item.value]"
-                        @update:model-value="() => toggleGroup(item.value)"
+                        @update="() => toggleGroup(item.value)"
                       ></v-checkbox>
                     </v-col>
                     <v-col cols="auto">

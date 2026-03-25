@@ -37,4 +37,16 @@ export default class Subscription extends IFXItemBase {
   set subscriptionId(subscription_id) {
     this.data.subscription_id = subscription_id
   }
+
+  get subscribed() {
+    return this.data.subscribed
+  }
+
+  set subscribed(subscribed) {
+    this.data.subscribed = subscribed
+  }
+
+  get isMandatory() {
+    return this.data.is_mandatory
+  }
 }

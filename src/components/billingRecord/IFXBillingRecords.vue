@@ -192,6 +192,7 @@ export default {
             <v-tab>Summary by Account</v-tab>
             <v-tab>Summary by User</v-tab>
             <v-tab>Summary by Product Rate</v-tab>
+            <v-tab>Summary by Product</v-tab>
           </v-tabs>
           <v-window v-model="currentTabs[i]">
             <v-window-item>
@@ -263,6 +264,27 @@ export default {
                 :headers="[
                   { title: 'Product', key: 'productName', sortable: true },
                   { title: 'Rate', key: 'rateName', sortable: true },
+                  {
+                    title: 'Charges',
+                    key: 'totalDecimalCharge',
+                    sortable: true,
+                    namedSlot: true,
+                    width: '20rem',
+                    align: 'end',
+                  },
+                ]"
+              />
+            </v-window-item>
+            <v-window-item>
+              <IFXGenericBillingSummaryList
+                :facility="facility"
+                :month="getMonth()"
+                :year="getYear()"
+                itemType="genericBillingSummary"
+                apiString="productBillingSummary"
+                :extraParams="{ facility: facility.name }"
+                :headers="[
+                  { title: 'Product', key: 'productName', sortable: true },
                   {
                     title: 'Charges',
                     key: 'totalDecimalCharge',

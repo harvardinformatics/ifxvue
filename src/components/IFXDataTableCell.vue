@@ -103,7 +103,7 @@ export default {
   <span v-else-if="name === 'rowActionEdit'">
     <IFXButton
       btnType="edit"
-      small
+      size="x-small"
       data-cy="navigate-to-edit"
       @action="$router.push(getEditRoute(type, item.id))"
     />
@@ -111,7 +111,7 @@ export default {
   <span v-else-if="name === 'rowActionDetailEdit'">
     <IFXButton
       btnType="edit"
-      small
+      size="x-small"
       data-cy="navigate-to-detail"
       @action="$router.push(getDetailRoute(type, item.id))"
     />
@@ -119,7 +119,7 @@ export default {
   <span v-else-if="name === 'rowActionCopy'">
     <IFXButton
       btnType="copy"
-      small
+      size="x-small"
       data-cy="navigate-to-copy"
       @action="navigateToCopy(type, item)"
     />

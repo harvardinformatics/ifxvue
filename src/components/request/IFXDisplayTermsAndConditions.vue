@@ -5,10 +5,10 @@ export default {
 }
 </script>
 <template>
-  <v-layout column>
-    <v-flex>
+  <v-row class="flex-column">
+    <v-col>
       {{ data }}
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 <style scoped></style>

@@ -1,69 +1,78 @@
 <script>
 export default {
   name: 'IFXDisplayAddressList',
-  props: ['data'],
+  props: [
+    'data'
+  ]
 }
 </script>
 <template>
-  <v-layout column>
-    <v-flex>
-      <v-layout row v-for="address in data" :key="address.type">
-        <v-flex>
-          <v-layout column>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
+  <v-row>
+    <v-col cols="12">
+      &nbsp;
+    </v-col>
+  </v-row>
+  <v-row class="flex-column">
+    <v-col>
+      <v-row v-for="address in data" :key="address.type" density="compact">
+        <v-col>
+          <v-row class="flex-column" density="compact">
+            <v-col>
+              <v-row density="compact">
+                <v-col cols="4">
                   Street address
-                </v-flex>
-                <v-flex>
-                  {{ address.street1 }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
+                </v-col>
+                <v-col>
+                  {{address.street1}}
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col>
+              <v-row density="compact">
+                <v-col cols="4">
                   City
-                </v-flex>
-                <v-flex>
-                  {{ address.city }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
+                </v-col>
+                <v-col>
+                  {{address.city}}
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col>
+              <v-row density="compact">
+                <v-col cols="4">
                   State
-                </v-flex>
-                <v-flex>
-                  {{ address.state }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
+                </v-col>
+                <v-col>
+                  {{address.state}}
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col>
+              <v-row density="compact">
+                <v-col cols="4">
                   Country
-                </v-flex>
-                <v-flex>
-                  {{ address.country }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex>
-              <v-layout row>
-                <v-flex xs4>
+                </v-col>
+                <v-col>
+                  {{address.country}}
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col>
+              <v-row density="compact">
+                <v-col cols="4">
                   Postal code
-                </v-flex>
-                <v-flex>
-                  {{ address.postal_code }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+                </v-col>
+                <v-col>
+                  {{address.postal_code}}
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
-<style scoped></style>
+<style scoped>
+
+</style>

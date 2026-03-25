@@ -855,7 +855,7 @@ export default {
                       v-model="recipientField"
                       :disabled="!filteredItems.length"
                       toolTip="Notify Lab Managers"
-                      @input="defaultNotifyLabManagers()"
+                      @update:model-value="defaultNotifyLabManagers()"
                     ></IFXMailButton>
                     <v-tooltip location="top" v-else>
                       <template v-slot:activator="{ props }">
@@ -1022,7 +1022,7 @@ export default {
                               >
                                 <IFXButton
                                   :disabled="isLoading"
-                                  small
+                                  size="small"
                                   class="download-btn"
                                   btnType="download"
                                 ></IFXButton>
@@ -1198,7 +1198,7 @@ export default {
               <div class="d-flex flex-row">
                 <IFXButton
                   v-if="allowAddingTransactions(item)"
-                  iconString="add"
+                  iconString="mdi-plus"
                   btnType="add"
                   xSmall
                   @action="openTxnDialog(item)"

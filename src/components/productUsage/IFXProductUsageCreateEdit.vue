@@ -174,7 +174,7 @@ export default {
             <v-autocomplete
               v-model="item.product"
               :items="filteredProducts"
-              item-text="productName"
+              item-title="productName"
               label="Product"
               :rules="formRules.generic"
               data-cy="product"
@@ -192,7 +192,7 @@ export default {
             <v-autocomplete
               v-model="item.organization"
               :items="allOrganizations"
-              item-text="name"
+              item-title="name"
               item-value="slug"
               label="Organization"
               :rules="formRules.generic"
@@ -211,7 +211,7 @@ export default {
             <v-autocomplete
               v-model="item.productUser"
               :items="allUsers"
-              item-text="fullName"
+              item-title="fullName"
               item-value="fullName"
               label="Product User"
               :rules="formRules.generic"
@@ -229,7 +229,7 @@ export default {
             <v-autocomplete
               v-model="item.loggedBy"
               :items="allUsers"
-              item-text="fullName"
+              item-title="fullName"
               item-value="fullName"
               label="Logged By"
               :rules="formRules.generic"
@@ -249,7 +249,7 @@ export default {
             <v-text-field
               ref="startDate"
               class="startDate required"
-              :value="humanStartDate"
+              :model-value="humanStartDate"
               @change="updateDate($event, 'startDate')"
               label="Start Date and Time"
               prepend-icon="mdi-calendar"
@@ -302,7 +302,7 @@ export default {
           <v-col>
             <v-text-field
               ref="endDate"
-              :value="humanEndDate"
+              :model-value="humanEndDate"
               @change="updateDate($event, 'endDate')"
               label="End Date and Time"
               prepend-icon="mdi-calendar"

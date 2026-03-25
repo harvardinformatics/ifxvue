@@ -3,106 +3,136 @@
 import DisplayAddressList from './IFXDisplayAddressList'
 import DisplayContactList from './IFXDisplayContactList'
 import DisplayHarvardKey from './IFXDisplayHarvardKey'
-import DisplayDemographicData from './IFXDisplayDemographicData'
-import DisplayMOU from './IFXDisplayMOU'
-import DisplayProject from './IFXDisplayProject'
-import DisplayPO from './IFXDisplayPO'
 import DisplayLabInfo from './IFXDisplayLabInfo'
 import DisplayScientificArea from './IFXDisplayScientificArea'
-import DisplayExpenseCode from './IFXDisplayExpenseCode'
-import DisplayTermsAndConditions from './IFXDisplayTermsAndConditions'
+import DisplayMOU from './IFXDisplayMOU'
 import DisplayAffiliations from './IFXDisplayAffiliations'
-import DisplayEnteredAffiliation from './IFXDisplayEnteredAffiliation'
-import DisplaySimpleText from './IFXDisplaySimpleText'
+import DisplayPO from './IFXDisplayPO'
+import DisplayTermsAndConditions from './IFXDisplayTermsAndConditions'
+import DisplayProject from './IFXDisplayProject'
+import DisplayExpenseCode from './IFXDisplayExpenseCode'
+import DisplayDemographicData from './IFXDisplayDemographicData'
 
 export default {
   name: 'IFXAccountRequestTrackDetail',
   props: {
     accountRequestData: Object,
-    accountRequest: Object, // Sorry about having to pass this in, but it's needed for the updateAccountRequest call
     track: String,
     trackTitle: String,
-    organizations: Array,
+    organizations: {
+      type: Array,
+      required: false,
+      default: [],
+    },
+  },
+  data() {
+    return {
+      labInfoKey: 0,
+      poDataKey: 0,
+      mouDataKey: 0,
+    }
   },
   components: {
     DisplayAddressList,
     DisplayContactList,
     DisplayHarvardKey,
-    DisplayDemographicData,
-    DisplayMOU,
-    DisplayPO,
-    DisplayProject,
     DisplayLabInfo,
     DisplayScientificArea,
-    DisplayExpenseCode,
-    DisplayTermsAndConditions,
+    DisplayMOU,
     DisplayAffiliations,
-    DisplayEnteredAffiliation,
-    DisplaySimpleText,
-  },
-  data() {
-    return {
-      localData: this.accountRequestData,
-      localAccountRequest: this.accountRequest,
-    }
+    DisplayPO,
+    DisplayTermsAndConditions,
+    DisplayProject,
+    DisplayExpenseCode,
+    DisplayDemographicData,
   },
   methods: {
-    updateData() {
-      if (this.localAccountRequest.onBoardRequest) {
-        this.localAccountRequest.onBoardRequest.data = this.localData
-        this.$requestApi.updateAccountRequest(this.localAccountRequest)
-      }
-    },
+    handleChange(){
+      this.$emit('change', this.accountRequestData)
+    }
+  },
+  mounted() {
+    this.labInfoKey += 1
+    this.poDataKey += 1
+    this.mouDataKey += 1
   },
 }
 </script>
 <template>
-  <v-container v-if="accountRequestData && organizations">
-    <v-layout column>
-      <v-flex>
-        <span class="title">{{ trackTitle }}</span>
-      </v-flex>
-      <v-flex v-for="field in accountRequestData.tracks[track].fields.order" :key="field">
-        <v-layout row wrap v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)" justify-start>
-          <v-flex class="field-label" xs12 md3 v-if="accountRequestData.tracks[track].fields[field].display_name">
-            {{ accountRequestData.tracks[track].fields[field].display_name }}
-          </v-flex>
-          <v-flex class="field-label" xs12 md3 v-else>
-            {{ field }}
-          </v-flex>
-          <v-flex xs12 md9 v-if="accountRequestData.tracks[track].fields[field].display_component">
-            <component
-              v-if="['harvard_key', 'project', 'scientific_area', 'expense_code', 'terms_and_conditions', 'nnin_admin_username'].includes(field)"
-              :is="accountRequestData.tracks[track].fields[field].display_component"
-              :data="accountRequestData[field]"
-            ></component>
-            <component
-              v-else-if="['lab_info', 'entered_affiliation'].includes(field)"
-              :is="accountRequestData.tracks[track].fields[field].display_component"
-              v-model="localData"
+  <v-container v-if="accountRequestData" >
+    <v-row class="flex-column">
+      <v-col cols="12">
+        <span class="text-body-1 font-weight-bold">{{trackTitle}}</span>
+      </v-col>
+      <v-col cols="12" class="py-1" v-for="field in accountRequestData.tracks[track].fields.order" :key="field">
+        <v-row density="compact" v-if="accountRequestData.tracks[track].fields[field]" justify-start>
+          <v-col class="field-label" cols="2" v-if="accountRequestData.tracks[track].fields[field].display_name">
+            {{accountRequestData.tracks[track].fields[field].display_name}}
+          </v-col>
+          <v-col class="field-label" cols="2" v-else>
+            {{field}}
+          </v-col>
+          <v-col cols="10" v-if="accountRequestData.tracks[track].fields[field].display_component">
+            <DisplayHarvardKey v-if="field == 'harvard_key'"
+              :data="accountRequestData[field]">
+            </DisplayHarvardKey>
+            <DisplayLabInfo v-else-if="field == 'lab_info'"
+              :value="accountRequestData[field]"
               :organizations="organizations"
-              @change="updateData()"
-            ></component>
-            <component
-              v-else-if="['demographic_data', 'primary_affiliation'].includes(field)"
+              :key="labInfoKey"
+              @change="handleChange()"
+            >
+            </DisplayLabInfo>
+            <DisplayScientificArea v-else-if="field == 'scientific_area'"
+              :data="accountRequestData[field]"
+            >
+            </DisplayScientificArea>
+            <DisplayExpenseCode v-else-if="field == 'expense_code'"
+              :data="accountRequestData[field]"
+            >
+            </DisplayExpenseCode>
+            <DisplayTermsAndConditions v-else-if="field == 'terms_and_conditions'"
+              :data="accountRequestData[field]"
+            >
+            </DisplayTermsAndConditions>
+            <DisplayProject v-else-if="field == 'project'"
+              :data="accountRequestData[field]"
+            >
+            </DisplayProject>
+            <DisplayDemographicData v-else-if="field == 'demographic_data'"
+              :data="accountRequestData['person']"
+            >
+            </DisplayDemographicData>
+            <component v-else
               :is="accountRequestData.tracks[track].fields[field].display_component"
-              :data="accountRequestData.person"
-            ></component>
-            <component
-              v-else
-              :is="accountRequestData.tracks[track].fields[field].display_component"
-              :data="accountRequestData.person[field]"
-            ></component>
-          </v-flex>
-          <v-flex v-else>{{ accountRequestData.person[field] }}</v-flex>
-          <v-flex></v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
+              :data="accountRequestData.person[field]">
+            </component>
+          </v-col>
+          <v-col cols="10" v-else-if="field == 'po'">
+            <DisplayPO
+              :data="accountRequestData.request_files"
+              :key="poDataKey"
+            >
+            </DisplayPO>
+          </v-col>
+          <v-col cols="10" v-else-if="field == 'mou'">
+            <DisplayMOU
+              :data="accountRequestData.request_files"
+              :key="mouDataKey"
+            >
+            </DisplayMOU>
+          </v-col>
+          <v-col cols="10" v-else>
+            <span v-if="accountRequestData.person[field]">{{accountRequestData.person[field]}}</span>
+            <span v-else>{{accountRequestData[field]}}</span>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <style scoped>
-.field-label {
-  font-weight: bold;
-}
+  .field-label {
+    font-weight: bold;
+  }
 </style>

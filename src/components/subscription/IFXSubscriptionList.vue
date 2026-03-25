@@ -24,11 +24,7 @@ export default {
       return this.apiRef
         .getList()
         .then((res) => {
-          const items = res.map((item) => {
-            item.subscribed = !!item.subscriptionId
-            return item
-          })
-          this.items = items
+          this.items = res
         })
         .catch((error) => {
           this.showMessage(error)
@@ -37,7 +33,7 @@ export default {
     },
     subscribeToChannel(item) {
       this.$api.subscription
-        .subscribeToChannel(this.currentUserRecord.id, item.channelId)
+        .subscribeToChannel(item.subscriptionId)
         .then(() => {
           this.showMessage(`Subscribed to channel ${item.channelTitle}`)
         })
@@ -66,20 +62,26 @@ export default {
       this.key += 1
     },
     toggleSubscription(item) {
-      if (item.subscriptionId) {
+      if (!item.subscribed) {
         this.unsubscribeFromChannel(item)
       } else {
         this.subscribeToChannel(item)
       }
     },
+    canChangeSubscription(item) {
+      if (item.isMandatory) {
+        return false
+      }
+      return true
+    }
   },
   computed: {
     headers() {
       const headers = [
-        { text: 'Channel ID', value: 'channelId', sortable: true },
-        { text: 'Title', value: 'channelTitle', sortable: true },
-        { text: 'Organization', value: 'organizationName', sortable: true },
-        { text: 'Subscribed', value: 'actions', sortable: false, namedSlot: true },
+        { title: 'Channel ID', key: 'channelId', sortable: true },
+        { title: 'Title', key: 'channelTitle', sortable: true },
+        { title: 'Organization', key: 'organizationName', sortable: true },
+        { title: 'Subscribed', key: 'actions', sortable: false, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
@@ -96,7 +98,7 @@ export default {
     <IFXPageHeader>
       <template #title>Channel Subscriptions</template>
       <template #actions>
-        <IFXSearchField :search.sync="search" />
+        <IFXSearchField v-model:search="search" />
       </template>
     </IFXPageHeader>
     <v-container>
@@ -115,6 +117,9 @@ export default {
             v-model="item.subscribed"
             data-cy="toggle-subscription"
             @change="toggleSubscription(item)"
+            :disabled="!canChangeSubscription(item)"
+            color="primary"
+            hide-details
           ></v-switch>
         </template>
       </IFXItemDataTable>

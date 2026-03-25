@@ -1,65 +1,70 @@
 <script>
 export default {
   name: 'IFXDisplayScientificArea',
-  props: ['data'],
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
 }
 </script>
 <template>
-  <v-layout column>
-    <v-flex>
-      <v-layout column>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+  <v-row class="flex-column" v-if="data">
+    <v-col>
+      <v-row class="flex-column">
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Application Type
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.application_type }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Technical Field
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.technical_field }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Technical Category
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.technical_category }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Funding Source
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.funding_source }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex xs4>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="4">
               Use Type
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
               {{ data.use_type }}
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 <style scoped></style>

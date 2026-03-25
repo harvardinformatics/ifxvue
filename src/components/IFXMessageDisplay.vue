@@ -77,7 +77,7 @@ export default {
   >
     {{message}}
     <template #actions>
-      <IFXButton btnType='close' small @action="deactivateMessage"/>
+      <IFXButton btnType='close' size="small" @action="deactivateMessage"/>
     </template>
   </v-snackbar>
 </template>

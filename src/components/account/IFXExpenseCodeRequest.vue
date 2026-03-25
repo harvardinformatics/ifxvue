@@ -135,7 +135,7 @@ export default {
           item-value="detail"
           v-model:search-input="search"
           @change="clearSearch"
-          :label="label | capitalizeFirstLetter"
+          :label="$capitalizeFirstLetter(label)"
           chips
           clearable
           multiple

@@ -82,7 +82,7 @@ export default {
         </v-col>
         <v-col>
           <span v-if="item.endDate">{{ $humanDatetime(item.endDate) }}</span>
-          <span v-else class="grey--text text--darken-1">None</span>
+          <span v-else class="text-grey text-darken-1">None</span>
         </v-col>
       </v-row>
       <v-row justify="start" align="center" dense>

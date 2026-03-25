@@ -96,13 +96,13 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: 'Name', value: 'name', sortable: true },
-        { text: 'Description', value: 'description', sortable: true, namedSlot: true },
-        { text: 'Price', value: 'decimalPrice', sortable: true, namedSlot: true },
-        { text: 'Units', value: 'units', sortable: true, slot: true },
-        { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
-        { text: 'Active', value: 'active', sortable: true, namedSlot: true },
-        { text: '', value: 'actions', namedSlot: true, sortable: false },
+        { title: 'Name', key: 'name', sortable: true },
+        { title: 'Description', key: 'description', sortable: true, namedSlot: true },
+        { title: 'Price', key: 'decimalPrice', sortable: true, namedSlot: true },
+        { title: 'Units', key: 'units', sortable: true, slot: true },
+        { title: 'Max Quantity', key: 'maxQty', sortable: false, namedSlot: true },
+        { title: 'Active', key: 'active', sortable: true, namedSlot: true },
+        { title: '', key: 'actions', namedSlot: true, sortable: false },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
@@ -153,7 +153,7 @@ export default {
               :rules="formRules.generic"
               :error-messages="errors.facility"
               :items="allFacilities"
-              item-text="name"
+              item-title="name"
               item-value="name"
               required
               @focus="clearError('facility')"
@@ -161,7 +161,7 @@ export default {
             ></v-select>
           </v-col>
           <v-col>
-            <v-checkbox class="mt-0 pt-0" v-model="item.billable" label="Billable" data-cy="billable"></v-checkbox>
+            <v-checkbox class="mt-0 pt-0" v-model="item.billable" label="Billable" data-cy="billable" hide-details></v-checkbox>
           </v-col>
         </v-row>
         <v-row>
@@ -287,7 +287,7 @@ export default {
                         persistent-hint
                       ></v-text-field>
                     </v-col>
-                    <v-col class="grey--text">
+                    <v-col class="text-grey">
                       <span v-if="item.active">Active</span>
                       <span v-else>Not active</span>
                     </v-col>
@@ -302,6 +302,7 @@ export default {
                   v-model="showDeactivatedRates"
                   label="Show deactivated rates"
                   data-cy="show-deactivated-rates"
+                  hide-details
                 ></v-checkbox>
               </v-col>
             </v-row>
@@ -318,6 +319,8 @@ export default {
                   v-model="item.active"
                   label="Active"
                   data-cy="rate-active-toggle"
+                  color="primary"
+                  hide-details
                 ></v-switch>
                 <span v-else>Deactivated</span>
               </template>
@@ -328,7 +331,7 @@ export default {
                 <span v-if="item.description">
                   {{ item.description }}
                 </span>
-                <span v-else class="grey--text">None</span>
+                <span v-else class="text-grey">None</span>
               </template>
               <template #decimalPrice="{ item }">
                 {{ currencyFormatter.format(item.decimalPrice) }}
@@ -337,7 +340,7 @@ export default {
                 <IFXButton
                   v-if="item.active && canUpdateRate()"
                   btnType="other"
-                  x-small
+                  x-size="small"
                   data-cy="update-rate"
                   btnText="Update"
                   @action="updateRate(item)"

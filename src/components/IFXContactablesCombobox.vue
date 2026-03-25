@@ -20,21 +20,23 @@
       no-data-text="No new results match that query."
       :class="{'required': required}"
       return-object
+      :loading="loading"
     >
       <!-- Display the icons in different colors, based on their contactable type -->
       <template v-slot:item="{ props, item }">
+        <v-icon v-if="item.icon" :color="item.color">{{item.icon}}</v-icon>
         <v-list-item v-bind="props">
           <template v-slot:prepend>
-            <v-icon :color="item.raw.color">{{ item.raw.icon }}</v-icon>
+            <v-icon v-if="item.icon" :color="item.color">{{ item.icon }}</v-icon>
           </template>
         </v-list-item>
       </template>
       <template v-slot:chip="{ props, item }">
         <v-chip v-bind="props" closable>
           <template v-slot:prepend>
-            <v-icon :color="item.raw.color">{{ item.raw.icon }}</v-icon>
+            <v-icon v-if="item.icon" :color="item.color">{{ item.icon }}</v-icon>
           </template>
-          {{ item.raw.label }}
+          {{ getItemText(item) }}
         </v-chip>
       </template>
     </v-combobox>
@@ -75,6 +77,11 @@ export default {
     modelValue: {
       type: Array,
       required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -88,7 +95,7 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     getItemText(item) {
-      return item.text
+      return item.hasOwnProperty('text') ? item.text : item
     },
     getItemValue(item) {
       return item

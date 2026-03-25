@@ -21,7 +21,10 @@ import { ReportRun, Report } from '@/components/report/IFXReport'
 import AccountBillingSummary from '@/components/billingSummary/IFXAccountBillingSummary'
 import UserBillingSummary from '@/components/billingSummary/IFXUserBillingSummary'
 import ProductRateBillingSummary from '@/components/billingSummary/IFXProductRateBillingSummary'
+import ProductBillingSummary from '@/components/billingSummary/IFXProductBillingSummary'
 import Subscription from '@/components/subscription/IFXSubscription'
+import IFXLogChannel from '@/components/channel/IFXLogChannel'
+import IFXLogSubscription from '@/components/channel/IFXLogSubscription'
 
 function isNumeric(val) {
   return !Number.isNaN(parseFloat(val)) && Number.isFinite(val)
@@ -174,14 +177,10 @@ export default class IFXAPIService {
       isStaff: this.authUser ? this.authUser.isStaff : false,
       // Returns the record for the user that is currently authenticated
       getCurrentUserRecord: async () => {
-        const username = this.authUser.username
-        const users = await this.user.getList({ username })
+        const user = await this.user.getByID(this.authUser.id)
         // TODO switch from console errors to returned errors
-        if (users.length > 1) {
-          console.error('Cannot have more than one returned user')
-        }
-        if (users.length && users.length >= 1) {
-          return users[0]
+        if (user) {
+          return user
         }
         console.error('No user found')
         return null
@@ -291,7 +290,29 @@ export default class IFXAPIService {
   }
 
   get userFile() {
-    return this.genericAPI(null, UserFile)
+    const baseURL = this.urls.USER_FILES
+    const api = this.genericAPI(baseURL, UserFile)
+    api.getUserCategoriesList = async () => {
+      const url = this.urls.USER_FILE_CATEGORIES
+      return this.axios.get(url).then((res) => res.data)
+    }
+    api.uploadUserFile = (userFileData) => {
+      const formdata = new FormData()
+      formdata.append('user', userFileData.user)
+      formdata.append('file', userFileData.file)
+      formdata.append('category', userFileData.category)
+      if (userFileData?.id) {
+        const userFileUrl = `${baseURL}${userFileData.id}/`
+        return this.axios.put(userFileUrl, formdata, {
+          'Content-Type': 'multipart/form-data',
+        })
+      }
+      return this.axios.post(baseURL, formdata, {
+        'Content-Type': 'multipart/form-data',
+      })
+    }
+    api.save = async (userFile) => api.uploadUserFile(userFile)
+    return api
   }
 
   get user() {
@@ -783,6 +804,33 @@ export default class IFXAPIService {
     return this.genericAPI(baseURL, IFXMessage)
   }
 
+  get logChannel() {
+    const baseURL = this.urls.LOG_CHANNELS
+    const api = this.genericAPI(baseURL, IFXLogChannel)
+    api.getSubscriberEmails = async (channelIds) => {
+      const url = this.urls.GET_SUBSCRIBER_EMAILS
+      return this.axios.post(
+        url,
+        { channel_ids: channelIds }
+      ).then((res) => res.data)
+    }
+    return api
+  }
+
+  get logSubscription() {
+    const baseURL = this.urls.LOG_SUBSCRIPTIONS
+    const createFunc = (logSubscriptionData, decompose = false) => {
+      const newLogSubscriptionData = cloneDeep(logSubscriptionData) || {}
+      if (logSubscriptionData.user) {
+        newLogSubscriptionData.user = decompose
+          ? logSubscriptionData.user.data
+          : this.skinnyUser.create(logSubscriptionData.user)
+      }
+      return decompose ? newLogSubscriptionData : new IFXLogSubscription(newLogSubscriptionData)
+    }
+    return this.genericAPI(baseURL, null, createFunc, (data) => createFunc(data, true))
+  }
+
   get account() {
     const baseURL = this.urls.ACCOUNTS
     const createFunc = (accountData, decompose = false) => {
@@ -968,7 +1016,6 @@ export default class IFXAPIService {
     }
     api.isFacilityWithDates = (facility_name) => {
       const result = ['Center for Brain Science Neuroimaging'].includes(facility_name)
-      console.log(`result of date check is ${result}`)
       return result
     }
     return api
@@ -1054,25 +1101,16 @@ export default class IFXAPIService {
 
   get subscription() {
     const baseURL = this.urls.CHANNEL_SUBSCRIPTION_LIST
-    const createFunc = (data, decompose = false) => {
-      const newData = cloneDeep(data) || {}
-      // If decomposing, do not create a new object
-      return decompose ? newData : new Subscription(newData)
-    }
+    const createFunc = (data, decompose = false) => (decompose ? data : new Subscription(data))
     const decomposeFunc = (newData) => createFunc(newData, true)
     const api = this.genericAPI(baseURL, Subscription, createFunc, decomposeFunc)
-    api.subscribeToChannel = (userId, channelId) => {
-      const url = this.urls.CHANNEL_SUBSCRIPTIONS
-      const data = {
-        channel: { id: channelId },
-        user: { id: userId },
-        send_email: true,
-      }
-      return this.axios.post(url, data, { headers: { 'Content-Type': 'application/json' } })
+    api.subscribeToChannel = (subscriptionId) => {
+      const url = `${this.urls.CHANNEL_SUBSCRIPTIONS}${subscriptionId}/`
+      return this.axios.patch(url, { subscribed: true }, { headers: { 'Content-Type': 'application/json' } })
     }
     api.unsubscribeFromChannel = (subscriptionId) => {
       const url = `${this.urls.CHANNEL_SUBSCRIPTIONS}${subscriptionId}/`
-      return this.axios.delete(url, { headers: { 'Content-Type': 'application/json' } })
+      return this.axios.patch(url, { subscribed: false }, { headers: { 'Content-Type': 'application/json' } })
     }
     return api
   }
@@ -1125,7 +1163,7 @@ export default class IFXAPIService {
 
     router.push({
       name: 'MailingCompose',
-      params: {
+      state: {
         labManagerOrgSlugs: organizationSlugs,
         message: message,
         subject: subject,
@@ -1197,6 +1235,19 @@ export default class IFXAPIService {
     }
     const decomposeFunc = (newProductRateBillingSummaryData) => createFunc(newProductRateBillingSummaryData, true)
     return this.genericAPI(baseURL, ProductRateBillingSummary, createFunc, decomposeFunc)
+  }
+
+  get productBillingSummary() {
+    const baseURL = this.urls.GET_SUMMARY_BY_PRODUCT
+    const createFunc = (productBillingSummaryData, decompose = false) => {
+      const newProductBillingSummaryData = cloneDeep(productBillingSummaryData) || {}
+      // If decomposing, do not create a new object
+      return decompose
+        ? newProductBillingSummaryData
+        : new ProductBillingSummary(newProductBillingSummaryData)
+    }
+    const decomposeFunc = (newProductBillingSummaryData) => createFunc(newProductBillingSummaryData, true)
+    return this.genericAPI(baseURL, ProductBillingSummary, createFunc, decomposeFunc)
   }
 
   getLabChargeHistory(facility, startMonth, startYear, endMonth, endYear) {
