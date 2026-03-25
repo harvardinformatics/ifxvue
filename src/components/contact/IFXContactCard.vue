@@ -28,6 +28,7 @@ export default {
     cardClass() {
       return {
         'contact-card': true,
+        'dense': this.dense,
       }
     },
     contactData() {
