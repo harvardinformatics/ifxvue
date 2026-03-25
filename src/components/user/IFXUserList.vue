@@ -121,7 +121,7 @@ export default {
           <v-col cols="auto">
             <IFXSearchField v-model:search="search" />
           </v-col>
-          <v-col cols="auto">
+          <v-col cols="2">
             <v-checkbox label="Include disabled" v-model="includeDisabled" density="compact" hide-details></v-checkbox>
           </v-col>
           <v-col>
