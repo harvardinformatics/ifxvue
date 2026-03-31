@@ -405,6 +405,14 @@ export class User extends IFXItemBase {
     this.data.user_files = userFiles
   }
 
+  get userAliases() {
+    return this.data.user_aliases
+  }
+
+  set userAliases(userAliases) {
+    this.data.user_aliases = userAliases
+  }
+
   hasGroup(group) {
     return this.groups && this.groups.includes(group)
   }
