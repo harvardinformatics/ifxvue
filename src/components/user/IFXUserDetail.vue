@@ -282,7 +282,7 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXUserInfoDialog
       :isActive.sync="changeDialogActive"
       :changeComment.sync="item.changeComment"
@@ -418,7 +418,7 @@ export default {
           <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable" />
         </v-col>
       </v-row>
-      <span>
+      <span v-if="!isLoading">
         <v-divider class="my-2"></v-divider>
         <v-row dense>
           <v-col sm="4" md="3">
@@ -443,7 +443,7 @@ export default {
           </v-col>
         </v-row>
       </span>
-      <span>
+      <span v-if="!isLoading">
         <v-divider class="my-2"></v-divider>
         <v-row dense>
           <v-col sm="3" md="3">
@@ -474,7 +474,7 @@ export default {
         </v-row>
       </span>
       <v-divider class="my-2"></v-divider>
-      <span v-if="showUserFiles">
+      <span v-if="showUserFiles && !isLoading">
         <v-row dense class="">
           <v-col sm="4" md="3">
             <h3>User Files</h3>
@@ -551,7 +551,7 @@ export default {
         </v-row>
         <v-divider class="my-2"></v-divider>
       </span>
-      <v-row dense v-if="areAnyAccountsPresent">
+      <v-row dense v-if="areAnyAccountsPresent && !isLoading">
         <v-col sm="4" md="3">
           <h3>Expense code / PO Authorizations</h3>
           <div>
@@ -590,7 +590,7 @@ export default {
           </span>
         </v-col>
       </v-row>
-      <slot name="additionalItems" :item="item"></slot>
+      <slot v-if="!isLoading" name="additionalItems" :item="item"></slot>
       <IFXPageActionBar
         class="mt-0"
         btnType="submit"
