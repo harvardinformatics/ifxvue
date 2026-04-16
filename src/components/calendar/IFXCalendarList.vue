@@ -228,11 +228,13 @@ export default {
       } else {
         const ids = this.$api.storage.getItem('filteredResources', 'local')?.split(',')
         if (ids?.length) {
-          this.filteredResources = ids.map((id) => this.allResources.find((resource) => resource.id === parseInt(id, 10)))
+          this.filteredResources = ids.map((id) =>
+            this.allResources.find((resource) => resource.id === parseInt(id, 10))
+          )
         }
       }
     },
-    viewDay(event, {date}) {
+    viewDay(event, { date }) {
       this.calModel = date
       this.type = 'day'
       this.setDefaultStartDate(date)
@@ -358,13 +360,11 @@ export default {
     },
     setDefaultStartDate(dateToUse) {
       const dateObject = moment.tz(dateToUse, 'America/New_York')
-      this.pickerDate = dateObject.toISOString().substr(0, 10)
+      this.pickerDate = dateObject.toISOString().substring(0, 10)
       const hasTime = /[\sT]\d{1,2}:\d{2}/.test(dateToUse)
       if (hasTime) {
         this.pickerTime = dateObject.format('HH:mm')
-      }
-      else
-      {
+      } else {
         const nextHour = new Date().getMinutes() < 31 ? 1 : 2
         this.pickerTime = moment.tz('America/New_York').add(nextHour, 'hour').startOf('hour').format('HH:mm')
       }
@@ -374,7 +374,8 @@ export default {
       })
     },
     addValuesFromDatepicker(whichDate, pickerDate, pickerTime) {
-      const dateObject = moment.tz(`${pickerDate}T${pickerTime}:00`, 'America/New_York')
+      const dateOnly = moment(pickerDate).format('YYYY-MM-DD')  // handles ALL three cases
+      const dateObject = moment.tz(`${dateOnly}T${pickerTime}:00`, 'America/New_York')
       const newValue = dateObject.toISOString()
       this.newEvent[whichDate] = newValue
       if (whichDate === 'startDate') {
@@ -807,7 +808,7 @@ export default {
       }
     },
     handleResourceChange(resource) {
-      if (!resource){
+      if (!resource) {
         return
       }
 
@@ -966,7 +967,7 @@ export default {
   setup() {
     const goTo = useGoTo()
     return {
-      goTo
+      goTo,
     }
   },
 }
@@ -997,7 +998,13 @@ export default {
           data-cy="filter-resources"
         >
           <template #selection="{ item }">
-            <v-chip :color="item.color" class="black-text" variant="flat" closable @click:close="removeFromFiltered(item)">
+            <v-chip
+              :color="item.color"
+              class="black-text"
+              variant="flat"
+              closable
+              @click:close="removeFromFiltered(item)"
+            >
               {{ item.name }}
             </v-chip>
           </template>
@@ -1016,9 +1023,23 @@ export default {
       <v-col>
         <v-sheet height="64">
           <v-toolbar flat color="transparent">
-            <v-btn variant="outlined" class="mr-4" color="grey-darken-2" @click="setToday" data-cy="calendar-today">Today</v-btn>
-            <v-btn icon="mdi-chevron-left" size="small" color="grey-darken-2" @click="prev" data-cy="calendar-prev"></v-btn>
-            <v-btn icon="mdi-chevron-right" size="small" color="grey-darken-2" @click="next" data-cy="calendar-next"></v-btn>
+            <v-btn variant="outlined" class="mr-4" color="grey-darken-2" @click="setToday" data-cy="calendar-today">
+              Today
+            </v-btn>
+            <v-btn
+              icon="mdi-chevron-left"
+              size="small"
+              color="grey-darken-2"
+              @click="prev"
+              data-cy="calendar-prev"
+            ></v-btn>
+            <v-btn
+              icon="mdi-chevron-right"
+              size="small"
+              color="grey-darken-2"
+              @click="next"
+              data-cy="calendar-next"
+            ></v-btn>
             <v-toolbar-title v-if="$refs.calendar" class="ml-0">
               {{ $refs.calendar.title }}
             </v-toolbar-title>
@@ -1099,18 +1120,12 @@ export default {
               </template>
               <!-- Interval slot for day/week view time slots -->
               <template v-slot:interval="{ date, time }">
-                <div
-                  @click="handleDayClick(date, time)"
-                  style="height: 100%; width: 100%; cursor: pointer;"
-                ></div>
+                <div @click="handleDayClick(date, time)" style="height: 100%; width: 100%; cursor: pointer"></div>
               </template>
 
               <!-- Day slot for month view -->
               <template v-slot:day="{ date }">
-                <div
-                  @click="handleDayClick(date)"
-                  style="height: 100%; width: 100%; cursor: pointer;"
-                ></div>
+                <div @click="handleDayClick(date)" style="height: 100%; width: 100%; cursor: pointer"></div>
               </template>
               <template v-slot:day-body="{ date, week }">
                 <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY() }"></div>
@@ -1123,7 +1138,14 @@ export default {
                 Reserve an instrument or location
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
-                    <v-btn elevation="0" icon size="x-small" v-bind="props" @click="closeReservation" data-cy="close-reservation-panel">
+                    <v-btn
+                      elevation="0"
+                      icon
+                      size="x-small"
+                      v-bind="props"
+                      @click="closeReservation"
+                      data-cy="close-reservation-panel"
+                    >
                       <v-icon size="x-small" density="compact">mdi-close</v-icon>
                     </v-btn>
                   </template>
@@ -1229,8 +1251,6 @@ export default {
                     :model-value="humanStartDate"
                     @change="updateDate($event.target.value, 'startDate')"
                     label="Start Date and Time *"
-
-
                     prepend-icon="mdi-calendar"
                     required
                     hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
@@ -1240,44 +1260,47 @@ export default {
                     :disabled="cantBeEdited || resourceNotSelected"
                     data-cy="start-date"
                   ></v-text-field>
-                  <v-menu
-                    v-model="startDateMenu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    min-width="580px"
-                    location="start"
-                  >
-                    <div class="d-flex flex-row menu-background">
-                      <div class="d-flex flex-column">
-                        <v-date-picker
-                          v-model="pickerDate"
-                          :min="minDate()"
-                          data-cy="start-date-picker"
-                        ></v-date-picker>
-                        <div class="text-center">
-                          <v-btn variant="text" color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
-                            Cancel
-                          </v-btn>
-                          <v-btn
-                            variant="text"
-                            color="primary"
-                            :disabled="!pickerTime"
-                            @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
-                            data-cy="start-date-ok"
-                          >
-                            OK
-                          </v-btn>
+                  <v-dialog v-model="startDateMenu" persistent width="auto">
+                    <v-card>
+                      <v-card-text class="pa-1">
+                        <div class="d-flex flex-row">
+                          <div class="d-flex flex-column">
+                            <v-date-picker
+                              v-model="pickerDate"
+                              :min="minDate()"
+                              data-cy="start-date-picker"
+                            ></v-date-picker>
+                            <div class="text-center">
+                              <v-btn
+                                variant="text"
+                                color="secondary"
+                                @click="startDateMenu = false"
+                                data-cy="start-date-cancel"
+                              >
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                variant="text"
+                                color="primary"
+                                :disabled="!pickerTime"
+                                @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
+                                data-cy="start-date-ok"
+                              >
+                                OK
+                              </v-btn>
+                            </div>
+                          </div>
+                          <!-- <v-spacer></v-spacer> -->
+                          <v-time-picker
+                            v-model="pickerTime"
+                            format="ampm"
+                            :allowed-minutes="allowedMinutes"
+                            data-cy="start-date-time-picker"
+                          ></v-time-picker>
                         </div>
-                      </div>
-                      <v-spacer></v-spacer>
-                      <v-time-picker
-                        v-model="pickerTime"
-                        format="ampm"
-                        :allowed-minutes="allowedMinutes"
-                        data-cy="start-date-time-picker"
-                      ></v-time-picker>
-                    </div>
-                  </v-menu>
+                      </v-card-text>
+                    </v-card>
+                  </v-dialog>
                   <v-row>
                     <v-col>
                       <v-autocomplete
@@ -1317,12 +1340,49 @@ export default {
                     :disabled="cantBeEdited || resourceNotSelected"
                     data-cy="end-date"
                   ></v-text-field>
-                  <v-menu
+                  <v-dialog v-model="endDateMenu" width="auto" persistent>
+                    <v-card>
+                      <v-card-text class="pa-1">
+                        <div class="d-flex flex-row menu-background">
+                          <div class="d-flex flex-column">
+                            <v-date-picker v-model="pickerDate" :min="minDate()"></v-date-picker>
+                            <div class="text-center">
+                              <v-btn
+                                variant="text"
+                                color="secondary"
+                                @click="endDateMenu = false"
+                                data-cy="end-date-cancel"
+                              >
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                variant="text"
+                                color="primary"
+                                :disabled="!pickerTime"
+                                @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
+                                data-cy="end-date-ok"
+                              >
+                                OK
+                              </v-btn>
+                            </div>
+                          </div>
+                          <!-- <v-spacer></v-spacer> -->
+                          <v-time-picker
+                            v-model="pickerTime"
+                            format="ampm"
+                            :allowed-minutes="allowedMinutes"
+                            data-cy="end-date-time-picker"
+                          ></v-time-picker>
+                        </div>
+                      </v-card-text>
+                    </v-card>
+                  </v-dialog>
+                  <!-- <v-menu
                     v-model="endDateMenu"
                     :close-on-content-click="false"
                     transition="scale-transition"
                     min-width="580px"
-                    location="start"
+                    :activator="endDate"
                   >
                     <div class="d-flex flex-row menu-background">
                       <div class="d-flex flex-column">
@@ -1353,7 +1413,7 @@ export default {
                         data-cy="end-date-time-picker"
                       ></v-time-picker>
                     </div>
-                  </v-menu>
+                  </v-menu> -->
                   <v-autocomplete
                     label="Attendants"
                     :items="skinnyUsers"
@@ -1519,8 +1579,16 @@ export default {
                 </v-form>
               </v-card-text>
               <v-card-actions class="d-flex justify-space-between">
-                <v-btn variant="text" color="secondary" @click="clearReservation" data-cy="reservation-clear">Clear</v-btn>
-                <v-btn variant="text" color="primary" :disabled="!formIsValid" @click="reserveResource" data-cy="reservation-ok">
+                <v-btn variant="text" color="secondary" @click="clearReservation" data-cy="reservation-clear">
+                  Clear
+                </v-btn>
+                <v-btn
+                  variant="text"
+                  color="primary"
+                  :disabled="!formIsValid"
+                  @click="reserveResource"
+                  data-cy="reservation-ok"
+                >
                   Reserve
                 </v-btn>
               </v-card-actions>
@@ -1544,7 +1612,13 @@ export default {
               >
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
-                    <v-btn icon="mdi-pencil" size="small" v-bind="props" @click="editReservation(selectedEvent)" data-cy="popup-edit"></v-btn>
+                    <v-btn
+                      icon="mdi-pencil"
+                      size="small"
+                      v-bind="props"
+                      @click="editReservation(selectedEvent)"
+                      data-cy="popup-edit"
+                    ></v-btn>
                   </template>
                   <span>Edit reservation</span>
                 </v-tooltip>
@@ -1720,15 +1794,14 @@ export default {
 }
 
 .item-event {
-cursor: pointer;
-height: 100%;
-width: 100%;
-text-align: left;
-border: 1px solid #000;
-border-radius: 6px;
-overflow: hidden;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #000;
+  border-radius: 6px;
+  overflow: hidden;
 }
-
 
 .badge-adjust {
   padding: 0;
