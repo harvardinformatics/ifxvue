@@ -103,6 +103,7 @@ export default {
     showErrorMsg: false,
     skinnyUsers: [],
     attendants: [],
+    attendantSearch: "",
     allResources: [],
     reservationOpen: false,
     earliestMonth: null,
@@ -1290,7 +1291,6 @@ export default {
                               </v-btn>
                             </div>
                           </div>
-                          <!-- <v-spacer></v-spacer> -->
                           <v-time-picker
                             v-model="pickerTime"
                             format="ampm"
@@ -1366,7 +1366,6 @@ export default {
                               </v-btn>
                             </div>
                           </div>
-                          <!-- <v-spacer></v-spacer> -->
                           <v-time-picker
                             v-model="pickerTime"
                             format="ampm"
@@ -1377,47 +1376,12 @@ export default {
                       </v-card-text>
                     </v-card>
                   </v-dialog>
-                  <!-- <v-menu
-                    v-model="endDateMenu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    min-width="580px"
-                    :activator="endDate"
-                  >
-                    <div class="d-flex flex-row menu-background">
-                      <div class="d-flex flex-column">
-                        <v-date-picker
-                          v-model="pickerDate"
-                          :min="minDate()"
-                        ></v-date-picker>
-                        <div class="text-center">
-                          <v-btn variant="text" color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">
-                            Cancel
-                          </v-btn>
-                          <v-btn
-                            variant="text"
-                            color="primary"
-                            :disabled="!pickerTime"
-                            @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
-                            data-cy="end-date-ok"
-                          >
-                            OK
-                          </v-btn>
-                        </div>
-                      </div>
-                      <v-spacer></v-spacer>
-                      <v-time-picker
-                        v-model="pickerTime"
-                        format="ampm"
-                        :allowed-minutes="allowedMinutes"
-                        data-cy="end-date-time-picker"
-                      ></v-time-picker>
-                    </div>
-                  </v-menu> -->
                   <v-autocomplete
                     label="Attendants"
                     :items="skinnyUsers"
                     v-model="attendants"
+                    v-model:search="attendantSearch"
+                    @update:modelValue="attendantSearch = ''"
                     item-title="fullName"
                     item-value="id"
                     clearable
