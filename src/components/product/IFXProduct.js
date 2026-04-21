@@ -228,6 +228,14 @@ class Product extends IFXItemBase {
   get text() {
     return this.name
   }
+
+  get isActive() {
+    return this.data.is_active
+  }
+
+  set isActive(is_active) {
+    this.data.is_active = is_active
+  }
 }
 
 export { Product, ProductRate, Processing }

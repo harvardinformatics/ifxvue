@@ -3,6 +3,7 @@ import axios from 'axios'
 import has from 'lodash/has'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
+import pako from 'pako'
 import Contact from '@/components/contact/IFXContact'
 import { UserFile, User, UserContact, UserAccount } from '@/components/user/IFXUser'
 import Address from '@/components/address/IFXAddress'
@@ -37,6 +38,50 @@ function isJSONString(str) {
     return false
   }
   return true
+}
+
+function compressData(data) {
+  try {
+    const jsonString = JSON.stringify(data)
+    const compressed = pako.deflate(jsonString, { level: 6 }) // Level 6 is a good balance of speed and compression
+
+    // Convert Uint8Array to base64 string in chunks to avoid call stack size errors
+    let binary = ''
+    const chunkSize = 8192
+    for (let i = 0; i < compressed.length; i += chunkSize) {
+      const chunk = compressed.subarray(i, i + chunkSize)
+      binary += String.fromCharCode.apply(null, chunk)
+    }
+    const base64 = btoa(binary)
+    return `__COMPRESSED__${base64}`
+  } catch (e) {
+    console.error('Compression failed, storing uncompressed', e)
+    return JSON.stringify(data)
+  }
+}
+
+function decompressData(compressedString) {
+  try {
+    if (typeof compressedString === 'string' && compressedString.startsWith('__COMPRESSED__')) {
+      const base64 = compressedString.substring(14) // Remove '__COMPRESSED__' prefix
+      const binaryString = atob(base64)
+      const len = binaryString.length
+      const compressed = new Uint8Array(len)
+      for (let i = 0; i < len; i++) {
+        compressed[i] = binaryString.charCodeAt(i)
+      }
+      const decompressed = pako.inflate(compressed, { to: 'string' })
+      return JSON.parse(decompressed)
+    }
+    // If not compressed, try to parse as JSON
+    if (isJSONString(compressedString)) {
+      return JSON.parse(compressedString)
+    }
+    return compressedString
+  } catch (e) {
+    console.error('Decompression failed', e)
+    return null
+  }
 }
 
 const CACHE_TIMER = 1000 * 60 * 60 * 4 // 4 hours
@@ -89,10 +134,17 @@ export default class IFXAPIService {
   get storage() {
     const defaultType = 'local'
     return {
-      getItem: (key, type = defaultType) => {
+      getItem: (key, type = defaultType, useCompression = false) => {
         const storage = type === 'session' ? window.sessionStorage : window.localStorage
         const computedKey = `${this.vars.appKey}_${key}`
         const val = storage.getItem(computedKey)
+        if (!val) return null
+
+        // If compression is enabled and the value is compressed, decompress it
+        if (useCompression && val.startsWith('__COMPRESSED__')) {
+          return decompressData(val)
+        }
+
         if (isNumeric(val)) {
           return parseFloat(val)
         }
@@ -101,10 +153,16 @@ export default class IFXAPIService {
         }
         return val
       },
-      setItem: (key, value, type = defaultType) => {
+      setItem: (key, value, type = defaultType, useCompression = false) => {
         const storage = type === 'session' ? window.sessionStorage : window.localStorage
         const computedKey = `${this.vars.appKey}_${key}`
-        storage.setItem(computedKey, JSON.stringify(value))
+
+        // Use compression for cache data
+        if (useCompression) {
+          storage.setItem(computedKey, compressData(value))
+        } else {
+          storage.setItem(computedKey, JSON.stringify(value))
+        }
       },
       removeItem: (key, type = defaultType) => {
         const storage = type === 'session' ? window.sessionStorage : window.localStorage
@@ -253,15 +311,47 @@ export default class IFXAPIService {
   get contact() {
     const baseUrl = this.urls.CONTACTS
     const api = this.genericAPI(baseUrl, Contact)
+
+    // Wrap old update/save/delete methods to clear cache
+    const contactUpdate = api.update
+    const contactSave = api.save
+    const contactDelete = api.delete
+    api.update = async (contact) => {
+      const result = await contactUpdate(contact)
+      this.cache.clear('contact')
+      return result
+    }
+    api.save = async (contact) => {
+      const result = await contactSave(contact)
+      this.cache.clear('contact')
+      return result
+    }
+    api.delete = async (contact) => {
+      const result = await contactDelete(contact)
+      this.cache.clear('contact')
+      return result
+    }
+
     // TODO: this getList method is defined here because the url is different than the baseurl
-    api.getList = async (params) => {
+    api.getList = async (params = {}) => {
       const url = this.urls.GET_CONTACT_LIST
-      const contacts = await this.axios
-        .get(url, { params })
-        .then((res) => Promise.all(res.data.map((contactData) => api.create(contactData))))
-        .catch((err) => {
-          throw new Error(err)
-        })
+      // Check cache for this item type and params
+      let contacts = this.cache.get('contact', params)
+      if (!contacts) {
+        contacts = await this.axios
+          .get(url, { params })
+          .then((res) => {
+            // Cache raw data
+            this.cache.add('contact', params, res.data)
+            return Promise.all(res.data.map((contactData) => api.create(contactData)))
+          })
+          .catch((err) => {
+            throw new Error(err)
+          })
+      } else {
+        // Convert raw data to objects
+        contacts = contacts.map((contactData) => api.create(contactData))
+      }
       return contacts || []
     }
     api.types = ['Email', 'Phone']
@@ -436,17 +526,24 @@ export default class IFXAPIService {
     api.add = (itemType, params, data) => {
       const key = api.getKey(itemType, params)
       try {
-        this.storage.setItem(key, data, 'session')
+        // Use compression for cache data to save space
+        this.storage.setItem(key, data, 'session', true)
       } catch (e) {
-        console.error(e)
+        console.error('Cache add failed:', e)
       }
     }
 
     api.get = (itemType, params) => {
       const key = api.getKey(itemType, params)
-      const data = this.storage.getItem(key, 'session')
-      if (!data) return null
-      return data
+      try {
+        // Use compression flag when retrieving cache data
+        const data = this.storage.getItem(key, 'session', true)
+        if (!data) return null
+        return data
+      } catch (e) {
+        console.error('Cache get failed:', e)
+        return null
+      }
     }
 
     api.clear = (itemType) => {
@@ -935,6 +1032,48 @@ export default class IFXAPIService {
     }
     const decomposeFunc = (newProductData) => createFunc(newProductData, true)
     const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
+
+    // Wrap old update/save/delete methods to clear cache
+    const productUpdate = api.update
+    const productSave = api.save
+    const productDelete = api.delete
+    api.update = async (product) => {
+      const result = await productUpdate(product)
+      this.cache.clear('product')
+      return result
+    }
+    api.save = async (product) => {
+      const result = await productSave(product)
+      this.cache.clear('product')
+      return result
+    }
+    api.delete = async (product) => {
+      const result = await productDelete(product)
+      this.cache.clear('product')
+      return result
+    }
+
+    api.getList = async (params = {}) => {
+      // Check cache for this item type and params
+      let products = this.cache.get('product', params)
+      if (!products) {
+        products = await this.axios
+          .get(baseUrl, { params })
+          .then((res) => {
+            // Cache raw data
+            this.cache.add('product', params, res.data)
+            return Promise.all(res.data.map((productData) => createFunc(productData)))
+          })
+          .catch((err) => {
+            throw new Error(err)
+          })
+      } else {
+        // Convert raw data to objects
+        products = products.map((productData) => createFunc(productData))
+      }
+      return products || []
+    }
+
     api.objectCodeCategories = () => ['Technical Services', 'Laboratory Consumables', 'Animal Per Diem Charges']
     return api
   }
@@ -1015,7 +1154,6 @@ export default class IFXAPIService {
     }
     api.isFacilityWithDates = (facility_name) => {
       const result = ['Center for Brain Science Neuroimaging'].includes(facility_name)
-      console.log(`result of date check is ${result}`)
       return result
     }
     return api
