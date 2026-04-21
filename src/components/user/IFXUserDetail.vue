@@ -88,12 +88,19 @@ export default {
   mounted() {},
   methods: {
     ...mapActions(['showMessage']),
-    async getAdditionalData() {
-      this.allContacts = await this.$api.contact.getList({ has_name: false })
-      this.allGroupNames = await this.$api.group.getNames()
-      const organizations = await this.$api.organization.getNames()
-      this.allOrganizationSlugs = organizations.map((o) => o.slug)
-      this.userFilesCategories = await this.$api.userFile.getUserCategoriesList()
+    getAdditionalData() {
+      this.$api.contact.getList({ has_name: false }).then((contacts) => {
+        this.allContacts = contacts
+      })
+      this.$api.group.getNames().then((groupNames) => {
+        this.allGroupNames = groupNames
+      })
+      this.$api.organization.getNames().then((organizations) => {
+        this.allOrganizationSlugs = organizations.map((o) => o.slug)
+      })
+      this.$api.userFile.getUserCategoriesList().then((categories) => {
+        this.userFilesCategories = categories
+      })
     },
     openCommentDialog() {
       this.changeDialogActive = true
