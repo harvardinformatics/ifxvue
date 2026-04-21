@@ -233,8 +233,8 @@ class Product extends IFXItemBase {
     return this.data.is_active
   }
 
-  set isActive(is_active) {
-    this.data.is_active = is_active
+  set isActive(isActive) {
+    this.data.is_active = isActive
   }
 }
 
