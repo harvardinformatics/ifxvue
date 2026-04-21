@@ -101,6 +101,7 @@ export default {
       this.$api.userFile.getUserCategoriesList().then((categories) => {
         this.userFilesCategories = categories
       })
+      return Promise.resolve()
     },
     openCommentDialog() {
       this.changeDialogActive = true
