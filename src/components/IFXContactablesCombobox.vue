@@ -35,6 +35,7 @@
         </v-chip>
       </template>
     </v-combobox>
+  </div>
 </template>
 
 <script>

@@ -8,11 +8,8 @@
         v-bind="props"
         @click="handleClick"
         :disabled="disabled"
-<<<<<<< HEAD
         :icon="icon"
-=======
         :small="small"
->>>>>>> ab_migrate
       >
       </v-btn>
     </template>
