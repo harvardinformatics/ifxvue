@@ -25,7 +25,7 @@ export default {
   <v-container>
     <v-row align="center">
       <v-col>
-        <v-row>
+        <v-row class="flex-column">
           <v-col cols="12" v-for="(requestComment, index) in request.requestComments" :key="requestComment.id">
             <v-row justify="start" align="center">
               <v-col v-if="requestComment.id" cols="12" md="8" class="request-comment">
@@ -42,7 +42,7 @@ export default {
                 </v-textarea>
               </v-col>
               <v-col v-if="requestComment.id" cols="10" md="3" class="request-author">
-                <v-row>
+                <v-row justify="start" align="center">
                   <v-col>
                     <span style="white-space: nowrap;">{{ $humanDatetime(requestComment.created) }}</span>
                   </v-col>
@@ -61,6 +61,7 @@ export default {
                       <span>Remove comment</span>
                     </v-tooltip>
                   </v-col>
+                  <v-col>&nbsp;</v-col>
                 </v-row>
               </v-col>
               <v-col v-if="!requestComment.id">

@@ -7,7 +7,7 @@ export default {
 }
 </script>
 <template>
-  <v-row v-for="address in data" :key="address.type" density="compact" class="pt-1">
+  <v-row v-for="address in data" :key="address.type" density="compact" class="pt-2">
     <v-col>
       <v-row density="compact">
         <v-col cols="4">

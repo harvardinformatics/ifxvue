@@ -242,10 +242,10 @@ export default {
                 <IFXRequestCommentList :request="request" @update="updateRequestComment"/>
               </v-col>
             </v-row>
-            <v-row class="my-2 pa-4">
+            <v-row class="ma-2 pa-2">
               <v-col cols="6">
-                <v-row wrap justify="start" align-center>
-                  <v-col class="flex-grow-0 flex-shrink-0 px-0 expiration-date-label">
+                <v-row wrap justify="start" align="center">
+                  <v-col class="flex-grow-0 flex-shrink-0 px-0 expiration-date-label text-title-medium">
                     Onboard request
                     <span v-if="requestExpired()">expired</span>
                     <span v-else>expires</span>
@@ -277,10 +277,10 @@ export default {
                     </v-menu>
                   </v-col>
                   <v-col v-else class="flex-grow-0 flex-shrink-1 expiration-date-label">
-                    {{request.continuationKeyExpiration}}
+                    {{$humanDatetime(request.continuationKeyExpiration)}}
                   </v-col>
                   <v-col class="pt-1">
-                    <v-btn :disabled="updating_expiration_date" icon="mdi-calendar-edit" size="x-small" @click="updatingExpirationDate()">
+                    <v-btn :disabled="updating_expiration_date" color="primary" icon="mdi-calendar-edit" size="x-small" @click="updatingExpirationDate()">
                     </v-btn>
                   </v-col>
                 </v-row>
