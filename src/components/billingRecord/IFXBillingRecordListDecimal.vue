@@ -1136,8 +1136,8 @@ export default {
             <template v-slot:group-header="{ item, columns, toggleGroup: toggleGroupSlot, isGroupOpen }">
               <tr>
                 <td :colspan="columns.length" class="">
-                  <v-row class="align-center" density="compact" no-gutters>
-                    <v-col cols="1" v-if="showCheckboxes" class="force-compact-checkbox">
+                  <div class="d-flex align-center w-100">
+                    <div v-if="showCheckboxes" class="force-compact-checkbox">
                       <v-checkbox
                         v-model="rowSelectionToggle"
                         :value="item.value"
@@ -1146,8 +1146,8 @@ export default {
                         :indeterminate="rowSelectionToggleIndeterminate[item.value]"
                         @update:model-value="toggleGroup(item.value)"
                       ></v-checkbox>
-                    </v-col>
-                    <v-col cols="auto">
+                    </div>
+                    <div class="d-flex align-center">
                       <v-btn
                         size="comfortable"
                         elevation="0"
@@ -1162,8 +1162,8 @@ export default {
                         {{ $api.organization.parseSlug(item.value).name }}
                       </span>
                       <span class="ml-3 text-body-2">Total charges: {{ $dollars(summaryCharges(item.value)) }}</span>
-                    </v-col>
-                  </v-row>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </template>
