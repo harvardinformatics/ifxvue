@@ -1277,7 +1277,7 @@ export default {
                       </v-list-item>
                     </template>
                     <template v-slot:selection="{ item }">
-                      <span>{{ $orgNameFromSlug(item.value) }}</span>
+                      <span>{{ $orgNameFromSlug(item) }}</span>
                     </template>
                   </v-autocomplete>
                   <v-autocomplete
