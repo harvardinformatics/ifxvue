@@ -214,12 +214,12 @@ export default {
               <v-col class="flex-grow-0 flex-shrink-1">
                 <v-tooltip top>
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon small
+                    <v-btn v-bind="props" size="small"
                       class="item-add"
                       color="green"
                       @click="addEmptyComment()"
+                      icon="mdi-playlist-plus"
                     >
-                      <v-icon dark >mdi-playlist-plus</v-icon>
                     </v-btn>
                   </template>
                   <span>Add comment to request</span>
@@ -228,8 +228,7 @@ export default {
               <v-col class="flex-grow-0 flex-shrink-1">
                 <v-tooltip top>
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" small icon color="info" v-show="isDjangoStaff()" :href="django_admin_url">
-                      <v-icon color="yellow">mdi-key</v-icon>
+                    <v-btn v-bind="props" size="small" icon="mdi-key" color="yellow" v-show="isDjangoStaff()" :href="django_admin_url">
                     </v-btn>
                   </template>
                   <span>View request Django admin form</span>
@@ -238,12 +237,12 @@ export default {
             </v-row>
           </v-card-title>
           <v-container>
-            <v-row>
+            <v-row class="my-2">
               <v-col cols="12" v-if="request.requestComments.length > 0">
                 <IFXRequestCommentList :request="request" @update="updateRequestComment"/>
               </v-col>
             </v-row>
-            <v-row>
+            <v-row class="my-2 pa-4">
               <v-col cols="6">
                 <v-row wrap justify="start" align-center>
                   <v-col class="flex-grow-0 flex-shrink-0 px-0 expiration-date-label">
@@ -281,7 +280,7 @@ export default {
                     {{request.continuationKeyExpiration}}
                   </v-col>
                   <v-col class="pt-1">
-                    <v-btn :disabled="updating_expiration_date" icon="mdi-calendar-edit" size="x-small" color="info" @click="updatingExpirationDate()">
+                    <v-btn :disabled="updating_expiration_date" icon="mdi-calendar-edit" size="x-small" @click="updatingExpirationDate()">
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -301,7 +300,7 @@ export default {
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="7">
+              <v-col style="flex-basis: 60%; max-width: 60%;">
                 <v-row class="flex-column">
                   <v-col cols="12" v-for="track in request.tracks.order" :key="track">
                     <IFXAccountRequestTrackDetail
@@ -314,27 +313,15 @@ export default {
                     />
                   </v-col>
                 </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <span class="title">Request Files</span>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    v-for="accountRequestFileData in request.requestData.request_files"
-                    :key="accountRequestFileData.id"
-                  >
-                    <IFXAccountRequestFile :accountRequestFileData="accountRequestFileData" />
-                  </v-col>
-                </v-row>
               </v-col>
-              <v-col class="flex-grow-1">
+              <v-col cols="12">
                 <v-container>
                   <v-row class="flex-column">
                     <v-col>
                       <span class="text-body-1 font-weight-bold">Onboarding Steps</span>
                     </v-col>
                     <v-col v-for="track in request.tracks.order" :key="track">
-                      <v-row v-if="isAppTrack(track)" class="flex-column" density="comfortable">
+                      <v-row v-if="isAppTrack(track)" density="comfortable" class="flex-column">
                         <v-col v-for="step in request.tracks[track].order" :key="step">
                           <IFXDisplayOnboardStep v-if="step !== 'completed_request'" @update="handleStepChange" :step="request.tracks[track][step]" :stepName="step" :trackName="track"/>
                         </v-col>
@@ -351,6 +338,25 @@ export default {
                     </v-col>
                   </v-row>
                 </v-container>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-row>
+                  <v-col cols="12">
+                    <span class="text-title-large">Request Files</span>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    v-for="accountRequestFileData in request.requestData.request_files"
+                    :key="accountRequestFileData.id"
+                  >
+                    <IFXAccountRequestFile :accountRequestFileData="accountRequestFileData" />
+                  </v-col>
+                </v-row>
+
               </v-col>
             </v-row>
             <v-row class="flex-column">

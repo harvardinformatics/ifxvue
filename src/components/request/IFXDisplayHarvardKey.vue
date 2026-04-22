@@ -7,7 +7,7 @@ export default {
 }
 </script>
 <template>
-  <v-row class="col-column">
+  <v-row  class="pt-1">
     <v-col v-if="data">
       Got it
     </v-col>
@@ -16,6 +16,3 @@ export default {
     </v-col>
   </v-row>
 </template>
-<style scoped>
-
-</style>

@@ -57,13 +57,13 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if="accountRequestData && organizations">
+  <v-container v-if="accountRequestData && organizations" class="my-0">
     <v-row>
       <v-col>
-        <span class="title">{{ trackTitle }}</span>
+        <span class="text-title-large">{{ trackTitle }}</span>
       </v-col>
     </v-row>
-    <v-row v-for="field in accountRequestData.tracks[track].fields.order" :key="field" cols="12">
+    <v-row v-for="field in accountRequestData.tracks[track].fields.order" :key="field" cols="12" align="start" class="my-2">
       <v-col cols="4" class="field-label" style="flex-basis: 30%; max-width: 30%;" v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)">
         <template v-if="accountRequestData.tracks[track].fields[field].display_name">
           {{ accountRequestData.tracks[track].fields[field].display_name }}
@@ -121,5 +121,6 @@ export default {
 <style scoped>
 .field-label {
   font-weight: bold;
+  padding-top: 0px !important;
 }
 </style>

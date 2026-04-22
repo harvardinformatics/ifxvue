@@ -42,24 +42,28 @@ export default {
                 </v-textarea>
               </v-col>
               <v-col v-if="requestComment.id" cols="10" md="3" class="request-author">
-                <span></span>&nbsp;
-                <span style="white-space: nowrap;">{{ $humanDatetime(requestComment.created) }}</span>
+                <v-row>
+                  <v-col>
+                    <span style="white-space: nowrap;">{{ $humanDatetime(requestComment.created) }}</span>
+                  </v-col>
+                  <v-col>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ props }">
+                        <v-btn v-bind="props" size="small"
+                          variant="text"
+                          class="item-delete"
+                          @click="request.requestComments.splice(index, 1) && updateRequestComment(index)"
+                          icon="mdi-close"
+                          color="error"
+                        >
+                        </v-btn>
+                      </template>
+                      <span>Remove comment</span>
+                    </v-tooltip>
+                  </v-col>
+                </v-row>
               </v-col>
-              <v-col v-if="requestComment.id">
-                <v-tooltip top>
-                  <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" fab small text
-                      class="item-delete"
-                      color="error"
-                      @click="request.requestComments.splice(index, 1) && updateRequestComment(index)"
-                    >
-                      <v-icon dark >clear</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Remove comment</span>
-                </v-tooltip>
-              </v-col>
-              <v-col v-else>
+              <v-col v-if="!requestComment.id">
                 <v-tooltip top>
                   <template v-slot:activator="{ props }">
                     <v-btn v-bind="props" size="small"
@@ -79,6 +83,7 @@ export default {
                       color="error"
                       @click="request.requestComments.splice(index, 1)"
                       icon="mdi-close"
+                      variant="text"
                     >
                     </v-btn>
                   </template>

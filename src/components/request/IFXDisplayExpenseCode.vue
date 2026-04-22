@@ -5,7 +5,7 @@ export default {
 }
 </script>
 <template>
-  <v-row>
+  <v-row class="pt-1">
     <v-col>
       {{ data }}
     </v-col>

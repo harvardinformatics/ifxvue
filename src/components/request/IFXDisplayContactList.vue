@@ -7,16 +7,12 @@ export default {
 }
 </script>
 <template>
-  <v-row density="compact">
-    <v-col cols="12">
-      <v-row v-for="contact in data" :key="contact.contact.detail" density="compact">
-        <v-col cols="4">
-          {{contact.role}}
-        </v-col>
-        <v-col>
-          {{contact.contact.detail}}
-        </v-col>
-      </v-row>
+  <v-row v-for="contact in data" :key="contact.contact.detail" density="compact" class="pt-1">
+    <v-col cols="4">
+      {{contact.role}}
+    </v-col>
+    <v-col cols="8">
+      {{contact.contact.detail}}
     </v-col>
   </v-row>
 </template>
