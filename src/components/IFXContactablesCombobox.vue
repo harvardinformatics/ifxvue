@@ -19,26 +19,22 @@
       :error-messages='errorMessage'
       no-data-text="No new results match that query."
       :class="{'required': required}"
-      return-object
+      :loading="loading"
     >
       <!-- Display the icons in different colors, based on their contactable type -->
       <template v-slot:item="{ props, item }">
-        <v-list-item v-bind="props">
-          <template v-slot:prepend>
-            <v-icon :color="item.color">{{ item.icon }}</v-icon>
-          </template>
-        </v-list-item>
+        <v-icon v-if="item.icon" :color="item.color">{{item.icon}}</v-icon>
+        <v-list-item v-bind="props" v-if="item.text" v-text="item.text"></v-list-item>
+        <v-list-item v-bind="props" v-else v-text="item"></v-list-item>
       </template>
       <template v-slot:chip="{ props, item }">
-        <v-chip v-bind="props" closable>
-          <template v-slot:prepend>
-            <v-icon :color="item.color">{{ item.icon }}</v-icon>
-          </template>
-          {{ item.label }}
+        <v-chip v-bind="props" color="transparent" close @click:close="removeFromSelected(item)">
+          <v-icon v-if="item.icon" :color="item.color" class="mr-2">{{item.icon}}</v-icon>
+          <span v-if="item.label">{{item.label}}</span>
+          <span v-else>{{item}}</span>
         </v-chip>
       </template>
     </v-combobox>
-  </div>
 </template>
 
 <script>
@@ -75,6 +71,11 @@ export default {
     modelValue: {
       type: Array,
       required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -88,7 +89,7 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     getItemText(item) {
-      return item.text
+      return item.text ? item.text : item
     },
     getItemValue(item) {
       return item

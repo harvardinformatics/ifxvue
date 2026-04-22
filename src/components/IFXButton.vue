@@ -61,6 +61,9 @@ export default {
         case 'add':
           btnColor = 'primary'
           break
+        case 'multipleAdd':
+          btnColor = 'primary'
+          break
         case 'download':
           btnColor = 'primary'
           break
@@ -116,6 +119,9 @@ export default {
           break
         case 'add':
           iconString = 'mdi-plus'
+          break
+        case 'multipleAdd':
+          iconString = 'mdi-plus-box-multiple'
           break
         case 'submit':
           iconString = ''

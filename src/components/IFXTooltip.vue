@@ -8,7 +8,11 @@
         v-bind="props"
         @click="handleClick"
         :disabled="disabled"
+<<<<<<< HEAD
         :icon="icon"
+=======
+        :small="small"
+>>>>>>> ab_migrate
       >
       </v-btn>
     </template>
@@ -18,6 +22,7 @@
 </template>
 
 <script>
+
 // Wraps Vuetify's tooltip to provide accessibility info
 export default {
   name: 'IFXTooltip',
@@ -61,6 +66,11 @@ export default {
       default: false,
     },
     isHTML: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    small: {
       type: Boolean,
       required: false,
       default: false,
