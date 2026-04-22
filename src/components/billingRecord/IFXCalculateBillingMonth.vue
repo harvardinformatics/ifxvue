@@ -239,7 +239,7 @@ export default {
         </v-alert>
       </v-col>
     </v-row>
-    <v-row align="center" dense>
+    <v-row align="center" density="comfortable">
       <v-col>
         <IFXMonthYearDatePicker
           v-model="selectedDate"

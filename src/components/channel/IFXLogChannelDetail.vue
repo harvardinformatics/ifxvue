@@ -153,7 +153,7 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="comfortable">
         <v-col sm="8">
           <v-text-field
             v-model="search"
@@ -163,7 +163,7 @@ export default {
           ></v-text-field>
         </v-col>
         <v-col sm="4">
-          <v-row justify="end" align="center" dense>
+          <v-row justify="end" align="center" density="comfortable">
             <v-col>&nbsp;</v-col>
             <v-col>
               <IFXTooltip
@@ -211,7 +211,7 @@ export default {
           </v-row>
         </v-col>
       </v-row>
-      <v-row justify="start" align="center" dense>
+      <v-row justify="start" align="center" density="comfortable">
         <v-col>
           <IFXItemDataTable
             :loading="isLoadingSubscriptions"

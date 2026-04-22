@@ -58,24 +58,21 @@ export default {
 </script>
 <template>
   <v-container v-if="accountRequestData && organizations">
-    <v-layout column>
-      <v-flex>
+    <v-row>
+      <v-col>
         <span class="title">{{ trackTitle }}</span>
-      </v-flex>
-      <v-flex v-for="field in accountRequestData.tracks[track].fields.order" :key="field">
-        <v-layout
-          row
-          wrap
+      </v-col>
+      <v-col cols="12" v-for="field in accountRequestData.tracks[track].fields.order" :key="field">
+        <v-row
           v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)"
-          justify-start
         >
-          <v-flex class="field-label" xs12 md3 v-if="accountRequestData.tracks[track].fields[field].display_name">
+          <v-col class="field-label" cols="12" md="3" v-if="accountRequestData.tracks[track].fields[field].display_name">
             {{ accountRequestData.tracks[track].fields[field].display_name }}
-          </v-flex>
-          <v-flex class="field-label" xs12 md3 v-else>
+          </v-col>
+          <v-col class="field-label" cols="12" md="3" v-else>
             {{ field }}
-          </v-flex>
-          <v-flex xs12 md9 v-if="accountRequestData.tracks[track].fields[field].display_component">
+          </v-col>
+          <v-col cols="12" md="9" v-if="accountRequestData.tracks[track].fields[field].display_component">
             <component
               v-if="
                 [
@@ -112,12 +109,12 @@ export default {
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData.person[field]"
             ></component>
-          </v-flex>
-          <v-flex v-else>{{ accountRequestData.person[field] }}</v-flex>
-          <v-flex></v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
+          </v-col>
+          <v-col v-else>{{ accountRequestData.person[field] }}</v-col>
+          <v-col></v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <style scoped>

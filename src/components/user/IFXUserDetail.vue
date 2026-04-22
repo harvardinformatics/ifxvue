@@ -472,7 +472,7 @@ export default {
       </span>
       <span>
         <v-divider class="my-2"></v-divider>
-        <v-row dense>
+        <v-row density="comfortable">
           <v-col sm="3" md="3">
             <h3>Other Affiliations</h3>
             <div>
@@ -503,7 +503,7 @@ export default {
         </v-row>
       </span>
       <v-divider class="my-5" />
-      <span v-if="showUserFilesSection(item)">
+      <span v-if="hasUserFiles(item)">
         <v-row density="compact">
           <v-col sm="4" md="3">
             <h3 class="my-0">User Files</h3>
@@ -511,7 +511,7 @@ export default {
           <v-col v-if="hasUserFiles()">
             <div v-for="category in Object.keys(userCategories)" :key="category">
               <span v-if="onlyOneFilePerCategory">
-                <v-row dense v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
                   <v-col sm="12">
                     <div>
                       <span class="font-weight-medium">{{ category }}:&nbsp;</span>
@@ -540,7 +540,7 @@ export default {
                   <span class="ml-1">{{ category }}s</span>
                 </summary>
                 <span>
-                  <v-row dense v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                  <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
                     <v-col sm="11">
                       <div class="ml-4">
                         <a :href="file.file" target="_blank">{{ file.file | fileNameFromUrl }}</a>

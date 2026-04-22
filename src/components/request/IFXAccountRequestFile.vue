@@ -12,16 +12,16 @@ export default {
 }
 </script>
 <template>
-  <v-layout column>
-    <v-flex>
-      <v-layout row>
-        <v-flex xs3>
+  <v-row>
+    <v-col>
+      <v-row>
+        <v-col cols="3">
           {{ accountRequestFileData.category }}
-        </v-flex>
-        <v-flex>
+        </v-col>
+        <v-col>
           <a :href="accountRequestFileData.file" target="_blank">{{ fileName(accountRequestFileData.file) }}</a>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
