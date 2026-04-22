@@ -24,7 +24,7 @@ export default {
               <v-row>
                 <v-col cols="4">Current State</v-col>
                 <v-col>
-                  {{ data.current_state | stateDisplay }}
+                  {{ $stateDisplay(data.current_state) }}
                 </v-col>
               </v-row>
             </v-col>
