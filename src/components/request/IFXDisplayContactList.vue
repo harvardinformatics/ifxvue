@@ -7,9 +7,9 @@ export default {
 }
 </script>
 <template>
-  <v-row class="flex-column">
-    <v-col>
-      <v-row v-for="contact in data" :key="contact.contact.detail" density="comfortable">
+  <v-row density="compact">
+    <v-col cols="12">
+      <v-row v-for="contact in data" :key="contact.contact.detail" density="compact">
         <v-col cols="4">
           {{contact.role}}
         </v-col>

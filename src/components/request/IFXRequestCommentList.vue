@@ -43,12 +43,12 @@ export default {
               </v-col>
               <v-col v-if="requestComment.id" cols="10" md="3" class="request-author">
                 <span></span>&nbsp;
-                <span style="white-space: nowrap;">{{requestComment.created | humanDatetime}}</span>
+                <span style="white-space: nowrap;">{{ $humanDatetime(requestComment.created) }}</span>
               </v-col>
               <v-col v-if="requestComment.id">
                 <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" fab small text
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" fab small text
                       class="item-delete"
                       color="error"
                       @click="request.requestComments.splice(index, 1) && updateRequestComment(index)"
@@ -61,25 +61,25 @@ export default {
               </v-col>
               <v-col v-else>
                 <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" fab small text
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" size="small"
                       class="item-save"
                       color="green"
                       @click="updateRequestComment(index, request.requestComments[index].text)"
+                      icon="mdi-check"
                     >
-                      <v-icon dark>done</v-icon>
                     </v-btn>
                   </template>
                   <span>Save comment</span>
                 </v-tooltip>
                 <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" fab small text
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" size="small"
                       class="item-delete"
                       color="error"
                       @click="request.requestComments.splice(index, 1)"
+                      icon="mdi-close"
                     >
-                      <v-icon dark >clear</v-icon>
                     </v-btn>
                   </template>
                   <span>Remove comment</span>
