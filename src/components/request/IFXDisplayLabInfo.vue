@@ -82,14 +82,14 @@ export default {
         </v-col>
         <v-col v-else>No approvers specified</v-col>
       </v-row>
-      <v-row v-if="Object.keys(piContact).length === 0">
-        <v-col cols="12">
+      <v-row v-if="Object.keys(piContact).length === 0" class="flex-column">
+        <v-col>
           <v-row>
             <v-col cols="4">PI / Manager</v-col>
             <v-col>{{ data.lab_info.pi_name }}, {{ data.lab_info.pi_email }}</v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col>
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col>
@@ -97,7 +97,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col>
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col>
@@ -105,7 +105,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" v-if="data.lab_info.pi_contact_country != 'United States'">
+        <v-col v-if="data.lab_info.pi_contact_country != 'United States'">
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col>
@@ -113,7 +113,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col>
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col>
@@ -122,14 +122,14 @@ export default {
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-else>
-        <v-col cols="12">
+      <v-row v-else class="flex-column">
+        <v-col>
           <v-row>
             <v-col cols="4">PI / Manager</v-col>
             <v-col>{{ piContact.name }}, {{ piContact.detail }}</v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col>
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col class="address">
@@ -138,8 +138,8 @@ export default {
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="Object.keys(billingContact).length === 0">
-        <v-col cols="12">
+      <v-row v-if="Object.keys(billingContact).length === 0" class="flex-column">
+        <v-col>
           <v-row>
             <v-col cols="4">Billing Contact</v-col>
             <v-col>
@@ -149,7 +149,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col>
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col>
@@ -157,7 +157,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col>
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col>
@@ -166,7 +166,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" v-if="data.lab_info.billing_contact_country != 'United States'">
+        <v-col v-if="data.lab_info.billing_contact_country != 'United States'">
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col>
@@ -174,7 +174,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col>
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col>
@@ -183,14 +183,14 @@ export default {
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-else>
-        <v-col cols="12">
+      <v-row v-else class="flex-column">
+        <v-col>
           <v-row>
             <v-col cols="4">Billing Contact</v-col>
             <v-col>{{ billingContact.name }}, {{ billingContact.detail }}</v-col>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col>
           <v-row>
             <v-col cols="4">&nbsp;</v-col>
             <v-col class="address">
