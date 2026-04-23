@@ -47,6 +47,12 @@ export default {
     }
   },
   methods: {
+    getTrackClass(track) {
+      if (track !== 'general') {
+        return 'my-4'
+      }
+      return 'my-0'
+    },
     updateData() {
       if (this.localAccountRequest.onBoardRequest) {
         this.localAccountRequest.onBoardRequest.data = this.localData
@@ -57,13 +63,13 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if="accountRequestData && organizations" class="my-0">
-    <v-row>
-      <v-col>
-        <span class="text-title-large">{{ trackTitle }}</span>
+  <v-container v-if="accountRequestData && organizations">
+    <v-row class="my-2">
+      <v-col class="text-title-large">
+        {{ trackTitle }}
       </v-col>
     </v-row>
-    <v-row v-for="field in accountRequestData.tracks[track].fields.order" :key="field" cols="12" align="start" class="my-3">
+    <v-row v-for="field in accountRequestData.tracks[track].fields.order" :key="field" cols="12" align="start" :class="getTrackClass(track)">
       <v-col cols="4" class="field-label" style="flex-basis: 30%; max-width: 30%;" v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)">
         <template v-if="accountRequestData.tracks[track].fields[field].display_name">
           {{ accountRequestData.tracks[track].fields[field].display_name }}

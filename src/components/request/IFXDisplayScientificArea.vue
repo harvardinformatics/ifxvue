@@ -5,7 +5,7 @@ export default {
 }
 </script>
 <template>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Application Type
     </v-col>
@@ -13,7 +13,7 @@ export default {
       {{ data.application_type }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Technical Field
     </v-col>
@@ -21,7 +21,7 @@ export default {
       {{ data.technical_field }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Technical Category
     </v-col>
@@ -29,7 +29,7 @@ export default {
       {{ data.technical_category }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Funding Source
     </v-col>
@@ -37,7 +37,7 @@ export default {
       {{ data.funding_source }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Use Type
     </v-col>

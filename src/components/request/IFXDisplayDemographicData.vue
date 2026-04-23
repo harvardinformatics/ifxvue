@@ -5,7 +5,7 @@ export default {
 }
 </script>
 <template>
-  <v-row class="pt-1">
+  <v-row class="pt-1" density="compact">
     <v-col cols="4">
       Scholar Type
     </v-col>
@@ -13,7 +13,7 @@ export default {
       {{ data.scholar_type }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Race
     </v-col>
@@ -21,7 +21,7 @@ export default {
       {{ data.race }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Ethnicity
     </v-col>
@@ -29,7 +29,7 @@ export default {
       {{ data.ethnicity }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Gender
     </v-col>
@@ -37,7 +37,7 @@ export default {
       {{ data.gender }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Disability
     </v-col>
@@ -45,7 +45,7 @@ export default {
       {{ data.disability }}
     </v-col>
   </v-row>
-  <v-row>
+  <v-row density="compact">
     <v-col cols="4">
       Citizenship
     </v-col>

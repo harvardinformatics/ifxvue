@@ -36,20 +36,39 @@ export default {
   },
   computed: {
     computedHeaders() {
-      return this.headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      return this.headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
+    },
+    normalizedHeaders() {
+      return this.computedHeaders.map((h) => ({
+        ...h,
+        key: h.key || h.value,
+        title: h.title || h.text,
+      }))
+    },
+    // Custom headers that are not locked
+    customHeaders() {
+      return this.headers
+        .filter((n) => !this.lockedFieldTemplates.includes(n.value || n.key))
+        .map((h) => ({
+          ...h,
+          key: h.key || h.value,
+        }))
     },
   },
   methods: {
-    ...mapActions(['showMessage']),
     display(header, item) {
-      let result = item[header.value]
+      const value = header.key || header.value
+      let result = item[value]
       if (header.display) {
-        result = header.display(item[header.value])
+        result = header.display(item[value])
       }
       return result
     },
     getDetailComponent(requestType) {
       return this.$requestApi.getRequestTypeDetailComponent(requestType)
+    },
+    getSlotName(header) {
+      return `item.${header.key}`
     },
     getRequests: debounce(async function () {
       this.loading = true
@@ -62,6 +81,7 @@ export default {
         })
       this.loading = false
     }, 1000),
+    ...mapActions(['showMessage']),
   },
   mounted() {
     window.console.log('Mounted IFXRequestList with requestType', this.requestType)

@@ -44,7 +44,7 @@ export default {
     <v-card-title>
       <v-row wrap justify-end align="center">
         <v-col xs8>
-          <div class="text-body-1 font-weight-bold">Request Status</div>
+          <div class="text-title-large">Request Status</div>
         </v-col>
         <v-col xs4>
           <v-row wrap justify-end align="center">

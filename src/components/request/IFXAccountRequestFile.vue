@@ -12,12 +12,18 @@ export default {
 }
 </script>
 <template>
-  <v-row>
-    <v-col class="field-label" style="flex-basis: 30%; max-width: 30%;">
+  <v-row density="comfortable">
+    <v-col class="field-label" style="flex-basis: 20%; max-width: 20%;">
       {{ accountRequestFileData.category }}
     </v-col>
-    <v-col style="flex-basis: 60%; max-width: 60%;" class="text-truncate">
+    <v-col style="flex-basis: 70%; max-width: 70%;" class="text-truncate">
       <a :href="accountRequestFileData.file" target="_blank">{{ fileName(accountRequestFileData.file) }}</a>
     </v-col>
   </v-row>
 </template>
+<style scoped>
+  .field-label {
+    font-weight: bold;
+    padding-top: 0px !important;
+  }
+</style>
