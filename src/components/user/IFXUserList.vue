@@ -118,11 +118,13 @@ export default {
       <template #title>{{ listTitle }}</template>
       <template #actions>
         <v-row no-wrap align="center">
-          <v-col cols="auto">
+          <v-col>
             <IFXSearchField v-model:search="search" />
           </v-col>
-          <v-col cols="2">
-            <v-checkbox label="Include disabled" v-model="includeDisabled" density="compact" hide-details></v-checkbox>
+          <v-col>
+            <div class="d-flex flex-nowrap">
+              <v-checkbox label="Include disabled" v-model="includeDisabled" hide-details></v-checkbox>
+            </div>
           </v-col>
           <v-col>
             <IFXMailButton

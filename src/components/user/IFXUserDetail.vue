@@ -503,7 +503,7 @@ export default {
         </v-row>
       </span>
       <v-divider class="my-5" />
-      <span v-if="showUserFilesSection(item)">
+      <span v-if="hasUserFiles(item)">
         <v-row density="compact">
           <v-col sm="4" md="3">
             <h3 class="my-0">User Files</h3>

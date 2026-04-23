@@ -1,9 +1,15 @@
 <script>
 import { debounce } from 'lodash'
 import { mapActions } from 'vuex'
+import IFXPageHeader from '@/components/page/IFXPageHeader'
+import IFXSearchField from '@/components/IFXSearchField'
 
 export default {
   name: 'IFXRequestList',
+  components: {
+    IFXPageHeader,
+    IFXSearchField,
+  },
   props: {
     headers: Array,
     dataFields: Array,
@@ -12,7 +18,7 @@ export default {
   },
   data() {
     return {
-      lockedFieldTemplates: ['id', 'requestType', 'currentState', 'created', 'updated'],
+      lockedFieldTemplates: ['id', 'requestType', 'currentState', 'created', 'updated', 'result'],
       requests: [],
       includeCompleted: true,
       search: localStorage.getItem(`${this.$api.vars.appName}_RequestListSearch`) || '',
@@ -72,6 +78,7 @@ export default {
     ...mapActions(['showMessage']),
   },
   mounted() {
+    window.console.log('Mounted IFXRequestList with requestType', this.requestType)
     this.getRequests()
   },
   watch: {
@@ -91,49 +98,21 @@ export default {
 
 <template>
   <v-container class="fill-height">
+    <IFXPageHeader>
+      <template #title>{{ title }}</template>
+      <template #actions>
+        <v-row no-wrap align="center">
+          <v-col>
+            <IFXSearchField v-model:search="search" />
+          </v-col>
+          <v-col>
+            <v-checkbox label="Include completed" v-model="includeCompleted" hide-details></v-checkbox>
+          </v-col>
+        </v-row>
+      </template>
+    </IFXPageHeader>
     <v-row class="flex-column fill-height w-100">
       <v-col cols="12">
-        <v-card>
-          <v-card-title>
-            <v-row align="center" justify="space-between" class="pa-2">
-              <v-col cols="4">
-                <span class="text-subtitle-1">{{ title }}</span>
-              </v-col>
-              <v-col class="flex-grow-1">
-                <v-row align="center">
-                  <v-col>
-                    <v-text-field
-                      v-model="search"
-                      label="Search"
-                      single-line
-                      hide-details
-                      density="compact"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="2">
-                    <v-tooltip location="top">
-                      <template v-slot:activator="{ props }">
-                        <v-btn
-                          v-bind="props"
-                          :disabled="!search"
-                          icon
-                          size="small"
-                          variant="flat"
-                          @click="search = ''"
-                        >
-                          <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Clear search</span>
-                    </v-tooltip>
-                  </v-col>
-                </v-row>
-              </v-col>
-              <v-col cols="3">
-                <v-checkbox label="Include completed" v-model="includeCompleted" hide-details></v-checkbox>
-              </v-col>
-            </v-row>
-          </v-card-title>
           <v-data-table
             v-model="selected"
             :search="search"
@@ -142,7 +121,6 @@ export default {
             :items="requests"
             :loading="loading"
             item-value="id"
-            class="elevation-1"
             :items-per-page-options="rowsPerPageItems"
           >
             <template #loading>
@@ -171,6 +149,13 @@ export default {
             <template v-slot:[`item.updated`]="{ item }">
               {{ $humanDatetime(item.updated) }}
             </template>
+            <template v-slot:[`item.result`]="{ item }">
+              <v-icon v-if="item.result === 'SUCCESS'" color="green">mdi-thumb-up</v-icon>
+              <v-icon v-else-if="item.result === 'REJECTED'" color="red">mdi-thumb-down</v-icon>
+              <v-icon v-else-if="item.result === 'FAILED'" color="orange">mdi-message-alert</v-icon>
+              <v-icon v-else-if="!item.result" color="grey">mdi-cached</v-icon>
+              <span v-else>{{ item.result }}</span>
+            </template>
             <template
               v-for="header in customHeaders"
               :key="header.key"
@@ -189,7 +174,6 @@ export default {
               </v-alert>
             </template>
           </v-data-table>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
