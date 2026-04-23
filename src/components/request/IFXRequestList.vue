@@ -1,9 +1,15 @@
 <script>
 import { debounce } from 'lodash'
 import { mapActions } from 'vuex'
+import IFXPageHeader from '@/components/page/IFXPageHeader'
+import IFXSearchField from '@/components/IFXSearchField'
 
 export default {
   name: 'IFXRequestList',
+  components: {
+    IFXPageHeader,
+    IFXSearchField,
+  },
   props: {
     headers: Array,
     dataFields: Array,
@@ -12,7 +18,7 @@ export default {
   },
   data() {
     return {
-      lockedFieldTemplates: ['id', 'requestType', 'currentState', 'created', 'updated'], // table fields whose templates cannot be customized
+      lockedFieldTemplates: ['id', 'requestType', 'currentState', 'created', 'updated', 'result'],
       requests: [],
       includeCompleted: true,
       search: localStorage.getItem(`${this.$api.vars.appName}_RequestListSearch`) || '',
@@ -58,6 +64,7 @@ export default {
     }, 1000),
   },
   mounted() {
+    window.console.log('Mounted IFXRequestList with requestType', this.requestType)
     this.getRequests()
   },
   watch: {
@@ -75,75 +82,85 @@ export default {
 }
 </script>
 <template>
-  <v-container fill-height>
-    <v-card>
-      <v-card-title>
-        <v-row align="start" justify-space-between style="padding: 10px">
-          <v-col offset="2" cols="7">
-            <v-row>
-              <v-col>
-                <v-text-field v-model="search" label="Search" single-line clearable hide-details></v-text-field>
-              </v-col>
-            </v-row>
+  <v-container class="fill-height">
+    <IFXPageHeader>
+      <template #title>{{ title }}</template>
+      <template #actions>
+        <v-row no-wrap align="center">
+          <v-col>
+            <IFXSearchField v-model:search="search" />
           </v-col>
-          <v-col cols="3" class="py-0">
-            <v-checkbox label="Include completed" v-model="includeCompleted"></v-checkbox>
+          <v-col>
+            <v-checkbox label="Include completed" v-model="includeCompleted" hide-details></v-checkbox>
           </v-col>
         </v-row>
-      </v-card-title>
-      <v-data-table
-        v-model:search="search"
-        v-model:sort-by="sortBy"
-        :headers="computedHeaders"
-        :items="requests"
-        :loading="loading"
-        class="elevation-1"
-        item-value="requestData.id"
-        :items-per-page-options="rowsPerPageItems"
-      >
-        <template v-slot:loader>
-          <v-progress-linear color="blue" indeterminate></v-progress-linear>
-        </template>
-        <template v-slot:[`item.requestData.id`]="{ item }">
-          <router-link
-            class="no_decoration"
-            :to="{ name: getDetailComponent(item.requestType), params: { id: item.id } }"
-            exact
+      </template>
+    </IFXPageHeader>
+    <v-row class="flex-column fill-height w-100">
+      <v-col cols="12">
+          <v-data-table
+            v-model="selected"
+            :search="search"
+            :headers="normalizedHeaders"
+            v-model:items-per-page="rowsPerPage"
+            :items="requests"
+            :loading="loading"
+            item-value="id"
+            :items-per-page-options="rowsPerPageItems"
           >
-            <span>{{ item.id }}</span>
-          </router-link>
-        </template>
-        <template v-slot:[`item.requestData.result`]="{ item }">
-          <span v-if="item.result">{{ $stateDisplay(item.result) }}</span>
-          <span v-else class="text-grey text-grey-darken-1">None</span>
-        </template>
-        <template v-slot:[`item.requestData.current_state`]="{ item }">
-          {{ $stateDisplay(item.currentState) }}
-        </template>
-        <template v-slot:[`item.requestData.created`]="{ item }">
-          {{ $humanDatetime(item.created) }}
-        </template>
-        <template v-slot:[`item.requestData.updated`]="{ item }">
-          {{ $humanDatetime(item.updated) }}
-        </template>
-        <template
-          v-for="header in headers.filter((n) => !lockedFieldTemplates.includes(n.value))"
-          v-slot:[`item.requestData.${header.value}`]="{ item }"
-        >
-          <span v-if="header.custom" v-bind:key="header.value">
-            <slot :name="header.value" :item="item"></slot>
-          </span>
-          <span v-else v-bind:key="header.value">
-            {{ display(header, item) }}
-          </span>
-        </template>
-        <template v-slot:no-data>
-          <v-alert color="error" icon="mdi-alert" border="start" variant="tonal" class="ma-4">
-            Your search found no results.
-          </v-alert>
-        </template>
-      </v-data-table>
-    </v-card>
+            <template #loading>
+              <v-progress-linear color="blue" indeterminate></v-progress-linear>
+            </template>
+            <template #no-data>
+              <span class="text-grey-darken-1">No users returned</span>
+            </template>
+            <template v-slot:[`item.id`]="{ item }">
+              <router-link
+                class="no_decoration"
+                :to="{ name: getDetailComponent(item.requestType), params: { id: item.id } }"
+              >
+                <span>{{ item.id }}</span>
+              </router-link>
+            </template>
+            <template v-slot:[`item.requestType`]="{ item }">
+              {{ $stateDisplay(item.requestType) }}
+            </template>
+            <template v-slot:[`item.currentState`]="{ item }">
+              {{ $stateDisplay(item.currentState) }}
+            </template>
+            <template v-slot:[`item.created`]="{ item }">
+              {{ $humanDatetime(item.created) }}
+            </template>
+            <template v-slot:[`item.updated`]="{ item }">
+              {{ $humanDatetime(item.updated) }}
+            </template>
+            <template v-slot:[`item.result`]="{ item }">
+              <v-icon v-if="item.result === 'SUCCESS'" color="green">mdi-thumb-up</v-icon>
+              <v-icon v-else-if="item.result === 'REJECTED'" color="red">mdi-thumb-down</v-icon>
+              <v-icon v-else-if="item.result === 'FAILED'" color="orange">mdi-message-alert</v-icon>
+              <v-icon v-else-if="!item.result" color="grey">mdi-cached</v-icon>
+              <span v-else>{{ item.result }}</span>
+            </template>
+            <template
+              v-for="header in customHeaders"
+              :key="header.key"
+              v-slot:[getSlotName(header)]="{ item }"
+            >
+              <span v-if="header.custom">
+                <slot :name="header.key" :item="item"></slot>
+              </span>
+              <span v-else>
+                {{ display(header, item) }}
+              </span>
+            </template>
+            <template #no-results>
+              <v-alert :model-value="true" color="error" icon="mdi-alert">
+                Your search found no results.
+              </v-alert>
+            </template>
+          </v-data-table>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
