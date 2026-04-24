@@ -49,9 +49,9 @@ export default {
   methods: {
     getTrackClass(track) {
       if (track !== 'general') {
-        return 'my-4'
+        return ['py-4']
       }
-      return 'my-0'
+      return ['py-0']
     },
     updateData() {
       if (this.localAccountRequest.onBoardRequest) {
@@ -63,14 +63,14 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if="accountRequestData && organizations">
+  <v-container v-if="accountRequestData && organizations" class="py-1">
     <v-row class="my-2">
-      <v-col class="text-title-large">
+      <v-col class="track-title">
         {{ trackTitle }}
       </v-col>
     </v-row>
     <v-row v-for="field in accountRequestData.tracks[track].fields.order" :key="field" cols="12" align="start" :class="getTrackClass(track)">
-      <v-col cols="4" class="field-label" style="flex-basis: 30%; max-width: 30%;" v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)">
+      <v-col class="field-label" v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)">
         <template v-if="accountRequestData.tracks[track].fields[field].display_name">
           {{ accountRequestData.tracks[track].fields[field].display_name }}
         </template>
@@ -78,7 +78,7 @@ export default {
           {{ field }}
         </template>
       </v-col>
-      <v-col cols="8" style="flex-basis: 60%; max-width: 60%;" v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)">
+      <v-col class="field-value" v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)">
         <template v-if="accountRequestData.tracks[track].fields[field].display_component">
           <component
             v-if="
@@ -125,8 +125,15 @@ export default {
   </v-container>
 </template>
 <style scoped>
-.field-label {
-  font-weight: bold;
-  padding-top: 0px !important;
-}
+  .field-label {
+    font-weight: bold;
+    flex-basis: 20%; max-width: 20%;
+  }
+  .field-value {
+    flex-basis: 75%; max-width: 80%;
+  }
+  .track-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
 </style>

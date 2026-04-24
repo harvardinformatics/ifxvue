@@ -1155,7 +1155,7 @@ export default {
               </span>
             </template>
             <template v-slot:item.currentState="{ item }">
-              <span class="state-display">{{ $stateDisplay(item.currentState) }}</span>
+              <span >{{ $stateDisplay(item.currentState) }}</span>
             </template>
             <template #account.slug="{ item }">
               <span class="text-no-wrap">{{ item.account.code }}</span>
@@ -1382,9 +1382,6 @@ export default {
   font-size: smaller;
   font-style: italic;
   color: red;
-}
-.state-display {
-  font-size: smaller;
 }
 .text-divider {
   display: flex;

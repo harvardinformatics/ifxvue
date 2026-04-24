@@ -376,9 +376,6 @@ export default {
   font-style: italic;
   color: red;
 }
-.state-display {
-  font-size: smaller;
-}
 .expand-icon {
   transition: rotate 0.3s ease-in-out;
 

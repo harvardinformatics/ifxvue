@@ -12,10 +12,10 @@ export default {
           <v-row>
             <v-col cols="12">
               <v-row>
-                <v-col cols="4">
+                <v-col class="ar-field-label">
                   MOU
                 </v-col>
-                <v-col>
+                <v-col class="ar-field-value">
                   {{ requestFileData.file }}
                 </v-col>
               </v-row>

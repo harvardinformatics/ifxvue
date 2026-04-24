@@ -122,7 +122,6 @@ export default {
       messageType: 'info',
       updating: false,
       allHeaders: [
-        { title: '', key: 'data-table-expand', sortable: false },
         { title: 'ID', key: 'id', sortable: true, hide: false },
         { title: 'State', key: 'currentState', sortable: true, width: '100px', namedSlot: true },
         { title: 'User', key: 'productUser.full_name', sortable: true },
@@ -1123,8 +1122,6 @@ export default {
             :items="filteredItems"
             :headers="headers"
             :show-select="showCheckboxes"
-            show-expand
-            expand-icon="mdi-menu-right"
             :item-value="itemKey"
             :loading="isLoading"
             :items-per-page="-1"
@@ -1145,6 +1142,7 @@ export default {
                         @click.stop
                         :indeterminate="rowSelectionToggleIndeterminate[item.value]"
                         @update:model-value="toggleGroup(item.value)"
+                        density="compact"
                       ></v-checkbox>
                     </div>
                     <div class="d-flex align-center">
@@ -1177,7 +1175,7 @@ export default {
               </span>
             </template>
             <template v-slot:item.currentState="{ item }">
-              <span class="state-display">{{ $stateDisplay(item.currentState) }}</span>
+              <span>{{ $stateDisplay(item.currentState) }}</span>
             </template>
             <template v-slot:item.account.slug="{ item }">
               <span class="text-no-wrap">{{ item.account.code }}</span>
@@ -1376,9 +1374,6 @@ export default {
   font-size: smaller;
   font-style: italic;
   color: red;
-}
-.state-display {
-  font-size: smaller;
 }
 .text-divider {
   display: flex;

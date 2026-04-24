@@ -2,6 +2,8 @@
 
 @use 'vuetify/lib/styles/main.sass';
 
+$font-size-root: 18px;
+
 // Globals
 $border-radius-root: 6px;
 $font-size-root: 14px;
@@ -91,4 +93,12 @@ $icon-sizes: (
   & .short {
     animation-play-state: running !important;
   }
+}
+
+.ar-field-label {
+    font-weight: 500;
+    flex-basis: 40%; max-width: 40%;
+}
+.ar-field-value {
+    flex-basis: 55%; max-width: 55%;
 }

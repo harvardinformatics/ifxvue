@@ -203,7 +203,7 @@ export default {
   <v-container grid-list-md>
     <v-card v-if="request" variant="flat">
       <v-card-title>
-        <v-row class="flex-no-wrap" justify="space-between" align="center">
+        <v-row class="flex-no-wrap py-4" justify="space-between" align="center">
           <v-col class="ar-title">
             <h3 class="header-base header-font-lg text-truncate">Account Request for {{request.fullName}}</h3>
           </v-col>
@@ -312,7 +312,7 @@ export default {
           <v-col cols="12">
             <v-container>
               <v-row class="flex-column">
-                <v-col class="text-title-large">
+                <v-col class="section-title">
                   Onboarding Steps
                 </v-col>
                 <v-col v-for="track in request.tracks.order" :key="track">
@@ -339,7 +339,7 @@ export default {
           <v-col>
             <v-row class="my-2">
               <v-col cols="12">
-                <span class="text-title-large">Request Files</span>
+                <span class="section-title">Request Files</span>
               </v-col>
             </v-row>
             <v-row class="flex-column">
@@ -369,6 +369,10 @@ export default {
   }
   .ar-title{
     max-width: 500px;
+  }
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 500;
   }
 </style>
 <style lang="scss">

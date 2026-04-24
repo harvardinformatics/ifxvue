@@ -11,20 +11,20 @@ export default {
     </v-col>
   </v-row>
   <v-row density="compact">
-    <v-col cols="4">Current State</v-col>
-    <v-col>
+    <v-col class="ar-field-label">Current State</v-col>
+    <v-col class="ar-field-value">
       {{ $stateDisplay(data.current_state) }}
     </v-col>
   </v-row>
   <v-row density="compact">
-    <v-col cols="4">Estimated Start Date</v-col>
-    <v-col>
+    <v-col class="ar-field-label">Estimated Start Date</v-col>
+    <v-col class="ar-field-value">
       {{ data.estimated_start_date }}
     </v-col>
   </v-row>
   <v-row density="compact">
-    <v-col cols="4">Estimated duration</v-col>
-    <v-col>
+    <v-col class="ar-field-label">Estimated duration</v-col>
+    <v-col class="ar-field-value">
       {{ data.estimated_duration }}
     </v-col>
   </v-row>
