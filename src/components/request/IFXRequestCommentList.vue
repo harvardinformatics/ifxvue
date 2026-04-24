@@ -70,6 +70,7 @@ export default {
                   color="green"
                   @click="updateRequestComment(index, request.requestComments[index].text)"
                   icon="mdi-check"
+                  variant="text"
                 >
                 </v-btn>
               </template>
