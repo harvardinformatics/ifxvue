@@ -3,6 +3,7 @@ import moment from 'moment'
 import { mapActions } from 'vuex'
 import IFXBillingRecordListDecimal from '@/components/billingRecord/IFXBillingRecordListDecimal'
 import IFXGenericBillingSummaryList from '@/components/billingSummary/IFXGenericBillingSummaryList'
+import IFXMonthYearDatePicker from '@/components/IFXMonthYearDatePicker'
 
 export default {
   name: 'IFXBillingRecords',
@@ -80,6 +81,7 @@ export default {
   components: {
     IFXBillingRecordListDecimal,
     IFXGenericBillingSummaryList,
+    IFXMonthYearDatePicker,
   },
   computed: {
     // Convert date string to Date object for v-date-picker
@@ -155,28 +157,13 @@ export default {
             <h2 data-cy="header-title">Billing Records</h2>
           </v-col>
           <v-col cols="4">
-            <v-menu
-              v-model="dateMenu"
-              :close-on-content-click="false"
-              location="bottom right"
-            >
-              <template v-slot:activator="{ props }">
-                <v-text-field
-                  v-model="date"
-                  label="Month *"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="props"
-                  hint="YYYY-MM format"
-                  persistent-hint
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                :model-value="dateAsDate"
-                @update:model-value="onDateChange"
-                view-mode="month"
-              ></v-date-picker>
-            </v-menu>
+            <IFXMonthYearDatePicker
+              v-model="date"
+              label="Month"
+              hint="YYYY-MM format"
+              persistent-hint
+              required
+            />
           </v-col>
           <v-col>
             <v-btn @click="resetShowBillingRecords()" variant="elevated" elevation="1" color="grey-lighten-3">View Billing Records</v-btn>
