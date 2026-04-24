@@ -211,7 +211,7 @@ export default {
       return this.allHeaders.filter((h) => !h.hide).filter((h) => !this.$vuetify.display[h.hide])
     },
     sortByArray() {
-      return this.sortBy ? [{ key: this.sortBy, order: 'asc' }] : []
+      return this.sortBy ? [{ key: this.sortBy, order: 'asc' }] : [{ key: 'id', order: 'asc' }]
     },
     month: function () {
       return Number(this.dateParts()[1])
@@ -1125,13 +1125,13 @@ export default {
             :item-value="itemKey"
             :loading="isLoading"
             :items-per-page="-1"
-            :sort-by="sortByArray"
             :group-by="groupBy"
+            disable-sort
             @item-selected="determineGroupState"
             @toggle-select-all="toggleSelectAll"
           >
             <template v-slot:group-header="{ item, columns, toggleGroup: toggleGroupSlot, isGroupOpen }">
-              <tr>
+              <tr style="background-color: rgb(238, 238, 238);">
                 <td :colspan="columns.length" class="">
                   <div class="d-flex align-center w-100">
                     <div v-if="showCheckboxes" class="force-compact-checkbox">
