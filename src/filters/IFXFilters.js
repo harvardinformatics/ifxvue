@@ -71,7 +71,7 @@ export function stateDisplay(value) {
   if (value) {
     const result = value
       .split('_')
-      .map((e) => e == 'CNS' ? e : capitalizeFirstLetter(e))
+      .map((e) => e == 'CNS' || e == 'PI' ? e : capitalizeFirstLetter(e))
       .join(' ')
       .trim()
     return result

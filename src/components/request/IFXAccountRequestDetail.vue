@@ -32,8 +32,8 @@ export default {
     return {
       request: null,
       approval: null,
-      valid_states: [],
-      refresh_timer: null,
+      validStates: [],
+      refreshTimer: null,
       updating_expiration_date: false,
       expiration_date_menu: false,
       organizations: [], // Needed for IFXAccountRequestTrackDetail and IFXDisplayLabInfo
@@ -44,16 +44,16 @@ export default {
     ...mapActions(['showMessage']),
     addEmptyComment() {
       // Adds an empty comment to the requestComments list.
-      if (this.refresh_timer) {
-        clearInterval(this.refresh_timer)
+      if (this.refreshTimer) {
+        clearInterval(this.refreshTimer)
       }
       this.request.requestComments.unshift(this.$requestApi.newRequestComment())
     },
     handleStepChange(step) {
       // If a step has been made incomplete, make sure that the request data confirmed step
       // is also incomplete so that the data will get updated.
-      if (this.refresh_timer) {
-        clearInterval(this.refresh_timer)
+      if (this.refreshTimer) {
+        clearInterval(this.refreshTimer)
       }
       if (step && step.value === 'incomplete') {
         if (step.track !== 'general' && this.tracks.hasOwnProperty(step.track)) {
@@ -78,7 +78,7 @@ export default {
     },
     updatingExpirationDate() {
       this.updating_expiration_date = true
-      clearInterval(this.refresh_timer)
+      clearInterval(this.refreshTimer)
     },
     async updateRequestComment(commentData) {
       if (commentData.text) {
@@ -109,8 +109,8 @@ export default {
     },
     updateRequestState() {
       if (this.approval) {
-        if (this.refresh_timer) {
-          clearInterval(this.refresh_timer)
+        if (this.refreshTimer) {
+          clearInterval(this.refreshTimer)
         }
         const me = this
         let newState = this.request.currentState
@@ -154,24 +154,26 @@ export default {
         .then((response) => {
           me.request = response
           if (me.request.result) {
-            clearInterval(me.refresh_timer)
+            clearInterval(me.refreshTimer)
           }
-          this.$requestApi
-            .getValidProcessorStates(me.request.processor)
-            .then((res) => {
-              forEach(res.data, (state) => {
-                const display = me.$stateDisplay(state)
-                me.valid_states.push({ display: display, value: state })
+          if (!me.validStates.length) {
+            this.$requestApi
+              .getValidProcessorStates(me.request.processor)
+              .then((res) => {
+                forEach(res.data, (state) => {
+                  const display = me.$stateDisplay(state)
+                  me.validStates.push({ display: display, value: state })
+                })
               })
-            })
-            .catch((error) => {
-              this.showMessage(error)
-              clearInterval(me.refresh_timer)
-            })
+              .catch((error) => {
+                this.showMessage(error)
+                clearInterval(me.refreshTimer)
+              })
+          }
         })
         .catch((error) => {
           console.log(error)
-          clearInterval(me.refresh_timer)
+          clearInterval(me.refreshTimer)
           this.showMessage(error)
         })
     },
@@ -182,7 +184,7 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next) {
-    clearInterval(this.refresh_timer)
+    clearInterval(this.refreshTimer)
     next()
   },
   async mounted() {
@@ -190,8 +192,8 @@ export default {
     await this.getRequest(me.$route.params.id)
     this.organizations = await this.$api.organization.getNames()
     this.loading = false
-    this.refresh_timer = null
-    this.refresh_timer = setInterval(() => {
+    this.refreshTimer = null
+    this.refreshTimer = setInterval(() => {
       if (me.$route.params.id) {
         me.getRequest(me.$route.params.id)
       }
@@ -335,7 +337,7 @@ export default {
             </v-container>
           </v-col>
         </v-row>
-        <v-row class="mx-1 my-3">
+        <v-row class="mx-1 my-3" v-if="request.requestData && request.requestData.request_files && request.requestData.request_files.length > 0">
           <v-col>
             <v-row class="my-2">
               <v-col cols="12">
@@ -355,7 +357,7 @@ export default {
         </v-row>
         <v-row class="flex-column my-3">
           <v-col v-if="request">
-            <IFXAccountRequestStateList :request="request" :validStates="valid_states"/>
+            <IFXAccountRequestStateList :request="request" :validStates="validStates"/>
           </v-col>
         </v-row>
       </v-container>

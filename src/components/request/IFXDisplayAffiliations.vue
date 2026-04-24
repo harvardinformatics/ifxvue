@@ -7,7 +7,7 @@ export default {
       const names = []
       this.data.person.affiliations.forEach((affiliation) => {
         if (affiliation.slug !== this.data.person.primary_affiliation) {
-          names.push(this.$options.filters.orgNameFromSlug(affiliation.slug))
+          names.push(this.$orgNameFromSlug(affiliation.slug))
         }
       })
       return names.join(', ')
@@ -24,7 +24,7 @@ export default {
           {{ $orgNameFromSlug(data.person.primary_affiliation) }}
         </v-col>
       </v-row>
-      <v-row v-if="data.person.affiliations.length && data.person.affiliations.length > 1" density="compact">
+      <v-row v-if="data.person.affiliations && data.person.affiliations.length > 1" density="compact">
         <v-col class="ar-field-label">Others</v-col>
         <v-col class="ar-field-value">
           {{ affiliationNames() }}
@@ -32,7 +32,7 @@ export default {
       </v-row>
       <v-row density="compact">
         <v-col class="ar-field-label">Approvers</v-col>
-        <v-col v-if="data.approver_contacts.length > 0" class="ar-field-value">
+        <v-col v-if="data.approver_contacts && data.approver_contacts.length > 0" class="ar-field-value">
           <span v-for="(approver, index) in data.approver_contacts" :key="index">
             <a :href="`mailto:${approver}`">{{ approver }}</a>
             <span v-if="index < data.approver_contacts.length - 1">,&nbsp;</span>
