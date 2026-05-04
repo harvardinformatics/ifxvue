@@ -443,8 +443,7 @@ export default {
           <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable" />
         </v-col>
       </v-row>
-      <span>
-        <v-divider class="my-7" />
+        <v-divider class="my-5" />
         <v-row density="compact">
           <v-col sm="4" md="3">
             <h3 class="my-0">Other Contacts</h3>
@@ -469,9 +468,7 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
-      </span>
-      <span>
-        <v-divider class="my-2"></v-divider>
+        <v-divider class="my-5"></v-divider>
         <v-row density="comfortable">
           <v-col sm="3" md="3">
             <h3>Other Affiliations</h3>
@@ -501,7 +498,6 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
-      </span>
       <v-divider class="my-5" />
       <span v-if="hasUserFiles(item)">
         <v-row density="compact">
@@ -577,7 +573,7 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
-        <v-divider class="my-5" />
+        <v-divider class="my-7" />
       </span>
       <v-row density="compact" v-if="areAnyAccountsPresent">
         <v-col sm="4" md="3">

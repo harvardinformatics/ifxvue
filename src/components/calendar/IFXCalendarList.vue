@@ -110,6 +110,7 @@ export default {
     latestMonth: null,
     startingDate: moment.tz('America/New_York').valueOf(),
     diffFromEastern: 0,
+    calendarTitleKey: 1,
   }),
   async mounted() {
     const now = moment.tz('America/New_York')
@@ -169,9 +170,16 @@ export default {
     this.eventsAreLoading = false
     // Kick off time updates
     this.$refs.calendar.checkChange()
+    this.calendarTitleKey += 1
     this.updateTime()
   },
   computed: {
+    calendarTitle() {
+      if (this.$refs.calendar) {
+        return this.$refs.calendar.title
+      }
+      return ''
+    },
     humanStartDate() {
       return this.newEvent.startDate ? this.newEvent.startDateAsMoment.format('M/DD/YYYY h:mm A') : ''
     },
@@ -1092,8 +1100,7 @@ export default {
               @click="next"
               data-cy="calendar-next"
             ></v-btn>
-            <v-toolbar-title v-if="$refs.calendar" class="ml-0">
-              {{ $refs.calendar.title }}
+            <v-toolbar-title :key="calendarTitleKey" :text="calendarTitle" class="ml-0">
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <span class="font-weight-light">(All times Eastern)</span>
