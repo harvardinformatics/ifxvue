@@ -444,11 +444,11 @@ export default {
         </v-col>
       </v-row>
         <v-divider class="my-5" />
-        <v-row density="compact">
-          <v-col sm="4" md="3">
+        <v-row>
+          <v-col cols="3">
             <h3 class="my-0">Other Contacts</h3>
           </v-col>
-          <v-col>
+          <v-col class="d-flex flex-grow-1 flex-shrink-0">
             <div v-for="(contact, index) in item.contacts" :key="contact.id ?? index">
               <IFXContactRoleDisplayEdit
                 :contact="contact"
