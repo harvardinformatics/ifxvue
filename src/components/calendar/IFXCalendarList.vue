@@ -432,8 +432,14 @@ export default {
             .isBefore(moment.tz(item.startDate, 'America/New_York').subtract(param.modifyBeforeReservation, units))
       }
       // Check if we're in the past and disallow editing
-      insideTimeWindow = insideTimeWindow && !this.isInThePast(item)
+      insideTimeWindow = insideTimeWindow && !this.isAfterTheBillingPeriodEnds(item)
       return insideTimeWindow && item.productUser.id === this.currentUser.id && item.reservation.isEditable
+    },
+    isAfterTheBillingPeriodEnds(item) {
+      // Check if the current time is after the end of the billing period for this reservation. If it is past the end of the billing period, don't allow editing
+      return moment
+        .tz('America/New_York')
+        .isAfter(moment.tz(item.startDate, 'America/New_York').add(1, 'month').endOf('month'))
     },
     isInThePast(item) {
       // return new Date(item.startDate).getTime() <= new Date().getTime()
@@ -519,7 +525,8 @@ export default {
     },
     checkInPast(v) {
       return (
-        moment.tz(v, this.parseFormats, 'America/New_York').isAfter(moment.tz('America/New_York'))
+        this.cantBeEdited // If the reservation can't be edited, don't bother checking if it's in the past
+        || moment.tz(v, this.parseFormats, 'America/New_York').isAfter(moment.tz('America/New_York'))
         || this.$api.auth.can('add-reservations-in-the-past')
         || 'Cannot set reservations in the past'
       )
@@ -1541,7 +1548,7 @@ export default {
               <v-card-actions class="d-flex justify-space-between">
                 <v-btn text color="secondary" @click="clearReservation" data-cy="reservation-clear">Clear</v-btn>
                 <v-btn text color="primary" :disabled="!formIsValid" @click="reserveResource" data-cy="reservation-ok">
-                  Reserve
+                  {{ cantBeEdited ? 'Update' : 'Reserve' }}
                 </v-btn>
               </v-card-actions>
             </v-card>
