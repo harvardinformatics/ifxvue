@@ -353,7 +353,7 @@ export default {
     },
     setDefaultStartDate(dateToUse) {
       const dateObject = moment.tz(dateToUse, 'America/New_York')
-      this.pickerDate = dateObject.toISOString().substr(0, 10)
+      this.pickerDate = dateObject.toISOString().slice(0, 10)
       const nextHour = new Date().getMinutes() < 31 ? 1 : 2
       this.pickerTime = moment.tz('America/New_York').add(nextHour, 'hour').startOf('hour').format('HH:mm')
       this.newEvent.startDate = null
