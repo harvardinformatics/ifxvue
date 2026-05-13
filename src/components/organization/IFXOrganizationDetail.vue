@@ -48,6 +48,8 @@ export default {
   methods: {
     async init() {
       this.item = await this.apiRef.getByID(this.id, true)
+      console.log('application key, ', this.item.applicationKey)
+      console.log('customer id', this.item.customerId)
       this.cacheItem()
       this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
       const allFacilities = await this.$api.facility.getList()
@@ -199,6 +201,31 @@ export default {
             </v-col>
           </v-row>
         </v-alert>
+      </v-col>
+    </v-row>
+    <v-row dense class="ml-2">
+      <v-col>
+        <v-row>
+          <v-col>
+            <h2>Details</h2>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            A/R Customer ID
+          </v-col>
+          <v-col>
+            {{ item.customerId }}
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            A/R Address ID
+          </v-col>
+          <v-col>
+            {{ item.addressId }}
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
     <v-row dense class="ml-2">
