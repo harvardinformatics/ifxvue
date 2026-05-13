@@ -20,18 +20,21 @@ export default {
         height: 300,
         menubar: false,
         statusbar: false,
-        plugins: [
-          'advlist autolink lists link image charmap',
-          'searchreplace visualblocks fullscreen',
-          'print preview anchor insertdatetime media',
-          'paste code help wordcount table'
-        ],
-        toolbar: 'undo redo | code | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+        plugins:
+          'advlist autolink lists link image charmap searchreplace visualblocks fullscreen preview anchor insertdatetime media code help wordcount table',
+        toolbar:
+          'undo redo | code | blocks fontfamily fontsize | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+        quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
       }
     },
     messageTitle() {
-      return this.item.displayName ? `Edit ${this.item.displayName}` : `Edit Message ${this.item.id}`
-    }
+      // eslint-disable-next-line no-nested-ternary
+      return this.isEditing
+        ? this.item.displayName
+          ? `Edit ${this.item.displayName}`
+          : `Edit Message ${this.item.id}`
+        : 'Create Message'
+    },
   },
   methods: {
     async getItem() {
@@ -72,12 +75,13 @@ export default {
             <Editor
               v-model="item.message"
               :init="editorInit"
+              tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.4/tinymce.min.js"
             ></Editor>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <IFXPageActionBar :disabled="!isValid" btnType="submit" @action="submit" />
+            <IFXPageActionBar :disabled="!isValid" btnType="submit" @action="submit" :submitting="submitting" />
           </v-col>
         </v-row>
       </v-form>

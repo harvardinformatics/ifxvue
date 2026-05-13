@@ -10,6 +10,10 @@ export default {
       type: Array,
       required: true,
     },
+    orgSlugs: {
+      type: Array,
+      required: true,
+    },
     item: {
       type: Object,
       required: true,
@@ -40,6 +44,9 @@ export default {
         this.$delete(this.errors, key)
       }
     },
+    trimOrgName(slug) {
+      return this.$api.organization.parseSlug(slug).name
+    },
   },
   watch: {
     isValid(valid) {
@@ -67,7 +74,7 @@ export default {
 </script>
 <template>
   <v-container fluid v-if="!isLoading && !!item">
-    <v-container fluid v-if="hasIFXID">
+    <div fluid v-if="hasIFXID">
       <v-row no-gutters>
         <v-col>
           <p>
@@ -113,7 +120,7 @@ export default {
               :rules="formRules.generic"
               required
             ></v-text-field>
-            <v-combobox
+            <v-autocomplete
               v-if="canEdit('User.groups')"
               v-model="itemLocal.groups"
               :items="allGroupNames"
@@ -123,13 +130,14 @@ export default {
               hint="Groups to which this user belongs."
               persistent-hint
               :error-messages="errors.groups"
+              @focus="clearError('groups')"
             >
               <template #selection="{ item }">
                 <v-chip :color="getChipColorForGroup(item)" close @click:close="removeGroup(item)">
                   <strong>{{ item }}</strong>
                 </v-chip>
               </template>
-            </v-combobox>
+            </v-autocomplete>
             <div class="items-warning" v-else>{{ itemLocal.groups.join(', ') || 'No groups' }}</div>
           </v-col>
         </v-row>
@@ -147,6 +155,29 @@ export default {
             ></v-text-field>
           </v-col>
           <v-col sm="6">
+            <v-autocomplete
+              v-model.trim="itemLocal.primaryAffiliation"
+              :items="orgSlugs"
+              hint="The user's primary affiliation."
+              persistent-hint
+              label="Primary Affiliation"
+              :error-messages="errors.primary_affiliation"
+              @focus="clearError('primary_affiliation')"
+              :disabled="!canEdit('User.primaryAffiliation')"
+              :rules="formRules.generic"
+              required
+            >
+              <template #item="{ item }">
+                {{ trimOrgName(item) }}
+              </template>
+              <template #selection="{ item }">
+                {{ trimOrgName(item) }}
+              </template>
+            </v-autocomplete>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col sm="6" offset="6">
             <v-switch
               :label="`${this.$api.vars.appNameFormatted} Login`"
               :disabled="!canEdit('User.isActive')"
@@ -155,7 +186,7 @@ export default {
           </v-col>
         </v-row>
       </v-form>
-    </v-container>
+    </div>
     <v-container v-else>
       <v-alert :value="true" type="error" outlined>
         Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms

@@ -9,14 +9,12 @@ import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
 import IFXBillingRecordHeaderDecimal from '@/components/billingRecord/IFXBillingRecordHeaderDecimal'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
-import IFXBillingRecordTransactionsDecimal from './IFXBillingRecordTransactionsDecimal'
 
 export default {
   name: 'IFXBillingRecordListDecimal',
   components: {
     IFXButton,
     IFXSearchField,
-    IFXBillingRecordTransactionsDecimal,
     IFXContactablesCombobox,
     IFXMailButton,
     IFXBillingRecordHeaderDecimal,
@@ -61,6 +59,16 @@ export default {
       required: false,
       default: true,
     },
+    allowDeleteBillingRecords: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    allowUsageReport: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     useDefaultMailButton: {
       type: Boolean,
       required: false,
@@ -76,10 +84,25 @@ export default {
       required: false,
       default: false,
     },
+    showStartDate: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     sortBy: {
       type: String,
       required: false,
       default: null,
+    },
+    showTotals: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    totalUnits: {
+      type: String,
+      required: false,
+      default: 'hours',
     },
   },
   mounted() {
@@ -111,7 +134,13 @@ export default {
         { text: 'Lab', value: 'account.organization', sortable: true },
         { text: 'Expense Code / PO', value: 'account.slug', sortable: true },
         { text: 'Product', value: 'product', sortable: true },
-        { text: 'Start Date', value: 'startDate', sortable: true, hide: !this.showDates, namedSlot: true },
+        {
+          text: 'Start Date',
+          value: 'startDate',
+          sortable: true,
+          hide: !this.showDates && !this.showStartDate,
+          namedSlot: true,
+        },
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
@@ -172,6 +201,8 @@ export default {
       newExpenseCode: null,
       showChangeExpenseCodeDialog: false,
       recordIDsToBeChanged: [],
+      showUsageReportDialog: false,
+      loadingUsageReport: false,
     }
   },
   computed: {
@@ -202,8 +233,13 @@ export default {
         ? 'Cannot approve billing records that are FINAL'
         : 'Approve selected billing records'
     },
+    deleteSelectedToolTip: function () {
+      return this.billingRecordsAreFinal(this.selected)
+        ? 'Can only delete billing records that are INIT or PENDING_LAB_APPROVAL'
+        : 'Delete selected billing records'
+    },
     showCheckboxes: function () {
-      return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration
+      return this.allowDownloads || this.allowApprovals || this.allowInvoiceGeneration || this.allowDeleteBillingRecords
     },
   },
   methods: {
@@ -248,6 +284,16 @@ export default {
         return false
       }
       const result = items.some((record) => record?.currentState === 'FINAL')
+      return result
+    },
+    billingRecordsAreInitOrPending(items) {
+      // Returns true if all records in the list are either in INIT, PENDING_LAB_APPROVAL, or LAB_APPROVED state
+      if (!items || !items.length) {
+        return false
+      }
+      const result = items.every(
+        (record) => record?.currentState === 'INIT' || record?.currentState === 'PENDING_LAB_APPROVAL' || record?.currentState === 'LAB_APPROVED'
+      )
       return result
     },
     getItemsFilteredBySearch() {
@@ -381,17 +427,17 @@ export default {
           this.showMessage(message)
         })
     },
-    async generateInvoices() {
+    async generateInvoices(wholeMonth = false) {
       this.updating = true
       this.message = ''
-      const allFinal = this.selected.every((record) => record.currentState === 'FINAL')
-      if (!allFinal) {
-        await this.setState(this.selected, 'FINAL')
-      }
       const orgSet = new Set()
-      this.selected.forEach((item) => {
-        orgSet.add(item.account.organization)
-      })
+      if (!wholeMonth) {
+        this.selected.forEach((item) => {
+          orgSet.add(item.account.organization)
+        })
+      } else {
+        this.selected = []
+      }
       const selectedOrgs = Array.from(orgSet)
       this.$api.invoice
         .generate(this.facility.invoicePrefix, this.month, this.year, selectedOrgs)
@@ -414,15 +460,6 @@ export default {
           if (this.messageType !== 'error') {
             this.message = `${this.message}<p><a href="${url}">Go to Invoices</a></p>`
           }
-          this.isLoading = true
-          this.facilityBillingRecords()
-            .catch((error) => {
-              const errorMessage = this.getErrorMessage(error)
-              this.showMessage(`Error loading ${this.facility.name} billing records: ${errorMessage}`)
-            })
-            .finally(() => {
-              this.isLoading = false
-            })
         })
         .catch((error) => {
           this.updating = false
@@ -447,22 +484,16 @@ export default {
     },
     summaryCharges(group) {
       const records = this.filteredItems.filter((item) => item.account.organization === group)
-      const summary = records.reduce((prev, current) => prev + parseInt(current.decimalCharge, 10), 0)
+      const summary = records.reduce((prev, current) => prev + current.decimalCharge, 0)
       return summary
     },
-    getSummaryDetails(group) {
-      const records = this.filteredItems.filter((item) => item.account.organization === group)
-      const expenseMap = new Map()
-      records.forEach((item) => {
-        const charge = item.decimalCharge
-        if (expenseMap.has(item.account.slug)) {
-          const value = expenseMap.get(item.account.slug)
-          expenseMap.set(item.account.slug, value + charge)
-        } else {
-          expenseMap.set(item.account.slug, charge)
-        }
-      })
-      return expenseMap
+    totalCharges() {
+      const total = this.filteredItems.reduce((prev, current) => prev + current.decimalCharge, 0)
+      return total
+    },
+    totalHours() {
+      const total = this.filteredItems.reduce((prev, current) => prev + current.decimalQuantity, 0)
+      return Math.round(total * 100) / 100
     },
     determineGroupState(e) {
       const group = e.item.account.organization
@@ -537,20 +568,6 @@ export default {
         })
       }
     },
-    addNewTransaction(item) {
-      const orgBillingRec = item.orgRec
-      const { charge, decimalCharge, rate, description, author } = item
-      const newTransactionData = {
-        charge,
-        decimalCharge,
-        rate,
-        description,
-        author,
-      }
-      const newTransaction = this.$api.billingTransaction.create(newTransactionData)
-      orgBillingRec.addTransaction(newTransaction)
-      this.updateBillingRecord(orgBillingRec, item.index)
-    },
     updateBillingRecord(newRecord, index) {
       this.updating = true
       this.$api.billingRecord
@@ -575,6 +592,25 @@ export default {
           this.editDialog = false
           this.showChangeExpenseCodeDialog = false
         })
+    },
+    async deleteSelectedBillingRecords() {
+      this.updating = true
+      let successCount = 0
+      for (let i = 0; i < this.selected.length; i++) {
+        try {
+          await this.$api.billingRecord.delete(this.selected[i])
+          this.items = this.items.filter((item) => !(item.id === this.selected[i].id))
+          successCount++
+        } catch (error) {
+          const message = this.getErrorMessage(error)
+          this.showMessage(message)
+        }
+      }
+      this.showMessage(`Successfully deleted ${successCount} billing record(s)`)
+      this.selected = []
+
+      this.isLoading = false
+      this.updating = false
     },
     async openEditDialog(item) {
       const index = this.items.findIndex((rec) => rec.id === item.id)
@@ -605,11 +641,23 @@ export default {
         query: { next: this.$route.path },
       })
     },
-    allowAddingTransactions(item) {
-      return item.currentState !== 'FINAL'
-    },
     allowEditingRecords(item) {
       return item.currentState !== 'FINAL'
+    },
+    goToComposeMessage(field) {
+      this.recipientField = field
+      const orgs = this.selected.length ? this.selected : this.filteredItems
+      const orgSlugs = orgs.map((item) => item.account.organization)
+      this.$router.push({
+        name: 'MailingCompose',
+        params: {
+          labManagerOrgSlugs: [...new Set(orgSlugs)],
+          message: null,
+          subject: null,
+          recipientField: this.recipientField,
+          invoicePrefix: this.facility.invoicePrefix,
+        },
+      })
     },
     defaultNotifyLabManagers() {
       const orgSlugs = this.items.map((item) => item.account.organization)
@@ -679,6 +727,33 @@ export default {
     closeChangeExpenseCodeDialog() {
       this.recordIDsToBeChanged = []
       this.showChangeExpenseCodeDialog = false
+    },
+    getUsageReport() {
+      this.usageReportHref = ''
+      this.usageReportFileName = ''
+      this.usageReportMessage = ''
+      this.loadingUsageReport = true
+      const organization_slug = this.organization
+      this.$api.getUsageReport(
+        this.facility.invoicePrefix,
+        this.year,
+        this.month,
+        organization_slug,
+      ).then((response) => {
+        this.usageReportHref = response.data.url
+        this.usageReportFileName = response.data.filename
+      }).catch((error) => {
+        this.usageReportMessage = error?.response?.data?.error || 'An error occurred while generating the usage report'
+      }).finally(() => {
+        this.loadingUsageReport = false
+      })
+    },
+    openGetUsageReportDialog() {
+      this.getUsageReport()
+      this.showUsageReportDialog = true
+    },
+    closeGetUsageReportDialog() {
+      this.showUsageReportDialog = false
     },
     async changeExpenseCode() {
       const recordsToChange = []
@@ -770,20 +845,20 @@ export default {
               {{ facility.name }}
             </div>
           </v-col>
-          <v-col cols="3">
+          <v-col class="flex-grow-2">
             <v-row dense>
               <v-col>
                 <IFXSearchField :search.sync="search" />
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="4">
+          <v-col>
             <v-row dense class="d-flex flex-nowrap justify-end align-start">
               <v-col v-if="updating">
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
               </v-col>
               <v-col v-else>
-                <v-row dense class="d-flex justify-start align-center">
+                <v-row dense class="d-flex justify-start align-center nowrap">
                   <v-col class="pa-2">
                     <IFXMailButton
                       v-if="useDefaultMailButton"
@@ -795,9 +870,41 @@ export default {
                     <v-tooltip top v-else>
                       <template v-slot:activator="{ on, attrs }">
                         <div v-on="on">
-                          <v-btn small fab color="green" v-bind="attrs" @click="openNotifyDialog">
-                            <v-icon dark color="white">mdi-email-send-outline</v-icon>
-                          </v-btn>
+                          <v-speed-dial direction="bottom" v-model="mailFab" v-bind="attrs">
+                            <template v-slot:activator>
+                              <v-btn v-model="mailFab" small color="green" fab>
+                                <v-icon color="white" dark v-if="mailFab">mdi-close</v-icon>
+                                <v-icon color="white" dark v-else>mdi-email-send-outline</v-icon>
+                              </v-btn>
+                            </template>
+                            <v-btn small color="teal" class="white--text" @click="openNotifyDialog">
+                              Notify Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#A4F323"
+                              @click="goToComposeMessage('to')"
+                              :disabled="!filteredItems.length"
+                            >
+                              Send a message to selected Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#86C61D"
+                              @click="goToComposeMessage('cc')"
+                              :disabled="!filteredItems.length"
+                            >
+                              CC selected Lab Managers
+                            </v-btn>
+                            <v-btn
+                              xSmall
+                              color="#669617"
+                              @click="goToComposeMessage('bcc')"
+                              :disabled="!filteredItems.length"
+                            >
+                              BCC selected Lab Managers
+                            </v-btn>
+                          </v-speed-dial>
 
                           <v-dialog v-bind="attrs" v-model="notifyDialog" max-width="600px">
                             <v-card>
@@ -821,7 +928,7 @@ export default {
                                   </v-row>
                                   <v-row no-gutters>
                                     <v-col cols="12">
-                                      <div class="text-divider font-italic text-center">
+                                      <div class="text-divider font-italic text-center mt-2">
                                         Or specify email addresses directly
                                       </div>
                                       <IFXContactablesCombobox
@@ -922,25 +1029,6 @@ export default {
                           <span>{{ approveSelectedToolTip }}</span>
                         </v-tooltip>
                       </v-col>
-                      <v-col>
-                        <v-tooltip top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <div v-on="on">
-                              <v-btn
-                                :disabled="billingRecordsAreFinal(items) || isLoading || items.length == 0"
-                                v-bind="attrs"
-                                fab
-                                small
-                                color="green"
-                                @click="approve(true)"
-                              >
-                                <v-icon dark>done_all</v-icon>
-                              </v-btn>
-                            </div>
-                          </template>
-                          <span>{{ approveAllToolTip }}</span>
-                        </v-tooltip>
-                      </v-col>
                     </v-row>
                   </v-col>
                   <v-col class="pa-2" v-if="allowDownloads">
@@ -1017,6 +1105,71 @@ export default {
                       </v-col>
                     </v-row>
                   </v-col>
+                  <v-col class="pa-2" v-if="allowInvoiceGeneration">
+                    <v-row dense>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                :disabled="
+                                  isLoading ||
+                                  !$api.auth.can('generate-invoices', $api.authUser)
+                                "
+                                v-bind="attrs"
+                                color="blue"
+                                small
+                                fab
+                                @click="generateInvoices(wholeMonth = true)"
+                              >
+                                <v-icon>mdi-calendar-month</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>Deactivate any existing invoices and process the entire month</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col v-if="allowDeleteBillingRecords">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn
+                            :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selected)"
+                            v-bind="attrs"
+                            fab
+                            small
+                            color="red"
+                            @click="deleteSelectedBillingRecords()"
+                          >
+                            <v-icon dark>mdi-trash-can-outline</v-icon>
+                          </v-btn>
+                        </div>
+                      </template>
+                      <span>{{ deleteSelectedToolTip }}</span>
+                    </v-tooltip>
+                  </v-col>
+                  <v-col v-if="allowUsageReport && facility.hasUsageReport">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn
+                            :disabled="!organization"
+                            v-bind="attrs"
+                            fab
+                            small
+                            color="yellow"
+                            @click="openGetUsageReportDialog()"
+                          >
+                            <!-- <v-icon dark>mdi-file-replace-outline</v-icon> -->
+                            <v-icon dark>mdi-hammer-wrench</v-icon>
+                          </v-btn>
+                        </div>
+                      </template>
+                      <span>Get usage report</span>
+                    </v-tooltip>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -1065,7 +1218,6 @@ export default {
                 :rowSelectionToggleIndeterminateGroup.sync="rowSelectionToggleIndeterminate[group]"
                 :summaryCharges="summaryCharges(group)"
                 :toggleGroup="toggleGroup"
-                :getSummaryDetails="getSummaryDetails"
                 @
               />
             </template>
@@ -1116,13 +1268,6 @@ export default {
             <template v-slot:item.actions="{ item }">
               <div class="d-flex flex-row">
                 <IFXButton
-                  v-if="allowAddingTransactions(item)"
-                  iconString="add"
-                  btnType="add"
-                  xSmall
-                  @action="openTxnDialog(item)"
-                />
-                <IFXButton
                   class="ml-2"
                   v-if="allowEditingRecords(item)"
                   iconString="edit"
@@ -1132,57 +1277,15 @@ export default {
                 />
               </div>
             </template>
-            <template v-slot:expanded-item="{ item }">
-              <IFXBillingRecordTransactionsDecimal :billingRecord="item" />
+            <template v-slot:footer.prepend v-if="showTotals">
+              <span class="text-body-1">
+                {{ facility.name }} total charges for {{ date }} are
+                <span class="font-weight-medium">{{ totalCharges() | dollars }}</span>
+                for
+                <span class="font-weight-medium">{{ totalHours() }} {{ totalUnits }}</span>
+              </span>
             </template>
           </v-data-table>
-          <v-dialog v-model="txnDialog" max-width="600px">
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">Add a new transaction to Billing Record {{ editedItem.orgRec.id }}</span>
-              </v-card-title>
-              <v-card-subtitle>
-                <div class="py-2 text-h6 font-weight-medium">Rate is {{ editedItem.rate }}</div>
-              </v-card-subtitle>
-
-              <v-card-text>
-                <v-form v-model="isValidTxn">
-                  <v-row>
-                    <v-col>
-                      <v-currency-field
-                        required
-                        v-model="editedItem.charge"
-                        label="Charge"
-                        :error-messages="errors[editedItem.charge]"
-                        :rules="formRules.currency"
-                        prefix="$"
-                        allow-negative
-                      ></v-currency-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12">
-                      <v-textarea
-                        required
-                        v-model="editedItem.description"
-                        label="Transaction description"
-                        :error-messages="errors[editedItem.description]"
-                        :rules="formRules.generic"
-                      ></v-textarea>
-                    </v-col>
-                  </v-row>
-                </v-form>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="secondary" text @click="closeTxnDialog">Cancel</v-btn>
-                <v-btn color="blue darken-1" text :disabled="!isValidTxn" @click="addNewTransaction(editedItem)">
-                  Save
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
           <v-dialog v-model="editDialog" max-width="600px">
             <v-card>
               <v-card-title>
@@ -1273,6 +1376,38 @@ export default {
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="showUsageReportDialog" v-if="showUsageReportDialog" max-width="600px">
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">Get Usage Report</span>
+              </v-card-title>
+              <v-card-text>
+                <div v-if="loadingUsageReport">
+                  <span class="mr-3">Running report...</span>
+                  <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                </div>
+                <div v-else>
+                  <v-row>
+                    <v-col>
+                      <a v-if="usageReportHref"
+                        :href="usageReportHref"
+                      >
+                        {{ usageReportFileName }}
+                      </a>
+                      <span v-else>
+                        {{ usageReportMessage }}
+                      </span>
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="closeGetUsageReportDialog()">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-col>
       </v-row>
     </v-card>
@@ -1332,6 +1467,12 @@ export default {
 }
 .border-bottom {
   border-bottom: 1px solid #ccc;
+}
+.flex-grow-2 {
+  flex-grow: 2;
+}
+.search-field {
+  width: 100%;
 }
 </style>
 <style>

@@ -93,7 +93,8 @@ export default {
     getContactIndicesByRole(role) {
       const indices = []
       this.item.contacts.forEach((contact, index) => {
-        if (contact.role === role) {
+        // Respect the showInactive setting
+        if (contact.role === role && (this.showInactive ? true : contact.active)) {
           indices.push(index)
         }
       })
@@ -189,6 +190,17 @@ export default {
         </div>
       </template>
     </IFXPageHeader>
+    <v-row dense v-if="isSubmittable">
+      <v-col>
+        <v-alert elevation="2" dense border="left" light color="warning" icon="mdi-alert-circle-outline">
+          <v-row dense>
+            <v-col>
+              <h3 class="font-weight-medium">You have unsaved changes!</h3>
+            </v-col>
+          </v-row>
+        </v-alert>
+      </v-col>
+    </v-row>
     <v-row dense class="ml-2">
       <v-col>
         <v-row>
@@ -326,7 +338,7 @@ export default {
               />
             </div>
           </v-col>
-          <div class="w-full">
+          <div class="w-full" v-if="getContactIndicesByRole(contactGroupName).length !== 0">
             <v-divider></v-divider>
           </div>
         </v-row>
@@ -338,6 +350,7 @@ export default {
       btnType="submit"
       :disabled="!isSubmittable"
       @action="updateUsersAndSubmit"
+      :submitting="submitting"
     ></IFXPageActionBar>
     <v-dialog v-model="contactDialogOpen" v-if="contactDialogOpen" max-width="600px" persistent>
       <v-card>

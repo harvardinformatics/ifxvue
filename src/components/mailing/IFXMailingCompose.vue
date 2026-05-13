@@ -53,17 +53,27 @@ export default {
     labManagerOrgSlugs: {
       type: Array,
       required: false,
-      default: null
+      default: null,
+    },
+    invoicePrefix: {
+      type: String,
+      required: false,
+      default: null,
     },
     recipients: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     recipientField: {
       type: String,
       required: false,
-      default: null
+      default: null,
+    },
+    plainEmail: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
@@ -76,7 +86,7 @@ export default {
         cc: null,
         bcc: null,
         subject: null,
-        message: null
+        message: null,
       },
       fromAddr: null,
       toList: [],
@@ -86,6 +96,10 @@ export default {
       mailing: null,
       content: null,
       contactables: [],
+      editorKey: 0,
+      toListKey: 1,
+      ccListKey: 2,
+      bccListKey: 3,
     }
   },
   methods: {
@@ -95,12 +109,26 @@ export default {
       let result = str
       if (str && str.indexOf('<') !== -1) {
         const match = str.match(/<\s*([^ >]+)\s*>/)
-        if (match) { result = match[1] }
+        if (match) {
+          result = match[1]
+        }
       }
       return result
     },
+    reset() {
+      this.$refs.mailingComposeForm.reset()
+      this.content = ''
+      this.editorKey += 1
+    },
     sendMailing() {
+      if (!this.content) {
+        this.showMessage('Please enter a message before sending.')
+        return
+      }
       const toMailStr = (contactable) => {
+        if (this.plainEmail) {
+          return contactable
+        }
         if (contactable.name) {
           return `${contactable.name} <${contactable.detail}>`
         }
@@ -111,7 +139,7 @@ export default {
         message: this.content,
         subject: this.localSubject,
         fromstr: this.fromAddr,
-        tostr: [...new Set(this.toList.map(toMailStr))].join(',')
+        tostr: [...new Set(this.toList.map(toMailStr))].join(','),
       }
       if (this.ccList.length) {
         mailing.ccstr = [...new Set(this.ccList.map(toMailStr))].join(',')
@@ -119,9 +147,15 @@ export default {
       if (this.bccList.length) {
         mailing.bccstr = [...new Set(this.bccList.map(toMailStr))].join(',')
       }
-      this.$api.mailing.sendIfxMailing(mailing)
-        .then(res => this.showMessage(res))
-        .catch(err => {
+      this.$api.mailing
+        .sendIfxMailing(mailing)
+        .then(
+          (res) => {
+            this.showMessage(res)
+            this.reset()
+          }
+        )
+        .catch((err) => {
           if (has(err, 'response') && has(err.response, 'data') && has(err.response.data, 'field_errors')) {
             this.fieldErrors = err.response.data.field_errors
           } else {
@@ -136,13 +170,10 @@ export default {
         height: 300,
         menubar: false,
         statusbar: false,
-        plugins: [
-          'advlist autolink lists link image charmap',
-          'searchreplace visualblocks fullscreen',
-          'print preview anchor insertdatetime media',
-          'paste code help wordcount table'
-        ],
-        toolbar: 'undo redo | code | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
+        plugins:
+          'advlist autolink lists link image charmap searchreplace visualblocks fullscreen preview anchor insertdatetime media code help wordcount table',
+        toolbar:
+          'undo redo | code | blocks fontfamily fontsize | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | help',
       }
     },
   },
@@ -154,19 +185,25 @@ export default {
     if (this.subject) {
       this.localSubject = this.subject
     }
-    this.$api.contactables.getList()
+    this.$api.contactables
+      .getList()
       .then((result) => {
-        this.contactables = result
+        if (this.plainEmail) {
+          this.contactables = result.map((contactable) => contactable.detail)
+        } else {
+          this.contactables = result
+        }
         // If we're doing the lab manager notification thing
         if (this.labManagerOrgSlugs) {
-          this.$api.contactables.getList({ role: 'Lab Manager', org_slugs: this.labManagerOrgSlugs })
-            .then((result2) => {
+          this.$api.getBillingContacts(this.labManagerOrgSlugs, this.invoicePrefix)
+            .then((res) => {
+              const result2 = res.data
               // If a contact for one of the orgs cannot be found, raise an error
               const orgContactNotFound = []
               me.labManagerOrgSlugs.forEach((slug) => {
-                const name = this.$api.organization.parseSlug((slug)).name
+                const name = this.$api.organization.parseSlug(slug).name
                 // Check if org name is in the contactable label
-                if (!result2.some((contactable) => contactable.label.indexOf(name) !== -1)) {
+                if (!result2.some((contactable) => contactable?.label?.indexOf(name) !== -1)) {
                   orgContactNotFound.push(name)
                 }
               })
@@ -195,6 +232,9 @@ export default {
                 me.showMessage(message)
               }
             })
+            .catch((error) => {
+              this.showMessage(error)
+            })
         } else {
           this.isLoading = false
         }
@@ -206,53 +246,62 @@ export default {
         if (this.to) {
           this.to.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
-            const matches = this.contactables.filter((contactable) => contactable.detail === email)
-            if (matches) {
-              this.toList = this.toList.concat(matches)
+            if (this.plainEmail) {
+              this.toList.push(email)
             } else {
-              this.toList.push(
-                {
+              const matches = this.contactables.filter((contactable) => contactable.detail === email)
+              if (matches) {
+                this.toList = this.toList.concat(matches)
+              } else {
+                this.toList.push({
                   detail: email,
                   label: email,
-                  text: email
-                }
-              )
+                  text: email,
+                })
+              }
             }
           })
+          this.toListKey += 1
         }
         if (this.cc) {
           this.cc.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
-            const matches = this.contactables.filter((contactable) => contactable.detail === email)
-            if (matches) {
-              this.ccList = this.ccList.concat(matches)
+            if (this.plainEmail) {
+              this.ccList.push(email)
             } else {
-              this.ccList.push(
-                {
+              const matches = this.contactables.filter((contactable) => contactable.detail === email)
+              if (matches && !this.plainEmail) {
+                this.ccList = this.ccList.concat(matches)
+              } else {
+                this.ccList.push({
                   detail: email,
                   label: email,
-                  text: email
-                }
-              )
+                  text: email,
+                })
+              }
             }
           })
+          this.ccListKey += 1
         }
         if (this.bcc) {
           this.bcc.split(',').forEach((ele) => {
             const email = this.extractEmailAddress(ele)
-            const matches = this.contactables.filter((contactable) => contactable.detail === email)
-            if (matches) {
-              this.bccList = this.bccList.concat(matches)
+            if (this.plainEmail) {
+              this.bccList.push(email)
             } else {
-              this.bccList.push(
-                {
+              const matches = this.contactables.filter((contactable) => contactable.detail === email)
+              if (matches && !this.plainEmail) {
+                this.bccList = this.bccList.concat(matches)
+              } else {
+                this.bccList.push({
                   detail: email,
                   label: email,
-                  text: email
-                }
-              )
+                  text: email,
+                })
+              }
             }
           })
+          this.bccListKey += 1
         }
         if (this.recipients) {
           this.recipients.split(',').forEach((ele) => {
@@ -281,78 +330,84 @@ export default {
           })
         }
       })
-      .catch((error) => { this.showMessage(error) })
+      .catch((error) => {
+        this.showMessage(error)
+      })
     if (this.messageName) {
-      this.$api.message.getList({ name: this.messageName })
-        .then((result) => {
-          if (result.length) {
-            this.content = result[0].message
-          }
-        })
+      this.$api.message.getList({ name: this.messageName }).then((result) => {
+        if (result.length) {
+          this.content = result[0].message
+        }
+      })
     }
-  }
+  },
 }
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>Compose Mailing</template>
       <template #content>Compose a new mailing</template>
     </IFXPageHeader>
     <v-container>
-    <v-form v-model='isValid' id="mailing-compose-form" ref="mailingComposeForm">
-      <v-text-field
-        label="From"
-        v-model="fromAddr"
-        :rules="formRules.generic"
-        :error-messages="fieldErrors.fromAddr"
-        class="required"
-      ></v-text-field>
-      <IFXContactablesCombobox
-        ref="toCombobox"
-        label="To:"
-        required
-        :fieldError="fieldErrors.toList"
-        v-model="toList"
-        :contactables="contactables"
-      />
-      <IFXContactablesCombobox
-        ref="ccCombobox"
-        label="Cc:"
-        :fieldError="fieldErrors.ccList"
-        v-model="ccList"
-        :contactables="contactables"
-      />
-      <IFXContactablesCombobox
-        label="Bcc:"
-        :fieldError="fieldErrors.bccList"
-        v-model="bccList"
-        :contactables="contactables"
-      />
-      <v-text-field
-        label="Subject"
-        v-model="localSubject"
-        :rules="formRules.generic"
-        :error-messages="fieldErrors.subject"
-        required
-        class="required"
-        hint="This will appear as the subject line in the email."
-      ></v-text-field>
-      <span>
-        <Editor
-          v-model="content"
-          :init="editorInit"
-        ></Editor>
-      </span>
-    </v-form>
-    <IFXPageActionBar
-      :disabled='false'
-      btnType='submit'
-      btnText='Send'
-      @action="sendMailing"
-    >
-    </IFXPageActionBar>
+      <v-form v-model="isValid" id="mailing-compose-form" ref="mailingComposeForm">
+        <v-text-field
+          label="From"
+          v-model="fromAddr"
+          :rules="formRules.generic"
+          :error-messages="fieldErrors.fromAddr"
+          required
+          class="required"
+        ></v-text-field>
+        <IFXContactablesCombobox
+          ref="toCombobox"
+          label="To:"
+          required
+          :fieldError="fieldErrors.toList"
+          v-model="toList"
+          :contactables="contactables"
+          :loading="isLoading"
+          :key="toListKey"
+        />
+        <IFXContactablesCombobox
+          ref="ccCombobox"
+          label="Cc:"
+          :fieldError="fieldErrors.ccList"
+          v-model="ccList"
+          :contactables="contactables"
+          :loading="isLoading"
+          :key="ccListKey"
+        />
+        <IFXContactablesCombobox
+          label="Bcc:"
+          :fieldError="fieldErrors.bccList"
+          v-model="bccList"
+          :contactables="contactables"
+          :loading="isLoading"
+          :key="bccListKey"
+        />
+        <v-text-field
+          label="Subject"
+          v-model="localSubject"
+          :rules="formRules.generic"
+          :error-messages="fieldErrors.subject"
+          required
+          class="required"
+          hint="This will appear as the subject line in the email."
+        ></v-text-field>
+        <span>
+          <Editor
+            :key="editorKey"
+            v-model="content"
+            :init="editorInit"
+            tinymceScriptSrc="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.4/tinymce.min.js"
+          ></Editor>
+        </span>
+      </v-form>
+      <div class="mt-3">
+        <IFXPageActionBar :disabled="!isValid" btnType="submit" btnText="Send" @action="sendMailing"></IFXPageActionBar>
+      </div>
     </v-container>
   </v-container>
 </template>

@@ -171,6 +171,14 @@ export default class Person extends ItemBase {
     this.data.visa_details = visaDetails
   }
 
+  get scholarType() {
+    return this.data.scholar_type
+  }
+
+  set scholarType(scholarType) {
+    this.data.scholar_type = scholarType
+  }
+
   get url() {
     return this.data.url
   }

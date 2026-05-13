@@ -121,6 +121,14 @@ class Product extends IFXItemBase {
     this.data.product_name = name
   }
 
+  get productName() {
+    return this.data.product_name
+  }
+
+  set productName(productName) {
+    this.data.product_name = productName
+  }
+
   get billable() {
     return this.data.billable
   }
@@ -135,6 +143,14 @@ class Product extends IFXItemBase {
 
   set description(description) {
     this.data.product_description = description
+  }
+
+  get productDescription() {
+    return this.data.product_description
+  }
+
+  set productDescription(productDescription) {
+    this.data.product_description = productDescription
   }
 
   get billingCalculator() {
@@ -161,12 +177,44 @@ class Product extends IFXItemBase {
     this.data.reporting_group = reportingGroup
   }
 
+  get productCategory() {
+    return this.data.product_category
+  }
+
+  set productCategory(productCategory) {
+    this.data.product_category = productCategory
+  }
+
   get rates() {
     return this.data.rates
   }
 
   set rates(rates) {
     this.data.rates = rates
+  }
+
+  get parent() {
+    return this.data.parent
+  }
+
+  set parent(parent) {
+    this.data.parent = parent
+  }
+
+  get objectCodeCategory() {
+    return this.data.object_code_category
+  }
+
+  set objectCodeCategory(objectCodeCategory) {
+    this.data.object_code_category = objectCodeCategory
+  }
+
+  get productOrganization() {
+    return this.data.product_organization
+  }
+
+  set productOrganization(productOrganization) {
+    this.data.product_organization = productOrganization
   }
 
   addRate(rate) {
@@ -180,99 +228,14 @@ class Product extends IFXItemBase {
   get text() {
     return this.name
   }
-}
 
-/* Generic ProductUsage that is primarily used
- * by the IFXCalculateBillingMonth component
- */
-class ProductUsage extends IFXItemBase {
-  get product() {
-    return this.data.product
+  get isActive() {
+    return this.data.is_active
   }
 
-  set product(product) {
-    this.data.product = product
-  }
-
-  get productUser() {
-    return this.data.product_user
-  }
-
-  set productUser(productUser) {
-    this.data.product_user = productUser
-  }
-
-  get year() {
-    return this.data.year
-  }
-
-  set year(year) {
-    this.data.year = year
-  }
-
-  get month() {
-    return this.data.month
-  }
-
-  set month(month) {
-    this.data.month = month
-  }
-
-  get quantity() {
-    return this.data.quantity
-  }
-
-  set quantity(quantity) {
-    this.data.quantity = quantity
-  }
-
-  get decimalQuantity() {
-    return this.data.decimal_quantity
-  }
-
-  set decimalQuantity(decimalQuantity) {
-    this.data.decimal_quantity = decimalQuantity
-  }
-
-  get startDate() {
-    return this.data.start_date
-  }
-
-  set startDate(startDate) {
-    this.data.start_date = startDate
-  }
-
-  get description() {
-    return this.data.description
-  }
-
-  set description(description) {
-    this.data.description = description
-  }
-
-  get organization() {
-    return this.data.organization
-  }
-
-  set organization(organization) {
-    this.data.organization = organization
-  }
-
-  get processing() {
-    return this.data.processing
-  }
-
-  get loggedBy() {
-    return this.data.logged_by
-  }
-
-  get created() {
-    return this.data.created
-  }
-
-  get updated() {
-    return this.data.updated
+  set isActive(isActive) {
+    this.data.is_active = isActive
   }
 }
 
-export { Product, ProductRate, ProductUsage, Processing }
+export { Product, ProductRate, Processing }

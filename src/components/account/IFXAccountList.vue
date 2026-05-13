@@ -32,20 +32,20 @@ export default {
 </script>
 
 <template>
-  <v-container v-if="!isLoading">
+  <v-container>
     <IFXPageHeader>
       <template #title>Expense codes / POs</template>
       <template #actions>
         <IFXSearchField :search.sync="search" />
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
+    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
       <template v-slot:active="{ item }">
         <v-icon v-if="item.active" color="green">check</v-icon>
         <v-icon v-else color="red">close</v-icon>
       </template>
-      <template v-slot:lab="{ item }">
-        {{ item.organization }}
+      <template v-slot:organization="{ item }">
+        {{ item.organization | orgNameFromSlug}}
       </template>
       <template v-slot:code="{ item }">
         <span style="white-space: nowrap">{{ item.code }}</span>

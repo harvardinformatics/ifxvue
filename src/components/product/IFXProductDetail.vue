@@ -13,6 +13,10 @@ export default {
     return {
       selected: [],
       showDeactivatedRates: false,
+      currencyFormatter: new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      })
     }
   },
   computed: {
@@ -20,7 +24,7 @@ export default {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Description', value: 'description', sortable: true, namedSlot: true },
-        { text: 'Price', value: 'price', sortable: true },
+        { text: 'Price', value: 'decimalPrice', sortable: true, namedSlot: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
@@ -78,11 +82,27 @@ export default {
       </v-row>
       <v-row justify="start" align="center" dense>
         <v-col sm="2">
+          <h3>Object Code Category</h3>
+        </v-col>
+        <v-col>
+          {{ item.objectCodeCategory }}
+        </v-col>
+      </v-row>
+      <v-row justify="start" align="center" dense>
+        <v-col sm="2">
           <h3>Billable</h3>
         </v-col>
         <v-col>
           <span v-if="item.billable">Yes</span>
           <span v-else>No</span>
+        </v-col>
+      </v-row>
+      <v-row v-if="item.parent" justify="start" align="center" dense>
+        <v-col sm="2">
+          <h3>Parent product</h3>
+        </v-col>
+        <v-col>
+          {{ item.parent.name }}
         </v-col>
       </v-row>
       <v-row>
@@ -126,6 +146,9 @@ export default {
             </template>
             <template #maxQty="{ item }">
               {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}
+            </template>
+            <template #decimalPrice="{ item }">
+              {{ currencyFormatter.format(item.decimalPrice) }}
             </template>
           </IFXItemDataTable>
           <span v-else>None</span>

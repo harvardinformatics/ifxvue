@@ -1,5 +1,39 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
+export class UserFile extends IFXItemBase {
+  get id() {
+    return this.data.id
+  }
+
+  set id(id) {
+    this.data.id = id
+  }
+
+  get file() {
+    return this.data.file
+  }
+
+  set file(file) {
+    this.data.file = file
+  }
+
+  get user() {
+    return this.data.user
+  }
+
+  set user(user) {
+    this.data.user = user
+  }
+
+  get category() {
+    return this.data.category
+  }
+
+  set category(category) {
+    this.data.category = category
+  }
+}
+
 export class UserContact {
   constructor(data) {
     this.data = data
@@ -178,10 +212,9 @@ export class User extends IFXItemBase {
   constructor(data) {
     super(data)
     // Setting primary email so that when updates are done, the correct Person field is updated
-    this.data.primary_email = data.email
     // NOTE: values must be set here explicitly for nested forms to be reactive
-    this.addresses = data.addresses || []
-    this.contacts = data.contacts || []
+    this.addresses = data?.addresses || []
+    this.contacts = data?.contacts || []
   }
 
   get ifxid() {
@@ -237,19 +270,19 @@ export class User extends IFXItemBase {
   }
 
   get email() {
-    return this.data.primary_email
+    return this.data.email
   }
 
   set email(email) {
-    this.data.primary_email = email
+    this.data.email = email
   }
 
   get primaryEmail() {
-    return this.data.primary_email
+    return this.data.email
   }
 
   set primaryEmail(primaryEmail) {
-    this.data.primary_email = primaryEmail
+    this.data.email = primaryEmail
   }
 
   get primaryAffiliation() {
@@ -362,6 +395,22 @@ export class User extends IFXItemBase {
 
   set contacts(contacts) {
     this.data.contacts = contacts
+  }
+
+  get userFiles() {
+    return this.data.user_files
+  }
+
+  set userFiles(userFiles) {
+    this.data.user_files = userFiles
+  }
+
+  get userAliases() {
+    return this.data.user_aliases
+  }
+
+  set userAliases(userAliases) {
+    this.data.user_aliases = userAliases
   }
 
   hasGroup(group) {

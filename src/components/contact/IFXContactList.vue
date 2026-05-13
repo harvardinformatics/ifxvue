@@ -47,12 +47,6 @@ export default {
       return !!this.$vuetify.breakpoint.mdAndUp
     },
   },
-  mounted() {
-    this.isLoading = true
-    this.getSetItems()
-      .then(() => (this.focusedContact = this.items[0]))
-      .then(() => (this.isLoading = false))
-  },
 }
 </script>
 <style lang="scss" scoped>
@@ -61,7 +55,7 @@ export default {
 }
 </style>
 <template>
-  <v-container v-if="!isLoading" fluid grid-list-md>
+  <v-container fluid grid-list-md>
     <IFXPageHeader>
       <template #title>{{ listTitle }}</template>
       <template #actions>
@@ -93,6 +87,7 @@ export default {
           :itemType="itemType"
           itemKey="key"
           @click-row="setFocusedContact"
+          :loading="isLoading"
         >
           <template v-slot:created="{ item }">
             <span style="white-space: nowrap">{{ item.created | humanDatetime }}</span>

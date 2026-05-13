@@ -14,12 +14,34 @@ export default {
     IFXPageActionBar,
     IFXItemDataTable,
   },
+  props: {
+    parentProducts: {
+      type: Array,
+      required: false,
+    },
+    id: {
+      default: '',
+      type: String,
+    },
+    isEditing: {
+      default: false,
+      type: Boolean,
+    },
+    emitNavigate: {
+      default: false,
+      type: Boolean,
+    },
+  },
   data() {
     return {
       allFacilities: [],
       newRates: [],
       selected: [],
       showDeactivatedRates: false,
+      currencyFormatter: new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      })
     }
   },
   methods: {
@@ -33,6 +55,9 @@ export default {
       })
 
       this.allFacilities = await this.$api.facility.getList()
+      if (this.allFacilities.length === 1 && !this.item.facility) {
+        this.item.facility = this.allFacilities[0].name
+      }
       this.cachedItem = JSON.stringify(this.apiRef.decompose(this.item))
     },
     hasItemChanged() {
@@ -73,7 +98,7 @@ export default {
       const headers = [
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Description', value: 'description', sortable: true, namedSlot: true },
-        { text: 'Price', value: 'price', sortable: true },
+        { text: 'Price', value: 'decimalPrice', sortable: true, namedSlot: true },
         { text: 'Units', value: 'units', sortable: true, slot: true },
         { text: 'Max Quantity', value: 'maxQty', sortable: false, namedSlot: true },
         { text: 'Active', value: 'active', sortable: true, namedSlot: true },
@@ -117,6 +142,7 @@ export default {
               @keyup="$refs.productForm.resetValidation()"
               required
               @focus="clearError('product_name')"
+              class="required"
             ></v-text-field>
           </v-col>
           <v-col>
@@ -131,15 +157,36 @@ export default {
               item-value="name"
               required
               @focus="clearError('facility')"
+              class="required"
             ></v-select>
           </v-col>
           <v-col>
-            <v-checkbox
-              class="mt-0 pt-0"
-              v-model="item.billable"
-              label="Billable"
-              data-cy="billable"
-            ></v-checkbox>
+            <v-checkbox class="mt-0 pt-0" v-model="item.billable" label="Billable" data-cy="billable"></v-checkbox>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-select
+              :items="apiRef.objectCodeCategories()"
+              v-model="item.objectCodeCategory"
+              label="Object Code Category"
+              class="required"
+            >
+            </v-select>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item.productCategory"
+              label="Product Category"
+              data-cy="product-category"
+              :error-messages="errors.product_category"
+              @keyup="$refs.productForm.resetValidation()"
+              @focus="clearError('product_category')"
+              hint="General grouping of products. May have significance in billing or reporting."
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            &nbsp;
           </v-col>
         </v-row>
         <v-row>
@@ -154,7 +201,21 @@ export default {
               required
               auto-grow
               rows="2"
+              class="required"
             ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row v-if="parentProducts">
+          <v-col>
+            <v-autocomplete
+              v-model="item.parent"
+              label="Parent product"
+              :items="parentProducts"
+              :error-messages="errors['parent']"
+              return-object
+              :rules="formRules.generic"
+              @focus="clearError('parent')"
+            ></v-autocomplete>
           </v-col>
         </v-row>
         <v-row>
@@ -269,6 +330,9 @@ export default {
                 </span>
                 <span v-else class="grey--text">None</span>
               </template>
+              <template #decimalPrice="{ item }">
+                {{ currencyFormatter.format(item.decimalPrice) }}
+              </template>
               <template #actions="{ item }">
                 <IFXButton
                   v-if="item.active && canUpdateRate()"
@@ -282,7 +346,7 @@ export default {
             </IFXItemDataTable>
           </v-col>
         </v-row>
-        <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
+        <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" :submitting="submitting" />
       </v-form>
     </v-container>
   </v-container>

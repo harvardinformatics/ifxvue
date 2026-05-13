@@ -20,15 +20,19 @@
     :error-messages='errorMessage'
     no-data-text="No new results match that query."
     :class="{'required': required}"
+    :loading="loading"
   >
   <!-- Display the icons in different colors, based on their contactable type -->
     <template #item="{item}">
-      <v-icon :color="item.color">{{item.icon}}</v-icon>
-      <v-list-item v-text='item.text'></v-list-item>
+      <v-icon v-if="item.icon" :color="item.color">{{item.icon}}</v-icon>
+      <v-list-item v-if="item.text" v-text="item.text"></v-list-item>
+      <v-list-item v-else v-text="item"></v-list-item>
     </template>
     <template #selection="{item}">
       <v-chip color="transparent" close @click:close="removeFromSelected(item)">
-        <v-icon :color="item.color" class="mr-2">{{item.icon}}</v-icon>{{item.label}}
+        <v-icon v-if="item.icon" :color="item.color" class="mr-2">{{item.icon}}</v-icon>
+        <span v-if="item.label">{{item.label}}</span>
+        <span v-else>{{item}}</span>
       </v-chip>
     </template>
   </v-combobox>
@@ -69,6 +73,11 @@ export default {
     value: {
       type: Array,
       required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -82,7 +91,7 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     getItemText(item) {
-      return item.text
+      return item.text ? item.text : item
     },
     getItemValue(item) {
       return item

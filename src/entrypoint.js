@@ -16,6 +16,7 @@ import IFXPageActionBar from '@/components/page/IFXPageActionBar'
 // Item
 import IFXItemCreateEditMixin from '@/components/item/IFXItemCreateEditMixin'
 import IFXItemDetailMixin from '@/components/item/IFXItemDetailMixin'
+import IFXItemEditableDetailMixin from '@/components/item/IFXItemEditableDetailMixin'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
 import IFXItemSelectableMixin from '@/components/item/IFXItemSelectableMixin'
 import IFXItemSelectList from '@/components/item/IFXItemSelectList'
@@ -96,11 +97,18 @@ import IFXExpenseCodeRequest from '@/components/account/IFXExpenseCodeRequest'
 import IFXFacility from '@/components/facility/IFXFacility'
 
 // Product
-import { Product, ProductRate, ProductUsage, Processing } from '@/components/product/IFXProduct'
+import { Product, ProductRate, Processing } from '@/components/product/IFXProduct'
 import IFXProductList from '@/components/product/IFXProductList'
 import IFXProductDetail from '@/components/product/IFXProductDetail'
 import IFXProductCreateEdit from '@/components/product/IFXProductCreateEdit'
 import IFXProductMixin from '@/components/product/IFXProductMixin'
+
+// Product Usage
+import ProductUsage from '@/components/productUsage/IFXProductUsage'
+import IFXProductUsageList from '@/components/productUsage/IFXProductUsageList'
+import IFXProductUsageDetail from '@/components/productUsage/IFXProductUsageDetail'
+import IFXProductUsageCreateEdit from '@/components/productUsage/IFXProductUsageCreateEdit'
+import IFXProductUsageMixin from '@/components/productUsage/IFXProductUsageMixin'
 
 // Billing
 import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
@@ -109,6 +117,10 @@ import IFXBillingRecords from '@/components/billingRecord/IFXBillingRecords'
 import IFXBillingRecordDetail from '@/components/billingRecord/IFXBillingRecordDetail'
 import IFXCalculateBillingMonth from '@/components/billingRecord/IFXCalculateBillingMonth'
 import IFXBillableMixin from '@/components/billingRecord/IFXBillableMixin'
+
+// Billing Summaries
+import IFXLabBillingSummaryList from '@/components/billingSummary/IFXLabBillingSummaryList'
+import IFXGenericBillingSummaryList from '@/components/billingSummary/IFXGenericBillingSummaryList'
 
 // Reports
 import IFXReportRunList from '@/components/report/IFXReportRunList'
@@ -127,6 +139,34 @@ import mailing from '@/vuex/mailing'
 // Calendars
 import IFXCalendarList from '@/components/calendar/IFXCalendarList'
 
+// Channel Subscriptions
+import IFXSubscriptionList from '@/components/subscription/IFXSubscriptionList'
+import IFXLogChannelList from '@/components/channel/IFXLogChannelList'
+import IFXLogChannelCreateEdit from '@/components/channel/IFXLogChannelCreateEdit'
+import IFXLogChannelDetail from '@/components/channel/IFXLogChannelDetail'
+
+// Account Request
+import IFXAccountRequestDetail from '@/components/request/IFXAccountRequestDetail'
+import IFXAccountRequestStateList from '@/components/request/IFXAccountRequestStateList'
+import IFXAccountRequestTrackDetail from '@/components/request/IFXAccountRequestTrackDetail'
+import IFXAccountRequestFile from '@/components/request/IFXAccountRequestFile'
+import IFXDisplayMOU from '@/components/request/IFXDisplayMOU'
+import IFXDisplayPO from '@/components/request/IFXDisplayPO'
+import IFXDisplayAddressList from '@/components/request/IFXDisplayAddressList'
+import IFXDisplayContactList from '@/components/request/IFXDisplayContactList'
+import IFXDisplayHarvardKey from '@/components/request/IFXDisplayHarvardKey'
+import IFXDisplayOnboardStep from '@/components/request/IFXDisplayOnboardStep'
+import IFXDisplayDemographicData from '@/components/request/IFXDisplayDemographicData'
+import IFXDisplayLabInfo from '@/components/request/IFXDisplayLabInfo'
+import IFXDisplayScientificArea from '@/components/request/IFXDisplayScientificArea'
+import IFXDisplayExpenseCode from '@/components/request/IFXDisplayExpenseCode'
+import IFXDisplayTermsAndConditions from '@/components/request/IFXDisplayTermsAndConditions'
+import IFXDisplayAffiliations from '@/components/request/IFXDisplayAffiliations'
+import IFXDisplayEnteredAffiliation from '@/components/request/IFXDisplayEnteredAffiliation'
+import IFXDisplaySimpleText from '@/components/request/IFXDisplaySimpleText'
+import IFXRequestCommentList from '@/components/request/IFXRequestCommentList'
+import IFXRequestList from '@/components/request/IFXRequestList'
+
 // These components/mixins must be import individually in host application
 export {
   IFXAPIService,
@@ -135,6 +175,7 @@ export {
   IFXItemSelectList,
   IFXItemCreateEditMixin,
   IFXItemDetailMixin,
+  IFXItemEditableDetailMixin,
   IFXItemListMixin,
   IFXItemSelectableMixin,
   IFXItemHistoryDisplay,
@@ -201,6 +242,10 @@ export {
   IFXProductList,
   IFXProductMixin,
   IFXProductCreateEdit,
+  IFXProductUsageDetail,
+  IFXProductUsageMixin,
+  IFXProductUsageCreateEdit,
+  IFXProductUsageList,
   IFXPageActionBar,
   IFXBillingRecordList,
   IFXBillingRecordListDecimal,
@@ -210,6 +255,32 @@ export {
   IFXBillableMixin,
   IFXCalendarList,
   IFXReportRunList,
+  IFXAccountRequestDetail,
+  IFXAccountRequestStateList,
+  IFXAccountRequestTrackDetail,
+  IFXAccountRequestFile,
+  IFXDisplayAddressList,
+  IFXDisplayContactList,
+  IFXDisplayHarvardKey,
+  IFXDisplayOnboardStep,
+  IFXDisplayDemographicData,
+  IFXDisplayMOU,
+  IFXDisplayPO,
+  IFXDisplayLabInfo,
+  IFXDisplayScientificArea,
+  IFXDisplayExpenseCode,
+  IFXDisplayTermsAndConditions,
+  IFXDisplayAffiliations,
+  IFXDisplayEnteredAffiliation,
+  IFXDisplaySimpleText,
+  IFXRequestCommentList,
+  IFXRequestList,
+  IFXLabBillingSummaryList,
+  IFXGenericBillingSummaryList,
+  IFXSubscriptionList,
+  IFXLogChannelList,
+  IFXLogChannelCreateEdit,
+  IFXLogChannelDetail,
 }
 
 // Registered globally

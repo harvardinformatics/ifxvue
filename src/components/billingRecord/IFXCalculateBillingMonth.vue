@@ -21,6 +21,11 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    fetchInterval: {
+      type: Number,
+      required: false,
+      default: 1000
     }
   },
   components: {
@@ -46,6 +51,7 @@ export default {
       search: null,
       onlyErrorsStorageKey: 'calculate-billing-month-onlyErrors',
       onlyErrors: false,
+      globalErrors: null,
     }
   },
   watch: {
@@ -70,6 +76,7 @@ export default {
         { text: 'Year', value: 'year', slot: true, sortable: true },
         { text: 'Month', value: 'month', slot: true, sortable: true },
         { text: 'Organization', value: 'organization', namedSlot: true, sortable: true },
+        { text: 'Product', value: 'product', slot: true, sortable: true, namedSlot: true },
         { text: 'Description', value: 'description', slot: true },
         { text: 'Processing', value: 'processing', sortable: true, namedSlot: true },
       ]
@@ -80,7 +87,7 @@ export default {
         return 'To create new billing for usages that have billing records, check Recalculate'
       }
       if (this.recalculate) {
-        return 'Recalculate billing records'
+        return 'Remove existing billing records and recalculate'
       }
       return 'Calculate billing records'
     },
@@ -160,11 +167,15 @@ export default {
         // Keep refreshing the usages until the calculation is finished
         this.interval = setInterval(() => {
           me.getUsages()
-        }, 1000)
+        }, this.fetchInterval)
         const yearMonth = this.getYearMonth()
+        this.globalErrors = null
         this.$api.calculateBillingMonth(this.facility, yearMonth.year, yearMonth.month, this.recalculate)
           .then((response) => {
             const message = `${response.data.successes} usages successfully processed (of ${totalUsages})`
+            if (response.data.errors?.length) {
+              me.globalErrors = response.data.errors.join(', ')
+            }
             this.showMessage(message)
             clearInterval(this.interval)
             this.getUsages()
@@ -226,6 +237,13 @@ export default {
     <IFXPageHeader>
       <template #title>Calculate billing month</template>
     </IFXPageHeader>
+    <v-row v-if="globalErrors">
+      <v-col>
+        <v-alert type="error" outlined>
+          {{ globalErrors }}
+        </v-alert>
+      </v-col>
+    </v-row>
     <v-row align="center" dense>
       <v-col>
         <v-menu
@@ -267,7 +285,7 @@ export default {
           <v-col>
             <v-checkbox
               v-model="recalculate"
-              label="Recalculate"
+              label="Remove existing billing records and recalculate"
             >
             </v-checkbox>
           </v-col>
@@ -338,6 +356,9 @@ export default {
               {{ item.processing.errorMessage }}
             </span>
             <span v-else>&nbsp;</span>
+          </template>
+          <template v-slot:product="{ item }">
+            {{ item.product.productName }}
           </template>
         </IFXItemDataTable>
       </v-col>

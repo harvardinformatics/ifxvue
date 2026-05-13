@@ -60,6 +60,11 @@ export default {
       required: false,
       default: true,
     },
+    defaultItemsPerPage: {
+      type: Number,
+      required: false,
+      default: 10,
+    },
   },
   data: () => ({
     currentPage: 1,
@@ -168,6 +173,7 @@ export default {
         :value="props.value"
         :indeterminate="props.indeterminate"
         v-on="on"
+        :ripple="false"
       ></v-simple-checkbox>
     </template>
 

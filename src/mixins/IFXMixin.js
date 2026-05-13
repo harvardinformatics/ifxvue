@@ -81,17 +81,11 @@ export default {
       // If today is Friday and it is 11am or later, first business day is next monday
       if (todayInt === 5 && hour >= 11) {
         // Add one week to today and get monday of that week
-        return now
-          .clone()
-          .add(1, 'week')
-          .isoWeekday(1)
+        return now.clone().add(1, 'week').isoWeekday(1)
       }
       if ([6, 7].includes(todayInt)) {
         // If today is Saturday or Sunday, first business day is next monday
-        return now
-          .clone()
-          .add(1, 'week')
-          .isoWeekday(1)
+        return now.clone().add(1, 'week').isoWeekday(1)
       }
       // If it is a weekday and it is before 11am, today is the first business day
       if (hour < 11) {
@@ -113,17 +107,11 @@ export default {
       }
       // If firstBusinessDay is Thursday, deliver next Monday
       if (firstBusinessDay.isoWeekday() === 4) {
-        return firstBusinessDay
-          .clone()
-          .add(1, 'week')
-          .isoWeekday(1)
+        return firstBusinessDay.clone().add(1, 'week').isoWeekday(1)
       }
       // If firstBusinessDay is Friday, deliver next Tuesday
       if (firstBusinessDay.isoWeekday() === 5) {
-        return firstBusinessDay
-          .clone()
-          .add(1, 'week')
-          .isoWeekday(2)
+        return firstBusinessDay.clone().add(1, 'week').isoWeekday(2)
       }
       return null
     },
@@ -269,10 +257,6 @@ export default {
     rt() {
       return this.$route
     },
-    // Default items displayed on list components
-    defaultItemsPerPage() {
-      return 10
-    },
     // Default page options for list components
     defaultItemsPerPageOptions() {
       return [10, 20, { text: 'All', value: -1 }]
@@ -319,7 +303,7 @@ export default {
          * @param {any} v
          * @returns {boolean | string}
          */
-        email: [baseRule, (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'],
+        email: [baseRule, (v) => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'],
         /**
          * Checks if value is a valid phone # (10 digits)
          * @param {any} v

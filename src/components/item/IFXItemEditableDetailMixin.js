@@ -11,15 +11,24 @@ export default {
     return {
       isLoading: false,
       isValid: false,
+      isEditing: true,
       item: {},
       cachedItem: {},
       errors: {},
+      submitting: false,
     }
   },
   methods: {
     ...mapActions(['showMessage']),
     can(ability, user = this.$api.authUser) {
       return this.$api.auth.can(ability, user)
+    },
+    getAdditionalData() {
+      // This is a placeholder that gets overridden in the component if it needs to load extra data
+      return Promise.resolve()
+    },
+    getItem() {
+      return this.apiRef.getByID(this.id)
     },
     async init() {
       try {
@@ -50,19 +59,24 @@ export default {
       }
     },
     submitUpdate() {
-      this.apiRef
+      this.$nextTick(() => {
+        this.submitting = true
+      })
+      return this.apiRef
         .update(this.item)
-        .then(async (res) => {
+        .then(async () => {
+          this.submitting = false
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
-          await this.sleep(this.routeDelay)
           if (this.$route.query.next) {
+            await this.sleep(this.routeDelay)
             this.$router.push({ path: this.$route.query.next })
           } else {
-            this.rtr.push({ name: this.itemDetail, params: { id: res.data.id } })
+            this.init()
           }
         })
         .catch((error) => {
+          this.submitting = false
           const { response } = error
           if (response) {
             this.errors = response.data
@@ -91,11 +105,13 @@ export default {
   },
   mounted() {
     this.isLoading = true
-    this.init()
-      .then(() => (this.isLoading = false))
-      .catch((err) => {
-        this.showMessage(err)
-        this.rtr.replace({ name: `${this.itemType}List` })
-      })
+    this.getAdditionalData().then(() => {
+      this.init()
+        .then(() => (this.isLoading = false))
+        .catch((err) => {
+          this.showMessage(err)
+          this.rtr.replace({ name: `${this.itemType}List` })
+        })
+    })
   },
 }

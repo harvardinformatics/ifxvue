@@ -38,20 +38,11 @@ export default {
       type: Number,
       required: true,
     },
-    getSummaryDetails: {
-      type: Function,
-      required: true,
-    },
   },
-  mounted() {
-    this.localRowSelectionToggle = this.rowSelectionToggle.concat()
-  },
+  mounted() {},
   data() {
     return {
       localRowSelectionToggle: [],
-      showSummaryDetail: false,
-      summaryButtonText: 'Show',
-      summaryDetails: [],
     }
   },
   computed: {},
@@ -61,19 +52,19 @@ export default {
       this.$emit('update:row-selection-toggle-indeterminate', this.rowSelectionToggleIndeterminateGroup)
       this.toggleGroup(this.group)
     },
-    toggleSummaryDetail() {
-      this.summaryButtonText = this.showSummaryDetail ? 'Show' : 'Hide'
-      if (!this.showSummaryDetail && this.summaryDetails.length === 0) {
-        this.summaryDetails = Array.from(this.getSummaryDetails(this.group).entries())
-      }
-      this.showSummaryDetail = !this.showSummaryDetail
+  },
+  watch: {
+    rowSelectionToggle: {
+      handler(value) {
+        this.localRowSelectionToggle = value.concat()
+      },
+      immediate: true,
     },
   },
-  watch: {},
 }
 </script>
 <template>
-  <td :colspan="colSpan" class="py-2">
+  <td :colspan="colSpan" class="py-4">
     <v-row>
       <v-checkbox
         v-if="showCheckboxes"
@@ -93,16 +84,7 @@ export default {
           {{ $api.organization.parseSlug(group).name }}
         </span>
         <span class="ml-3 font-weight-medium">Total charges: {{ summaryCharges | dollars }}</span>
-        <v-btn small text @click="toggleSummaryDetail" class="ml-2">{{ summaryButtonText }} Acct Summary</v-btn>
       </div>
-    </v-row>
-    <v-row v-if="showSummaryDetail">
-      <v-col class="py-1 ml-9">
-        <v-row v-for="entry in summaryDetails" :key="`${group}-${entry[0]}`" class="text-body-2">
-          <v-col cols="5" class="ml-3">{{ entry[0] }}</v-col>
-          <v-col class="text-xs-left ml-3 font-weight-medium">{{ entry[1] | dollars }}</v-col>
-        </v-row>
-      </v-col>
     </v-row>
   </td>
 </template>

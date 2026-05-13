@@ -1,8 +1,8 @@
 <script>
 import moment from 'moment'
 import { mapActions } from 'vuex'
-import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
 import IFXBillingRecordListDecimal from '@/components/billingRecord/IFXBillingRecordListDecimal'
+import IFXGenericBillingSummaryList from '@/components/billingSummary/IFXGenericBillingSummaryList'
 
 export default {
   name: 'IFXBillingRecords',
@@ -22,10 +22,35 @@ export default {
       required: false,
       default: false,
     },
+    allowChangeExpenseCode: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    allowDeleteBillingRecords: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     showDates: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    showStartDate: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    showTotals: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    totalUnits: {
+      type: String,
+      required: false,
+      default: 'hours',
     },
   },
   data() {
@@ -39,6 +64,7 @@ export default {
       itemKey: 'key',
       showBillingRecords: false,
       keyModifier: 1,
+      currentTabs: [],
       actions: [
         {
           key: 'approve',
@@ -52,20 +78,16 @@ export default {
     }
   },
   components: {
-    IFXBillingRecordList,
     IFXBillingRecordListDecimal,
+    IFXGenericBillingSummaryList,
   },
   methods: {
     ...mapActions(['showMessage']),
     getInitialDate() {
       let initialDate = this.$api.storage.getItem('billingRecordListDate', 'session')
       if (!initialDate) {
-        let year = moment()
-          .subtract(1, 'months')
-          .year()
-        let month = moment()
-          .subtract(1, 'months')
-          .format('MM')
+        let year = moment().subtract(1, 'months').year()
+        let month = moment().subtract(1, 'months').format('MM')
         if (this.$route.query.year && /^[0-9]{4}$/.test(this.$route.query.year.trim())) {
           year = this.$route.query.year.trim()
         }
@@ -78,11 +100,20 @@ export default {
     },
     async getFacilities() {
       this.facilities = await this.$api.facility.getList({ application_username: this.$api.vars.appName })
+      this.facilities.forEach(() => {
+        this.currentTabs.push(0)
+      })
     },
     resetShowBillingRecords() {
       this.showBillingRecords = false
       this.keyModifier += 100
       this.showBillingRecords = true
+    },
+    getMonth() {
+      return Number(this.date.split('-')[1])
+    },
+    getYear() {
+      return Number(this.date.split('-')[0])
     },
   },
   watch: {
@@ -138,30 +169,118 @@ export default {
       </v-container>
     </v-card-title>
     <v-container v-if="showBillingRecords">
-      <v-row v-for="facility in facilities" :key="facility.id + keyModifier">
+      <v-row v-for="(facility, i) in facilities" :key="facility.id + keyModifier">
         <v-col>
-          <IFXBillingRecordListDecimal
-            v-if="$api.facility.isDecimalFacility(facility.name)"
-            :facility="facility"
-            :date="date"
-            :organization="organization"
-            :allowInvoiceGeneration="false"
-            :allowApprovals="false"
-            :allowDownloads="allowDownloads"
-            :useDefaultMailButton="useDefaultMailButton"
-            :showDates="showDates"
-          />
-          <IFXBillingRecordList
-            v-else
-            :facility="facility"
-            :date="date"
-            :organization="organization"
-            :allowInvoiceGeneration="false"
-            :allowApprovals="false"
-            :allowDownloads="allowDownloads"
-            :useDefaultMailButton="useDefaultMailButton"
-            :showDates="showDates"
-          />
+          <v-tabs v-model="currentTabs[i]">
+            <v-tab>Billing Records</v-tab>
+            <v-tab>Summary by Account</v-tab>
+            <v-tab>Summary by User</v-tab>
+            <v-tab>Summary by Product Rate</v-tab>
+            <v-tab>Summary by Product</v-tab>
+            <v-tabs-items v-model="currentTabs[i]">
+              <v-tab-item>
+                <IFXBillingRecordListDecimal
+                  :facility="facility"
+                  :date="date"
+                  :organization="organization"
+                  :allowInvoiceGeneration="false"
+                  :allowApprovals="false"
+                  :allowDownloads="allowDownloads"
+                  :useDefaultMailButton="useDefaultMailButton"
+                  :allowChangeExpenseCode="allowChangeExpenseCode"
+                  :allowDeleteBillingRecords="allowDeleteBillingRecords"
+                  :showDates="showDates"
+                  :showStartDate="showStartDate"
+                  :showTotals="showTotals"
+                  :totalUnits="totalUnits"
+                />
+              </v-tab-item>
+              <v-tab-item>
+                <IFXGenericBillingSummaryList
+                  :facility="facility"
+                  :month="getMonth()"
+                  :year="getYear()"
+                  itemType="genericBillingSummary"
+                  apiString="accountBillingSummary"
+                  :headers="[
+                    { text: 'Account Name', value: 'name', sortable: true },
+                    { text: 'Expense Code / PO', value: 'code', sortable: true },
+                    {
+                      text: 'Charges',
+                      value: 'totalDecimalCharge',
+                      sortable: true,
+                      namedSlot: true,
+                      width: '20rem',
+                      align: 'end',
+                    },
+                  ]"
+                />
+              </v-tab-item>
+              <v-tab-item>
+                <IFXGenericBillingSummaryList
+                  :facility="facility"
+                  :month="getMonth()"
+                  :year="getYear()"
+                  itemType="genericBillingSummary"
+                  apiString="userBillingSummary"
+                  :headers="[
+                    { text: 'User', value: 'productUserFullName', sortable: true },
+                    {
+                      text: 'Charges',
+                      value: 'totalDecimalCharge',
+                      sortable: true,
+                      namedSlot: true,
+                      width: '20rem',
+                      align: 'end',
+                    },
+                  ]"
+                />
+              </v-tab-item>
+              <v-tab-item>
+                <IFXGenericBillingSummaryList
+                  :facility="facility"
+                  :month="getMonth()"
+                  :year="getYear()"
+                  itemType="genericBillingSummary"
+                  apiString="productRateBillingSummary"
+                  :extraParams="{ facility: facility.name }"
+                  :headers="[
+                    { text: 'Product', value: 'productName', sortable: true },
+                    { text: 'Rate', value: 'rateName', sortable: true },
+                    {
+                      text: 'Charges',
+                      value: 'totalDecimalCharge',
+                      sortable: true,
+                      namedSlot: true,
+                      width: '20rem',
+                      align: 'end',
+                    },
+                  ]"
+                />
+              </v-tab-item>
+              <v-tab-item>
+                <IFXGenericBillingSummaryList
+                  :facility="facility"
+                  :month="getMonth()"
+                  :year="getYear()"
+                  itemType="genericBillingSummary"
+                  apiString="productBillingSummary"
+                  :extraParams="{ facility: facility.name }"
+                  :headers="[
+                    { text: 'Product', value: 'productName', sortable: true },
+                    {
+                      text: 'Charges',
+                      value: 'totalDecimalCharge',
+                      sortable: true,
+                      namedSlot: true,
+                      width: '20rem',
+                      align: 'end',
+                    },
+                  ]"
+                />
+              </v-tab-item>
+            </v-tabs-items>
+          </v-tabs>
         </v-col>
       </v-row>
     </v-container>

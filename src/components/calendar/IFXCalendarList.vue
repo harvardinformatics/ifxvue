@@ -244,6 +244,10 @@ export default {
       this.$api.storage.setItem('calendarType', type, 'local')
     },
     getEventColor(event) {
+      // Canceled events should always be grey
+      if (event.cancelled) {
+        return 'blue-grey lighten-3'
+      }
       if (this.useMaintenance && event.reservation.isMaintenance) {
         return this.$api.reservation.getMaintenanceColor()
       }
@@ -270,9 +274,6 @@ export default {
     },
     getResourceColor(RU) {
       const resId = RU.product.id
-      if (RU.cancelled) {
-        return 'blue-grey lighten-3'
-      }
       const theResource = this.allResources.find((resource) => resource.id === resId)
       return theResource ? theResource.color : 'grey'
     },
@@ -401,7 +402,8 @@ export default {
       return false
     },
     canCancelReservation(item) {
-      return this.$api.auth.can('cancel-reservation', this.$api.authUser) && !item.cancelled
+      const canCancel = this.$api.auth.can('cancel-reservation', this.$api.authUser) || item.productUser.id === this.currentUser.id
+      return canCancel && !item.cancelled
     },
     canApprove() {
       return this.$api.auth.can('approve-reservation', this.$api.authUser)
@@ -548,6 +550,7 @@ export default {
       // Check if there are two green-badged people, including the reserver
       // Put up a warning if not.
       const useSpecialMsg = this.$api.reservation.useSpecialMsg(this.resource, this.attendants)
+      const showExpenseCodeMsg = this.showExpenseCodeMsg(this.newEvent)
 
       if (this.newEvent.id) {
         // This is an existing event. Replace it
@@ -559,6 +562,9 @@ export default {
           if (useSpecialMsg) {
             msg += ` ${this.$api.reservation.getSpecialMessage()}`
           }
+          if (showExpenseCodeMsg) {
+            msg += ` ${this.getExpiredAccountMessage()}`
+          }
           this.showMessage(msg)
           const returnedRU = await this.$api.reservationUsage.create(res.data)
           const eIndex = this.items.findIndex((e) => e.id === this.newEvent.id)
@@ -568,7 +574,13 @@ export default {
           this.clearReservation()
         } catch (err) {
           const msg = `Could not update reservation of ${resUsage.product.name}.`
-          const reasons = err.response?.data?.reservation_usage
+          let reasons = ['Unable to update the reservation']
+          if (err.response?.data?.reservation_usage) {
+            reasons = err.response.data.reservation_usage
+          }
+          if (err.response?.data?.detail) {
+            reasons = [err.response?.data?.detail]
+          }
           this.errorMsg = `${msg} Please fix the following errors:<br/><br/>${reasons.join('<br/>')}`
           this.showErrorMsg = true
           this.$vuetify.goTo(0)
@@ -647,7 +659,7 @@ export default {
       const theResource = this.allResources.find((resource) => resource.id === newItem.product.id)
       this.resource = theResource
       this.comments = newItem.reservation.comment
-      const theUser = this.canReserveForOthers
+      const theUser = this.canReserveForOthers()
         ? this.users.find((user) => user.id === newItem.productUser.id)
         : this.currentUser
       this.user = theUser
@@ -845,7 +857,7 @@ export default {
     getAccountDisplay(item) {
       // Return a list of the friendly names of the accounts
       return item.reservation.accounts
-        .map(({ account }) => {
+        .map(({ account, name }) => {
           let result = account
           if (account) {
             // parse a slug
@@ -853,7 +865,8 @@ export default {
             if (match.length) {
               // If the first three characters are "PO<space>", we've got a PO
               if (match[1].startsWith('PO ')) {
-                result = match[1].substr(3)
+                // If this is a PO, try to use the name rather than the slug
+                result = name || match[1].substr(3)
               } else {
                 result = match[2]
               }
@@ -903,6 +916,53 @@ export default {
     revalidateTimes() {
       this.$refs.startDate.validate(true)
       this.$refs.endDate.validate(true)
+      this.setApprovalBasedOnExpenseCode(true)
+    },
+    showExpenseCodeMsg(event) {
+      if (!event.reservation.accounts || event.reservation.accounts.length === 0) {
+        return false
+      }
+      return !this.willExpenseCodeStillBeValid(
+        // Only check the first account since we don't allow splits
+        event.reservation.accounts[0].account,
+        event.startDate,
+        event.endDate,
+        false
+      )
+    },
+    setApprovalBasedOnExpenseCode() {
+      this.approved = this.willExpenseCodeStillBeValid(
+        this.expenseCode,
+        this.newEvent.startDate,
+        this.newEvent.endDate,
+        true
+      )
+    },
+    willExpenseCodeStillBeValid(expenseCode, startDate, endDate, showMessage = false) {
+      // Check if there is an existing expense code selected and, if so, make sure it will still be valid
+      // during this reservation. If the code will have expired, force approval
+      let isValid = true
+      if (expenseCode) {
+        const matchedCode = this.allowedExpenseCodes.find((code) => code.slug === expenseCode)
+
+        if (matchedCode && startDate && endDate) {
+          const startDateTime = new Date(startDate).getTime()
+          const endDateTime = new Date(endDate).getTime()
+          if (
+            startDateTime < new Date(matchedCode.validFrom).getTime()
+            || endDateTime > new Date(matchedCode.expirationDate).getTime()
+          ) {
+            isValid = false
+          }
+        }
+      }
+      if (!isValid && showMessage) {
+        this.showMessage(`${this.getExpiredAccountMessage()} The reservation has been marked as needing approval.`)
+      }
+      return isValid
+    },
+    getExpiredAccountMessage() {
+      return 'The selected account will not be valid for the selected reservation time.'
     },
   },
   watch: {
@@ -1149,6 +1209,7 @@ export default {
                     :rules="[isBillableRule]"
                     :disabled="resourceNotSelected || !expenseCodeEnabled"
                     data-cy="expense-code"
+                    @change="setApprovalBasedOnExpenseCode(true)"
                   >
                     <template #no-data>
                       <div class="mx-3 my-1">No expense code or PO found for this organization and resource</div>
@@ -1235,7 +1296,7 @@ export default {
                       </v-autocomplete>
                     </v-col>
                   </v-row>
-                  <v-row>
+                  <v-row dense>
                     <v-col>
                       <div class="text-divider font-italic text-center">Or set End time directly</div>
                     </v-col>
@@ -1600,6 +1661,9 @@ export default {
                   data-cy="popup-special-message"
                 >
                   {{ $api.reservation.getSpecialMessage() }}
+                </div>
+                <div v-if="showExpenseCodeMsg(selectedEvent)" class="mt-2 red--text" data-cy="popup-expired-message">
+                  {{ getExpiredAccountMessage() }}
                 </div>
                 <div v-if="selectedEvent.cancelled" class="mt-2 red--text" data-cy="popup-cancelled">
                   This reservation is cancelled.

@@ -31,7 +31,7 @@ export default {
     async init() {
       this.item = await this.getItem()
       if (!this.item.id) {
-        this.item.orgTree = 'Local'
+        this.item.orgTree = 'Harvard'
       }
       this.cachedItem = JSON.stringify(this.apiRef.decompose(this.item))
       this.allUsers = await this.$api.user.getList()
@@ -57,19 +57,12 @@ export default {
       return !!this.item.ifxOrg
     },
     title() {
-      let rank = this.item.rank
-      this.apiRef.validRanks.forEach((rankData) => {
-        if (rankData.value === this.item.rank) {
-          rank = rankData.text
-        }
-      })
-      return `${this.item.name} (a ${this.item.orgTree} ${rank})`
+      return `${this.item.name} (a ${this.item.orgTree} ${this.item.rank})`
     },
     orgTreeRules() {
       return [
-        this.formRules.generic,
-        (v) => !v || v.toLowerCase() !== 'harvard' || "'Harvard' is a protected tree",
-      ].flat()
+        (v) => !v || 'Org tree is required',
+      ]
     },
   },
 }
@@ -92,7 +85,7 @@ export default {
               :rules="formRules.generic"
               :error-messages="errors.name"
               required
-              :disabled="isIfxOrg"
+              class="required"
             ></v-text-field>
           </v-col>
           <v-col>
@@ -106,7 +99,7 @@ export default {
               item-text="text"
               item-value="value"
               required
-              :disabled="isIfxOrg"
+              class="required"
             ></v-select>
           </v-col>
           <v-col>
@@ -114,14 +107,14 @@ export default {
               v-model="item.orgTree"
               label="Org tree"
               data-cy="org-tree"
-              :rules="orgTreeRules"
+              :rules="formRules.generic"
               :error-messages="errors.org_tree"
               required
-              :disabled="isIfxOrg"
+              class="required"
             ></v-text-field>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="item.id">
           <v-col>
             <IFXItemSelectList title="Users" :items.sync="item.users" :getEmptyItem="$api.organizationUser.create">
               <template v-slot="{ item }">
@@ -130,25 +123,28 @@ export default {
             </IFXItemSelectList>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="item.id">
           <v-col>
             <IFXItemSelectList
-              title='Contacts'
-              :items.sync='item.contacts'
-              :getEmptyItem='$api.organizationContact.create'
-              >
-              <template v-slot="{item}">
-                <IFXSelectableContact :allItems='allContacts' :item='item' :errors='errors' @check-valid-form="checkValidForm()"/>
+              title="Contacts"
+              :items.sync="item.contacts"
+              :getEmptyItem="$api.organizationContact.create"
+            >
+              <template v-slot="{ item }">
+                <IFXSelectableContact
+                  :allItems="allContacts"
+                  :item="item"
+                  :errors="errors"
+                  @check-valid-form="checkValidForm()"
+                />
               </template>
             </IFXItemSelectList>
           </v-col>
         </v-row>
         <v-row justify="end">
-          <v-col class="flex flex-grow-1 flex-grow-0">
-            &nbsp;
-          </v-col>
+          <v-col class="flex flex-grow-1 flex-grow-0">&nbsp;</v-col>
           <v-col>
-            <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" />
+            <IFXPageActionBar btnType="submit" :disabled="!isSubmittable" @action="submit" :submitting="submitting" />
           </v-col>
         </v-row>
       </v-form>

@@ -55,46 +55,60 @@ export default {
       </template>
     </IFXPageHeader>
     <v-container px-5 py-0>
-      <v-row>
+      <v-row row align-center justify-start dense>
+        <v-col cols="1">
+          <strong>Subject</strong>
+        </v-col>
         <v-col>
-          <h3>Subject</h3>
-          <p>{{item.subject}}</p>
+          {{item.subject}}
         </v-col>
       </v-row>
-      <v-row>
+      <v-row row align-center justify-start dense>
+        <v-col cols="1">
+          <strong>From</strong>
+        </v-col>
         <v-col>
-          <h3>From</h3>
-          <p>{{item.fromstr}}</p>
+          {{item.fromstr}}
         </v-col>
       </v-row>
-      <v-row>
+      <v-row row align-center justify-start dense>
+        <v-col cols="1">
+          <strong>To</strong>
+        </v-col>
         <v-col>
-          <h3>To</h3>
-          <p>{{item.tostr | commaSpace}}</p>
+          {{item.tostr | commaSpace}}
         </v-col>
       </v-row>
-      <v-row>
+      <v-row row align-center justify-start dense>
+        <v-col cols="1">
+          <strong>CC</strong>
+        </v-col>
         <v-col>
-          <h3>CC</h3>
-          <p>{{item.ccstr | commaSpace}}</p>
+          {{item.ccstr | commaSpace}}
         </v-col>
       </v-row>
-      <v-row>
+      <v-row row align-center justify-start dense>
+        <v-col cols="1">
+          <strong>BCC</strong>
+        </v-col>
         <v-col>
-          <h3>BCC</h3>
-          <p>{{item.bccstr | commaSpace}}</p>
+          {{item.bccstr | commaSpace}}
         </v-col>
       </v-row>
-      <v-row>
+      <v-row row align-center justify-start dense>
+        <v-col cols="1">
+          <strong>Date Sent</strong>
+        </v-col>
         <v-col>
-          <h3>Date Sent</h3>
-          <p>{{item.sent | humanDatetime}}</p>
+          {{item.sent | humanDatetime}}
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
+      <v-row column wrap>
+        <v-col cols="12">
           <h3>Message</h3>
-          <p>{{item.message}}</p>
+        </v-col>
+        <v-col>
+          <p v-html="item.message"></p>
         </v-col>
       </v-row>
     </v-container>

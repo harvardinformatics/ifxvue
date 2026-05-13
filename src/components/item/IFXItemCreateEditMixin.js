@@ -12,6 +12,10 @@ export default {
       default: false,
       type: Boolean,
     },
+    emitNavigate: {
+      default: false,
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -20,6 +24,7 @@ export default {
       item: {},
       cachedItem: {},
       errors: {},
+      submitting: false,
     }
   },
   methods: {
@@ -38,6 +43,10 @@ export default {
       // TODO: decompose item first
       this.cachedItem = JSON.parse(JSON.stringify(this.item))
       // this.cachedItem = JSON.parse(JSON.stringify(this.apiRef.decompose(this.item)))
+    },
+    getAdditionalData() {
+      // This is a placeholder that gets overridden in the component if it needs to load extra data
+      return Promise.resolve()
     },
     can(ability, user = this.$api.authUser) {
       // if (!user) {
@@ -60,16 +69,25 @@ export default {
       }
     },
     submitUpdate() {
+      this.$nextTick(() => {
+        this.submitting = true
+      })
       this.apiRef
         .update(this.item)
         .then(async (res) => {
+          this.submitting = false
           const message = `${this.itemType} updated successfully.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
-          if (this.$route.query.next) {
+          if (this.emitNavigate) {
+            this.$emit('navigate', this.item)
+          } else if (this.$route.query.next) {
             const query = {}
             if (this.$route.query.page) {
               query.page = this.$route.query.page
+            }
+            if (this.$route.query.tab) {
+              query.tab = this.$route.query.tab
             }
             this.$router.push({ path: this.$route.query.next, query })
           } else {
@@ -77,24 +95,37 @@ export default {
           }
         })
         .catch((error) => {
+          this.submitting = false
           const { response } = error
           if (response) {
             this.errors = response.data
           }
           this.showMessage(error)
         })
+        .finally(() => {
+          this.submitting = false
+        })
     },
     submitSave() {
+      this.$nextTick(() => {
+        this.submitting = true
+      })
       this.apiRef
         .save(this.item)
         .then(async (res) => {
+          this.submitting = false
           const message = `${this.itemType} created with ID: ${res.data.id}.`
           this.showMessage(message)
           await this.sleep(this.routeDelay)
-          if (this.$route.query.next) {
+          if (this.emitNavigate) {
+            this.$emit('navigate', this.item)
+          } else if (this.$route.query.next) {
             const query = {}
             if (this.$route.query.page) {
               query.page = this.$route.query.page
+            }
+            if (this.$route.query.tab) {
+              query.tab = this.$route.query.tab
             }
             this.$router.push({ path: this.$route.query.next, query })
           } else {
@@ -102,6 +133,7 @@ export default {
           }
         })
         .catch((error) => {
+          this.submitting = false
           const { response } = error
           if (response) {
             this.errors = response.data
@@ -154,11 +186,13 @@ export default {
   },
   mounted() {
     this.isLoading = true
-    this.init()
-      .then(() => this.$nextTick(() => (this.isLoading = false)))
-      .catch((error) => {
-        this.showMessage(error)
-        this.rtr.replace({ name: 'Home' })
-      })
+    this.getAdditionalData().then(() => {
+      this.init()
+        .then(() => this.$nextTick(() => (this.isLoading = false)))
+        .catch((error) => {
+          this.showMessage(error)
+          this.rtr.replace({ name: 'Home' })
+        })
+    })
   },
 }
