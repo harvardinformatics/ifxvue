@@ -13,22 +13,29 @@ export default {
     IFXItemDataTable,
     IFXMailButton,
   },
-  data() {
-    return {
-      recipientField: '',
-    }
-  },
-  computed: {
-    headers() {
-      const headers = [
+  props: {
+    headers: {
+      type: Array,
+      required: false,
+      default: () => [
         { text: 'ID', value: 'id', sortable: true, slot: true, click: true },
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Rank', value: 'rank', sortable: true, slot: true },
         { text: 'Org tree', value: 'orgTree', sortable: true },
         { text: 'Parent(s)', value: 'parents', sortable: false, slot: true },
         { text: '', value: 'rowActionDetailEdit', sortable: false },
-      ]
-      return headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
+      ],
+    },
+  },
+  data() {
+    return {
+      recipientField: '',
+      selected: [],
+    }
+  },
+  computed: {
+    filteredHeaders() {
+      return this.headers.filter((h) => !h.hide || !this.$vuetify.breakpoint[h.hide])
     },
   },
   methods: {
@@ -54,6 +61,9 @@ export default {
         params: { labManagerOrgSlugs: organizationSlugs, recipientField: this.recipientField },
       })
     },
+    updateSelected(selected) {
+      this.$emit('update:selected', selected)
+    },
   },
 }
 </script>
@@ -75,6 +85,7 @@ export default {
               @input="emailLabManagers()"
             ></IFXMailButton>
           </v-col>
+          <slot name="buttons"></slot>
           <v-col>
             <IFXButton small btnType="add" @action="navigateToItemCreate" />
           </v-col>
@@ -83,10 +94,12 @@ export default {
     </IFXPageHeader>
     <IFXItemDataTable
       :items="filteredItems"
-      :headers="headers"
+      :headers="filteredHeaders"
       :selected.sync="selected"
       :itemType="itemType"
       :loading="isLoading"
+      @update:selected="updateSelected"
     />
+    <slot name="extra-content"></slot>
   </v-container>
 </template>

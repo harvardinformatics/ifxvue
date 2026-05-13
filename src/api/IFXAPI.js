@@ -8,7 +8,12 @@ import Contact from '@/components/contact/IFXContact'
 import { UserFile, User, UserContact, UserAccount } from '@/components/user/IFXUser'
 import Address from '@/components/address/IFXAddress'
 import Affiliation from '@/components/affiliation/IFXAffiliation'
-import { Organization, OrganizationContact, OrganizationUser } from '@/components/organization/IFXOrganization'
+import {
+  Organization,
+  OrganizationContact,
+  OrganizationUser,
+  OrganizationRate,
+} from '@/components/organization/IFXOrganization'
 import IFXMailing from '@/components/mailing/IFXMailing'
 import IFXMessage from '@/components/message/IFXMessage'
 import IFXAuthUser from '@/components/authUser/IFXAuthUser'
@@ -184,7 +189,7 @@ export default class IFXAPIService {
       console.error('Either the item class or the createFunc must be defined')
     }
     if (!createFunc) {
-      createFunc = (data) => new ItemClass(data)
+      createFunc = (data, decompose = false) => new ItemClass(data, decompose)
     }
     if (!decomposeFunc) {
       decomposeFunc = (item) => item
@@ -562,6 +567,7 @@ export default class IFXAPIService {
       // Initialize contacts and users as empty arrays - will be filled in if incoming orgData has contacts or users
       newOrgData.contacts = []
       newOrgData.users = []
+      newOrgData.organization_rates = []
 
       // Check if incoming orgData has contacts
       if (orgData.contacts && orgData.contacts.length) {
@@ -594,6 +600,12 @@ export default class IFXAPIService {
           return decompose ? newUserData : this.organizationUser.create(newUserData)
         })
         newOrgData.users = organizationUserDataObjs
+      }
+
+      // Check if incoming orgData has rates
+      if (orgData.organization_rates && orgData.organization_rates.length) {
+        const organizationRateDataObjs = orgData.organization_rates.map((orgRate) => this.organizationRate.create(orgRate, decompose))
+        newOrgData.organization_rates = organizationRateDataObjs
       }
       // If decomposing, do not create a dynamic organization object
       return decompose ? newOrgData : new Organization(newOrgData)
@@ -786,6 +798,22 @@ export default class IFXAPIService {
       return new OrganizationUser(data)
     }
     return this.genericAPI(null, OrganizationUser, createFunc, null)
+  }
+
+  get organizationRate() {
+    const createFunc = (orgRateData = {}, decompose = false) => {
+      // Handle the product rate
+      if (!orgRateData.rate) {
+        orgRateData.rate = decompose ? null : this.productRate.create({})
+      } else {
+        orgRateData.rate = decompose ? orgRateData.rate.data : this.productRate.create(orgRateData.rate)
+      }
+      return decompose ? orgRateData.data : new OrganizationRate(orgRateData)
+    }
+    const decomposeFunc = (data) => {
+      this.createFunc(data, true)
+    }
+    return this.genericAPI(null, OrganizationRate, createFunc, decomposeFunc)
   }
 
   // this.$api.contactables.getList(search)
