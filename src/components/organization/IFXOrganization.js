@@ -89,6 +89,44 @@ export class OrganizationContact {
   }
 }
 
+export class OrganizationRate {
+  constructor(data) {
+    this.data = data
+  }
+
+  get organization() {
+    return this.data.organization
+  }
+
+  set organization(organization) {
+    this.data.organization = organization
+  }
+
+  get rate() {
+    return this.data.rate
+  }
+
+  set rate(rate) {
+    this.data.rate = rate
+  }
+
+  get startDate() {
+    return this.data.start_date
+  }
+
+  set startDate(startDate) {
+    this.data.start_date = startDate
+  }
+
+  get endDate() {
+    return this.data.end_date
+  }
+
+  set endDate(val) {
+    this.data.end_date = val
+  }
+}
+
 export class OrganizationUser {
   constructor(data) {
     this.data = data
@@ -229,6 +267,14 @@ export class Organization {
 
   set applicationKey(applicationKey) {
     this.data.application_key = applicationKey
+  }
+
+  get organizationRates() {
+    return this.data.organization_rates
+  }
+
+  set organizationRates(organizationRates) {
+    this.data.organization_rates = organizationRates.concat()
   }
 
   get contacts() {
