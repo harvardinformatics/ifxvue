@@ -604,7 +604,7 @@ export default class IFXAPIService {
 
       // Check if incoming orgData has rates
       if (orgData.organization_rates && orgData.organization_rates.length) {
-        const organizationRateDataObjs = orgData.organization_rates.map((orgRate) => this.organizationRate.create(orgRate, decompose))
+        const organizationRateDataObjs = orgData.organization_rates.map((orgRate) => (decompose ? this.organizationRate.decompose(orgRate) : this.organizationRate.create(orgRate)))
         newOrgData.organization_rates = organizationRateDataObjs
       }
       // If decomposing, do not create a dynamic organization object
@@ -810,9 +810,7 @@ export default class IFXAPIService {
       }
       return decompose ? orgRateData.data : new OrganizationRate(orgRateData)
     }
-    const decomposeFunc = (data) => {
-      this.createFunc(data, true)
-    }
+    const decomposeFunc = (data) => createFunc(data, true)
     return this.genericAPI(null, OrganizationRate, createFunc, decomposeFunc)
   }
 
