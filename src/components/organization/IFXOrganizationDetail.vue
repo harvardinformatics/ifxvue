@@ -48,8 +48,6 @@ export default {
   methods: {
     async init() {
       this.item = await this.apiRef.getByID(this.id, true)
-      console.log('application key, ', this.item.applicationKey)
-      console.log('customer id', this.item.customerId)
       this.cacheItem()
       this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
       const allFacilities = await this.$api.facility.getList()
