@@ -431,7 +431,7 @@ export default {
             .tz('America/New_York')
             .isBefore(moment.tz(item.startDate, 'America/New_York').subtract(param.modifyBeforeReservation, units))
       }
-      // Check if we're in the past and disallow editing
+      // Check if we're in the past and we're past the end of the billing period, don't allow editing
       insideTimeWindow = insideTimeWindow && !this.isAfterTheBillingPeriodEnds(item)
       return insideTimeWindow && item.productUser.id === this.currentUser.id && item.reservation.isEditable
     },
