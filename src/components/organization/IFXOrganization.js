@@ -262,7 +262,7 @@ export class Organization {
   }
 
   get applicationKey() {
-    return this.data.applicationKey
+    return this.data.application_key
   }
 
   set applicationKey(applicationKey) {
@@ -291,6 +291,41 @@ export class Organization {
 
   set users(users) {
     this.data.users = users
+  }
+
+  get customerId() {
+    if (this.applicationKey && this.applicationKey.includes('-')) {
+      return this.applicationKey.split('-')[0]
+    }
+    return null
+  }
+
+  set customerId(customerId) {
+    let parts = ['', '']
+    if (this.applicationKey) {
+      parts = this.applicationKey.split('-')
+    }
+    parts[0] = customerId
+    this.applicationKey = parts.join('-')
+  }
+
+  get addressId() {
+    if (this.applicationKey && this.applicationKey.includes('-')) {
+      const parts = this.applicationKey.split('-')
+      if (parts && parts.length === 2) {
+        return parts[1]
+      }
+    }
+    return null
+  }
+
+  set addressId(addressId) {
+    let parts = ['', '']
+    if (this.applicationKey) {
+      parts = this.applicationKey.split('-')
+    }
+    parts[1] = addressId
+    this.applicationKey = parts.join('-')
   }
 
   // Does function caller know they can only add organization users? Or should this function take in a User/userData and convert?

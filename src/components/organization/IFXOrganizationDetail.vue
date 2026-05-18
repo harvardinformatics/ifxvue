@@ -205,6 +205,37 @@ export default {
       <v-col>
         <v-row>
           <v-col>
+            <h2>Details</h2>
+          </v-col>
+        </v-row>
+        <v-row dense justify="start">
+          <v-col class="ml-4 field-label">
+            A/R Customer ID
+          </v-col>
+          <v-col>
+            {{ item.customerId }}
+          </v-col>
+          <v-col>
+            &nbsp;
+          </v-col>
+        </v-row>
+        <v-row dense>
+          <v-col class="ml-4 field-label">
+            A/R Address ID
+          </v-col>
+          <v-col>
+            {{ item.addressId }}
+          </v-col>
+          <v-col>
+            &nbsp;
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+    <v-row dense class="ml-2">
+      <v-col>
+        <v-row>
+          <v-col>
             <h2>Users</h2>
           </v-col>
           <v-col sm="2" align="end">
@@ -324,7 +355,7 @@ export default {
           </v-col>
         </v-row>
         <v-row v-for="(contactGroupName, index) in contactRolesGroups" :key="index" dense>
-          <v-col>
+          <v-col class="ml-4">
             <div
               v-for="contactIndex in getContactIndicesByRole(contactGroupName)"
               :key="`${contactGroupName}-${contactIndex}`"
@@ -429,5 +460,8 @@ export default {
 }
 .show-inactive .v-messages theme--light {
   display: none;
+}
+.field-label {
+  font-weight: bold;
 }
 </style>
