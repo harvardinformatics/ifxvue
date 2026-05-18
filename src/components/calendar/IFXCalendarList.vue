@@ -185,7 +185,7 @@ export default {
         ? this.items.filter((item) => this.filteredResources.some((resource) => item.product.name === resource.name))
         : this.items
     },
-    cantBeEdited() {
+    cantEditTimeOrResource() {
       if (this.weAreEditing) {
         // This is editing an existing reservation. Check if it is editable
         return !this.canEditReservation(this.newEvent)
@@ -343,7 +343,7 @@ export default {
       nativeEvent.stopPropagation()
     },
     handleDayClick(calEvent) {
-      if (!this.cantBeEdited) {
+      if (!this.cantEditTimeOrResource) {
         this.setDefaultStartDate(calEvent.date)
       }
       this.reservationOpen = true
@@ -525,7 +525,7 @@ export default {
     },
     checkInPast(v) {
       return (
-        this.cantBeEdited // If the reservation can't be edited, don't bother checking if it's in the past
+        this.cantEditTimeOrResource // If the reservation can't be edited, don't bother checking if it's in the past
         || moment.tz(v, this.parseFormats, 'America/New_York').isAfter(moment.tz('America/New_York'))
         || this.$api.auth.can('add-reservations-in-the-past')
         || 'Cannot set reservations in the past'
@@ -1195,7 +1195,7 @@ export default {
                     v-model="organization"
                     :rules="formRules.generic"
                     @change="getAllExpenseCodes(user)"
-                    :disabled="cantBeEdited || resourceNotSelected"
+                    :disabled="cantEditTimeOrResource || resourceNotSelected"
                     data-cy="organizaton"
                   >
                     <template v-slot:item="{ item }">
@@ -1234,7 +1234,7 @@ export default {
                     persistent-hint
                     @click:prepend.stop="openPickers('startDate')"
                     :rules="[dateTimeRule, checkInPast, checkIsBeforeEnd]"
-                    :disabled="cantBeEdited || resourceNotSelected"
+                    :disabled="cantEditTimeOrResource || resourceNotSelected"
                     data-cy="start-date"
                   ></v-text-field>
                   <v-menu
@@ -1294,7 +1294,7 @@ export default {
                         :items="duration"
                         @change="setEndTime($event, true)"
                         class="my-2"
-                        :disabled="cantBeEdited || resourceNotSelected"
+                        :disabled="cantEditTimeOrResource || resourceNotSelected"
                         data-cy="length-select"
                       >
                         <template #no-data>
@@ -1320,7 +1320,7 @@ export default {
                     required
                     @click:prepend.stop="openPickers('endDate')"
                     :rules="[dateTimeRule, checkInPast, checkIsAfterStart, checkSpansMonth]"
-                    :disabled="cantBeEdited || resourceNotSelected"
+                    :disabled="cantEditTimeOrResource || resourceNotSelected"
                     data-cy="end-date"
                   ></v-text-field>
                   <v-menu
@@ -1409,7 +1409,7 @@ export default {
                     data-cy="comments"
                   ></v-textarea>
                   <!-- <v-checkbox
-                :disabled="cantBeEdited || resourceNotSelected"
+                :disabled="cantEditTimeOrResource || resourceNotSelected"
                 v-if="canSetRepeatingEvents()"
                 label="Repeating reservation"
                 v-model="isRepeatingReservation"
@@ -1548,7 +1548,7 @@ export default {
               <v-card-actions class="d-flex justify-space-between">
                 <v-btn text color="secondary" @click="clearReservation" data-cy="reservation-clear">Clear</v-btn>
                 <v-btn text color="primary" :disabled="!formIsValid" @click="reserveResource" data-cy="reservation-ok">
-                  {{ cantBeEdited ? 'Update' : 'Reserve' }}
+                  {{ cantEditTimeOrResource ? 'Update' : 'Reserve' }}
                 </v-btn>
               </v-card-actions>
             </v-card>
