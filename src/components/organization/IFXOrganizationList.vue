@@ -39,6 +39,9 @@ export default {
     },
   },
   methods: {
+    onfs(slug){
+      return this.$options.filters.orgNameFromSlug(slug)
+    }
     getSetItems() {
       // TODO: make this consistent, no api endpoint should be returning .data
       return (
@@ -99,7 +102,11 @@ export default {
       :itemType="itemType"
       :loading="isLoading"
       @update:selected="updateSelected"
-    />
+    >
+      <template v-slot:parents="{ item }">
+        {{ item.parents ? item.parents.map((p) => onfs(p)).join(', ') : '' }}
+      </template>
+    </IFXItemDataTable>
     <slot name="extra-content"></slot>
   </v-container>
 </template>
