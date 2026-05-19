@@ -208,7 +208,7 @@ export default {
             <h2>Details</h2>
           </v-col>
         </v-row>
-        <v-row dense justify="start">
+        <v-row dense justify="start" v-if="item.customerId">
           <v-col class="ml-4 field-label">
             A/R Customer ID
           </v-col>
@@ -219,7 +219,7 @@ export default {
             &nbsp;
           </v-col>
         </v-row>
-        <v-row dense>
+        <v-row dense v-if="item.addressId">
           <v-col class="ml-4 field-label">
             A/R Address ID
           </v-col>
