@@ -39,9 +39,19 @@ export default {
     },
   },
   methods: {
-    onfs(slug){
+    onfs(slug) {
       return this.$options.filters.orgNameFromSlug(slug)
-    }
+    },
+    displayOrgRates(orgRates) {
+      return orgRates.map((r) => {
+        const startDate = r.startDate ? new Date(r.startDate) : null
+        const endDate = r.endDate ? new Date(r.endDate) : null
+        const now = new Date()
+        const isActive = (!startDate || startDate <= now) && (!endDate || endDate >= now)
+        const rateName = r.rate.name
+        return isActive ? rateName : ''
+      }).join(', ')
+    },
     getSetItems() {
       // TODO: make this consistent, no api endpoint should be returning .data
       return (
@@ -105,6 +115,9 @@ export default {
     >
       <template v-slot:parents="{ item }">
         {{ item.parents ? item.parents.map((p) => onfs(p)).join(', ') : '' }}
+      </template>
+      <template v-slot:rate="{ item }">
+        {{ item.organizationRates ? displayOrgRates(item.organizationRates) : '' }}
       </template>
     </IFXItemDataTable>
     <slot name="extra-content"></slot>

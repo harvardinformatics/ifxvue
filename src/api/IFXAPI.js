@@ -568,6 +568,9 @@ export default class IFXAPIService {
       newOrgData.contacts = []
       newOrgData.users = []
       newOrgData.organization_rates = []
+      if (decompose) {
+        console.log('Decomposing organization data for caching:', newOrgData)
+      }
 
       // Check if incoming orgData has contacts
       if (orgData.contacts && orgData.contacts.length) {
