@@ -32,7 +32,7 @@ export default {
       showAddUserModal: false,
       showRevokeUserModal: false,
       showReactivateUserModal: false,
-      showAEditARModal: false,
+      showEditARModal: false,
       customerId: null,
       addressId: null,
       selected: [],
@@ -107,19 +107,19 @@ export default {
     openARDetails() {
       this.customerId = this.item.customerId
       this.addressId = this.item.addressId
-      this.showAEditARModal = true
+      this.showEditARModal = true
     },
     updateARDetails() {
       // We only have two fields, so we can just update them directly on the item and submit the whole org
       // instead of making a separate API call just for these details.
       this.item.customerId = this.customerId || null
       this.item.addressId = this.addressId || null
-      this.showAEditARModal = false
+      this.showEditARModal = false
     },
     cancelARDetails() {
       this.customerId = null
       this.addressId = null
-      this.showAEditARModal = false
+      this.showEditARModal = false
     },
     updateOrg(org) {
       this.item = org
@@ -228,12 +228,6 @@ export default {
           <v-col>
             <h2>Details</h2>
           </v-col>
-        </v-row>
-        <v-row dense justify="start">
-          <v-col class="ml-4 field-label">A/R Customer ID</v-col>
-          <v-col>
-            {{ item.customerId }}
-          </v-col>
           <v-col align="end">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
@@ -253,12 +247,20 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
+        <v-row dense justify="start">
+          <v-col class="ml-4 field-label">A/R Customer ID</v-col>
+          <v-col>
+            <span v-if="item.customerId">{{ item.customerId }}</span>
+            <span v-else class="grey--text text--darken-1">None</span>
+          </v-col>
+        </v-row>
         <v-row dense>
           <v-col class="ml-4 field-label">A/R Address ID</v-col>
           <v-col>
-            {{ item.addressId }}
+            <span v-if="item.addressId">{{ item.addressId }}</span>
+            <span v-else class="grey--text text--darken-1">None</span>
           </v-col>
-          <v-col>&nbsp;</v-col>
+          <!-- <v-col>&nbsp;</v-col> -->
         </v-row>
       </v-col>
     </v-row>
@@ -454,14 +456,14 @@ export default {
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="showAEditARModal" v-if="showAEditARModal" max-width="600px" persistent>
+    <v-dialog v-model="showEditARModal" v-if="showEditARModal" max-width="600px" persistent>
       <v-card>
         <v-card-title>
           Change A/R Details
           <v-spacer></v-spacer>
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon small @click="showAEditARModal = false" data-cy="ar-dialog-close" v-on="on" v-bind="attrs">
+              <v-btn icon small @click="showEditARModal = false" data-cy="ar-dialog-close" v-on="on" v-bind="attrs">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </template>
@@ -476,7 +478,7 @@ export default {
                   v-model="customerId"
                   label="Accounts Receivable Customer ID"
                   data-cy="update-customer-id"
-                  :error-messages="errors.customerId"
+                  :error-messages="errors.application_key"
                   :rules="formRules.generic"
                 ></v-text-field>
               </v-col>
@@ -485,7 +487,7 @@ export default {
                   v-model="addressId"
                   label="Accounts Receivable Address ID"
                   data-cy="update-address-id"
-                  :error-messages="errors.addressId"
+                  :error-messages="errors.application_key"
                   :rules="formRules.generic"
                 ></v-text-field>
               </v-col>
@@ -495,7 +497,7 @@ export default {
         <v-card-actions class="d-flex justify-start pb-3">
           <v-btn small text class="ml-2" color="secondary" @click="cancelARDetails">Close</v-btn>
           <v-spacer></v-spacer>
-          <v-btn small text class="mr-2" color="secondary" @click="openARDetails">Clear</v-btn>
+          <v-btn small text class="mr-2" color="secondary" @click="openARDetails">Reset</v-btn>
           <v-btn small text class="mr-2" :disabled="!arDetailsFormIsValid" color="primary" @click="updateARDetails()">
             Update
           </v-btn>
