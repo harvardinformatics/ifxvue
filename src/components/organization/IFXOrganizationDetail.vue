@@ -479,7 +479,6 @@ export default {
                   label="Accounts Receivable Customer ID"
                   data-cy="update-customer-id"
                   :error-messages="errors.application_key"
-                  :rules="formRules.generic"
                 ></v-text-field>
               </v-col>
               <v-col>
@@ -488,7 +487,6 @@ export default {
                   label="Accounts Receivable Address ID"
                   data-cy="update-address-id"
                   :error-messages="errors.application_key"
-                  :rules="formRules.generic"
                 ></v-text-field>
               </v-col>
             </v-row>
