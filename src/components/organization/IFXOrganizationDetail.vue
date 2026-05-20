@@ -247,23 +247,23 @@ export default {
             </v-tooltip>
           </v-col>
         </v-row>
-        <v-row dense justify="start">
-          <v-col class="ml-4 field-label">A/R Customer ID</v-col>
+        <v-row dense justify="start" v-if="item.customerId">
+          <v-col class="ml-4 font-weight-bold">A/R Customer ID</v-col>
           <v-col>
-            <span v-if="item.customerId">{{ item.customerId }}</span>
-            <span v-else class="grey--text text--darken-1">None</span>
+            {{ item.customerId }}
           </v-col>
+          <v-spacer></v-spacer>
         </v-row>
-        <v-row dense>
-          <v-col class="ml-4 field-label">A/R Address ID</v-col>
+        <v-row dense justify="start" v-if="item.addressId">
+          <v-col class="ml-4 font-weight-bold">A/R Address ID</v-col>
           <v-col>
-            <span v-if="item.addressId">{{ item.addressId }}</span>
-            <span v-else class="grey--text text--darken-1">None</span>
+            {{ item.addressId }}
           </v-col>
-          <!-- <v-col>&nbsp;</v-col> -->
+          <v-spacer></v-spacer>
         </v-row>
       </v-col>
     </v-row>
+    <v-divider class="my-3 ml-2"></v-divider>
     <v-row dense class="ml-2">
       <v-col>
         <v-row>
@@ -538,8 +538,5 @@ export default {
 }
 .show-inactive .v-messages theme--light {
   display: none;
-}
-.field-label {
-  font-weight: bold;
 }
 </style>
