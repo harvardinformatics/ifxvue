@@ -28,9 +28,13 @@ export default {
       currentContact: {},
       contactDialogOpen: false,
       addContactFormIsValid: false,
+      arDetailsFormIsValid: false,
       showAddUserModal: false,
       showRevokeUserModal: false,
       showReactivateUserModal: false,
+      showEditARModal: false,
+      customerId: null,
+      addressId: null,
       selected: [],
       selectedUsers: [],
       usersToBeUpdated: [],
@@ -99,6 +103,23 @@ export default {
         }
       })
       return indices
+    },
+    openARDetails() {
+      this.customerId = this.item.customerId
+      this.addressId = this.item.addressId
+      this.showEditARModal = true
+    },
+    updateARDetails() {
+      // We only have two fields, so we can just update them directly on the item and submit the whole org
+      // instead of making a separate API call just for these details.
+      this.item.customerId = this.customerId || null
+      this.item.addressId = this.addressId || null
+      this.showEditARModal = false
+    },
+    cancelARDetails() {
+      this.customerId = null
+      this.addressId = null
+      this.showEditARModal = false
     },
     updateOrg(org) {
       this.item = org
@@ -207,31 +228,42 @@ export default {
           <v-col>
             <h2>Details</h2>
           </v-col>
+          <v-col align="end">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="ml-2"
+                  v-on="on"
+                  fab
+                  x-small
+                  color="primary"
+                  data-cy="edit-ar-details-modal"
+                  @click.stop="openARDetails()"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+              <span>Change A/R Details</span>
+            </v-tooltip>
+          </v-col>
         </v-row>
         <v-row dense justify="start" v-if="item.customerId">
-          <v-col class="ml-4 field-label">
-            A/R Customer ID
-          </v-col>
+          <v-col class="ml-4 font-weight-bold">A/R Customer ID</v-col>
           <v-col>
             {{ item.customerId }}
           </v-col>
-          <v-col>
-            &nbsp;
-          </v-col>
+          <v-spacer></v-spacer>
         </v-row>
-        <v-row dense v-if="item.addressId">
-          <v-col class="ml-4 field-label">
-            A/R Address ID
-          </v-col>
+        <v-row dense justify="start" v-if="item.addressId">
+          <v-col class="ml-4 font-weight-bold">A/R Address ID</v-col>
           <v-col>
             {{ item.addressId }}
           </v-col>
-          <v-col>
-            &nbsp;
-          </v-col>
+          <v-spacer></v-spacer>
         </v-row>
       </v-col>
     </v-row>
+    <v-divider class="my-3 ml-2"></v-divider>
     <v-row dense class="ml-2">
       <v-col>
         <v-row>
@@ -424,6 +456,52 @@ export default {
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="showEditARModal" v-if="showEditARModal" max-width="600px" persistent>
+      <v-card>
+        <v-card-title>
+          Change A/R Details
+          <v-spacer></v-spacer>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon small @click="showEditARModal = false" data-cy="ar-dialog-close" v-on="on" v-bind="attrs">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
+            <span>Cancel</span>
+          </v-tooltip>
+        </v-card-title>
+        <v-card-text class="pb-0">
+          <v-form v-model="arDetailsFormIsValid">
+            <v-row dense>
+              <v-col>
+                <v-text-field
+                  v-model="customerId"
+                  label="Accounts Receivable Customer ID"
+                  data-cy="update-customer-id"
+                  :error-messages="errors.application_key"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="addressId"
+                  label="Accounts Receivable Address ID"
+                  data-cy="update-address-id"
+                  :error-messages="errors.application_key"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-start pb-3">
+          <v-btn small text class="ml-2" color="secondary" @click="cancelARDetails">Close</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn small text class="mr-2" color="secondary" @click="openARDetails">Reset</v-btn>
+          <v-btn small text class="mr-2" :disabled="!arDetailsFormIsValid" color="primary" @click="updateARDetails()">
+            Update
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <IFXAddUsers
       v-if="showAddUserModal"
       v-model="item"
@@ -460,8 +538,5 @@ export default {
 }
 .show-inactive .v-messages theme--light {
   display: none;
-}
-.field-label {
-  font-weight: bold;
 }
 </style>
