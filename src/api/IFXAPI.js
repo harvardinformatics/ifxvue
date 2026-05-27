@@ -1163,6 +1163,13 @@ export default class IFXAPIService {
         .get(url, { params })
         .then((res) => res.data.map((productUsageData) => createFunc(productUsageData)))
     }
+    api.getLinkForProductUsage = (productUsage, router) => {
+      console.log('productUsage in getLinkForProductUsage', productUsage)
+      if (productUsage) {
+        return router.resolve({ name: 'product-usage-detail', params: { id: productUsage.id } }).href
+      }
+      return null
+    }
     return api
   }
 

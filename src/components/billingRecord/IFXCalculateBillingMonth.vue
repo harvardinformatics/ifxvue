@@ -51,6 +51,7 @@ export default {
       search: null,
       onlyErrorsStorageKey: 'calculate-billing-month-onlyErrors',
       onlyErrors: false,
+      facilityStorageKey: 'calculate-billing-month-facility',
       globalErrors: null,
     }
   },
@@ -67,11 +68,16 @@ export default {
         this.getUsages()
       }
     },
+    facility(val) {
+      if (val) {
+        this.$api.storage.setItem(this.facilityStorageKey, val.id, 'session')
+      }
+    },
   },
   computed: {
     headers() {
       const headers = [
-        { text: 'ID', value: 'id', sortable: true },
+        { text: 'ID', value: 'id', sortable: true, namedSlot: true },
         { text: 'User', value: 'productUser', sortable: true, namedSlot: true, key: 'fullName' },
         { text: 'Year', value: 'year', slot: true, sortable: true },
         { text: 'Month', value: 'month', slot: true, sortable: true },
@@ -97,6 +103,9 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    getLinkForProductUsage(productUsage) {
+      return this.$api.productUsage.getLinkForProductUsage(productUsage, this.$router)
+    },
     getItemsFilteredBySearch() {
       let items = this.usages
       if (this.search) {
@@ -196,6 +205,7 @@ export default {
       }
     },
     async setFacility() {
+      const initialFacility = this.$api.storage.getItem(this.facilityStorageKey, 'session')
       this.facilities = await this.$api.facility.getList()
       if (this.facilities && this.facilityId) {
         this.facility = await this.$api.facility.getByID(this.facilityId)
@@ -204,6 +214,8 @@ export default {
           })
       } else if (this.facilities && this.facilities.length === 1) {
         this.facility = this.facilities[0]
+      } else if (initialFacility) {
+        this.facility = this.facilities.find((f) => f.id === initialFacility)
       }
     },
   },
@@ -218,7 +230,7 @@ export default {
       this.selectedDate = this.$api.storage.getItem(this.selectedDateKey, 'session') || null
     }
     this.search = this.$api.storage.getItem(this.searchStorageKey, 'session') || ''
-    this.onlyErrors = this.$api.storage.getItem(this.searchStorageKey, 'session') === 'true'
+    this.onlyErrors = this.$api.storage.getItem(this.onlyErrorsStorageKey, 'session') === 'true'
     this.localOrganization = this.organization
     this.setFacility()
       .then(() => {
@@ -345,6 +357,9 @@ export default {
           :loading="isLoading"
           itemType="ProductUsage"
         >
+          <template v-slot:id="{ item }">
+            <a :href="getLinkForProductUsage(item)">{{ item.id }}</a>
+          </template>
           <template v-slot:productUser="{ item }">
             {{ item.productUser.fullName }}
           </template>
