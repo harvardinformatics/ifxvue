@@ -259,7 +259,7 @@ export default {
       return this.hasItemChanged()
     },
     isUserInfoEdittable() {
-      return this.item && this.item.username && !!this.item.ifxid && !this.djangoEditOnly
+      return this.item && this.item.username && !!this.item.ifxid && !this.djangoEditOnly && this.$api.auth.can('edit-users', this.$api.authUser)
     },
     userCategories() {
       return this.item.userFiles?.reduce((acc, file) => {
