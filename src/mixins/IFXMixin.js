@@ -121,7 +121,7 @@ export default {
      */
     minDate() {
       // Administrators have no minimum date
-      if (this.isAdmin) return null
+      if (this.$api.auth.isAdmin) return null
       // Standard users can reserve two business days in advance
       // Today is considered a business day if before 11am
       const now = moment()
