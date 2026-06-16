@@ -259,7 +259,13 @@ export default {
     },
     // Default page options for list components
     defaultItemsPerPageOptions() {
-      return [10, 20, { text: 'All', value: -1 }]
+      // return [10, 20, { title: 'All', value: -1 }]
+      return [
+        { value: 10, title: '10' },
+        { value: 20, title: '20' },
+        { value: 50, title: '50' },
+        { value: -1, title: 'All' },
+      ]
     },
     /**
      * Collection of rules for v-form fields.
