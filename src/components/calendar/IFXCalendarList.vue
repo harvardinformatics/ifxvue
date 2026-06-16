@@ -103,6 +103,7 @@ export default {
     showErrorMsg: false,
     skinnyUsers: [],
     attendants: [],
+    attendantSearch: "",
     allResources: [],
     reservationOpen: false,
     earliestMonth: null,
@@ -228,11 +229,13 @@ export default {
       } else {
         const ids = this.$api.storage.getItem('filteredResources', 'local')?.split(',')
         if (ids?.length) {
-          this.filteredResources = ids.map((id) => this.allResources.find((resource) => resource.id === parseInt(id, 10)))
+          this.filteredResources = ids.map((id) =>
+            this.allResources.find((resource) => resource.id === parseInt(id, 10))
+          )
         }
       }
     },
-    viewDay(event, {date}) {
+    viewDay(event, { date }) {
       this.calModel = date
       this.type = 'day'
       this.setDefaultStartDate(date)
@@ -358,13 +361,11 @@ export default {
     },
     setDefaultStartDate(dateToUse) {
       const dateObject = moment.tz(dateToUse, 'America/New_York')
-      this.pickerDate = dateObject.toISOString().substr(0, 10)
+      this.pickerDate = dateObject.toISOString().substring(0, 10)
       const hasTime = /[\sT]\d{1,2}:\d{2}/.test(dateToUse)
       if (hasTime) {
         this.pickerTime = dateObject.format('HH:mm')
-      }
-      else
-      {
+      } else {
         const nextHour = new Date().getMinutes() < 31 ? 1 : 2
         this.pickerTime = moment.tz('America/New_York').add(nextHour, 'hour').startOf('hour').format('HH:mm')
       }
@@ -374,7 +375,8 @@ export default {
       })
     },
     addValuesFromDatepicker(whichDate, pickerDate, pickerTime) {
-      const dateObject = moment.tz(`${pickerDate}T${pickerTime}:00`, 'America/New_York')
+      const dateOnly = moment(pickerDate).format('YYYY-MM-DD')  // handles ALL three cases
+      const dateObject = moment.tz(`${dateOnly}T${pickerTime}:00`, 'America/New_York')
       const newValue = dateObject.toISOString()
       this.newEvent[whichDate] = newValue
       if (whichDate === 'startDate') {
@@ -562,6 +564,7 @@ export default {
       // Check if there are two green-badged people, including the reserver
       // Put up a warning if not.
       const useSpecialMsg = this.$api.reservation.useSpecialMsg(this.resource, this.attendants)
+      const showExpenseCodeMsg = this.showExpenseCodeMsg(this.newEvent)
 
       if (this.newEvent.id) {
         // This is an existing event. Replace it
@@ -572,6 +575,9 @@ export default {
           let msg = `Updated reservation of ${resUsage.product.name} for ${resUsage.productUser.fullName}.`
           if (useSpecialMsg) {
             msg += ` ${this.$api.reservation.getSpecialMessage()}`
+          }
+          if (showExpenseCodeMsg) {
+            msg += ` ${this.getExpiredAccountMessage()}`
           }
           this.showMessage(msg)
           const returnedRU = await this.$api.reservationUsage.create(res.data)
@@ -807,7 +813,7 @@ export default {
       }
     },
     handleResourceChange(resource) {
-      if (!resource){
+      if (!resource) {
         return
       }
 
@@ -869,7 +875,7 @@ export default {
     getAccountDisplay(item) {
       // Return a list of the friendly names of the accounts
       return item.reservation.accounts
-        .map(({ account }) => {
+        .map(({ account, name }) => {
           let result = account
           if (account) {
             // parse a slug
@@ -877,7 +883,8 @@ export default {
             if (match.length) {
               // If the first three characters are "PO<space>", we've got a PO
               if (match[1].startsWith('PO ')) {
-                result = match[1].substr(3)
+                // If this is a PO, try to use the name rather than the slug
+                result = name || match[1].substr(3)
               } else {
                 result = match[2]
               }
@@ -945,6 +952,53 @@ export default {
     revalidateTimes() {
       this.$refs.startDate.validate(true)
       this.$refs.endDate.validate(true)
+      this.setApprovalBasedOnExpenseCode(true)
+    },
+    showExpenseCodeMsg(event) {
+      if (!event.reservation.accounts || event.reservation.accounts.length === 0) {
+        return false
+      }
+      return !this.willExpenseCodeStillBeValid(
+        // Only check the first account since we don't allow splits
+        event.reservation.accounts[0].account,
+        event.startDate,
+        event.endDate,
+        false
+      )
+    },
+    setApprovalBasedOnExpenseCode() {
+      this.approved = this.willExpenseCodeStillBeValid(
+        this.expenseCode,
+        this.newEvent.startDate,
+        this.newEvent.endDate,
+        true
+      )
+    },
+    willExpenseCodeStillBeValid(expenseCode, startDate, endDate, showMessage = false) {
+      // Check if there is an existing expense code selected and, if so, make sure it will still be valid
+      // during this reservation. If the code will have expired, force approval
+      let isValid = true
+      if (expenseCode) {
+        const matchedCode = this.allowedExpenseCodes.find((code) => code.slug === expenseCode)
+
+        if (matchedCode && startDate && endDate) {
+          const startDateTime = new Date(startDate).getTime()
+          const endDateTime = new Date(endDate).getTime()
+          if (
+            startDateTime < new Date(matchedCode.validFrom).getTime()
+            || endDateTime > new Date(matchedCode.expirationDate).getTime()
+          ) {
+            isValid = false
+          }
+        }
+      }
+      if (!isValid && showMessage) {
+        this.showMessage(`${this.getExpiredAccountMessage()} The reservation has been marked as needing approval.`)
+      }
+      return isValid
+    },
+    getExpiredAccountMessage() {
+      return 'The selected account will not be valid for the selected reservation time.'
     },
   },
   watch: {
@@ -965,7 +1019,7 @@ export default {
   setup() {
     const goTo = useGoTo()
     return {
-      goTo
+      goTo,
     }
   },
 }
@@ -996,14 +1050,20 @@ export default {
           data-cy="filter-resources"
         >
           <template #selection="{ item }">
-            <v-chip :color="item.raw.color" variant="flat" closable @click:close="removeFromFiltered(item.raw)">
-              {{ item.raw.name }}
+            <v-chip
+              :color="item.color"
+              class="black-text"
+              variant="flat"
+              closable
+              @click:close="removeFromFiltered(item)"
+            >
+              {{ item.name }}
             </v-chip>
           </template>
           <template #item="{ item, props }">
             <v-list-item v-bind="props">
               <template #prepend>
-                <div :style="$api.resource.resourceColorBox(item.raw)" class="mr-2">&nbsp;</div>
+                <div :style="$api.resource.resourceColorBox(item)" class="mr-2">&nbsp;</div>
               </template>
             </v-list-item>
           </template>
@@ -1015,9 +1075,23 @@ export default {
       <v-col>
         <v-sheet height="64">
           <v-toolbar flat color="transparent">
-            <v-btn variant="outlined" class="mr-4" color="grey-darken-2" @click="setToday" data-cy="calendar-today">Today</v-btn>
-            <v-btn icon="mdi-chevron-left" size="small" color="grey-darken-2" @click="prev" data-cy="calendar-prev"></v-btn>
-            <v-btn icon="mdi-chevron-right" size="small" color="grey-darken-2" @click="next" data-cy="calendar-next"></v-btn>
+            <v-btn variant="outlined" class="mr-4" color="grey-darken-2" @click="setToday" data-cy="calendar-today">
+              Today
+            </v-btn>
+            <v-btn
+              icon="mdi-chevron-left"
+              size="small"
+              color="grey-darken-2"
+              @click="prev"
+              data-cy="calendar-prev"
+            ></v-btn>
+            <v-btn
+              icon="mdi-chevron-right"
+              size="small"
+              color="grey-darken-2"
+              @click="next"
+              data-cy="calendar-next"
+            ></v-btn>
             <v-toolbar-title v-if="$refs.calendar" class="ml-0">
               {{ $refs.calendar.title }}
             </v-toolbar-title>
@@ -1098,18 +1172,12 @@ export default {
               </template>
               <!-- Interval slot for day/week view time slots -->
               <template v-slot:interval="{ date, time }">
-                <div
-                  @click="handleDayClick(date, time)"
-                  style="height: 100%; width: 100%; cursor: pointer;"
-                ></div>
+                <div @click="handleDayClick(date, time)" style="height: 100%; width: 100%; cursor: pointer"></div>
               </template>
 
               <!-- Day slot for month view -->
               <template v-slot:day="{ date }">
-                <div
-                  @click="handleDayClick(date)"
-                  style="height: 100%; width: 100%; cursor: pointer;"
-                ></div>
+                <div @click="handleDayClick(date)" style="height: 100%; width: 100%; cursor: pointer"></div>
               </template>
               <template v-slot:day-body="{ date, week }">
                 <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY() }"></div>
@@ -1122,7 +1190,14 @@ export default {
                 Reserve an instrument or location
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
-                    <v-btn elevation="0" icon size="x-small" v-bind="props" @click="closeReservation" data-cy="close-reservation-panel">
+                    <v-btn
+                      elevation="0"
+                      icon
+                      size="x-small"
+                      v-bind="props"
+                      @click="closeReservation"
+                      data-cy="close-reservation-panel"
+                    >
                       <v-icon size="x-small" density="compact">mdi-close</v-icon>
                     </v-btn>
                   </template>
@@ -1144,7 +1219,7 @@ export default {
                     :disabled="weAreEditing"
                     data-cy="select-resources"
                   ></v-autocomplete>
-                  <v-row no-gutters v-if="useTrial || useMaintenance">
+                  <v-row density="compact" v-if="useTrial || useMaintenance">
                     <v-col cols="8" v-if="useTrial">
                       <v-checkbox
                         class="dense-checkbox"
@@ -1202,7 +1277,7 @@ export default {
                       </v-list-item>
                     </template>
                     <template v-slot:selection="{ item }">
-                      <span>{{ $orgNameFromSlug(item.value) }}</span>
+                      <span>{{ $orgNameFromSlug(item) }}</span>
                     </template>
                   </v-autocomplete>
                   <v-autocomplete
@@ -1217,6 +1292,7 @@ export default {
                     :disabled="resourceNotSelected || !expenseCodeEnabled"
                     data-cy="expense-code"
                     class="mb-4"
+                    @change="setApprovalBasedOnExpenseCode(true)"
                   >
                     <template #no-data>
                       <div class="mx-3 my-1">No expense code or PO found for this organization and resource</div>
@@ -1226,7 +1302,7 @@ export default {
                     ref="startDate"
                     class="startDate"
                     :model-value="humanStartDate"
-                    @update:model-value="updateDate($event, 'startDate')"
+                    @change="updateDate($event.target.value, 'startDate')"
                     label="Start Date and Time *"
                     prepend-icon="mdi-calendar"
                     required
@@ -1237,44 +1313,46 @@ export default {
                     :disabled="cantBeEdited || resourceNotSelected"
                     data-cy="start-date"
                   ></v-text-field>
-                  <v-menu
-                    v-model="startDateMenu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    min-width="580px"
-                    location="start"
-                  >
-                    <div class="d-flex flex-row menu-background">
-                      <div class="d-flex flex-column">
-                        <v-date-picker
-                          v-model="pickerDate"
-                          :min="minDate()"
-                          data-cy="start-date-picker"
-                        ></v-date-picker>
-                        <div class="text-center">
-                          <v-btn variant="text" color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
-                            Cancel
-                          </v-btn>
-                          <v-btn
-                            variant="text"
-                            color="primary"
-                            :disabled="!pickerTime"
-                            @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
-                            data-cy="start-date-ok"
-                          >
-                            OK
-                          </v-btn>
+                  <v-dialog v-model="startDateMenu" persistent width="auto">
+                    <v-card>
+                      <v-card-text class="pa-1">
+                        <div class="d-flex flex-row">
+                          <div class="d-flex flex-column">
+                            <v-date-picker
+                              v-model="pickerDate"
+                              :min="minDate()"
+                              data-cy="start-date-picker"
+                            ></v-date-picker>
+                            <div class="text-center">
+                              <v-btn
+                                variant="text"
+                                color="secondary"
+                                @click="startDateMenu = false"
+                                data-cy="start-date-cancel"
+                              >
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                variant="text"
+                                color="primary"
+                                :disabled="!pickerTime"
+                                @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
+                                data-cy="start-date-ok"
+                              >
+                                OK
+                              </v-btn>
+                            </div>
+                          </div>
+                          <v-time-picker
+                            v-model="pickerTime"
+                            format="ampm"
+                            :allowed-minutes="allowedMinutes"
+                            data-cy="start-date-time-picker"
+                          ></v-time-picker>
                         </div>
-                      </div>
-                      <v-spacer></v-spacer>
-                      <v-time-picker
-                        v-model="pickerTime"
-                        format="ampm"
-                        :allowed-minutes="allowedMinutes"
-                        data-cy="start-date-time-picker"
-                      ></v-time-picker>
-                    </div>
-                  </v-menu>
+                      </v-card-text>
+                    </v-card>
+                  </v-dialog>
                   <v-row>
                     <v-col>
                       <v-autocomplete
@@ -1303,7 +1381,7 @@ export default {
                     ref="endDate"
                     class="endDate mb-4"
                     :model-value="humanEndDate"
-                    @update:model-value="updateDate($event, 'endDate')"
+                    @change="updateDate($event.target.value, 'endDate')"
                     label="End Date and Time *"
                     prepend-icon="mdi-calendar"
                     hint="MM/DD/YYYY HH:MM AM/PM (all times Eastern)"
@@ -1314,47 +1392,48 @@ export default {
                     :disabled="cantBeEdited || resourceNotSelected"
                     data-cy="end-date"
                   ></v-text-field>
-                  <v-menu
-                    v-model="endDateMenu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    min-width="580px"
-                    location="start"
-                  >
-                    <div class="d-flex flex-row menu-background">
-                      <div class="d-flex flex-column">
-                        <v-date-picker
-                          v-model="pickerDate"
-                          :min="minDate()"
-                        ></v-date-picker>
-                        <div class="text-center">
-                          <v-btn variant="text" color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">
-                            Cancel
-                          </v-btn>
-                          <v-btn
-                            variant="text"
-                            color="primary"
-                            :disabled="!pickerTime"
-                            @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
-                            data-cy="end-date-ok"
-                          >
-                            OK
-                          </v-btn>
+                  <v-dialog v-model="endDateMenu" width="auto" persistent>
+                    <v-card>
+                      <v-card-text class="pa-1">
+                        <div class="d-flex flex-row menu-background">
+                          <div class="d-flex flex-column">
+                            <v-date-picker v-model="pickerDate" :min="minDate()"></v-date-picker>
+                            <div class="text-center">
+                              <v-btn
+                                variant="text"
+                                color="secondary"
+                                @click="endDateMenu = false"
+                                data-cy="end-date-cancel"
+                              >
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                variant="text"
+                                color="primary"
+                                :disabled="!pickerTime"
+                                @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
+                                data-cy="end-date-ok"
+                              >
+                                OK
+                              </v-btn>
+                            </div>
+                          </div>
+                          <v-time-picker
+                            v-model="pickerTime"
+                            format="ampm"
+                            :allowed-minutes="allowedMinutes"
+                            data-cy="end-date-time-picker"
+                          ></v-time-picker>
                         </div>
-                      </div>
-                      <v-spacer></v-spacer>
-                      <v-time-picker
-                        v-model="pickerTime"
-                        format="ampm"
-                        :allowed-minutes="allowedMinutes"
-                        data-cy="end-date-time-picker"
-                      ></v-time-picker>
-                    </div>
-                  </v-menu>
+                      </v-card-text>
+                    </v-card>
+                  </v-dialog>
                   <v-autocomplete
                     label="Attendants"
                     :items="skinnyUsers"
                     v-model="attendants"
+                    v-model:search="attendantSearch"
+                    @update:modelValue="attendantSearch = ''"
                     item-title="fullName"
                     item-value="id"
                     clearable
@@ -1369,18 +1448,18 @@ export default {
                     <template #item="{ item, props }">
                       <v-list-item v-bind="props">
                         <template #prepend>
-                          <v-icon :color="$api.reservation.getUserIconColor(item.raw)">
+                          <v-icon :color="$api.reservation.getUserIconColor(item)">
                             {{ $api.reservation.getUserIcon() }}
                           </v-icon>
                         </template>
                       </v-list-item>
                     </template>
                     <template #selection="{ item }">
-                      <v-chip variant="text" closable @click:close="removeFromSelected(item.raw)">
-                        <v-icon :color="$api.reservation.getUserIconColor(item.raw)" class="mr-2">
+                      <v-chip variant="text" closable @click:close="removeFromSelected(item)">
+                        <v-icon :color="$api.reservation.getUserIconColor(item)" class="mr-2">
                           {{ $api.reservation.getUserIcon() }}
                         </v-icon>
-                        {{ item.raw.fullName }}
+                        {{ item.fullName }}
                       </v-chip>
                     </template>
                   </v-autocomplete>
@@ -1393,7 +1472,7 @@ export default {
                     class="textarea-scroll"
                     data-cy="comments"
                   ></v-textarea>
-                  <v-row no-gutters>
+                  <v-row density="compact">
                     <v-col cols="8">
                       <v-checkbox
                         class="dense-checkbox"
@@ -1516,8 +1595,16 @@ export default {
                 </v-form>
               </v-card-text>
               <v-card-actions class="d-flex justify-space-between">
-                <v-btn variant="text" color="secondary" @click="clearReservation" data-cy="reservation-clear">Clear</v-btn>
-                <v-btn variant="text" color="primary" :disabled="!formIsValid" @click="reserveResource" data-cy="reservation-ok">
+                <v-btn variant="text" color="secondary" @click="clearReservation" data-cy="reservation-clear">
+                  Clear
+                </v-btn>
+                <v-btn
+                  variant="text"
+                  color="primary"
+                  :disabled="!formIsValid"
+                  @click="reserveResource"
+                  data-cy="reservation-ok"
+                >
                   Reserve
                 </v-btn>
               </v-card-actions>
@@ -1541,7 +1628,13 @@ export default {
               >
                 <v-tooltip location="top">
                   <template v-slot:activator="{ props }">
-                    <v-btn icon="mdi-pencil" size="small" v-bind="props" @click="editReservation(selectedEvent)" data-cy="popup-edit"></v-btn>
+                    <v-btn
+                      icon="mdi-pencil"
+                      size="small"
+                      v-bind="props"
+                      @click="editReservation(selectedEvent)"
+                      data-cy="popup-edit"
+                    ></v-btn>
                   </template>
                   <span>Edit reservation</span>
                 </v-tooltip>
@@ -1561,7 +1654,7 @@ export default {
                 <v-btn icon="mdi-close" size="small" @click="closePopup" data-cy="popup-close"></v-btn>
               </v-toolbar>
               <v-card-text class="text-body-1" v-if="Object.keys(selectedEvent).length">
-                <v-row no-gutters>
+                <v-row density="compact">
                   <v-col cols="4"><div>User</div></v-col>
                   <v-col>
                     <span class="font-weight-medium" data-cy="popup-user">
@@ -1576,7 +1669,7 @@ export default {
                     </span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters>
+                <v-row density="compact">
                   <v-col cols="4"><div>Organization</div></v-col>
                   <v-col>
                     <span class="font-weight-medium" data-cy="popup-organization">
@@ -1584,7 +1677,7 @@ export default {
                     </span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters v-if="showAccountDisplay(selectedEvent)">
+                <v-row density="compact" v-if="showAccountDisplay(selectedEvent)">
                   <v-col cols="4"><div>Exp Code/ PO</div></v-col>
                   <v-col>
                     <span class="font-weight-medium" data-cy="popup-expense-code">
@@ -1592,7 +1685,7 @@ export default {
                     </span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters>
+                <v-row density="compact">
                   <v-col cols="4"><div>Time</div></v-col>
                   <v-col>
                     <div>
@@ -1606,7 +1699,7 @@ export default {
                     </span>
                   </v-col>
                 </v-row>
-                <v-row no-gutters v-if="selectedEvent.reservation.attendants.length">
+                <v-row density="compact" v-if="selectedEvent.reservation.attendants.length">
                   <v-col cols="4"><div>Attendants</div></v-col>
                   <v-col>
                     <span
@@ -1631,17 +1724,20 @@ export default {
                 >
                   {{ $api.reservation.getSpecialMessage() }}
                 </div>
-                <div v-if="selectedEvent.cancelled" class="mt-2 text-red" data-cy="popup-cancelled">
+                <div v-if="showExpenseCodeMsg(selectedEvent)" class="mt-2 red--text" data-cy="popup-expired-message">
+                  {{ getExpiredAccountMessage() }}
+                </div>
+                <div v-if="selectedEvent.cancelled" class="mt-2 red--text" data-cy="popup-cancelled">
                   This reservation is cancelled.
                 </div>
-                <v-row no-gutters v-if="selectedEvent.reservation.comment" class="mt-3">
+                <v-row density="compact" v-if="selectedEvent.reservation.comment" class="mt-3">
                   <v-col cols="4"><div>Comments</div></v-col>
                   <v-col data-cy="popup-comment">{{ selectedEvent.reservation.comment }}</v-col>
                 </v-row>
-                <v-row no-gutters v-if="useMaintenance && selectedEvent.reservation.isMaintenance" class="mt-3">
+                <v-row density="compact" v-if="useMaintenance && selectedEvent.reservation.isMaintenance" class="mt-3">
                   <v-col data-cy="popup-unavailable">This time slot is marked Unavailable</v-col>
                 </v-row>
-                <v-row no-gutters v-if="useTrial && selectedEvent.reservation.trial" class="mt-3">
+                <v-row density="compact" v-if="useTrial && selectedEvent.reservation.trial" class="mt-3">
                   <v-col data-cy="popup-trial">
                     {{
                       `This is a${selectedEvent.reservation.approved ? '' : 'n unapproved'} Testing / Pilot reservation`
@@ -1717,15 +1813,14 @@ export default {
 }
 
 .item-event {
-cursor: pointer;
-height: 100%;
-width: 100%;
-text-align: left;
-border: 1px solid #000;
-border-radius: 6px;
-overflow: hidden;
-}                  
-
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #000;
+  border-radius: 6px;
+  overflow: hidden;
+}
 
 .badge-adjust {
   padding: 0;

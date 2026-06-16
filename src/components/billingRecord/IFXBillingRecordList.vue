@@ -883,7 +883,7 @@ export default {
                                       <div class="font-weight-medium">Send to all lab managers</div>
                                     </v-col>
                                   </v-row>
-                                  <v-row no-gutters>
+                                  <v-row density="compact">
                                     <v-col cols="12">
                                       <div class="text-divider font-italic text-center">
                                         Or specify email addresses directly
@@ -901,7 +901,7 @@ export default {
                                     Sending emails...
                                     <v-progress-linear indeterminate></v-progress-linear>
                                   </div>
-                                  <v-row no-gutters v-if="emailResponse">
+                                  <v-row density="compact" v-if="emailResponse">
                                     <v-col cols="12" class="text-body-1 results-section">
                                       <div class="text-body-1 font-weight-medium text-center">
                                         Email Notification Results

@@ -1,6 +1,14 @@
 import IFXItemBase from '@/components/item/IFXItemBase'
 
 export class UserFile extends IFXItemBase {
+  get id() {
+    return this.data.id
+  }
+
+  set id(id) {
+    this.data.id = id
+  }
+
   get file() {
     return this.data.file
   }
@@ -395,6 +403,14 @@ export class User extends IFXItemBase {
 
   set userFiles(userFiles) {
     this.data.user_files = userFiles
+  }
+
+  get userAliases() {
+    return this.data.user_aliases
+  }
+
+  set userAliases(userAliases) {
+    this.data.user_aliases = userAliases
   }
 
   hasGroup(group) {

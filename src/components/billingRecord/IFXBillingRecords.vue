@@ -192,6 +192,7 @@ export default {
             <v-tab>Summary by Account</v-tab>
             <v-tab>Summary by User</v-tab>
             <v-tab>Summary by Product Rate</v-tab>
+            <v-tab>Summary by Product</v-tab>
           </v-tabs>
           <v-window v-model="currentTabs[i]">
             <v-window-item>

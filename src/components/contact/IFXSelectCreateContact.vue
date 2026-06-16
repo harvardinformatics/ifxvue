@@ -159,14 +159,14 @@ export default {
         >
           <template v-slot:selection="{ item }">
             <v-chip size="small" color="primary">
-              <v-icon start size="small">{{ getContactIcon(item.raw) }}</v-icon>
-              {{ item.raw.detail }}
+              <v-icon start size="small">{{ getContactIcon(item) }}</v-icon>
+              {{ item.detail }}
             </v-chip>
           </template>
           <template v-slot:item="{ item, props }">
-            <v-list-item v-bind="props" :title="item.raw.detail" :subtitle="item.raw.type">
+            <v-list-item v-bind="props" :title="item.detail" :subtitle="item.type">
               <template v-slot:prepend>
-                <v-icon>{{ getContactIcon(item.raw) }}</v-icon>
+                <v-icon>{{ getContactIcon(item) }}</v-icon>
               </template>
             </v-list-item>
           </template>
@@ -198,7 +198,7 @@ export default {
       </v-col>
     </v-row>
 
-    <v-row v-if="isContactSelected" no-gutters class="mb-4">
+    <v-row v-if="isContactSelected" density="compact" class="mb-4">
       <v-col>
         <v-radio-group
           v-model="itemLocal.contact.type"
@@ -218,7 +218,7 @@ export default {
     </v-row>
 
     <v-form ref="form" v-model="isValid" v-if="isContactSelected">
-      <v-row no-gutters>
+      <v-row density="compact">
         <v-col cols="12" sm="6" class="pr-sm-2">
           <v-autocomplete
             v-model="itemLocal.role"

@@ -121,7 +121,7 @@ export default {
      */
     minDate() {
       // Administrators have no minimum date
-      if (this.isAdmin) return null
+      if (this.$api.auth.isAdmin) return null
       // Standard users can reserve two business days in advance
       // Today is considered a business day if before 11am
       const now = moment()
@@ -259,7 +259,13 @@ export default {
     },
     // Default page options for list components
     defaultItemsPerPageOptions() {
-      return [10, 20, { text: 'All', value: -1 }]
+      // return [10, 20, { title: 'All', value: -1 }]
+      return [
+        { value: 10, title: '10' },
+        { value: 20, title: '20' },
+        { value: 50, title: '50' },
+        { value: -1, title: 'All' },
+      ]
     },
     /**
      * Collection of rules for v-form fields.

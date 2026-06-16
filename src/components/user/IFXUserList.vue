@@ -118,39 +118,51 @@ export default {
       <template #title>{{ listTitle }}</template>
       <template #actions>
         <v-row no-wrap align="center">
-          <v-col cols="auto">
+          <v-col>
             <IFXSearchField v-model:search="search" />
           </v-col>
-          <v-col cols="auto">
-            <v-checkbox label="Include disabled" v-model="includeDisabled" density="compact" hide-details></v-checkbox>
+          <v-col cols="4">
+            <v-checkbox v-model="includeDisabled" hide-details>
+              <template v-slot:label>
+                <span style="white-space: nowrap">Include 1 disabled</span>
+              </template>
+            </v-checkbox>
           </v-col>
           <v-col>
-            <IFXMailButton
-              v-model="recipientField"
-              :disabled="!selected.length"
-              toolTip="Email selected users"
-              @update:modelValue="composeEmail()"
-            ></IFXMailButton>
+            <v-row density="compact">
+              <v-col>
+                <IFXMailButton
+                  v-model="recipientField"
+                  :disabled="!selected.length"
+                  toolTip="Email selected users"
+                  @update:modelValue="composeEmail()"
+                ></IFXMailButton>
+              </v-col>
+              <v-col>
+                <v-tooltip location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" size="small" icon @click="updateAuthorizations()" color="secondary">
+                      <v-icon>mdi-shield-check</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Update Expense code / PO authorizations</span>
+                </v-tooltip>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col>
-            <v-tooltip location="top">
-              <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" size="small" icon @click="updateAuthorizations()" color="secondary">
-                  <v-icon>mdi-shield-check</v-icon>
-                </v-btn>
-              </template>
-              <span>Update Expense code / PO authorizations</span>
-            </v-tooltip>
-          </v-col>
-          <v-col v-if="buttons && buttons.length" class="d-flex flex-row flex-nowrap">
-            <v-tooltip location="top" v-for="(button, index) in buttons" :key="index">
-              <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" size="small" icon @click="button.action(selected)" color="primary" :disabled="!selected.length" class="ml-2">
-                  <v-icon>{{button.icon}}</v-icon>
-                </v-btn>
-              </template>
-              <span>{{ button.tooltip}}</span>
-            </v-tooltip>
+          <v-col v-if="buttons && buttons.length">
+            <v-row class="d-flex flex-row flex-nowrap" density="compact">
+              <v-col v-for="(button, index) in buttons" :key="index" cols="auto">
+                <v-tooltip location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" size="small" icon @click="button.action(selected)" color="primary" :disabled="!selected.length" class="ml-2">
+                      <v-icon>{{button.icon}}</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ button.tooltip}}</span>
+                </v-tooltip>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </template>

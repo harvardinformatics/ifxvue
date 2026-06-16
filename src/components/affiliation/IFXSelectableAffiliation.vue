@@ -15,7 +15,7 @@ export default {
 <template>
   <v-container v-if='!isLoading' fluid class="pa-0">
     <span v-if='disabled'>
-      <v-row no-gutters>
+      <v-row density="compact">
         <v-col cols="12" sm="6" class="pr-sm-2">
           <h5 class="mb-2">Organization</h5>
           <p>{{ itemLocal.organization }}</p>
@@ -27,7 +27,7 @@ export default {
       </v-row>
     </span>
     <span v-else>
-      <v-row no-gutters>
+      <v-row density="compact">
         <v-col cols="12" sm="6" class="pr-sm-2">
           <v-autocomplete
             v-model="itemLocal.organization"

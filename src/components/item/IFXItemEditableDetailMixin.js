@@ -57,7 +57,7 @@ export default {
       this.$nextTick(() => {
         this.submitting = true
       })
-      this.apiRef
+      return this.apiRef
         .update(this.item)
         .then(async () => {
           this.submitting = false

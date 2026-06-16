@@ -36,7 +36,7 @@ export default {
 <template>
   <v-container fluid v-if="!isLoading" class="pa-0">
     <v-form ref="form" v-model="isValid">
-      <v-row no-gutters>
+      <v-row density="compact">
         <v-col cols="12" sm="6" class="pr-sm-2">
           <v-autocomplete
             v-model="itemLocal.role"

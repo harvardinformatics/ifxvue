@@ -134,13 +134,25 @@ export default {
       return `${this.itemType}TableItemsPerPage`
     },
     permissionCheckedHeaders() {
-      return this.headers.filter((h) => (h.permission !== undefined ? h.permission : true))
+      return this.headers
+        .filter((h) => (h.permission !== undefined ? h.permission : true))
+        .map((header) => ({
+          ...header,
+          title: header.title ?? header.text,
+          key: header.key ?? header.value,
+        }))
     },
     sortByOptions() {
       if (Array.isArray(this.sortBy)) {
         return this.sortBy.map((key, index) => ({
           key,
-          order: Array.isArray(this.sortDesc) ? (this.sortDesc[index] ? 'desc' : 'asc') : (this.sortDesc ? 'desc' : 'asc')
+          order: Array.isArray(this.sortDesc)
+            ? this.sortDesc[index]
+              ? 'desc'
+              : 'asc'
+            : this.sortDesc
+            ? 'desc'
+            : 'asc',
         }))
       }
       return [{ key: this.sortBy, order: this.sortDesc ? 'desc' : 'asc' }]
@@ -157,6 +169,7 @@ export default {
     :sort-by="sortByOptions"
     :multi-sort="multiSort"
     v-model:items-per-page="itemsPerPage"
+    :items-per-page-options="defaultItemsPerPageOptions"
     :class="rowClass"
     @click:row="clickRow"
     :show-select="showSelect"
@@ -179,7 +192,9 @@ export default {
     </template>
 
     <template #header.rowActionEdit="{ header }">
-      <span class="d-sr-only" :key="header?.key || 'rowActionEdit'">Buttons to go to the Edit page for the item in each row</span>
+      <span class="d-sr-only" :key="header?.key || 'rowActionEdit'">
+        Buttons to go to the Edit page for the item in each row
+      </span>
     </template>
 
     <template #header.rowActionCopy="{ header }">

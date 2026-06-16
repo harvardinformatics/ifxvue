@@ -140,6 +140,9 @@ import IFXCalendarList from '@/components/calendar/IFXCalendarList'
 
 // Channel Subscriptions
 import IFXSubscriptionList from '@/components/subscription/IFXSubscriptionList'
+import IFXLogChannelList from '@/components/channel/IFXLogChannelList'
+import IFXLogChannelCreateEdit from '@/components/channel/IFXLogChannelCreateEdit'
+import IFXLogChannelDetail from '@/components/channel/IFXLogChannelDetail'
 
 // Account Request
 import IFXAccountRequestDetail from '@/components/request/IFXAccountRequestDetail'
@@ -274,6 +277,9 @@ export {
   IFXLabBillingSummaryList,
   IFXGenericBillingSummaryList,
   IFXSubscriptionList,
+  IFXLogChannelList,
+  IFXLogChannelCreateEdit,
+  IFXLogChannelDetail,
 }
 
 

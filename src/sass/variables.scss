@@ -43,6 +43,8 @@ $headings: (
   'h3': (
     'size': 1.9rem,
     'line-height': 1.2em,
+    'margin-block-start': 0em,
+    'margin-block-end': 0em,
   ),
 );
 
@@ -76,6 +78,11 @@ $icon-sizes: (
 .text-label {
   font-size: 1.17em;
   font-weight: bold;
+}
+
+.field-name {
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 // Force progress bars to always animate

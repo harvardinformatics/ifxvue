@@ -33,7 +33,7 @@ export default {
       :items="billingRecord.transactions"
       class="elevation-1"
       hide-default-footer
-      dense
+      density="compact"
     >
       <template v-slot:item.decimalCharge="{ item }">
         {{ $dollars(item.decimalCharge) }}
