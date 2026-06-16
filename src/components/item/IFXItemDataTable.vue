@@ -169,6 +169,7 @@ export default {
     :sort-by="sortByOptions"
     :multi-sort="multiSort"
     v-model:items-per-page="itemsPerPage"
+    :items-per-page-options="defaultItemsPerPageOptions"
     :class="rowClass"
     @click:row="clickRow"
     :show-select="showSelect"
