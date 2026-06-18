@@ -1589,7 +1589,7 @@ export default {
                   >
                     mdi-minus-circle
                   </v-icon>
-                  <v-icon color="blue darken-2" class="mb-1 ml-2" v-if="!selectedEvent.reservation.approved">
+                  <v-icon color="blue darken-2" class="mb-1 ml-2" v-if="selectedEvent.reservation.trial">
                     mdi-test-tube
                   </v-icon>
                 </v-toolbar-title>
