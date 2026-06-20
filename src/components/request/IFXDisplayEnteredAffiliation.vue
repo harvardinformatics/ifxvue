@@ -61,6 +61,12 @@ export default {
             </v-flex>
           </v-layout>
         </v-flex>
+        <v-flex v-else-if="data && data.person.primary_affiliation">
+          {{ data.person.primary_affiliation }}
+        </v-flex>
+        <v-flex v-else>
+          No affiliation entered
+        </v-flex>
       </v-layout>
     </v-flex>
   </v-layout>

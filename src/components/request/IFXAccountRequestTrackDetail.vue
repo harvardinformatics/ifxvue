@@ -14,6 +14,7 @@ import DisplayTermsAndConditions from './IFXDisplayTermsAndConditions'
 import DisplayAffiliations from './IFXDisplayAffiliations'
 import DisplayEnteredAffiliation from './IFXDisplayEnteredAffiliation'
 import DisplaySimpleText from './IFXDisplaySimpleText'
+import DisplayBillingContact from './IFXDisplayBillingContact'
 
 export default {
   name: 'IFXAccountRequestTrackDetail',
@@ -39,6 +40,7 @@ export default {
     DisplayAffiliations,
     DisplayEnteredAffiliation,
     DisplaySimpleText,
+    DisplayBillingContact,
   },
   data() {
     return {
@@ -98,7 +100,7 @@ export default {
               @change="updateData()"
             ></component>
             <component
-              v-else-if="['primary_affiliation'].includes(field)"
+              v-else-if="['primary_affiliation', 'billing_contact'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData"
             ></component>

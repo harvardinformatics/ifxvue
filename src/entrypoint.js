@@ -166,6 +166,7 @@ import IFXDisplayEnteredAffiliation from '@/components/request/IFXDisplayEntered
 import IFXDisplaySimpleText from '@/components/request/IFXDisplaySimpleText'
 import IFXRequestCommentList from '@/components/request/IFXRequestCommentList'
 import IFXRequestList from '@/components/request/IFXRequestList'
+import IFXDisplayBillingContact from '@/components/request/IFXDisplayBillingContact'
 
 // These components/mixins must be import individually in host application
 export {
@@ -273,6 +274,7 @@ export {
   IFXDisplayAffiliations,
   IFXDisplayEnteredAffiliation,
   IFXDisplaySimpleText,
+  IFXDisplayBillingContact,
   IFXRequestCommentList,
   IFXRequestList,
   IFXLabBillingSummaryList,
