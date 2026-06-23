@@ -98,6 +98,11 @@ export default {
       }
       return null
     },
+    // Method for handling item select/deselect
+    itemSelected(event) {
+      this.$emit('item-selected', event)
+      return null
+    }
   },
   computed: {
     // Checks if user has specified a click event for the row
@@ -162,6 +167,7 @@ export default {
     :hide-default-footer="hideDefaultFooter"
     :loading="loading"
     @update:page="pageChange"
+    @item-selected="itemSelected"
     :page="currentPage"
   >
     <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
