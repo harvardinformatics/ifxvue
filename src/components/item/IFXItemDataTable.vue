@@ -100,8 +100,9 @@ export default {
     },
     // Method for handling item select/deselect
     itemSelected(event) {
-      this.$emit('item-selected', event.item, event.value)
-    },
+      this.$emit('item-selected', event)
+      return null
+    }
   },
   computed: {
     // Checks if user has specified a click event for the row
