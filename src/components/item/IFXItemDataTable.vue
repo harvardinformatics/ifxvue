@@ -102,7 +102,12 @@ export default {
     itemSelected(event) {
       this.$emit('item-selected', event)
       return null
-    }
+    },
+    // Method for handling toggle all items
+    toggleSelectAll(event) {
+      this.$emit('toggle-select-all', event)
+      return null
+    },
   },
   computed: {
     // Checks if user has specified a click event for the row
@@ -168,6 +173,7 @@ export default {
     :loading="loading"
     @update:page="pageChange"
     @item-selected="itemSelected"
+    @toggle-select-all="toggleSelectAll"
     :page="currentPage"
   >
     <!-- Loops through all headers and either uses a specified named slot or the data table cell component -->
