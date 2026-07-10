@@ -9,6 +9,11 @@ export default {
     dataFields: Array,
     requestType: String,
     title: String,
+    showSelect: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -28,6 +33,27 @@ export default {
     },
   },
   methods: {
+    deleteSelected() {
+      const promises = []
+      if (this.selected.length > 0) {
+        const successMessage = `Successfully deleted ${this.selected.length} request${this.selected.length > 1 ? 's' : ''}`
+        this.selected.forEach((item) => {
+          promises.push(this.$requestApi.deleteRequest(item.id))
+        })
+        Promise.all(promises)
+          .then(() => {
+            this.getRequests()
+            this.$emit('action', { type: 'delete', ids: this.selected.map((item) => item.id) })
+            this.showMessage(successMessage)
+          })
+          .catch((error) => {
+            this.showMessage(error)
+          })
+          .finally(() => {
+            this.selected = []
+          })
+      }
+    },
     display(header, item) {
       let result = item[header.value]
       if (header.display) {
@@ -67,7 +93,11 @@ export default {
       localStorage.setItem(`${this.$api.vars.appName}_RequestListRowsPerPage`, this.rowsPerPage.toString())
     },
     search: function () {
-      localStorage.setItem(`${this.$api.vars.appName}_RequestListSearch`, this.search)
+      if (!this.search) {
+        localStorage.removeItem(`${this.$api.vars.appName}_RequestListSearch`)
+      } else {
+        localStorage.setItem(`${this.$api.vars.appName}_RequestListSearch`, this.search)
+      }
       this.getRequests()
     },
     includeCompleted: function () {
@@ -89,22 +119,15 @@ export default {
               <v-flex grow>
                 <v-layout row>
                   <v-flex>
-                    <v-text-field v-model="search" label="Search" single-line hide-details></v-text-field>
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on }">
-                        <v-btn v-on="on" :disabled="!search" fab small color="white" @click="search = ''">
-                          <v-icon>clear</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Clear search</span>
-                    </v-tooltip>
+                    <v-text-field v-model="search" label="Search" clearable single-line hide-details></v-text-field>
                   </v-flex>
                 </v-layout>
               </v-flex>
-              <v-flex xs3>
+              <v-flex xs3 class="ml-4">
                 <v-checkbox label="Include completed" v-model="includeCompleted"></v-checkbox>
+              </v-flex>
+              <v-flex xs2 v-if="showSelect">
+                <v-btn @click="deleteSelected()" :disabled="!selected.length" fab small color="red"><v-icon>mdi-delete</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-card-title>
@@ -117,6 +140,7 @@ export default {
             :loading="loading"
             item-key="id"
             class="elevation-1"
+            :show-select="showSelect"
             :footer-props="{
               itemsPerPageOptions: rowsPerPageItems,
             }"
