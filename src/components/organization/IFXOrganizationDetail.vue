@@ -123,8 +123,8 @@ export default {
       this.showEditDetailModal = true
     },
     updateDetails() {
-      // We only have two fields, so we can just update them directly on the item and submit the whole org
-      // instead of making a separate API call just for these details.
+      // Update the organization details on the item and submit the whole org instead of making separate API calls.
+      //
       this.item.customerId = this.customerId || null
       this.item.addressId = this.addressId || null
       this.item.name = this.name || null
