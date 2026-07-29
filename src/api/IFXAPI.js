@@ -601,6 +601,9 @@ export default class IFXAPIService {
         })
         newOrgData.users = organizationUserDataObjs
       }
+      if (orgData.parents && orgData.parents.length) {
+        newOrgData.parents = orgData.parents
+      }
 
       // Check if incoming orgData has rates
       if (orgData.organization_rates && orgData.organization_rates.length) {
@@ -608,7 +611,8 @@ export default class IFXAPIService {
         newOrgData.organization_rates = organizationRateDataObjs
       }
       // If decomposing, do not create a dynamic organization object
-      return decompose ? newOrgData : new Organization(newOrgData)
+      const result = decompose ? newOrgData : new Organization(newOrgData)
+      return result
     }
     const decomposeFunc = (orgData) => createFunc(orgData, true)
     const api = this.genericAPI(baseUrl, null, createFunc, decomposeFunc)
