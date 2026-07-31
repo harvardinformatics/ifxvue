@@ -43,7 +43,7 @@ export default {
         v-model="step.value"
         true-value="complete"
         false-value="incomplete"
-        @click.native="emitUpdate()"
+        @click="emitUpdate()"
         class="mt-0 mb-0"
         color="primary"
       >

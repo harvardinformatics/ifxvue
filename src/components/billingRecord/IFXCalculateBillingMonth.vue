@@ -246,7 +246,7 @@ export default {
     </IFXPageHeader>
     <v-row v-if="globalErrors">
       <v-col>
-        <v-alert type="error" outlined>
+        <v-alert type="error" variant="outlined">
           {{ globalErrors }}
         </v-alert>
       </v-col>

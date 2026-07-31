@@ -864,18 +864,10 @@ export default {
                           </v-btn>
                         </template>
                         <v-list>
-                          <v-list-item @click="openNotifyDialog">
-                            <v-list-item-title>Notify Lab Managers</v-list-item-title>
-                          </v-list-item>
-                          <v-list-item @click="goToComposeMessage('to')" :disabled="!filteredItems.length">
-                            <v-list-item-title>Send a message to selected Lab Managers</v-list-item-title>
-                          </v-list-item>
-                          <v-list-item @click="goToComposeMessage('cc')" :disabled="!filteredItems.length">
-                            <v-list-item-title>CC selected Lab Managers</v-list-item-title>
-                          </v-list-item>
-                          <v-list-item @click="goToComposeMessage('bcc')" :disabled="!filteredItems.length">
-                            <v-list-item-title>BCC selected Lab Managers</v-list-item-title>
-                          </v-list-item>
+                          <v-list-item @click="openNotifyDialog" title="Notify Lab Managers" />
+                          <v-list-item @click="goToComposeMessage('to')" :disabled="!filteredItems.length" title="Send a message to selected Lab Managers" />
+                          <v-list-item @click="goToComposeMessage('cc')" :disabled="!filteredItems.length" title="CC selected Lab Managers" />
+                          <v-list-item @click="goToComposeMessage('bcc')" :disabled="!filteredItems.length" title="BCC selected Lab Managers" />
                         </v-list>
                       </v-menu>
 

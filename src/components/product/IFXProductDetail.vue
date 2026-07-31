@@ -126,14 +126,14 @@ export default {
           >
             <template #active="{ item }">
               <v-tooltip v-if="item.active" top>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon v-on="on" v-bind="attrs" color="#fcbd01">lightbulb</v-icon>
+                <template v-slot:activator="{ props }">
+                  <v-icon v-bind="props" color="#fcbd01">lightbulb</v-icon>
                 </template>
                 <span>Active rate</span>
               </v-tooltip>
               <v-tooltip v-else top>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon v-on="on" v-bind="attrs" color="#ccc">lightbulb</v-icon>
+                <template v-slot:activator="{ props }">
+                  <v-icon v-bind="props" color="#ccc">lightbulb</v-icon>
                 </template>
                 <span>Inactive rate</span>
               </v-tooltip>
@@ -142,7 +142,7 @@ export default {
               <span v-if="item.description">
                 {{ item.description }}
               </span>
-              <span v-else class="grey--text">None</span>
+              <span v-else class="text-grey">None</span>
             </template>
             <template #maxQty="{ item }">
               {{ item.maxQty ? `${pluralize(item.maxQty, item.units)}` : '∞' }}

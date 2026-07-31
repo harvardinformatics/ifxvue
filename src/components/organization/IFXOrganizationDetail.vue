@@ -250,12 +250,12 @@ export default {
           </v-col>
           <v-col align="end">
             <v-tooltip top>
-              <template v-slot:activator="{ on }">
+              <template v-slot:activator="{ props }">
                 <v-btn
                   class="ml-2"
-                  v-on="on"
-                  fab
-                  x-small
+                  v-bind="props"
+                  icon
+                  size="x-small"
                   color="primary"
                   data-cy="edit-ar-details-modal"
                   @click.stop="openDetails()"
@@ -505,8 +505,8 @@ export default {
           Change Organization Details
           <v-spacer></v-spacer>
           <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn icon small @click="showEditDetailModal = false" data-cy="ar-dialog-close" v-on="on" v-bind="attrs">
+            <template v-slot:activator="{ props }">
+              <v-btn icon size="small" @click="showEditDetailModal = false" data-cy="ar-dialog-close" v-bind="props">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </template>
@@ -576,10 +576,10 @@ export default {
           </v-form>
         </v-card-text>
         <v-card-actions class="d-flex justify-start pb-3">
-          <v-btn small text class="ml-2" color="secondary" @click="cancelDetails">Close</v-btn>
+          <v-btn size="small" variant="text" class="ml-2" color="secondary" @click="cancelDetails">Close</v-btn>
           <v-spacer></v-spacer>
-          <v-btn small text class="mr-2" color="secondary" @click="openDetails">Reset</v-btn>
-          <v-btn small text class="mr-2" :disabled="!detailsFormIsValid" color="primary" @click="updateDetails()">
+          <v-btn size="small" variant="text" class="mr-2" color="secondary" @click="openDetails">Reset</v-btn>
+          <v-btn size="small" variant="text" class="mr-2" :disabled="!detailsFormIsValid" color="primary" @click="updateDetails()">
             Update
           </v-btn>
         </v-card-actions>

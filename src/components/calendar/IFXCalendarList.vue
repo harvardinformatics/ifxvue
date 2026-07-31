@@ -1127,15 +1127,9 @@ export default {
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item @click="setCalendarType('day')">
-                  <v-list-item-title>Day</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="setCalendarType('week')">
-                  <v-list-item-title>Week</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="setCalendarType('month')">
-                  <v-list-item-title>Month</v-list-item-title>
-                </v-list-item>
+                <v-list-item @click="setCalendarType('day')" title="Day" />
+                <v-list-item @click="setCalendarType('week')" title="Week" />
+                <v-list-item @click="setCalendarType('month')" title="Month" />
               </v-list>
             </v-menu>
           </v-toolbar>
@@ -1738,10 +1732,10 @@ export default {
                 >
                   {{ $api.reservation.getSpecialMessage() }}
                 </div>
-                <div v-if="showExpenseCodeMsg(selectedEvent)" class="mt-2 red--text" data-cy="popup-expired-message">
+                <div v-if="showExpenseCodeMsg(selectedEvent)" class="mt-2 text-red" data-cy="popup-expired-message">
                   {{ getExpiredAccountMessage() }}
                 </div>
-                <div v-if="selectedEvent.cancelled" class="mt-2 red--text" data-cy="popup-cancelled">
+                <div v-if="selectedEvent.cancelled" class="mt-2 text-red" data-cy="popup-cancelled">
                   This reservation is cancelled.
                 </div>
                 <v-row density="compact" v-if="selectedEvent.reservation.comment" class="mt-3">

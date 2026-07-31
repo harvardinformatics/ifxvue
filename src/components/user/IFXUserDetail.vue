@@ -511,14 +511,13 @@ export default {
                   <v-col sm="12">
                     <div>
                       <span class="font-weight-medium">{{ category }}:&nbsp;</span>
-                      <a :href="file.file" target="_blank">{{ file.file | fileNameFromUrl }}</a>
+                      <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
                       <v-tooltip v-if="canEdit('userFiles')" top>
-                        <template v-slot:activator="{ on, attrs }">
+                        <template v-slot:activator="{ props }">
                           <v-icon
-                            v-on="on"
-                            v-bind="attrs"
+                            v-bind="props"
                             class="ml-2"
-                            small
+                            size="small"
                             color="red"
                             @click.stop.prevent="verifyRemoveUserFile(file)"
                           >
@@ -539,7 +538,7 @@ export default {
                   <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
                     <v-col sm="11">
                       <div class="ml-4">
-                        <a :href="file.file" target="_blank">{{ file.file | fileNameFromUrl }}</a>
+                        <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
                         <v-tooltip v-if="canEdit('userFiles')" top>
                           <template v-slot:activator="{ props }">
                             <v-icon
@@ -562,7 +561,7 @@ export default {
             </div>
           </v-col>
           <v-col v-else>
-            <span class="grey--text text--darken-1">No User Files uploaded.</span>
+            <span class="text-grey-darken-1">No User Files uploaded.</span>
           </v-col>
           <v-col sm="1" align="end">
             <v-tooltip top v-if="isUserInfoEdittable">
@@ -764,14 +763,13 @@ export default {
             Add Files
             <v-spacer></v-spacer>
             <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-btn
                   icon
-                  small
+                  size="small"
                   @click="userFilesDialogOpen = false"
                   data-cy="userFile-dialog-close"
-                  v-on="on"
-                  v-bind="attrs"
+                  v-bind="props"
                 >
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
@@ -806,10 +804,10 @@ export default {
             </v-form>
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3">
-            <v-btn small text class="ml-2" color="secondary" @click="userFilesDialogOpen = false">Close</v-btn>
+            <v-btn size="small" variant="text" class="ml-2" color="secondary" @click="userFilesDialogOpen = false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn small text class="mr-2" color="secondary" @click="cancelUserFile">Clear</v-btn>
-            <v-btn small text class="mr-2" :disabled="!userFilesFormIsValid" color="primary" @click="addUserFile()">
+            <v-btn size="small" variant="text" class="mr-2" color="secondary" @click="cancelUserFile">Clear</v-btn>
+            <v-btn size="small" variant="text" class="mr-2" :disabled="!userFilesFormIsValid" color="primary" @click="addUserFile()">
               Add
             </v-btn>
           </v-card-actions>
@@ -821,14 +819,13 @@ export default {
             Confirm File Removal
             <v-spacer></v-spacer>
             <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-btn
                   icon
-                  small
+                  size="small"
                   @click="confirmationDialogOpen = false"
                   data-cy="confirm-dialog-close"
-                  v-on="on"
-                  v-bind="attrs"
+                  v-bind="props"
                 >
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
@@ -840,12 +837,12 @@ export default {
             Are you
             <span class="font-weight-bold">sure</span>
             you want to remove
-            <span class="font-weight-medium">{{ fileToDelete.file | fileNameFromUrl }}</span>
+            <span class="font-weight-medium">{{ $fileNameFromUrl(fileToDelete.file) }}</span>
             ?
           </v-card-text>
           <v-card-actions class="d-flex justify-end pb-3 pt-3">
-            <v-btn small text color="secondary" @click="cancelRemoveUserFile()">Close</v-btn>
-            <v-btn small text class="mr-2" color="primary" @click="removeUserFile()">Remove</v-btn>
+            <v-btn size="small" variant="text" color="secondary" @click="cancelRemoveUserFile()">Close</v-btn>
+            <v-btn size="small" variant="text" class="mr-2" color="primary" @click="removeUserFile()">Remove</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

@@ -135,7 +135,7 @@ export default {
           item-value="detail"
           v-model:search-input="search"
           @change="clearSearch"
-          :label="label | capitalizeFirstLetter"
+          :label="$capitalizeFirstLetter(label)"
           chips
           clearable
           multiple
@@ -161,14 +161,10 @@ export default {
           </template>
           <template v-slot:no-data>
             <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>
-                  <p>
-                    Enter an email address and press
-                    <kbd>return</kbd>
-                  </p>
-                </v-list-item-title>
-              </v-list-item-content>
+              <p>
+                Enter an email address and press
+                <kbd>return</kbd>
+              </p>
             </v-list-item>
           </template>
         </v-combobox>

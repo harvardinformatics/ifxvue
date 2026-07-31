@@ -179,14 +179,13 @@ export default {
           <slot name="buttons"></slot>
           <v-col>
             <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
                   <download-csv
                     :class="{ 'download-disabled': isLoading }"
                     :labels="getLabelsForExport()"
                     :data="getDataForExport()"
                     :name="getNameForExport()"
-                    v-bind="attrs"
                   >
                     <IFXButton
                       :disabled="isLoading"

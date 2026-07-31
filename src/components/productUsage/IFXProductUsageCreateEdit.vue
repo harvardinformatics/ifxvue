@@ -273,11 +273,11 @@ export default {
                     data-cy="start-date-picker"
                   ></v-date-picker>
                   <div class="text-center">
-                    <v-btn text color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
+                    <v-btn variant="text" color="secondary" @click="startDateMenu = false" data-cy="start-date-cancel">
                       Cancel
                     </v-btn>
                     <v-btn
-                      text
+                      variant="text"
                       color="primary"
                       :disabled="!pickerTime"
                       @click="addValuesFromDatepicker('startDate', pickerDate, pickerTime)"
@@ -316,9 +316,9 @@ export default {
                 <div class="d-flow flow-column">
                   <v-date-picker v-model="pickerDate" no-title scrollable show-adjacent-months></v-date-picker>
                   <div class="text-center">
-                    <v-btn text color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">Cancel</v-btn>
+                    <v-btn variant="text" color="secondary" @click="endDateMenu = false" data-cy="end-date-cancel">Cancel</v-btn>
                     <v-btn
-                      text
+                      variant="text"
                       color="primary"
                       @click="addValuesFromDatepicker('endDate', pickerDate, pickerTime)"
                       data-cy="end-date-ok"

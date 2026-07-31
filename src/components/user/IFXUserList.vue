@@ -172,7 +172,7 @@ export default {
         <v-progress-linear indeterminate color="primary"></v-progress-linear>
       </v-col>
       <v-col v-else-if="authorizationUpdateMessage">
-        <v-alert dismissible :type="authorizationMessageType" border="left" elevation="2" colored-border>
+        <v-alert closable :type="authorizationMessageType" border="start" elevation="2">
           <span v-html="authorizationUpdateMessage"></span>
         </v-alert>
       </v-col>

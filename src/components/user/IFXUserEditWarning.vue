@@ -5,7 +5,7 @@
         Edit of {{user.username}} not permitted
       </v-card-title>
       <v-card-text>
-        <v-alert :value="true" type="error" outlined>
+        <v-alert type="error" variant="outlined">
           Application users that are not associated with a Person cannot be edited with this form.  Use Django admin forms for these edits.
         </v-alert>
       </v-card-text>
