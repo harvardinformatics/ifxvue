@@ -25,12 +25,20 @@ export default {
   data() {
     return {
       allContacts: [],
+      allOrganizations: [],
       currentContact: {},
       contactDialogOpen: false,
       addContactFormIsValid: false,
+      organizationDetailsFormIsValid: false,
       showAddUserModal: false,
       showRevokeUserModal: false,
       showReactivateUserModal: false,
+      showEditDetailModal: false,
+      name: null,
+      rank: null,
+      customerId: null,
+      addressId: null,
+      parentSlugs: [],
       selected: [],
       selectedUsers: [],
       usersToBeUpdated: [],
@@ -49,10 +57,16 @@ export default {
     async init() {
       this.item = await this.apiRef.getByID(this.id, true)
       this.cacheItem()
-      this.allContacts = await this.$api.contact.getList({ has_name: 'both' })
-      const allFacilities = await this.$api.facility.getList()
-      allFacilities.forEach((facility) => {
-        this.allRoles.push({ name: `Billing Record Review for ${facility.name}`, editable: true })
+      this.$api.contact.getList({ has_name: 'both' }).then((res) => {
+        this.allContacts = res
+      })
+      this.$api.facility.getList().then((allFacilities) => {
+        allFacilities.forEach((facility) => {
+          this.allRoles.push({ name: `Billing Record Review for ${facility.name}`, editable: true })
+        })
+      })
+      this.$api.organization.getSkinnyList().then((res) => {
+        this.allOrganizations = res
       })
     },
     showChangeUsers(deactivate = true) {
@@ -97,8 +111,40 @@ export default {
       })
       return indices
     },
+    openDetails() {
+      this.customerId = this.item.customerId
+      this.addressId = this.item.addressId
+      this.name = this.item.name
+      this.rank = this.item.rank
+      this.parentSlugs = this.item.parents || []
+      this.showEditDetailModal = true
+    },
+    updateDetails() {
+      // Update the organization details on the item and submit the whole org instead of making separate API calls.
+      //
+      this.item.customerId = this.customerId || null
+      this.item.addressId = this.addressId || null
+      this.item.name = this.name || null
+      this.item.rank = this.rank || null
+      this.item.parents = this.parentSlugs || []
+      this.showEditDetailModal = false
+    },
+    cancelDetails() {
+      this.customerId = null
+      this.addressId = null
+      this.name = null
+      this.rank = null
+      this.parentSlugs = []
+      this.showEditDetailModal = false
+    },
     updateOrg(org) {
       this.item = org
+    },
+    parentNames(item) {
+      if (item.parents && item.parents.length) {
+        return item.parents.map((parent) => this.$options.filters.orgNameFromSlug(parent)).join('<br/>')
+      }
+      return ''
     },
     async addUser(person) {
       const foundIndex = this.usersToBeUpdated.findIndex((user) => user.id === person.id)
@@ -197,6 +243,69 @@ export default {
       </v-col>
     </v-row>
     <v-row density="compact" class="ml-2">
+      <v-col>
+        <v-row>
+          <v-col>
+            <h2>Details</h2>
+          </v-col>
+          <v-col align="end">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="ml-2"
+                  v-on="on"
+                  fab
+                  x-small
+                  color="primary"
+                  data-cy="edit-ar-details-modal"
+                  @click.stop="openDetails()"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+              <span>Change Organization Details</span>
+            </v-tooltip>
+          </v-col>
+        </v-row>
+        <v-row dense justify="start" v-if="item.name">
+          <v-col class="ml-4 font-weight-bold" cols="2">Name</v-col>
+          <v-col>
+            {{ item.name }}
+          </v-col>
+          <v-spacer></v-spacer>
+        </v-row>
+        <v-row dense justify="start" v-if="item.rank">
+          <v-col class="ml-4 font-weight-bold" cols="2">Rank</v-col>
+          <v-col>
+            {{ item.rank }}
+          </v-col>
+          <v-spacer></v-spacer>
+        </v-row>
+        <v-row dense justify="start" v-if="item.parents && item.parents.length">
+          <v-col class="ml-4 font-weight-bold" cols="2">Parents</v-col>
+          <v-col>
+            <span v-html="parentNames(item)"></span>
+          </v-col>
+          <v-spacer></v-spacer>
+        </v-row>
+        <v-row dense justify="start" v-if="item.customerId">
+          <v-col class="ml-4 font-weight-bold" cols="2">A/R Customer ID</v-col>
+          <v-col>
+            {{ item.customerId }}
+          </v-col>
+          <v-spacer></v-spacer>
+        </v-row>
+        <v-row dense justify="start" v-if="item.addressId">
+          <v-col class="ml-4 font-weight-bold" cols="2">A/R Address ID</v-col>
+          <v-col>
+            {{ item.addressId }}
+          </v-col>
+          <v-spacer></v-spacer>
+        </v-row>
+      </v-col>
+    </v-row>
+    <v-divider class="my-3 ml-2"></v-divider>
+    <v-row dense class="ml-2">
       <v-col>
         <v-row>
           <v-col>
@@ -303,7 +412,7 @@ export default {
               </template>
             </IFXItemDataTable>
           </v-col>
-          <v-col v-else>No users</v-col>
+          <v-col v-else><div class="ml-4">No users</div></v-col>
         </v-row>
         <v-row density="compact">
           <v-col>
@@ -337,6 +446,7 @@ export default {
             <v-divider />
           </div>
         </v-row>
+        <slot name="extra-content" :item="item"></slot>
       </v-col>
     </v-row>
     <IFXPageActionBar
@@ -389,8 +499,92 @@ export default {
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <!-- Add Users Modal -->
+    <v-dialog v-model="showEditDetailModal" v-if="showEditDetailModal" max-width="600px" persistent>
+      <v-card>
+        <v-card-title>
+          Change Organization Details
+          <v-spacer></v-spacer>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon small @click="showEditDetailModal = false" data-cy="ar-dialog-close" v-on="on" v-bind="attrs">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
+            <span>Cancel</span>
+          </v-tooltip>
+        </v-card-title>
+        <v-card-text class="pb-0">
+          <v-form v-model="detailsFormIsValid">
+            <v-row dense>
+              <v-col>
+                <v-text-field
+                  v-model="name"
+                  label="Name"
+                  data-cy="update-org-name"
+                  :error-messages="errors.name"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-select
+                  v-model="rank"
+                  label="Rank"
+                  data-cy="rank"
+                  :rules="formRules.generic"
+                  :error-messages="errors.rank"
+                  :items="apiRef.validRanks"
+                  item-text="text"
+                  item-value="value"
+                  required
+                  class="required"
+                ></v-select>
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col>
+                <v-autocomplete
+                  v-model="parentSlugs"
+                  label="Parents"
+                  data-cy="update-org-parents"
+                  :items="allOrganizations"
+                  item-text="name"
+                  item-value="slug"
+                  multiple
+                  chips
+                  deletable-chips
+                  :error-messages="errors.parents"
+                ></v-autocomplete>
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col>
+                <v-text-field
+                  v-model="customerId"
+                  label="Accounts Receivable Customer ID"
+                  data-cy="update-customer-id"
+                  :error-messages="errors.application_key"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="addressId"
+                  label="Accounts Receivable Address ID"
+                  data-cy="update-address-id"
+                  :error-messages="errors.application_key"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-start pb-3">
+          <v-btn small text class="ml-2" color="secondary" @click="cancelDetails">Close</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn small text class="mr-2" color="secondary" @click="openDetails">Reset</v-btn>
+          <v-btn small text class="mr-2" :disabled="!detailsFormIsValid" color="primary" @click="updateDetails()">
+            Update
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <IFXAddUsers
       v-if="showAddUserModal"
       v-model="item"

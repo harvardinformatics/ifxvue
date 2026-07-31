@@ -34,8 +34,10 @@ export default {
         this.item.orgTree = 'Harvard'
       }
       this.cachedItem = JSON.stringify(this.apiRef.decompose(this.item))
-      this.allUsers = await this.$api.user.getList()
-      this.allContacts = await this.$api.contact.getList()
+      this.allUsers = await this.$api.skinnyUser.getList()
+      this.$api.contact.getList().then((res) => {
+        this.allContacts = res
+      })
     },
     async submit() {
       // Must do validation explicitly for nested fields
@@ -112,6 +114,25 @@ export default {
               required
               class="required"
             ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="item.customerId"
+              label="Accounts Receivable Customer ID"
+              data-cy="customer-id"
+              :error-messages="errors.application_key"
+            >
+            </v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="item.addressId"
+              label="Accounts Receivable Address ID"
+              data-cy="address-id"
+            >
+            </v-text-field>
           </v-col>
         </v-row>
         <v-row v-if="item.id">

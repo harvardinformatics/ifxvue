@@ -175,6 +175,7 @@ export default {
           console.log(error)
           clearInterval(me.refreshTimer)
           this.showMessage(error)
+          clearInterval(me.refresh_timer)
         })
     },
   },

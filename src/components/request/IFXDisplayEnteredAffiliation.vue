@@ -61,6 +61,12 @@ export default {
             </v-col>
           </v-row>
         </v-col>
+        <v-col v-else-if="data && data.person.primary_affiliation">
+          {{ data.person.primary_affiliation }}
+        </v-col>
+        <v-col v-else>
+          No affiliation entered
+        </v-col>
       </v-row>
     </v-col>
   </v-row>

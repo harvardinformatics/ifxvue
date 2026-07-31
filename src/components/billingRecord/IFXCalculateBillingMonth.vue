@@ -52,6 +52,7 @@ export default {
       search: null,
       onlyErrorsStorageKey: 'calculate-billing-month-onlyErrors',
       onlyErrors: false,
+      facilityStorageKey: 'calculate-billing-month-facility',
       globalErrors: null,
     }
   },
@@ -68,18 +69,23 @@ export default {
         this.getUsages()
       }
     },
+    facility(val) {
+      if (val) {
+        this.$api.storage.setItem(this.facilityStorageKey, val.id, 'session')
+      }
+    },
   },
   computed: {
     headers() {
       const headers = [
-        { title: 'ID', key: 'id', sortable: true },
-        { title: 'User', key: 'productUser', sortable: true, namedSlot: true },
-        { title: 'Year', key: 'year', sortable: true },
-        { title: 'Month', key: 'month', sortable: true },
-        { title: 'Organization', key: 'organization', namedSlot: true, sortable: true },
-        { title: 'Product', key: 'product', sortable: true, namedSlot: true },
-        { title: 'Description', key: 'description' },
-        { title: 'Processing', key: 'processing', sortable: true, namedSlot: true },
+        { text: 'ID', value: 'id', sortable: true, namedSlot: true },
+        { text: 'User', value: 'productUser', sortable: true, namedSlot: true, key: 'fullName' },
+        { text: 'Year', value: 'year', slot: true, sortable: true },
+        { text: 'Month', value: 'month', slot: true, sortable: true },
+        { text: 'Organization', value: 'organization', namedSlot: true, sortable: true },
+        { text: 'Product', value: 'product', slot: true, sortable: true, namedSlot: true },
+        { text: 'Description', value: 'description', slot: true },
+        { text: 'Processing', value: 'processing', sortable: true, namedSlot: true },
       ]
       return headers.filter((h) => !h.hide || !this.$vuetify.display[h.hide])
     },
@@ -98,6 +104,9 @@ export default {
   },
   methods: {
     ...mapActions(['showMessage']),
+    getLinkForProductUsage(productUsage) {
+      return this.$api.productUsage.getLinkForProductUsage(productUsage, this.$router)
+    },
     getItemsFilteredBySearch() {
       let items = this.usages
       if (this.search) {
@@ -191,6 +200,7 @@ export default {
       }
     },
     async setFacility() {
+      const initialFacility = this.$api.storage.getItem(this.facilityStorageKey, 'session')
       this.facilities = await this.$api.facility.getList()
       if (this.facilities && this.facilityId) {
         this.facility = await this.$api.facility.getByID(this.facilityId)
@@ -199,6 +209,8 @@ export default {
           })
       } else if (this.facilities && this.facilities.length === 1) {
         this.facility = this.facilities[0]
+      } else if (initialFacility) {
+        this.facility = this.facilities.find((f) => f.id === initialFacility)
       }
     },
   },
@@ -325,6 +337,9 @@ export default {
           :loading="isLoading"
           itemType="ReservationUsage"
         >
+          <template v-slot:id="{ item }">
+            <a :href="getLinkForProductUsage(item)">{{ item.id }}</a>
+          </template>
           <template v-slot:productUser="{ item }">
             {{ item.productUser.fullName }}
           </template>

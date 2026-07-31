@@ -15,6 +15,11 @@ export default {
     dataFields: Array,
     requestType: String,
     title: String,
+    showSelect: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -56,6 +61,27 @@ export default {
     },
   },
   methods: {
+    deleteSelected() {
+      const promises = []
+      if (this.selected.length > 0) {
+        const successMessage = `Successfully deleted ${this.selected.length} request${this.selected.length > 1 ? 's' : ''}`
+        this.selected.forEach((item) => {
+          promises.push(this.$requestApi.deleteRequest(item.id))
+        })
+        Promise.all(promises)
+          .then(() => {
+            this.getRequests()
+            this.$emit('action', { type: 'delete', ids: this.selected.map((item) => item.id) })
+            this.showMessage(successMessage)
+          })
+          .catch((error) => {
+            this.showMessage(error)
+          })
+          .finally(() => {
+            this.selected = []
+          })
+      }
+    },
     display(header, item) {
       const value = header.key || header.value
       let result = item[value]
@@ -92,7 +118,11 @@ export default {
       localStorage.setItem(`${this.$api.vars.appName}_RequestListRowsPerPage`, this.rowsPerPage.toString())
     },
     search: function () {
-      localStorage.setItem(`${this.$api.vars.appName}_RequestListSearch`, this.search || '')
+      if (!this.search) {
+        localStorage.removeItem(`${this.$api.vars.appName}_RequestListSearch`)
+      } else {
+        localStorage.setItem(`${this.$api.vars.appName}_RequestListSearch`, this.search)
+      }
       this.getRequests()
     },
     includeCompleted: function () {
@@ -113,6 +143,9 @@ export default {
           <v-col>
             <v-checkbox label="Include completed" v-model="includeCompleted" hide-details></v-checkbox>
           </v-col>
+          <v-col xs2 v-if="showSelect">
+            <v-btn @click="deleteSelected()" :disabled="!selected.length" size="x-small" color="red"><v-icon>mdi-delete</v-icon></v-btn>
+          </v-col>
         </v-row>
       </template>
     </IFXPageHeader>
@@ -127,6 +160,8 @@ export default {
             :loading="loading"
             item-value="id"
             :items-per-page-options="rowsPerPageItems"
+            class="elevation-1"
+            :show-select="showSelect"
           >
             <template #loading>
               <v-progress-linear color="blue" indeterminate></v-progress-linear>

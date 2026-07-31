@@ -107,6 +107,16 @@ export default {
       }
       return null
     },
+    // Method for handling item select/deselect
+    itemSelected(event) {
+      this.$emit('item-selected', event)
+      return null
+    },
+    // Method for handling toggle all items
+    toggleSelectAll(event) {
+      this.$emit('toggle-select-all', event)
+      return null
+    },
   },
   computed: {
     hasRowClickEvent() {
@@ -177,6 +187,8 @@ export default {
     return-object
     :loading="loading"
     @update:page="pageChange"
+    @item-selected="itemSelected"
+    @toggle-select-all="toggleSelectAll"
     :page="currentPage"
   >
     <template #header.data-table-select="{ allSelected, selectAll, someSelected }">

@@ -89,6 +89,44 @@ export class OrganizationContact {
   }
 }
 
+export class OrganizationRate {
+  constructor(data) {
+    this.data = data
+  }
+
+  get organization() {
+    return this.data.organization
+  }
+
+  set organization(organization) {
+    this.data.organization = organization
+  }
+
+  get rate() {
+    return this.data.rate
+  }
+
+  set rate(rate) {
+    this.data.rate = rate
+  }
+
+  get startDate() {
+    return this.data.start_date
+  }
+
+  set startDate(startDate) {
+    this.data.start_date = startDate
+  }
+
+  get endDate() {
+    return this.data.end_date
+  }
+
+  set endDate(val) {
+    this.data.end_date = val
+  }
+}
+
 export class OrganizationUser {
   constructor(data) {
     this.data = data
@@ -224,11 +262,19 @@ export class Organization {
   }
 
   get applicationKey() {
-    return this.data.applicationKey
+    return this.data.application_key
   }
 
   set applicationKey(applicationKey) {
     this.data.application_key = applicationKey
+  }
+
+  get organizationRates() {
+    return this.data.organization_rates
+  }
+
+  set organizationRates(organizationRates) {
+    this.data.organization_rates = organizationRates.concat()
   }
 
   get contacts() {
@@ -245,6 +291,41 @@ export class Organization {
 
   set users(users) {
     this.data.users = users
+  }
+
+  get customerId() {
+    if (this.applicationKey && this.applicationKey.includes('-')) {
+      return this.applicationKey.split('-')[0]
+    }
+    return null
+  }
+
+  set customerId(customerId) {
+    let parts = ['', '']
+    if (this.applicationKey) {
+      parts = this.applicationKey.split('-')
+    }
+    parts[0] = customerId
+    this.applicationKey = parts.join('-')
+  }
+
+  get addressId() {
+    if (this.applicationKey && this.applicationKey.includes('-')) {
+      const parts = this.applicationKey.split('-')
+      if (parts && parts.length === 2) {
+        return parts[1]
+      }
+    }
+    return null
+  }
+
+  set addressId(addressId) {
+    let parts = ['', '']
+    if (this.applicationKey) {
+      parts = this.applicationKey.split('-')
+    }
+    parts[1] = addressId
+    this.applicationKey = parts.join('-')
   }
 
   // Does function caller know they can only add organization users? Or should this function take in a User/userData and convert?

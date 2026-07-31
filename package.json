@@ -31,7 +31,9 @@
     "terser": "^5.40.0",
     "vue": "^3.4.0",
     "vuex": "^4.1.0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "v-currency-field": "3.1.1",
+    "node-releases": "2.0.36"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",

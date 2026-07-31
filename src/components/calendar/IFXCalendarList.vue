@@ -196,7 +196,7 @@ export default {
         ? this.items.filter((item) => this.filteredResources.some((resource) => item.product.name === resource.name))
         : this.items
     },
-    cantBeEdited() {
+    cantEditTimeOrResource() {
       if (this.weAreEditing) {
         // This is editing an existing reservation. Check if it is editable
         return !this.canEditReservation(this.newEvent)
@@ -453,9 +453,15 @@ export default {
             .tz('America/New_York')
             .isBefore(moment.tz(item.startDate, 'America/New_York').subtract(param.modifyBeforeReservation, units))
       }
-      // Check if we're in the past and disallow editing
-      insideTimeWindow = insideTimeWindow && !this.isInThePast(item)
+      // Check if we're in the past and we're past the end of the billing period, don't allow editing
+      insideTimeWindow = insideTimeWindow && !this.isAfterTheBillingPeriodEnds(item)
       return insideTimeWindow && item.productUser.id === this.currentUser.id && item.reservation.isEditable
+    },
+    isAfterTheBillingPeriodEnds(item) {
+      // Check if the current time is after the end of the billing period for this reservation. If it is past the end of the billing period, don't allow editing
+      return moment
+        .tz('America/New_York')
+        .isAfter(moment.tz(item.startDate, 'America/New_York').add(1, 'month').endOf('month'))
     },
     isInThePast(item) {
       // return new Date(item.startDate).getTime() <= new Date().getTime()
@@ -541,7 +547,8 @@ export default {
     },
     checkInPast(v) {
       return (
-        moment.tz(v, this.parseFormats, 'America/New_York').isAfter(moment.tz('America/New_York'))
+        this.cantEditTimeOrResource // If the reservation can't be edited, don't bother checking if it's in the past
+        || moment.tz(v, this.parseFormats, 'America/New_York').isAfter(moment.tz('America/New_York'))
         || this.$api.auth.can('add-reservations-in-the-past')
         || 'Cannot set reservations in the past'
       )
@@ -1317,7 +1324,7 @@ export default {
                     persistent-hint
                     @click:prepend.stop="openPickers('startDate')"
                     :rules="[dateTimeRule, checkInPast, checkIsBeforeEnd]"
-                    :disabled="cantBeEdited || resourceNotSelected"
+                    :disabled="cantEditTimeOrResource || resourceNotSelected"
                     data-cy="start-date"
                   ></v-text-field>
                   <v-dialog v-model="startDateMenu" persistent width="auto">
@@ -1370,7 +1377,7 @@ export default {
                         item-value="value"
                         @update:model-value="setEndTime($event, true)"
                         class="my-2"
-                        :disabled="cantBeEdited || resourceNotSelected"
+                        :disabled="cantEditTimeOrResource || resourceNotSelected"
                         data-cy="length-select"
                       >
                         <template #no-data>
@@ -1396,7 +1403,7 @@ export default {
                     required
                     @click:prepend.stop="openPickers('endDate')"
                     :rules="[dateTimeRule, checkInPast, checkIsAfterStart, checkSpansMonth]"
-                    :disabled="cantBeEdited || resourceNotSelected"
+                    :disabled="cantEditTimeOrResource || resourceNotSelected"
                     data-cy="end-date"
                   ></v-text-field>
                   <v-dialog v-model="endDateMenu" width="auto" persistent>
