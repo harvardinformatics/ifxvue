@@ -371,46 +371,46 @@ export default {
         </v-col>
       </v-row>
       <v-row density="compact">
-        <v-col sm="12" md="11">
+        <v-col class="user-info-col">
           <v-row>
             <v-col>
-              <v-row density="compact" wrap>
-                <v-col sm="4" md="3">
+              <v-row density="compact" justify="start">
+                <v-col cols="2" class="field-label">
                   <h3 class="my-0">First Name</h3>
                 </v-col>
-                <v-col>
+                <v-col cols="8" class="field-value">
                   {{ item.firstName }}
                 </v-col>
               </v-row>
-              <v-row density="compact" class="mt-n2">
-                <v-col sm="4" md="3">
+              <v-row density="compact" justify="start">
+                <v-col cols="2" class="field-label">
                   <h3 class="my-0">Last Name</h3>
                 </v-col>
-                <v-col>
+                <v-col cols="8" class="field-value">
                   {{ item.lastName }}
                 </v-col>
               </v-row>
-              <v-row density="compact">
-                <v-col sm="4" md="3">
+              <v-row density="compact" justify="start">
+                <v-col cols="2" class="field-label">
                   <h3 class="my-0">Primary Affiliation</h3>
                 </v-col>
-                <v-col>
+                <v-col cols="8" class="field-value">
                   {{ $orgNameFromSlug(item.primaryAffiliation) }}
                 </v-col>
               </v-row>
-              <v-row density="compact" v-if="areGroupsPresent">
-                <v-col sm="4" md="3">
+              <v-row density="compact" v-if="areGroupsPresent" justify="start">
+                <v-col sm="4" md="2" cols="2" class="field-label">
                   <h3 class="my-0">Authorization Groups</h3>
                 </v-col>
-                <v-col>
+                <v-col cols="8" class="field-value">
                   {{ item.groups.join(', ') }}
                 </v-col>
               </v-row>
-              <v-row align="start" density="compact">
-                <v-col sm="4" md="3">
+              <v-row align="start" density="compact" justify="start">
+                <v-col cols="2" class="field-label">
                   <h3 class="my-0">Primary Email</h3>
                 </v-col>
-                <v-col>
+                <v-col cols="8" class="field-value">
                   <v-row density="compact">
                     <v-col>
                       <a :href="`mailto:${item.primaryEmail}`">{{ item.primaryEmail }}</a>
@@ -418,19 +418,19 @@ export default {
                   </v-row>
                 </v-col>
               </v-row>
-              <v-row align="start" density="compact">
-                <v-col sm="4" md="3">
+              <v-row align="start" density="compact" justify="start">
+                <v-col cols="2" class="field-label">
                   <h3 class="my-0">Created</h3>
                 </v-col>
-                <v-col>
+                <v-col cols="8" class="field-value">
                   {{ $humanDatetime(item.dateJoined) }}
                 </v-col>
               </v-row>
-              <v-row align="start" density="compact">
-                <v-col sm="4" md="3">
+              <v-row align="start" density="compact" justify="start">
+                <v-col cols="2" class="field-label">
                   <h3 class="my-0">Last Update</h3>
                 </v-col>
-                <v-col>
+                <v-col cols="8" class="field-value">
                   {{ $humanDatetime(item.lastUpdate) }}
                 </v-col>
               </v-row>
@@ -439,7 +439,7 @@ export default {
             <slot name="additionalUserInfoCol2" :item="item"></slot>
           </v-row>
         </v-col>
-        <v-col sm="1" align="end">
+        <v-col class="user-info-button-col" align="end">
           <IFXButton btnType="edit" xSmall @action="openUserInfoDialog" v-if="isUserInfoEdittable" />
         </v-col>
       </v-row>
@@ -873,5 +873,18 @@ export default {
   .v-messages {
     display: none;
   }
+}
+.field-label {
+  font-weight: bold;
+  flex-basis: 30%; max-width: 30%;
+}
+.field-value {
+  flex-basis: 65%; max-width: 65%;
+}
+.user-info-col {
+  flex-basis: 85%; max-width: 85%;
+}
+.user-info-button-col {
+  flex-basis: 10%; max-width: 10%;
 }
 </style>
