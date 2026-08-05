@@ -375,42 +375,42 @@ export default {
           <v-row>
             <v-col>
               <v-row density="compact" justify="start">
-                <v-col cols="2" class="field-label">
+                <v-col class="field-label">
                   <h3 class="my-0">First Name</h3>
                 </v-col>
-                <v-col cols="8" class="field-value">
+                <v-col class="field-value">
                   {{ item.firstName }}
                 </v-col>
               </v-row>
               <v-row density="compact" justify="start">
-                <v-col cols="2" class="field-label">
+                <v-col class="field-label">
                   <h3 class="my-0">Last Name</h3>
                 </v-col>
-                <v-col cols="8" class="field-value">
+                <v-col class="field-value">
                   {{ item.lastName }}
                 </v-col>
               </v-row>
               <v-row density="compact" justify="start">
-                <v-col cols="2" class="field-label">
+                <v-col class="field-label">
                   <h3 class="my-0">Primary Affiliation</h3>
                 </v-col>
-                <v-col cols="8" class="field-value">
+                <v-col class="field-value">
                   {{ $orgNameFromSlug(item.primaryAffiliation) }}
                 </v-col>
               </v-row>
               <v-row density="compact" v-if="areGroupsPresent" justify="start">
-                <v-col sm="4" md="2" cols="2" class="field-label">
+                <v-col class="field-label">
                   <h3 class="my-0">Authorization Groups</h3>
                 </v-col>
-                <v-col cols="8" class="field-value">
+                <v-col class="field-value">
                   {{ item.groups.join(', ') }}
                 </v-col>
               </v-row>
               <v-row align="start" density="compact" justify="start">
-                <v-col cols="2" class="field-label">
+                <v-col class="field-label">
                   <h3 class="my-0">Primary Email</h3>
                 </v-col>
-                <v-col cols="8" class="field-value">
+                <v-col class="field-value">
                   <v-row density="compact">
                     <v-col>
                       <a :href="`mailto:${item.primaryEmail}`">{{ item.primaryEmail }}</a>
@@ -419,18 +419,18 @@ export default {
                 </v-col>
               </v-row>
               <v-row align="start" density="compact" justify="start">
-                <v-col cols="2" class="field-label">
+                <v-col class="field-label">
                   <h3 class="my-0">Created</h3>
                 </v-col>
-                <v-col cols="8" class="field-value">
+                <v-col class="field-value">
                   {{ $humanDatetime(item.dateJoined) }}
                 </v-col>
               </v-row>
               <v-row align="start" density="compact" justify="start">
-                <v-col cols="2" class="field-label">
+                <v-col class="field-label">
                   <h3 class="my-0">Last Update</h3>
                 </v-col>
-                <v-col cols="8" class="field-value">
+                <v-col class="field-value">
                   {{ $humanDatetime(item.lastUpdate) }}
                 </v-col>
               </v-row>
@@ -444,11 +444,11 @@ export default {
         </v-col>
       </v-row>
         <v-divider class="my-5" />
-        <v-row>
-          <v-col cols="3">
+        <v-row class="flex-nowrap overflow-x-auto">
+          <v-col class="field-label2">
             <h3 class="my-0">Other Contacts</h3>
           </v-col>
-          <v-col class="d-flex flex-grow-1 flex-shrink-0">
+          <v-col class="field-value2">
             <div v-for="(contact, index) in item.contacts" :key="contact.id ?? index">
               <IFXContactRoleDisplayEdit
                 :contact="contact"
@@ -457,7 +457,7 @@ export default {
               />
             </div>
           </v-col>
-          <v-col sm="1" align="end">
+          <v-col class="field-value-button2" align="end">
             <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <span v-bind="props">
@@ -469,14 +469,14 @@ export default {
           </v-col>
         </v-row>
         <v-divider class="my-5"></v-divider>
-        <v-row density="comfortable">
-          <v-col sm="3" md="3">
+        <v-row density="comfortable" class="flex-nowrap overflow-x-auto">
+          <v-col class="field-label">
             <h3>Other Affiliations</h3>
             <div>
               <v-switch v-model="showInactiveAffiliations" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
             </div>
           </v-col>
-          <v-col>
+          <v-col class="field-value-short">
             <span class="d-flex flex-column">
               <div v-for="(affiliation, index) in item.affiliations" :key="affiliation.id ?? index" class="d-flex align-center mt-1">
                 <IFXAffiliationRoleDisplayEdit
@@ -487,7 +487,7 @@ export default {
               </div>
             </span>
           </v-col>
-          <v-col sm="1" align="end">
+          <v-col class="field-value-button">
             <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <span v-bind="props">
@@ -880,6 +880,22 @@ export default {
 }
 .field-value {
   flex-basis: 65%; max-width: 65%;
+}
+.field-value-short {
+  flex-basis: 60%; max-width: 60%;
+}
+.field-value-button {
+  flex-basis: 10%; max-width: 10%;
+}
+.field-label2 {
+  font-weight: bold;
+  flex-basis: 20%; max-width: 20%;
+}
+.field-value2 {
+  flex-basis: 65%; max-width: 65%;
+}
+.field-value-button2 {
+  flex-basis: 10%; max-width: 10%;
 }
 .user-info-col {
   flex-basis: 85%; max-width: 85%;

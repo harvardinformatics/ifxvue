@@ -78,7 +78,7 @@ export default {
 
 <template>
   <v-row :key="rowKey" align="center">
-    <v-col md="8" v-if="roleEditingEnabled">
+    <v-col class="field-label" v-if="roleEditingEnabled">
       <div class="d-flex align-center flex-wrap ga-4">
         <v-select
           v-model.trim="itemLocal.role"
@@ -92,31 +92,32 @@ export default {
           style="min-width: 180px; max-width: 200px;"
           hide-details
         />
-        <span>for <strong>{{ itemLocal.detail }}</strong></span>
-        <div class="d-flex ga-2">
-          <v-btn
-            variant="outlined"
-            color="secondary"
-            size="small"
-            @click="cancelContact"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            variant="flat"
-            color="primary"
-            size="small"
-            @click="updateContact(itemLocal)"
-          >
-            Accept
-          </v-btn>
+        <div class="field-value">
+          <span>for <strong>{{ itemLocal.detail }}</strong></span>
+          <div class="d-flex ga-2">
+            <v-btn
+              variant="outlined"
+              color="secondary"
+              size="small"
+              @click="cancelContact"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              variant="flat"
+              color="primary"
+              size="small"
+              @click="updateContact(itemLocal)"
+            >
+              Accept
+            </v-btn>
+          </div>
         </div>
       </div>
     </v-col>
     <v-col
-      md="8"
       v-else
-      :class="{ 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
+      :class="{ 'field-label': true, 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
     >
       {{ itemLocal.role }}
       <v-btn
@@ -176,3 +177,12 @@ export default {
     </v-col>
   </v-row>
 </template>
+<style scoped>
+  .field-label {
+    font-weight: bold;
+    flex-basis: 20%; max-width: 20%;
+  }
+  .field-value {
+    flex-basis: 75%; max-width: 80%;
+  }
+</style>
