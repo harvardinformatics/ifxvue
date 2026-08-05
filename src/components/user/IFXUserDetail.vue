@@ -448,7 +448,7 @@ export default {
           <v-col class="field-label2">
             <h3 class="my-0">Other Contacts</h3>
           </v-col>
-          <v-col class="field-value2">
+          <v-col class="field-value2 py-1">
             <div v-for="(contact, index) in item.contacts" :key="contact.id ?? index">
               <IFXContactRoleDisplayEdit
                 :contact="contact"
@@ -457,7 +457,7 @@ export default {
               />
             </div>
           </v-col>
-          <v-col class="field-value-button2" align="end">
+          <v-col class="field-value-button2" align="end" justify="end">
             <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <span v-bind="props">
@@ -470,15 +470,15 @@ export default {
         </v-row>
         <v-divider class="my-5"></v-divider>
         <v-row density="comfortable" class="flex-nowrap overflow-x-auto">
-          <v-col class="field-label">
+          <v-col class="field-label2">
             <h3>Other Affiliations</h3>
             <div>
               <v-switch v-model="showInactiveAffiliations" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
             </div>
           </v-col>
-          <v-col class="field-value-short">
+          <v-col class="field-value2">
             <span class="d-flex flex-column">
-              <div v-for="(affiliation, index) in item.affiliations" :key="affiliation.id ?? index" class="d-flex align-center mt-1">
+              <div v-for="(affiliation, index) in item.affiliations" :key="affiliation.id ?? index" class="d-flex align-center py-1 mt-1">
                 <IFXAffiliationRoleDisplayEdit
                   :affiliation="affiliation"
                   :showInactive="showInactiveAffiliations"
@@ -487,7 +487,7 @@ export default {
               </div>
             </span>
           </v-col>
-          <v-col class="field-value-button">
+          <v-col class="field-value-button2" align="end" justify="end">
             <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <span v-bind="props">
@@ -501,10 +501,10 @@ export default {
       <v-divider class="my-5" />
       <span v-if="hasUserFiles(item)">
         <v-row density="compact">
-          <v-col sm="4" md="3">
+          <v-col class="field-label2">
             <h3 class="my-0">User Files</h3>
           </v-col>
-          <v-col v-if="hasUserFiles()">
+          <v-col class="field-value2" v-if="hasUserFiles()">
             <div v-for="category in Object.keys(userCategories)" :key="category">
               <span v-if="onlyOneFilePerCategory">
                 <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
@@ -560,10 +560,10 @@ export default {
               </details>
             </div>
           </v-col>
-          <v-col v-else>
+          <v-col class="field-value2" v-else>
             <span class="text-grey-darken-1">No User Files uploaded.</span>
           </v-col>
-          <v-col sm="1" align="end">
+          <v-col class="field-value-button2" align="end" justify="end">
             <v-tooltip top v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <IFXButton v-bind="props" btnType="add" xSmall @action="openUserFileDialog()" />
@@ -575,13 +575,13 @@ export default {
         <v-divider class="my-7" />
       </span>
       <v-row density="compact" v-if="areAnyAccountsPresent">
-        <v-col sm="4" md="3">
+        <v-col class="field-label3">
           <h3>Expense code / PO Authorizations</h3>
           <div>
             <v-switch v-model="showInactiveAccounts" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
           </div>
         </v-col>
-        <v-col>
+        <v-col class="field-value3">
           <span v-if="areAccountsPresent" class="d-flex flex-column">
             <div v-for="account in item.accounts" :key="account.id" class="d-flex align-center mt-1">
               <span
@@ -896,6 +896,13 @@ export default {
 }
 .field-value-button2 {
   flex-basis: 10%; max-width: 10%;
+}
+.field-label3 {
+  font-weight: bold;
+  flex-basis: 25%; max-width: 25%;
+}
+.field-value3 {
+  flex-basis: 65%; max-width: 65%;
 }
 .user-info-col {
   flex-basis: 85%; max-width: 85%;

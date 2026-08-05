@@ -77,9 +77,9 @@ export default {
 </script>
 
 <template>
-  <v-row :key="rowKey" align="center">
-    <v-col class="field-label" v-if="roleEditingEnabled">
-      <div class="d-flex align-center flex-wrap ga-4">
+  <v-row :key="rowKey" align="center" class="py-1">
+    <v-col v-if="roleEditingEnabled">
+      <div class="d-flex align-center ga-4">
         <v-select
           v-model.trim="itemLocal.role"
           :items="appropriateRoles"
@@ -92,7 +92,7 @@ export default {
           style="min-width: 180px; max-width: 200px;"
           hide-details
         />
-        <div class="field-value">
+        <div>
           <span>for <strong>{{ itemLocal.detail }}</strong></span>
           <div class="d-flex ga-2">
             <v-btn
@@ -117,7 +117,7 @@ export default {
     </v-col>
     <v-col
       v-else
-      :class="{ 'field-label': true, 'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
+      :class="{ 'field-label-no-bold': true,'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
     >
       {{ itemLocal.role }}
       <v-btn
@@ -130,7 +130,7 @@ export default {
         {{ `(Show ${showExtraInfo ? 'less' : 'more'})` }}
       </v-btn>
 
-      <div v-if="showExtraInfo" class="ml-8">
+      <div v-if="showExtraInfo" class="ml-8 flex-nowrap">
         <div>
           <span class="font-weight-medium">Name:</span>
           {{ itemLocal.contact.name }}
@@ -140,11 +140,14 @@ export default {
           {{ itemLocal.contact.address }}
         </div>
       </div>
-      <div class="mt-1">
-        <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
-      </div>
     </v-col>
-    <v-col v-if="isEditable" md="4">
+    <v-col
+      cols="2"
+      :class="{ 'field-value': true,'text-decoration-line-through': $api.auth.can('see-inactive-contacts') && !itemLocal.active }"
+    >
+      <a :href="`${itemLocal.type === 'Phone' ? 'tel' : 'mailto'}:${itemLocal.detail}`">{{ itemLocal.detail }}</a>
+    </v-col>
+    <v-col v-if="isEditable" justify="start">
       <v-tooltip v-if="itemLocal.active" location="top">
         <template v-slot:activator="{ props }">
           <v-icon
@@ -178,11 +181,10 @@ export default {
   </v-row>
 </template>
 <style scoped>
-  .field-label {
-    font-weight: bold;
-    flex-basis: 20%; max-width: 20%;
+  .field-label-no-bold {
+    flex-basis: 40%; max-width: 40%;
   }
   .field-value {
-    flex-basis: 75%; max-width: 80%;
+    flex-basis: 40; max-width: 40%;
   }
 </style>

@@ -60,7 +60,7 @@ export default {
 
 <template>
   <v-row :key="rowKey" align="center">
-    <v-col md="8" v-if="roleEditingEnabled">
+    <v-col cols="8" v-if="roleEditingEnabled">
       <div class="d-flex align-center flex-wrap ga-4">
         <v-select
           v-model.trim="itemLocal.role"
@@ -95,10 +95,10 @@ export default {
         </div>
       </div>
     </v-col>
-    <v-col md="8" v-else :class="{ 'text-decoration-line-through': !itemLocal.active }">
+    <v-col cols="8" v-else :class="{ 'text-decoration-line-through': !itemLocal.active }">
       <span>{{ $affiliationRoleDisplay(affiliation.role) }} of {{ $orgNameFromSlug(affiliation.organization) }}</span>
     </v-col>
-    <v-col v-if="$api.auth.can('edit-affiliations')" md="4">
+    <v-col v-if="$api.auth.can('edit-affiliations')" cols="4">
       <v-tooltip v-if="itemLocal.active" location="top">
         <template v-slot:activator="{ props }">
           <v-icon
