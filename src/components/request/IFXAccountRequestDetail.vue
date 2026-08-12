@@ -262,7 +262,7 @@ export default {
               <v-flex xs6>
                 <v-layout row wrap justify-start align-center>
                   <v-flex shrink class="expiration-date-label">
-                    <a :href="onboardRequestUrl">Onboard request</a>
+                    <a :href="onboardRequestUrl">Onboard request </a>
                     <span v-if="requestExpired()">expired</span>
                     <span v-else>expires</span>
                   </v-flex>
