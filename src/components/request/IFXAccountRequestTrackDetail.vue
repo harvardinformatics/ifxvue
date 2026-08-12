@@ -100,7 +100,7 @@ export default {
               @change="updateData()"
             ></component>
             <component
-              v-else-if="['primary_affiliation', 'billing_contact'].includes(field)"
+              v-else-if="['primary_affiliation', 'billing_contact', 'affiliations'].includes(field)"
               :is="accountRequestData.tracks[track].fields[field].display_component"
               :data="accountRequestData"
             ></component>

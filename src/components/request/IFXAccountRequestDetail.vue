@@ -179,6 +179,12 @@ export default {
     django_admin_url: function () {
       return `${this.$api.urls.DJANGO_ADMIN_ROOT}ifxrequest/request/${this.request.id}/change/`
     },
+    onboardRequestUrl: function () {
+      if (!this.$api.urls.ONBOARD_REQUEST_URL_ROOT || !this.request.continuationKey) {
+        return ''
+      }
+      return `${this.$api.urls.ONBOARD_REQUEST_URL_ROOT}?key=${this.request.continuationKey}`
+    },
   },
   beforeRouteLeave(to, from, next) {
     clearInterval(this.refresh_timer)
@@ -256,7 +262,7 @@ export default {
               <v-flex xs6>
                 <v-layout row wrap justify-start align-center>
                   <v-flex shrink class="expiration-date-label">
-                    Onboard request
+                    <a :href="onboardRequestUrl">Onboard request</a>
                     <span v-if="requestExpired()">expired</span>
                     <span v-else>expires</span>
                   </v-flex>
