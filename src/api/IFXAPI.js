@@ -1211,8 +1211,9 @@ export default class IFXAPIService {
     const decomposeFunc = (billingRecord) => createFunc(billingRecord, true)
     const api = this.genericAPI(baseURL, null, createFunc, decomposeFunc)
 
-    api.getList = async (invoice_prefix, month = null, year = null, organization = null, extraParams = {}) => {
-      const params = { invoice_prefix, month, year, organization, ...extraParams }
+    api.getList = async (invoice_prefix, month = null, year = null, organization = null, extraParams = null) => {
+      const extra = extraParams && typeof extraParams === 'object' ? extraParams : {}
+      const params = { ...extra, invoice_prefix, month, year, organization }
       const url = this.urls.BILLING_RECORD_LIST
       return this.axios.get(url, { params }).then((res) => Promise.all(res.data.map((data) => createFunc(data))))
     }
