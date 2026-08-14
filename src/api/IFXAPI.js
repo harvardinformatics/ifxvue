@@ -935,10 +935,7 @@ export default class IFXAPIService {
     const api = this.genericAPI(baseURL, IFXLogChannel)
     api.getSubscriberEmails = async (channelIds) => {
       const url = this.urls.GET_SUBSCRIBER_EMAILS
-      return this.axios.post(
-        url,
-        { channel_ids: channelIds }
-      ).then((res) => res.data)
+      return this.axios.post(url, { channel_ids: channelIds }).then((res) => res.data)
     }
     return api
   }
@@ -1214,8 +1211,9 @@ export default class IFXAPIService {
     const decomposeFunc = (billingRecord) => createFunc(billingRecord, true)
     const api = this.genericAPI(baseURL, null, createFunc, decomposeFunc)
 
-    api.getList = async (invoice_prefix, month = null, year = null, organization = null) => {
-      const params = { invoice_prefix, month, year, organization }
+    api.getList = async (invoice_prefix, month = null, year = null, organization = null, extraParams = null) => {
+      const extra = extraParams && typeof extraParams === 'object' ? extraParams : {}
+      const params = { ...extra, invoice_prefix, month, year, organization }
       const url = this.urls.BILLING_RECORD_LIST
       return this.axios.get(url, { params }).then((res) => Promise.all(res.data.map((data) => createFunc(data))))
     }
@@ -1425,9 +1423,7 @@ export default class IFXAPIService {
     const createFunc = (productBillingSummaryData, decompose = false) => {
       const newProductBillingSummaryData = cloneDeep(productBillingSummaryData) || {}
       // If decomposing, do not create a new object
-      return decompose
-        ? newProductBillingSummaryData
-        : new ProductBillingSummary(newProductBillingSummaryData)
+      return decompose ? newProductBillingSummaryData : new ProductBillingSummary(newProductBillingSummaryData)
     }
     const decomposeFunc = (newProductBillingSummaryData) => createFunc(newProductBillingSummaryData, true)
     return this.genericAPI(baseURL, ProductBillingSummary, createFunc, decomposeFunc)
