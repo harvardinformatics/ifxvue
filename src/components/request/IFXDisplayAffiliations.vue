@@ -40,7 +40,7 @@ export default {
             <v-flex>
               <v-layout row>
                 <v-flex xs4>Approvers</v-flex>
-                <v-flex v-if="data.approver_contacts.length > 0" xs7>
+                <v-flex v-if="data.approver_contacts && data.approver_contacts.length > 0" xs7>
                   <span v-for="(approver, index) in data.approver_contacts" :key="index">
                     <a :href="`mailto:${approver}`">{{ approver }}</a>
                     <span v-if="index < data.approver_contacts.length - 1">,&nbsp;</span>
