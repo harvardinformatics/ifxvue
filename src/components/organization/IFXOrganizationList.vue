@@ -23,6 +23,7 @@ export default {
         { text: 'Rank', value: 'rank', sortable: true, slot: true },
         { text: 'Org tree', value: 'orgTree', sortable: true },
         { text: 'Parent(s)', value: 'parents', sortable: false, slot: true },
+        { text: 'A/R details', value: 'applicationKey', sortable: false },
         { text: '', value: 'rowActionDetailEdit', sortable: false },
       ],
     },
