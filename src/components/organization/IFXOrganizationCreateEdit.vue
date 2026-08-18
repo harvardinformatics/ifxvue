@@ -120,7 +120,7 @@ export default {
           <v-col>
             <v-text-field
               v-model="item.customerId"
-              label="Accounts Receivable Customer ID"
+              label="Accounts Receivable Customer Number"
               data-cy="customer-id"
               :error-messages="errors.application_key"
             >
