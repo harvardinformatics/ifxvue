@@ -111,7 +111,7 @@ import IFXProductUsageCreateEdit from '@/components/productUsage/IFXProductUsage
 import IFXProductUsageMixin from '@/components/productUsage/IFXProductUsageMixin'
 
 // Billing
-import { BillingRecord } from '@/components/billingRecord/IFXBillingRecord'
+import BillingRecord from '@/components/billingRecord/IFXBillingRecord'
 import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
 import IFXBillingRecordListDecimal from '@/components/billingRecord/IFXBillingRecordListDecimal'
 import IFXBillingRecords from '@/components/billingRecord/IFXBillingRecords'
