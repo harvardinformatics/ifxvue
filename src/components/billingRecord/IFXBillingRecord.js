@@ -176,16 +176,16 @@ export default class BillingRecord extends IFXItemBase {
     return this.data.percent
   }
 
-  set precent(precent) {
-    this.data.precent = precent
+  set percent(percent) {
+    this.data.percent = percent
   }
 
   get rate() {
-    return this.data.rate
+    return this.data.rate_obj
   }
 
   set rate(rate) {
-    this.data.rate = rate
+    this.data.rate_obj = rate
   }
 
   get created() {

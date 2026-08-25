@@ -113,7 +113,9 @@ export default {
         this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
       })
       .then(async () => {
-        this.expenseCodes = await this.$api.account.getList()
+        this.$api.account.getList().then((result) => {
+          this.expenseCodes = result
+        })
       })
       .finally(() => (this.isLoading = false))
   },
@@ -142,6 +144,7 @@ export default {
           namedSlot: true,
         },
         { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
+        { text: 'Rate', value: 'rate', sortable: true, namedSlot: true, width: '100px' },
         { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
         { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
         {
@@ -1243,6 +1246,9 @@ export default {
                   {{ txn | transactionDisplay }}
                 </div>
               </div>
+            </template>
+            <template v-slot:item.rate="{ item }">
+              {{ item.rate.name }}
             </template>
             <template v-slot:item.decimalCharge="{ item }">
               {{ item.decimalCharge | dollars }}
