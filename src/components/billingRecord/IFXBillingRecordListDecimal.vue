@@ -113,7 +113,9 @@ export default {
         this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
       })
       .then(async () => {
-        this.expenseCodes = await this.$api.account.getList()
+        this.$api.account.getList().then((result) => {
+          this.expenseCodes = result
+        })
       })
       .finally(() => (this.isLoading = false))
   },
@@ -1246,7 +1248,7 @@ export default {
               </div>
             </template>
             <template v-slot:item.rate="{ item }">
-              {{ item.rate.name | dollars }}
+              {{ item.rate.name }}
             </template>
             <template v-slot:item.decimalCharge="{ item }">
               {{ item.decimalCharge | dollars }}
