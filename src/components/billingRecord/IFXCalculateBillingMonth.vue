@@ -183,7 +183,10 @@ export default {
           .then((response) => {
             const message = `${response.data.successes} usages successfully processed (of ${totalUsages})`
             if (response.data.errors?.length) {
-              me.globalErrors = response.data.errors.join(', ')
+              // Does not include errors with the text Billing record already exists
+              me.globalErrors = response.data.errors.filter(
+                (error) => !error.includes('Billing record already exists') && !error.includes('Unable to find an active user account record')
+              ).join('\n')
             }
             this.showMessage(message)
             clearInterval(this.interval)
@@ -251,8 +254,10 @@ export default {
     </IFXPageHeader>
     <v-row v-if="globalErrors">
       <v-col>
-        <v-alert type="error" outlined>
-          {{ globalErrors }}
+        <v-alert type="error" outlined dismissible>
+          <div class="billing-error-alert">
+            {{ globalErrors }}
+          </div>
         </v-alert>
       </v-col>
     </v-row>
@@ -384,5 +389,10 @@ export default {
 <style scoped>
   .billing-error {
     color: red;
+  }
+  .billing-error-alert {
+    white-space: pre-line;
+    max-height: 200px;
+    overflow-y: auto;
   }
 </style>
