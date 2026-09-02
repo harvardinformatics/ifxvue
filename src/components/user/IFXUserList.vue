@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       includeDisabled: this.$api.storage.getItem('UserListIncludeDisabled') || false,
+      usersOnly: this.$api.storage.getItem('UserListUsersOnly') || false,
       mailFab: false,
       recipientField: '',
       authorizationUpdating: false,
@@ -44,7 +45,7 @@ export default {
   methods: {
     async getSetItems() {
       try {
-        this.items = await this.$api.user.getList({ include_disabled: this.includeDisabled })
+        this.items = await this.$api.user.getList({ include_disabled: this.includeDisabled, users_only: this.usersOnly })
       } catch (error) {
         this.showMessage(error)
       }
@@ -110,6 +111,10 @@ export default {
       this.$api.storage.setItem('UserListIncludeDisabled', val)
       this.getSetItems()
     },
+    usersOnly(val) {
+      this.$api.storage.setItem('UserListUsersOnly', val)
+      this.getSetItems()
+    },
   },
 }
 </script>
@@ -124,6 +129,9 @@ export default {
           </v-col>
           <v-col>
             <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
+          </v-col>
+          <v-col>
+            <v-checkbox class="action-item" label="Users only" v-model="usersOnly"></v-checkbox>
           </v-col>
           <v-col>
             <IFXMailButton
