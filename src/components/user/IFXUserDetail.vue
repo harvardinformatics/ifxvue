@@ -332,9 +332,12 @@ export default {
                 <ul>
                   <li v-for="(error, key) in errors" :key="key">
                     {{ key }}:
-                    <span v-for="errorText in error" :key="errorText">
-                      {{ errorText }}
+                    <span v-if="Array.isArray(error)">
+                      <span v-for="errorText in error" :key="errorText">
+                        {{ errorText }}
+                      </span>
                     </span>
+                    <span v-else>{{ error }}</span>
                   </li>
                 </ul>
               </v-col>

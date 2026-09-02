@@ -303,7 +303,7 @@ export default {
          * @param {any} v
          * @returns {boolean | string}
          */
-        email: [baseRule, (v) => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'],
+        email: [baseRule, (v) => /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(v) || 'E-mail must be valid'],
         /**
          * Checks if value is a valid phone # (10 digits)
          * @param {any} v
