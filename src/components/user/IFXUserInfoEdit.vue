@@ -43,6 +43,7 @@ export default {
       if (this.errors.hasOwnProperty(key)) {
         this.$delete(this.errors, key)
       }
+      this.$refs.userInfoForm.resetValidation()
     },
     trimOrgName(slug) {
       return this.$api.organization.parseSlug(slug).name
@@ -70,6 +71,11 @@ export default {
       return !!this.itemLocal.ifxid
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.userInfoForm.validate()
+    })
+  },
 }
 </script>
 <template>
@@ -85,7 +91,7 @@ export default {
           </p>
         </v-col>
       </v-row>
-      <v-form @submit.prevent v-model="isValid" autocomplete="off" :ref="formName">
+      <v-form @submit.prevent v-model="isValid" autocomplete="off" validate-on="eager" ref="userInfoForm">
         <v-row>
           <v-col sm="6">
             <v-text-field
@@ -97,6 +103,7 @@ export default {
               :disabled="!canEdit('User.firstName')"
               :rules="formRules.generic"
               required
+              class="required"
             ></v-text-field>
             <v-text-field
               v-model.trim="itemLocal.fullName"
@@ -107,6 +114,7 @@ export default {
               :disabled="!canEdit('User.fullName')"
               :rules="formRules.generic"
               required
+              class="required"
             ></v-text-field>
           </v-col>
           <v-col sm="6">
@@ -119,6 +127,7 @@ export default {
               :disabled="!canEdit('User.lastName')"
               :rules="formRules.generic"
               required
+              class="required"
             ></v-text-field>
             <v-autocomplete
               v-if="canEdit('User.groups')"
@@ -152,6 +161,7 @@ export default {
               :disabled="!canEdit('User.primaryEmail')"
               :rules="formRules.email"
               required
+              class="required"
             ></v-text-field>
           </v-col>
           <v-col sm="6">
@@ -166,6 +176,7 @@ export default {
               :disabled="!canEdit('User.primaryAffiliation')"
               :rules="formRules.generic"
               required
+              class="required"
             >
               <template #item="{ item }">
                 {{ trimOrgName(item) }}
