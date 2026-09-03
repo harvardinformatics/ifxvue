@@ -40,6 +40,7 @@ export default {
       authorizationUpdating: false,
       authorizationUpdateMessage: '',
       authorizationMessageType: 'info',
+      tableKey: 0, // Used to force re-render of the table
     }
   },
   methods: {
@@ -108,12 +109,21 @@ export default {
   },
   watch: {
     includeDisabled(val) {
+      this.isLoading = true
+      this.tableKey += 1
       this.$api.storage.setItem('UserListIncludeDisabled', val)
-      this.getSetItems()
+      this.getSetItems().finally(() => {
+        this.isLoading = false
+      })
     },
     usersOnly(val) {
+      this.isLoading = true
+      this.tableKey += 1
+      console.log('usersOnly changed to', val)
       this.$api.storage.setItem('UserListUsersOnly', val)
-      this.getSetItems()
+      this.getSetItems().finally(() => {
+        this.isLoading = false
+      })
     },
   },
 }
@@ -186,6 +196,7 @@ export default {
           :selected.sync="selected"
           :itemType="itemType"
           :loading="isLoading"
+          :key="tableKey"
         >
           <!-- Loops through all headers and use a named slot if specified-->
           <template v-for="header in headers" #[`${header.value}`]="{ item }">
