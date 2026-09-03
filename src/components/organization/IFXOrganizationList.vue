@@ -114,7 +114,9 @@ export default {
         const now = new Date()
         const isActive = (!startDate || startDate <= now) && (!endDate || endDate >= now)
         const rateName = r.rate.name
-        return isActive ? rateName : ''
+        const startDateString = startDate ? `from ${startDate.toLocaleDateString()}` : ''
+        const endDateString = endDate ? `until ${endDate.toLocaleDateString()}` : ''
+        return isActive ? `${rateName} ${startDateString} ${endDateString}`.trim() : ''
       }).join(', ')
     },
     getSetItems() {
