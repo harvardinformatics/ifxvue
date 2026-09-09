@@ -295,7 +295,9 @@ export default {
         return false
       }
       const result = items.every(
-        (record) => record?.currentState === 'INIT' || record?.currentState === 'PENDING_LAB_APPROVAL' || record?.currentState === 'LAB_APPROVED'
+        (record) => record?.currentState === 'INIT'
+          || record?.currentState === 'PENDING_LAB_APPROVAL'
+          || record?.currentState === 'LAB_APPROVED'
       )
       return result
     },
@@ -308,7 +310,10 @@ export default {
           if (i.data) {
             item = i.data
           }
-          return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+          let found = Object.keys(item).some((j) => this.filterSearch(item[j], search))
+          // Also search product user's full name if any
+          found = found || this.filterSearch(item.product_usage?.product_user?.full_name, search)
+          return found
         })
       }
       return items
@@ -1115,15 +1120,12 @@ export default {
                           <template v-slot:activator="{ on, attrs }">
                             <div v-on="on">
                               <v-btn
-                                :disabled="
-                                  isLoading ||
-                                  !$api.auth.can('generate-invoices', $api.authUser)
-                                "
+                                :disabled="isLoading || !$api.auth.can('generate-invoices', $api.authUser)"
                                 v-bind="attrs"
                                 color="blue"
                                 small
                                 fab
-                                @click="generateInvoices(wholeMonth = true)"
+                                @click="generateInvoices((wholeMonth = true))"
                               >
                                 <v-icon>mdi-calendar-month</v-icon>
                               </v-btn>
@@ -1395,9 +1397,7 @@ export default {
                 <div v-else>
                   <v-row>
                     <v-col>
-                      <a v-if="usageReportHref"
-                        :href="usageReportHref"
-                      >
+                      <a v-if="usageReportHref" :href="usageReportHref">
                         {{ usageReportFileName }}
                       </a>
                       <span v-else>
