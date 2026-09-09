@@ -1102,7 +1102,7 @@ export default {
                                 :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
                                 small
                                 fab
-                                @click="generateInvoices()"
+                                @click="generateInvoices(false)"
                               >
                                 <v-icon>payments</v-icon>
                               </v-btn>
@@ -1125,7 +1125,7 @@ export default {
                                 color="blue"
                                 small
                                 fab
-                                @click="generateInvoices((wholeMonth = true))"
+                                @click="generateInvoices(true)"
                               >
                                 <v-icon>mdi-calendar-month</v-icon>
                               </v-btn>
