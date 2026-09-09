@@ -159,7 +159,7 @@ export default {
                   </v-btn>
                 </div>
               </template>
-            </v-checkbox>
+            </v-tooltip>
           </v-col>
           <v-col>
             <v-row density="compact">
