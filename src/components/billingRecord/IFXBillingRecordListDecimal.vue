@@ -108,7 +108,9 @@ export default {
         this.message = `Error loading ${this.facility.name} billing records: ${errorMessage}`
       })
       .then(async () => {
-        this.expenseCodes = await this.$api.account.getList()
+        this.$api.account.getList().then((result) => {
+          this.expenseCodes = result
+        })
       })
       .finally(() => (this.isLoading = false))
   },
@@ -135,9 +137,10 @@ export default {
           hide: !this.showDates && !this.showStartDate,
           namedSlot: true,
         },
-        { title: 'End Date', key: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
-        { title: 'Charge', key: 'decimalCharge', sortable: true, width: '100px' },
-        { title: 'Percent', key: 'percent', sortable: true, width: '100px' },
+        { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
+        { text: 'Rate', value: 'rate', sortable: true, namedSlot: true, width: '100px' },
+        { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
+        { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
         {
           title: 'Usage id',
           key: 'productUsage',
@@ -300,10 +303,9 @@ export default {
         return false
       }
       const result = items.every(
-        (record) =>
-          record?.currentState === 'INIT' ||
-          record?.currentState === 'PENDING_LAB_APPROVAL' ||
-          record?.currentState === 'LAB_APPROVED'
+        (record) => record?.currentState === 'INIT'
+          || record?.currentState === 'PENDING_LAB_APPROVAL'
+          || record?.currentState === 'LAB_APPROVED'
       )
       return result
     },
@@ -316,7 +318,10 @@ export default {
           if (i.data) {
             item = i.data
           }
-          return Object.keys(item).some((j) => this.filterSearch(item[j], search))
+          let found = Object.keys(item).some((j) => this.filterSearch(item[j], search))
+          // Also search product user's full name if any
+          found = found || this.filterSearch(item.product_usage?.product_user?.full_name, search)
+          return found
         })
       }
       return items
@@ -937,164 +942,217 @@ export default {
                                             {{ error }}
                                           </li>
                                         </ul>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div v-if="emailResponse.nobrs.length" class="my-3 pb-2 border-bottom">
-                                    The following organizations had&nbsp;
-                                    <span class="text-yellow-darken-3">no billing records</span>
-                                    :
-                                    <ul class="lab-manager-list">
-                                      <li v-for="value in emailResponse.nobrs" :key="value">
-                                        <span>{{ value }}</span>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </v-col>
-                              </v-row>
-                            </v-form>
-                          </v-card-text>
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="secondary" variant="text" @click="notifyDialog = false">
-                              {{ emailResponse ? 'Close' : 'Cancel' }}
-                            </v-btn>
-                            <v-btn color="blue-darken-1" variant="text" :disabled="!isValid" @click="notifyLabManagers">
-                              Notify
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </v-dialog>
-                    </div>
-                  </template>
-                  <span>Notify Lab Managers</span>
-                </v-tooltip>
-              </span>
-              <span class="pa-2" v-if="allowApprovals">
-                <v-tooltip location="top">
-                  <template v-slot:activator="{ props }">
-                    <div>
-                      <v-btn
-                        :disabled="selected.length === 0 || billingRecordsAreFinal(selectedItemObjects)"
-                        v-bind="props"
-                        icon="mdi-check"
-                        size="small"
-                        color="green"
-                        @click="approve()"
-                      ></v-btn>
-                    </div>
-                  </template>
-                  <span>{{ approveSelectedToolTip }}</span>
-                </v-tooltip>
-              </span>
-              <span class="pa-2" v-if="allowDownloads">
-                <v-tooltip location="top">
-                  <template v-slot:activator="{ props }">
-                    <div>
-                      <download-excel
-                        :class="{ 'download-disabled': isLoading }"
-                        :fields="getFieldsForExport()"
-                        :data="getDataForExport()"
-                        :name="getNameForExport()"
-                        type="csv"
-                        :escapeCsv="true"
-                        v-bind="props"
-                      >
-                        <IFXButton :disabled="isLoading" small class="download-btn" btnType="download"></IFXButton>
-                      </download-excel>
-                    </div>
-                  </template>
-                  <span>Download billing records in csv format</span>
-                </v-tooltip>
-              </span>
-              <span class="pa-2" v-if="allowChangeExpenseCode">
-                <v-tooltip location="top">
-                  <template v-slot:activator="{ props }">
-                    <div>
-                      <v-btn
-                        :disabled="selected.length == 0 || billingRecordsAreFinal(selectedItemObjects)"
-                        v-bind="props"
-                        icon="mdi-playlist-edit"
-                        size="small"
-                        color="green"
-                        @click="openChangeExpenseCodeDialog()"
-                      ></v-btn>
-                    </div>
-                  </template>
-                  <span>Edit billing record account</span>
-                </v-tooltip>
-              </span>
-              <span class="pa-2" v-if="allowInvoiceGeneration">
-                <v-tooltip location="top">
-                  <template v-slot:activator="{ props }">
-                    <div>
-                      <v-btn
-                        :disabled="
-                          isLoading || selected.length == 0 || !$api.auth.can('generate-invoices', $api.authUser)
-                        "
-                        v-bind="props"
-                        :color="billingRecordsAreFinal(selectedItemObjects) ? 'error' : 'blue'"
-                        size="small"
-                        icon="mdi-currency-usd"
-                        @click="generateInvoices()"
-                      ></v-btn>
-                    </div>
-                  </template>
-                  <span>{{ generateInvoicesToolTip }}</span>
-                </v-tooltip>
-              </span>
-              <span class="pa-2" v-if="allowInvoiceGeneration">
-                <v-tooltip location="top">
-                  <template v-slot:activator="{ props }">
-                    <div>
-                      <v-btn
-                        :disabled="isLoading || !$api.auth.can('generate-invoices', $api.authUser)"
-                        v-bind="props"
-                        color="blue"
-                        size="small"
-                        icon="mdi-calendar-month"
-                        @click="generateInvoices(true)"
-                      ></v-btn>
-                    </div>
-                  </template>
-                  <span>Deactivate any existing invoices and process the entire month</span>
-                </v-tooltip>
-              </span>
-              <span class="pa-2" v-if="allowDeleteBillingRecords">
-                <v-tooltip location="top">
-                  <template v-slot:activator="{ props }">
-                    <div>
-                      <v-btn
-                        :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selectedItemObjects)"
-                        v-bind="props"
-                        icon="mdi-trash-can-outline"
-                        size="small"
-                        color="red"
-                        @click="deleteSelectedBillingRecords()"
-                      ></v-btn>
-                    </div>
-                  </template>
-                  <span>{{ deleteSelectedToolTip }}</span>
-                </v-tooltip>
-              </span>
-              <span class="pa-2" v-if="allowUsageReport && facility.hasUsageReport">
-                <v-tooltip location="top">
-                  <template v-slot:activator="{ props }">
-                    <div>
-                      <v-btn
-                        :disabled="!organization"
-                        v-bind="props"
-                        icon="mdi-hammer-wrench"
-                        size="small"
-                        color="yellow"
-                        @click="openGetUsageReportDialog()"
-                      ></v-btn>
-                    </div>
-                  </template>
-                  <span>Get usage report</span>
-                </v-tooltip>
-              </span>
-            </span>
+                                      </div>
+                                      <div
+                                        v-if="Object.keys(emailResponse.errors).length"
+                                        class="my-3 pb-2 border-bottom"
+                                      >
+                                        The following
+                                        <span class="red--text">errors</span>
+                                        occurred trying to send emails:
+                                        <ul class="list-style-none mt-1">
+                                          <li v-for="(value, key) in emailResponse.errors" :key="key">
+                                            <span>To the {{ key }}</span>
+                                            <ul class="error-list">
+                                              <li v-for="error in value" :key="error">
+                                                {{ error }}
+                                              </li>
+                                            </ul>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                      <div v-if="emailResponse.nobrs.length" class="my-3 pb-2 border-bottom">
+                                        The following organizations had&nbsp;
+                                        <span class="yellow--text text--darken-3">no billing records</span>
+                                        :
+                                        <ul class="lab-manager-list">
+                                          <li v-for="value in emailResponse.nobrs" :key="value">
+                                            <span>{{ value }}</span>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </v-col>
+                                  </v-row>
+                                </v-form>
+                              </v-card-text>
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="secondary" text @click="notifyDialog = false">
+                                  {{ emailResponse ? 'Close' : 'Cancel' }}
+                                </v-btn>
+                                <v-btn color="blue darken-1" text :disabled="!isValid" @click="notifyLabManagers">
+                                  Notify
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
+                        </div>
+                      </template>
+                      <span>Notify Lab Managers</span>
+                    </v-tooltip>
+                  </v-col>
+                  <v-col class="pa-2" v-if="allowApprovals">
+                    <v-row dense class="d-flex flex-nowrap">
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                                v-bind="attrs"
+                                fab
+                                small
+                                color="green"
+                                @click="approve()"
+                              >
+                                <v-icon dark>done</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>{{ approveSelectedToolTip }}</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col class="pa-2" v-if="allowDownloads">
+                    <v-row dense>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <download-csv
+                                :class="{ 'download-disabled': isLoading }"
+                                :labels="getLabelsForExport()"
+                                :data="getDataForExport()"
+                                :name="getNameForExport()"
+                                v-bind="attrs"
+                              >
+                                <IFXButton
+                                  :disabled="isLoading"
+                                  small
+                                  class="download-btn"
+                                  btnType="download"
+                                ></IFXButton>
+                              </download-csv>
+                            </div>
+                          </template>
+                          <span>Download billing records in csv format</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col v-if="allowChangeExpenseCode">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn
+                            :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                            v-bind="attrs"
+                            fab
+                            small
+                            color="green"
+                            @click="openChangeExpenseCodeDialog()"
+                          >
+                            <!-- <v-icon dark>mdi-file-replace-outline</v-icon> -->
+                            <v-icon dark>mdi-playlist-edit</v-icon>
+                          </v-btn>
+                        </div>
+                      </template>
+                      <span>Edit billing record account</span>
+                    </v-tooltip>
+                  </v-col>
+                  <v-col class="pa-2" v-if="allowInvoiceGeneration">
+                    <v-row dense>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                :disabled="
+                                  isLoading ||
+                                  selected.length == 0 ||
+                                  !$api.auth.can('generate-invoices', $api.authUser)
+                                "
+                                v-bind="attrs"
+                                :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
+                                small
+                                fab
+                                @click="generateInvoices()"
+                              >
+                                <v-icon>payments</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>{{ generateInvoicesToolTip }}</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col class="pa-2" v-if="allowInvoiceGeneration">
+                    <v-row dense>
+                      <v-col>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on, attrs }">
+                            <div v-on="on">
+                              <v-btn
+                                :disabled="isLoading || !$api.auth.can('generate-invoices', $api.authUser)"
+                                v-bind="attrs"
+                                color="blue"
+                                small
+                                fab
+                                @click="generateInvoices((wholeMonth = true))"
+                              >
+                                <v-icon>mdi-calendar-month</v-icon>
+                              </v-btn>
+                            </div>
+                          </template>
+                          <span>Deactivate any existing invoices and process the entire month</span>
+                        </v-tooltip>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col v-if="allowDeleteBillingRecords">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn
+                            :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selected)"
+                            v-bind="attrs"
+                            fab
+                            small
+                            color="red"
+                            @click="deleteSelectedBillingRecords()"
+                          >
+                            <v-icon dark>mdi-trash-can-outline</v-icon>
+                          </v-btn>
+                        </div>
+                      </template>
+                      <span>{{ deleteSelectedToolTip }}</span>
+                    </v-tooltip>
+                  </v-col>
+                  <v-col v-if="allowUsageReport && facility.hasUsageReport">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div v-on="on">
+                          <v-btn
+                            :disabled="!organization"
+                            v-bind="attrs"
+                            fab
+                            small
+                            color="yellow"
+                            @click="openGetUsageReportDialog()"
+                          >
+                            <!-- <v-icon dark>mdi-file-replace-outline</v-icon> -->
+                            <v-icon dark>mdi-hammer-wrench</v-icon>
+                          </v-btn>
+                        </div>
+                      </template>
+                      <span>Get usage report</span>
+                    </v-tooltip>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
         <v-row class="d-flex justify-space-around">
@@ -1179,6 +1237,9 @@ export default {
                   {{ transactionDisplay(txn) }}
                 </div>
               </div>
+            </template>
+            <template v-slot:item.rate="{ item }">
+              {{ item.rate.name }}
             </template>
             <template v-slot:item.decimalCharge="{ item }">
               {{ $dollars(item.decimalCharge) }}

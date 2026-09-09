@@ -32,6 +32,7 @@ export default {
         { text: 'Rank', value: 'rank', sortable: true, slot: true },
         { text: 'Org tree', value: 'orgTree', sortable: true },
         { text: 'Parent(s)', value: 'parents', sortable: false, slot: true },
+        { text: 'A/R Customer Number-Address ID', value: 'applicationKey', sortable: false },
         { text: '', value: 'rowActionDetailEdit', sortable: false },
       ],
     },
@@ -122,7 +123,9 @@ export default {
         const now = new Date()
         const isActive = (!startDate || startDate <= now) && (!endDate || endDate >= now)
         const rateName = r.rate.name
-        return isActive ? rateName : ''
+        const startDateString = startDate ? `from ${startDate.toLocaleDateString()}` : ''
+        const endDateString = endDate ? `until ${endDate.toLocaleDateString()}` : ''
+        return isActive ? `${rateName} ${startDateString} ${endDateString}`.trim() : ''
       }).join(', ')
     },
     getSetItems() {

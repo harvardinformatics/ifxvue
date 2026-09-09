@@ -183,6 +183,12 @@ export default {
     django_admin_url: function () {
       return `${this.$api.urls.DJANGO_ADMIN_ROOT}ifxrequest/request/${this.request.id}/change/`
     },
+    onboardRequestUrl: function () {
+      if (!this.$api.urls.ONBOARD_REQUEST_URL_ROOT || !this.request.continuationKey) {
+        return ''
+      }
+      return `${this.$api.urls.ONBOARD_REQUEST_URL_ROOT}?key=${this.request.continuationKey}`
+    },
   },
   beforeRouteLeave(to, from, next) {
     clearInterval(this.refreshTimer)

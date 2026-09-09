@@ -34,17 +34,19 @@ export default {
   data() {
     return {
       includeDisabled: this.$api.storage.getItem('UserListIncludeDisabled') || false,
+      usersOnly: this.$api.storage.getItem('UserListUsersOnly') || false,
       mailFab: false,
       recipientField: '',
       authorizationUpdating: false,
       authorizationUpdateMessage: '',
       authorizationMessageType: 'info',
+      tableKey: 0, // Used to force re-render of the table
     }
   },
   methods: {
     async getSetItems() {
       try {
-        this.items = await this.$api.user.getList({ include_disabled: this.includeDisabled })
+        this.items = await this.$api.user.getList({ include_disabled: this.includeDisabled, users_only: this.usersOnly })
       } catch (error) {
         this.showMessage(error)
       }
@@ -106,8 +108,21 @@ export default {
   },
   watch: {
     includeDisabled(val) {
+      this.isLoading = true
+      this.tableKey += 1
       this.$api.storage.setItem('UserListIncludeDisabled', val)
-      this.getSetItems()
+      this.getSetItems().finally(() => {
+        this.isLoading = false
+      })
+    },
+    usersOnly(val) {
+      this.isLoading = true
+      this.tableKey += 1
+      console.log('usersOnly changed to', val)
+      this.$api.storage.setItem('UserListUsersOnly', val)
+      this.getSetItems().finally(() => {
+        this.isLoading = false
+      })
     },
   },
 }
@@ -121,10 +136,28 @@ export default {
           <v-col>
             <IFXSearchField v-model:search="search" />
           </v-col>
-          <v-col cols="4">
-            <v-checkbox v-model="includeDisabled" hide-details>
-              <template v-slot:label>
-                <span style="white-space: nowrap">Include 1 disabled</span>
+          <v-col>
+            <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
+          </v-col>
+          <v-col>
+            <v-checkbox class="action-item" label="Users only" v-model="usersOnly"></v-checkbox>
+          </v-col>
+          <v-col>
+            <IFXMailButton
+              v-model="recipientField"
+              :disabled="!selected.length"
+              toolTip="Email selected users"
+              @input="composeEmail()"
+            ></IFXMailButton>
+          </v-col>
+          <v-col>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <div v-on="on">
+                  <v-btn v-bind="attrs" small fab @click="updateAuthorizations()" color="secondary">
+                    <v-icon>verified_user</v-icon>
+                  </v-btn>
+                </div>
               </template>
             </v-checkbox>
           </v-col>
@@ -185,6 +218,7 @@ export default {
           v-model:selected="selected"
           :itemType="itemType"
           :loading="isLoading"
+          :key="tableKey"
         >
           <template v-for="header in computedHeaders.filter(h => h.namedSlot)" :key="header.key" #[header.key]="{ item }">
             <slot :name="header.key" :item="item"></slot>
