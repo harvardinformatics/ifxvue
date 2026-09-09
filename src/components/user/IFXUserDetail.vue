@@ -447,7 +447,7 @@ export default {
         </v-col>
       </v-row>
         <v-divider class="my-5" />
-        <v-row class="flex-nowrap overflow-x-auto">
+        <v-row class="flex-nowrap">
           <v-col class="user-info-col py-3">
             <v-row>
               <v-col class="field-label">
@@ -464,7 +464,7 @@ export default {
               </v-col>
             </v-row>
           </v-col>
-          <v-col class="user-info-button-col py-3" justify="end">
+          <v-col class="user-info-button-col py-3 d-flex justify-end">
             <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <span v-bind="props">
@@ -498,7 +498,7 @@ export default {
               </v-col>
             </v-row>
           </v-col>
-          <v-col class="user-info-button-col py-3" justify="end">
+          <v-col class="user-info-button-col py-3 d-flex justify-end">
             <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <span v-bind="props">
@@ -520,7 +520,7 @@ export default {
               <v-col class="field-value" v-if="hasUserFiles()">
                 <div v-for="category in Object.keys(userCategories)" :key="category">
                   <span v-if="onlyOneFilePerCategory">
-                    <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                    <v-row density="comfortable" class="py-2" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
                       <v-col sm="12">
                         <div>
                           <span class="font-weight-medium">{{ category }}:&nbsp;</span>
@@ -578,7 +578,7 @@ export default {
               </v-col>
             </v-row>
           </v-col>
-          <v-col class="user-info-button-col py-3" align="end" justify="end">
+          <v-col class="user-info-button-col py-3 d-flex justify-end">
             <v-tooltip top v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <IFXButton v-bind="props" btnType="add" xSmall @action="openUserFileDialog()" />
