@@ -96,6 +96,10 @@ export default class BillingRecord extends IFXItemBase {
     return this.data.product_usage.product_user
   }
 
+  get productUserName() {
+    return this.data.product_usage?.product_user?.full_name
+  }
+
   get product() {
     return this.data.product_usage.product
   }
