@@ -448,19 +448,23 @@ export default {
       </v-row>
         <v-divider class="my-5" />
         <v-row class="flex-nowrap overflow-x-auto">
-          <v-col class="field-label2">
-            <h3 class="my-0">Other Contacts</h3>
+          <v-col class="user-info-col py-3">
+            <v-row>
+              <v-col class="field-label">
+                <h3 class="my-0">Other Contacts</h3>
+              </v-col>
+              <v-col class="field-value">
+                <div v-for="(contact, index) in item.contacts" :key="contact.id ?? index">
+                  <IFXContactRoleDisplayEdit
+                    :contact="contact"
+                    @update="updateContact(contact, index)"
+                    v-if="contact.role !== 'Primary Email'"
+                  />
+                </div>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col class="field-value2 py-1">
-            <div v-for="(contact, index) in item.contacts" :key="contact.id ?? index">
-              <IFXContactRoleDisplayEdit
-                :contact="contact"
-                @update="updateContact(contact, index)"
-                v-if="contact.role !== 'Primary Email'"
-              />
-            </div>
-          </v-col>
-          <v-col class="field-value-button2" align="end" justify="end">
+          <v-col class="user-info-button-col py-3" justify="end">
             <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <span v-bind="props">
@@ -472,25 +476,29 @@ export default {
           </v-col>
         </v-row>
         <v-divider class="my-5"></v-divider>
-        <v-row density="comfortable" class="flex-nowrap overflow-x-auto">
-          <v-col class="field-label2">
-            <h3>Other Affiliations</h3>
-            <div>
-              <v-switch v-model="showInactiveAffiliations" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
-            </div>
+        <v-row density="comfortable" class="flex-nowrap">
+          <v-col class="user-info-col py-3">
+            <v-row>
+              <v-col class="field-label">
+                <h3>Other Affiliations</h3>
+                <div>
+                  <v-switch v-model="showInactiveAffiliations" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
+                </div>
+              </v-col>
+              <v-col class="field-value">
+                <span class="d-flex flex-column">
+                  <div v-for="(affiliation, index) in item.affiliations" :key="affiliation.id ?? index" class="d-flex align-center mt-1">
+                    <IFXAffiliationRoleDisplayEdit
+                      :affiliation="affiliation"
+                      :showInactive="showInactiveAffiliations"
+                      @update="updateAffiliation(affiliation, index)"
+                    />
+                  </div>
+                </span>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col class="field-value2">
-            <span class="d-flex flex-column">
-              <div v-for="(affiliation, index) in item.affiliations" :key="affiliation.id ?? index" class="d-flex align-center py-1 mt-1">
-                <IFXAffiliationRoleDisplayEdit
-                  :affiliation="affiliation"
-                  :showInactive="showInactiveAffiliations"
-                  @update="updateAffiliation(affiliation, index)"
-                />
-              </div>
-            </span>
-          </v-col>
-          <v-col class="field-value-button2" align="end" justify="end">
+          <v-col class="user-info-button-col py-3" justify="end">
             <v-tooltip location="top" v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <span v-bind="props">
@@ -504,69 +512,73 @@ export default {
       <v-divider class="my-5" />
       <span v-if="hasUserFiles(item)">
         <v-row density="compact">
-          <v-col class="field-label2">
-            <h3 class="my-0">User Files</h3>
+          <v-col class="user-info-col py-3">
+            <v-row>
+              <v-col class="field-label">
+                <h3 class="my-0">User Files</h3>
+              </v-col>
+              <v-col class="field-value" v-if="hasUserFiles()">
+                <div v-for="category in Object.keys(userCategories)" :key="category">
+                  <span v-if="onlyOneFilePerCategory">
+                    <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                      <v-col sm="12">
+                        <div>
+                          <span class="font-weight-medium">{{ category }}:&nbsp;</span>
+                          <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
+                          <v-tooltip v-if="canEdit('userFiles')" top>
+                            <template v-slot:activator="{ props }">
+                              <v-icon
+                                v-bind="props"
+                                class="ml-2"
+                                size="small"
+                                color="red"
+                                @click.stop.prevent="verifyRemoveUserFile(file)"
+                              >
+                                mdi-delete
+                              </v-icon>
+                            </template>
+                            <span>Remove this file</span>
+                          </v-tooltip>
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </span>
+                  <details class="font-weight-medium" v-else>
+                    <summary>
+                      <span class="ml-1">{{ category }}s</span>
+                    </summary>
+                    <span>
+                      <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
+                        <v-col sm="11">
+                          <div class="ml-4">
+                            <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
+                            <v-tooltip v-if="canEdit('userFiles')" top>
+                              <template v-slot:activator="{ props }">
+                                <v-icon
+                                  v-bind="props"
+                                  class="ml-2"
+                                  small
+                                  color="red"
+                                  @click.stop.prevent="verifyRemoveUserFile(file)"
+                                >
+                                  mdi-delete
+                                </v-icon>
+                              </template>
+                              <span>Remove this file</span>
+                            </v-tooltip>
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </span>
+                  </details>
+                </div>
+              </v-col>
+              <v-col class="field-value" v-else>
+                <span class="text-grey-darken-1">No User Files uploaded.</span>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col class="field-value2" v-if="hasUserFiles()">
-            <div v-for="category in Object.keys(userCategories)" :key="category">
-              <span v-if="onlyOneFilePerCategory">
-                <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
-                  <v-col sm="12">
-                    <div>
-                      <span class="font-weight-medium">{{ category }}:&nbsp;</span>
-                      <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
-                      <v-tooltip v-if="canEdit('userFiles')" top>
-                        <template v-slot:activator="{ props }">
-                          <v-icon
-                            v-bind="props"
-                            class="ml-2"
-                            size="small"
-                            color="red"
-                            @click.stop.prevent="verifyRemoveUserFile(file)"
-                          >
-                            mdi-delete
-                          </v-icon>
-                        </template>
-                        <span>Remove this file</span>
-                      </v-tooltip>
-                    </div>
-                  </v-col>
-                </v-row>
-              </span>
-              <details class="font-weight-medium" v-else>
-                <summary>
-                  <span class="ml-1">{{ category }}s</span>
-                </summary>
-                <span>
-                  <v-row density="comfortable" v-for="file in userCategories[category]" :key="`${category}${file.id}`">
-                    <v-col sm="11">
-                      <div class="ml-4">
-                        <a :href="file.file" target="_blank">{{ $fileNameFromUrl(file.file) }}</a>
-                        <v-tooltip v-if="canEdit('userFiles')" top>
-                          <template v-slot:activator="{ props }">
-                            <v-icon
-                              v-bind="props"
-                              class="ml-2"
-                              small
-                              color="red"
-                              @click.stop.prevent="verifyRemoveUserFile(file)"
-                            >
-                              mdi-delete
-                            </v-icon>
-                          </template>
-                          <span>Remove this file</span>
-                        </v-tooltip>
-                      </div>
-                    </v-col>
-                  </v-row>
-                </span>
-              </details>
-            </div>
-          </v-col>
-          <v-col class="field-value2" v-else>
-            <span class="text-grey-darken-1">No User Files uploaded.</span>
-          </v-col>
-          <v-col class="field-value-button2" align="end" justify="end">
+          <v-col class="user-info-button-col py-3" align="end" justify="end">
             <v-tooltip top v-if="isUserInfoEdittable">
               <template v-slot:activator="{ props }">
                 <IFXButton v-bind="props" btnType="add" xSmall @action="openUserFileDialog()" />
@@ -578,42 +590,46 @@ export default {
         <v-divider class="my-7" />
       </span>
       <v-row density="compact" v-if="areAnyAccountsPresent">
-        <v-col class="field-label3">
-          <h3>Expense code / PO Authorizations</h3>
-          <div>
-            <v-switch v-model="showInactiveAccounts" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
-          </div>
-        </v-col>
-        <v-col class="field-value3">
-          <span v-if="areAccountsPresent" class="d-flex flex-column">
-            <div v-for="account in item.accounts" :key="account.id" class="d-flex align-center mt-1">
-              <span
-                v-if="showInactiveAccounts || (account.data.is_valid && account.account.active)"
-                :class="{
-                  'text-decoration-line-through':
-                    $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
-                }"
-              >
-                {{ account.account.slug }} for any facility product
+        <v-col class="user-info-col py-3">
+          <v-row>
+            <v-col class="field-label">
+              <h3>Expense code / PO Authorizations</h3>
+              <div>
+                <v-switch v-model="showInactiveAccounts" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
+              </div>
+            </v-col>
+            <v-col class="field-value">
+              <span v-if="areAccountsPresent" class="d-flex flex-column">
+                <div v-for="account in item.accounts" :key="account.id" class="d-flex align-center mt-1">
+                  <span
+                    v-if="showInactiveAccounts || (account.data.is_valid && account.account.active)"
+                    :class="{
+                      'text-decoration-line-through':
+                        $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
+                    }"
+                  >
+                    {{ account.account.slug }} for any facility product
+                  </span>
+                </div>
               </span>
-            </div>
-          </span>
-          <span v-if="areProductAccountsPresent" class="d-flex flex-column">
-            <div v-for="account in item.productAccounts" :key="account.id" class="d-flex align-center mt-1">
-              <span
-                v-if="showInactiveAccounts || (account.data.is_valid && account.account.active)"
-                :class="{
-                  'text-decoration-line-through':
-                    $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
-                }"
-              >
-                {{ account.account.slug }} for
-                <span class="font-weight-medium">{{ account.product.name }}</span>
-                at
-                <span class="font-weight-medium">{{ account.percent }}%</span>
+              <span v-if="areProductAccountsPresent" class="d-flex flex-column">
+                <div v-for="account in item.productAccounts" :key="account.id" class="d-flex align-center mt-1">
+                  <span
+                    v-if="showInactiveAccounts || (account.data.is_valid && account.account.active)"
+                    :class="{
+                      'text-decoration-line-through':
+                        $api.auth.can('see-inactive-accounts') && !(account.data.is_valid && account.account.active),
+                    }"
+                  >
+                    {{ account.account.slug }} for
+                    <span class="font-weight-medium">{{ account.product.name }}</span>
+                    at
+                    <span class="font-weight-medium">{{ account.percent }}%</span>
+                  </span>
+                </div>
               </span>
-            </div>
-          </span>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
       <slot name="additionalItems" :item="item"></slot>
@@ -909,8 +925,12 @@ export default {
 }
 .user-info-col {
   flex-basis: 85%; max-width: 85%;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 .user-info-button-col {
   flex-basis: 10%; max-width: 10%;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 </style>

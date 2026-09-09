@@ -59,7 +59,7 @@ export default {
 </script>
 
 <template>
-  <v-row :key="rowKey" align="center">
+  <v-row :key="rowKey" align="center" class="py-3">
     <v-col cols="8" v-if="roleEditingEnabled">
       <div class="d-flex align-center flex-wrap ga-4">
         <v-select
