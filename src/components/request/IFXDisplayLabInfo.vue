@@ -84,13 +84,13 @@ export default {
         <v-col v-else class="ar-field-value">No approvers specified</v-col>
       </v-row>
       <v-row v-if="Object.keys(piContact).length === 0" class="flex-column">
-        <v-col>
+        <v-col class="py-3">
           <v-row>
             <v-col cols="4" class="ar-field-label">PI / Manager</v-col>
             <v-col class="ar-field-value">{{ data.lab_info.pi_name }}, {{ data.lab_info.pi_email }}</v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="ar-field-value">
@@ -98,7 +98,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="ar-field-value">
@@ -114,7 +114,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="ar-field-value">
@@ -124,13 +124,13 @@ export default {
         </v-col>
       </v-row>
       <v-row v-else class="flex-column">
-        <v-col>
+        <v-col class="py-3">
           <v-row>
             <v-col cols="4" class="ar-field-label">PI / Manager</v-col>
             <v-col class="ar-field-value">{{ piContact.name }}, {{ piContact.detail }}</v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="address ar-field-value">
@@ -140,17 +140,17 @@ export default {
         </v-col>
       </v-row>
       <v-row v-if="Object.keys(billingContact).length === 0" class="flex-column">
-        <v-col>
+        <v-col class="py-3">
           <v-row>
             <v-col cols="4" class="ar-field-label">Billing Contact</v-col>
             <v-col class="ar-field-value">
               <span v-if="data.lab_info.billing_contact_name">{{ data.lab_info.billing_contact_name }}</span>
               <span v-else>{{ data.lab_info.pi_name }}</span>
-              , {{ data.lab_info.billing_contact_email }}
+              <span v-if="data.lab_info.billing_contact_email">, {{ data.lab_info.billing_contact_email }}</span>
             </v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="ar-field-value">
@@ -158,16 +158,18 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="ar-field-value">
-              {{ data.lab_info.billing_contact_city }}, {{ data.lab_info.billing_contact_state }}
+              <span v-if="data.lab_info.billing_contact_city">
+                {{ data.lab_info.billing_contact_city }}, {{ data.lab_info.billing_contact_state }}
               {{ data.lab_info.billing_contact_postal_code }}
+              </span>
             </v-col>
           </v-row>
         </v-col>
-        <v-col v-if="data.lab_info.billing_contact_country != 'United States'">
+        <v-col v-if="data.lab_info.billing_contact_country != 'United States'" class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="ar-field-value">
@@ -175,7 +177,7 @@ export default {
             </v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="ar-field-value">
@@ -185,13 +187,13 @@ export default {
         </v-col>
       </v-row>
       <v-row v-else class="flex-column">
-        <v-col>
+        <v-col class="py-3">
           <v-row>
             <v-col cols="4" class="ar-field-label">Billing Contact</v-col>
-            <v-col class="ar-field-value">{{ billingContact.name }}, {{ billingContact.detail }}</v-col>
+            <v-col class="ar-field-value">{{ billingContact.name }}<span v-if="billingContact.detail">, {{ billingContact.detail }}</span></v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col class="py-2">
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="address ar-field-value">
