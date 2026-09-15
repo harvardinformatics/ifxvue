@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     getTrackClass(track, field) {
-      window.console.log(track, field)
       if (track !== 'general') {
         return ['py-2']
       }

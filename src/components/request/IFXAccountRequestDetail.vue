@@ -37,6 +37,7 @@ export default {
       expirationDateMenu: false,
       organizations: [], // Needed for IFXAccountRequestTrackDetail and IFXDisplayLabInfo
       loading: true,
+      editingExpirationDate: false,
     }
   },
   methods: {
@@ -75,9 +76,14 @@ export default {
     requestExpired() {
       return moment(this.request.continuationKeyExpiration).isBefore(moment())
     },
+    editExpirationDate() {
+      this.editingExpirationDate = true
+      clearTimeout(this.refreshTimer)
+    },
     updateExpirationDate(pickerDate) {
       this.request.continuationKeyExpiration = pickerDate
       this.expirationDateMenu = false
+      this.editingExpirationDate = false
       this.updateRequest()
     },
     async updateRequestComment(commentData) {
@@ -279,10 +285,9 @@ export default {
                     <span v-if="requestExpired()">expired</span>
                     <span v-else>expires</span>
                   </v-col>
-                  <v-col class="flex-grow-1 flex-shrink-1">
+                  <v-col class="flex-grow-1 flex-shrink-1" v-if="editingExpirationDate">
                     <v-text-field
                       :model-value="humanExpirationDate"
-                      label="Expiration Date"
                       prepend-icon="mdi-calendar"
                       readonly
                       density="compact"
@@ -303,6 +308,15 @@ export default {
                       </div>
                     </v-dialog>
                   </v-col>
+                  <v-col v-else>
+                    {{humanExpirationDate}}
+                  </v-col>
+                  <v-col class="pt-1">
+                    <v-btn v-if="!editingExpirationDate" color="primary" icon="mdi-calendar-edit" size="x-small" @click="editExpirationDate()">
+                    </v-btn>
+                    <v-btn v-else color="primary" icon="mdi-close" size="x-small" @click="editingExpirationDate = false">
+                    </v-btn>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -322,18 +336,18 @@ export default {
                 </v-row>
               </v-col>
               <v-col cols="4">
-                <v-row class="flex-column">
+                <v-row class="flex-column" density="comfortable">
                   <v-col class="section-title">
                     Onboarding Steps
                   </v-col>
-                  <v-col v-for="track in request.tracks.order" :key="track">
+                  <v-col class="py-4" v-for="track in request.tracks.order" :key="track">
                     <v-row v-if="isAppTrack(track)" density="compact" class="flex-column">
                       <v-col v-for="step in request.tracks[track].order" :key="step">
                         <IFXDisplayOnboardStep v-if="step !== 'completed_request'" @update="handleStepChange" :step="request.tracks[track][step]" :stepName="step" :trackName="track"/>
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col justify="center">
+                  <v-col class="py-4 d-flex justify-center">
                     <div class="text-xs-center">
                       <v-btn
                         color="primary"
@@ -355,6 +369,7 @@ export default {
                 <v-row class="flex-column">
                   <v-col
                     cols="12"
+                    class="py-3"
                     v-for="accountRequestFileData in request.requestData.request_files"
                     :key="accountRequestFileData.id"
                   >
@@ -387,6 +402,7 @@ export default {
   .section-title {
     font-size: 1.25rem;
     font-weight: 500;
+    margin-top: 1rem;
   }
 </style>
 <style lang="scss">
