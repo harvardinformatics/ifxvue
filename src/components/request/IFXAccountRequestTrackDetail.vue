@@ -49,9 +49,13 @@ export default {
     }
   },
   methods: {
-    getTrackClass(track) {
+    getTrackClass(track, field) {
+      window.console.log(track, field)
       if (track !== 'general') {
-        return ['py-4']
+        return ['py-2']
+      }
+      if (field == 'contacts' || field == 'addresses') {
+        return ['py-2']
       }
       return ['py-0']
     },
@@ -65,65 +69,63 @@ export default {
 }
 </script>
 <template>
-  <v-container v-if="accountRequestData && organizations">
-    <v-row column>
-      <v-col>
-        <span class="title">{{ trackTitle }}</span>
+  <v-container v-if="accountRequestData && organizations" class="py-1">
+    <v-row class="my-2">
+      <v-col class="track-title">
+        {{ trackTitle }}
       </v-col>
-      <v-col v-for="field in accountRequestData.tracks[track].fields.order" :key="field">
-        <v-row
-          row
-          wrap
-          v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)"
-          justify-start
-        >
-          <v-col class="field-label" xs12 md3 v-if="accountRequestData.tracks[track].fields[field].display_name">
-            {{ accountRequestData.tracks[track].fields[field].display_name }}
-          </v-col>
-          <v-col class="field-label" xs12 md3 v-else>
-            {{ field }}
-          </v-col>
-          <v-col xs12 md9 v-if="accountRequestData.tracks[track].fields[field].display_component">
-            <component
-              v-if="
-                [
-                  'harvard_key',
-                  'project',
-                  'scientific_area',
-                  'expense_code',
-                  'terms_and_conditions',
-                  'nnin_admin_username',
-                ].includes(field)
-              "
-              :is="accountRequestData.tracks[track].fields[field].display_component"
-              :data="accountRequestData[field]"
-            ></component>
-            <component
-              v-else-if="['lab_info', 'entered_affiliation'].includes(field)"
-              :is="accountRequestData.tracks[track].fields[field].display_component"
-              v-model="localData"
-              :organizations="organizations"
-              @change="updateData()"
-            ></component>
-            <component
-              v-else-if="['primary_affiliation', 'billing_contact', 'affiliations'].includes(field)"
-              :is="accountRequestData.tracks[track].fields[field].display_component"
-              :data="accountRequestData"
-            ></component>
-            <component
-              v-else-if="['demographic_data'].includes(field)"
-              :is="accountRequestData.tracks[track].fields[field].display_component"
-              :data="accountRequestData.person"
-            ></component>
-            <component
-              v-else
-              :is="accountRequestData.tracks[track].fields[field].display_component"
-              :data="accountRequestData.person[field]"
-            ></component>
-          </v-col>
-          <v-col v-else>{{ accountRequestData.person[field] }}</v-col>
-          <v-col></v-col>
-        </v-row>
+    </v-row>
+    <v-row  v-for="field in accountRequestData.tracks[track].fields.order" :key="field" cols="12" align="start" :class="getTrackClass(track, field)">
+      <v-col class="field-label" v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)">
+        <template v-if="accountRequestData.tracks[track].fields[field].display_name">
+          {{ accountRequestData.tracks[track].fields[field].display_name }}
+        </template>
+        <template v-else>
+          {{ field }}
+        </template>
+      </v-col>
+      <v-col class="field-value" v-if="accountRequestData.tracks[track].fields[field] && !['mou', 'po'].includes(field)">
+        <template v-if="accountRequestData.tracks[track].fields[field].display_component">
+          <component
+            v-if="
+              [
+                'harvard_key',
+                'project',
+                'scientific_area',
+                'expense_code',
+                'terms_and_conditions',
+                'nnin_admin_username',
+              ].includes(field)
+            "
+            :is="accountRequestData.tracks[track].fields[field].display_component"
+            :data="accountRequestData[field]"
+          ></component>
+          <component
+            v-else-if="['lab_info', 'entered_affiliation'].includes(field)"
+            :is="accountRequestData.tracks[track].fields[field].display_component"
+            v-model="localData"
+            :organizations="organizations"
+            @change="updateData()"
+          ></component>
+          <component
+            v-else-if="['primary_affiliation', 'billing_contact', 'affiliations'].includes(field)"
+            :is="accountRequestData.tracks[track].fields[field].display_component"
+            :data="accountRequestData"
+          ></component>
+          <component
+            v-else-if="['demographic_data'].includes(field)"
+            :is="accountRequestData.tracks[track].fields[field].display_component"
+            :data="accountRequestData.person"
+          ></component>
+          <component
+            v-else
+            :is="accountRequestData.tracks[track].fields[field].display_component"
+            :data="accountRequestData.person[field]"
+          ></component>
+        </template>
+        <template v-else>
+          {{ accountRequestData.person[field] }}
+        </template>
       </v-col>
     </v-row>
   </v-container>
