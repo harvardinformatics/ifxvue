@@ -146,7 +146,7 @@ export default {
             <v-col class="ar-field-value">
               <span v-if="data.lab_info.billing_contact_name">{{ data.lab_info.billing_contact_name }}</span>
               <span v-else>{{ data.lab_info.pi_name }}</span>
-              , {{ data.lab_info.billing_contact_email }}
+              <span v-if="data.lab_info.billing_contact_email">, {{ data.lab_info.billing_contact_email }}</span>
             </v-col>
           </v-row>
         </v-col>
@@ -162,8 +162,10 @@ export default {
           <v-row>
             <v-col cols="4" class="ar-field-label">&nbsp;</v-col>
             <v-col class="ar-field-value">
-              {{ data.lab_info.billing_contact_city }}, {{ data.lab_info.billing_contact_state }}
+              <span v-if="data.lab_info.billing_contact_city">
+                {{ data.lab_info.billing_contact_city }}, {{ data.lab_info.billing_contact_state }}
               {{ data.lab_info.billing_contact_postal_code }}
+              </span>
             </v-col>
           </v-row>
         </v-col>
@@ -188,7 +190,7 @@ export default {
         <v-col class="py-3">
           <v-row>
             <v-col cols="4" class="ar-field-label">Billing Contact</v-col>
-            <v-col class="ar-field-value">{{ billingContact.name }}, {{ billingContact.detail }}</v-col>
+            <v-col class="ar-field-value">{{ billingContact.name }}<span v-if="billingContact.detail">, {{ billingContact.detail }}</span></v-col>
           </v-row>
         </v-col>
         <v-col class="py-2">
