@@ -34,8 +34,7 @@ export default {
       approval: null,
       validStates: [],
       refreshTimer: null,
-      updating_expiration_date: false,
-      expiration_date_menu: false,
+      expirationDateMenu: false,
       organizations: [], // Needed for IFXAccountRequestTrackDetail and IFXDisplayLabInfo
       loading: true,
     }
@@ -76,9 +75,10 @@ export default {
     requestExpired() {
       return moment(this.request.continuationKeyExpiration).isBefore(moment())
     },
-    updatingExpirationDate() {
-      this.updating_expiration_date = true
-      clearInterval(this.refreshTimer)
+    updateExpirationDate(pickerDate) {
+      this.request.continuationKeyExpiration = pickerDate
+      this.expirationDateMenu = false
+      this.updateRequest()
     },
     async updateRequestComment(commentData) {
       if (commentData.text) {
@@ -92,7 +92,6 @@ export default {
       })
     },
     async updateRequest(notify) {
-      this.updating_expiration_date = false
       if (notify) {
         this.request.onBoardRequest.notifyRequestorOfUpdates = true
       }
@@ -189,6 +188,16 @@ export default {
       }
       return `${this.$api.urls.ONBOARD_REQUEST_URL_ROOT}?key=${this.request.continuationKey}`
     },
+    humanExpirationDate() {
+      return this.request?.continuationKeyExpiration
+        ? moment(this.request.continuationKeyExpiration).format('M/D/YYYY')
+        : ''
+    },
+    pickerExpirationDate() {
+      return this.request?.continuationKeyExpiration
+        ? moment(this.request.continuationKeyExpiration).format('YYYY-MM-DD')
+        : ''
+    },
   },
   beforeRouteLeave(to, from, next) {
     clearInterval(this.refreshTimer)
@@ -209,7 +218,7 @@ export default {
 }
 </script>
 <template>
-  <v-container grid-list-md>
+  <v-container fluid fill-height grid-list-lg>
     <v-card v-if="request" variant="flat">
       <v-card-title>
         <v-row class="flex-no-wrap py-4" justify="space-between" align="center">
@@ -255,111 +264,107 @@ export default {
       </v-card-title>
       <v-divider></v-divider>
       <v-container>
-        <v-row class="my-2">
-          <v-col cols="12" v-if="request.requestComments.length > 0">
-            <IFXRequestCommentList :request="request" @update="updateRequestComment"/>
-          </v-col>
-        </v-row>
-        <v-row class="ma-2 pa-2">
-          <v-col cols="6">
-            <v-row wrap justify="start" align="center">
-              <v-col class="flex-grow-0 flex-shrink-0 px-0 expiration-date-label text-title-large">
-                Onboard request
-                <span v-if="requestExpired()">expired</span>
-                <span v-else>expires</span>
-              </v-col>
-              <v-col v-if="updating_expiration_date" class="px-0">
-                <v-menu
-                  v-model="expiration_date_menu"
-                  :close-on-content-click="false"
-                  full-width
-                >
-                  <template v-slot:activator="{ props }">
-                    <v-text-field
-                      :value="$columnDate(request.continuationKeyExpiration)"
-                      v-bind="props"
-                      readonly
-                      single-line
-                    >
-                    </v-text-field>
-                  </template>
-                  <v-date-picker
-                    v-model="request.continuationKeyExpiration"
-                    reactive
-                    no-title
-                    scrollable
-                    @update:modelValue="updateRequest()"
-                  >
-                  </v-date-picker>
-                </v-menu>
-              </v-col>
-              <v-col v-else class="flex-grow-0 flex-shrink-1 expiration-date-label">
-                {{$columnDate(request.continuationKeyExpiration)}}
-              </v-col>
-              <v-col class="pt-1">
-                <v-btn :disabled="updating_expiration_date" color="primary" icon="mdi-calendar-edit" size="x-small" @click="updatingExpirationDate()">
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
         <v-row>
-          <v-col style="flex-basis: 60%; max-width: 60%;">
-            <v-row class="flex-column">
-              <v-col cols="12" v-for="track in request.tracks.order" :key="track">
-                <IFXAccountRequestTrackDetail
-                  v-if="request && isAppTrack(track)"
-                  :track="track"
-                  :trackTitle="getTrackDisplayName(track)"
-                  :accountRequestData="request.onBoardRequest.data"
-                  :accountRequest="request"
-                  :organizations="organizations"
-                />
-              </v-col>
-            </v-row>
-          </v-col>
           <v-col cols="12">
-            <v-container>
-              <v-row class="flex-column">
-                <v-col class="section-title">
-                  Onboarding Steps
-                </v-col>
-                <v-col v-for="track in request.tracks.order" :key="track">
-                  <v-row v-if="isAppTrack(track)" density="compact" class="flex-column">
-                    <v-col v-for="step in request.tracks[track].order" :key="step">
-                      <IFXDisplayOnboardStep v-if="step !== 'completed_request'" @update="handleStepChange" :step="request.tracks[track][step]" :stepName="step" :trackName="track"/>
-                    </v-col>
-                  </v-row>
-                </v-col>
-                <v-col justify="center">
-                  <div class="text-xs-center">
-                    <v-btn
-                      color="primary"
-                      @click="updateRequest('notify')"
-                    >Update Steps
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-col>
-        </v-row>
-        <v-row class="mx-1 my-3" v-if="request.requestData && request.requestData.request_files && request.requestData.request_files.length > 0">
-          <v-col>
             <v-row class="my-2">
-              <v-col cols="12">
-                <span class="section-title">Request Files</span>
+              <v-col cols="12" v-if="request.requestComments.length > 0">
+                <IFXRequestCommentList :request="request" @update="updateRequestComment"/>
               </v-col>
             </v-row>
-            <v-row class="flex-column">
-              <v-col
-                cols="12"
-                v-for="accountRequestFileData in request.requestData.request_files"
-                :key="accountRequestFileData.id"
-              >
-                <IFXAccountRequestFile :accountRequestFileData="accountRequestFileData" />
+            <v-row class="ma-2 pa-2">
+              <v-col cols="6">
+                <v-row wrap justify="start" align="center">
+                  <v-col class="flex-grow-0 flex-shrink-0 px-0 expiration-date-label text-title-small">
+                    Onboard request
+                    <span v-if="requestExpired()">expired</span>
+                    <span v-else>expires</span>
+                  </v-col>
+                  <v-col class="flex-grow-1 flex-shrink-1">
+                    <v-text-field
+                      :model-value="humanExpirationDate"
+                      label="Expiration Date"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      density="compact"
+                      hide-details
+                      @click:prepend.stop="expirationDateMenu = true"
+                    ></v-text-field>
+                    <v-dialog v-model="expirationDateMenu" v-if="expirationDateMenu" width="unset">
+                      <div class="d-flex flex-row" style="background-color: white;">
+                        <div class="d-flex flex-column">
+                          <v-date-picker
+                            :model-value="pickerExpirationDate"
+                            no-title
+                            scrollable
+                            show-adjacent-months
+                            @update:modelValue="updateExpirationDate($event)"
+                          ></v-date-picker>
+                        </div>
+                      </div>
+                    </v-dialog>
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="8">
+                <v-row class="flex-column">
+                  <v-col cols="12" v-for="track in request.tracks.order" :key="track">
+                    <IFXAccountRequestTrackDetail
+                      v-if="request && isAppTrack(track)"
+                      :track="track"
+                      :trackTitle="getTrackDisplayName(track)"
+                      :accountRequestData="request.onBoardRequest.data"
+                      :accountRequest="request"
+                      :organizations="organizations"
+                    />
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col cols="4">
+                <v-row class="flex-column">
+                  <v-col class="section-title">
+                    Onboarding Steps
+                  </v-col>
+                  <v-col v-for="track in request.tracks.order" :key="track">
+                    <v-row v-if="isAppTrack(track)" density="compact" class="flex-column">
+                      <v-col v-for="step in request.tracks[track].order" :key="step">
+                        <IFXDisplayOnboardStep v-if="step !== 'completed_request'" @update="handleStepChange" :step="request.tracks[track][step]" :stepName="step" :trackName="track"/>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col justify="center">
+                    <div class="text-xs-center">
+                      <v-btn
+                        color="primary"
+                        @click="updateRequest('notify')"
+                      >Update Steps
+                      </v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+            <v-row class="mx-1 my-3" v-if="request.requestData && request.requestData.request_files && request.requestData.request_files.length > 0">
+              <v-col>
+                <v-row class="my-2">
+                  <v-col cols="12">
+                    <span class="section-title">Request Files</span>
+                  </v-col>
+                </v-row>
+                <v-row class="flex-column">
+                  <v-col
+                    cols="12"
+                    v-for="accountRequestFileData in request.requestData.request_files"
+                    :key="accountRequestFileData.id"
+                  >
+                    <IFXAccountRequestFile :accountRequestFileData="accountRequestFileData" />
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col>
           </v-col>
         </v-row>
         <v-row class="flex-column my-3">
