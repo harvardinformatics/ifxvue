@@ -23,15 +23,15 @@
     >
       <!-- Display the icons in different colors, based on their contactable type -->
       <template v-slot:item="{ props, item }">
-        <v-icon v-if="item.icon" :color="item.color">{{item.icon}}</v-icon>
-        <v-list-item v-bind="props" v-if="item.text" v-text="item.text"></v-list-item>
-        <v-list-item v-bind="props" v-else v-text="item"></v-list-item>
+        <v-icon v-if="item.raw.icon" :color="item.raw.color">{{item.raw.icon}}</v-icon>
+        <v-list-item v-bind="props" v-if="item.raw.text" v-text="item.raw.text"></v-list-item>
+        <v-list-item v-bind="props" v-else v-text="item.raw"></v-list-item>
       </template>
       <template v-slot:chip="{ props, item }">
-        <v-chip v-bind="props" color="transparent" close @click:close="removeFromSelected(item)">
-          <v-icon v-if="item.icon" :color="item.color" class="mr-2">{{item.icon}}</v-icon>
-          <span v-if="item.label">{{item.label}}</span>
-          <span v-else>{{item}}</span>
+        <v-chip v-bind="props" color="transparent" closable @click:close="removeFromSelected(item.raw)">
+          <v-icon v-if="item.raw.icon" :color="item.raw.color" class="mr-2">{{item.raw.icon}}</v-icon>
+          <span v-if="item.raw.label">{{item.raw.label}}</span>
+          <span v-else>{{item.raw}}</span>
         </v-chip>
       </template>
     </v-combobox>
@@ -90,10 +90,20 @@ export default {
   methods: {
     ...mapActions(['showMessage']),
     getItemText(item) {
-      return item.text ? item.text : item
+      if (item.text) return item.text
+      if (item.label) return item.label
+      if (item.name) return item.name
+      if (typeof item === 'string') return item
+      return String(item)
     },
     getItemValue(item) {
       return item
+    },
+    removeFromSelected(item) {
+      const index = this.selected.findIndex((i) => i.id === item.id)
+      if (index !== -1) {
+        this.selected.splice(index, 1)
+      }
     },
     handleChange() {
       this.$emit('update:modelValue', this.selected)

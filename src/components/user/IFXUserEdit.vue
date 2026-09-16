@@ -230,8 +230,8 @@ export default {
                 :error-messages="errors.groups"
               >
                 <template #selection="{ item }">
-                  <v-chip :color="getChipColorForGroup(item)" close @click:close="removeGroup(item)">
-                    <strong>{{ item }}</strong>
+                  <v-chip :color="getChipColorForGroup(item.raw)" closable @click:close="removeGroup(item.raw)">
+                    <strong>{{ item.raw }}</strong>
                   </v-chip>
                 </template>
               </v-combobox>

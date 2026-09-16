@@ -34,7 +34,7 @@ export default defineConfig({
       }
     },
     minify: 'terser',
-    sourcemap: true,
+    sourcemap: false,
     reportCompressedSize: true,
     chunkSizeWarningLimit: 1000
   },
