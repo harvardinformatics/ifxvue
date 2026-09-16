@@ -7,7 +7,7 @@ import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMi
 import IFXButton from '@/components/IFXButton'
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXMailButton from '@/components/mailing/IFXMailButton'
-import IFXBillingRecordHeader from '@/components/billingRecord/IFXBillingRecordHeader'
+import IFXBillingRecordHeaderNotUsed from '@/components/billingRecord/IFXBillingRecordHeaderNotUsed'
 import IFXContactablesCombobox from '@/components/IFXContactablesCombobox'
 import IFXBillingRecordTransactions from './IFXBillingRecordTransactions'
 
@@ -19,7 +19,7 @@ export default {
     IFXBillingRecordTransactions,
     IFXContactablesCombobox,
     IFXMailButton,
-    IFXBillingRecordHeader,
+    IFXBillingRecordHeaderNotUsed,
   },
   mixins: [IFXBillingRecordMixin],
   filters: {
@@ -1124,7 +1124,7 @@ export default {
               v-slot:group.header="{ group, headers, isOpen, toggle }"
               v-on:rendered="itemRendered('group.header')"
             >
-              <IFXBillingRecordHeader
+              <IFXBillingRecordHeaderNotUsed
                 :key="group"
                 :item="item"
                 :group="group"

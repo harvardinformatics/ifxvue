@@ -112,7 +112,6 @@ import IFXProductUsageMixin from '@/components/productUsage/IFXProductUsageMixin
 
 // Billing
 import BillingRecord from '@/components/billingRecord/IFXBillingRecord'
-import IFXBillingRecordList from '@/components/billingRecord/IFXBillingRecordList'
 import IFXBillingRecordListDecimal from '@/components/billingRecord/IFXBillingRecordListDecimal'
 import IFXBillingRecords from '@/components/billingRecord/IFXBillingRecords'
 import IFXBillingRecordDetail from '@/components/billingRecord/IFXBillingRecordDetail'
@@ -250,7 +249,6 @@ export {
   IFXProductUsageList,
   IFXPageActionBar,
   BillingRecord,
-  IFXBillingRecordList,
   IFXBillingRecordListDecimal,
   IFXBillingRecords,
   IFXBillingRecordDetail,
