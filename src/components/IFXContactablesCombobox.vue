@@ -28,10 +28,9 @@
         <v-list-item v-bind="props" v-else v-text="item.raw"></v-list-item>
       </template>
       <template v-slot:chip="{ props, item }">
-        <v-chip v-bind="props" color="transparent" closable @click:close="removeFromSelected(item.raw)">
+        <v-chip v-bind="props" closable @click:close="removeFromSelected(item.raw)">
           <v-icon v-if="item.raw.icon" :color="item.raw.color" class="mr-2">{{item.raw.icon}}</v-icon>
-          <span v-if="item.raw.label">{{item.raw.label}}</span>
-          <span v-else>{{item.raw}}</span>
+          <span>{{ item.raw.text || item.raw.label || item.raw.name || item.raw }}</span>
         </v-chip>
       </template>
     </v-combobox>
