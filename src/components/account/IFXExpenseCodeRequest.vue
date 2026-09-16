@@ -146,18 +146,22 @@ export default {
           :error-messages="errorMessage"
           :class="{ required: required }"
         >
-          <template #item="{item}">
-            <v-icon :color="item.contact.color">{{ item.contact.icon }}</v-icon>
-            <v-list-item v-text="item.name"></v-list-item>
+          <template #item="{ item, props }">
+            <v-list-item v-bind="props">
+              <template #prepend>
+                <v-icon :color="item.raw.contact?.color">{{ item.raw.contact?.icon }}</v-icon>
+              </template>
+              {{ item.raw.name }}
+            </v-list-item>
           </template>
           <template #selection="{item}">
-            <v-chip v-if="isContactableObj(item)" color="transparent" close @click:close="removeRecipient(item)">
-              <v-icon :color="item.contact.color" class="mr-2">
-                {{ item.contact.icon }}
+            <v-chip v-if="isContactableObj(item.raw)" color="transparent" closable @click:close="removeRecipient(item.raw)">
+              <v-icon :color="item.raw.contact.color" class="mr-2">
+                {{ item.raw.contact.icon }}
               </v-icon>
-              {{ item.name }}
+              {{ item.raw.name }}
             </v-chip>
-            <v-chip v-else close @click:close="removeRecipient(item)">{{ item }}</v-chip>
+            <v-chip v-else closable @click:close="removeRecipient(item.raw)">{{ item.raw }}</v-chip>
           </template>
           <template v-slot:no-data>
             <v-list-item>

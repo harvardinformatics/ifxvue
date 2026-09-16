@@ -1066,19 +1066,19 @@ export default {
         >
           <template #selection="{ item }">
             <v-chip
-              :color="item.color"
+              :color="item.raw.color"
               class="black-text"
               variant="flat"
               closable
-              @click:close="removeFromFiltered(item)"
+              @click:close="removeFromFiltered(item.raw)"
             >
-              {{ item.name }}
+              {{ item.raw.name }}
             </v-chip>
           </template>
           <template #item="{ item, props }">
             <v-list-item v-bind="props">
               <template #prepend>
-                <div :style="$api.resource.resourceColorBox(item)" class="mr-2">&nbsp;</div>
+                <div :style="$api.resource.resourceColorBox(item.raw)" class="mr-2">&nbsp;</div>
               </template>
             </v-list-item>
           </template>
@@ -1456,18 +1456,18 @@ export default {
                     <template #item="{ item, props }">
                       <v-list-item v-bind="props">
                         <template #prepend>
-                          <v-icon :color="$api.reservation.getUserIconColor(item)">
+                          <v-icon :color="$api.reservation.getUserIconColor(item.raw)">
                             {{ $api.reservation.getUserIcon() }}
                           </v-icon>
                         </template>
                       </v-list-item>
                     </template>
                     <template #selection="{ item }">
-                      <v-chip variant="text" closable @click:close="removeFromSelected(item)">
-                        <v-icon :color="$api.reservation.getUserIconColor(item)" class="mr-2">
+                      <v-chip variant="text" closable @click:close="removeFromSelected(item.raw)">
+                        <v-icon :color="$api.reservation.getUserIconColor(item.raw)" class="mr-2">
                           {{ $api.reservation.getUserIcon() }}
                         </v-icon>
-                        {{ item.fullName }}
+                        {{ item.raw.fullName }}
                       </v-chip>
                     </template>
                   </v-autocomplete>

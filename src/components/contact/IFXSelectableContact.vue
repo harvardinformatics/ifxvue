@@ -108,8 +108,8 @@ export default {
             <template v-slot:item="{ item, props }">
               <v-list-item
                 v-bind="props"
-                :title="item.name"
-                :subtitle="item.detail || item.type"
+                :title="item.raw.name"
+                :subtitle="item.raw.detail || item.raw.type"
               />
             </template>
           </v-autocomplete>
