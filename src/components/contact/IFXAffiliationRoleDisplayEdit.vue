@@ -95,7 +95,7 @@ export default {
         </div>
       </div>
     </v-col>
-    <v-col cols="8" v-else :class="{ 'text-decoration-line-through': !itemLocal.active }">
+    <v-col cols="8" v-else-if="showInactive || itemLocal.active" :class="{ 'text-decoration-line-through': !itemLocal.active }">
       <span>{{ $affiliationRoleDisplay(affiliation.role) }} of {{ $orgNameFromSlug(affiliation.organization) }}</span>
     </v-col>
     <v-col v-if="$api.auth.can('edit-affiliations')" cols="4">
@@ -114,7 +114,7 @@ export default {
         </template>
         <span>Deactivate affiliation</span>
       </v-tooltip>
-      <v-tooltip v-else location="top">
+      <v-tooltip v-else-if="showInactive" location="top">
         <template v-slot:activator="{ props }">
           <v-icon
             v-bind="props"

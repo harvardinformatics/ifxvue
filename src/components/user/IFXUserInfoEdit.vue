@@ -202,6 +202,7 @@ export default {
                 :label="`${this.$api.vars.appNameFormatted} Login`"
                 :disabled="!canEdit('User.isActive')"
                 v-model="itemLocal.isActive"
+                color="primary"
               ></v-switch>
             </v-col>
           </v-row>
