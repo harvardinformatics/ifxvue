@@ -482,7 +482,7 @@ export default {
               <v-col class="field-label">
                 <h3>Other Affiliations</h3>
                 <div>
-                  <v-switch v-model="showInactiveAffiliations" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
+                  <v-switch v-model="showInactiveAffiliations" label="Show Inactive" class="small-checkbox mt-0" color="primary"></v-switch>
                 </div>
               </v-col>
               <v-col class="field-value">
@@ -595,7 +595,7 @@ export default {
             <v-col class="field-label">
               <h3>Expense code / PO Authorizations</h3>
               <div>
-                <v-switch v-model="showInactiveAccounts" label="Show Inactive" class="small-checkbox mt-0"></v-switch>
+                <v-switch v-model="showInactiveAccounts" label="Show Inactive" class="small-checkbox mt-0" color="primary"></v-switch>
               </div>
             </v-col>
             <v-col class="field-value">

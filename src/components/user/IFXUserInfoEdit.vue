@@ -86,136 +86,129 @@ export default {
 </script>
 <template>
   <v-container fluid v-if="!isLoading && !!item">
-    <div fluid v-if="hasIFXID">
-      <v-row density="compact">
-        <v-col>
-          <p>
-            Use this form to view and edit user information. Changes to most fields (except for application Groups) will
-            update
-            <em><strong>all related accounts</strong></em>
-            associated with this user.
-          </p>
-        </v-col>
-      </v-row>
-      <v-form @submit.prevent v-model="isValid" autocomplete="off" validate-on="eager" ref="userInfoForm">
-        <v-row>
-          <v-col sm="6">
-            <v-text-field
-              v-model.trim="itemLocal.firstName"
-              label="First name"
-              autocomplete="new-password"
-              :error-messages="errors.firstName"
-              @focus="clearError('first_name')"
-              :disabled="!canEdit('User.firstName')"
-              :rules="formRules.generic"
-              required
-              class="required"
-            ></v-text-field>
-            <v-text-field
-              v-model.trim="itemLocal.fullName"
-              label="Full name"
-              autocomplete="new-password"
-              :error-messages="errors.fullName"
-              @focus="clearError('full_name')"
-              :disabled="!canEdit('User.fullName')"
-              :rules="formRules.generic"
-              required
-              class="required"
-            ></v-text-field>
-          </v-col>
-          <v-col sm="6">
-            <v-text-field
-              v-model.trim="itemLocal.lastName"
-              label="Last name"
-              autocomplete="new-password"
-              :error-messages="errors.lastName"
-              @focus="clearError('last_name')"
-              :disabled="!canEdit('User.lastName')"
-              :rules="formRules.generic"
-              required
-              class="required"
-            ></v-text-field>
-            <v-autocomplete
-              v-if="canEdit('User.groups')"
-              v-model="itemLocal.groups"
-              :items="allGroupNames"
-              clearable
-              multiple
-              chips
-              label="Groups"
-              hint="Groups to which this user belongs."
-              persistent-hint
-              :error-messages="errors.groups"
-              @focus="clearError('groups')"
-            >
-              <template #chip="{ item }">
-                <v-chip
-                  :color="getChipColorForGroup(item)"
-                  variant="flat"
-                  closable
-                  @click:close="removeGroup(item)"
-                >
-                  <strong class="text-black">{{ item }}</strong>
-                </v-chip>
-              </template>
-            </v-autocomplete>
-            <div class="items-warning" v-else>{{ itemLocal.groups.join(', ') || 'No groups' }}</div>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col sm="6">
-            <v-text-field
-              v-model.trim="itemLocal.primaryEmail"
-              label="Primary Email"
-              autocomplete="new-password"
-              :error-messages="errors.primary_email"
-              @focus="clearError('primary_email')"
-              :disabled="!canEdit('User.primaryEmail')"
-              :rules="formRules.email"
-              required
-              class="required"
-            ></v-text-field>
-          </v-col>
-          <v-col sm="6">
-            <v-autocomplete
-              v-model.trim="itemLocal.primaryAffiliation"
-              :items="orgSlugs"
-              hint="The user's primary affiliation."
-              persistent-hint
-              label="Primary Affiliation"
-              :error-messages="errors.primary_affiliation"
-              @focus="clearError('primary_affiliation')"
-              :disabled="!canEdit('User.primaryAffiliation')"
-              :rules="formRules.generic"
-              required
-              class="required"
-            >
-              <template #item="{ props, item }">
-                <v-list-item v-bind="props" :title="trimOrgName(item)"></v-list-item>
-              </template>
-              <template #selection="{ item }">
-                {{ trimOrgName(item) }}
-              </template>
-            </v-autocomplete>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col sm="6" offset="6">
-            <v-switch
-              :label="`${this.$api.vars.appNameFormatted} Login`"
-              :disabled="!canEdit('User.isActive')"
-              v-model="itemLocal.isActive"
-            ></v-switch>
-          </v-col>
-        </v-row>
-      </v-form>
-    </div>
-    <v-container v-else>
-      <v-alert type="error" variant="outlined">
-        Application users that are not associated with a Person cannot be edited with this form. Use Django admin forms
-        for these edits.
-      </v-alert>
-    </v-container>
+    <v-row>
+      <v-col>
+        <v-alert type="info" outlined closable elevation="1">
+          Use this form to view and edit user information. Changes to most fields (except for application Groups) will
+          update
+          <em><strong>all related accounts</strong></em>
+          associated with this user.
+        </v-alert>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-form @submit.prevent v-model="isValid" autocomplete="off" validate-on="eager" ref="userInfoForm">
+          <v-row class="my-2">
+            <v-col sm="6">
+              <v-text-field
+                v-model.trim="itemLocal.firstName"
+                label="First name"
+                autocomplete="new-password"
+                :error-messages="errors.firstName"
+                @focus="clearError('first_name')"
+                :disabled="!canEdit('User.firstName')"
+                :rules="formRules.generic"
+                required
+                class="required"
+              ></v-text-field>
+              <v-text-field
+                v-model.trim="itemLocal.fullName"
+                label="Full name"
+                autocomplete="new-password"
+                :error-messages="errors.fullName"
+                @focus="clearError('full_name')"
+                :disabled="!canEdit('User.fullName')"
+                :rules="formRules.generic"
+                required
+                class="required"
+              ></v-text-field>
+            </v-col>
+            <v-col sm="6">
+              <v-text-field
+                v-model.trim="itemLocal.lastName"
+                label="Last name"
+                autocomplete="new-password"
+                :error-messages="errors.lastName"
+                @focus="clearError('last_name')"
+                :disabled="!canEdit('User.lastName')"
+                :rules="formRules.generic"
+                required
+                class="required"
+              ></v-text-field>
+              <v-autocomplete
+                v-if="canEdit('User.groups')"
+                v-model="itemLocal.groups"
+                :items="allGroupNames"
+                clearable
+                multiple
+                chips
+                label="Groups"
+                :error-messages="errors.groups"
+                @focus="clearError('groups')"
+              >
+                <template #chip="{ item }">
+                  <v-chip
+                    :color="getChipColorForGroup(item.raw)"
+                    variant="flat"
+                    closable
+                    @click:close="removeGroup(item.raw)"
+                  >
+                    <strong class="text-black">{{ item.raw }}</strong>
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+              <div class="items-warning" v-else>{{ itemLocal.groups.join(', ') || 'No groups' }}</div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col sm="6">
+              <v-text-field
+                v-model.trim="itemLocal.primaryEmail"
+                label="Primary Email"
+                autocomplete="new-password"
+                :error-messages="errors.primary_email"
+                @focus="clearError('primary_email')"
+                :disabled="!canEdit('User.primaryEmail')"
+                :rules="formRules.email"
+                required
+                class="required"
+              ></v-text-field>
+            </v-col>
+            <v-col sm="6">
+              <v-autocomplete
+                v-model.trim="itemLocal.primaryAffiliation"
+                :items="orgSlugs"
+                label="Primary Affiliation"
+                :error-messages="errors.primary_affiliation"
+                @focus="clearError('primary_affiliation')"
+                :disabled="!canEdit('User.primaryAffiliation')"
+                :rules="formRules.generic"
+                required
+                class="required"
+              >
+                <template #item="{ props, item }">
+                  <v-list-item v-bind="props" :title="trimOrgName(item.raw)"></v-list-item>
+                </template>
+                <template #selection="{ item }">
+                  {{ trimOrgName(item.raw) }}
+                </template>
+              </v-autocomplete>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col sm="6" offset="6">
+              <v-switch
+                :label="`${this.$api.vars.appNameFormatted} Login`"
+                :disabled="!canEdit('User.isActive')"
+                v-model="itemLocal.isActive"
+                color="primary"
+              ></v-switch>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
