@@ -986,17 +986,15 @@ export default {
                 </v-tooltip>
             </span>
           </v-col>
-          <v-col class="pa-2" v-if="allowApprovals">
-            <v-row dense class="d-flex flex-nowrap">
-              <v-col>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <div v-on="on">
+          <v-col class="pa-2 flex-grow-0" v-if="allowApprovals">
+            <!-- <v-row dense class="d-flex flex-nowrap">
+              <v-col> -->
+                <v-tooltip location='top'>
+                  <template v-slot:activator="{ props }">
+                    <div v-bind="props">
                       <v-btn
                         :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
-                        v-bind="attrs"
-                        fab
-                        small
+                        size="small"
                         color="green"
                         @click="approve()"
                       >
@@ -1006,45 +1004,58 @@ export default {
                   </template>
                   <span>{{ approveSelectedToolTip }}</span>
                 </v-tooltip>
-              </v-col>
-            </v-row>
+              <!-- </v-col>
+            </v-row> -->
           </v-col>
-          <v-col class="pa-2" v-if="allowDownloads">
-            <v-row dense>
-              <v-col>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <div v-on="on">
-                      <download-csv
+          <v-col class="pa-2 pr-0 flex-grow-0" v-if="allowDownloads">
+            <!-- <v-row dense>
+              <v-col> -->
+                <v-tooltip location='top'>
+                  <template v-slot:activator="{ props }">
+                    <div v-bind="props">
+                      <!-- <download-csv
                         :class="{ 'download-disabled': isLoading }"
                         :labels="getLabelsForExport()"
                         :data="getDataForExport()"
                         :name="getNameForExport()"
-                        v-bind="attrs"
                       >
                         <IFXButton
                           :disabled="isLoading"
-                          small
+                          size="small"
                           class="download-btn"
                           btnType="download"
                         ></IFXButton>
-                      </download-csv>
+                      </download-csv> -->
+                      <download-excel
+                        :class="{ 'download-disabled': isLoading }"
+                        :fields="getFieldsForExport()"
+                        :data="getDataForExport()"
+                        :name="getNameForExport()"
+                        type="csv"
+                        :escapeCsv="true"
+                      >
+                        <IFXButton
+                          :disabled="isLoading"
+                          size="small"
+                          class="download-btn"
+                          btnType="download"
+                        ></IFXButton>
+                      </download-excel>
                     </div>
                   </template>
                   <span>Download billing records in csv format</span>
                 </v-tooltip>
-              </v-col>
-            </v-row>
+              <!-- </v-col>
+            </v-row> -->
           </v-col>
-          <v-col v-if="allowChangeExpenseCode">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
+          <v-col class="flex-grow-0 ml-2" v-if="allowChangeExpenseCode">
+            <v-tooltip location='top'>
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
                   <v-btn
                     :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
-                    v-bind="attrs"
-                    fab
-                    small
+                    icon
+                    size="small"
                     color="green"
                     @click="openChangeExpenseCodeDialog()"
                   >
@@ -1056,22 +1067,21 @@ export default {
               <span>Edit billing record account</span>
             </v-tooltip>
           </v-col>
-          <v-col class="pa-2" v-if="allowInvoiceGeneration">
-            <v-row dense>
-              <v-col>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <div v-on="on">
+          <v-col class="pa-2 flex-grow-0" v-if="allowInvoiceGeneration">
+            <!-- <v-row dense>
+              <v-col> -->
+                <v-tooltip location='top'>
+                  <template v-slot:activator="{ props }">
+                    <div v-bind="props">
                       <v-btn
                         :disabled="
                           isLoading ||
                           selected.length == 0 ||
                           !$api.auth.can('generate-invoices', $api.authUser)
                         "
-                        v-bind="attrs"
                         :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
-                        small
-                        fab
+                        size="small"
+                        icon
                         @click="generateInvoices()"
                       >
                         <v-icon>payments</v-icon>
@@ -1080,21 +1090,19 @@ export default {
                   </template>
                   <span>{{ generateInvoicesToolTip }}</span>
                 </v-tooltip>
-              </v-col>
-            </v-row>
+              <!-- </v-col>
+            </v-row> -->
           </v-col>
-          <v-col class="pa-2" v-if="allowInvoiceGeneration">
-            <v-row dense>
-              <v-col>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <div v-on="on">
+          <v-col class="pa-2 flex-grow-0" v-if="allowInvoiceGeneration">
+            <!-- <v-row dense>
+              <v-col> -->
+                <v-tooltip location='top'>
+                  <template v-slot:activator="{ props }">
+                    <div v-bind="props">
                       <v-btn
                         :disabled="isLoading || !$api.auth.can('generate-invoices', $api.authUser)"
-                        v-bind="attrs"
                         color="blue"
-                        small
-                        fab
+                        size="small"
                         @click="generateInvoices((wholeMonth = true))"
                       >
                         <v-icon>mdi-calendar-month</v-icon>
@@ -1103,18 +1111,17 @@ export default {
                   </template>
                   <span>Deactivate any existing invoices and process the entire month</span>
                 </v-tooltip>
-              </v-col>
-            </v-row>
+              <!-- </v-col>
+            </v-row> -->
           </v-col>
-          <v-col v-if="allowDeleteBillingRecords">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
+          <v-col class="flex-grow-0 ml-2" v-if="allowDeleteBillingRecords">
+            <v-tooltip location='top'>
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
                   <v-btn
                     :disabled="selected.length == 0 || !billingRecordsAreInitOrPending(selected)"
-                    v-bind="attrs"
-                    fab
-                    small
+                    icon
+                    size="small"
                     color="red"
                     @click="deleteSelectedBillingRecords()"
                   >
@@ -1125,15 +1132,14 @@ export default {
               <span>{{ deleteSelectedToolTip }}</span>
             </v-tooltip>
           </v-col>
-          <v-col v-if="allowUsageReport && facility.hasUsageReport">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
+          <v-col class="flex-grow-0 ml-2" v-if="allowUsageReport && facility.hasUsageReport">
+            <v-tooltip location='top'>
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
                   <v-btn
                     :disabled="!organization"
-                    v-bind="attrs"
-                    fab
-                    small
+                    icon
+                    size="small"
                     color="yellow"
                     @click="openGetUsageReportDialog()"
                   >
