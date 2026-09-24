@@ -137,10 +137,10 @@ export default {
           hide: !this.showDates && !this.showStartDate,
           namedSlot: true,
         },
-        { text: 'End Date', value: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
-        { text: 'Rate', value: 'rate', sortable: true, namedSlot: true, width: '100px' },
-        { text: 'Charge', value: 'decimalCharge', sortable: true, width: '100px' },
-        { text: 'Percent', value: 'percent', sortable: true, width: '100px' },
+        { title: 'End Date', key: 'endDate', sortable: true, hide: !this.showDates, namedSlot: true },
+        { title: 'Rate', key: 'rate', sortable: true, namedSlot: true, width: '100px' },
+        { title: 'Charge', key: 'decimalCharge', sortable: true, width: '100px' },
+        { title: 'Percent', key: 'percent', sortable: true, width: '100px' },
         {
           title: 'Usage id',
           key: 'productUsage',
@@ -352,19 +352,27 @@ export default {
           const header = this.allHeaders[j]
           const keys = header.key.split('.')
           const formattedKey = header.title
-          let value = this.filteredItems[i]
+          let item = this.filteredItems[i]
+          let value = item  
           keys.forEach((key) => {
             value = value[key]
           })
           if (!value && value !== false) continue
           if (header.key === 'startDate' || header.key === 'endDate') {
             value = moment(String(value)).format('M/DD/YYYY h:mm A')
+            if (!value) {
+              value = "None"
+            }
           } else if (header.key.toLowerCase().includes('date')) {
             value = value.substring(0, 10)
           } else if (header.key === 'account.organization') {
             value = this.$api.organization.parseSlug(value).name
           } else if (header.key === 'transactions') {
             value = value.map((v) => v.description).join('; ')
+          } else if (header.key === 'rate') {
+            value = value.name
+          } else if (header.key === 'productUsage') {
+              value = `${item.productUsageLinkText ? item.productUsageLinkText : value.id}`
           }
           newRecord[formattedKey] = value
         }
