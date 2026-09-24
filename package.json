@@ -32,7 +32,7 @@
     "vue": "^3.4.0",
     "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0",
-    "vuetify": "^3.11.2",
+    "vuetify": "^3.12.6",
     "node-releases": "2.0.36"
   },
   "devDependencies": {
