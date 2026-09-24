@@ -353,7 +353,7 @@ export default {
           const keys = header.key.split('.')
           const formattedKey = header.title
           let item = this.filteredItems[i]
-          let value = item  
+          let value = item
           keys.forEach((key) => {
             value = value[key]
           })
@@ -361,7 +361,7 @@ export default {
           if (header.key === 'startDate' || header.key === 'endDate') {
             value = moment(String(value)).format('M/DD/YYYY h:mm A')
             if (!value) {
-              value = "None"
+              value = 'None'
             }
           } else if (header.key.toLowerCase().includes('date')) {
             value = value.substring(0, 10)
@@ -372,7 +372,7 @@ export default {
           } else if (header.key === 'rate') {
             value = value.name
           } else if (header.key === 'productUsage') {
-              value = `${item.productUsageLinkText ? item.productUsageLinkText : value.id}`
+            value = `${item.productUsageLinkText ? item.productUsageLinkText : value.id}`
           }
           newRecord[formattedKey] = value
         }
@@ -417,7 +417,7 @@ export default {
     },
     approve(all) {
       if (all) {
-        this.selected = this.items.map((item => item.id))
+        this.selected = this.items.map((item) => item.id)
       }
       this.updating = true
       this.setState(this.selectedItemObjects, 'LAB_APPROVED')
@@ -729,7 +729,7 @@ export default {
       return list
     },
     async openChangeExpenseCodeDialog() {
-      this.recordIDsToBeChanged = this.selected.slice()  // this.selected is now an array of IDs, so we can use it directly
+      this.recordIDsToBeChanged = this.selected.slice() // this.selected is now an array of IDs, so we can use it directly
       this.showChangeExpenseCodeDialog = true
     },
     closeChangeExpenseCodeDialog() {
@@ -858,198 +858,179 @@ export default {
               <v-progress-circular indeterminate color="primary"></v-progress-circular>
             </span>
             <span v-else class="d-inline-flex flex-nowrap justify-end align-start flex-grow-0">
-                <IFXMailButton
-                  v-if="useDefaultMailButton"
-                  v-model="recipientField"
-                  :disabled="!filteredItems.length"
-                  toolTip="Notify Lab Managers"
-                  @input="defaultNotifyLabManagers()"
-                ></IFXMailButton>
-                <v-tooltip location="top" v-else>
-                  <template v-slot:activator="{ props }">
-                    <div>
-                      <v-menu v-model="mailFab" location="bottom">
-                        <template v-slot:activator="{ props: menuProps }">
-                          <v-btn v-bind="{ ...props, ...menuProps }" size="small" color="green" icon>
-                            <v-icon color="white" v-if="mailFab">mdi-close</v-icon>
-                            <v-icon color="white" v-else>mdi-email-send-outline</v-icon>
-                          </v-btn>
-                        </template>
-                        <v-list>
-                          <v-list-item @click="openNotifyDialog" title="Notify Lab Managers" />
-                          <v-list-item @click="goToComposeMessage('to')" :disabled="!filteredItems.length" title="Send a message to selected Lab Managers" />
-                          <v-list-item @click="goToComposeMessage('cc')" :disabled="!filteredItems.length" title="CC selected Lab Managers" />
-                          <v-list-item @click="goToComposeMessage('bcc')" :disabled="!filteredItems.length" title="BCC selected Lab Managers" />
-                        </v-list>
-                      </v-menu>
+              <IFXMailButton
+                v-if="useDefaultMailButton"
+                v-model="recipientField"
+                :disabled="!filteredItems.length"
+                toolTip="Notify Lab Managers"
+                @input="defaultNotifyLabManagers()"
+              ></IFXMailButton>
+              <v-tooltip location="top" v-else>
+                <template v-slot:activator="{ props }">
+                  <div>
+                    <v-menu v-model="mailFab" location="bottom">
+                      <template v-slot:activator="{ props: menuProps }">
+                        <v-btn v-bind="{ ...props, ...menuProps }" size="small" color="green" icon>
+                          <v-icon color="white" v-if="mailFab">mdi-close</v-icon>
+                          <v-icon color="white" v-else>mdi-email-send-outline</v-icon>
+                        </v-btn>
+                      </template>
+                      <v-list>
+                        <v-list-item @click="openNotifyDialog" title="Notify Lab Managers" />
+                        <v-list-item
+                          @click="goToComposeMessage('to')"
+                          :disabled="!filteredItems.length"
+                          title="Send a message to selected Lab Managers"
+                        />
+                        <v-list-item
+                          @click="goToComposeMessage('cc')"
+                          :disabled="!filteredItems.length"
+                          title="CC selected Lab Managers"
+                        />
+                        <v-list-item
+                          @click="goToComposeMessage('bcc')"
+                          :disabled="!filteredItems.length"
+                          title="BCC selected Lab Managers"
+                        />
+                      </v-list>
+                    </v-menu>
 
-                      <v-dialog v-model="notifyDialog" max-width="600px">
-                        <v-card>
-                          <v-card-title>
-                            <span class="text-h5">Notify Lab Managers</span>
-                          </v-card-title>
-                          <v-card-text>
-                            <v-form v-model="isValid">
-                              <v-row class="text-body-1">
-                                <v-col v-if="selected.length">
-                                  <div class="mb-2">Send to the managers for the following labs:</div>
-                                    <ul class="lab-manager-list">
-                                      <li v-for="org in getSelectedOrgs()" :key="org" class="font-weight-medium">
-                                        {{ $api.organization.parseSlug(org).name }}
-                                      </li>
-                                    </ul>
-                                </v-col>
-                                <v-col v-else>
-                                  <div class="font-weight-medium">Send to all lab managers</div>
-                                </v-col>
-                              </v-row>
-                              <v-row density="compact">
-                                <v-col cols="12">
-                                  <div class="text-divider font-italic text-center mt-2">
-                                    Or specify email addresses directly
-                                  </div>
-                                  <IFXContactablesCombobox
-                                    label="To:"
-                                    v-model="selectedContactables"
-                                    :contactables="contactables"
-                                  />
-                                </v-col>
-                              </v-row>
-                              <div v-if="sendingNotifications">
-                                Sending emails...
-                                <v-progress-linear indeterminate></v-progress-linear>
-                              </div>
-                              <v-row density="compact" v-if="emailResponse">
-                                <v-col cols="12" class="text-body-1 results-section">
-                                  <div class="text-body-1 font-weight-medium text-center">
-                                    Email Notification Results
-                                  </div>
-                                  <div class="text-body-2 font-weight-regular text-center">
-                                    Sent to {{ buildNotificationlList() }}
-                                  </div>
-                                  <div v-if="emailResponse.successes.length" class="my-3 pb-2 border-bottom">
-                                    Successfully
-                                    <span class="text-green">sent</span>
-                                    for the following organizations:
-                                    <ul class="lab-manager-list">
-                                      <li v-for="value in emailResponse.successes" :key="value">
-                                        <span>{{ value }}</span>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div
-                                    v-if="Object.keys(emailResponse.errors).length"
-                                    class="my-3 pb-2 border-bottom"
-                                  >
-                                    The following
-                                    <span class="red--text">errors</span>
-                                    occurred trying to send emails:
-                                    <ul class="list-style-none mt-1">
-                                      <li v-for="(value, key) in emailResponse.errors" :key="key">
-                                        <span>To the {{ key }}</span>
-                                        <ul class="error-list">
-                                          <li v-for="error in value" :key="error">
-                                            {{ error }}
-                                          </li>
-                                        </ul>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div v-if="emailResponse.nobrs.length" class="my-3 pb-2 border-bottom">
-                                    The following organizations had&nbsp;
-                                    <span class="yellow--text text--darken-3">no billing records</span>
-                                    :
-                                    <ul class="lab-manager-list">
-                                      <li v-for="value in emailResponse.nobrs" :key="value">
-                                        <span>{{ value }}</span>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </v-col>
-                              </v-row>
-                            </v-form>
-                          </v-card-text>
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="secondary" text @click="notifyDialog = false">
-                              {{ emailResponse ? 'Close' : 'Cancel' }}
-                            </v-btn>
-                            <v-btn color="blue darken-1" text :disabled="!isValid" @click="notifyLabManagers">
-                              Notify
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </v-dialog>
-                    </div>
-                  </template>
-                  <span>Notify Lab Managers</span>
-                </v-tooltip>
+                    <v-dialog v-model="notifyDialog" max-width="600px">
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h5">Notify Lab Managers</span>
+                        </v-card-title>
+                        <v-card-text>
+                          <v-form v-model="isValid">
+                            <v-row class="text-body-1">
+                              <v-col v-if="selected.length">
+                                <div class="mb-2">Send to the managers for the following labs:</div>
+                                <ul class="lab-manager-list">
+                                  <li v-for="org in getSelectedOrgs()" :key="org" class="font-weight-medium">
+                                    {{ $api.organization.parseSlug(org).name }}
+                                  </li>
+                                </ul>
+                              </v-col>
+                              <v-col v-else>
+                                <div class="font-weight-medium">Send to all lab managers</div>
+                              </v-col>
+                            </v-row>
+                            <v-row density="compact">
+                              <v-col cols="12">
+                                <div class="text-divider font-italic text-center mt-2">
+                                  Or specify email addresses directly
+                                </div>
+                                <IFXContactablesCombobox
+                                  label="To:"
+                                  v-model="selectedContactables"
+                                  :contactables="contactables"
+                                />
+                              </v-col>
+                            </v-row>
+                            <div v-if="sendingNotifications">
+                              Sending emails...
+                              <v-progress-linear indeterminate></v-progress-linear>
+                            </div>
+                            <v-row density="compact" v-if="emailResponse">
+                              <v-col cols="12" class="text-body-1 results-section">
+                                <div class="text-body-1 font-weight-medium text-center">Email Notification Results</div>
+                                <div class="text-body-2 font-weight-regular text-center">
+                                  Sent to {{ buildNotificationlList() }}
+                                </div>
+                                <div v-if="emailResponse.successes.length" class="my-3 pb-2 border-bottom">
+                                  Successfully
+                                  <span class="text-green">sent</span>
+                                  for the following organizations:
+                                  <ul class="lab-manager-list">
+                                    <li v-for="value in emailResponse.successes" :key="value">
+                                      <span>{{ value }}</span>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div v-if="Object.keys(emailResponse.errors).length" class="my-3 pb-2 border-bottom">
+                                  The following
+                                  <span class="red--text">errors</span>
+                                  occurred trying to send emails:
+                                  <ul class="list-style-none mt-1">
+                                    <li v-for="(value, key) in emailResponse.errors" :key="key">
+                                      <span>To the {{ key }}</span>
+                                      <ul class="error-list">
+                                        <li v-for="error in value" :key="error">
+                                          {{ error }}
+                                        </li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div v-if="emailResponse.nobrs.length" class="my-3 pb-2 border-bottom">
+                                  The following organizations had&nbsp;
+                                  <span class="yellow--text text--darken-3">no billing records</span>
+                                  :
+                                  <ul class="lab-manager-list">
+                                    <li v-for="value in emailResponse.nobrs" :key="value">
+                                      <span>{{ value }}</span>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="secondary" text @click="notifyDialog = false">
+                            {{ emailResponse ? 'Close' : 'Cancel' }}
+                          </v-btn>
+                          <v-btn color="blue darken-1" text :disabled="!isValid" @click="notifyLabManagers">
+                            Notify
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
+                </template>
+                <span>Notify Lab Managers</span>
+              </v-tooltip>
             </span>
           </v-col>
           <v-col class="pa-2 flex-grow-0" v-if="allowApprovals">
-            <!-- <v-row dense class="d-flex flex-nowrap">
-              <v-col> -->
-                <v-tooltip location='top'>
-                  <template v-slot:activator="{ props }">
-                    <div v-bind="props">
-                      <v-btn
-                        :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
-                        size="small"
-                        color="green"
-                        @click="approve()"
-                      >
-                        <v-icon dark>done</v-icon>
-                      </v-btn>
-                    </div>
-                  </template>
-                  <span>{{ approveSelectedToolTip }}</span>
-                </v-tooltip>
-              <!-- </v-col>
-            </v-row> -->
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
+                  <v-btn
+                    :disabled="selected.length == 0 || billingRecordsAreFinal(selected)"
+                    size="small"
+                    color="green"
+                    @click="approve()"
+                  >
+                    <v-icon dark>done</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              <span>{{ approveSelectedToolTip }}</span>
+            </v-tooltip>
           </v-col>
           <v-col class="pa-2 pr-0 flex-grow-0" v-if="allowDownloads">
-            <!-- <v-row dense>
-              <v-col> -->
-                <v-tooltip location='top'>
-                  <template v-slot:activator="{ props }">
-                    <div v-bind="props">
-                      <!-- <download-csv
-                        :class="{ 'download-disabled': isLoading }"
-                        :labels="getLabelsForExport()"
-                        :data="getDataForExport()"
-                        :name="getNameForExport()"
-                      >
-                        <IFXButton
-                          :disabled="isLoading"
-                          size="small"
-                          class="download-btn"
-                          btnType="download"
-                        ></IFXButton>
-                      </download-csv> -->
-                      <download-excel
-                        :class="{ 'download-disabled': isLoading }"
-                        :fields="getFieldsForExport()"
-                        :data="getDataForExport()"
-                        :name="getNameForExport()"
-                        type="csv"
-                        :escapeCsv="true"
-                      >
-                        <IFXButton
-                          :disabled="isLoading"
-                          size="small"
-                          class="download-btn"
-                          btnType="download"
-                        ></IFXButton>
-                      </download-excel>
-                    </div>
-                  </template>
-                  <span>Download billing records in csv format</span>
-                </v-tooltip>
-              <!-- </v-col>
-            </v-row> -->
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
+                  <download-excel
+                    :class="{ 'download-disabled': isLoading }"
+                    :fields="getFieldsForExport()"
+                    :data="getDataForExport()"
+                    :name="getNameForExport()"
+                    type="csv"
+                    :escapeCsv="true"
+                  >
+                    <IFXButton :disabled="isLoading" size="small" class="download-btn" btnType="download"></IFXButton>
+                  </download-excel>
+                </div>
+              </template>
+              <span>Download billing records in csv format</span>
+            </v-tooltip>
           </v-col>
           <v-col class="flex-grow-0 ml-2" v-if="allowChangeExpenseCode">
-            <v-tooltip location='top'>
+            <v-tooltip location="top">
               <template v-slot:activator="{ props }">
                 <div v-bind="props">
                   <v-btn
@@ -1068,54 +1049,42 @@ export default {
             </v-tooltip>
           </v-col>
           <v-col class="pa-2 flex-grow-0" v-if="allowInvoiceGeneration">
-            <!-- <v-row dense>
-              <v-col> -->
-                <v-tooltip location='top'>
-                  <template v-slot:activator="{ props }">
-                    <div v-bind="props">
-                      <v-btn
-                        :disabled="
-                          isLoading ||
-                          selected.length == 0 ||
-                          !$api.auth.can('generate-invoices', $api.authUser)
-                        "
-                        :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
-                        size="small"
-                        icon
-                        @click="generateInvoices()"
-                      >
-                        <v-icon>payments</v-icon>
-                      </v-btn>
-                    </div>
-                  </template>
-                  <span>{{ generateInvoicesToolTip }}</span>
-                </v-tooltip>
-              <!-- </v-col>
-            </v-row> -->
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
+                  <v-btn
+                    :disabled="isLoading || selected.length == 0 || !$api.auth.can('generate-invoices', $api.authUser)"
+                    :color="billingRecordsAreFinal(selected) ? 'error' : 'blue'"
+                    size="small"
+                    icon
+                    @click="generateInvoices()"
+                  >
+                    <v-icon>payments</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              <span>{{ generateInvoicesToolTip }}</span>
+            </v-tooltip>
           </v-col>
           <v-col class="pa-2 flex-grow-0" v-if="allowInvoiceGeneration">
-            <!-- <v-row dense>
-              <v-col> -->
-                <v-tooltip location='top'>
-                  <template v-slot:activator="{ props }">
-                    <div v-bind="props">
-                      <v-btn
-                        :disabled="isLoading || !$api.auth.can('generate-invoices', $api.authUser)"
-                        color="blue"
-                        size="small"
-                        @click="generateInvoices((wholeMonth = true))"
-                      >
-                        <v-icon>mdi-calendar-month</v-icon>
-                      </v-btn>
-                    </div>
-                  </template>
-                  <span>Deactivate any existing invoices and process the entire month</span>
-                </v-tooltip>
-              <!-- </v-col>
-            </v-row> -->
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
+                  <v-btn
+                    :disabled="isLoading || !$api.auth.can('generate-invoices', $api.authUser)"
+                    color="blue"
+                    size="small"
+                    @click="generateInvoices((wholeMonth = true))"
+                  >
+                    <v-icon>mdi-calendar-month</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              <span>Deactivate any existing invoices and process the entire month</span>
+            </v-tooltip>
           </v-col>
           <v-col class="flex-grow-0 ml-2" v-if="allowDeleteBillingRecords">
-            <v-tooltip location='top'>
+            <v-tooltip location="top">
               <template v-slot:activator="{ props }">
                 <div v-bind="props">
                   <v-btn
@@ -1133,16 +1102,10 @@ export default {
             </v-tooltip>
           </v-col>
           <v-col class="flex-grow-0 ml-2" v-if="allowUsageReport && facility.hasUsageReport">
-            <v-tooltip location='top'>
+            <v-tooltip location="top">
               <template v-slot:activator="{ props }">
                 <div v-bind="props">
-                  <v-btn
-                    :disabled="!organization"
-                    icon
-                    size="small"
-                    color="yellow"
-                    @click="openGetUsageReportDialog()"
-                  >
+                  <v-btn :disabled="!organization" icon size="small" color="yellow" @click="openGetUsageReportDialog()">
                     <!-- <v-icon dark>mdi-file-replace-outline</v-icon> -->
                     <v-icon dark>mdi-hammer-wrench</v-icon>
                   </v-btn>
@@ -1178,7 +1141,7 @@ export default {
             @toggle-select-all="toggleSelectAll"
           >
             <template v-slot:group-header="{ item, columns, toggleGroup: toggleGroupSlot, isGroupOpen }">
-              <tr style="background-color: rgb(238, 238, 238);">
+              <tr style="background-color: rgb(238, 238, 238)">
                 <td :colspan="columns.length" class="">
                   <div class="d-flex align-center w-100">
                     <div v-if="showCheckboxes" class="force-compact-checkbox">
