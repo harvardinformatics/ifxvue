@@ -153,7 +153,7 @@ export default {
               :rules="formRules.generic"
               :error-messages="errors.facility"
               :items="allFacilities"
-              item-text="name"
+              item-title="name"
               item-value="name"
               required
               @focus="clearError('facility')"
