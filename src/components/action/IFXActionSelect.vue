@@ -1,26 +1,25 @@
 <template>
   <span>
     <IFXActionDialog
-      :selectedAction='selectedAction'
-      :selectedItems='selectedItemsLocal'
-      v-model:isActive='isDialogActive'
-      @cancel-action='cancelAction'
-      @complete-action='completeAction'
+      :selectedAction="selectedAction"
+      :selectedItems="selectedItemsLocal"
+      v-model:isActive="isDialogActive"
+      @cancel-action="cancelAction"
+      @complete-action="completeAction"
     ></IFXActionDialog>
     <v-select
       class="action-item"
       :items="computedActions"
-      item-text="name"
-      return-object
-      v-model="selectedAction"
-      @change='toggleDialog'
+      item-title="name"
+      item-value="key"
+      :model-value="selectedActionKey"
+      @update:modelValue="toggleDialog($event)"
       label="Available Actions"
       hint="Select"
-      :disabled='isDisabled'
-      ref='actionSelectField'
-      data-cy='action-select'
-    >
-    </v-select>
+      :disabled="isDisabled"
+      ref="actionSelectField"
+      data-cy="action-select"
+    />
   </span>
 </template>
 
@@ -32,43 +31,44 @@ import { mapActions } from 'vuex'
 export default {
   name: 'IFXActionSelect',
   components: {
-    IFXActionDialog
+    IFXActionDialog,
   },
   props: {
     actions: {
       type: Array,
       required: false,
-      default: () => []
+      default: () => [],
     },
     // Allows user to indicate which of the default actions should be allowed
     // The key corresponds to the key of action in the library
     actionKeys: {
       type: Array,
       required: false,
-      default: () => []
+      default: () => [],
     },
     apiRef: {
       type: Object,
-      required: false
+      required: false,
     },
     selectedItems: {
       type: Array,
-      required: true
+      required: true,
     },
     allItems: {
       type: Array,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       isDialogActive: false,
-      selectedAction: {}
+      selectedActionKey: null,
     }
   },
   methods: {
     ...mapActions(['showMessage']),
-    toggleDialog() {
+    toggleDialog(val) {
+      this.selectedActionKey = val
       this.isDialogActive = !this.isDialogActive
     },
     updateUser(user) {
@@ -76,12 +76,12 @@ export default {
     },
     cancelAction() {
       this.toggleDialog()
-      this.selectedAction = {}
+      this.selectedActionKey = null
     },
     resetSelect() {
       this.toggleDialog()
       this.selectedItemsLocal = []
-      this.selectedAction = {}
+      this.selectedActionKey = null
     },
     async completeAction() {
       await this.sleep(100)
@@ -102,7 +102,7 @@ export default {
       } finally {
         this.resetSelect()
       }
-    }
+    },
   },
   computed: {
     selectedItemsLocal: {
@@ -111,7 +111,7 @@ export default {
       },
       set(selectedItems) {
         this.$emit('update:selectedItems', selectedItems)
-      }
+      },
     },
     // Library of default actions
     // key: used to reference the action
@@ -129,16 +129,18 @@ export default {
           name: 'Activate User Login',
           description: `This will activate the ${this.$api.vars.appNameFormatted} login for the selected users.`,
           condition: (user) => !user.isActive,
-          execute: async (selected) => Promise.all(selected.map((u) => {
-            const user = u
-            user.isActive = true
-            user.changeComment = `Enable login for ${user.fullName}.`
-            return this.$api.user.update(user)
-              .catch((err) => this.showMessage(err))
-          })),
+          execute: async (selected) =>
+            Promise.all(
+              selected.map((u) => {
+                const user = u
+                user.isActive = true
+                user.changeComment = `Enable login for ${user.fullName}.`
+                return this.$api.user.update(user).catch((err) => this.showMessage(err))
+              })
+            ),
           onSuccess: () => this.showMessage('Activation successful.'),
           onError: (error) => this.showMessage(error),
-          allowMultiple: true
+          allowMultiple: true,
         },
         {
           key: 'loadMessage',
@@ -152,23 +154,25 @@ export default {
           onSuccess: () => this.rtr.push({ name: 'MailingCompose' }),
           onError: (error) => this.showMessage(error),
           condition: (item) => item,
-          allowMultiple: false
+          allowMultiple: false,
         },
         {
           key: 'deactivateUserLogin',
           name: 'Deactivate User Login',
           description: `This will deactivate the ${this.$api.vars.appNameFormatted} login for the selected users.`,
           condition: (user) => user.isActive,
-          execute: async (selected) => Promise.all(selected.map((u) => {
-            const user = u
-            user.isActive = false
-            user.changeComment = `Disable login for ${user.fullName}.`
-            return this.$api.user.update(user)
-              .catch((err) => this.showMessage(err))
-          })),
+          execute: async (selected) =>
+            Promise.all(
+              selected.map((u) => {
+                const user = u
+                user.isActive = false
+                user.changeComment = `Disable login for ${user.fullName}.`
+                return this.$api.user.update(user).catch((err) => this.showMessage(err))
+              })
+            ),
           onSuccess: () => this.showMessage('Deactivation successful.'),
           onError: (error) => this.showMessage(error),
-          allowMultiple: true
+          allowMultiple: true,
         },
         {
           key: 'addMailingTo',
@@ -182,7 +186,7 @@ export default {
           onSuccess: () => this.rtr.push({ name: 'MailingCompose' }),
           onError: (error) => this.showMessage(error),
           condition: (item) => item,
-          allowMultiple: true
+          allowMultiple: true,
         },
         {
           key: 'addMailingCC',
@@ -196,7 +200,7 @@ export default {
           onSuccess: () => this.rtr.push({ name: 'MailingCompose' }),
           onError: (error) => this.showMessage(error),
           condition: (item) => item,
-          allowMultiple: true
+          allowMultiple: true,
         },
         {
           key: 'addMailingBCC',
@@ -210,7 +214,7 @@ export default {
           onSuccess: () => this.rtr.push({ name: 'MailingCompose' }),
           onError: (error) => this.showMessage(error),
           condition: (item) => item,
-          allowMultiple: true
+          allowMultiple: true,
         },
         {
           key: 'loadMailing',
@@ -224,34 +228,38 @@ export default {
           onSuccess: () => this.rtr.push({ name: 'MailingCompose' }),
           onError: (error) => this.showMessage(error),
           condition: (item) => item,
-          allowMultiple: false
+          allowMultiple: false,
         },
         {
           key: 'deleteItems',
           name: 'Delete',
           description: 'This action will delete the selected items.',
-          execute: async (selected) => Promise.all(selected.map((i) => {
-            const item = i
-            return this.apiRef.delete(item)
-              .catch((err) => this.showMessage(err))
-          })),
+          execute: async (selected) =>
+            Promise.all(
+              selected.map((i) => {
+                const item = i
+                return this.apiRef.delete(item).catch((err) => this.showMessage(err))
+              })
+            ),
           onSuccess: () => {
             this.$emit('get-set-items')
             this.showMessage('Items deleted.')
           },
           onError: (error) => this.showMessage(error),
           condition: (item) => item,
-          allowMultiple: true
+          allowMultiple: true,
         },
         {
           key: 'deleteOrganizations',
           name: 'Delete',
           description: 'This action will delete the selected organizations.',
-          execute: async (selected) => Promise.all(selected.map((o) => {
-            const organization = o
-            return this.apiRef.delete(organization)
-              .catch((err) => this.showMessage(err))
-          })),
+          execute: async (selected) =>
+            Promise.all(
+              selected.map((o) => {
+                const organization = o
+                return this.apiRef.delete(organization).catch((err) => this.showMessage(err))
+              })
+            ),
           onSuccess: () => {
             this.$emit('get-set-items')
             this.showMessage('Organizations deleted')
@@ -259,28 +267,30 @@ export default {
           onError: (error) => this.showMessage(error),
           // TODO: check if this is sufficient for deleting organization
           condition: (item) => !item.orgTree.includes('nanites'),
-          allowMultiple: true
+          allowMultiple: true,
         },
         {
           key: 'deleteContacts',
           name: 'Delete',
           description: 'This action will delete the selected contacts.',
-          execute: async (selected) => Promise.all(selected.map((c) => {
-            const contact = c
-            return this.apiRef.delete(contact)
-              .catch((err) => this.showMessage(err))
-          })),
+          execute: async (selected) =>
+            Promise.all(
+              selected.map((c) => {
+                const contact = c
+                return this.apiRef.delete(contact).catch((err) => this.showMessage(err))
+              })
+            ),
           onSuccess: () => {
             this.$emit('get-set-items')
             this.showMessage('Contacts deleted.')
           },
           onError: (error) => this.showMessage(error),
           condition: (item) => !item.ifxcon,
-          allowMultiple: true
-        }
+          allowMultiple: true,
+        },
       ]
       // Only use those default actions which have been specified by the user in the actionKeys prop
-      return actions.filter(dAction => this.actionKeys.find(aKey => dAction.key === aKey))
+      return actions.filter((dAction) => this.actionKeys.find((aKey) => dAction.key === aKey))
     },
     /**
      * Filter actions by their condition, i.e. if every item in selected passes the defined condition
@@ -291,28 +301,42 @@ export default {
       const userDefinedActions = this.actions
       let actions = [this.defaultActions, userDefinedActions].flat()
       // Filter actions for those that pass the condition
-      actions = actions.filter(a => this.selectedItemsLocal.every(s => a.condition(s)))
+      actions = actions.filter((a) => this.selectedItemsLocal.every((s) => a.condition(s)))
       // If more than one is selected, filter any actions that do not allow multiple
       if (this.selectedItemsLocal.length > 1) {
-        actions = actions.filter(a => a.allowMultiple)
+        actions = actions.filter((a) => a.allowMultiple)
       }
       return actions
     },
     isDisabled() {
       return !this.selectedItemsLocal.length || !this.computedActions.length
     },
+    selectedAction() {
+      return this.computedActions.find((a) => a.key === this.selectedActionKey) || {}
+    },
   },
 }
 </script>
 
 <style scoped>
-  .dialog-item {
-    margin-top: 0.8rem;
-  }
-  .dialog-label {
-    font-weight: 700;
-  }
-  .dialog-text {
-    font-weight: 400;
-  }
+.dialog-item {
+  margin-top: 0.8rem;
+}
+.dialog-label {
+  font-weight: 700;
+}
+.dialog-text {
+  font-weight: 400;
+}
+.action-item {
+  display: inline-block !important;
+  margin-right: 2rem;
+  min-width: 200px;
+}
+</style>
+
+<style lang="scss">
+.v-input__details {
+  display: none !important;
+}
 </style>
