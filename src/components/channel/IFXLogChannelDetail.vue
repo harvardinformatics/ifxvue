@@ -217,7 +217,7 @@ export default {
             :loading="isLoadingSubscriptions"
             :items="filteredSubscriptions"
             :headers="headers"
-            :selected.sync="selected"
+            v-model:selected="selected"
             itemType="IFXLogSubscription">
             <template #user="{ item }">
               <span>{{ item.user.fullName }}</span>

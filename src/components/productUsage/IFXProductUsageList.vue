@@ -103,7 +103,7 @@ export default {
           :actionKeys="['deleteItems']"
           :apiRef="apiRef"
           @get-set-items="getSetItems"
-          v-model:selectedItems="selected"
+          v-model:selected="selected"
         />
         <IFXButton btnType="add" small @action="navigateToItemCreate" />
       </template>
