@@ -179,7 +179,6 @@ export {
   IFXAPIService,
   IFXTextEditor,
   IFXSearchField,
-  IFXMonthYearDatePicker,
   IFXItemSelectList,
   IFXItemCreateEditMixin,
   IFXItemDetailMixin,
@@ -304,6 +303,7 @@ export const ifxcomponents = {
   IFXPageHeader,
   IFXDataTableCell,
   IFXPageErrorDisplay,
+  IFXMonthYearDatePicker,
 }
 export const ifxmodules = {
   message,
