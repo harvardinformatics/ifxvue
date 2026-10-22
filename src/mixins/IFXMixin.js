@@ -280,13 +280,13 @@ export default {
          */
         generic: [
           (v) => {
-            // If input is object, like an autocomplete, check if empty
-            if (typeof v === 'object' && v !== null) {
-              return !!Object.keys(v).length || requiredFieldString
-            }
             // If input is array, check if empty
             if (Array.isArray(v)) {
               return !!v.length || requiredFieldString
+            }
+            // If input is object, like an autocomplete, check if empty
+            if (typeof v === 'object' && v !== null) {
+              return !!Object.keys(v).length || requiredFieldString
             }
             // Check if input is falsey
             return baseRule(v)
@@ -317,8 +317,9 @@ export default {
          */
         phone: [
           baseRule,
-          (v) => /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g.test(v)
-            || 'Phone number must be, digits, hyphens or parens only',
+          (v) =>
+            /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g.test(v) ||
+            'Phone number must be, digits, hyphens or parens only',
         ],
         /**
          * Checks if value is valid currency
@@ -332,6 +333,12 @@ export default {
          * @returns {boolean | string}
          */
         contactable: [baseRule, (v) => (!!v.firstName && !!v.lastName) || requiredFieldString],
+        /**
+         * Checks if value is a valid date
+         * @param {any} v
+         * @returns {boolean | string}
+         */
+        date: [baseRule, (v) => moment(v, 'YYYY-MM-DD', typeof v === 'string').isValid() || 'Date must be valid'],
       }
     },
   },
