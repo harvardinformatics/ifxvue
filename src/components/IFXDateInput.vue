@@ -9,7 +9,6 @@ export default {
     modelValue: { type: [String, Date], default: null },
     // moment format of the value held by v-model
     valueFormat: { type: String, default: 'YYYY-MM-DD' },
-    inputFormat: { type: String, default: 'YYYY-MM-DD' },
   },
   emits: ['update:modelValue'],
   computed: {
@@ -28,6 +27,5 @@ export default {
 }
 </script>
 <template>
-  <v-date-input v-model="dateValue" input-format="{{ inputFormat }}" v-bind="$attrs" />
+  <v-date-input v-model="dateValue" v-bind="$attrs" />
 </template>
-
