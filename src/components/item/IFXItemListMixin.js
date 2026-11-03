@@ -1,7 +1,6 @@
 /* eslint-disable no-continue */
 /* eslint-disable no-plusplus */
 import { mapActions } from 'vuex'
-// import has from 'lodash/has'
 
 export default {
   data() {
@@ -42,42 +41,6 @@ export default {
       const today = new Date()
       return `${this.itemType}_Export_${today.toISOString().substring(0, 10)}.csv`
     },
-    // Format data for export to file
-    // getDataForExport() {
-    //   const formattedItems = []
-    //   // Loop through filtered items
-    //   for (let i = 0; i < this.filteredItems.length; i++) {
-    //     const item = this.filteredItems[i]
-    //     // Init new record, will be a row in the exported file
-    //     const newRecord = {}
-    //     // Loop through column headers
-    //     for (let j = 0; j < this.headers.length; j++) {
-    //       const header = this.headers[j]
-    //       // Key used to access data
-    //       const key = header.key
-    //       // Formatted key for displayed that data in final file
-    //       const formattedKey = header.title
-    //       let value = item[key]
-    //       // If value is undefined, but not false
-    //       if (!value && value !== false) continue
-    //       // TODO: make this check more generalized for multiple item types
-    //       // Check for different item types
-    //       if (value.fullName) {
-    //         // If item is user or contact
-    //         value = value.fullName
-    //         // If item is organization
-    //       } else if (value.slug) {
-    //         value = value.slug
-    //         // If item has date
-    //       } else if (key.toLowerCase().includes('date')) {
-    //         value = value.substring(0, 10)
-    //       }
-    //       newRecord[formattedKey] = value
-    //     }
-    //     formattedItems.push(newRecord)
-    //   }
-    //   return formattedItems
-    // },
     getDataForExport() {
       /* eslint-disable no-plusplus, no-continue */
       const formattedItems = []
