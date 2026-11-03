@@ -1,7 +1,7 @@
 /* eslint-disable no-continue */
 /* eslint-disable no-plusplus */
 import { mapActions } from 'vuex'
-import has from 'lodash/has'
+// import has from 'lodash/has'
 
 export default {
   data() {
@@ -29,49 +29,96 @@ export default {
           })
       )
     },
-    getLabelsForExport() {
-      return this.headers.map((h) => h.title)
-    },
+    // getLabelsForExport() {
+    //   return this.headers.map((h) => h.title)
+    // },
     // Set name of exported file
+    getFieldsForExport() {
+      return Object.fromEntries(
+        this.headers.filter((h) => h.title && h.title !== 'Actions').map((h) => [h.title, h.title])
+      )
+    },
     getNameForExport() {
       const today = new Date()
       return `${this.itemType}_Export_${today.toISOString().substring(0, 10)}.csv`
     },
     // Format data for export to file
+    // getDataForExport() {
+    //   const formattedItems = []
+    //   // Loop through filtered items
+    //   for (let i = 0; i < this.filteredItems.length; i++) {
+    //     const item = this.filteredItems[i]
+    //     // Init new record, will be a row in the exported file
+    //     const newRecord = {}
+    //     // Loop through column headers
+    //     for (let j = 0; j < this.headers.length; j++) {
+    //       const header = this.headers[j]
+    //       // Key used to access data
+    //       const key = header.key
+    //       // Formatted key for displayed that data in final file
+    //       const formattedKey = header.title
+    //       let value = item[key]
+    //       // If value is undefined, but not false
+    //       if (!value && value !== false) continue
+    //       // TODO: make this check more generalized for multiple item types
+    //       // Check for different item types
+    //       if (value.fullName) {
+    //         // If item is user or contact
+    //         value = value.fullName
+    //         // If item is organization
+    //       } else if (value.slug) {
+    //         value = value.slug
+    //         // If item has date
+    //       } else if (key.toLowerCase().includes('date')) {
+    //         value = value.substring(0, 10)
+    //       }
+    //       newRecord[formattedKey] = value
+    //     }
+    //     formattedItems.push(newRecord)
+    //   }
+    //   return formattedItems
+    // },
     getDataForExport() {
+      /* eslint-disable no-plusplus, no-continue */
       const formattedItems = []
-      // Loop through filtered items
       for (let i = 0; i < this.filteredItems.length; i++) {
-        const item = this.filteredItems[i]
-        // Init new record, will be a row in the exported file
         const newRecord = {}
-        // Loop through column headers
         for (let j = 0; j < this.headers.length; j++) {
           const header = this.headers[j]
-          // Key used to access data
-          const key = header.value
-          // Formatted key for displayed that data in final file
+          const keys = header.key.split('.')
           const formattedKey = header.title
-          let value = item[key]
-          // If value is undefined, but not false
+          let item = this.filteredItems[i]
+          let value = item
+          keys.forEach((key) => {
+            value = value[key]
+          })
           if (!value && value !== false) continue
-          // TODO: make this check more generalized for multiple item types
-          // Check for different item types
-          if (value.fullName) {
+          if (header.key === 'startDate' || header.key === 'endDate') {
+            value = moment(String(value)).format('M/DD/YYYY h:mm A')
+            if (!value) {
+              value = 'None'
+            }
+          } else if (header.key.toLowerCase().includes('date')) {
+            value = value.substring(0, 10)
+          } else if (header.key === 'organization') {
+            value = this.$api.organization.parseSlug(value).name
+          } else if (header.key === 'fullName') {
             // If item is user or contact
             value = value.fullName
             // If item is organization
-          } else if (value.slug) {
+          } else if (header.key === 'slug') {
             value = value.slug
-            // If item has date
-          } else if (key.toLowerCase().includes('date')) {
-            value = value.substring(0, 10)
           }
           newRecord[formattedKey] = value
         }
         formattedItems.push(newRecord)
       }
       return formattedItems
+      /* eslint-enable no-plusplus, no-continue */
+    },
+    getNameForExport() {
+      const today = new Date()
+      return `BillingRecord_${this.facility.name}_Export_${today.toISOString().substring(0, 10)}.csv`
     },
     navigateToItemCreate() {
       this.$router.push({ name: `${this.itemType}Create`, query: { next: this.$route.path } })
