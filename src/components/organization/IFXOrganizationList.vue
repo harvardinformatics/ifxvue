@@ -184,11 +184,13 @@ export default {
             <v-tooltip top>
               <template v-slot:activator="{ props }">
                 <div v-bind="props">
-                  <download-csv
+                  <download-excel
                     :class="{ 'download-disabled': isLoading }"
-                    :labels="getLabelsForExport()"
+                    :labels="getFieldsForExport()"
                     :data="getDataForExport()"
                     :name="getNameForExport()"
+                    type="csv"
+                    :escapeCsv="true"
                   >
                     <IFXButton
                       :disabled="isLoading"
@@ -196,7 +198,7 @@ export default {
                       class="download-btn"
                       btnType="download"
                     ></IFXButton>
-                  </download-csv>
+                  </download-excel>
                 </div>
               </template>
               <span>Download records in csv format</span>
