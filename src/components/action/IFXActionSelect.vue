@@ -19,6 +19,7 @@
       :disabled="isDisabled"
       ref="actionSelectField"
       data-cy="action-select"
+      hide-details
     />
   </span>
 </template>
@@ -332,11 +333,5 @@ export default {
   display: inline-block !important;
   margin-right: 2rem;
   min-width: 200px;
-}
-</style>
-
-<style lang="scss">
-.v-input__details {
-  display: none !important;
 }
 </style>
