@@ -79,10 +79,6 @@ export default {
       return formattedItems
       /* eslint-enable no-plusplus, no-continue */
     },
-    getNameForExport() {
-      const today = new Date()
-      return `BillingRecord_${this.facility.name}_Export_${today.toISOString().substring(0, 10)}.csv`
-    },
     navigateToItemCreate() {
       this.$router.push({ name: `${this.itemType}Create`, query: { next: this.$route.path } })
     },
