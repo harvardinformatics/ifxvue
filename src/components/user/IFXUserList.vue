@@ -142,7 +142,7 @@ export default {
           <v-col>
             <v-checkbox class="action-item" label="Users only" v-model="usersOnly"></v-checkbox>
           </v-col>
-          <v-col>
+          <v-col class="flex-grow-0 flex-shrink-1">
             <IFXMailButton
               v-model="recipientField"
               :disabled="!selected.length"
@@ -150,18 +150,17 @@ export default {
               @input="composeEmail()"
             ></IFXMailButton>
           </v-col>
-          <v-col>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-on="on">
-                  <v-btn v-bind="attrs" small fab @click="updateAuthorizations()" color="secondary">
-                    <v-icon>verified_user</v-icon>
-                  </v-btn>
-                </div>
+          <v-col class="flex-grow-0 flex-shrink-1">
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" size="small" icon @click="updateAuthorizations()" color="secondary">
+                  <v-icon>mdi-shield-check</v-icon>
+                </v-btn>
               </template>
+              <span>Update Expense code / PO authorizations</span>
             </v-tooltip>
           </v-col>
-          <v-col>
+          <!-- <v-col>
             <v-row density="compact">
               <v-col>
                 <IFXMailButton
@@ -182,7 +181,7 @@ export default {
                 </v-tooltip>
               </v-col>
             </v-row>
-          </v-col>
+          </v-col> -->
           <v-col v-if="buttons && buttons.length">
             <v-row class="d-flex flex-row flex-nowrap" density="compact">
               <v-col v-for="(button, index) in buttons" :key="index" cols="auto">
