@@ -846,7 +846,7 @@ export default {
           <v-col cols="3">
             {{ facility.name }}
           </v-col>
-          <v-col class="flex-grow-1">
+          <v-col class="flex-grow-1 pr-3">
             <v-row>
               <v-col>
                 <IFXSearchField v-model:search="search" />
