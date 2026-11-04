@@ -137,10 +137,10 @@ export default {
             <IFXSearchField v-model:search="search" />
           </v-col>
           <v-col>
-            <v-checkbox class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
+            <v-checkbox hide-details class="action-item" label="Include disabled" v-model="includeDisabled"></v-checkbox>
           </v-col>
           <v-col>
-            <v-checkbox class="action-item" label="Users only" v-model="usersOnly"></v-checkbox>
+            <v-checkbox hide-details class="action-item" label="Users only" v-model="usersOnly"></v-checkbox>
           </v-col>
           <v-col class="flex-grow-0 flex-shrink-1">
             <IFXMailButton
