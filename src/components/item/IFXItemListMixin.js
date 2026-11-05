@@ -28,15 +28,12 @@ export default {
           })
       )
     },
-    // getLabelsForExport() {
-    //   return this.headers.map((h) => h.title)
-    // },
-    // Set name of exported file
     getFieldsForExport() {
       return Object.fromEntries(
         this.headers.filter((h) => h.title && h.title !== 'Actions').map((h) => [h.title, h.title])
       )
     },
+    // Set name of exported file
     getNameForExport() {
       const today = new Date()
       return `${this.itemType}_Export_${today.toISOString().substring(0, 10)}.csv`
