@@ -114,7 +114,8 @@ export default {
       return items
     },
     onfs(slug) {
-      return this.$options.filters.orgNameFromSlug(slug)
+      return this.$orgNameFromSlug(slug)
+      // return this.$options.filters.orgNameFromSlug(slug)
     },
     displayOrgRates(orgRates) {
       return orgRates.map((r) => {
