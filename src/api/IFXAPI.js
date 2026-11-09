@@ -670,7 +670,7 @@ export default class IFXAPIService {
         value: 'school',
         text: 'School',
       },
-    ]
+    ].map((r) => ({ ...r, title: r.text })) // Handle both Vuetify 2 and 3
     api.getValidRankByValue = (value) => api.validRanks.find((r) => r.value === value)
     api.getValidRankByText = (text) => api.validRanks.find((r) => r.text === text)
 
