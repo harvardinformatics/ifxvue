@@ -2,6 +2,7 @@
 // Includes helper methods and computed values used throughout the library
 
 import moment from 'moment'
+import isEqual from 'lodash/isEqual'
 
 // Helper methods for use in form rules, not included in main mixin so they can be referenced by main mixin
 const requiredFieldString = 'Required field'
@@ -57,16 +58,12 @@ export default {
     },
     /**
      * Checks if two values are different
-     * TODO: needs improvement, especially for complex, non-jsonifiable objects
      * @param {any} a valueA
      * @param {any} b valueB
      * @returns {boolean}
      */
     areValuesDifferent(a, b) {
-      if (a && b) {
-        return JSON.parse(JSON.stringify(a)) !== JSON.parse(JSON.stringify(b))
-      }
-      return a !== b
+      return !isEqual(a, b) // Let lodash do the work
     },
     /**
      * Gets first business day from now date
@@ -158,9 +155,8 @@ export default {
      * @returns {string} text of rank
      */
     formatOrganizationRank(rank) {
-      return this.$api.organization.getValidRankByValue(rank).text
-    },
-    /**
+      return this.$api.organization.getValidRankByValue(rank)?.text ?? ''
+    },    /**
      * Makes first character of string lowercase
      * @param {string} string
      * @returns {string} string with lowercase first char
