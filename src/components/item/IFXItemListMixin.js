@@ -30,7 +30,9 @@ export default {
     },
     getFieldsForExport() {
       return Object.fromEntries(
-        this.headers.filter((h) => h.title && h.title !== 'Actions').map((h) => [h.title, h.title])
+        this.headers
+          .filter((h) => (h.title ?? h.text) && (h.title ?? h.text) !== 'Actions')
+          .map((h) => [h.title ?? h.text, h.title ?? h.text])
       )
     },
     // Set name of exported file
