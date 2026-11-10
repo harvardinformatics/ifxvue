@@ -2,6 +2,7 @@
 import { mapActions } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 import moment from 'moment'
+import JsonExcel from 'vue-json-excel3'
 
 import IFXBillingRecordMixin from '@/components/billingRecord/IFXBillingRecordMixin'
 import IFXButton from '@/components/IFXButton'
@@ -18,6 +19,7 @@ export default {
     IFXContactablesCombobox,
     IFXMailButton,
     IFXBillingRecordHeaderDecimal,
+    DownloadExcel: JsonExcel,
   },
   mixins: [IFXBillingRecordMixin],
   props: {
