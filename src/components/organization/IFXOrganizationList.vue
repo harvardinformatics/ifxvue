@@ -186,7 +186,7 @@ export default {
                 <div v-bind="props">
                   <download-excel
                     :class="{ 'download-disabled': isLoading }"
-                    :labels="getFieldsForExport()"
+                    :fields="getFieldsForExport()"
                     :data="getDataForExport()"
                     :name="getNameForExport()"
                     type="csv"
