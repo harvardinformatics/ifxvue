@@ -60,9 +60,9 @@ export default {
         for (let j = 0; j < this.headers.length; j++) {
           const header = this.headers[j]
           // Key used to access data
-          const key = header.value
+          const key = header.key
           // Formatted key for displayed that data in final file
-          const formattedKey = header.text
+          const formattedKey = header.title
           let value = item[key]
           // If value is undefined, but not false
           if (!value && value !== false) continue
