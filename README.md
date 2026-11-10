@@ -53,6 +53,14 @@ This API can then be used to inialize the authUser (for authentication purposes,
 ## Components
 Some components in this library are installed by default. This can be configured by adding to the ifxcomponents variable in the entrypoint file, as can the specifics of any default import/export. This is true of Vuex modules, mixins, classes, etc.
 
+## Vuetify's Labs
+Some components we use are still in Vuetify's Labs and, therefore, should be imported directly. For example, `v-date-input`
+```
+// Each consuming app must register it in plugins/vuetify.js:
+//   import { VDateInput } from 'vuetify/labs/VDateInput'
+//   createVuetify({ components: { VDateInput } })
+```
+
 #### IFXMessageDisplay `<IFXDisplayMessage/>`
 This is a simple component that renders a message on top of the current page, using the Snackbar component from Vuetify. To use, place Message component at the top level of the application and activate using the showMessage action. This accepts strings or error objects. If an error object is passed, the Message component requires action from the user to be dismissed. Otherwise, the component persists for a period of time that is proportional to the length of the message being passed.
 
