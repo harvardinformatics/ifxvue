@@ -230,6 +230,20 @@ export default {
         : this.item.userFiles?.filter((file) => file.category !== 'User Photo')
       return userFiles && userFiles.length
     },
+    updateAuthorizations() {
+      this.$api
+        .updateAuthorizations([this.item.ifxid])
+        .then((result) => {
+          this.isLoading = true
+          this.init()
+          this.isLoading = false
+          const plural = result.data.successes > 1 ? 's' : ''
+          this.showMessage(`Successfully updated ${result.data.successes} user${plural}`)
+        })
+        .catch((error) => {
+          this.showMessage(error)
+        })
+    },
   },
   computed: {
     django_admin_url() {
@@ -304,6 +318,18 @@ export default {
             <span class="text-no-wrap">
               <IFXLoginIcon :disabled="true" v-if="item.isActive !== undefined" :isActive.sync="item.isActive" />
             </span>
+          </v-col>
+          <v-col>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <div v-on="on">
+                  <v-btn v-bind="attrs" small fab @click="updateAuthorizations()" color="secondary">
+                    <v-icon>verified_user</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              <span>Update Expense code / PO authorizations</span>
+            </v-tooltip>
           </v-col>
           <v-col v-if="isDjangoStaff()">
             <v-tooltip top>
