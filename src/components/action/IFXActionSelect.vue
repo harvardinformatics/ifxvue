@@ -313,7 +313,7 @@ export default {
       return !this.selectedItemsLocal.length || !this.computedActions.length
     },
     selectedAction() {
-      return this.computedActions.find((a) => a.key === this.selectedActionKey) || {}
+      return [...this.defaultActions, ...this.actions].find((a) => a.key === this.selectedActionKey) || {}
     },
   },
 }
