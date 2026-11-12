@@ -78,7 +78,7 @@ export default {
         .updateAuthorizations(ifxids)
         .then((result) => {
           this.authorizationMessageType = 'info'
-          const plural = result.data.successes.length > 1 ? 's' : ''
+          const plural = result.data.successes > 1 ? 's' : ''
           this.authorizationUpdateMessage = `Successfully updated ${result.data.successes} user${plural}`
         })
         .catch((error) => {
