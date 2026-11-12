@@ -9,9 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint src --ext .vue,.js,.jsx,.ts,.tsx --fix"
   },
-  "main": "dist/ifxvue.umd.js",
+  "main": "dist/ifxvue.es.js",
   "module": "dist/ifxvue.es.js",
-  "types": "dist/ifxvue.d.ts",
   "files": [
     "dist/*",
     "package.json"
