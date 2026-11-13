@@ -147,7 +147,7 @@ export default {
               v-model="recipientField"
               :disabled="!selected.length"
               toolTip="Email selected users"
-              @input="composeEmail()"
+              @update:modelValue="composeEmail()"
             ></IFXMailButton>
           </v-col>
           <v-col class="flex-grow-0 flex-shrink-1">
