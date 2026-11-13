@@ -1,4 +1,6 @@
 <script>
+import JsonExcel from 'vue-json-excel3'
+
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
@@ -13,6 +15,7 @@ export default {
     IFXSearchField,
     IFXItemDataTable,
     IFXMailButton,
+    DownloadExcel: JsonExcel,
   },
   watch: {
     selected: {
