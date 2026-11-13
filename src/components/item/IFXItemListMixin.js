@@ -58,10 +58,6 @@ export default {
             value = value.substring(0, 10)
           } else if (headerKey === 'organization') {
             value = this.$api.organization.parseSlug(value).name
-          } else if (headerKey === 'fullName') {
-            value = value.fullName
-          } else if (headerKey === 'slug') {
-            value = value.slug
           }
           newRecord[title] = value
         })
