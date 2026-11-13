@@ -54,7 +54,7 @@ export default {
       <template #actions>
         <v-row>
           <v-col sm="6">
-            <IFXSearchField :search.sync="search" />
+            <IFXSearchField v-model:search="search" />
           </v-col>
           <v-col>
             <v-row justify="end">
@@ -75,7 +75,7 @@ export default {
         </v-row>
       </template>
     </IFXPageHeader>
-    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" :selected.sync="selected" :itemType="itemType">
+    <IFXItemDataTable :loading="isLoading" :items="filteredItems" :headers="headers" v-model:selected="selected" :itemType="itemType">
     </IFXItemDataTable>
   </v-container>
 </template>

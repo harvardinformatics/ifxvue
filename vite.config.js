@@ -22,16 +22,13 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/entrypoint.js'),
       name: 'ifxvue',
       fileName: format => `ifxvue.${format}.js`,
-      formats: ['es', 'umd']
+      formats: ['es']
     },
     rollupOptions: {
-      external: ['vue', 'vuetify'],
+      external: [/^vue($|\/)/, /^vuetify($|\/)/],
       output: {
-        globals: {
-          vue: 'Vue',
-          vuetify: 'Vuetify'
-        }
-      }
+        globals: { vue: 'Vue', vuetify: 'Vuetify' },
+      },
     },
     minify: 'terser',
     sourcemap: false,

@@ -59,10 +59,11 @@ module.exports = {
     ],
     camelcase: 0,
     'class-methods-use-this': 0,
+    'vue/no-v-model-argument': 0,
     'import/no-unresolved': [2, { caseSensitive: false }],
     'no-console': process.env.NODE_ENV === 'production' ? 1 : 0,
     'no-debugger': process.env.NODE_ENV === 'production' ? 1 : 0,
-    'no-shadow': [2, { allow: ['state'] }],
+    'no-shadow': [2, { allow: ['state'] }]
   },
 
   overrides: [

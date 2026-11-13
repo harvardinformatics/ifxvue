@@ -1,7 +1,7 @@
 /* eslint-disable no-continue */
 /* eslint-disable no-plusplus */
 import { mapActions } from 'vuex'
-import has from 'lodash/has'
+import moment from 'moment'
 
 export default {
   data() {
@@ -29,48 +29,40 @@ export default {
           })
       )
     },
-    getLabelsForExport() {
-      return this.headers.map((h) => h.title)
+    getFieldsForExport() {
+      return Object.fromEntries(
+        this.headers
+          .filter((h) => (h.title ?? h.text) && (h.title ?? h.text) !== 'Actions')
+          .map((h) => [h.title ?? h.text, h.title ?? h.text])
+      )
     },
     // Set name of exported file
     getNameForExport() {
       const today = new Date()
       return `${this.itemType}_Export_${today.toISOString().substring(0, 10)}.csv`
     },
-    // Format data for export to file
     getDataForExport() {
+      const columns = this.headers
+        .map((h) => ({ key: h.key ?? h.value, title: h.title ?? h.text }))
+        .filter((c) => c.key && c.title && c.title !== 'Actions')
+    
       const formattedItems = []
-      // Loop through filtered items
-      for (let i = 0; i < this.filteredItems.length; i++) {
-        const item = this.filteredItems[i]
-        // Init new record, will be a row in the exported file
+      this.filteredItems.forEach((item) => {
         const newRecord = {}
-        // Loop through column headers
-        for (let j = 0; j < this.headers.length; j++) {
-          const header = this.headers[j]
-          // Key used to access data
-          const key = header.value
-          // Formatted key for displayed that data in final file
-          const formattedKey = header.title
-          let value = item[key]
-          // If value is undefined, but not false
-          if (!value && value !== false) continue
-          // TODO: make this check more generalized for multiple item types
-          // Check for different item types
-          if (value.fullName) {
-            // If item is user or contact
-            value = value.fullName
-            // If item is organization
-          } else if (value.slug) {
-            value = value.slug
-            // If item has date
-          } else if (key.toLowerCase().includes('date')) {
+        columns.forEach(({ key: headerKey, title }) => {
+          let value = headerKey.split('.').reduce((v, k) => v?.[k], item)
+          if (!value && value !== false) return
+          if (headerKey === 'startDate' || headerKey === 'endDate') {
+            value = moment(String(value)).format('M/DD/YYYY h:mm A')
+          } else if (headerKey.toLowerCase().includes('date')) {
             value = value.substring(0, 10)
+          } else if (headerKey === 'organization') {
+            value = this.$api.organization.parseSlug(value).name
           }
-          newRecord[formattedKey] = value
-        }
+          newRecord[title] = value
+        })
         formattedItems.push(newRecord)
-      }
+      })
       return formattedItems
     },
     navigateToItemCreate() {

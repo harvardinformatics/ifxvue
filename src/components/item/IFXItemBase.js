@@ -22,4 +22,12 @@ export default class ItemBase {
   get dateModified() {
     return this.data.date_modified
   }
+
+  get created() {
+    return this.data.created
+  }
+
+  get updated() {
+    return this.data.updated
+  }
 }

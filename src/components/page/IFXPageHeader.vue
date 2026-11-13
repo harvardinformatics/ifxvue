@@ -68,7 +68,7 @@ export default {
 
 <template>
   <v-container>
-    <v-col class="pt-0">
+    <v-col class="pt-0 mb-3">
       <v-row v-if="hasNextQueryParam">
         <v-col class="px-0">
           <div @click.prevent="$router.back()" class="d-flex align-center text-blue-darken-2 pointer">

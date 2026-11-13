@@ -322,18 +322,22 @@ export default {
                 switch (recipientField) {
                   case 'to':
                     this.toList = this.toList.concat(matches)
+                    this.toListKey++
                     break
                   case 'cc':
                     this.ccList = this.ccList.concat(matches)
+                    this.ccListKey++
                     break
                   case 'bcc':
                     this.bccList = this.bccList.concat(matches)
+                    this.bccListKey++
                     break
                   default:
                     this.showMessage(badFieldMessage)
                 }
               } else {
                 this.toList = this.toList.concat(matches)
+                this.toListKey++
               }
             }
           })

@@ -174,7 +174,7 @@ export default {
             <v-autocomplete
               v-model="item.product"
               :items="filteredProducts"
-              item-text="productName"
+              item-title="productName"
               label="Product"
               :rules="formRules.generic"
               data-cy="product"
@@ -192,7 +192,7 @@ export default {
             <v-autocomplete
               v-model="item.organization"
               :items="allOrganizations"
-              item-text="name"
+              item-title="name"
               item-value="slug"
               label="Organization"
               :rules="formRules.generic"
@@ -211,7 +211,7 @@ export default {
             <v-autocomplete
               v-model="item.productUser"
               :items="allUsers"
-              item-text="fullName"
+              item-title="fullName"
               item-value="fullName"
               label="Product User"
               :rules="formRules.generic"
@@ -229,7 +229,7 @@ export default {
             <v-autocomplete
               v-model="item.loggedBy"
               :items="allUsers"
-              item-text="fullName"
+              item-title="fullName"
               item-value="fullName"
               label="Logged By"
               :rules="formRules.generic"

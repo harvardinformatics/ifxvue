@@ -96,14 +96,14 @@ export default {
     <IFXPageHeader>
       <template #title>Channel Subscriptions</template>
       <template #actions>
-        <IFXSearchField :search.sync="search" />
+        <IFXSearchField v-model:search="search" />
       </template>
     </IFXPageHeader>
     <v-container>
       <IFXItemDataTable
         :items="filteredItems"
         :headers="headers"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :itemType="itemType"
         :show-select="false"
         :loading="isLoading"
