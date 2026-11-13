@@ -41,44 +41,6 @@ export default {
       const today = new Date()
       return `${this.itemType}_Export_${today.toISOString().substring(0, 10)}.csv`
     },
-    // getDataForExport() {
-    //   /* eslint-disable no-plusplus, no-continue */
-    //   const formattedItems = []
-    //   for (let i = 0; i < this.filteredItems.length; i++) {
-    //     const newRecord = {}
-    //     for (let j = 0; j < this.headers.length; j++) {
-    //       const header = this.headers[j]
-    //       const keys = header.key.split('.')
-    //       const formattedKey = header.title
-    //       let item = this.filteredItems[i]
-    //       let value = item
-    //       keys.forEach((key) => {
-    //         value = value[key]
-    //       })
-    //       if (!value && value !== false) continue
-    //       if (header.key === 'startDate' || header.key === 'endDate') {
-    //         value = moment(String(value)).format('M/DD/YYYY h:mm A')
-    //         if (!value) {
-    //           value = 'None'
-    //         }
-    //       } else if (header.key.toLowerCase().includes('date')) {
-    //         value = value.substring(0, 10)
-    //       } else if (header.key === 'organization') {
-    //         value = this.$api.organization.parseSlug(value).name
-    //       } else if (header.key === 'fullName') {
-    //         // If item is user or contact
-    //         value = value.fullName
-    //         // If item is organization
-    //       } else if (header.key === 'slug') {
-    //         value = value.slug
-    //       }
-    //       newRecord[formattedKey] = value
-    //     }
-    //     formattedItems.push(newRecord)
-    //   }
-    //   return formattedItems
-    //   /* eslint-enable no-plusplus, no-continue */
-    // },
     getDataForExport() {
       const columns = this.headers
         .map((h) => ({ key: h.key ?? h.value, title: h.title ?? h.text }))
