@@ -38,6 +38,19 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
+        // TODO: ifxvue SCSS cleanup (V3 migration)
+        // - src/sass/variables.scss has `@use 'vuetify/lib/styles/main.sass'` (Vuetify 2 path).
+        //   additionalData prepends it to every <style lang="scss"> block, so each block
+        //   bundles Vuetify's CSS. Scoped, its reset zeroes padding (e.g. IFXForbidden).
+        //   Likely also why ifxvue.css is ~4.7 MB.
+        // - Most of the variable overrides are Vuetify 2 names and do nothing in V3.
+        // - Real CSS rules in variables.scss (.text-label, .field-name, .ar-field-*, etc.)
+        //   should move to a global stylesheet imported once in entrypoint.js.
+        // - BEFORE removing the @use line: every consuming app must `import 'vuetify/styles'`
+        //   (e.g. in plugins/vuetify.js). HeRS may currently get Vuetify's global CSS
+        //   from ifxvue.css by accident.
+        // - V3 customization goes through vuetify({ styles: { configFile } }) in each app.
+        // - Workaround until then: use <style lang="css"> where SCSS features aren't needed.
         additionalData: `@use "@/sass/variables.scss" as *;`
       }
     }
