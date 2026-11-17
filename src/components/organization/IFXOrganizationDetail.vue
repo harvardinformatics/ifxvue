@@ -532,7 +532,7 @@ export default {
                   :rules="formRules.generic"
                   :error-messages="errors.rank"
                   :items="apiRef.validRanks"
-                  item-text="text"
+                  item-title="text"
                   item-value="value"
                   required
                   class="required"
@@ -546,7 +546,7 @@ export default {
                   label="Parents"
                   data-cy="update-org-parents"
                   :items="allOrganizations"
-                  item-text="name"
+                  item-title="name"
                   item-value="slug"
                   multiple
                   chips

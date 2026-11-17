@@ -1,4 +1,6 @@
 <script>
+import JsonExcel from 'vue-json-excel3'
+
 import IFXSearchField from '@/components/IFXSearchField'
 import IFXItemDataTable from '@/components/item/IFXItemDataTable'
 import IFXItemListMixin from '@/components/item/IFXItemListMixin'
@@ -13,6 +15,7 @@ export default {
     IFXSearchField,
     IFXItemDataTable,
     IFXMailButton,
+    DownloadExcel: JsonExcel,
   },
   watch: {
     selected: {
@@ -27,13 +30,13 @@ export default {
       type: Array,
       required: false,
       default: () => [
-        { text: 'ID', value: 'id', sortable: true, slot: true, click: true },
-        { text: 'Name', value: 'name', sortable: true },
-        { text: 'Rank', value: 'rank', sortable: true, slot: true },
-        { text: 'Org tree', value: 'orgTree', sortable: true },
-        { text: 'Parent(s)', value: 'parents', sortable: false, slot: true },
-        { text: 'A/R Customer Number-Address ID', value: 'applicationKey', sortable: false },
-        { text: '', value: 'rowActionDetailEdit', sortable: false },
+        { title: 'ID', key: 'id', sortable: true, slot: true, click: true },
+        { title: 'Name', key: 'name', sortable: true },
+        { title: 'Rank', key: 'rank', sortable: true, slot: true },
+        { title: 'Org tree', key: 'orgTree', sortable: true },
+        { title: 'Parent(s)', key: 'parents', sortable: false, slot: true },
+        { title: 'A/R Customer Number-Address ID', key: 'applicationKey', sortable: false },
+        { title: '', key: 'rowActionDetailEdit', sortable: false },
       ],
     },
   },
@@ -60,9 +63,9 @@ export default {
         for (let j = 0; j < this.headers.length; j++) {
           const header = this.headers[j]
           // Key used to access data
-          const key = header.value
+          const key = header.key
           // Formatted key for displayed that data in final file
-          const formattedKey = header.text
+          const formattedKey = header.title
           let value = item[key]
           // If value is undefined, but not false
           if (!value && value !== false) continue
@@ -114,7 +117,7 @@ export default {
       return items
     },
     onfs(slug) {
-      return this.$options.filters.orgNameFromSlug(slug)
+      return this.$orgNameFromSlug(slug)
     },
     displayOrgRates(orgRates) {
       return orgRates.map((r) => {
@@ -184,11 +187,13 @@ export default {
             <v-tooltip top>
               <template v-slot:activator="{ props }">
                 <div v-bind="props">
-                  <download-csv
+                  <download-excel
                     :class="{ 'download-disabled': isLoading }"
-                    :labels="getLabelsForExport()"
+                    :fields="getFieldsForExport()"
                     :data="getDataForExport()"
                     :name="getNameForExport()"
+                    type="csv"
+                    :escapeCsv="true"
                   >
                     <IFXButton
                       :disabled="isLoading"
@@ -196,7 +201,7 @@ export default {
                       class="download-btn"
                       btnType="download"
                     ></IFXButton>
-                  </download-csv>
+                  </download-excel>
                 </div>
               </template>
               <span>Download records in csv format</span>

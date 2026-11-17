@@ -143,7 +143,7 @@ export default {
           <v-col>
             <v-checkbox label="Include completed" v-model="includeCompleted" hide-details></v-checkbox>
           </v-col>
-          <v-col xs2 v-if="showSelect">
+          <v-col cols="2" v-if="showSelect">
             <v-btn @click="deleteSelected()" :disabled="!selected.length" size="x-small" color="red"><v-icon>mdi-delete</v-icon></v-btn>
           </v-col>
         </v-row>
@@ -163,9 +163,6 @@ export default {
             class="elevation-1"
             :show-select="showSelect"
           >
-            <template #loading>
-              <v-progress-linear color="blue" indeterminate></v-progress-linear>
-            </template>
             <template #no-data>
               <span class="text-grey-darken-1">No users returned</span>
             </template>

@@ -22,6 +22,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    clearable: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:modelValue'],
   data() {
@@ -71,6 +75,9 @@ export default {
         :label="required ? `${label} *` : label"
         prepend-icon="mdi-calendar"
         readonly
+        :clearable="clearable"
+        clear-icon="mdi-close-circle"
+        @click:clear="$emit('update:modelValue', null)"
         v-bind="props"
         :hint="hint"
         :persistent-hint="persistentHint"

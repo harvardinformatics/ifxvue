@@ -1,5 +1,5 @@
 <script>
-import IFXButton from '@/components/IFXButton.vue'
+
 export default {
   name: 'IFXForbidden',
   props: {
@@ -35,7 +35,7 @@ export default {
     </v-row>
   </v-container>
 </template>
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .forbidden {
   color: #db564c;
 }

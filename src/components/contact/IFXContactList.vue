@@ -51,7 +51,7 @@ export default {
 </script>
 
 <template>
-  <v-container fluid>
+  <v-container>
     <IFXPageHeader>
       <template #title>{{ listTitle }}</template>
       <template #actions>
@@ -97,7 +97,7 @@ export default {
   </v-container>
 </template>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .full-width {
   width: 100%;
 }

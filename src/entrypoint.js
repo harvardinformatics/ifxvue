@@ -139,6 +139,12 @@ import mailing from '@/vuex/mailing'
 // Calendars
 import IFXCalendarList from '@/components/calendar/IFXCalendarList'
 
+// Month Date Picker
+import IFXMonthYearDatePicker from '@/components/IFXMonthYearDatePicker'
+
+// Date Input
+import IFXDateInput from '@/components/IFXDateInput'
+
 // Channel Subscriptions
 import IFXSubscriptionList from '@/components/subscription/IFXSubscriptionList'
 import IFXLogChannelList from '@/components/channel/IFXLogChannelList'
@@ -292,10 +298,12 @@ export const ifxcomponents = {
   IFXButton,
   IFXTooltip,
   IFXNotFound,
+  IFXDateInput,
   IFXForbidden,
   IFXPageHeader,
   IFXDataTableCell,
   IFXPageErrorDisplay,
+  IFXMonthYearDatePicker,
 }
 export const ifxmodules = {
   message,

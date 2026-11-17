@@ -373,7 +373,7 @@ export default {
           </v-alert>
         </v-col>
       </v-row>
-      <v-row density="compact">
+      <v-row density="compact" class="pb-2">
         <v-col class="user-info-col">
           <v-row>
             <v-col>

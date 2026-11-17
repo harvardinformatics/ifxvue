@@ -131,7 +131,7 @@ export default {
         <v-combobox
           v-model="emailAddresses"
           :items="items"
-          item-text="name"
+          item-title="name"
           item-value="detail"
           v-model:search-input="search"
           @change="clearSearch"
